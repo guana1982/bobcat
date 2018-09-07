@@ -1,0 +1,21 @@
+//colors
+$gallery: #efefef;
+
+.card {
+  display: flex;
+  padding: 1em;
+  margin: 0.5em 0 0;
+  background: $gallery;
+  flex-direction: column;
+  flex-flow: row-wrap;
+  width: 100%;
+}
+
+.title {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 0.5em;
+  text-transform: uppercase;
+  font-weight: normal;
+  letter-spacing: 0.05em;
+}

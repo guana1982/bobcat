@@ -1,0 +1,9 @@
+{
+  "pour": {
+    "eta": 3000
+  },
+  "stop": {
+    "status": true
+  },
+  "reserved_beverage": []
+}

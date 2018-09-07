@@ -1,0 +1,926 @@
+{
+  "status": {
+    "msg": "ok",
+    "version": "0.0.1"
+  },
+  "payment_methods": [
+    {
+      "id": "qr_china_post",
+      "name": "QR Code POST",
+      "type": "post",
+      "enabled": true
+    },
+    {
+      "id": "qr_china_pre",
+      "name": "QR Code PRE",
+      "type": "pre",
+      "enabled": true
+    },
+    {
+      "id": "nfc",
+      "name": "NFC PRE",
+      "type": "pre",
+      "enabled": false
+    },
+    {
+      "id": "free_drink",
+      "name": "Free drink passthrough",
+      "type": "passthrough",
+      "enabled": true
+    }
+  ],
+  "valid_qr_code": {
+    "success": true,
+    "error": null
+  },
+  "invalid_qr_code": {
+    "success": false,
+    "error": "Qr code not valid"
+  },
+  "prepay": {
+    "transaction_id": 123,
+    "amount": 0.85,
+    "success": true
+  },
+  "postpay": {
+    "transaction_id": 123,
+    "amount": 0.85,
+    "error": {
+      "code": 101,
+      "msg": "Not enough funds"
+    },
+    "success": false
+  },
+  "lines": [
+    {
+      "id": "1",
+      "beverage_image_url": "/cocacola/imgs/logos/Coca.png",
+      "beverage_name": "Coca",
+      "type": "beverage_topping",
+      "country": "zh_CN",
+      "gas_sparking": false,
+      "gas_medium": true,
+      "gas_natural": true,
+      "ratio": 6,
+      "density": 1.2077,
+      "shelf_life": 30,
+      "topping_group": "group_1"
+    },
+    {
+      "id": "2",
+      "beverage_image_url": "/cocacola/imgs/logos/Sprite.png",
+      "beverage_name": "Sprite",
+      "type": "beverage_topping",
+      "country": "zh_CN",
+      "gas_sparking": false,
+      "gas_medium": true,
+      "gas_natural": true,
+      "ratio": 6,
+      "density": 1.2077,
+      "shelf_life": 30,
+      "topping_group": "group_1"
+    },
+    {
+      "id": "3",
+      "beverage_image_url": "/cocacola/imgs/logos/TonicN.png",
+      "beverage_name": "Schweppes",
+      "type": "beverage_topping",
+      "country": "zh_CN",
+      "gas_sparking": false,
+      "gas_medium": true,
+      "gas_natural": true,
+      "ratio": 6,
+      "density": 1.2077,
+      "shelf_life": 30,
+      "topping_group": "group_1"
+    },
+    {
+      "id": "4",
+      "beverage_image_url": "/cocacola/imgs/logos/Sprite.png",
+      "beverage_name": "FUZE TEA Lemon Black",
+      "type": "beverage_topping",
+      "country": "zh_CN",
+      "gas_sparking": false,
+      "gas_medium": true,
+      "gas_natural": true,
+      "ratio": 6,
+      "density": 1.2077,
+      "shelf_life": 30,
+      "topping_group": "group_1"
+    },
+    {
+      "id": "5",
+      "beverage_image_url": "/cocacola/imgs/logos/MMOrangeC.png",
+      "beverage_name": "FUZE TEA Lemon Black",
+      "type": "beverage_topping",
+      "country": "zh_CN",
+      "gas_sparking": false,
+      "gas_medium": true,
+      "gas_natural": true,
+      "ratio": 6,
+      "density": 1.2077,
+      "shelf_life": 30,
+      "topping_group": "group_1"
+    },
+    {
+      "id": "6",
+      "beverage_image_url": "/cocacola/imgs/logos/MMPeachN.png",
+      "beverage_name": "FUZE TEA Lemon Black",
+      "type": "beverage_topping",
+      "country": "zh_CN",
+      "gas_sparking": false,
+      "gas_medium": true,
+      "gas_natural": true,
+      "ratio": 6,
+      "density": 1.2077,
+      "shelf_life": 30,
+      "topping_group": "group_1"
+    },
+    {
+      "id": "7",
+      "beverage_image_url": "/cocacola/imgs/logos/TeaN.png",
+      "beverage_name": "FUZE TEA Lemon Black",
+      "type": "beverage_topping",
+      "country": "zh_CN",
+      "gas_sparking": false,
+      "gas_medium": true,
+      "gas_natural": true,
+      "ratio": 6,
+      "density": 1.2077,
+      "shelf_life": 30,
+      "topping_group": "group_1"
+    }
+  ],
+  "lines_config": [
+    {
+      "id": 1,
+      "beverage_id": "1",
+      "current_flow_rate_g": 71.076,
+      "last_calibration_date": "2018-01-01"
+    },
+    {
+      "id": 2,
+      "beverage_id": "2",
+      "current_flow_rate_g": 69.872,
+      "last_calibration_date": "2018-01-01"
+    },
+    {
+      "id": 3,
+      "beverage_id": "3",
+      "current_flow_rate_g": 70.214,
+      "last_calibration_date": "2018-01-01"
+    },
+    {
+      "id": 4,
+      "beverage_id": "4",
+      "current_flow_rate_g": 70.631,
+      "last_calibration_date": "2018-01-01"
+    },
+    {
+      "id": 5,
+      "beverage_id": "5",
+      "current_flow_rate_g": 70.245,
+      "last_calibration_date": "2018-01-01"
+    },
+    {
+      "id": 6,
+      "beverage_id": "6",
+      "current_flow_rate_g": 70.672,
+      "last_calibration_date": "2018-01-01"
+    },
+    {
+      "id": 7,
+      "beverage_id": "7",
+      "current_flow_rate_g": 70.129,
+      "last_calibration_date": "2018-01-01"
+    }
+  ],
+  "update_line_calibration": {
+    "success": true,
+    "message": "Line #1 updated"
+  },
+  "beverages_list": [
+    {
+      "id": 1,
+      "name": "Coke",
+      "picture": "/cocacola/imgs/ds/drink_1.png",
+      "logo": "/cocacola/imgs/logos/Coca.png",
+      "enabled": 1,
+      "base_cost": 0.5,
+      "sizes": [
+        {
+          "id": "small",
+          "cost": 0.5,
+          "enabled": 1
+        },
+        {
+          "id": "med",
+          "cost": 1,
+          "enabled": 1
+        },
+        {
+          "id": "big",
+          "cost": 1.5,
+          "enabled": 1
+        }
+      ],
+      "carbonation": [
+        {
+          "id": "still",
+          "perc": 0,
+          "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+        },
+        {
+          "id": "carbonated",
+          "perc": 100,
+          "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+        },
+        {
+          "id": "carbonated_50",
+          "perc": 50,
+          "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+        }
+      ],
+      "toppings": [
+        {
+          "id": "flavor_0",
+          "logo": "/cocacola/imgs/ds/flavor_0.png",
+          "label": "flavor_0_label"
+        },
+        {
+          "id": "flavor_5",
+          "logo": "/cocacola/imgs/ds/flavor_5.png",
+          "label": "flavor_5_label"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Sprite",
+      "picture": "/cocacola/imgs/ds/drink_2.png",
+      "logo": "/cocacola/imgs/logos/Sprite.png",
+      "enabled": 0,
+      "base_cost": 0.7,
+      "sizes": [
+        {
+          "id": "small",
+          "cost": 1,
+          "enabled": 1
+        },
+        {
+          "id": "med",
+          "cost": 1.5,
+          "enabled": 1
+        },
+        {
+          "id": "big",
+          "cost": 2,
+          "enabled": 0
+        }
+      ],
+      "carbonation": [
+        {
+          "id": "still",
+          "perc": 0,
+          "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+        },
+        {
+          "id": "carbonated",
+          "perc": 100,
+          "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+        },
+        {
+          "id": "carbonated_50",
+          "perc": 50,
+          "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+        }
+      ],
+      "toppings": [
+        {
+          "id": "flavor_0",
+          "logo": "/cocacola/imgs/ds/flavor_0.png",
+          "label": "flavor_0_label"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Schweppes",
+      "picture": "/cocacola/imgs/ds/drink_3.png",
+      "logo": "/cocacola/imgs/logos/TonicN.png",
+      "enabled": 0,
+      "base_cost": 1,
+      "sizes": [
+        {
+          "id": "small",
+          "cost": 0.5,
+          "enabled": 1
+        },
+        {
+          "id": "med",
+          "cost": 1,
+          "enabled": 1
+        },
+        {
+          "id": "big",
+          "cost": 1.5,
+          "enabled": 1
+        }
+      ],
+      "carbonation": [
+        {
+          "id": "still",
+          "perc": 0,
+          "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+        },
+        {
+          "id": "carbonated",
+          "perc": 100,
+          "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+        },
+        {
+          "id": "carbonated_50",
+          "perc": 50,
+          "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+        }
+      ],
+      "toppings": [
+        {
+          "id": "flavor_0",
+          "logo": "/cocacola/imgs/ds/flavor_0.png",
+          "label": "flavor_0_label"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Fuze Tea",
+      "picture": "/cocacola/imgs/ds/drink_4.png",
+      "logo": "/cocacola/imgs/logos/TeaN.png",
+      "enabled": 1,
+      "base_cost": 1,
+      "sizes": [
+        {
+          "id": "small",
+          "cost": 0.5,
+          "enabled": 1
+        },
+        {
+          "id": "med",
+          "cost": 1,
+          "enabled": 1
+        },
+        {
+          "id": "big",
+          "cost": 1.5,
+          "enabled": 1
+        }
+      ],
+      "carbonation": [
+        {
+          "id": "still",
+          "perc": 0,
+          "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+        },
+        {
+          "id": "carbonated",
+          "perc": 100,
+          "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+        },
+        {
+          "id": "carbonated_50",
+          "perc": 50,
+          "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+        }
+      ],
+      "toppings": [
+        {
+          "id": "flavor_0",
+          "logo": "/cocacola/imgs/ds/flavor_0.png",
+          "label": "flavor_0_label"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Drink",
+      "picture": "/cocacola/imgs/ds/drink_5.png",
+      "logo": "/cocacola/imgs/logos/MMOrangeC.png",
+      "enabled": 0,
+      "base_cost": 1.5,
+      "sizes": [
+        {
+          "id": "small",
+          "cost": 1,
+          "enabled": 1
+        },
+        {
+          "id": "med",
+          "cost": 1.5,
+          "enabled": 1
+        },
+        {
+          "id": "big",
+          "cost": 2,
+          "enabled": 0
+        }
+      ],
+      "carbonation": [
+        {
+          "id": "still",
+          "perc": 0,
+          "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+        },
+        {
+          "id": "carbonated",
+          "perc": 100,
+          "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+        },
+        {
+          "id": "carbonated_50",
+          "perc": 50,
+          "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+        }
+      ],
+      "toppings": [
+        {
+          "id": "flavor_0",
+          "logo": "/cocacola/imgs/ds/flavor_0.png",
+          "label": "flavor_0_label"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Drink",
+      "picture": "/cocacola/imgs/ds/drink_6.png",
+      "logo": "/cocacola/imgs/logos/MMPeachN.png",
+      "enabled": 0,
+      "base_cost": 1.5,
+      "sizes": [
+        {
+          "id": "small",
+          "cost": 1,
+          "enabled": 1
+        },
+        {
+          "id": "med",
+          "cost": 1.5,
+          "enabled": 1
+        },
+        {
+          "id": "big",
+          "cost": 2,
+          "enabled": 0
+        }
+      ],
+      "carbonation": [
+        {
+          "id": "still",
+          "perc": 0,
+          "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+        },
+        {
+          "id": "carbonated",
+          "perc": 100,
+          "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+        },
+        {
+          "id": "carbonated_50",
+          "perc": 50,
+          "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+        }
+      ],
+      "toppings": [
+        {
+          "id": "flavor_0",
+          "logo": "/cocacola/imgs/ds/flavor_0.png",
+          "label": "flavor_0_label"
+        }
+      ]
+    }
+  ],
+  "poll_nfc_empty": {
+    "status": 0
+  },
+  "poll_nfc_ok": {
+    "status": 1,
+    "beverage": {
+      "id": 3,
+      "name": "Schweppes",
+      "picture": "/cocacola/imgs/ds/drink_3.png",
+      "logo": "/cocacola/imgs/logos/TonicN.png",
+      "enabled": 0,
+      "base_cost": 1,
+      "sizes": [
+        {
+          "id": "small",
+          "cost": 1,
+          "enabled": 1
+        },
+        {
+          "id": "med",
+          "cost": 1.5,
+          "enabled": 1
+        },
+        {
+          "id": "big",
+          "cost": 2,
+          "enabled": 0
+        }
+      ],
+      "carbonation": [
+        {
+          "id": "still",
+          "perc": 0,
+          "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+        },
+        {
+          "id": "carbonated",
+          "perc": 100,
+          "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+        },
+        {
+          "id": "carbonated_50",
+          "perc": 50,
+          "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+        }
+      ],
+      "toppings": [
+        {
+          "id": "flavor_0",
+          "logo": "/cocacola/imgs/ds/flavor_0.png",
+          "label": "flavor_0_label"
+        }
+      ]
+    }
+  },
+  "validate_qr_ok": {
+    "id": 3,
+    "name": "Schweppes",
+    "picture": "/cocacola/imgs/ds/drink_3.png",
+    "logo": "/cocacola/imgs/logos/TonicN.png",
+    "enabled": 0,
+    "base_cost": 1,
+    "sizes": [
+      {
+        "id": "small",
+        "cost": 1,
+        "enabled": 1
+      },
+      {
+        "id": "med",
+        "cost": 1.5,
+        "enabled": 1
+      },
+      {
+        "id": "big",
+        "cost": 2,
+        "enabled": 0
+      }
+    ],
+    "carbonation": [
+      {
+        "id": "still",
+        "perc": 0,
+        "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+      },
+      {
+        "id": "carbonated",
+        "perc": 100,
+        "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+      },
+      {
+        "id": "carbonated_50",
+        "perc": 50,
+        "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+      }
+    ],
+    "toppings": [
+      {
+        "id": "flavor_0",
+        "logo": "/cocacola/imgs/ds/flavor_0.png",
+        "label": "flavor_0_label"
+      }
+    ]
+  },
+  "validate_qr_fail": {
+    "error": true,
+    "message": "Payment not valid"
+  },
+  "beverage_config": {
+    "id": 4,
+    "name": "Schweppes",
+    "picture": "/cocacola/imgs/ds/Schweppes.png",
+    "base_cost": 1,
+    "sizes": [
+      {
+        "id": "s",
+        "cost": 0.5,
+        "enabled": 1
+      },
+      {
+        "id": "m",
+        "cost": 1,
+        "enabled": 1
+      },
+      {
+        "id": "l",
+        "cost": 1.5,
+        "enabled": 1
+      },
+      {
+        "id": "xl",
+        "cost": 2,
+        "enabled": 0
+      }
+    ],
+    "options": [
+      {
+        "id": "carbonationLevel",
+        "name": "Sparkling amount",
+        "value": 30,
+        "range": [
+          0,
+          60
+        ],
+        "type": "int32",
+        "cost_range": [
+          0,
+          0.5
+        ]
+      },
+      {
+        "id": "topping1",
+        "name": "Ingredient name",
+        "value": 20,
+        "range": [
+          0,
+          100
+        ],
+        "type": "int32",
+        "default": 0,
+        "cost_range": [
+          0.2,
+          0.5
+        ]
+      }
+    ]
+  },
+  "pour": {
+    "id": 1244,
+    "eta": 5
+  },
+  "stop_pour": {
+    "id": 1244,
+    "stopped": true
+  },
+  "pouring_fail": {
+    "error": true,
+    "message": "Machine error"
+  },
+  "beverage_pouring_task_fail": {
+    "task_id": 1244,
+    "progress": 0.82,
+    "error": {
+      "code": 301,
+      "msg": "Valve #4 problem"
+    },
+    "elapsed": 12,
+    "remaining": 4,
+    "recipe_time": 16
+  },
+  "profile": {
+    "name": "admin",
+    "role": "master"
+  },
+  "menu_list": [
+    {
+      "id": "tech",
+      "label_id": "tech_menu",
+      "auth_required": true,
+      "gesture": "gesture_type_v",
+      "sub_menus": [
+        {
+          "id": "operation_settings_submenu",
+          "label_id": "operation_settings_label"
+        },
+        {
+          "id": "beverage_settings_submenu",
+          "label_id": "beverage_settings_label"
+        },
+        {
+          "id": "upload_download",
+          "label_id": "upload_download_label"
+        },
+        {
+          "id": "clean_sanitation",
+          "label_id": "clean_sanitation_label"
+        }
+      ]
+    },
+    {
+      "id": "crew",
+      "label_id": "crew_menu",
+      "auth_required": true,
+      "gesture": "gesture_type_x",
+      "sub_menus": [
+        {
+          "id": "stock_shelf_life",
+          "label_id": "stock_shelf_life_label"
+        },
+        {
+          "id": "change_password",
+          "label_id": "change_password_label"
+        },
+        {
+          "id": "download_sales",
+          "label_id": "download_sales_label"
+        },
+        {
+          "id": "wifi",
+          "label_id": "wifi_label"
+        },
+        {
+          "id": "daily_flush",
+          "label_id": "daily_flush_label"
+        },
+        {
+          "id": "beverage_settings",
+          "label_id": "beverage_settings_label"
+        }
+      ]
+    },
+    {
+      "id": "master",
+      "label_id": "master_menu",
+      "auth_required": true,
+      "gesture": "gesture_type_o",
+      "sub_menus": [
+        {
+          "id": "operation_settings_submenu",
+          "label_id": "operation_settings_label"
+        }
+      ]
+    },
+    {
+      "id": "employer",
+      "label_id": "employer_menu",
+      "auth_required": true,
+      "gesture": "gesture_type_n",
+      "sub_menus": [
+        {
+          "id": "operation_settings_submenu",
+          "label_id": "operation_settings_label"
+        }
+      ]
+    }
+  ],
+  "wifi_list": [
+    {
+      "bssid": "Telecom-8123746",
+      "power": 80,
+      "status": 1,
+      "ip": "192.168.1.100",
+      "locked": false,
+      "encryption": "OPEN"
+    },
+    {
+      "bssid": "Tiscali AH736B1-5G",
+      "power": 70,
+      "status": 0,
+      "ip": null,
+      "locked": true,
+      "encryption": "WPA2/PSK"
+    },
+    {
+      "bssid": "TIM-28173827",
+      "power": 60,
+      "status": 0,
+      "ip": null,
+      "locked": true,
+      "encryption": "WPA2/PSK"
+    },
+    {
+      "bssid": "Tiscali AH28737",
+      "power": 30,
+      "status": 0,
+      "ip": null,
+      "locked": true,
+      "encryption": "WPA2/PSK"
+    }
+  ],
+  "wifi_connect_fail": {
+    "connected": false,
+    "message": "Wrong password"
+  },
+  "wifi_disconnect": {
+    "connected": false,
+    "message": "Successfully disconnected"
+  },
+  "wifi_connect_ok": {
+    "bssid": "Tiscali AH736B1-5G",
+    "power": 70,
+    "connected": true,
+    "ip": "192.168.1.66",
+    "gateway": "192.168.1.1",
+    "subnet_mask": "255.255.255.0"
+  },
+  "submenu": {
+    "id": 1,
+    "label_id": "operation_settings",
+    "type": "standard",
+    "save": {
+      "id": "save_values",
+      "label_id": "save_values_label"
+    },
+    "actions": [
+      {
+        "group_label_id": "tower_group_label",
+        "id": "reboot",
+        "label_id": "reboot_label"
+      }
+    ],
+    "elements": [
+      {
+        "id": "element_id_1",
+        "group_label_id": "tower_label_id",
+        "label_id": "input_1",
+        "type": "number",
+        "value": 50,
+        "permission": "write"
+      },
+      {
+        "id": "element_id_2",
+        "group_label_id": "tower_label_id",
+        "label_id": "input_2",
+        "type": "text",
+        "value": "abcdefgh",
+        "permission": "write"
+      },
+      {
+        "id": "element_id_3",
+        "group_label_id": "tower_label_id",
+        "label_id": "input_3",
+        "type": "text",
+        "value": "abcdefgh",
+        "permission": "write"
+      },
+      {
+        "id": "element_id_4",
+        "group_label_id": "tower_label_id",
+        "label_id": "input_4",
+        "type": "text",
+        "value": "abcdefgh",
+        "permission": "write"
+      },
+      {
+        "id": "element_id_5",
+        "group_label_id": "tower_label_id",
+        "label_id": "input_5",
+        "type": "text",
+        "value": "abcdefgh",
+        "permission": "write"
+      },
+      {
+        "id": "element_id_6",
+        "group_label_id": "tower_label_id",
+        "label_id": "input_6",
+        "type": "text",
+        "value": "abcdefgh",
+        "permission": "write"
+      },
+      {
+        "id": "element_id_7",
+        "group_label_id": "beverage_label_id",
+        "label_id": "input_8",
+        "type": "text",
+        "value": "abcdefgh",
+        "permission": "write"
+      },
+      {
+        "id": "element_id_8",
+        "group_label_id": "beverage_label_id",
+        "label_id": "input_9",
+        "type": "text",
+        "value": "abcdefgh",
+        "permission": "write"
+      },
+      {
+        "id": "element_id_9",
+        "group_label_id": "beverage_label_id",
+        "label_id": "input_10",
+        "type": "text",
+        "value": "abcdefgh",
+        "permission": "write"
+      }
+    ]
+  },
+  "menu_auth": {
+    "success": true,
+    "role": "master"
+  },
+  "stop": {
+    "success": true
+  }
+}

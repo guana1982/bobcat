@@ -1,0 +1,192 @@
+.wifi {
+  margin: 0 auto;
+  max-width: 720px;
+}
+
+.wifiDisabled {
+  margin: 0 auto;
+  max-width: 720px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+.wifiEnable {
+  font-size: 1.25em;
+  background: #efefef;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.pane {
+  display: flex;
+}
+
+.scroller {
+  width: 100%;
+}
+
+.actions button {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5em;
+  padding: 1em 0;
+  text-align: center;
+  font-size: 0.8em;
+  font-weight: 400;
+  border: 1px solid;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.list {
+  position: relative;
+  background: #fff;
+}
+
+.pagination {
+  position: absolute;
+  right: 0;
+  top: -42px;
+  display: flex;
+  align-items: center;
+}
+
+.pages {
+  margin-right: 1em;
+  font-size: 0.85em;
+}
+
+.pages label:first-child {
+  margin-right: 0.5em;
+}
+
+.pagination button {
+  width: 42px;
+  height: 42px;
+  font-size: 0.85em;
+  background: #fff;
+}
+
+.ap {
+  padding: 1em;
+  border-bottom: 2px solid;
+  display: flex;
+  width: 100%;
+}
+
+.bssid {
+  font-size: 1em;
+  display: block;
+  flex: 1;
+}
+
+.status {
+  display: block;
+}
+
+.status1 .bssid {
+  font-weight: bold;
+}
+
+.selected {
+  background: #555;
+  color: #fff;
+}
+
+.encryption {
+  width: 40px;
+  margin-left: auto;
+  text-align: center;
+}
+
+.checkmark {
+  width: 20px;
+  display: inline-block;
+}
+
+.infoMask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.modal {
+  position: relative;
+  max-width: 520px;
+  width: 100%;
+  background: #efefef;
+
+  /* box-shadow: 0 0 14px rgba(0, 0, 0, .12);
+  border: 1px solid #ccc; */
+}
+
+.modalHeader {
+  padding: 1em;
+  display: flex;
+  background: #555;
+  color: #fff;
+}
+
+.modalHeader h3 {
+  margin: 0;
+  padding: 0;
+}
+
+.closeButton {
+  margin-left: auto;
+  font-size: 2em;
+  top: 0;
+  line-height: 0.5;
+}
+
+.apInfo {
+  padding: 1em;
+}
+
+.infoField {
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
+  text-transform: capitalize;
+}
+
+.infoField label:first-child {
+  text-align: right;
+  width: 120px;
+}
+
+.infoField label:last-child {
+  font-weight: 500;
+  margin-left: 2em;
+}
+
+.keyboard {
+  margin: 0 auto;
+  width: 100%;
+  height: 750px;
+  align-self: flex-end;
+}
+
+.input {
+  border: none;
+  border-bottom: 2px solid;
+  width: 100%;
+  padding: 10px 5px;
+  background: #fff;
+  outline: none;
+  height: 37px;
+  font-size: 18px;
+}

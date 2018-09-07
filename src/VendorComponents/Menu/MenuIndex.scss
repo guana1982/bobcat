@@ -1,0 +1,51 @@
+.mosaic {
+  display: flex;
+  margin: 0 -2px -2px 0;
+  width: 100%;
+  height: 100%;
+  flex-flow: wrap;
+}
+
+.mosaicWithBar {
+  display: flex;
+  margin: 0 -2px -2px 0;
+  width: 100%;
+  height: calc(100% - 70px);
+  justify-content: space-around;
+  flex-flow: wrap;
+}
+
+.item {
+  width: calc(50% - 2px);
+  margin: 1px;
+  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.125);
+  border: 1px solid #555;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+.item label::first-letter {
+  text-transform: capitalize;
+}
+
+.item:active {
+  background: #555;
+  color: #fff;
+}
+
+.menuInfoBar {
+  display: flex;
+  height: 40px;
+  width: 100%;
+  padding: 0 20px;
+  justify-content: space-between;
+  align-items: center;
+  background: #444;
+  color: #fff;
+  z-index: 1000;
+}

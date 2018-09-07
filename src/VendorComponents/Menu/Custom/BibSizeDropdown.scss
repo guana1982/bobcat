@@ -1,0 +1,50 @@
+.container {
+  overflow: visible;
+}
+
+.title.title {
+  text-align: left;
+  background: transparent;
+  color: var(--black);
+  text-transform: none;
+  padding: 0.5em 0;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  font-size: 1em;
+  width: 100%;
+}
+
+.caret {
+  margin-left: auto;
+  font-size: 1.125em;
+}
+
+.caret small {
+  margin-left: 1em;
+  font-size: 0.7em;
+}
+
+.sizesDropdown {
+  text-align: left;
+}
+
+.sizesDropdown button {
+  font-size: 1em;
+  padding: 1em;
+}
+
+.sizesList {
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+  top: 67px;
+  left: 0;
+}
+
+.sizeDropdownItem {
+  background: #444;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1em;
+}
