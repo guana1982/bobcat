@@ -6,8 +6,8 @@ declare var window: any;
 
 if (process.env.INTELLITOWER_VENDOR === "cocacola") {
   console.log(process.env.INTELLITOWER_WEBSOCKET_URL);
-  let ws = new window.WebSocket("ws://93.55.118.41:5901");
-  // let ws = new window.WebSocket(process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://93.55.118.41:5901");
+  // let ws = new window.WebSocket("ws://93.55.118.41:5901");
+  let ws = new window.WebSocket(process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://93.55.118.41:5901");
   ws.onopen = () => {
     // connection opened
     console.log("connected");
