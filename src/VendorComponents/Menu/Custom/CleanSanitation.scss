@@ -1,16 +1,16 @@
 .lines {
   display: flex;
-  width: 100%;
-  height: 80%;
+  width: 80%;
+  height: calc(100% - 60px);
   flex-wrap: wrap;
   flex-flow: wrap;
+  margin-left: 20%;
 }
 
 .help {
   position: absolute;
-  height: 20%;
-  width: 100%;
-  top: 0;
+  height: 100%;
+  width: 20%;
 }
 
 .line {
@@ -23,7 +23,7 @@
 }
 
 .line:active {
-  opacity: 0.6;
+  opacity: .6;
 }
 
 .line:nth-child(2),
@@ -35,7 +35,7 @@
   background: #efefef;
   border-radius: 3px;
   margin-bottom: 2px;
-  padding: 1em 0;
+  padding: 1em;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -44,7 +44,6 @@
 .lineNo {
   flex: 2;
   justify-content: space-between;
-  align-items: center;
 }
 
 .lineNo img {
@@ -57,20 +56,22 @@
 .infoList {
   display: flex;
   flex-wrap: wrap;
-  padding: 0 10px;
+  padding: 0;
   margin: 0;
   flex: 1;
   width: 100%;
 }
 
-.infoList:nth-child(1) {
+.infoList dt {
   font-weight: bold;
-  font-size: 1em;
+  width: 45%;
+  font-size: .75em;
   color: #777;
 }
 
-.infoList:nth-child(2) {
-  font-size: 0.9em;
+.infoList dd {
+  width: 50%;
+  font-size: .9em;
   text-align: right;
   margin: 0;
   margin-left: auto;
@@ -78,7 +79,7 @@
 
 .infoList dd,
 .infoList dt {
-  margin-bottom: 0.5em;
+  margin-bottom: .5em;
 }
 
 .pagination {
@@ -96,7 +97,7 @@
   width: 60px;
   height: 60px;
   background: #fff;
-  color: gray;
+  color: red;
   font-size: 1.5em;
 }
 
@@ -114,7 +115,7 @@
 
 .pages label:first-child {
   text-transform: uppercase;
-  font-size: 0.75em;
+  font-size: .75em;
 }
 
 .buttonBar {
@@ -132,7 +133,7 @@
   flex: 1;
   display: block;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: .05em;
   font-weight: 400;
 }
 
@@ -150,7 +151,7 @@ button.buttonAction {
   height: 32px;
   border-radius: 50%;
   z-index: 100;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, .1);
   box-shadow: 0 0 16px currentColor;
 }
 
@@ -171,20 +172,4 @@ button.buttonAction {
   z-index: 100;
   top: 0;
   right: 1em;
-}
-
-.timer {
-  background: #555;
-  color: white;
-  text-align: center;
-  padding: 15px;
-  font-size: 18px;
-}
-
-.phButton {
-  background: #555;
-  color: white;
-  text-align: center;
-  padding: 15px;
-  font-size: 18px;
 }

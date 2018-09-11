@@ -4,26 +4,30 @@
   width: 100%;
   height: 100%;
   height: calc(100% - 30px);
-  flex-wrap: wrap;
 }
 
 .line {
   position: relative;
   width: 50%;
-  height: 50%;
+  height: 100%;
   padding: 1px;
   display: flex;
   flex-direction: column;
 }
 
 .line > div {
-  background: #efefef;
+  /* background: #efefef; */
+  border: 1px solid #ddd;
   border-radius: 3px;
   margin-bottom: 2px;
   padding: 1em;
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.line > div:first-child {
+  background: #efefef;
 }
 
 .line > div:last-child {
@@ -54,20 +58,20 @@
   flex-wrap: wrap;
   padding: 0;
   margin: 0;
-  margin-bottom: 0.5em;
+  margin-bottom: .5em;
   align-items: center;
 }
 
 .infoDt {
   font-weight: 400;
   width: 40%;
-  font-size: 0.85em;
+  font-size: .85em;
   color: #777;
 }
 
 .infoDd {
   width: 60%;
-  font-size: 0.95em;
+  font-size: .95em;
 }
 
 .line h3 {
@@ -75,22 +79,22 @@
   padding: 0;
   text-transform: uppercase;
   font-weight: normal;
-  letter-spacing: 0.05em;
-  font-size: 0.9em;
+  letter-spacing: .05em;
+  font-size: .9em;
   margin-bottom: 1em;
 }
 
 .line .button {
-  background: #777;
-  border-radius: 10px;
+  background: #333;
+  border-radius: 4px;
   color: #fff;
   width: 100%;
   text-align: center;
   padding: 1em;
   text-transform: uppercase;
   font-weight: normal;
-  letter-spacing: 0.05em;
-  font-size: 0.9em;
+  letter-spacing: .05em;
+  font-size: .9em;
 }
 
 .pagination {
@@ -126,7 +130,7 @@
 
 .pages label:first-child {
   text-transform: uppercase;
-  font-size: 0.75em;
+  font-size: .75em;
 }
 
 .buttonBar {
@@ -144,7 +148,7 @@
   flex: 1;
   display: block;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: .05em;
   font-weight: 400;
 }
 
