@@ -5,7 +5,7 @@ declare var window: any;
 let ws;
 if (process.env.INTELLITOWER_VENDOR === "pepsi") {
   // let ws = new window.WebSocket("ws://93.55.118.41:5901");
-  let ws = new window.WebSocket(process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://93.55.118.41:5901");
+  ws = new window.WebSocket(process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://192.168.188.204:5901");
   ws.onopen = () => {
     // connection opened
     console.log("connected");
@@ -112,8 +112,14 @@ export const actions = {
 
       if (qrData.message_type === "qr_found") {
         const qrString = qrData.value;
-        dispatch("NEXT", { qr: qrString });
-        mediumLevel.config.stopQrCamera();
+        // dispatch("NEXT", { qr: qrString });
+        // mediumLevel.config.stopQrCamera();
+        update((prevData) => {
+          return {
+            ...prevData,
+            qr: qrString,
+          };
+        });
       }
     };
   },

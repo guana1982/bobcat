@@ -14,6 +14,7 @@ import "./index.scss";
 
 import Menu from "./Menu";
 import BeverageConfig from "./Beverage/BeverageConfig";
+import Prepay from "./Payment/Prepay";
 
 const TRANSITION_ANIM_DIRECTIONS = evt => {
   switch (evt) {
@@ -55,6 +56,11 @@ class App extends React.Component<any, AppState> {
   onSetPaymentMethod = method => {
     this.props.machine.transition(method.id, { paymentMethod: method });
   }
+  // TEST QRCODE ===>
+  onSetScanQr = () => {
+    this.props.machine.transition("qr_pre");
+  }
+  // <=== TEST QRCODE
   onScanQr = (qr) => {
     this.next({ qr });
   }
@@ -101,9 +107,10 @@ class App extends React.Component<any, AppState> {
       onNext: this.onConfirmRecipe
     };
     const machineState = this.props.machine.toString();
+    const machine = this.props.machine;
     return (
       <div style={{ height: "100%" }}>
-        {process.env.NODE_ENV === "development" && (
+        {/* {process.env.NODE_ENV === "development" && (
           <div
             style={{
               position: "absolute",
@@ -118,7 +125,7 @@ class App extends React.Component<any, AppState> {
           >
             <p>State: {machineState}</p>
           </div>
-        )}
+        )} */}
 
         <div>
         {/* -- ERROR DIALOG -- */}
@@ -133,13 +140,33 @@ class App extends React.Component<any, AppState> {
             return null;
           }}
         />
+
         {/* -- MENU -- */}
         <Menu
           onTimeout={this.onTimeout}
           vendorConfig={data.vendorConfig}
           disabledMenuOpen={this.state.disabledMenuOpen}
           globalMachineState={machineState}
+          setScanQr={this.onSetScanQr}
         />
+
+        {/* -- PREPAY -- */}
+        <Match
+          state={machineState}
+          show={[
+            `${PREPAY_QR}.scanning`,
+            `${PREPAY_QR}.scanned`,
+            `${PREPAY_QR}.validating`,
+          ]}
+        >
+          <Prepay
+            scanQr={this.onScanQr}
+            onTimeout={this.onTimeout}
+            machine={machine}
+            inactivityTimeout={vendorConfig.screen_saver_timeout}
+          />
+        </Match>
+
         {/* -- BEVERAGE_SELECTION -- */}
         <Match
           state={machineState}

@@ -122,6 +122,7 @@ export const statechart = {
       on: {
         ...backState(PAYMENT_METHODS, ["beverage.reset"]),
         NEXT: "beverageConfig.setup",
+        EXIT: BEVERAGE,
         FAIL: {
           [INIT]: {
             actions: ["prepayQr.FAIL"],
@@ -152,6 +153,7 @@ export const statechart = {
         },
       },
       on: {
+        qr_pre: PREPAY_QR, // TEST QRCODE
         NEXT: POURING,
         ...timeoutState,
         ...reservedBeverageState,

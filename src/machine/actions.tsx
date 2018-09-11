@@ -3,17 +3,6 @@ import { setLangDict } from "../lib/i18n";
 let ws: any;
 declare var window: any;
 
-
-if (process.env.INTELLITOWER_VENDOR === "cocacola") {
-  console.log(process.env.INTELLITOWER_WEBSOCKET_URL);
-  // let ws = new window.WebSocket("ws://93.55.118.41:5901");
-  let ws = new window.WebSocket(process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://93.55.118.41:5901");
-  ws.onopen = () => {
-    // connection opened
-    console.log("connected");
-    // const a = ws.send({ key: "value" });
-  };
-}
 const getDefaultBeverages = (allBeverages, installedValves) => {
   const beverages = allBeverages.filter(b => {
     return b.available === true && b.line_id !== -1 && b.beverage_type !== "top" && b.status_id === "ok";
@@ -92,6 +81,16 @@ export const actions = {
   },
   "prepayQr.enter": async (dispatch, update, data) => {
     console.log("prepayQr.enter");
+    // TEST QRCODE -->
+    mediumLevel.config.stopVideo();
+    mediumLevel.config.stopQrCamera();
+    // <-- TEST QRCODE
+    update((prevData) => {
+      return {
+        ...prevData,
+        qr: null,
+      };
+    });
     const startQrCamera = await mediumLevel.config.startQrCamera();
     if (startQrCamera.error) {
       return dispatch("FAIL", { error: startQrCamera.error });

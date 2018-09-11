@@ -257,6 +257,11 @@ class Menu extends React.Component<any, MenuState> {
   onExit = () => {
     stateMachine.transition("EXIT");
   }
+  // TEST QRCODE ===>
+  openScanQr = () => {
+    this.props.setScanQr();
+  }
+  // <=== TEST QRCODE
   onJumpTo = stateEvent => {
     stateMachine.transition(stateEvent);
   }
@@ -353,6 +358,7 @@ class Menu extends React.Component<any, MenuState> {
             globalMachineState={globalMachineState}
             onSelect={this.onSelect}
             disabledMenuOpen={disabledMenuOpen}
+            openScanQr={this.openScanQr}
           />
         </Match>
         <Match

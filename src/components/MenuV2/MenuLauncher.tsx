@@ -19,9 +19,8 @@ class MenuLauncher extends React.Component<any, {}> {
   goToTechMenu = () => {
     this.props.onSelect("tech_menu");
   }
-  testQrCode = () => {
-    console.log(this.props);
-    console.log("Test");
+  openScanQr = () => {
+    this.props.openScanQr();
   }
   toggleServiceMenu = () => {
     const menuState = this.state.menuVisible;
@@ -48,7 +47,7 @@ class MenuLauncher extends React.Component<any, {}> {
                 !disabledMenuOpen && (
                   <div onClick={this.toggleServiceMenu} className={styles.box} style={{ top: "15px", left: "-80px" }} />
                 )}
-              <div className={styles.menuBox} onClick={this.testQrCode}>
+              <div className={styles.menuBox} onClick={this.openScanQr}>
                 <div className={styles.menuBoxText}>TEST QR CODE</div>
               </div>
               <div className={styles.menuBox} onClick={this.goToCrewMenu}>

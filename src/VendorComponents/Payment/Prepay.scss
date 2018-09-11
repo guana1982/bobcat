@@ -1,0 +1,42 @@
+.screenContent {
+  position: absolute;
+  width: 600px;
+  height: 400px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  color: white;
+  text-align: center;
+}
+
+.qrSquare {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 75px;
+  width: 250px;
+  height: 250px;
+  border: 2px solid white;
+  z-index: 99;
+}
+
+.webcam {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 300px;
+  margin-left: -200px;
+  margin-top: -150px;
+  background-color: #0000ff;
+}
+
+.qrText {
+  text-align: center;
+  position: absolute;
+  bottom: 80px;
+  width: 100%;
+}
