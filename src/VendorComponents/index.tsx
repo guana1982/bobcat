@@ -12,6 +12,7 @@ import { Match, Switch } from "../components/Machine";
 import ErrorDialog from "../components/common/ErrorDialog";
 import "./index.scss";
 
+import ScreenSaver from "./ScreenSaver";
 import Menu from "./Menu";
 import BeverageConfig from "./Beverage/BeverageConfig";
 import Prepay from "./Payment/Prepay";
@@ -132,13 +133,24 @@ class App extends React.Component<any, AppState> {
         <Match
           show={START}
           state={machineState}
-          // eslint-disable-next-line react/jsx-no-bind
           render={isMatch => {
             if (isMatch && error) {
               return <ErrorDialog message={error} />;
             }
             return null;
           }}
+        />
+
+        {/* -- SCREEN SAVER -- */}
+        <Match
+          show={START}
+          state={machineState}
+          render={isMatch => (
+            <ScreenSaver
+              onClick={this.onNext}
+              play={isMatch}
+            />
+          )}
         />
 
         {/* -- MENU -- */}
