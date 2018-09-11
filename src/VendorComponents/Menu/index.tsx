@@ -420,7 +420,7 @@ class Menu extends React.Component<any, MenuState> {
                   submenu={data.submenu}
                   onBack={this.onBack}
                   onSaved={this.onSaved}
-                  elementsPerPage={12}
+                  elementsPerPage={10}
                 />
               </Match>
               <Match state={stateMachine.toString()} show={`${MOSAIC_SUBMENU}.loaded`}>

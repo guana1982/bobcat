@@ -27,17 +27,18 @@ const KEYBOARD_LAYOUTS = {
   text: "latin",
   number: "numericAlt"
 };
-const ElementType = (
+
+const ElementType = ({
   id,
   label,
   type,
   value,
   bindInput,
+  options,
   defaultValue,
   readOnly,
   unit,
-  options?
- ) => {
+}) => {
   switch (type) {
     case "vector-text":
     case "vector-number":
@@ -63,7 +64,7 @@ const ElementType = (
           {...bindInput({
             value,
             name: id,
-            transform: d => {
+            transform: (d) => {
               if (id === "tech_password" || id === "crew_password" || id === "master_password") {
                 return d.substring(0, 5);
               }
@@ -72,24 +73,30 @@ const ElementType = (
               // }
               return d;
             },
-            validate: d => {
+            validate: (d) => {
               if (id === "tech_password" || id === "crew_password" || id === "master_password") {
                 if (String(d).length < 5) {
                   return {
                     isValid: false,
-                    reason: "pin_min_length_error"
+                    reason: "pin_min_length_error",
                   };
                 }
               }
               return {
-                isValid: true
+                isValid: true,
               };
-            }
+            },
           })}
         />
       );
     case "boolean":
-      return <Checkbox id={id} name={id} {...bindInput({ name: id, value })} />;
+      return (
+        <Checkbox
+          id={id}
+          name={id}
+          {...bindInput({ name: id, value })}
+        />
+      );
     case "select":
       // if (id === 'country') {
       //   return (
@@ -99,7 +106,12 @@ const ElementType = (
       //       {...bindInput({ name: id, value })} />
       //   )
       // }
-      return <SelectDrop options={value} {...bindInput({ name: id, value })} />;
+      return (
+        <SelectDrop
+          options={value}
+          {...bindInput({ name: id, value })}
+        />
+      );
     case "toggle":
       return (
         <Select
@@ -110,13 +122,15 @@ const ElementType = (
           title={label}
           {...bindInput({ name: id, value })}
         >
-          {value.map((d, i) => {
-            return (
-              <option value={d} key={i}>
-                {d}
-              </option>
-            );
-          })}
+          {
+            value.map((d, i) => {
+              return (
+                <option value={d} key={i}>
+                  {d}
+                </option>
+              );
+            })
+          }
         </Select>
       );
     case "multi":
@@ -129,13 +143,15 @@ const ElementType = (
           title={label}
           {...bindInput({ name: id, value })}
         >
-          {value.map((d, i) => {
-            return (
-              <option value={d} key={i}>
-                {d}
-              </option>
-            );
-          })}
+          {
+            value.map((d, i) => {
+              return (
+                <option value={d} key={i}>
+                  {d}
+                </option>
+              );
+            })
+          }
         </Select>
       );
     default:
@@ -204,7 +220,7 @@ const FormElements = enhance(
                   {groupElements.map(el => {
                     const label = __(el.label_id);
                     return (
-                      <Field key={el.id} id={el.id} label={label} theme={null}>
+                      <Field key={el.id} id={el.id} label={label} theme={{}}>
                         <ElementType
                           id={el.id}
                           label={__(el.label_id)}
@@ -214,6 +230,7 @@ const FormElements = enhance(
                           value={el.value}
                           readOnly={el.permission === "read"}
                           unit={el.unit}
+                          options={{}}
                         />
                         {formError[el.id] && (
                           <div className={styles.fieldError}>{__(formError[el.id])}</div>

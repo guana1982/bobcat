@@ -1,11 +1,46 @@
+.pagination {
+  position: absolute;
+  top: -60px;
+  height: 60px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.buttonPrev,
+.buttonNext {
+  width: 60px;
+  height: 60px;
+  background: #fff;
+  color: red;
+  font-size: 1.5em;
+}
+
+.pages {
+  color: #fff;
+  margin-right: 1em;
+  text-align: center;
+  line-height: 1;
+}
+
+.pages label {
+  display: block;
+  font-size: 1.25em;
+}
+
+.pages label:first-child {
+  text-transform: uppercase;
+  font-size: .75em;
+}
+
 .submenu {
   margin: 0 auto;
   width: 100%;
   height: calc(100% - 70px);
-  max-width: 1040px;
+  max-width: 720px;
   display: flex;
   flex-direction: column;
-  flex-flow: wrap;
   align-items: center;
 }
 
@@ -13,10 +48,9 @@
   display: flex;
   flex-direction: column;
   flex-flow: wrap;
-
-  /* background: #efefef; */
+  background: #efefef;
   padding: 1em;
-  margin: 0.5em 0 0;
+  margin: .5em 0 0;
   width: 100%;
 }
 
@@ -33,12 +67,17 @@
   padding: 1em 2em;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: .05em;
   border-radius: 3px;
-  font-size: 0.85em;
+  font-size: .85em;
   font-weight: 400;
   border: 1px solid;
-  margin-right: 0.5em;
+  margin-right: .5em;
+}
+
+.keyboard {
+  height: 750px;
+  width: 100%;
 }
 
 .fieldError {

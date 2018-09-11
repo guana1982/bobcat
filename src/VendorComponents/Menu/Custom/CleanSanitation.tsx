@@ -142,7 +142,7 @@ export default withSteps(
             onFinish={onFinish}
             lines={lines.filter(d => selectedLines.indexOf(d.beverage_id) > -1)}
             toggleExit={toggleExit}
-            navigation={null}
+            navigation={{}}
           />
         )}
       </div>

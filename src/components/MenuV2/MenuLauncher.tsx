@@ -21,6 +21,7 @@ class MenuLauncher extends React.Component<any, {}> {
   }
   openScanQr = () => {
     this.props.openScanQr();
+    this.toggleServiceMenu();
   }
   toggleServiceMenu = () => {
     const menuState = this.state.menuVisible;

@@ -33,7 +33,8 @@ const getBreadcrumbs = (currentState, data) => {
 };
 
 const BREADCRUMBS: any = {
-  [`${PREPAY_QR}.scanning`]: [{ title: "scanning" }]
+  [`${PREPAY_QR}.scanning`]: [{ title: "scanning" }],
+  [`${PREPAY_QR}.scanned`]: [{ title: "scanned" }]
 };
 
 
@@ -50,7 +51,7 @@ export default enhance(({ navigation, ...props }) => {
   return (
     <React.Fragment>
       <Navbar
-        onJumpTo={null}
+        onJumpTo={{}}
         breadcrumbs={breadcrumbs}
         onExit={onExit}
         canExit={true}

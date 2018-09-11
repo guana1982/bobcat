@@ -45,7 +45,7 @@ const FormElements = enhance(
           {submenu.map((el, i) => {
             return (
               <Card title={el.label_id} key={i}>
-                <Field id={`enabled-${el.id}`} label={__("enabled")} theme={null}>
+                <Field id={`enabled-${el.id}`} label={__("enabled")} theme={{}}>
                   <Checkbox
                     id={`enabled-${el.id}`}
                     name={el.id}
@@ -58,7 +58,7 @@ const FormElements = enhance(
                   />
                 </Field>
                 <div>
-                <Field id={`price-${el.id}`} label={__("price")} theme={null}>
+                <Field id={`price-${el.id}`} label={__("price")} theme={{}}>
                     <InputWithKeyboard
                       id={`price-${el.id}`}
                       title={__("price")}
@@ -72,7 +72,7 @@ const FormElements = enhance(
                       })}
                     />
                   </Field>
-                  <Field id={`volume-${el.id}`} label={__("volume")} theme={null}>
+                  <Field id={`volume-${el.id}`} label={__("volume")} theme={{}}>
                     <InputWithKeyboard
                       id={`volume-${el.id}`}
                       title={__("volume")}

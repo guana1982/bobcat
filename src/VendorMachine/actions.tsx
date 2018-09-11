@@ -112,14 +112,14 @@ export const actions = {
 
       if (qrData.message_type === "qr_found") {
         const qrString = qrData.value;
-        // dispatch("NEXT", { qr: qrString });
-        // mediumLevel.config.stopQrCamera();
-        update((prevData) => {
-          return {
-            ...prevData,
-            qr: qrString,
-          };
-        });
+        dispatch("NEXT", { qr: qrString });
+        mediumLevel.config.stopQrCamera();
+        // update((prevData) => {
+        //   return {
+        //     ...prevData,
+        //     qr: qrString,
+        //   };
+        // });
       }
     };
   },
@@ -132,23 +132,25 @@ export const actions = {
     // }
     //
     // dispatch('NEXT', { beverages, qr: data.qr, error: null })
-    update((prevData) => {
-      const beveragesFromQr = prevData.beverages.filter((b) => b.beverage_id === Number(data.qr));
-      if (beveragesFromQr.length === 0) {
-        return dispatch("FAIL");
-      }
 
-      return dispatch("NEXT", {
-        paymentMethods: prevData.paymentMethods,
-        paymentMethod: prevData.paymentMethod,
-        sizes: prevData.sizes,
-        beverages: beveragesFromQr,
-        availableBeverages: beveragesFromQr,
-        beverage: beveragesFromQr[0],
-        qr: data.qr,
-        pourMethod: "timed"
-      });
-    });
+
+    // update((prevData) => {
+    //   const beveragesFromQr = prevData.beverages.filter((b) => b.beverage_id === Number(data.qr));
+    //   if (beveragesFromQr.length === 0) {
+    //     return dispatch("FAIL");
+    //   }
+
+    //   return dispatch("NEXT", {
+    //     paymentMethods: prevData.paymentMethods,
+    //     paymentMethod: prevData.paymentMethod,
+    //     sizes: prevData.sizes,
+    //     beverages: beveragesFromQr,
+    //     availableBeverages: beveragesFromQr,
+    //     beverage: beveragesFromQr[0],
+    //     qr: data.qr,
+    //     pourMethod: "timed"
+    //   });
+    // });
   },
   "prepayQr.validating.enter": async (dispatch, update, data) => {
     const isValid = await mediumLevel.payment
