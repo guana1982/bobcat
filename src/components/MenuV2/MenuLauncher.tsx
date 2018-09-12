@@ -1,6 +1,8 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import * as styles from "../../VendorComponents/Menu/MenuLauncher.scss";
+import posed from "react-pose";
+
 @observer
 class MenuLauncher extends React.Component<any, {}> {
   state: any = {};
@@ -32,13 +34,35 @@ class MenuLauncher extends React.Component<any, {}> {
   render() {
     const { menuVisible } = this.state;
     const { globalMachineState, disabledMenuOpen } = this.props;
+
+    // ANIMATION ==>
+    const Background = posed.div({
+      hidden: { opacity: 0, zIndex: -1 },
+      visible: { opacity: 0.5, zIndex: 3 }
+    });
+
+    const Box = posed.div({
+      close: {
+        x: "100%"
+      },
+      open: {
+        x: "0%",
+        transition: {
+          type: "spring",
+          stiffness: 500,
+          delay: 200
+        }
+      }
+    });
+    // <== ANIMATION
+
     console.log(disabledMenuOpen);
     return (
       <div>
         { (globalMachineState === "beverageConfig.selection") && (
           <div>
-            <div className={styles.menuBackground} style={{ opacity: menuVisible ? 0.5 : 0, zIndex: menuVisible ? 3 : -1 }} />
-            <div className={styles.menuContainer} style={{ right: menuVisible ? "0" : "-100%" }}>
+            <Background className={styles.menuBackground} pose={menuVisible ? "visible" : "hidden"} />
+            <Box className={styles.menuContainer} pose={menuVisible ? "open" : "close"}>
               {menuVisible && <div className={styles.arrowRight} style={{ top: "50px", left: "0" }} />}
               {menuVisible && (
                 <div onClick={this.toggleServiceMenu} className={styles.box} style={{ top: "15px", left: "-25px" }} />
@@ -57,7 +81,7 @@ class MenuLauncher extends React.Component<any, {}> {
               <div className={styles.menuBox} onClick={this.goToTechMenu}>
                 <div className={styles.menuBoxText}>TECH MENU</div>
               </div>
-            </div>
+            </Box>
           </div>
         )}
       </div>

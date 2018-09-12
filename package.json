@@ -61,6 +61,7 @@
     "mobx-react": "^4.3.5",
     "raven-js": "^3.26.4",
     "react-css-themr": "^2.1.2",
+    "react-pose": "^3.3.0",
     "react-transition-group": "^2.4.0",
     "recompose": "^0.30.0",
     "xstate": "^3.1.1"
