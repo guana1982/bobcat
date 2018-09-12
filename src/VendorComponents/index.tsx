@@ -7,7 +7,7 @@ import {
   PREPAY_QR,
   POURING
 } from "../machine/statechart";
-import { Match, Switch } from "../components/Machine";
+import { Match } from "../components/Machine";
 
 import ErrorDialog from "../components/common/ErrorDialog";
 import "./index.scss";

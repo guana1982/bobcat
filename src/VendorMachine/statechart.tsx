@@ -122,6 +122,7 @@ export const statechart = {
       on: {
         ...backState(PAYMENT_METHODS, ["beverage.reset"]),
         NEXT: "beverageConfig.setup",
+        RETRY: PREPAY_QR,
         EXIT: BEVERAGE,
         FAIL: {
           [INIT]: {

@@ -34,9 +34,13 @@
   background-color: #0000ff;
 }
 
-.qrText {
+.infoContent {
   text-align: center;
   position: absolute;
   bottom: 80px;
   width: 100%;
+  button {
+    padding: 10px;
+    border: 1px solid gray;
+  }
 }

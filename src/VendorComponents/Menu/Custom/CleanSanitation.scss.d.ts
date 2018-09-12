@@ -12,3 +12,5 @@ export const buttonAction: string;
 export const led: string;
 export const status: string;
 export const countdown: string;
+export const timer: string;
+export const phButton: string;

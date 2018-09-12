@@ -4,6 +4,7 @@ import withQrScanner from "../../enhancers/qrScanner";
 import withInactivityTimer from "../../enhancers/inactivityTimer";
 import * as styles from "./Prepay.scss";
 import Navbar from "../../components/MenuV2/Navbar";
+import { Match } from "../../components/Machine";
 
 const PREPAY_QR = "prepayQr";
 
@@ -41,11 +42,15 @@ const BREADCRUMBS: any = {
 export default enhance(({ navigation, ...props }) => {
 
   const machine = props.machine;
-
-  const breadcrumbs = getBreadcrumbs(machine.toString(), machine.data);
+  const machineState = machine.toString();
+  const breadcrumbs = getBreadcrumbs( machineState, machine.data);
 
   const onExit = () => {
     machine.transition("EXIT");
+  };
+
+  const onRetry = () => {
+    machine.transition("RETRY");
   };
 
   return (
@@ -61,8 +66,11 @@ export default enhance(({ navigation, ...props }) => {
         <div className={styles.qrSquare} />
       </div>
       <div className={styles.webcam} />
-      <div className={styles.qrText}>
+      <div className={styles.infoContent}>
         <h2>{machine.data.qr || "---"}</h2>
+        <Match state={machineState} show={`${PREPAY_QR}.scanned`}>
+          <button onClick={onRetry}>try again</button>
+        </Match>
       </div>
     </React.Fragment>
   );
