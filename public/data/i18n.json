@@ -11,6 +11,7 @@
 		"Beverage_settings": "beverage settings",
 		"calibrate": "calibrate",
 		"calibrate_descr": "Pour a few times with line filled up. If the avarage value is not between Min and Max flow rate values, regulate the valve to adjust flow.",
+		"dilution_ratio": "dilution",
 		"carbonation_levels": "carbonation levels",
 		"change_password_label": "change password",
 		"clean_sanitation_label": "clean & sanitation",

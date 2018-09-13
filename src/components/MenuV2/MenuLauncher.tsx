@@ -3,6 +3,40 @@ import { observer } from "mobx-react";
 import * as styles from "../../VendorComponents/Menu/MenuLauncher.scss";
 import posed from "react-pose";
 
+// ANIMATION ==>
+const Background = posed.div({
+  hidden: {
+    opacity: 0,
+    zIndex: -1,
+    transition: {
+      duration: 600
+    },
+  },
+  visible: {
+    opacity: 0.5,
+    zIndex: 3,
+    transition: {
+      duration: 600
+    }
+  }
+});
+
+const Box = posed.div({
+  close: {
+    x: "100%",
+    transition: {
+      duration: 600,
+    }
+  },
+  open: {
+    x: "0%",
+    transition: {
+      duration: 600,
+    }
+  }
+});
+// <== ANIMATION
+
 @observer
 class MenuLauncher extends React.Component<any, {}> {
   state: any = {};
@@ -34,27 +68,6 @@ class MenuLauncher extends React.Component<any, {}> {
   render() {
     const { menuVisible } = this.state;
     const { globalMachineState, disabledMenuOpen } = this.props;
-
-    // ANIMATION ==>
-    const Background = posed.div({
-      hidden: { opacity: 0, zIndex: -1 },
-      visible: { opacity: 0.5, zIndex: 3 }
-    });
-
-    const Box = posed.div({
-      close: {
-        x: "100%"
-      },
-      open: {
-        x: "0%",
-        transition: {
-          type: "spring",
-          stiffness: 500,
-          delay: 200
-        }
-      }
-    });
-    // <== ANIMATION
 
     console.log(disabledMenuOpen);
     return (
