@@ -25,7 +25,7 @@ module.exports = merge(commonConfig, {
       'process.env.INTELLITOWER_MEDIUMLEVEL_URL': JSON.stringify(MEDIUMLEVEL_URL)
     }),
     new CopyWebpackPlugin([
-      { from: 'public/**/*', to: 'dist/' }
+      { from: '../public', to: '' }
     ])
   ],
 });
