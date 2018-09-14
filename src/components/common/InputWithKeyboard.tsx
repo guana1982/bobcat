@@ -5,7 +5,7 @@ import { compose, withProps, onlyUpdateForKeys, setDisplayName } from "recompose
 import withKeyboardToggle from "../../enhancers/keyboard";
 import withClickOutside from "./clickOutside";
 import Keyboard from "./Keyboard";
-import * as styles from "../../assets/scss/ui/InputWithKeyboard.scss";
+import * as styles from "../../scss/ui/InputWithKeyboard.scss";
 const noop = () => {};
 const enhance = compose(
   setDisplayName("InputWithKeyboard"),

@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as styles from "../../assets/scss/ui/Field.scss";
+import * as styles from "../../scss/ui/Field.scss";
 
 const concat = styles => {
   return styles.join(" ");

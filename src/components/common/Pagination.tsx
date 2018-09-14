@@ -1,6 +1,6 @@
 import * as React from "react";
 import { __ } from "../../lib/i18n";
-import * as styles from "../../assets/scss/ui/Pagination.scss";
+import * as styles from "../../scss/ui/Pagination.scss";
 const Pagination = ({ orientation = 1, page, totalPages, onNext, onPrev }) => {
   return (
     <div className={styles.pagination}>

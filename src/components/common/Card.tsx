@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as styles from "../../assets/scss/ui/Card.scss";
+import * as styles from "../../scss/ui/Card.scss";
 export default ({ title, children }) => {
   return (
     <div className={styles.card}>

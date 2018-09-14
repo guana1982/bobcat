@@ -3,7 +3,7 @@ import { __ } from "../../lib/i18n";
 import { compose, withProps, withState, withHandlers } from "recompose";
 import withPaginatedElements from "../../components/common/paginatedElements";
 import withLines from "../../enhancers/lines";
-// import InputWithKeyboard from '../../assets/scss/ui/InputWithKeyboard'
+// import InputWithKeyboard from '../../scss/ui/InputWithKeyboard'
 import BeverageLogo from "../../VendorComponents/Beverage/Logo";
 import * as styles from "../../VendorComponents/Menu/Custom/CleanSanitation.scss";
 import CleanSanitationSteps from "./CleanSanitationSteps";

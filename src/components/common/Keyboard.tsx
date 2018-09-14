@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as styles from "../../assets/scss/ui/Keyboard.scss";
+import * as styles from "../../scss/ui/Keyboard.scss";
 
 const Line = ({ line, onKeyPress, onKeyDown, onKeyUp }) => {
   return (
