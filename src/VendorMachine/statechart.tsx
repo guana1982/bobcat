@@ -63,7 +63,7 @@ export const statechart = {
     },
     [INIT]: {
       on: {
-        NEXT: BEVERAGE,
+        NEXT: START,
         ERROR: {
           [INIT]: {
             cond: ({ initRetryCount }) => initRetryCount < 999,

@@ -129,6 +129,9 @@ export const actions = {
       qr: null
     }));
   },
+  "prepayQr.exit": async (dispatch, update, data) => {
+    mediumLevel.config.stopQrCamera();
+  },
   "pouring.offline.enter": async (dispatch, update, data) => {
     const paymentData = await mediumLevel.payment.generateQr(data.recipe);
     if (!paymentData || paymentData.error) {

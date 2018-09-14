@@ -47,18 +47,6 @@ class BeverageConfig extends React.Component<any> {
     console.log("onStart");
     const { onNext, pourMethod } = this.props;
     if (beverage) {
-      this.setState(prevState => ({
-        ...prevState,
-        animatedId: beverage.beverage_id
-      }));
-      // onNext({
-      //   beverage_size_id: null,
-      //   carbonation_level: this.state.carbonationLevel || beverage.carbonation_levels.values[0],
-      //   topping_id: 0,
-      //   topping_perc_id: 0,
-      //   beverage_id: beverage.beverage_id,
-      //   pour_method: pourMethod,
-      // })
       const recipe = {
         beverage_size_id: null,
         carbonation_level: this.state.carbonationLevel || beverage.carbonation_levels.values[0],
@@ -68,7 +56,11 @@ class BeverageConfig extends React.Component<any> {
         pour_method: pourMethod === "timed" ? "timed" : "continuous"
       };
       const dispense = await mediumLevel.dispense.pour(recipe);
-      console.log(dispense);
+      this.props.onStart(recipe);
+      this.setState(prevState => ({
+        ...prevState,
+        animatedId: beverage.beverage_id
+      }));
     }
   }
 

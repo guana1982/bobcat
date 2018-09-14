@@ -29,7 +29,8 @@ const TRANSITION_ANIM_DIRECTIONS = evt => {
 };
 
 type AppState = {
-  disabledMenuOpen: boolean
+  disabledMenuOpen: boolean,
+  statePouring: string
 };
 
 @inject("machine")
@@ -38,7 +39,8 @@ class App extends React.Component<any, AppState> {
   constructor(props) {
     super(props);
     this.state = {
-      disabledMenuOpen: false
+      disabledMenuOpen: false,
+      statePouring: "---"
     };
   }
   componentDidMount() {}
@@ -78,8 +80,19 @@ class App extends React.Component<any, AppState> {
       recipe: this.props.machine.data.recipe
     });
   }
+  onStart = (evt) => {
+    console.log(evt);
+    this.setState({
+      ...this.state,
+      statePouring: "Pouring"
+    });
+  }
   onStop = () => {
     this.props.machine.transition("STOP");
+    this.setState({
+      ...this.state,
+      statePouring: "Stop"
+    });
   }
   toggleMenu = () => {
     const menuState = this.state.disabledMenuOpen;
@@ -111,22 +124,22 @@ class App extends React.Component<any, AppState> {
     const machine = this.props.machine;
     return (
       <div style={{ height: "100%" }}>
-        {/* {process.env.NODE_ENV === "development" && (
+        {/* {process.env.NODE_ENV === "development" && ( */}
           <div
             style={{
               position: "absolute",
               width: "100%",
               height: 40,
-              top: 0,
+              bottom: 0,
               left: 0,
               zIndex: 1000,
               paddingLeft: 20,
               background: "#fae3c6"
             }}
           >
-            <p>State: {machineState}</p>
+            <p>State: {machineState}, {this.state.statePouring}</p>
           </div>
-        )} */}
+        {/* )} */}
 
         <div>
         {/* -- ERROR DIALOG -- */}
@@ -201,6 +214,7 @@ class App extends React.Component<any, AppState> {
             beverage={data.beverage}
             eta={data.eta}
             onBack={this.onBack}
+            onStart={this.onStart}
             onComplete={this.onNext}
             onTimeout={this.onTimeout}
             onStop={this.onStop}
@@ -220,7 +234,7 @@ class App extends React.Component<any, AppState> {
 export default App;
 
 
-const typesTest = ["NAT", "GAS", "AMB"];
+const typesTest = ["Still", "Sparkling", "Ambient"];
 const flavorsTest = ["", "F1", "F2", "F3", "F4", "F5", "F6"];
 let beveragesTest = []; // data.availableBeverages
 let indexBeverage = 0;

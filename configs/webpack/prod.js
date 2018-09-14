@@ -3,7 +3,7 @@ const merge = require('webpack-merge');
 const {resolve} = require('path');
 const webpack = require('webpack');
 const commonConfig = require('./common');
-// const CopyWebpackPlugin = require('copy-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const VENDOR = process.env.INTELLITOWER_VENDOR || 'pepsi';
 const VERSION = process.env.INTELLITOWER_VERSION || 'v.lean2';
@@ -24,9 +24,8 @@ module.exports = merge(commonConfig, {
       'process.env.INTELLITOWER_VERSION': JSON.stringify(VERSION),
       'process.env.INTELLITOWER_MEDIUMLEVEL_URL': JSON.stringify(MEDIUMLEVEL_URL)
     }),
-    // new CopyWebpackPlugin([
-    //   { from: '**/*', to: 'relative/path/to/dest/' },
-    //   { from: '**/*', to: '/absolute/path/to/dest/' }
-    // ], options)
+    new CopyWebpackPlugin([
+      { from: 'public/**/*', to: 'dist/' }
+    ])
   ],
 });

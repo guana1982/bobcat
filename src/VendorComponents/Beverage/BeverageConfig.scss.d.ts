@@ -4,7 +4,6 @@ export const topping: string;
 export const selectedBeverage: string;
 export const selectedBeverageImg: string;
 export const confirmButton: string;
-export const picker: string;
 export const arrowLeft: string;
 export const arrowRight: string;
 export const beverageLabel: string;
