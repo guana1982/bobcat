@@ -222,7 +222,7 @@
       "topping_id": 0
     }],
     "beverage_logo_id": 5,
-    "beverage_label_id": "schweppes_orange",
+    "beverage_label_id": "pepsi_orange",
     "shelf_life": 0,
     "enabled_beverage_size_ids": [
       3
@@ -262,7 +262,7 @@
         "topping_id": 0
       }],
       "beverage_logo_id": 6,
-      "beverage_label_id": "schweppes_lemon",
+      "beverage_label_id": "pepsi_lemon",
       "shelf_life": 0,
       "enabled_beverage_size_ids": [
         1

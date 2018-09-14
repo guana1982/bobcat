@@ -2,7 +2,7 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import mediumLevel from "../../lib/mediumLevel";
 import MachineState from "../../stores/MachineState";
-import { Match, Switch } from "../../components/Machine";
+import { Match } from "../../components/Machine";
 import Navbar from "../../components/MenuV2/Navbar";
 import Auth from "../../components/MenuV2/Auth";
 import Gesture from "../../components/MenuV2/Gesture";

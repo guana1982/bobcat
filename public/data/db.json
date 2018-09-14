@@ -54,8 +54,8 @@
   "lines": [
     {
       "id": "1",
-      "beverage_image_url": "/cocacola/imgs/logos/Coca.png",
-      "beverage_name": "Coca",
+      "beverage_image_url": "/pepsi/imgs/logos/Pepsi.png",
+      "beverage_name": "Pepsi",
       "type": "beverage_topping",
       "country": "zh_CN",
       "gas_sparking": false,
@@ -68,7 +68,7 @@
     },
     {
       "id": "2",
-      "beverage_image_url": "/cocacola/imgs/logos/Sprite.png",
+      "beverage_image_url": "/pepsi/imgs/logos/Sprite.png",
       "beverage_name": "Sprite",
       "type": "beverage_topping",
       "country": "zh_CN",
@@ -82,8 +82,8 @@
     },
     {
       "id": "3",
-      "beverage_image_url": "/cocacola/imgs/logos/TonicN.png",
-      "beverage_name": "Schweppes",
+      "beverage_image_url": "/pepsi/imgs/logos/TonicN.png",
+      "beverage_name": "pepsi",
       "type": "beverage_topping",
       "country": "zh_CN",
       "gas_sparking": false,
@@ -96,7 +96,7 @@
     },
     {
       "id": "4",
-      "beverage_image_url": "/cocacola/imgs/logos/Sprite.png",
+      "beverage_image_url": "/pepsi/imgs/logos/Sprite.png",
       "beverage_name": "FUZE TEA Lemon Black",
       "type": "beverage_topping",
       "country": "zh_CN",
@@ -110,7 +110,7 @@
     },
     {
       "id": "5",
-      "beverage_image_url": "/cocacola/imgs/logos/MMOrangeC.png",
+      "beverage_image_url": "/pepsi/imgs/logos/MMOrangeC.png",
       "beverage_name": "FUZE TEA Lemon Black",
       "type": "beverage_topping",
       "country": "zh_CN",
@@ -124,7 +124,7 @@
     },
     {
       "id": "6",
-      "beverage_image_url": "/cocacola/imgs/logos/MMPeachN.png",
+      "beverage_image_url": "/pepsi/imgs/logos/MMPeachN.png",
       "beverage_name": "FUZE TEA Lemon Black",
       "type": "beverage_topping",
       "country": "zh_CN",
@@ -138,7 +138,7 @@
     },
     {
       "id": "7",
-      "beverage_image_url": "/cocacola/imgs/logos/TeaN.png",
+      "beverage_image_url": "/pepsi/imgs/logos/TeaN.png",
       "beverage_name": "FUZE TEA Lemon Black",
       "type": "beverage_topping",
       "country": "zh_CN",
@@ -203,8 +203,8 @@
     {
       "id": 1,
       "name": "Coke",
-      "picture": "/cocacola/imgs/ds/drink_1.png",
-      "logo": "/cocacola/imgs/logos/Coca.png",
+      "picture": "/pepsi/imgs/ds/drink_1.png",
+      "logo": "/pepsi/imgs/logos/Pepsi.png",
       "enabled": 1,
       "base_cost": 0.5,
       "sizes": [
@@ -228,28 +228,28 @@
         {
           "id": "still",
           "perc": 0,
-          "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_still_sel.png"
         },
         {
           "id": "carbonated",
           "perc": 100,
-          "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_carb_sel.png"
         },
         {
           "id": "carbonated_50",
           "perc": 50,
-          "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_50_sel.png"
         }
       ],
       "toppings": [
         {
           "id": "flavor_0",
-          "logo": "/cocacola/imgs/ds/flavor_0.png",
+          "logo": "/pepsi/imgs/ds/flavor_0.png",
           "label": "flavor_0_label"
         },
         {
           "id": "flavor_5",
-          "logo": "/cocacola/imgs/ds/flavor_5.png",
+          "logo": "/pepsi/imgs/ds/flavor_5.png",
           "label": "flavor_5_label"
         }
       ]
@@ -257,8 +257,8 @@
     {
       "id": 2,
       "name": "Sprite",
-      "picture": "/cocacola/imgs/ds/drink_2.png",
-      "logo": "/cocacola/imgs/logos/Sprite.png",
+      "picture": "/pepsi/imgs/ds/drink_2.png",
+      "logo": "/pepsi/imgs/logos/Sprite.png",
       "enabled": 0,
       "base_cost": 0.7,
       "sizes": [
@@ -282,32 +282,32 @@
         {
           "id": "still",
           "perc": 0,
-          "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_still_sel.png"
         },
         {
           "id": "carbonated",
           "perc": 100,
-          "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_carb_sel.png"
         },
         {
           "id": "carbonated_50",
           "perc": 50,
-          "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_50_sel.png"
         }
       ],
       "toppings": [
         {
           "id": "flavor_0",
-          "logo": "/cocacola/imgs/ds/flavor_0.png",
+          "logo": "/pepsi/imgs/ds/flavor_0.png",
           "label": "flavor_0_label"
         }
       ]
     },
     {
       "id": 3,
-      "name": "Schweppes",
-      "picture": "/cocacola/imgs/ds/drink_3.png",
-      "logo": "/cocacola/imgs/logos/TonicN.png",
+      "name": "pepsi",
+      "picture": "/pepsi/imgs/ds/drink_3.png",
+      "logo": "/pepsi/imgs/logos/TonicN.png",
       "enabled": 0,
       "base_cost": 1,
       "sizes": [
@@ -331,23 +331,23 @@
         {
           "id": "still",
           "perc": 0,
-          "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_still_sel.png"
         },
         {
           "id": "carbonated",
           "perc": 100,
-          "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_carb_sel.png"
         },
         {
           "id": "carbonated_50",
           "perc": 50,
-          "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_50_sel.png"
         }
       ],
       "toppings": [
         {
           "id": "flavor_0",
-          "logo": "/cocacola/imgs/ds/flavor_0.png",
+          "logo": "/pepsi/imgs/ds/flavor_0.png",
           "label": "flavor_0_label"
         }
       ]
@@ -355,8 +355,8 @@
     {
       "id": 4,
       "name": "Fuze Tea",
-      "picture": "/cocacola/imgs/ds/drink_4.png",
-      "logo": "/cocacola/imgs/logos/TeaN.png",
+      "picture": "/pepsi/imgs/ds/drink_4.png",
+      "logo": "/pepsi/imgs/logos/TeaN.png",
       "enabled": 1,
       "base_cost": 1,
       "sizes": [
@@ -380,23 +380,23 @@
         {
           "id": "still",
           "perc": 0,
-          "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_still_sel.png"
         },
         {
           "id": "carbonated",
           "perc": 100,
-          "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_carb_sel.png"
         },
         {
           "id": "carbonated_50",
           "perc": 50,
-          "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_50_sel.png"
         }
       ],
       "toppings": [
         {
           "id": "flavor_0",
-          "logo": "/cocacola/imgs/ds/flavor_0.png",
+          "logo": "/pepsi/imgs/ds/flavor_0.png",
           "label": "flavor_0_label"
         }
       ]
@@ -404,8 +404,8 @@
     {
       "id": 5,
       "name": "Drink",
-      "picture": "/cocacola/imgs/ds/drink_5.png",
-      "logo": "/cocacola/imgs/logos/MMOrangeC.png",
+      "picture": "/pepsi/imgs/ds/drink_5.png",
+      "logo": "/pepsi/imgs/logos/MMOrangeC.png",
       "enabled": 0,
       "base_cost": 1.5,
       "sizes": [
@@ -429,23 +429,23 @@
         {
           "id": "still",
           "perc": 0,
-          "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_still_sel.png"
         },
         {
           "id": "carbonated",
           "perc": 100,
-          "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_carb_sel.png"
         },
         {
           "id": "carbonated_50",
           "perc": 50,
-          "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_50_sel.png"
         }
       ],
       "toppings": [
         {
           "id": "flavor_0",
-          "logo": "/cocacola/imgs/ds/flavor_0.png",
+          "logo": "/pepsi/imgs/ds/flavor_0.png",
           "label": "flavor_0_label"
         }
       ]
@@ -453,8 +453,8 @@
     {
       "id": 6,
       "name": "Drink",
-      "picture": "/cocacola/imgs/ds/drink_6.png",
-      "logo": "/cocacola/imgs/logos/MMPeachN.png",
+      "picture": "/pepsi/imgs/ds/drink_6.png",
+      "logo": "/pepsi/imgs/logos/MMPeachN.png",
       "enabled": 0,
       "base_cost": 1.5,
       "sizes": [
@@ -478,23 +478,23 @@
         {
           "id": "still",
           "perc": 0,
-          "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_still_sel.png"
         },
         {
           "id": "carbonated",
           "perc": 100,
-          "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_carb_sel.png"
         },
         {
           "id": "carbonated_50",
           "perc": 50,
-          "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_50_sel.png"
         }
       ],
       "toppings": [
         {
           "id": "flavor_0",
-          "logo": "/cocacola/imgs/ds/flavor_0.png",
+          "logo": "/pepsi/imgs/ds/flavor_0.png",
           "label": "flavor_0_label"
         }
       ]
@@ -507,9 +507,9 @@
     "status": 1,
     "beverage": {
       "id": 3,
-      "name": "Schweppes",
-      "picture": "/cocacola/imgs/ds/drink_3.png",
-      "logo": "/cocacola/imgs/logos/TonicN.png",
+      "name": "pepsi",
+      "picture": "/pepsi/imgs/ds/drink_3.png",
+      "logo": "/pepsi/imgs/logos/TonicN.png",
       "enabled": 0,
       "base_cost": 1,
       "sizes": [
@@ -533,23 +533,23 @@
         {
           "id": "still",
           "perc": 0,
-          "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_still_sel.png"
         },
         {
           "id": "carbonated",
           "perc": 100,
-          "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_carb_sel.png"
         },
         {
           "id": "carbonated_50",
           "perc": 50,
-          "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+          "logo": "/pepsi/imgs/ds/water_type_50_sel.png"
         }
       ],
       "toppings": [
         {
           "id": "flavor_0",
-          "logo": "/cocacola/imgs/ds/flavor_0.png",
+          "logo": "/pepsi/imgs/ds/flavor_0.png",
           "label": "flavor_0_label"
         }
       ]
@@ -557,9 +557,9 @@
   },
   "validate_qr_ok": {
     "id": 3,
-    "name": "Schweppes",
-    "picture": "/cocacola/imgs/ds/drink_3.png",
-    "logo": "/cocacola/imgs/logos/TonicN.png",
+    "name": "pepsi",
+    "picture": "/pepsi/imgs/ds/drink_3.png",
+    "logo": "/pepsi/imgs/logos/TonicN.png",
     "enabled": 0,
     "base_cost": 1,
     "sizes": [
@@ -583,23 +583,23 @@
       {
         "id": "still",
         "perc": 0,
-        "logo": "/cocacola/imgs/ds/water_type_still_sel.png"
+        "logo": "/pepsi/imgs/ds/water_type_still_sel.png"
       },
       {
         "id": "carbonated",
         "perc": 100,
-        "logo": "/cocacola/imgs/ds/water_type_carb_sel.png"
+        "logo": "/pepsi/imgs/ds/water_type_carb_sel.png"
       },
       {
         "id": "carbonated_50",
         "perc": 50,
-        "logo": "/cocacola/imgs/ds/water_type_50_sel.png"
+        "logo": "/pepsi/imgs/ds/water_type_50_sel.png"
       }
     ],
     "toppings": [
       {
         "id": "flavor_0",
-        "logo": "/cocacola/imgs/ds/flavor_0.png",
+        "logo": "/pepsi/imgs/ds/flavor_0.png",
         "label": "flavor_0_label"
       }
     ]
@@ -610,8 +610,8 @@
   },
   "beverage_config": {
     "id": 4,
-    "name": "Schweppes",
-    "picture": "/cocacola/imgs/ds/Schweppes.png",
+    "name": "pepsi",
+    "picture": "/pepsi/imgs/ds/pepsi.png",
     "base_cost": 1,
     "sizes": [
       {
