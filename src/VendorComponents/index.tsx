@@ -124,24 +124,6 @@ class App extends React.Component<any, AppState> {
     const machine = this.props.machine;
     return (
       <div style={{ height: "100%" }}>
-        {/* {process.env.NODE_ENV === "development" && ( */}
-          <div
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: 40,
-              bottom: 0,
-              left: 0,
-              zIndex: 1000,
-              paddingLeft: 20,
-              background: "#fae3c6"
-            }}
-          >
-            <p>State: {machineState}, {this.state.statePouring}</p>
-          </div>
-        {/* )} */}
-
-        <div>
         {/* -- ERROR DIALOG -- */}
         <Match
           show={START}
@@ -225,8 +207,25 @@ class App extends React.Component<any, AppState> {
             toggleMenu={this.toggleMenu}
             inactivityTimeout={vendorConfig.screen_saver_timeout}
           />
+
+          {/* {process.env.NODE_ENV === "development" && ( */}
+            <div
+              style={{
+                position: "absolute",
+                width: "100%",
+                height: 40,
+                bottom: "1px",
+                left: 0,
+                zIndex: 1000,
+                paddingLeft: 20,
+                background: "#fae3c6"
+              }}
+            >
+              <p>State: {this.state.statePouring}</p> {/* {machineState}, */}
+            </div>
+          {/* )} */}
+
         </Match>
-        </div>
       </div>
     );
   }
