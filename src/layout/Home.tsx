@@ -1,4 +1,5 @@
 import * as React from "react";
+import i18n from "../i18n";
 
 import { ActionButton } from "../components/global/ActionButton";
 import { ConfigConsumer } from "../models";
@@ -40,7 +41,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   render() {
     return (
       <div>
-        <h1>Home!</h1>
+        <h1>{i18n.t("home.label")}</h1>
         <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
         <ActionButton />
         <ConfigConsumer>

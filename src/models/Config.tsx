@@ -2,6 +2,7 @@ import * as React from "react";
 import { get, post } from "../utils";
 import { map, tap, delay } from "rxjs/operators";
 import { RouterStore } from "./Router";
+import i18n from "../i18n";
 
 interface ConfigInterface {
   isLit: boolean;
@@ -22,19 +23,20 @@ export class ConfigStore extends React.Component<any, any> {
       isLit: false
     };
 
-    // get("config/beverages")
-    // .pipe(
-    //   tap(() => console.log("-----")),
-    //   map(data => console.log(data)),
-    //   tap(() => console.log("-----")),
-    //   delay(2000)
-    // )
-    // .subscribe(
-    //   () => {
-    //     alert("ok");
-    //   },
-    //   error => console.log(error)
-    // );
+    get("config/beverages")
+    .pipe(
+      tap(() => console.log("-----")),
+      map(data => console.log(data)),
+      tap(() => console.log("-----")),
+      delay(2000)
+    )
+    .subscribe(
+      () => {
+        // alert("ok");
+        i18n.changeLanguage("es");
+      },
+      error => console.log(error)
+    );
   }
 
   toggleLight = () => {
