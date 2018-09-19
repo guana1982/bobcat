@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ConfigConsumer } from "../models";
 
 interface AttractorProps {}
 
@@ -39,7 +40,16 @@ export class Attractor extends React.Component<AttractorProps, AttractorState> {
       <div>
         <h1>Attractor!</h1>
         <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+        <ConfigConsumer>
+          {({ isLit }) => (
+            <div>
+              The room is {isLit ? "lit" : "dark"}.
+            </div>
+          )}
+        </ConfigConsumer>
       </div>
     );
   }
 }
+
+export default Attractor;

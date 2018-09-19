@@ -17,7 +17,9 @@ export const get = (part = "/", params = {}) => {
       ...params
     }
   });
-  return complex$;
+  return complex$.pipe(
+    map(e => e.response)
+  );
 };
 
 export const post = (part = "/", params = {}, config?) => {
@@ -30,5 +32,7 @@ export const post = (part = "/", params = {}, config?) => {
     },
     body: params
   });
-  return complex$;
+  return complex$.pipe(
+    map(e => e.response)
+  );
 };

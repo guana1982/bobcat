@@ -1,6 +1,7 @@
 import * as React from "react";
 import { get, post } from "../utils";
-import { map, tap } from "rxjs/operators";
+import { map, tap, delay } from "rxjs/operators";
+import { RouterStore } from "./Router";
 
 interface ConfigInterface {
   isLit: boolean;
@@ -21,13 +22,19 @@ export class ConfigStore extends React.Component<any, any> {
       isLit: false
     };
 
-    get("config/beverages")
-    .pipe(
-      tap(() => console.log("-----")),
-      map(data => console.log(data)),
-      tap(() => console.log("-----"))
-    )
-    .subscribe(() => alert("ok"));
+    // get("config/beverages")
+    // .pipe(
+    //   tap(() => console.log("-----")),
+    //   map(data => console.log(data)),
+    //   tap(() => console.log("-----")),
+    //   delay(2000)
+    // )
+    // .subscribe(
+    //   () => {
+    //     alert("ok");
+    //   },
+    //   error => console.log(error)
+    // );
   }
 
   toggleLight = () => {
@@ -37,14 +44,14 @@ export class ConfigStore extends React.Component<any, any> {
   render() {
     const { children } = this.props;
     return (
-      <ConfigContext.Provider
+      <ConfigProvider
         value={{
           isLit: this.state.isLit,
           onToggleLight: this.toggleLight
         }}
       >
         {children}
-      </ConfigContext.Provider>
+      </ConfigProvider>
     );
   }
 }
