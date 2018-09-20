@@ -1,7 +1,13 @@
 import * as React from "react";
 import * as Loadable from "react-loadable";
 
+// import ScreenSaver from "../layout/ScreenSaver";
 // import { Attractor, Home } from "../layout";
+
+const LoadableScreenSaver = Loadable({
+  loader: () => import("../layout/ScreenSaver"),
+  loading: () => <div>loading ...</div>
+});
 
 const LoadableHome = Loadable({
   loader: () => import("../layout/Home"),
@@ -13,9 +19,10 @@ const LoadableAttractor = Loadable({
   loading: () => <div>loading ...</div>
 });
 
-const initialState = "HOME";
+const initialState = "SCREENSAVER";
 
 const PAGES = {
+  SCREENSAVER: <LoadableScreenSaver />,
   HOME: <LoadableHome />,
   ATTRACTOR: <LoadableAttractor />,
 };

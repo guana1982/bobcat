@@ -6,6 +6,11 @@ injectGlobal`
     margin: 0;
     font-family: sans-serif;
   }
+  #root {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
 `;
 
 export const theme1 = {

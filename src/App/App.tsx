@@ -33,6 +33,7 @@ export default fullScreen(({
           <RouterConsumer>
             {({ setPage }) => (
               <div>
+                <button onClick={() => setPage("SCREENSAVER")}>SCREENSAVER</button>
                 <button onClick={() => setPage("HOME")}>HOME</button>
                 <button onClick={() => setPage("ATTRACTOR")}>ATTRACTOR</button>
               </div>

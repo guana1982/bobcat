@@ -23,20 +23,20 @@ export class ConfigStore extends React.Component<any, any> {
       isLit: false
     };
 
-    get("config/beverages")
-    .pipe(
-      tap(() => console.log("-----")),
-      map(data => console.log(data)),
-      tap(() => console.log("-----")),
-      delay(2000)
-    )
-    .subscribe(
-      () => {
-        // alert("ok");
-        i18n.changeLanguage("es");
-      },
-      error => console.log(error)
-    );
+    // get("config/beverages")
+    // .pipe(
+    //   tap(() => console.log("-----")),
+    //   map(data => console.log(data)),
+    //   tap(() => console.log("-----")),
+    //   delay(2000)
+    // )
+    // .subscribe(
+    //   () => {
+    //     // alert("ok");
+    //     i18n.changeLanguage("es");
+    //   },
+    //   error => console.log(error)
+    // );
   }
 
   toggleLight = () => {

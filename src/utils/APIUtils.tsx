@@ -36,3 +36,21 @@ export const post = (part = "/", params = {}, config?) => {
     map(e => e.response)
   );
 };
+
+// --------------------------------------------------
+// FAKE API
+// --------------------------------------------------
+const getApiPath = path => {
+  const [first, ...rest] = path.split("/");
+  return { url: `data/${first}.json`, key: rest.join("/") };
+};
+
+export const getFake = (part = "/", params = {}) => {
+  const { url, key } = getApiPath(part);
+  return this.get(`${url}`, params);
+};
+
+export const postFake = (part = "/", params = {}) => {
+  const { url, key } = getApiPath(part);
+  return this.get(`${url}`, params);
+};
