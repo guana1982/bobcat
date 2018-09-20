@@ -4,7 +4,7 @@ import { map, tap, delay } from "rxjs/operators";
 import { RouterStore } from "./Router";
 import i18n from "../i18n";
 
-interface ConfigInterface {
+export interface ConfigInterface {
   isLit: boolean;
   onToggleLight: () => void;
 }

@@ -1,2 +1,2 @@
-export { ConfigStore, ConfigProvider, ConfigConsumer } from "./Config";
-export { RouterStore, RouterProvider, RouterConsumer, Route } from "./Router";
+export { ConfigStore, ConfigProvider, ConfigConsumer, ConfigInterface } from "./Config";
+export { RouterStore, RouterProvider, RouterConsumer, Route, RouterInterface } from "./Router";

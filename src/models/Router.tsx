@@ -27,7 +27,7 @@ const PAGES = {
   ATTRACTOR: <LoadableAttractor />,
 };
 
-interface RouterInterface {
+export interface RouterInterface {
   currentState: string;
   setPage: (newState: string) => void;
   getPage: () => JSX.Element;
