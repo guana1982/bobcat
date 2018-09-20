@@ -1,1 +1,1 @@
-export { get, post } from "./APIUtils";
+export { getFake, get, post } from "./APIUtils";

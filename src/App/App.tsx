@@ -7,7 +7,7 @@ import i18n from "../i18n"; // initialized i18next instance
 
 import { ThemeProvider } from "styled-components";
 import { theme1, theme2 } from "../style/globalStyle";
-import { ConfigStore, ConfigConsumer, Route, RouterConsumer, RouterStore } from "../models";
+import { ConfigStore, ConfigConsumer, Route, RouterConsumer, RouterStore, PaymentStore } from "../models";
 
 const fullScreen = compose(
   lifecycle({
@@ -30,15 +30,16 @@ export default fullScreen(({
     <ThemeProvider theme={theme1}>
       <ConfigStore>
         <RouterStore>
-          <RouterConsumer>
-            {({ setPage }) => (
-              <div>
-                <button onClick={() => setPage("SCREENSAVER")}>SCREENSAVER</button>
-                <button onClick={() => setPage("HOME")}>HOME</button>
-                <button onClick={() => setPage("ATTRACTOR")}>ATTRACTOR</button>
-              </div>
-            )}
-          </RouterConsumer>
+            <RouterConsumer>
+              {({ setPage }) => (
+                <div>
+                  <button onClick={() => setPage("SCREENSAVER")}>SCREENSAVER</button>
+                  <button onClick={() => setPage("PREPAY")}>PREPAY</button>
+                  <button onClick={() => setPage("HOME")}>HOME</button>
+                  <button onClick={() => setPage("ATTRACTOR")}>ATTRACTOR</button>
+                </div>
+              )}
+            </RouterConsumer>
           <Route />
         </RouterStore>
       </ConfigStore>

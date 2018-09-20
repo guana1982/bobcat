@@ -9,6 +9,11 @@ const LoadableScreenSaver = Loadable({
   loading: () => <div>loading ...</div>
 });
 
+const LoadablePrepay = Loadable({
+  loader: () => import("../layout/Prepay"),
+  loading: () => <div>loading ...</div>
+});
+
 const LoadableHome = Loadable({
   loader: () => import("../layout/Home"),
   loading: () => <div>loading ...</div>
@@ -23,6 +28,7 @@ const initialState = "SCREENSAVER";
 
 const PAGES = {
   SCREENSAVER: <LoadableScreenSaver />,
+  PREPAY: <LoadablePrepay />,
   HOME: <LoadableHome />,
   ATTRACTOR: <LoadableAttractor />,
 };
