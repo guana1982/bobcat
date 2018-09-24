@@ -122,8 +122,12 @@ export const statechart = {
       on: {
         ...backState(PAYMENT_METHODS, ["beverage.reset"]),
         NEXT: "beverageConfig.setup",
-        RETRY: PREPAY_QR,
-        EXIT: BEVERAGE,
+        RETRY: "prepayQr.scanning",
+        EXIT: {
+          [BEVERAGE]: {
+            actions: ["prepayQr.exit"],
+          }
+        },
         FAIL: {
           [INIT]: {
             actions: ["prepayQr.FAIL"],
@@ -132,7 +136,7 @@ export const statechart = {
         ...timeoutState,
       },
       onEntry: "prepayQr.enter",
-      onExit: "prepayQr.exit",
+      // onExit: "prepayQr.exit",
     },
     [BEVERAGE]: {
       initial: "selection",

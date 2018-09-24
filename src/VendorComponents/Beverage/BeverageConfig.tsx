@@ -53,7 +53,7 @@ class BeverageConfig extends React.Component<any> {
         topping_id: 0,
         topping_perc_id: 0,
         beverage_id: beverage.beverage_id,
-        pour_method: pourMethod === "timed" ? "timed" : "continuous"
+        pour_method: "free_flow" // pourMethod === "timed" ? "timed" : "continuous"
       };
       const dispense = await mediumLevel.dispense.pour(recipe);
       this.props.onStart(recipe);
