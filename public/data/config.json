@@ -1,13 +1,12 @@
 {
   "vendor": {
+    "country": "USA",
     "easy_selection": true,
-    "installed_valves_number": 4,
-    "screen_saver_timeout": 30,
+    "installed_valves_number": 9,
     "language": "en_US",
-    "country": "en_us",
-    "pour_methods": [
-      "fast_food"
-    ]
+    "pour_method": "free_flow",
+    "screen_saver_timeout": 30,
+    "standard_recipe_duration": 6000
   },
   "localization": {
     "en-EN": {
@@ -46,43 +45,39 @@
       "mapping": [
         {
           "line_id": 1,
-          "beverage_id": 1
-        },
-        {
-          "line_id": 2,
-          "beverage_id": 2
-        },
-        {
-          "line_id": 3,
-          "beverage_id": 3
-        },
-        {
-          "line_id": 4,
-          "beverage_id": 4
-        },
-        {
-          "line_id": 5,
-          "beverage_id": 5
-        },
-        {
-          "line_id": 6,
-          "beverage_id": 6
-        },
-        {
-          "line_id": 7,
-          "beverage_id": 7
-        },
-        {
-          "line_id": 8,
-          "beverage_id": 8
-        },
-        {
-          "line_id": 9,
           "beverage_id": 9
         },
         {
-          "line_id": 10,
+          "line_id": 2,
           "beverage_id": 10
+        },
+        {
+          "line_id": 3,
+          "beverage_id": 11
+        },
+        {
+          "line_id": 9,
+          "beverage_id": 1
+        },
+        {
+          "line_id": 10,
+          "beverage_id": 2
+        },
+        {
+          "line_id": 5,
+          "beverage_id": 3
+        },
+        {
+          "line_id": 6,
+          "beverage_id": 4
+        },
+        {
+          "line_id": 7,
+          "beverage_id": 5
+        },
+        {
+          "line_id": 8,
+          "beverage_id": 6
         }
       ]
     }
@@ -90,33 +85,493 @@
   "beverage/sizes": [
     {
       "id": 1,
-      "label_id": "label_small",
-      "enabled": true,
-      "price": 10,
-      "volume": 250
+      "enabled": 1,
+      "volume": 100,
+      "price": 0.01,
+      "unit": "ml",
+      "label_id": "test_glass_label"
     },
     {
       "id": 2,
-      "label_id": "label_med",
-      "enabled": true,
-      "price": 15,
-      "volume": 400
+      "enabled": 1,
+      "volume": 250,
+      "price": 0.01,
+      "unit": "ml",
+      "label_id": "small_glass_label"
     },
     {
       "id": 3,
-      "label_id": "label_big",
-      "enabled": true,
-      "price": 20,
-      "volume": 600
+      "enabled": 1,
+      "volume": 400,
+      "price": 0.01,
+      "unit": "ml",
+      "label_id": "medium_glass_label"
     },
     {
       "id": 4,
-      "label_id": "label_xl",
-      "enabled": true,
-      "price": 30,
-      "volume": 800
+      "enabled": 1,
+      "volume": 600,
+      "price": 0.01,
+      "unit": "ml",
+      "label_id": "large_glass_label"
     }
   ],
   "beverages": [
-    {"available": true, "target_flow_rate_ml": 49.29, "beverage_type": "plain", "ratio": 1.0, "beverage_id": 9, "status_id": "ok", "country": ["en_us"], "carbonation_levels": {"values": [0], "type": "value"}, "density": 0.99717, "line_id": 1, "current_flow_rate_ml": 49.29, "calibration_status": false, "last_calibration_date": "1970-01-01", "toppings": [{"topping_percs": {"values": [0], "type": "values"}, "topping_id": 0}], "beverage_logo_id": 9, "beverage_label_id": "plain_water_1", "shelf_life": 0, "enabled_beverage_size_ids": [1, 2, 3, 4]}, {"available": true, "target_flow_rate_ml": 49.29, "beverage_type": "soda", "ratio": 1.0, "beverage_id": 10, "status_id": "ok", "country": ["en_us"], "carbonation_levels": {"values": [0], "type": "value"}, "density": 1.004, "line_id": 2, "current_flow_rate_ml": 49.29, "calibration_status": false, "last_calibration_date": "1970-01-01", "toppings": [{"topping_percs": {"values": [0], "type": "values"}, "topping_id": 0}], "beverage_logo_id": 10, "beverage_label_id": "soda_1", "shelf_life": 0, "enabled_beverage_size_ids": [1, 2, 3, 4]}, {"available": true, "target_flow_rate_ml": 9.86, "beverage_type": "bev", "ratio": 5.0, "beverage_id": 1, "status_id": "ok", "country": ["en_us"], "carbonation_levels": {"values": [100], "type": "value"}, "density": 1.26388, "line_id": 3, "current_flow_rate_ml": 9.86, "calibration_status": false, "last_calibration_date": "1970-01-01", "toppings": [{"topping_percs": {"values": [0], "type": "values"}, "topping_id": 0}], "beverage_logo_id": 1, "beverage_label_id": "pepsi_regular", "shelf_life": 0, "enabled_beverage_size_ids": [1, 2, 3, 4]}, {"available": true, "target_flow_rate_ml": 9.86, "beverage_type": "bev", "ratio": 5.0, "beverage_id": 2, "status_id": "ok", "country": ["en_us"], "carbonation_levels": {"values": [100], "type": "value"}, "density": 1.26388, "line_id": 4, "current_flow_rate_ml": 9.86, "calibration_status": false, "last_calibration_date": "1970-01-01", "toppings": [{"topping_percs": {"values": [0], "type": "values"}, "topping_id": 0}], "beverage_logo_id": 2, "beverage_label_id": "pepsi_max", "shelf_life": 0, "enabled_beverage_size_ids": [1, 2, 3, 4]}, {"available": true, "target_flow_rate_ml": 9.86, "beverage_type": "bev", "ratio": 5.0, "beverage_id": 3, "status_id": "error_syrup", "country": ["en_us"], "carbonation_levels": {"values": [100], "type": "value"}, "density": 1.26388, "line_id": 5, "current_flow_rate_ml": 9.86, "calibration_status": false, "last_calibration_date": "1970-01-01", "toppings": [{"topping_percs": {"values": [0], "type": "values"}, "topping_id": 0}], "beverage_logo_id": 3, "beverage_label_id": "pepsi_twist", "shelf_life": 0, "enabled_beverage_size_ids": [1, 2, 3, 4]}, {"available": true, "target_flow_rate_ml": 9.86, "beverage_type": "bev", "ratio": 5.0, "beverage_id": 4, "status_id": "ok", "country": ["en_us"], "carbonation_levels": {"values": [50, 100], "type": "value"}, "density": 1.26388, "line_id": 6, "current_flow_rate_ml": 9.86, "calibration_status": false, "last_calibration_date": "1970-01-01", "toppings": [{"topping_percs": {"values": [0], "type": "values"}, "topping_id": 0}], "beverage_logo_id": 4, "beverage_label_id": "7up", "shelf_life": 0, "enabled_beverage_size_ids": [1, 2, 3, 4]}, {"available": true, "target_flow_rate_ml": 10.55, "beverage_type": "bev", "ratio": 4.67, "beverage_id": 5, "status_id": "ok", "country": ["en_us"], "carbonation_levels": {"values": [50, 100], "type": "value"}, "density": 1.26388, "line_id": 7, "current_flow_rate_ml": 10.55, "calibration_status": false, "last_calibration_date": "1970-01-01", "toppings": [{"topping_percs": {"values": [0], "type": "values"}, "topping_id": 0}], "beverage_logo_id": 5, "beverage_label_id": "pepsi_orange", "shelf_life": 0, "enabled_beverage_size_ids": [1, 2, 3, 4]}, {"available": true, "target_flow_rate_ml": 10.55, "beverage_type": "bev", "ratio": 4.67, "beverage_id": 6, "status_id": "ok", "country": ["en_us"], "carbonation_levels": {"values": [50, 100], "type": "value"}, "density": 1.26388, "line_id": 8, "current_flow_rate_ml": 10.55, "calibration_status": false, "last_calibration_date": "1970-01-01", "toppings": [{"topping_percs": {"values": [0], "type": "values"}, "topping_id": 0}], "beverage_logo_id": 6, "beverage_label_id": "pepsi_lemon", "shelf_life": 0, "enabled_beverage_size_ids": [1, 2, 3, 4]}, {"available": true, "target_flow_rate_ml": 6.16, "beverage_type": "bev", "ratio": 8.0, "beverage_id": 7, "status_id": "error_syrup", "country": ["en_us"], "carbonation_levels": {"values": [0], "type": "value"}, "density": 1.26388, "line_id": 9, "current_flow_rate_ml": 6.16, "calibration_status": false, "last_calibration_date": "1970-01-01", "toppings": [{"topping_percs": {"values": [0], "type": "values"}, "topping_id": 0}], "beverage_logo_id": 7, "beverage_label_id": "lipton_limone", "shelf_life": 0, "enabled_beverage_size_ids": [1, 2, 3, 4]}, {"available": true, "target_flow_rate_ml": 6.16, "beverage_type": "bev", "ratio": 8.0, "beverage_id": 8, "status_id": "ok", "country": ["en_us"], "carbonation_levels": {"values": [0], "type": "value"}, "density": 1.26388, "line_id": 10, "current_flow_rate_ml": 6.16, "calibration_status": false, "last_calibration_date": "1970-01-01", "toppings": [{"topping_percs": {"values": [0], "type": "values"}, "topping_id": 0}], "beverage_logo_id": 8, "beverage_label_id": "lipton_pesca", "shelf_life": 0, "enabled_beverage_size_ids": [1, 2, 3, 4]}]
+    {
+      "beverage_type": "plain",
+      "carbonation_divider": 1,
+      "beverage_id": 9,
+      "last_sanification_date": "2018-07-04",
+      "status_id": "ok",
+      "second_shelf_life": 0,
+      "enabled_beverage_size_ids": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "beverage_logo_id": 9,
+      "ratio": 1,
+      "available": true,
+      "last_calibration_date": "2018-07-04",
+      "target_flow_rate": 50,
+      "current_flow_rate": 60,
+      "remaining_bib": 20,
+      "bib_reload_date": "2018-07-04",
+      "country": [
+        "USA"
+      ],
+      "bib_size": 20,
+      "carbonation_levels": {
+        "type": "single",
+        "values": [
+          0
+        ]
+      },
+      "calibration_status": 0,
+      "toppings": [
+        {
+          "enable": true,
+          "topping_percs": {
+            "type": "single",
+            "values": [
+              0
+            ]
+          },
+          "topping_id": 0
+        }
+      ],
+      "beverage_label_id": "plain_water",
+      "beverage_menu_index": 1,
+      "density": 1,
+      "bib_expiring_date": "2018-07-04",
+      "line_id": 1
+    },
+    {
+      "beverage_type": "soda",
+      "carbonation_divider": 1,
+      "beverage_id": 10,
+      "last_sanification_date": "2018-07-04",
+      "status_id": "ok",
+      "second_shelf_life": 0,
+      "enabled_beverage_size_ids": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "beverage_logo_id": 10,
+      "ratio": 1,
+      "available": true,
+      "last_calibration_date": "2018-07-04",
+      "target_flow_rate": 50,
+      "current_flow_rate": 60,
+      "remaining_bib": 20,
+      "bib_reload_date": "2018-07-04",
+      "country": [
+        "USA"
+      ],
+      "bib_size": 20,
+      "carbonation_levels": {
+        "type": "single",
+        "values": [
+          100
+        ]
+      },
+      "calibration_status": 0,
+      "toppings": [
+        {
+          "enable": true,
+          "topping_percs": {
+            "type": "single",
+            "values": [
+              0
+            ]
+          },
+          "topping_id": 0
+        }
+      ],
+      "beverage_label_id": "soda",
+      "beverage_menu_index": 2,
+      "density": 1,
+      "bib_expiring_date": "2018-07-04",
+      "line_id": 2
+    },
+    {
+      "beverage_type": "amb",
+      "carbonation_divider": 1,
+      "beverage_id": 11,
+      "last_sanification_date": "2018-07-04",
+      "status_id": "ok",
+      "second_shelf_life": 0,
+      "enabled_beverage_size_ids": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "beverage_logo_id": 11,
+      "ratio": 1,
+      "available": true,
+      "last_calibration_date": "2018-07-04",
+      "target_flow_rate": 50,
+      "current_flow_rate": 60,
+      "remaining_bib": 0,
+      "bib_reload_date": "2018-07-04",
+      "country": [
+        "USA"
+      ],
+      "bib_size": 20,
+      "carbonation_levels": {
+        "type": "single",
+        "values": [
+          0
+        ]
+      },
+      "calibration_status": 0,
+      "toppings": [
+        {
+          "enable": true,
+          "topping_percs": {
+            "type": "single",
+            "values": [
+              0
+            ]
+          },
+          "topping_id": 0
+        }
+      ],
+      "beverage_label_id": "ambient_water",
+      "beverage_menu_index": 3,
+      "density": 1,
+      "bib_expiring_date": "2018-07-04",
+      "line_id": 3
+    },
+    {
+      "beverage_type": "bev",
+      "carbonation_divider": 1,
+      "beverage_id": 1,
+      "last_sanification_date": "2018-07-04",
+      "status_id": "ok",
+      "second_shelf_life": 0,
+      "enabled_beverage_size_ids": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "beverage_logo_id": 1,
+      "ratio": 0.022222222222222223,
+      "available": true,
+      "last_calibration_date": "2018-07-04",
+      "target_flow_rate": 2250,
+      "current_flow_rate": 3,
+      "remaining_bib": 0,
+      "bib_reload_date": "2018-07-04",
+      "country": [
+        "USA"
+      ],
+      "bib_size": 20,
+      "carbonation_levels": {
+        "type": "continuous",
+        "values": [
+          0,
+          100
+        ]
+      },
+      "calibration_status": 0,
+      "toppings": [
+        {
+          "enable": true,
+          "topping_percs": {
+            "type": "single",
+            "values": [
+              0
+            ]
+          },
+          "topping_id": 0
+        }
+      ],
+      "beverage_label_id": "syrup1",
+      "beverage_menu_index": 9,
+      "density": 1.26388,
+      "bib_expiring_date": "2018-07-04",
+      "line_id": 9
+    },
+    {
+      "beverage_type": "bev",
+      "carbonation_divider": 1,
+      "beverage_id": 2,
+      "last_sanification_date": "2018-07-04",
+      "status_id": "ok",
+      "second_shelf_life": 0,
+      "enabled_beverage_size_ids": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "beverage_logo_id": 2,
+      "ratio": 0.022222222222222223,
+      "available": true,
+      "last_calibration_date": "2018-07-04",
+      "target_flow_rate": 2250,
+      "current_flow_rate": 3,
+      "remaining_bib": 0,
+      "bib_reload_date": "2018-07-04",
+      "country": [
+        "USA"
+      ],
+      "bib_size": 20,
+      "carbonation_levels": {
+        "type": "continuous",
+        "values": [
+          0,
+          100
+        ]
+      },
+      "calibration_status": 0,
+      "toppings": [
+        {
+          "enable": true,
+          "topping_percs": {
+            "type": "single",
+            "values": [
+              0
+            ]
+          },
+          "topping_id": 0
+        }
+      ],
+      "beverage_label_id": "syrup2",
+      "beverage_menu_index": 10,
+      "density": 1.26388,
+      "bib_expiring_date": "2018-07-04",
+      "line_id": 10
+    },
+    {
+      "beverage_type": "bev",
+      "carbonation_divider": 1,
+      "beverage_id": 3,
+      "last_sanification_date": "2018-07-04",
+      "status_id": "ok",
+      "second_shelf_life": 0,
+      "enabled_beverage_size_ids": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "beverage_logo_id": 3,
+      "ratio": 0.022222222222222223,
+      "available": true,
+      "last_calibration_date": "2018-07-04",
+      "target_flow_rate": 2250,
+      "current_flow_rate": 3,
+      "remaining_bib": 0,
+      "bib_reload_date": "2018-07-04",
+      "country": [
+        "USA"
+      ],
+      "bib_size": 20,
+      "carbonation_levels": {
+        "type": "continuous",
+        "values": [
+          0,
+          100
+        ]
+      },
+      "calibration_status": 0,
+      "toppings": [
+        {
+          "enable": true,
+          "topping_percs": {
+            "type": "single",
+            "values": [
+              0
+            ]
+          },
+          "topping_id": 0
+        }
+      ],
+      "beverage_label_id": "syrup3",
+      "beverage_menu_index": 5,
+      "density": 1.26388,
+      "bib_expiring_date": "2018-07-04",
+      "line_id": 5
+    },
+    {
+      "beverage_type": "bev",
+      "carbonation_divider": 1,
+      "beverage_id": 4,
+      "last_sanification_date": "2018-07-04",
+      "status_id": "ok",
+      "second_shelf_life": 0,
+      "enabled_beverage_size_ids": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "beverage_logo_id": 4,
+      "ratio": 0.022222222222222223,
+      "available": true,
+      "last_calibration_date": "2018-07-04",
+      "target_flow_rate": 2250,
+      "current_flow_rate": 3,
+      "remaining_bib": 0,
+      "bib_reload_date": "2018-07-04",
+      "country": [
+        "USA"
+      ],
+      "bib_size": 20,
+      "carbonation_levels": {
+        "type": "continuous",
+        "values": [
+          0,
+          100
+        ]
+      },
+      "calibration_status": 0,
+      "toppings": [
+        {
+          "enable": true,
+          "topping_percs": {
+            "type": "single",
+            "values": [
+              0
+            ]
+          },
+          "topping_id": 0
+        }
+      ],
+      "beverage_label_id": "syrup4",
+      "beverage_menu_index": 6,
+      "density": 1.26388,
+      "bib_expiring_date": "2018-07-04",
+      "line_id": 6
+    },
+    {
+      "beverage_type": "bev",
+      "carbonation_divider": 1,
+      "beverage_id": 5,
+      "last_sanification_date": "2018-07-04",
+      "status_id": "ok",
+      "second_shelf_life": 0,
+      "enabled_beverage_size_ids": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "beverage_logo_id": 5,
+      "ratio": 0.022222222222222223,
+      "available": true,
+      "last_calibration_date": "2018-07-04",
+      "target_flow_rate": 2250,
+      "current_flow_rate": 3,
+      "remaining_bib": 0,
+      "bib_reload_date": "2018-07-04",
+      "country": [
+        "USA"
+      ],
+      "bib_size": 20,
+      "carbonation_levels": {
+        "type": "continuous",
+        "values": [
+          0,
+          100
+        ]
+      },
+      "calibration_status": 0,
+      "toppings": [
+        {
+          "enable": true,
+          "topping_percs": {
+            "type": "single",
+            "values": [
+              0
+            ]
+          },
+          "topping_id": 0
+        }
+      ],
+      "beverage_label_id": "syrup5",
+      "beverage_menu_index": 7,
+      "density": 1.26388,
+      "bib_expiring_date": "2018-07-04",
+      "line_id": 7
+    },
+    {
+      "beverage_type": "bev",
+      "carbonation_divider": 1,
+      "beverage_id": 6,
+      "last_sanification_date": "2018-07-04",
+      "status_id": "ok",
+      "second_shelf_life": 0,
+      "enabled_beverage_size_ids": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "beverage_logo_id": 6,
+      "ratio": 0.022222222222222223,
+      "available": true,
+      "last_calibration_date": "2018-07-04",
+      "target_flow_rate": 2250,
+      "current_flow_rate": 3,
+      "remaining_bib": 0,
+      "bib_reload_date": "2018-07-04",
+      "country": [
+        "USA"
+      ],
+      "bib_size": 20,
+      "carbonation_levels": {
+        "type": "continuous",
+        "values": [
+          0,
+          100
+        ]
+      },
+      "calibration_status": 0,
+      "toppings": [
+        {
+          "enable": true,
+          "topping_percs": {
+            "type": "single",
+            "values": [
+              0
+            ]
+          },
+          "topping_id": 0
+        }
+      ],
+      "beverage_label_id": "syrup6",
+      "beverage_menu_index": 8,
+      "density": 1.26388,
+      "bib_expiring_date": "2018-07-04",
+      "line_id": 8
+    }
+  ]
 }

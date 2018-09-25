@@ -12,16 +12,18 @@ import DateInput from "../common/InputDate";
 
 const BIB_SIZES = [5, 10, 15, 20];
 const BIB_SIZES_LABELS = [__("5L"), __("10L"), __("15L"), __("20L")];
-const SODA = 10;
-const WATER = 9;
+const SODA = 2;
+const WATER = 1;
+const AMB = 3;
 
 const enhance = compose(
   setDisplayName("Lines"),
   withState("lines", "setLines", props => {
-    return props.initialLines
-      .filter(l => l.line_id > 0 && l.line_id !== SODA && l.line_id !== WATER)
-      .sort((a, b) => a.line_id > b.line_id)
+    const linesConfig = props.initialLines
+      .filter(l => l.line_id > 0 && l.line_id !== SODA && l.line_id !== WATER && l.line_id !== AMB)
+      // .sort((a, b) => a.line_id > b.line_id)
       .slice();
+    return linesConfig;
   }),
   withProps({
     updateLine: ({ setLines, lines }) => (line, index) => {
@@ -106,7 +108,7 @@ const PaginatedLines = enhance(
         <Pagination page={page} totalPages={totalPages} onNext={nextPage} onPrev={prevPage} />
         <div className={styles.lines}>
           {lines.slice(start, end).map((line, index) => {
-            const actualIndex = index + elementsPerPage * (page - 1);
+            const actualIndex = line.line_id; // index + elementsPerPage * (page - 1);
             const isExpired = new Date(line.bib_expiring_date) < today;
             const remainingPct = line.remaining_bib / line.bib_size;
             const lineStyles = classNames({
@@ -120,7 +122,7 @@ const PaginatedLines = enhance(
                     sizes={BIB_SIZES}
                     labels={BIB_SIZES_LABELS}
                     defaultValue={line.bib_size}
-                    title={__("line") + "#" + (1 + actualIndex)}
+                    title={__("line") + "#" + actualIndex}
                   />
                 </div>
                 <div

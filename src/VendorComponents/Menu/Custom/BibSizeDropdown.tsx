@@ -38,7 +38,7 @@ const BibSizeDropdown = withDropdown(
                     className={styles.sizeDropdownItem}
                     style={{
                       fontWeight: selected === size ? "bold" : "inherit",
-                      background: selected === size ? "blue" : "#444"
+                      background: selected === size ? "#333" : "#666"
                     }}
                   >
                     {labels[i]}
