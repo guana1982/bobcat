@@ -66,6 +66,7 @@ const InfoContent = styled<InfoContentProps, "div">("div")`
 
 interface PrepayProps {
   paymentConsumer: PaymentInterface;
+  history: any;
 }
 interface PrepayState {}
 
@@ -90,6 +91,10 @@ export class Prepay extends React.Component<PrepayProps, PrepayState> {
   render() {
     return (
       <div>
+        <div>
+          <button onClick={() => this.props.history.push("/home")}>HOME</button>
+          <button onClick={() => this.props.history.push("/prepay")}>PREPAY</button>
+        </div>
         <ScreenContent>
           <h2>Place your qr-code in front of the camera</h2>
           <QrSquare />
@@ -108,14 +113,4 @@ export class Prepay extends React.Component<PrepayProps, PrepayState> {
 // HOC
 /* ========= */
 
-const withConsumer = Comp => props => (
-  <PaymentStore> { /* To FIX */}
-    <PaymentConsumer>
-      {payment => (
-        <Comp {...props} paymentConsumer={payment}></Comp>
-      )}
-    </PaymentConsumer>
-  </PaymentStore>
-);
-
-export default withConsumer(Prepay);
+export default Prepay;

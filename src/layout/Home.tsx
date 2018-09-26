@@ -4,7 +4,9 @@ import i18n from "../i18n";
 import { ActionButton } from "../components/global/ActionButton";
 import { ConfigConsumer } from "../models";
 
-interface HomeProps {}
+interface HomeProps {
+  history: any;
+}
 
 interface HomeState {
     date: Date;
@@ -16,6 +18,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
         date: new Date()
     };
@@ -41,6 +44,11 @@ export class Home extends React.Component<HomeProps, HomeState> {
   render() {
     return (
       <div>
+        <div>
+          <button onClick={() => this.props.history.push("/home")}>HOME</button>
+          <button onClick={() => this.props.history.push("/prepay")}>PREPAY</button>
+          <button onClick={() => this.props.history.push("/menu")}>MENU</button>
+        </div>
         <h1>{i18n.t("home.label")}</h1>
         <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
         <ActionButton />

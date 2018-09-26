@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/vinurs/.nvm/versions/node/v8.9.4/bin/node /usr/local/Cellar/yarn/1.0.1/libexec/bin/yarn.js add react-i18next
+  /Users/vinurs/.nvm/versions/node/v8.9.4/bin/node /usr/local/Cellar/yarn/1.0.1/libexec/bin/yarn.js add react-router react-router-dom history
 
 PATH: 
   /Users/vinurs/.nvm/versions/node/v8.9.4/bin:/Users/vinurs/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/vinurs/Library/Android/sdk/platform-tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Wireshark.app/Contents/MacOS
@@ -64,6 +64,7 @@ npm manifest:
       "webpack-merge": "^4.1.4"
     },
     "dependencies": {
+      "@types/i18next": "^8.4.5",
       "@types/styled-components": "^3.0.1",
       "@zxing/library": "^0.8.3",
       "animated": "^0.2.2",
@@ -73,6 +74,7 @@ npm manifest:
       "d3-scale": "^2.1.2",
       "d3-shape": "^1.2.2",
       "d3-timer": "^1.0.9",
+      "i18next": "^11.9.0",
       "mobx": "^3.4.1",
       "mobx-react": "^4.3.5",
       "popmotion": "^8.3.8",
@@ -80,9 +82,9 @@ npm manifest:
       "react": "^16.5.0",
       "react-css-themr": "^2.1.2",
       "react-dom": "^16.5.0",
+      "react-i18next": "^7.12.0",
       "react-loadable": "^5.5.0",
       "react-pose": "^3.3.0",
-      "react-router": "^4.3.1",
       "react-router-dom": "^4.3.1",
       "react-transition-group": "^2.4.0",
       "recompose": "^0.30.0",
@@ -719,6 +721,10 @@ Lockfile:
   "@popmotion/easing@^1.0.1":
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/@popmotion/easing/-/easing-1.0.1.tgz#48336aea29542113df10aeb81b4fd10f0b95f937"
+  
+  "@types/i18next@^8.4.5":
+    version "8.4.5"
+    resolved "https://registry.yarnpkg.com/@types/i18next/-/i18next-8.4.5.tgz#d6c0cb594258815219c70006e9f5cd65ad6d797f"
   
   "@types/invariant@^2.2.29":
     version "2.2.29"
@@ -4028,6 +4034,12 @@ Lockfile:
       relateurl "0.2.x"
       uglify-js "3.4.x"
   
+  html-parse-stringify2@2.0.1:
+    version "2.0.1"
+    resolved "https://registry.yarnpkg.com/html-parse-stringify2/-/html-parse-stringify2-2.0.1.tgz#dc5670b7292ca158b7bc916c9a6735ac8872834a"
+    dependencies:
+      void-elements "^2.0.1"
+  
   html-webpack-plugin@^3.2.0:
     version "3.2.0"
     resolved "http://registry.npmjs.org/html-webpack-plugin/-/html-webpack-plugin-3.2.0.tgz#b01abbd723acaaa7b37b6af4492ebda03d9dd37b"
@@ -4103,6 +4115,10 @@ Lockfile:
   https-browserify@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
+  
+  i18next@^11.9.0:
+    version "11.9.0"
+    resolved "https://registry.yarnpkg.com/i18next/-/i18next-11.9.0.tgz#c30c0a5e0a857124923a8dd1ce8f1df603e30c70"
   
   iconv-lite@0.4.19:
     version "0.4.19"
@@ -6630,7 +6646,7 @@ Lockfile:
       kleur "^2.0.1"
       sisteransi "^0.1.1"
   
-  prop-types@^15.5.0, prop-types@^15.5.4, prop-types@^15.6.1, prop-types@^15.6.2:
+  prop-types@^15.5.0, prop-types@^15.5.4, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
     version "15.6.2"
     resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
     dependencies:
@@ -6798,6 +6814,14 @@ Lockfile:
       prop-types "^15.6.1"
       react-lifecycles-compat "^3.0.4"
       shallowequal "^1.0.2"
+  
+  react-i18next@^7.12.0:
+    version "7.12.0"
+    resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-7.12.0.tgz#edaed1593fdfb34ddb47e4faf409cb36c8220d80"
+    dependencies:
+      hoist-non-react-statics "^2.3.1"
+      html-parse-stringify2 "2.0.1"
+      prop-types "^15.6.0"
   
   react-is@^16.3.1:
     version "16.5.0"
@@ -8503,6 +8527,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
     dependencies:
       indexof "0.0.1"
+  
+  void-elements@^2.0.1:
+    version "2.0.1"
+    resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
   
   w3c-hr-time@^1.0.1:
     version "1.0.1"
