@@ -285,6 +285,7 @@ typesTest.forEach(type => {
         4
       ],
       "beverage_id": indexBeverage,
+      "temperature_level": type === "Ambient" ? 100 : 0,
       "remaining_bib": 0,
       "beverage_type": "plain",
       "beverage_label_id": "plain_water",
