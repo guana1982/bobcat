@@ -3,6 +3,7 @@ import i18n from "../../i18n";
 
 import { ActionButton } from "../../components/global/ActionButton";
 import { ConfigConsumer } from "../../models";
+import LauncherComponent, { Action } from "../../components/global/Launcher";
 
 interface HomeProps {
   history: any;
@@ -15,6 +16,7 @@ interface HomeState {
 export class Home extends React.Component<HomeProps, HomeState> {
 
   timerID: any;
+  actionsLauncher: Action[];
 
   constructor(props) {
     super(props);
@@ -22,6 +24,20 @@ export class Home extends React.Component<HomeProps, HomeState> {
     this.state = {
         date: new Date()
     };
+    this.actionsLauncher = [
+      {
+        title: "TEST QR CODE",
+        event: () => this.props.history.push("/prepay")
+      },
+      {
+        title: "CREW MENU",
+        event: () => this.props.history.push("/menu/crew")
+      },
+      {
+        title: "TECH MENU",
+        event: () => this.props.history.push("/menu/tech")
+      }
+    ];
   }
 
   componentDidMount() {
@@ -44,12 +60,6 @@ export class Home extends React.Component<HomeProps, HomeState> {
   render() {
     return (
       <div>
-        <div>
-          <button onClick={() => this.props.history.push("/home")}>HOME</button>
-          <button onClick={() => this.props.history.push("/prepay")}>PREPAY</button>
-          <button onClick={() => this.props.history.push("/menu/tech")}>TECH MENU</button>
-          <button onClick={() => this.props.history.push("/menu/crew")}>CREW MENU</button>
-        </div>
         <h1>{i18n.t("home.label")}</h1>
         <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
         <ActionButton />
@@ -62,6 +72,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
             </div>
           )}
         </ConfigConsumer>
+        <LauncherComponent actions={this.actionsLauncher} />
       </div>
     );
   }

@@ -39,7 +39,7 @@ class AppRouter extends React.Component<any, any> {
       <section>
           <Route exact path="/" component={ScreenSaverComponent}/>
           <Route path="/home" component={HomeComponent}/>
-          <Route path="/prepay" component={this.withPaymentStore(Prepay)}/>
+          <Route path="/prepay" component={this.withPaymentStore(PrepayComponent)}/>
           <Route path="/menu/:typeMenu(tech|crew)" component={this.withPaymentStore(MenuComponent)}/>
       </section>
     );
