@@ -3,7 +3,7 @@ import { Provider } from "mobx-react";
 import { Machine } from "xstate";
 import { actions, reducers, statechart } from "./machine";
 import MachineState from "./stores/MachineState";
-import App from "./App/App";
+import App from "./app/app.component";
 // import * as Raven from "raven-js";
 declare var process: any;
 
@@ -51,8 +51,8 @@ render(
 declare let module: { hot: any };
 
 if (module.hot) {
-  module.hot.accept("./App/App", () => {
-      const NewApp = require("./App/App").default;
+  module.hot.accept("./app/app.component", () => {
+      const NewApp = require("./app/app.component").default;
 
       render(
         <AppContainer>

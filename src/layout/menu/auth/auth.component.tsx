@@ -3,6 +3,7 @@ import i18n from "../../../i18n";
 
 import { ActionButton } from "../../../components/global/ActionButton";
 import { ConfigConsumer } from "../../../models";
+import Auth from "../../../components/MenuV2/Auth";
 
 interface AuthProps {
   history: any;
@@ -31,7 +32,12 @@ export class AuthComponent extends React.Component<AuthProps, AuthState> {
   render() {
     return (
       <div>
-        AuthComponent
+        <Auth
+          menuId={"tech"}
+          onError={() => alert("error")}
+          onSuccess={() => alert("ok")}
+          failed={false}
+        />
       </div>
     );
   }

@@ -36,12 +36,4 @@ class ScreenSaver extends React.Component<ScreenSaverProps, ScreenSaverState> {
   }
 }
 
-const withConsumer = Comp => props => (
-  <RouterConsumer>
-    {router => (
-      <Comp {...props} routerConsumer={router}></Comp>
-    )}
-  </RouterConsumer>
-);
-
-export default withConsumer(ScreenSaver);
+export default ScreenSaver;

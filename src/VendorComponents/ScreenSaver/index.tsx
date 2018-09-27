@@ -1,60 +1,47 @@
 import * as React from "react";
+import { SreenWrapper } from "../../components/global/ScreenWrapper";
+import mediumLevel from "../../utils/MediumLevel";
+import { RouterConsumer, RouterInterface } from "../../models";
 
-class ScreenSaver extends React.Component<any, any> { // {}, {}
-  componentDidMount() {
-    // setTimeout(() => {
-    //   this.video.play()
-    // }, 0)
+interface ScreenSaverProps {
+  routerConsumer: RouterInterface;
+}
+
+interface ScreenSaverState {}
+
+class ScreenSaver extends React.Component<ScreenSaverProps, ScreenSaverState> {
+
+  constructor(props) {
+    super(props);
   }
+
+  componentWillMount() {
+    mediumLevel.config.startVideo()
+    .subscribe(() => console.log("Video Start!"));
+  }
+
   componentWillUnmount() {
-    // this.video.pause()
-    // this.video.src = ''
+    mediumLevel.config.stopVideo()
+    .subscribe(() => console.log("Video Stop!"));
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    // if (!nextProps.play && this.props.play) {
-    //   this.video.pause()
-    //   this.video.currentTime = 0
-    // }
-    //
-    // if (nextProps.play && !this.props.play) {
-    //   this.video.play()
-    // }
+
+  goToHome() {
+    this.props.routerConsumer.setPage("HOME");
   }
-  onRef = el => {
-    // if (el) this.video = el
-  }
+
   render() {
-    const { play } = this.props;
     return (
-      <div
-        onClick={this.props.onClick}
-        style={{
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          background: "#0000FF",
-          position: "absolute",
-          display: play ? "block" : "none",
-          zIndex: 1000
-        }}
-      />
+      <SreenWrapper onClick={ () => this.goToHome() }></SreenWrapper>
     );
-    //   return (
-    //     <video
-    //       ref={this.onRef}
-    //       style={{
-    //         width: '100%',
-    //         height: 'auto !important',
-    //         minHeight: '100%',
-    //         background: '#05396A',
-    //         display: play ? 'block' : 'none',
-    //       }}
-    //       src="pepsi/video/video-subway-2.mp4"
-    //       loop
-    //       onClick={this.props.onClick}
-    //     />
-    //   )
   }
 }
-export default ScreenSaver;
+
+const withConsumer = Comp => props => (
+  <RouterConsumer>
+    {router => (
+      <Comp {...props} routerConsumer={router}></Comp>
+    )}
+  </RouterConsumer>
+);
+
+export default withConsumer(ScreenSaver);
