@@ -10,9 +10,9 @@ declare var process: any;
 import { AppContainer } from "react-hot-loader";
 import { render } from "react-dom";
 
-const machine = new MachineState(
-  Machine(statechart), actions, reducers
-);
+// const machine = new MachineState(
+//   Machine(statechart), actions, reducers
+// );
 
 // if (process.env.NODE_ENV !== "development" && process.env.INTELLITOWER_VENDOR === "pepsi") {
 //   Raven
@@ -40,9 +40,7 @@ const rootEl = document.getElementById("root");
 
 render(
   <AppContainer>
-    <Provider machine={machine}>
-      <App />
-    </Provider>
+    <App />
   </AppContainer>,
   rootEl
 );
@@ -56,9 +54,7 @@ if (module.hot) {
 
       render(
         <AppContainer>
-          <Provider machine={machine}>
-            <NewApp/>
-          </Provider>
+          <NewApp/>
         </AppContainer>,
         rootEl
       );

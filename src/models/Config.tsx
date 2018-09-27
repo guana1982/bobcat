@@ -1,8 +1,9 @@
 import * as React from "react";
 import { get, post } from "../utils";
 import { map, tap, delay } from "rxjs/operators";
-import { RouterStore } from "./Router";
 import i18n from "../i18n";
+import mediumLevel from "../lib/mediumLevel";
+import { forkJoin } from "rxjs";
 
 export interface ConfigInterface {
   isLit: boolean;
@@ -22,6 +23,18 @@ export class ConfigStore extends React.Component<any, any> {
     this.state = {
       isLit: false
     };
+
+    forkJoin(
+      mediumLevel.config.getVendor(),
+      mediumLevel.config.getBeverages(),
+      mediumLevel.payment.getAvailableMethods(),
+      mediumLevel.config.getSizes(),
+      mediumLevel.config.getLang(),
+      mediumLevel.config.getErrorCodes(),
+      mediumLevel.config.startDisplay()
+    ).subscribe((res: any[]) => {
+      console.log(res);
+    });
 
     // get("config/beverages")
     // .pipe(

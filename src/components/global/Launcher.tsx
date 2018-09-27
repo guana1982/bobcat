@@ -81,7 +81,6 @@ class LauncherComponent extends React.Component<PrepayProps, PrepayState> {
   render() {
     const { visible } = this.state;
     const { disabled, actions } = this.props;
-    console.log("actions", actions);
     return (
       <div>
         <Background className={styles.menuBackground} pose={visible ? "visible" : "hidden"} />
@@ -95,8 +94,8 @@ class LauncherComponent extends React.Component<PrepayProps, PrepayState> {
             !disabled && (
               <div onClick={() => this.toggleServiceMenu()} className={styles.box} style={{ top: "15px", left: "-80px" }} />
             )}
-          {actions.map(action => (
-              <div className={styles.menuBox} onClick={() => this.toggleServiceMenu(action)}>
+          {actions.map((action, index) => (
+              <div className={styles.menuBox} onClick={() => this.toggleServiceMenu(action)} key={index}>
                 <div className={styles.menuBoxText}>{action.title}</div>
               </div>
             ))}
