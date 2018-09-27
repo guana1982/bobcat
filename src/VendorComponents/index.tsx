@@ -238,9 +238,9 @@ const flavorsTest = ["", "F1", "F2", "F3", "F4", "F5", "F6"];
 let beveragesTest = []; // data.availableBeverages
 let indexBeverage = 0;
 
-typesTest.forEach(type => {
-  flavorsTest.forEach(flavor => {
-
+typesTest.forEach((type, indexType) => {
+  flavorsTest.forEach((flavor, indexFlavor) => {
+    const idBeverage = flavor === "" ? indexType + 9 : indexFlavor;
     beveragesTest.push({
       "type_id": type,
       "flavor_id": flavor,
@@ -284,7 +284,7 @@ typesTest.forEach(type => {
         3,
         4
       ],
-      "beverage_id": indexBeverage,
+      "beverage_id": idBeverage,
       "temperature_level": type === "Ambient" ? 100 : 0,
       "remaining_bib": 0,
       "beverage_type": "plain",
@@ -299,7 +299,7 @@ typesTest.forEach(type => {
       "carbonation_levels": {
         "type": "single",
         "values": [
-          type === "GAS" ? 100 : 0
+          type === "Sparkling" ? 100 : 0
         ]
       },
       "last_calibration_date": "2018-07-04",
