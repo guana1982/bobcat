@@ -15,7 +15,7 @@ import { Home } from "../layout";
 import { Prepay } from "../layout/Prepay";
 import { RouteWithSubRoutes } from "../components/router/RouteWithSubRoutes";
 import { MenuComponent } from "../layout/menu/menu.component";
-import { MenuRouter } from "../layout/menu/menu.router";
+import MenuRouter from "../layout/menu/menu.router";
 
 const fullScreen = compose(
   lifecycle({
@@ -66,8 +66,8 @@ export default fullScreen(({
         <ConfigStore>
           {/* {routes.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)} */}
 
-          <Route path="/" component={Home}/>
-          <Route path="/menu" component={MenuRouter}/>
+          <Route exact path="/" component={Home}/>
+          <Route path="/menu/:typeMenu(tech|crew)" component={MenuComponent}/>
 
           {/* <RouterStore>
               <RouterConsumer>

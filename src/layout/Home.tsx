@@ -47,7 +47,8 @@ export class Home extends React.Component<HomeProps, HomeState> {
         <div>
           <button onClick={() => this.props.history.push("/home")}>HOME</button>
           <button onClick={() => this.props.history.push("/prepay")}>PREPAY</button>
-          <button onClick={() => this.props.history.push("/menu")}>MENU</button>
+          <button onClick={() => this.props.history.push("/menu/tech")}>TECH MENU</button>
+          <button onClick={() => this.props.history.push("/menu/crew")}>CREW MENU</button>
         </div>
         <h1>{i18n.t("home.label")}</h1>
         <h2>It is {this.state.date.toLocaleTimeString()}.</h2>

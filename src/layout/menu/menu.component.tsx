@@ -1,7 +1,10 @@
 import * as React from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import MenuRouter from "./menu.router";
 
 interface MenuProps {
   history: any;
+  match: any;
 }
 
 interface MenuState {
@@ -23,14 +26,16 @@ export class MenuComponent extends React.Component<MenuProps, MenuState> {
   componentWillUnmount() {}
 
   render() {
+    const { typeMenu } = this.props.match.params;
     return (
       <div>
         <div>
-          Menu
+          Menu {typeMenu}
         </div>
         <div>
-          <button onClick={() => this.props.history.push("/menu/auth")}>Auth</button>
-          <button onClick={() => this.props.history.push("/menu/launcher")}>Launcher</button>
+          <button onClick={() => this.props.history.push(`/menu/${typeMenu}/auth`)}>Auth</button>
+          <button onClick={() => this.props.history.push(`/menu/${typeMenu}/launcher`)}>Launcher</button>
+          <MenuRouter />
         </div>
       </div>
     );
