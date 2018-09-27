@@ -1,8 +1,8 @@
 import * as React from "react";
-import i18n from "../i18n";
+import i18n from "../../i18n";
 
-import { ActionButton } from "../components/global/ActionButton";
-import { ConfigConsumer } from "../models";
+import { ActionButton } from "../../components/global/ActionButton";
+import { ConfigConsumer } from "../../models";
 
 interface HomeProps {
   history: any;

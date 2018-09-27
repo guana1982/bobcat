@@ -1,11 +1,15 @@
 import * as React from "react";
-import {Route, HashRouter, withRouter} from "react-router";
+import { Route } from "react-router";
 
-import { Home } from "../layout";
-import { Prepay } from "../layout/Prepay";
-import { MenuComponent } from "../layout/menu/menu.component";
-import ScreenSaver from "../VendorComponents/ScreenSaver";
-import { PaymentStore, PaymentConsumer } from "../models";
+/* ==== PAGES ==== */
+import ScreenSaverComponent from "../layout/screen-saver/screen-saver.component";
+import HomeComponent from "../layout/home/home.component";
+import PrepayComponent from "../layout/prepay/prepay.component";
+import MenuComponent from "../layout/menu/menu.component";
+
+/* ==== STORES ==== */
+import { PaymentStore, PaymentConsumer } from "../models/Payment";
+import { MenuStore, MenuConsumer } from "../models/Menu";
 
 class AppRouter extends React.Component<any, any> {
 
@@ -14,28 +18,33 @@ class AppRouter extends React.Component<any, any> {
     console.log(props);
   }
 
-  withConsumer = Comp => props => (
-    <PaymentStore> { /* To FIX */}
+  withPaymentStore = Comp => props => (
+    <PaymentStore>
       <PaymentConsumer>
-        {payment => (
-          <Comp {...props} paymentConsumer={payment}></Comp>
-        )}
+        {payment => <Comp {...props} paymentConsumer={payment}></Comp>}
       </PaymentConsumer>
     </PaymentStore>
   )
 
+  withMenuStore = Comp => props => (
+    <MenuStore>
+      <MenuConsumer>
+        {menu => <Comp {...props} menuConsumer={menu}></Comp>}
+      </MenuConsumer>
+    </MenuStore>
+  )
+
   render() {
-    const { path } = this.props.match;
     return (
       <section>
-          <Route exact path="/" component={ScreenSaver}/>
-          <Route path="/home" component={Home}/>
-          <Route path="/prepay" component={this.withConsumer(Prepay)}/>
-          <Route path="/menu/:typeMenu(tech|crew)" component={MenuComponent}/>
+          <Route exact path="/" component={ScreenSaverComponent}/>
+          <Route path="/home" component={HomeComponent}/>
+          <Route path="/prepay" component={this.withPaymentStore(Prepay)}/>
+          <Route path="/menu/:typeMenu(tech|crew)" component={this.withPaymentStore(MenuComponent)}/>
       </section>
     );
   }
 
 }
 
-export default withRouter(AppRouter);
+export default AppRouter;

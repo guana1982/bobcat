@@ -1,18 +1,18 @@
 import * as React from "react";
-import { SreenWrapper } from "../components/global/ScreenWrapper";
-import mediumLevel from "../utils/MediumLevel";
-import { RouterConsumer, RouterInterface } from "../models";
+import { SreenWrapper } from "../../components/global/ScreenWrapper";
+import mediumLevel from "../../utils/MediumLevel";
 
 interface ScreenSaverProps {
-  routerConsumer: RouterInterface;
+  history: any;
 }
 
 interface ScreenSaverState {}
 
-class ScreenSaver extends React.Component<ScreenSaverProps, ScreenSaverState> {
+class ScreenSaverComponent extends React.Component<ScreenSaverProps, ScreenSaverState> {
 
   constructor(props) {
     super(props);
+    console.log(props);
   }
 
   componentWillMount() {
@@ -26,7 +26,7 @@ class ScreenSaver extends React.Component<ScreenSaverProps, ScreenSaverState> {
   }
 
   goToHome() {
-    this.props.routerConsumer.setPage("HOME");
+    this.props.history.push("/home");
   }
 
   render() {
@@ -36,4 +36,4 @@ class ScreenSaver extends React.Component<ScreenSaverProps, ScreenSaverState> {
   }
 }
 
-export default ScreenSaver;
+export default ScreenSaverComponent;
