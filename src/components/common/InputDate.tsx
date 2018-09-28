@@ -1,7 +1,7 @@
 import * as React from "react";
 import InputWithKeyboard from "./InputWithKeyboard";
 import * as styles from "./InputDate.scss";
-import * as customStyles from "../../VendorComponents/Menu/InputDate.scss";
+import * as customStyles from "../../Menu/InputDate.scss";
 
 const pattern = "1111-11-11";
 const formatDate = date => {

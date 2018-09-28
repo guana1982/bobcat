@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import * as styles from "../../VendorComponents/Menu/MenuLauncher.scss";
+import * as styles from "../../Menu/MenuLauncher.scss";
 import posed from "react-pose";
 
 /* ========= */

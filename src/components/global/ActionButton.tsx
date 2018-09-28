@@ -50,7 +50,7 @@ export class ActionButton extends React.Component {
     return (
       <AppWrapper>
         <AppHeader>
-          <AppLogo src={"img/react_logo.svg"} alt="logo" />
+          <AppLogo src={"/img/react_logo.svg"} alt="logo" />
           <AppTitle>Welcome to React</AppTitle>
         </AppHeader>
         <AppIntro>

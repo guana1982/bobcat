@@ -1,5 +1,5 @@
 import * as React from "react";
-import { toDotNotation } from "../../lib/dotNotation";
+import { toDotNotation } from "../../utils/lib/dotNotation";
 
 export const match = (stateA, stateB) => {
   if (typeof stateB === "object") {

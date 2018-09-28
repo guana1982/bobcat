@@ -1,7 +1,6 @@
 import * as React from "react";
 import { get, post } from "../utils";
 import { map, tap, delay } from "rxjs/operators";
-import { RouterStore } from "./Router";
 import i18n from "../i18n";
 import mediumLevel from "../utils/MediumLevel";
 import { Observable } from "rxjs/internal/Observable";

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { compose, setDisplayName } from "recompose";
-import withErrorDialog from "../../enhancers/errorDialog";
+import withErrorDialog from "../../utils/enhancers/errorDialog";
 
 const enhance = compose(setDisplayName("Dialog"), withErrorDialog);
 

@@ -8,10 +8,10 @@ export default {
     getVendor: () => get("config/vendor"),
     getLang: () => get("config/localization"),
     getLocalization: () => get("config/localization"),
-    getErrorCodes: () => getFake("config/errorcodes"),
+    // getErrorCodes: () => getFake("config/errorcodes"),
     getSizes: () => get("config/beverage/sizes"),
-    getLinesForCountry: () => getFake("config/beverage/default_lines"),
-    updateConfigValue: () => getFake("config/update_value"),
+    // getLinesForCountry: () => getFake("config/beverage/default_lines"),
+    // updateConfigValue: () => getFake("config/update_value"),
     saveLinesConfig: config => post("config/beverage/lines", config),
     saveLineCalibration: calibration => post("config/beverage/line_config", calibration),
     testPour: recipe => post("menu/tech_menu/beverage_settings_tech/test_line", recipe),
@@ -28,10 +28,10 @@ export default {
     stopQrCamera: () => post("config/stop_camera_qr_reading")
   },
   payment: {
-    getAvailableMethods: () => getFake("payment/methods"),
-    getBeverageFromQr: data => getFake(`payment/prepay/qr/lean/beverages_from_qr/${data}`),
-    validateQr: data => getFake(`payment/prepay/qr/lean/validate`),
-    pollNfc: () => getFake("poll_nfc_empty"),
+    // getAvailableMethods: () => getFake("payment/methods"),
+    // getBeverageFromQr: data => getFake(`payment/prepay/qr/lean/beverages_from_qr/${data}`),
+    // validateQr: data => getFake(`payment/prepay/qr/lean/validate`),
+    // pollNfc: () => getFake("poll_nfc_empty"),
     generateQr: data => post("payment/postpay/qr/mode1/generate", data),
     confirmPostPayment: payload => post("payment/postpay/qr/mode1/confirm", payload)
   },
@@ -58,7 +58,7 @@ export default {
     scan: () => get("menu/crew_menu/wifi_management/wifi_scan")
   },
   test: {
-    validateQrFail: data => getFake("validate_qr_fail"),
-    notFound: data => getFake("unexistent")
+    // validateQrFail: data => getFake("validate_qr_fail"),
+    // notFound: data => getFake("unexistent")
   }
 };

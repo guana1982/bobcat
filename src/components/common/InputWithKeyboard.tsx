@@ -2,7 +2,7 @@ import * as React from "react";
 import { themr } from "react-css-themr";
 import { compose, withProps, onlyUpdateForKeys, setDisplayName } from "recompose";
 // import withTransition from './withTransition'
-import withKeyboardToggle from "../../enhancers/keyboard";
+import withKeyboardToggle from "../../utils/enhancers/keyboard";
 import withClickOutside from "./clickOutside";
 import Keyboard from "./Keyboard";
 import * as styles from "../../scss/ui/InputWithKeyboard.scss";
@@ -68,7 +68,7 @@ const InputWithKeyboard = enhance(
           <React.Fragment>
             <span
               // type={!show ? 'text' : 'hidden'}
-              contentEditable={!disabled}
+              // contentEditable={!disabled}
               className={theme.input}
               style={{
                 pointerEvents: disabled ? "none" : "inherit"

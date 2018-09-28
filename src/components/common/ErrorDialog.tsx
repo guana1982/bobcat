@@ -1,6 +1,6 @@
 import * as React from "react";
-import { __ } from "../../lib/i18n";
-import withErrorDialog from "../../enhancers/errorDialog";
+import { __ } from "../../utils/lib/i18n";
+import withErrorDialog from "../../utils/enhancers/errorDialog";
 
 export default withErrorDialog(({ message, close, show }) => {
   if (!show) return null;

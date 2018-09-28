@@ -2,11 +2,12 @@ import * as React from "react";
 import { get, post } from "../utils";
 import { map, tap, delay } from "rxjs/operators";
 import i18n from "../i18n";
-import mediumLevel from "../lib/mediumLevel";
+import mediumLevel from "../utils/MediumLevel";
 import { forkJoin } from "rxjs";
 
 export interface ConfigInterface {
   isLit: boolean;
+  vendorConfig: any;
   onToggleLight: () => void;
 }
 
@@ -16,6 +17,8 @@ export const ConfigProvider = ConfigContext.Provider;
 export const ConfigConsumer = ConfigContext.Consumer;
 
 export class ConfigStore extends React.Component<any, any> {
+
+  vendorConfig: any;
 
   constructor(props) {
     super(props);
@@ -27,13 +30,12 @@ export class ConfigStore extends React.Component<any, any> {
     forkJoin(
       mediumLevel.config.getVendor(),
       mediumLevel.config.getBeverages(),
-      mediumLevel.payment.getAvailableMethods(),
       mediumLevel.config.getSizes(),
       mediumLevel.config.getLang(),
-      mediumLevel.config.getErrorCodes(),
-      mediumLevel.config.startDisplay()
+      mediumLevel.config.startDisplay(),
+      mediumLevel.menu.getList()
     ).subscribe((res: any[]) => {
-      console.log(res);
+      this.vendorConfig = res[0];
     });
 
     // get("config/beverages")
@@ -62,7 +64,8 @@ export class ConfigStore extends React.Component<any, any> {
       <ConfigProvider
         value={{
           isLit: this.state.isLit,
-          onToggleLight: this.toggleLight
+          onToggleLight: this.toggleLight,
+          vendorConfig: this.vendorConfig
         }}
       >
         {children}

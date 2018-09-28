@@ -1,5 +1,5 @@
 import * as React from "react";
-import { __ } from "../../lib/i18n";
+import { __ } from "../../utils/lib/i18n";
 const change = onChange => evt => {
   onChange(evt.target.checked);
 };

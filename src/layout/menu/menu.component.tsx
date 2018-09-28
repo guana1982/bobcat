@@ -1,6 +1,7 @@
 import * as React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import MenuRouter from "./menu.router";
+import Menu from "../../Menu";
+import { ConfigConsumer } from "../../models/Config";
 
 interface MenuProps {
   history: any;
@@ -33,9 +34,19 @@ export class MenuComponent extends React.Component<MenuProps, MenuState> {
           Menu {typeMenu}
         </div>
         <div>
-          <button onClick={() => this.props.history.push(`/menu/${typeMenu}/auth`)}>Auth</button>
-          <button onClick={() => this.props.history.push(`/menu/${typeMenu}/launcher`)}>Launcher</button>
-          <MenuRouter />
+          {/* <button onClick={() => this.props.history.push(`/menu/${typeMenu}/auth`)}>Auth</button>
+          <button onClick={() => this.props.history.push(`/menu/${typeMenu}/launcher`)}>Launcher</button> */}
+          <ConfigConsumer>
+            {config =>
+              <Menu
+                onTimeout={() => alert("ok")}
+                vendorConfig={config.vendorConfig}
+                disabledMenuOpen={false}
+                typeMenu={`${typeMenu}_menu`}
+              />
+            }
+          </ConfigConsumer>
+          {/* <MenuRouter /> */}
         </div>
       </div>
     );
