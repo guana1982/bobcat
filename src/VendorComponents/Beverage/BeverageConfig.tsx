@@ -43,7 +43,7 @@ class BeverageConfig extends React.Component<any> {
     };
   }
 
-  onStart = async beverage => {
+  onStart = async (beverage, index?) => {
     console.log("onStart");
     const { onNext, pourMethod } = this.props;
     if (beverage) {
@@ -60,7 +60,7 @@ class BeverageConfig extends React.Component<any> {
       this.props.onStart(recipe);
       this.setState(prevState => ({
         ...prevState,
-        animatedId: beverage.beverage_id
+        animatedId: index
       }));
     }
   }

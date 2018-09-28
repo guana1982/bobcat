@@ -10,12 +10,12 @@ const enhance = compose(
 );
 
 export default enhance(({ index, beverage, onSelect, animatedId, onStop }) => {
-  const selectedColor = animatedId === beverage.beverage_id ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.2)"; // COLORS[beverage.beverage_logo_id];
+  const selectedColor = animatedId === index ? "#7290D5" : "#B6C7EB"; // COLORS[beverage.beverage_logo_id];
   return (
     <div
       className={`${styles.beverage}`}
       onTouchEnd={onStop}
-      onTouchStart={() => onSelect(beverage)}
+      onTouchStart={() => onSelect(beverage, index)}
       style={{ backgroundColor: selectedColor }}
     >
       {beverage.status_id === "empty_bib" && <div>Syrup sold out</div>}

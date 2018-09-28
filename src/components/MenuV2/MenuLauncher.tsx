@@ -85,9 +85,9 @@ class MenuLauncher extends React.Component<any, {}> {
                 !disabledMenuOpen && (
                   <div onClick={this.toggleServiceMenu} className={styles.box} style={{ top: "15px", left: "-80px" }} />
                 )}
-              <div className={styles.menuBox} onClick={this.openScanQr}>
+              {/* <div className={styles.menuBox} onClick={this.openScanQr}>
                 <div className={styles.menuBoxText}>TEST QR CODE</div>
-              </div>
+              </div> */}
               <div className={styles.menuBox} onClick={this.goToCrewMenu}>
                 <div className={styles.menuBoxText}>CREW MENU</div>
               </div>

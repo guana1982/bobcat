@@ -209,7 +209,7 @@ class App extends React.Component<any, AppState> {
           />
 
           {/* {process.env.NODE_ENV === "development" && ( */}
-            <div
+            {/* <div
               style={{
                 position: "absolute",
                 width: "100%",
@@ -221,8 +221,8 @@ class App extends React.Component<any, AppState> {
                 background: "#fae3c6"
               }}
             >
-              <p>State: {this.state.statePouring}</p> {/* {machineState}, */}
-            </div>
+              <p>State: {this.state.statePouring}</p>
+            </div> */}
           {/* )} */}
 
         </Match>
