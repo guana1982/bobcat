@@ -1,6 +1,6 @@
 //colors
 $gallery: #efefef;
-$blue: blue;
+$dark: #333;
 $white: #fff;
 $color_japanese_laurel_approx: green;
 $color_mine_shaft_approx: #333;
@@ -61,7 +61,7 @@ $color_mine_shaft_approx: #333;
 }
 
 .key⏎ {
-  background: $blue;
+  background: $dark;
   color: $white;
   flex: 2;
 }

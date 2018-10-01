@@ -141,7 +141,7 @@ const PaginatedLineCalibration = enhance(
               {process.env.INTELLITOWER_VENDOR === "pepsi" && (
                 <div className={styles.infoItem}>
                   <label className={styles.infoDt}>{__("dilution_ratio")}</label>
-                  <div className={styles.infoDd}>{line.ratio}</div>
+                  <div className={styles.infoDd}>{Number.parseFloat(line.ratio).toFixed(5)}</div>
                 </div>
               )}
               {process.env.INTELLITOWER_VENDOR !== "waterbar" && (

@@ -30,24 +30,17 @@ export class MenuComponent extends React.Component<MenuProps, MenuState> {
     const { typeMenu } = this.props.match.params;
     return (
       <div>
-        <div>
-          Menu {typeMenu}
-        </div>
-        <div>
-          {/* <button onClick={() => this.props.history.push(`/menu/${typeMenu}/auth`)}>Auth</button>
-          <button onClick={() => this.props.history.push(`/menu/${typeMenu}/launcher`)}>Launcher</button> */}
           <ConfigConsumer>
             {config =>
               <Menu
-                onTimeout={() => alert("ok")}
+                onTimeout={() => console.log("menu", "timeout")}
                 vendorConfig={config.vendorConfig}
                 disabledMenuOpen={false}
                 typeMenu={`${typeMenu}_menu`}
+                onExit={() => this.props.history.push("/home")}
               />
             }
           </ConfigConsumer>
-          {/* <MenuRouter /> */}
-        </div>
       </div>
     );
   }

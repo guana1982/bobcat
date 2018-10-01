@@ -191,6 +191,12 @@
 
 .keyboard {
   height: 300px;
+  // TEST =>
+  position: absolute;
+  width: 300px;
+  right: 80px;
+  top: -32px;
+  // <= TEST  
 }
 
 .key {

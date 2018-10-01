@@ -68,7 +68,7 @@ const InputWithKeyboard = enhance(
           <React.Fragment>
             <span
               // type={!show ? 'text' : 'hidden'}
-              // contentEditable={!disabled}
+              // contentEditable={!disabled} => TO FIX
               className={theme.input}
               style={{
                 pointerEvents: disabled ? "none" : "inherit"

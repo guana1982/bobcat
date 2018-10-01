@@ -265,6 +265,7 @@ class Menu extends React.Component<any, MenuState> {
   }
   onExit = () => {
     stateMachine.transition("EXIT");
+    this.props.onExit();
   }
   onJumpTo = stateEvent => {
     stateMachine.transition(stateEvent);

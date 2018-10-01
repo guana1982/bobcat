@@ -4,6 +4,7 @@ import { map, tap, delay } from "rxjs/operators";
 import i18n from "../i18n";
 import mediumLevel from "../utils/MediumLevel";
 import { forkJoin } from "rxjs";
+import { setLangDict } from "../utils/lib/i18n";
 
 export interface ConfigInterface {
   isLit: boolean;
@@ -35,7 +36,16 @@ export class ConfigStore extends React.Component<any, any> {
       mediumLevel.config.startDisplay(),
       mediumLevel.menu.getList()
     ).subscribe((res: any[]) => {
-      this.vendorConfig = res[0];
+
+      let [
+        vendorConfig,
+        beverages,
+        sizes,
+        langDict
+      ] = res;
+
+      this.vendorConfig = vendorConfig;
+      setLangDict(langDict.i18n);
     });
 
     // get("config/beverages")

@@ -19,26 +19,29 @@ import LineCalibration from "./LineCalibration";
 import CarbonationImage from "../../Menu/CarbonationImage";
 import * as styles from "../../Menu/Custom/Lines.scss";
 
-const SODA = 10;
-const WATER = 9;
+const SODA = 2;
+const WATER = 1;
+const AMB = 3;
 const NOT_USED = -1;
 const noop = () => {};
 const enhance = compose(
   setDisplayName("Lines"),
   onlyUpdateForKeys(["page", "totalPages", "saving"]),
   withState("linesConfig", "setLinesConfig", props => {
-    const linesConfig = [...Array(props.valvesCount - 2).keys()].map((lineIndex, index) => {
-      const lineId = lineIndex + 1;
-      const line = props.initialLines.find(l => l.line_id === lineId) || {};
-      return {
-        line_id: lineId,
-        beverage_id: line.beverage_id || -1,
-        beverage_menu_index: line.beverage_menu_index || -1,
-        beverage_label_id: line.beverage_label_id || -1,
-        image: line.image || null,
-        name: line.shortname || null
-      };
-    });
+    // const linesConfig = [...Array(props.valvesCount - 2).keys()].map((lineIndex, index) => {
+    //   const lineId = lineIndex + 1;
+    //   const line = props.initialLines.find(l => l.line_id === lineId) || {};
+    //   return {
+    //     line_id: lineId,
+    //     beverage_id: line.beverage_id || -1,
+    //     beverage_menu_index: line.beverage_menu_index || -1,
+    //     beverage_label_id: line.beverage_label_id || -1,
+    //     image: line.image || null,
+    //     name: line.shortname || null
+    //   };
+    // });
+    const linesConfig = props.initialLines
+      .filter(l => l.line_id > 0 && l.line_id !== SODA && l.line_id !== WATER && l.line_id !== AMB);
     return linesConfig;
   }),
   withHandlers({
@@ -52,7 +55,7 @@ const enhance = compose(
   mapProps(props => {
     return {
       ...props,
-      linesConfig: props.linesConfig.sort((a, b) => a.line_id - b.line_id)
+      linesConfig: props.linesConfig // .sort((a, b) => a.line_id - b.line_id)
     };
   }),
   withProps({
@@ -108,12 +111,14 @@ const PaginatedLines = enhance(
     const sodaLineIndex = initialLines.indexOf(sodaLine) + 1;
     const waterLine = initialLines.find(l => l.line_id === WATER);
     const waterLineIndex = initialLines.indexOf(waterLine) + 1;
+    const ambLine = initialLines.find(l => l.line_id === AMB);
+    const ambLineIndex = initialLines.indexOf(ambLine) + 1;
     return (
       <React.Fragment>
         <Pagination page={page} totalPages={totalPages} onNext={nextPage} onPrev={prevPage} />
         <div className={styles.lines}>
           {linesConfig.slice(start, end).map((line, index) => {
-            const actualIndex = index + elementsPerPage * (page - 1) + 1;
+            const actualIndex = line.line_id; // index + elementsPerPage * (page - 1) + 1;
             const lineBeverage = availableBeverages.find(l => l.beverage_id === line.beverage_id) || {};
             return (
               <div key={actualIndex} className={styles.line}>
@@ -144,7 +149,7 @@ const PaginatedLines = enhance(
                       {process.env.INTELLITOWER_VENDOR === "pepsi" && (
                         <div className={styles.infoItem}>
                           <label className={styles.infoDt}>{__("dilution_ratio")}</label>
-                          <div className={styles.infoDd}>{lineBeverage.ratio}</div>
+                          <div className={styles.infoDd}>{Number.parseFloat(lineBeverage.ratio).toFixed(5)}</div>
                         </div>
                       )}
                       {process.env.INTELLITOWER_VENDOR !== "waterbar" && (
@@ -192,6 +197,9 @@ const PaginatedLines = enhance(
           <button className={"button-bar__button"} onClick={onCalibrate(sodaLine, sodaLineIndex)}>
             {__("cal_soda")}
           </button>
+          <button className={"button-bar__button"} onClick={onCalibrate(ambLine, ambLineIndex)}>
+            {__("cal_amb")}
+          </button>
           <button className={"button-bar__button"} onClick={!saving ? onSave(linesConfig) : noop}>
             {__(!saving ? "save_lines" : "saving")}
           </button>
@@ -238,8 +246,8 @@ const Lines = enhanceLines(
     const onLinesStep = () => {
       goToStep({ step: 1 });
     };
-    const sortedLines = lines.filter(l => l.line_id > -1).sort((a, b) => a.line_id - b.line_id);
-    const availableBeverages = lines.filter(l => l.beverage_id !== WATER && l.line_id !== SODA).slice();
+    const sortedLines = lines.filter(l => l.line_id > -1); // .sort((a, b) => a.line_id - b.line_id);
+    const availableBeverages = lines.filter(l => l.line_id !== WATER && l.line_id !== SODA && l.line_id !== AMB).slice();
     availableBeverages.unshift({
       beverage_id: -1,
       beverage_logo_id: "0",

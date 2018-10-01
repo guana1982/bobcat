@@ -1,7 +1,7 @@
 // import { findDOMNode } from 'react-dom'
 import DollarOne from "../lib/dollarOne";
 import { compose, withState, lifecycle, setDisplayName } from "recompose";
-import gestures from "../VendorComponents/constants/gestures";
+import gestures from "../constants/gestures";
 
 const dollarOne = new DollarOne({
   treshold: 0.1
