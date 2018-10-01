@@ -43,8 +43,8 @@ export const reservedBeverageState = {
 
 export const stopPouringState = {
   STOP: [
-    { target: "beverageConfig.selection", actions: ["pouring.stop.enter"], cond: (data) => data.pourMethod === "timed" && data.paymentMethod.id === "free_drink"},
-    { target: INIT, actions: ["pouring.stop.enter"], cond: (data) => data.pourMethod === "timed" && data.paymentMethod.id === "qr_pre" },
+    { target: "beverageConfig.selection", actions: ["pouring.stop.enter"], cond: (data) => data.pourMethod === "timed" }, // && data.paymentMethod.id === "free_drink"
+    { target: INIT, actions: ["pouring.stop.enter"], cond: (data) => data.pourMethod === "timed" }, // && data.paymentMethod.id === "qr_pre"
     { target: "beverageConfig.setup", actions: ["pouring.stop.enter"], cond: (data) => data.pourMethod === "start_stop" },
     { target: "beverageConfig.selection", actions: ["pouring.stop.enter"], cond: (data) => data.pourMethod === "fastfood" },
   ],
