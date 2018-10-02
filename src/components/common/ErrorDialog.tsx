@@ -9,7 +9,7 @@ export default withErrorDialog(({ message, close, show }) => {
       style={{
         padding: "1em",
         background: "#fff",
-        border: "4px solid orangered",
+        border: "4px solid #0034B0",
         borderRadius: 16,
         position: "absolute",
         top: "50%",
