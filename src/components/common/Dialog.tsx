@@ -10,7 +10,7 @@ export default enhance(({ title, message }) => {
       style={{
         padding: "1em",
         background: "#fff",
-        border: "4px solid orangered",
+        border: "4px solid #0034B0",
         borderRadius: 4,
         position: "absolute",
         top: "50%",
