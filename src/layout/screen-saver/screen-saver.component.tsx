@@ -1,9 +1,13 @@
 import * as React from "react";
 import { SreenWrapper } from "../../components/global/ScreenWrapper";
 import mediumLevel from "../../utils/MediumLevel";
+import { InactivityTimerInterface } from "../../models/InactivityTimer";
+import { ConfigInterface } from "../../models/Config";
 
 interface ScreenSaverProps {
   history: any;
+  configConsumer: ConfigInterface;
+  inactivityTimerConsumer: InactivityTimerInterface;
 }
 
 interface ScreenSaverState {}

@@ -2079,6 +2079,10 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+create-subscription@^16.5.2:
+  version "16.5.2"
+  resolved "https://registry.yarnpkg.com/create-subscription/-/create-subscription-16.5.2.tgz#fd1152a1e57e5449ad0963eb1dffe2dc7bc94c38"
+
 cross-spawn@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-3.0.1.tgz#1256037ecb9f0c5f79e3d6ef135e30770184b982"

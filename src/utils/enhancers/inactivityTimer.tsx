@@ -33,7 +33,8 @@ export default ({
         clearTimeout(timer);
         // window.cancelAnimationFrame(timer)
         window.cancelAnimationFrame(countdownTimer);
-        document.removeEventListener("click", this.props.resetTimer);
+        document.removeEventListener("touchstart", () => clearTimeout(timer));
+        document.removeEventListener("touchend", this.props.resetTimer);
       },
       componentDidMount() {
         const { onTimeout, setCountdown, resetTimer, countdown, inactivityTimeout } = this.props;
@@ -46,7 +47,8 @@ export default ({
           }
         }, inactivityTimeout * 1000);
         if (resetOnClick) {
-          document.addEventListener("click", resetTimer);
+          document.addEventListener("touchstart", () => clearTimeout(timer));
+          document.addEventListener("touchend", resetTimer);
         }
         if (!showCountdown) {
           return;

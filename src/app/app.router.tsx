@@ -10,6 +10,8 @@ import MenuComponent from "../layout/menu/menu.component";
 /* ==== STORES ==== */
 import { PaymentStore, PaymentConsumer } from "../models/Payment";
 import { MenuStore, MenuConsumer } from "../models/Menu";
+import { ConfigConsumer } from "../models";
+import { InactivityTimerConsumer } from "../models/InactivityTimer";
 
 class AppRouter extends React.Component<any, any> {
 
@@ -18,6 +20,19 @@ class AppRouter extends React.Component<any, any> {
     console.log(props);
   }
 
+  /* DEFINE CONSUMER */
+  withGlobalConsumer = Comp => props => (
+    <ConfigConsumer>
+      {config =>
+        <InactivityTimerConsumer>
+           {inactivityTimer =>
+            <Comp {...props} configConsumer={config} inactivityTimerConsumer={inactivityTimer}></Comp>}
+        </InactivityTimerConsumer>
+      }
+    </ConfigConsumer>
+  )
+
+  /* SPECIFY STORE ==> */
   withPaymentStore = Comp => props => (
     <PaymentStore>
       <PaymentConsumer>
@@ -33,14 +48,15 @@ class AppRouter extends React.Component<any, any> {
       </MenuConsumer>
     </MenuStore>
   )
+  /* <== SPECIFY STORE */
 
   render() {
     return (
       <section>
-          <Route exact path="/" component={ScreenSaverComponent}/>
-          <Route path="/home" component={HomeComponent}/>
+          <Route exact path="/" component={this.withGlobalConsumer(ScreenSaverComponent)}/>
+          <Route path="/home" component={this.withGlobalConsumer(HomeComponent)}/>
           <Route path="/prepay" component={this.withPaymentStore(PrepayComponent)}/>
-          <Route path="/menu/:typeMenu(tech|crew)" component={this.withPaymentStore(MenuComponent)}/>
+          <Route path="/menu/:typeMenu(tech|crew)" component={this.withMenuStore(MenuComponent)}/>
       </section>
     );
   }

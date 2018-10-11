@@ -55,6 +55,7 @@
     "axios": "^0.18.0",
     "babel-plugin-styled-components": "^1.7.1",
     "classnames": "^2.2.6",
+    "create-subscription": "^16.5.2",
     "d3-scale": "^2.1.2",
     "d3-shape": "^1.2.2",
     "d3-timer": "^1.0.9",

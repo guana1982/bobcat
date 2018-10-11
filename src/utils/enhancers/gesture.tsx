@@ -45,6 +45,7 @@ export default compose(
             (endListener = e => {
               window.removeEventListener("touchmove", moveListener);
               window.removeEventListener("touchend", endListener);
+              console.log(JSON.stringify(points));
               if (!points.length) {
                 return;
               }

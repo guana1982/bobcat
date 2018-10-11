@@ -19,10 +19,10 @@ injectGlobal`
 `;
 
 export const theme1 = {
-  primary: "#6e27c5",
-  secondary: "#ffb617",
+  primary: "#0147bb",
+  secondary: "#d9e3f4",
   danger: "#f16623",
-  light: "#f4f4f4",
+  light: "#f2f6fb",
   dark: "#222"
 };
 
