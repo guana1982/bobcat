@@ -72,7 +72,7 @@ export class InactivityTimerStore extends React.Component<any, any> {
     // Check if we're at zero.
     if (seconds === 0) {
       clearInterval(this.timer);
-      alert("end");
+      // alert("end");
     }
   }
 

@@ -4,7 +4,7 @@ import { map, tap, delay } from "rxjs/operators";
 import i18n from "../i18n";
 import mediumLevel from "../utils/MediumLevel";
 import { Observable } from "rxjs/internal/Observable";
-let ws: any;
+// let ws: any;
 declare var window: any;
 
 export interface PaymentInterface {
@@ -22,10 +22,10 @@ export class PaymentStore extends React.Component<any, any> {
 
   constructor(props) {
     super(props);
-    ws = new window.WebSocket(process.env.NODE_ENV === "production" ? "ws://93.55.118.42:5901" : "ws://192.168.188.204:5901"); // ws://0.0.0.0:5901
-    ws.onopen = () => {
-      console.log("connected");
-    };
+    // ws = new window.WebSocket(process.env.NODE_ENV === "production" ? "ws://93.55.118.42:5901" : "ws://192.168.188.204:5901"); // ws://0.0.0.0:5901
+    // ws.onopen = () => {
+    //   console.log("connected");
+    // };
   }
 
   toggleLight = () => {
@@ -39,15 +39,15 @@ export class PaymentStore extends React.Component<any, any> {
     return this.startQrCamera()
     .pipe(
       tap(() => {
-        ws.onmessage = data => {
-          console.log("socket message was received");
-          const qrData = JSON.parse(data.data);
-          if (qrData.message_type === "qr_found") {
-            const qrString = qrData.value;
-            alert(qrString);
-            this.stopQrCamera().subscribe(() => console.log("Close Qr Camera"));
-          }
-        };
+        // ws.onmessage = data => {
+        //   console.log("socket message was received");
+        //   const qrData = JSON.parse(data.data);
+        //   if (qrData.message_type === "qr_found") {
+        //     const qrString = qrData.value;
+        //     alert(qrString);
+        //     this.stopQrCamera().subscribe(() => console.log("Close Qr Camera"));
+        //   }
+        // };
       })
     );
   }

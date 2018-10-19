@@ -50,6 +50,8 @@ export class Home extends React.Component<HomeProps, HomeState> {
   onGesture = (gestureType) => {
     if (gestureType === "p")
       this.props.history.push("/menu/tech");
+    if (gestureType === "v")
+      this.props.history.push("/menu/crew");
     else
       alert(gestureType);
   }

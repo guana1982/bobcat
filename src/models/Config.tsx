@@ -3,8 +3,10 @@ import { get, post } from "../utils";
 import { map, tap, delay } from "rxjs/operators";
 import i18n from "../i18n";
 import mediumLevel from "../utils/MediumLevel";
-import { forkJoin } from "rxjs";
+import { forkJoin, of } from "rxjs";
 import { setLangDict } from "../utils/lib/i18n";
+import { withRouter } from "react-router-dom";
+declare var window: any;
 
 export interface ConfigInterface {
   isLit: boolean;
@@ -17,9 +19,10 @@ const ConfigContext = React.createContext<ConfigInterface | null>(null);
 export const ConfigProvider = ConfigContext.Provider;
 export const ConfigConsumer = ConfigContext.Consumer;
 
-export class ConfigStore extends React.Component<any, any> {
+class ConfigStoreComponent extends React.Component<any, any> {
 
   vendorConfig: any;
+  ws: WebSocket;
 
   constructor(props) {
     super(props);
@@ -28,15 +31,28 @@ export class ConfigStore extends React.Component<any, any> {
       isLit: false
     };
 
+    this.ws = new window.WebSocket(process.env.NODE_ENV === "production" ? "ws://93.55.118.42:5901" : "ws://192.168.188.204:5901"); // ws://0.0.0.0:5901
+    this.ws.onopen = () => {
+      console.log("connected");
+    };
+
+    this.ws.onmessage = data => {
+      console.log("socket message was received", data);
+    };
+
+    // setTimeout(() => {
+    //   alert("ook");
+    //   this.props.history.push("/home");
+    // }, 1000);
+
     forkJoin(
       mediumLevel.config.getVendor(),
       mediumLevel.config.getBeverages(),
       mediumLevel.config.getSizes(),
       mediumLevel.config.getLang(),
       mediumLevel.config.startDisplay(),
-      mediumLevel.menu.getList()
     ).subscribe((res: any[]) => {
-
+      console.log({res});
       let [
         vendorConfig,
         beverages,
@@ -83,3 +99,5 @@ export class ConfigStore extends React.Component<any, any> {
     );
   }
 }
+
+export const ConfigStore = withRouter(ConfigStoreComponent);

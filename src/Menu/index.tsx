@@ -148,11 +148,13 @@ const statechart = {
                 submenuId === "beverage_settings" ||
                 submenuId === "beverage_settings_crew" ||
                 submenuId === "beverage_settings_tech" ||
-                submenuId === "wifi_management" ||
+                submenuId === "network_management" ||
                 submenuId === "clean_sanitation" ||
                 submenuId === "beverage_config" ||
                 submenuId === "stock_shelf_life" ||
-                submenuId === "daily_flush"
+                submenuId === "daily_flush" ||
+                submenuId ===  "initialization_tech" ||
+                submenuId === "alerts_warnings_tech"
               );
             }
           },
@@ -310,7 +312,7 @@ class Menu extends React.Component<any, MenuState> {
             elementsPerPage={4}
           />
         );
-      case "wifi_management":
+      case "network_management":
         return <WifiManagement onBack={this.onBack} elementsPerPage={7} />;
       case "stock_shelf_life":
         return <StockShelfLife onBack={this.onBack} elementsPerPage={4} />;
@@ -441,4 +443,5 @@ class Menu extends React.Component<any, MenuState> {
     );
   }
 }
+
 export default Menu;
