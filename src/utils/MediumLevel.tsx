@@ -62,13 +62,13 @@ export default {
     saveConfig: (config) => post(`mobile_management/config`, config),
     signal: () => get("mobile_management/signal"), // POLLING
     getStatistics: () => get("mobile_management/statistics"),
-    resetStatistics: () => delete("mobile_management/statistics"),
+    // resetStatistics: () => delete("mobile_management/statistics"),
   },
   initialization: {
     getConfig: () => get("initialization"),
     getValues: () => get("initialization/values"),
     saveValues: (config) => post("initialization/values", config),
-    resetConfig: () => delete("initialization/values"),
+    // resetConfig: () => delete("initialization/values"),
   },
   alarm: {
     getList: () => get("alarm"),
