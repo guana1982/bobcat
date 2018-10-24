@@ -90,6 +90,27 @@ export const Grid = styled.div`
   }
 `;
 
+export const ButtonGroup = styled.div`
+  position: relative;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: middle;
+  border: 2px solid ${props => props.theme.primary};
+  button {
+    color: ${props => props.theme.primary};
+    background: ${props => props.theme.light};
+    padding: 1rem;
+    &.selected {
+      background: ${props => props.theme.primary};
+      color: ${props => props.theme.light};
+    }
+    &:active {
+      background: ${props => props.theme.secondary};
+      color: ${props => props.theme.primary};
+    }
+  }
+`;
+
 export const Footer = styled.div`
   h2 {
     color: ${props => props.theme.primary};

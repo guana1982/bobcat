@@ -7,8 +7,16 @@ import LauncherComponent, { Action } from "../../components/global/Launcher";
 import Gesture from "../../components/Menu/Gesture";
 import { InactivityTimerInterface } from "../../models/InactivityTimer";
 
-import { HomeContent, Header, Footer, Grid, Beverage, Col } from "./home.style";
+import { HomeContent, Header, Footer, Grid, Beverage, Col, ButtonGroup } from "./home.style";
 import { ReplaySubscription } from "../../components/global/Subscription";
+
+interface BeverageConfig {
+  flavor_level?: number;
+  carbonation_level: number;
+  temperature_level: number;
+  b_complex: boolean;
+  antioxidants: boolean;
+}
 
 interface HomeProps {
   history: any;
@@ -18,6 +26,7 @@ interface HomeProps {
 
 interface HomeState {
   beverageSelected: number;
+  beverageConfig: BeverageConfig;
 }
 
 export class Home extends React.Component<HomeProps, HomeState> {
@@ -30,7 +39,8 @@ export class Home extends React.Component<HomeProps, HomeState> {
     console.log(props);
 
     this.state = {
-      beverageSelected: null
+      beverageSelected: null,
+      beverageConfig: null
     };
 
     this.actionsLauncher = [
@@ -66,7 +76,14 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   private selectBeverage(beverage: any, sparkling?: boolean) {
     this.setState({
-      beverageSelected: this.beverages.indexOf(beverage)
+      beverageSelected: this.beverages.indexOf(beverage),
+      beverageConfig: {
+        flavor_level: 0,
+        carbonation_level: sparkling ? 100 : 0,
+        temperature_level: 100,
+        b_complex: false,
+        antioxidants: false
+      }
     });
   }
 
@@ -78,6 +95,10 @@ export class Home extends React.Component<HomeProps, HomeState> {
     this.setState({
       beverageSelected: null
     });
+  }
+
+  private pourBeverage() {
+    console.log("POUR");
   }
 
   private ChoiceBeverage = () => {
@@ -115,6 +136,35 @@ export class Home extends React.Component<HomeProps, HomeState> {
       <div>
         <button onClick={() => this.resetBeverage()}>Reset</button>
         <p>{this.getBeverage()}</p>
+        <div>
+          <p>flavor_level: {this.state.beverageConfig.flavor_level}</p>
+          <ButtonGroup>
+            <button className="selected" type="button">light</button>
+            <button type="button">middle</button>
+            <button type="button">full</button>
+          </ButtonGroup>
+        </div>
+        <div>
+          <p>carbonation_level: {this.state.beverageConfig.carbonation_level}</p>
+          <ButtonGroup>
+            <button type="button">light</button>
+            <button type="button">middle</button>
+            <button type="button">strong</button>
+          </ButtonGroup>
+        </div>
+        <div>
+          <p>temperature_level: {this.state.beverageConfig.temperature_level}</p>
+          <ButtonGroup>
+            <button type="button">room</button>
+            <button type="button">middle</button>
+            <button type="button">cold</button>
+          </ButtonGroup>
+        </div>
+        <div>
+          <button type="button">add b-complex</button>
+          <button type="button">add antioxidants</button>
+        </div>
+        <button onClick={() => this.pourBeverage()}>Pour</button>
       </div>
     );
   }

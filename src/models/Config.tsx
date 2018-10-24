@@ -31,7 +31,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       isLit: false
     };
 
-    this.ws = new window.WebSocket(process.env.NODE_ENV === "production" ? "ws://93.55.118.42:5901" : "ws://192.168.188.204:5901"); // ws://0.0.0.0:5901
+    this.ws = new window.WebSocket(process.env.NODE_ENV === "production" ? "ws://93.55.118.42:5901" : "ws://93.55.118.43:5901"); // ws://0.0.0.0:5901
     this.ws.onopen = () => {
       console.log("connected");
     };
