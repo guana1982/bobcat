@@ -7,8 +7,9 @@ import LauncherComponent, { Action } from "../../components/global/Launcher";
 import Gesture from "../../components/Menu/Gesture";
 import { InactivityTimerInterface } from "../../models/InactivityTimer";
 
-import { HomeContent, Header, Footer, Grid, Beverage, Col, ButtonGroup } from "./home.style";
+import { HomeContent, Header, Footer, Grid, Beverage, Col } from "./home.style";
 import { ReplaySubscription } from "../../components/global/Subscription";
+import { ButtonGroup } from "../../components/global/ButtonGroup";
 
 interface BeverageConfig {
   flavor_level?: number;
@@ -33,6 +34,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   actionsLauncher: Action[];
   beverages: any[] = ["Water", "Lemon Lime", "Raspberry Lime", "Lemon Mint", "Ginger Lemon", "Peach", "Cucumber"];
+  buttonsTest: any[];
 
   constructor(props) {
     super(props);
@@ -61,6 +63,12 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   componentDidMount() {
     this.props.inactivityTimerConsumer.startTimer();
+
+    this.buttonsTest = [
+      {label: "val1", value: "1"},
+      {label: "val2", value: "2"},
+      {label: "val3", value: "3"}
+    ];
   }
 
   componentWillUnmount() {}
@@ -131,6 +139,10 @@ export class Home extends React.Component<HomeProps, HomeState> {
     );
   }
 
+  tapButton = () => {
+
+  }
+
   private CustomizeBeverage = () => {
     return(
       <div>
@@ -138,27 +150,15 @@ export class Home extends React.Component<HomeProps, HomeState> {
         <p>{this.getBeverage()}</p>
         <div>
           <p>flavor_level: {this.state.beverageConfig.flavor_level}</p>
-          <ButtonGroup>
-            <button className="selected" type="button">light</button>
-            <button type="button">middle</button>
-            <button type="button">full</button>
-          </ButtonGroup>
+          <ButtonGroup buttons={this.buttonsTest} tapButton={this.tapButton}></ButtonGroup>
         </div>
         <div>
           <p>carbonation_level: {this.state.beverageConfig.carbonation_level}</p>
-          <ButtonGroup>
-            <button type="button">light</button>
-            <button type="button">middle</button>
-            <button type="button">strong</button>
-          </ButtonGroup>
+          <ButtonGroup buttons={this.buttonsTest} tapButton={this.tapButton}></ButtonGroup>
         </div>
         <div>
           <p>temperature_level: {this.state.beverageConfig.temperature_level}</p>
-          <ButtonGroup>
-            <button type="button">room</button>
-            <button type="button">middle</button>
-            <button type="button">cold</button>
-          </ButtonGroup>
+          <ButtonGroup buttons={this.buttonsTest} tapButton={this.tapButton}></ButtonGroup>
         </div>
         <div>
           <button type="button">add b-complex</button>
