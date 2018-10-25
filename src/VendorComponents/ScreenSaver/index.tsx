@@ -1,4 +1,5 @@
 import * as React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class ScreenSaver extends React.Component<any, any> { // {}, {}
   componentDidMount() {
@@ -25,36 +26,50 @@ class ScreenSaver extends React.Component<any, any> { // {}, {}
   }
   render() {
     const { play } = this.props;
-    return (
-      <div
-        onClick={this.props.onClick}
-        style={{
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          background: "#0000FF",
-          position: "absolute",
-          display: play ? "block" : "none",
-          zIndex: 1000
-        }}
-      />
-    );
-    //   return (
-    //     <video
-    //       ref={this.onRef}
-    //       style={{
-    //         width: '100%',
-    //         height: 'auto !important',
-    //         minHeight: '100%',
-    //         background: '#05396A',
-    //         display: play ? 'block' : 'none',
-    //       }}
-    //       src="pepsi/video/video-subway-2.mp4"
-    //       loop
+    // return (
+    //   <div>
+    //     <div
     //       onClick={this.props.onClick}
+    //       style={{
+    //         top: 0,
+    //         left: 0,
+    //         width: "100%",
+    //         height: "100%",
+    //         background: "#0000FF",
+    //         position: "absolute",
+    //         display: play ? "block" : "none",
+    //         // zIndex: 1000,
+    //         borderStyle: "solid",
+    //         borderColor: "#fff",
+    //         borderWidth: "120px 160px"
+    //       }}
     //     />
-    //   )
+    //     <FontAwesomeIcon icon="exclamation-triangle"
+    //       style={{
+    //         position: "absolute",
+    //         bottom: "50px",
+    //         right: "50px",
+    //         color: "#000",
+    //         fontSize: "1.8rem"
+    //       }}
+    //     />
+    //   </div>
+    // );
+      return (
+        <video
+          ref={this.onRef}
+          autoPlay
+          style={{
+            width: "100vw",
+            height: "100vh",
+            margin: "auto",
+            display: play ? "block" : "none",
+          }}
+          src="video/7606603-preview.mp4"
+          loop
+          onClick={this.props.onClick}
+        />
+      );
   }
 }
 export default ScreenSaver;

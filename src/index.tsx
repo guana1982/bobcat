@@ -4,6 +4,12 @@ import { Machine } from "xstate";
 import { actions, reducers, statechart } from "./machine";
 import MachineState from "./stores/MachineState";
 import App from "./components/App";
+
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+
+library.add(fas);
+
 // import * as Raven from "raven-js";
 declare var process: any;
 
