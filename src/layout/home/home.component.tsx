@@ -26,6 +26,7 @@ interface HomeProps {
 }
 
 interface HomeState {
+  selectedOption: any;
   beverageSelected: number;
   beverageConfig: BeverageConfig;
 }
@@ -41,6 +42,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
     console.log(props);
 
     this.state = {
+      selectedOption: null,
       beverageSelected: null,
       beverageConfig: null
     };
@@ -139,8 +141,12 @@ export class Home extends React.Component<HomeProps, HomeState> {
     );
   }
 
-  tapButton = () => {
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption });
+  }
 
+  goToScreenSaver = () => {
+    this.props.history.push("/");
   }
 
   private CustomizeBeverage = () => {
@@ -150,15 +156,15 @@ export class Home extends React.Component<HomeProps, HomeState> {
         <p>{this.getBeverage()}</p>
         <div>
           <p>flavor_level: {this.state.beverageConfig.flavor_level}</p>
-          <ButtonGroup buttons={this.buttonsTest} tapButton={this.tapButton}></ButtonGroup>
+          <ButtonGroup options={this.buttonsTest} value={this.state.selectedOption} onChange={this.handleChange}></ButtonGroup>
         </div>
         <div>
           <p>carbonation_level: {this.state.beverageConfig.carbonation_level}</p>
-          <ButtonGroup buttons={this.buttonsTest} tapButton={this.tapButton}></ButtonGroup>
+          <ButtonGroup options={this.buttonsTest} value={this.state.selectedOption} onChange={this.handleChange}></ButtonGroup>
         </div>
         <div>
           <p>temperature_level: {this.state.beverageConfig.temperature_level}</p>
-          <ButtonGroup buttons={this.buttonsTest} tapButton={this.tapButton}></ButtonGroup>
+          <ButtonGroup options={this.buttonsTest} value={this.state.selectedOption} onChange={this.handleChange}></ButtonGroup>
         </div>
         <div>
           <button type="button">add b-complex</button>
@@ -180,6 +186,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
               <p>test {time ? time.s : ""}</p>
             }
           </ReplaySubscription>
+          <button type="button" onClick={() => this.goToScreenSaver()}>Screen</button>
         </Footer>
       </HomeContent>
     );

@@ -36,6 +36,18 @@ class ScreenSaverComponent extends React.Component<ScreenSaverProps, ScreenSaver
   render() {
     return (
       <SreenWrapper onClick={ () => this.goToHome() }></SreenWrapper>
+      // <video
+      //   autoPlay
+      //   style={{
+      //     // width: "100vw",
+      //     display: "block",
+      //     height: "100vh",
+      //     margin: "auto",
+      //   }}
+      //   src={`/video/video_pepsi_fsu.mp4`}
+      //   loop
+      //   onClick={() => this.goToHome()}
+      // />
     );
   }
 }

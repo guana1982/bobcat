@@ -5,6 +5,7 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "../i18n"; // initialized i18next instance
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { MemoryRouter } from "react-router";
 
 import { ThemeProvider } from "styled-components";
 import { ConfigStore } from "../models";
@@ -31,7 +32,7 @@ export default fullScreen(({
   ...props
 }) => {
   return (
-    <Router>
+    <MemoryRouter>
       <ThemeProvider theme={theme1}>
         <ConfigStore>
           <InactivityTimerStore>
@@ -39,6 +40,6 @@ export default fullScreen(({
           </InactivityTimerStore>
         </ConfigStore>
       </ThemeProvider>
-    </Router>
+    </MemoryRouter>
   );
 });
