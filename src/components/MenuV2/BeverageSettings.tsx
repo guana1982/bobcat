@@ -19,9 +19,9 @@ import LineCalibration from "./LineCalibration";
 import CarbonationImage from "../../VendorComponents/Menu/CarbonationImage";
 import * as styles from "../../VendorComponents/Menu/Custom/Lines.scss";
 
-const SODA = 2;
-const WATER = 1;
-const AMB = 3;
+const SODA = "soda";
+const WATER = "still";
+const AMB = "amb";
 const NOT_USED = -1;
 const noop = () => {};
 const enhance = compose(
@@ -41,7 +41,7 @@ const enhance = compose(
     //   };
     // });
     const linesConfig = props.initialLines
-      .filter(l => l.line_id > 0 && l.line_id !== SODA && l.line_id !== WATER && l.line_id !== AMB);
+      .filter(l => l.line_id > 0 && l.beverage_type !== SODA && l.beverage_type !== WATER && l.beverage_type !== AMB);
     return linesConfig;
   }),
   withHandlers({
@@ -107,11 +107,12 @@ const PaginatedLines = enhance(
       line.beverage_label_id = beverage.beverage_label_id;
       updateLines(line, index);
     };
-    const sodaLine = initialLines.find(l => l.line_id === SODA);
+    const sodaLine = initialLines.find(l => l.beverage_type === SODA);
     const sodaLineIndex = initialLines.indexOf(sodaLine) + 1;
-    const waterLine = initialLines.find(l => l.line_id === WATER);
+    const waterLine = initialLines.find(l => l.beverage_type === WATER);
+    console.log(waterLine);
     const waterLineIndex = initialLines.indexOf(waterLine) + 1;
-    const ambLine = initialLines.find(l => l.line_id === AMB);
+    const ambLine = initialLines.find(l => l.beverage_type === AMB);
     const ambLineIndex = initialLines.indexOf(ambLine) + 1;
     return (
       <React.Fragment>
