@@ -176,7 +176,7 @@ const PaginatedLines = enhance(
                       <button
                         disabled={lineBeverage.beverage_id === "NOT_USED"}
                         className={styles.button}
-                        onClick={onCalibrate(lineBeverage, actualIndex)}
+                        onClick={onCalibrate(lineBeverage)}
                       >
                         {__("calibrate")}
                       </button>
@@ -191,13 +191,13 @@ const PaginatedLines = enhance(
           <button onClick={onBack} className={"button-bar__button"}>
             {__("back")}
           </button>
-          <button className={"button-bar__button"} onClick={onCalibrate(waterLine, waterLineIndex)}>
+          <button className={"button-bar__button"} onClick={onCalibrate(waterLine)}>
             {__("cal_water")}
           </button>
-          <button className={"button-bar__button"} onClick={onCalibrate(sodaLine, sodaLineIndex)}>
+          <button className={"button-bar__button"} onClick={onCalibrate(sodaLine)}>
             {__("cal_soda")}
           </button>
-          <button className={"button-bar__button"} onClick={onCalibrate(ambLine, ambLineIndex)}>
+          <button className={"button-bar__button"} onClick={onCalibrate(ambLine)}>
             {__("cal_amb")}
           </button>
           <button className={"button-bar__button"} onClick={!saving ? onSave(linesConfig) : noop}>
@@ -239,9 +239,9 @@ const Lines = enhanceLines(
         window.location.reload();
       });
     };
-    const onCalibrateStep = (line, index) => e => {
-      console.log("calibrate", line, index);
-      goToStep({ step: 2, lineIndex: index });
+    const onCalibrateStep = (line) => e => {
+      const i = lines.indexOf(line);
+      goToStep({ step: 2, lineIndex: i + 1 });
     };
     const onLinesStep = () => {
       goToStep({ step: 1 });
