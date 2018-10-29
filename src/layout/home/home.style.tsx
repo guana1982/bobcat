@@ -10,7 +10,7 @@ export const HomeContent = styled.div`
 `;
 
 export const Header = styled.div`
-  padding: 2.5rem;
+  padding: 1.5rem;
   h2 {
     margin: 0;
     color: ${props => props.theme.primary};
@@ -79,6 +79,7 @@ export const Grid = styled.div`
   align-items: center;
   flex-wrap: wrap;
   text-align: center;
+  justify-content: space-around;
   padding: .5rem 3rem;
   height: 68vh;
   width: 100%;
@@ -93,5 +94,61 @@ export const Grid = styled.div`
 export const Footer = styled.div`
   h2 {
     color: ${props => props.theme.primary};
+  }
+`;
+
+
+export const CustomizeBeverageCard = styled.div`
+  img {
+    max-width: 25vw;
+  }
+  h2 {
+    color: ${props => props.theme.primary};
+    font-size: 3rem;
+    margin: 2rem 0;
+  }
+`;
+
+export const InfoCard = styled.div`
+
+`;
+
+const _sizePour = 105;
+export const Pour = styled.button`
+  position: absolute;
+  bottom: ${-_sizePour / 10}px;
+  right: calc(50vw - ${_sizePour}px);
+  color: ${props => props.theme.primary};
+  background: ${props => props.theme.sail};
+  height: ${_sizePour}px;
+  width: ${_sizePour * 2}px;
+  border-top-left-radius: ${_sizePour * 2}px;
+  border-top-right-radius: ${_sizePour * 2}px;
+  font-size: ${_sizePour / 5}px;
+  font-weight: 600;
+  &:active {
+    color: ${props => props.theme.light};
+    background: ${props => props.theme.primary};
+  }
+`;
+
+
+const _sizeCircleBtn = 40;
+interface CircleBtnProps { bgColor?: string; color?: string; icon: string; }
+export const CircleBtn = styled<CircleBtnProps, "div">("div")`
+  background: ${props => props.theme[props.bgColor]};
+  width: ${_sizeCircleBtn}px;
+  height: ${_sizeCircleBtn}px;
+  border-radius: 50%;
+  &:before {
+    display: inline-block;
+    width: 50%;
+    height: 50%;
+    margin-top: 25%;
+    margin-left: 25%;
+    content: "";
+    background: url(${props => props.icon}) no-repeat 0 0;
+    background-size: 100%;
+    background-position: center;
   }
 `;

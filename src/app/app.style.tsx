@@ -23,7 +23,8 @@ export const theme1 = {
   secondary: "#E9F3FC",
   danger: "#f16623",
   light: "#EEF6FD",
-  dark: "#222"
+  dark: "#222",
+  sail: "#B3DAFA"
 };
 
 export const theme2 = {

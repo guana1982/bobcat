@@ -12,8 +12,8 @@ import DateInput from "../common/InputDate";
 
 const BIB_SIZES = [5, 10, 15, 20];
 const BIB_SIZES_LABELS = [__("5L"), __("10L"), __("15L"), __("20L")];
-const SODA = 2;
-const WATER = 1;
+const SODA = 1;
+const WATER = 2;
 const AMB = 3;
 
 const enhance = compose(

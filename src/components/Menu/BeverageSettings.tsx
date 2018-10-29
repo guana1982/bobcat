@@ -19,8 +19,8 @@ import LineCalibration from "./LineCalibration";
 import CarbonationImage from "../../Menu/CarbonationImage";
 import * as styles from "../../Menu/Custom/Lines.scss";
 
-const SODA = 2;
-const WATER = 1;
+const SODA = 1;
+const WATER = 2;
 const AMB = 3;
 const NOT_USED = -1;
 const noop = () => {};
