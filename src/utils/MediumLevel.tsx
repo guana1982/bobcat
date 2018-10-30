@@ -42,7 +42,7 @@ export default {
     getReservedBeverage: () => get("dispense/reserved_beverage")
   },
   menu: {
-    getList: () => of(mockMenu), // get("menu"),
+    getList: () => get("menu"), // of(mockMenu),
     getSubMenu: (menuId = "", submenuId = "") => get(`menu/${menuId}/${submenuId}`),
     authorize: (menuId, pin) => post("auth", { menu_id: menuId, pin }),
     saveMenuConfig: (menuId, submenuId, data) => post(`menu/${menuId}/${submenuId}/save_values`, data),

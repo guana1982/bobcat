@@ -3,15 +3,30 @@ import { get, post } from "../utils";
 import { map, tap, delay } from "rxjs/operators";
 import i18n from "../i18n";
 import mediumLevel from "../utils/MediumLevel";
-import { forkJoin, of } from "rxjs";
+import { forkJoin, of, Observable } from "rxjs";
 import { setLangDict } from "../utils/lib/i18n";
 import { withRouter } from "react-router-dom";
 declare var window: any;
 
 export interface ConfigInterface {
-  isLit: boolean;
   vendorConfig: any;
-  onToggleLight: () => void;
+  onStartPour: (beverage: IBeverage, config: IBeverageConfig) => Observable<any>;
+  onStopPour: () => Observable<any>;
+}
+
+export interface IBeverage {
+  label: string;
+  id: number;
+  type?: string;
+}
+
+export interface IBeverageConfig {
+  isSparkling?: boolean;
+  flavor_level: number;
+  carbonation_level: number;
+  temperature_level: number;
+  b_complex?: boolean;
+  antioxidants?: boolean;
 }
 
 const ConfigContext = React.createContext<ConfigInterface | null>(null);
@@ -38,6 +53,10 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
     this.ws.onmessage = data => {
       console.log("socket message was received", data);
+      const messageData = JSON.parse(data.data);
+      if (messageData.message_type === "stop_video") {
+        this.props.history.push("/home");
+      }
     };
 
     // setTimeout(() => {
@@ -64,20 +83,24 @@ class ConfigStoreComponent extends React.Component<any, any> {
       setLangDict(langDict.i18n);
     });
 
-    // get("config/beverages")
-    // .pipe(
-    //   tap(() => console.log("-----")),
-    //   map(data => console.log(data)),
-    //   tap(() => console.log("-----")),
-    //   delay(2000)
-    // )
-    // .subscribe(
-    //   () => {
-    //     // alert("ok");
-    //     i18n.changeLanguage("es");
-    //   },
-    //   error => console.log(error)
-    // );
+  }
+
+  private onStartPour = (beverage: IBeverage, config: IBeverageConfig) => {
+    const recipe = {
+      beverage_size_id: null,
+      carbonation_level: config.carbonation_level,
+      topping_id: 0,
+      topping_perc_id: 0,
+      beverage_id: beverage.id,
+      syrup_perc: config.flavor_level,
+      temperature_level: config.temperature_level,
+      pour_method: "free_flow"
+    };
+    return mediumLevel.dispense.pour(recipe);
+  }
+
+  private onStopPour = () => {
+    return mediumLevel.dispense.stop();
   }
 
   toggleLight = () => {
@@ -89,9 +112,9 @@ class ConfigStoreComponent extends React.Component<any, any> {
     return (
       <ConfigProvider
         value={{
-          isLit: this.state.isLit,
-          onToggleLight: this.toggleLight,
-          vendorConfig: this.vendorConfig
+          vendorConfig: this.vendorConfig,
+          onStartPour: this.onStartPour,
+          onStopPour: this.onStopPour
         }}
       >
         {children}

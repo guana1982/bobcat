@@ -40,13 +40,13 @@ export class Attractor extends React.Component<AttractorProps, AttractorState> {
       <div>
         <h1>Attractor!</h1>
         <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
-        <ConfigConsumer>
+        {/* <ConfigConsumer>
           {({ isLit }) => (
             <div>
               The room is {isLit ? "lit" : "dark"}.
             </div>
           )}
-        </ConfigConsumer>
+        </ConfigConsumer> */}
       </div>
     );
   }

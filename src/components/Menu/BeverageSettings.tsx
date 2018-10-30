@@ -19,9 +19,9 @@ import LineCalibration from "./LineCalibration";
 import CarbonationImage from "../../Menu/CarbonationImage";
 import * as styles from "../../Menu/Custom/Lines.scss";
 
-const SODA = 1;
-const WATER = 2;
-const AMB = 3;
+const SODA = "soda";
+const WATER = "still";
+const AMB = "amb";
 const NOT_USED = -1;
 const noop = () => {};
 const enhance = compose(
@@ -41,7 +41,7 @@ const enhance = compose(
     //   };
     // });
     const linesConfig = props.initialLines
-      .filter(l => l.line_id > 0 && l.line_id !== SODA && l.line_id !== WATER && l.line_id !== AMB);
+      .filter(l => l.line_id > 0 && l.beverage_type !== SODA && l.beverage_type !== WATER && l.beverage_type !== AMB);
     return linesConfig;
   }),
   withHandlers({
@@ -107,11 +107,12 @@ const PaginatedLines = enhance(
       line.beverage_label_id = beverage.beverage_label_id;
       updateLines(line, index);
     };
-    const sodaLine = initialLines.find(l => l.line_id === SODA);
+    const sodaLine = initialLines.find(l => l.beverage_type === SODA);
     const sodaLineIndex = initialLines.indexOf(sodaLine) + 1;
-    const waterLine = initialLines.find(l => l.line_id === WATER);
+    const waterLine = initialLines.find(l => l.beverage_type === WATER);
+    console.log(waterLine);
     const waterLineIndex = initialLines.indexOf(waterLine) + 1;
-    const ambLine = initialLines.find(l => l.line_id === AMB);
+    const ambLine = initialLines.find(l => l.beverage_type === AMB);
     const ambLineIndex = initialLines.indexOf(ambLine) + 1;
     return (
       <React.Fragment>
@@ -176,7 +177,7 @@ const PaginatedLines = enhance(
                       <button
                         disabled={lineBeverage.beverage_id === "NOT_USED"}
                         className={styles.button}
-                        onClick={onCalibrate(lineBeverage, actualIndex)}
+                        onClick={onCalibrate(lineBeverage)}
                       >
                         {__("calibrate")}
                       </button>
@@ -191,13 +192,13 @@ const PaginatedLines = enhance(
           <button onClick={onBack} className={"button-bar__button"}>
             {__("back")}
           </button>
-          <button className={"button-bar__button"} onClick={onCalibrate(waterLine, waterLineIndex)}>
+          <button className={"button-bar__button"} onClick={onCalibrate(waterLine)}>
             {__("cal_water")}
           </button>
-          <button className={"button-bar__button"} onClick={onCalibrate(sodaLine, sodaLineIndex)}>
+          <button className={"button-bar__button"} onClick={onCalibrate(sodaLine)}>
             {__("cal_soda")}
           </button>
-          <button className={"button-bar__button"} onClick={onCalibrate(ambLine, ambLineIndex)}>
+          <button className={"button-bar__button"} onClick={onCalibrate(ambLine)}>
             {__("cal_amb")}
           </button>
           <button className={"button-bar__button"} onClick={!saving ? onSave(linesConfig) : noop}>
@@ -239,9 +240,9 @@ const Lines = enhanceLines(
         window.location.reload();
       });
     };
-    const onCalibrateStep = (line, index) => e => {
-      console.log("calibrate", line, index);
-      goToStep({ step: 2, lineIndex: index });
+    const onCalibrateStep = (line) => e => {
+      const i = lines.indexOf(line);
+      goToStep({ step: 2, lineIndex: i + 1 });
     };
     const onLinesStep = () => {
       goToStep({ step: 1 });

@@ -12,7 +12,7 @@ export const HomeContent = styled.div`
 export const Header = styled.div`
   padding: 1.5rem;
   h2 {
-    margin: 0;
+    margin: .5rem 0;
     color: ${props => props.theme.primary};
   }
 `;
@@ -99,13 +99,22 @@ export const Footer = styled.div`
 
 
 export const CustomizeBeverageCard = styled.div`
+  max-width: 40vw;
   img {
     max-width: 25vw;
+  }
+  h4 {
+    color: ${props => props.theme.primary};
+    font-size: 1.8rem;
+    margin: 0;
+    font-weight: 400;
+    text-align: left;
+    text-transform: uppercase;
   }
   h2 {
     color: ${props => props.theme.primary};
     font-size: 3rem;
-    margin: 2rem 0;
+    margin: 0 0 2rem 0;
   }
 `;
 
@@ -151,4 +160,15 @@ export const CircleBtn = styled<CircleBtnProps, "div">("div")`
     background-size: 100%;
     background-position: center;
   }
+`;
+
+export const TimerLabel = styled.p`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: ${props => props.theme.primary};
+  color: #fff;
+  padding: .5rem;
+  font-size: 1rem;
+  margin: 0;
 `;

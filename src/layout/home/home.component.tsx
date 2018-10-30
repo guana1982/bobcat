@@ -7,22 +7,10 @@ import LauncherComponent, { Action } from "../../components/global/Launcher";
 import Gesture from "../../components/Menu/Gesture";
 import { InactivityTimerInterface } from "../../models/InactivityTimer";
 
-import { HomeContent, Header, Footer, Grid, Beverage, Col, Pour, CircleBtn, CustomizeBeverageCard, InfoCard } from "./home.style";
+import { HomeContent, Header, Footer, Grid, Beverage, Col, Pour, CircleBtn, CustomizeBeverageCard, InfoCard, TimerLabel } from "./home.style";
 import { ReplaySubscription } from "../../components/global/Subscription";
 import { ButtonGroup } from "../../components/global/ButtonGroup";
-
-interface Beverage {
-  label: string;
-  flavor: string;
-}
-
-interface BeverageConfig {
-  flavor_level: number;
-  carbonation_level: number;
-  temperature_level: number;
-  b_complex?: boolean;
-  antioxidants?: boolean;
-}
+import { IBeverageConfig, IBeverage } from "../../models/Config";
 
 interface HomeProps {
   history: any;
@@ -32,13 +20,13 @@ interface HomeProps {
 
 interface HomeState {
   beverageSelected: number;
-  beverageConfig: BeverageConfig;
+  beverageConfig: IBeverageConfig;
 }
 
 export class Home extends React.Component<HomeProps, HomeState> {
 
   actionsLauncher: Action[];
-  beverages: Beverage[];
+  beverages: IBeverage[];
   levels: any = null;
 
   constructor(props) {
@@ -51,21 +39,21 @@ export class Home extends React.Component<HomeProps, HomeState> {
     };
 
     this.beverages = [
-      {label: "Water", flavor: null},
-      {label: "Lemon Lime", flavor: "F1"},
-      {label: "Raspberry Lime", flavor: "F2"},
-      {label: "Lemon Mint", flavor: "F3"},
-      {label: "Ginger Lemon", flavor: "F4"},
-      {label: "Peach", flavor: "F5"},
-      {label: "Cucumber", flavor: "F6"}
+      {label: "Water", id: 9, type: "water"},
+      {label: "Lemon Lime", id: 1},
+      {label: "Raspberry Lime", id: 2},
+      {label: "Lemon Mint", id: 3},
+      {label: "Ginger Lemon", id: 4},
+      {label: "Peach", id: 5},
+      {label: "Cucumber", id: 6}
     ];
     console.log(this.beverages);
 
     this.actionsLauncher = [
-      {
-        title: "TEST QR CODE",
-        event: () => this.props.history.push("/prepay")
-      },
+      // {
+      //   title: "TEST QR CODE",
+      //   event: () => this.props.history.push("/prepay")
+      // },
       {
         title: "CREW MENU",
         event: () => this.props.history.push("/menu/crew")
@@ -86,9 +74,14 @@ export class Home extends React.Component<HomeProps, HomeState> {
         {label: "middle", value: 50},
         {label: "full", value: 100}
       ],
-      carbonation: [
+      noCarbonation: [
         {label: "light", value: 0},
-        {label: "middle", value: 50},
+        {label: "middle", value: 25},
+        {label: "strong", value: 50}
+      ],
+      carbonation: [
+        {label: "light", value: 50},
+        {label: "middle", value: 75},
         {label: "strong", value: 100}
       ],
       temperature: [
@@ -99,7 +92,9 @@ export class Home extends React.Component<HomeProps, HomeState> {
     };
   }
 
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    this.props.inactivityTimerConsumer.resetTimer();
+  }
 
   onGesture = (gestureType) => {
     if (gestureType === "p")
@@ -108,11 +103,12 @@ export class Home extends React.Component<HomeProps, HomeState> {
       this.props.history.push("/menu/crew");
   }
 
-  private selectBeverage(beverage: Beverage, sparkling?: boolean) {
+  private selectBeverage(beverage: IBeverage, sparkling?: boolean) {
     this.setState({
       beverageSelected: this.beverages.indexOf(beverage),
       beverageConfig: {
-        flavor_level: beverage.flavor ? 100 : null,
+        isSparkling: sparkling,
+        flavor_level: beverage.type !== "water" ? 100 : null,
         carbonation_level: sparkling ? 100 : 0,
         temperature_level: 100,
         b_complex: false,
@@ -121,22 +117,25 @@ export class Home extends React.Component<HomeProps, HomeState> {
     });
   }
 
-  private getBeverage(): Beverage {
+  private getBeverageSelected(): IBeverage {
     return this.beverages ? this.beverages[this.state.beverageSelected] : null;
+  }
+
+  private startPour() {
+    const beverageSelected =  this.getBeverageSelected();
+    this.props.configConsumer.onStartPour(beverageSelected, this.state.beverageConfig)
+    .subscribe(data => console.log(data));
+  }
+
+  private stopPour() {
+    this.props.configConsumer.onStopPour()
+    .subscribe(data => console.log(data));
   }
 
   private resetBeverage() {
     this.setState({
       beverageSelected: null
     });
-  }
-
-  private pourBeverage() {
-    console.log("POUR");
-  }
-
-  private Col = (b) => {
-
   }
 
   private ChoiceBeverage = () => {
@@ -150,7 +149,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
         {this.beverages.map((b, i) => {
           return (
             <Col key={i}>
-              <Beverage onClick={() => this.selectBeverage(b)}> {/* onTouchEnd={} onTouchStart={} */}
+              <Beverage onClick={() => this.selectBeverage(b)}>
                 <div id="element">
                   <h3>{b.label}</h3>
                   <h5>0-CALS</h5>
@@ -166,6 +165,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
           );
         })}
         </Grid>
+        <LauncherComponent actions={this.actionsLauncher} />
       </React.Fragment>
     );
   }
@@ -203,12 +203,40 @@ export class Home extends React.Component<HomeProps, HomeState> {
             <h4>/</h4>
           </InfoCard>
           <CustomizeBeverageCard>
-            <img src="img/sparkling.svg" />
-            <h2>{this.getBeverage().label}</h2>
-            { this.state.beverageConfig.flavor_level != null && <ButtonGroup label={"Flavor"} options={this.levels.flavor} value={this.state.beverageConfig.flavor_level} onChange={(value) => this.handleChange(value, "flavor")}></ButtonGroup>}
-            <ButtonGroup label={"Sparkling"} options={this.levels.carbonation} value={this.state.beverageConfig.carbonation_level} onChange={(value) => this.handleChange(value, "carbonation")}></ButtonGroup>
-            <ButtonGroup label={"Temp"} options={this.levels.temperature} value={this.state.beverageConfig.temperature_level} onChange={(value) => this.handleChange(value, "temperature")}></ButtonGroup>
-            <p>flavor_level: {this.state.beverageConfig.flavor_level}, carbonation_level: {this.state.beverageConfig.carbonation_level}, temperature_level: {this.state.beverageConfig.temperature_level}</p>
+            {this.state.beverageConfig.isSparkling &&
+              <div>
+                <img src="img/sparkling.svg" />
+                <h4>sparkling</h4>
+              </div>
+            }
+
+            <h2>{this.getBeverageSelected().label}</h2>
+
+            {this.state.beverageConfig.flavor_level != null &&
+              <ButtonGroup
+                label={"Flavor"}
+                options={this.levels.flavor}
+                value={this.state.beverageConfig.flavor_level}
+                onChange={(value) => this.handleChange(value, "flavor")}
+              ></ButtonGroup>
+            }
+            <ButtonGroup
+              label={"Sparkling"}
+              options={this.levels[this.state.beverageConfig.isSparkling ? "carbonation" : "noCarbonation"]}
+              value={this.state.beverageConfig.carbonation_level}
+              onChange={(value) => this.handleChange(value, "carbonation")}>
+            </ButtonGroup>
+            <ButtonGroup
+              label={"Temp"}
+              options={this.levels.temperature}
+              value={this.state.beverageConfig.temperature_level}
+              onChange={(value) => this.handleChange(value, "temperature")}>
+            </ButtonGroup>
+
+            <p>flavor_level: {this.state.beverageConfig.flavor_level}</p>
+            <p>carbonation_level: {this.state.beverageConfig.carbonation_level}</p>
+            <p>temperature_level: {this.state.beverageConfig.temperature_level}</p>
+
             {/* <div>
               <button type="button">add b-complex</button>
               <button type="button">add antioxidants</button>
@@ -218,7 +246,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
             <h4>/</h4>
           </InfoCard>
         </Grid>
-        <Pour onClick={() => this.pourBeverage()}>Pour</Pour>
+        <Pour onTouchEnd={() => this.startPour()} onTouchStart={() => this.stopPour()}>Pour</Pour>
       </React.Fragment>
     );
   }
@@ -226,14 +254,14 @@ export class Home extends React.Component<HomeProps, HomeState> {
   render() {
     return (
       <HomeContent>
-        {!this.getBeverage() ? <this.ChoiceBeverage /> : <this.CustomizeBeverage />}
+        {!this.getBeverageSelected() ? <this.ChoiceBeverage /> : <this.CustomizeBeverage />}
         <Footer>
-          {/* <ReplaySubscription source={this.props.inactivityTimerConsumer.time$}>
+          <ReplaySubscription source={this.props.inactivityTimerConsumer.time$}>
             {time =>
-              <p>test {time ? time.s : ""}</p>
+              <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
             }
           </ReplaySubscription>
-          <button type="button" onClick={() => this.goToScreenSaver()}>Screen</button> */}
+          {/* <button type="button" onClick={() => this.goToScreenSaver()}>Screen</button> */}
         </Footer>
       </HomeContent>
     );

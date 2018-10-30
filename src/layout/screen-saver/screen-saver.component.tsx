@@ -4,6 +4,9 @@ import mediumLevel from "../../utils/MediumLevel";
 import { InactivityTimerInterface } from "../../models/InactivityTimer";
 import { ConfigInterface } from "../../models/Config";
 
+import Lottie from "react-lottie";
+const animationData = require("./bubbles.json");
+
 interface ScreenSaverProps {
   history: any;
   configConsumer: ConfigInterface;
@@ -34,7 +37,20 @@ class ScreenSaverComponent extends React.Component<ScreenSaverProps, ScreenSaver
   }
 
   render() {
+
+    const defaultOptions = {
+      loop: true,
+      autoplay: true,
+      animationData: animationData,
+      rendererSettings: {
+        preserveAspectRatio: "xMidYMid slice"
+      }
+    };
+
     return (
+      // <div>
+      //   <Lottie options={defaultOptions} height={"100vh"} width={"100vw"} />
+      // </div>
       <SreenWrapper onClick={ () => this.goToHome() }></SreenWrapper>
       // <video
       //   autoPlay
