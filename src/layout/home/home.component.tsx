@@ -246,7 +246,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
             <h4>/</h4>
           </InfoCard>
         </Grid>
-        <Pour onTouchEnd={() => this.startPour()} onTouchStart={() => this.stopPour()}>Pour</Pour>
+        <Pour onTouchStart={() => this.startPour()} onTouchEnd={() => this.stopPour()}>Pour</Pour>
       </React.Fragment>
     );
   }

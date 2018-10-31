@@ -18,7 +18,7 @@ const BeverageLogo = (beverage, size? ) => {
     //   {...SIZES[size ? "default" : size]}
     // />
     <img
-      src={`/img/drink.png`}
+      src={`img/drink.png`}
       {...SIZES[size ? "default" : size]}
     />
   );
