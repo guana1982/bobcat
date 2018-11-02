@@ -54,7 +54,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     this.ws.onmessage = data => {
       console.log("socket message was received", data);
       const messageData = JSON.parse(data.data);
-      if (messageData.message_type === "stop_video") {
+      if (messageData.message_type === "attract_loop" && messageData.value === "stop_video") {
         this.props.history.push("/home");
       }
     };
