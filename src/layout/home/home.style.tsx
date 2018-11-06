@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { injectGlobal } from "styled-components";
+import { ButtonGroupWrapper } from "../../components/global/ButtonGroup";
 
 export const HomeContent = styled.div`
   background-color: ${props => props.theme.secondary};
@@ -15,8 +16,16 @@ export const Header = styled.div`
     margin: .5rem 0;
     color: ${props => props.theme.primary};
   }
+  #content {
+    display: flex;
+    justify-content: center;
+    ${ButtonGroupWrapper} {
+      width: 25rem;
+    }
+  }
 `;
 
+const _sizeBeverage = 13;
 interface BeverageProps { size?: string; status?: string; type?: string; }
 export const Beverage = styled<BeverageProps, "div">("div")`
   padding: 1rem .7rem;
@@ -24,14 +33,16 @@ export const Beverage = styled<BeverageProps, "div">("div")`
   transition-property: width, height, left, top;
   will-change: width, height, left, top;
   text-align: center;
-  display: flex;
+  /* display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: column; */
   pointer-events: default;
-  flex-basis: 100%;
-  flex: 10rem;
-  height : ${props => props.size === "large" ? "100%" : "50%" };
+  /* flex-basis: 100%; */
+  /* height : ${props => props.size === "large" ? "100%" : "50%" }; */
+  height: ${_sizeBeverage}rem;
+  width: ${_sizeBeverage * 1.5}rem;
+  /* flex-basis: 30%; */
   #element {
     position: relative;
     border: ${props => `2px solid ${props.theme.primary}`};
@@ -52,7 +63,10 @@ export const Beverage = styled<BeverageProps, "div">("div")`
       background-image: url("img/${props => props.type}.svg");
     }
     h3 {
-      padding-top: 50%;
+      position: absolute;
+      top: ${_sizeBeverage / 8}rem;
+      left: ${_sizeBeverage / 12}rem;
+      font-size: ${_sizeBeverage / 7}rem;
       margin: .5rem;
       &:before {
         content: "${props => props.type} ";
@@ -62,8 +76,22 @@ export const Beverage = styled<BeverageProps, "div">("div")`
         font-weight: 400;
       }
     }
+    h6 {
+      position: absolute;
+      top: ${_sizeBeverage / 2.5 - (_sizeBeverage / 14)}rem;
+      left: ${_sizeBeverage / 12}rem;
+      font-size: ${_sizeBeverage / 14}rem;
+      bottom: 0;
+      color: ${props => props.status === "active" ? "#fff" : props.theme.primary };
+      margin: .7rem;
+      text-align: left;
+    }
     h5 {
       position: absolute;
+      bottom: ${_sizeBeverage / 6}rem;
+      right: ${_sizeBeverage / 14}rem;
+      font-size: ${_sizeBeverage / 13}rem;
+      font-weight: 600;
       bottom: 0;
       color: ${props => props.status === "active" ? "#fff" : props.theme.primary };
       margin: .7rem;
@@ -74,8 +102,30 @@ export const Beverage = styled<BeverageProps, "div">("div")`
 
 export const Col = styled.div``;
 
-export const Grid = styled.div`
+interface GridProps { numElement?: number; }
+export const Grid = styled<GridProps, "div">("div")`
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: auto;
+  max-width: ${props => {
+    switch (props.numElement) {
+      case 4:
+        return "600px";
+        break;
+      case 5:
+        return "900px";
+        break;
+      case 6:
+      case 7:
+        return "1200px";
+        break;
+      default:
+        return "100%";
+        break;
+    }
+  }};
+  /* display: flex;
   align-items: center;
   flex-wrap: wrap;
   text-align: center;
@@ -84,11 +134,9 @@ export const Grid = styled.div`
   height: 68vh;
   width: 100%;
   ${Col} {
-    /* height: 25rem;
-    width: 14rem; */
     height: 100%;
     width: 14.2%;
-  }
+  } */
 `;
 
 export const Footer = styled.div`
@@ -125,17 +173,17 @@ export const InfoCard = styled.div`
 const _sizePour = 105;
 export const Pour = styled.button`
   position: absolute;
-  bottom: ${-_sizePour / 10}px;
+  bottom: ${-_sizePour / 5}px;
   right: calc(50vw - ${_sizePour}px);
-  color: ${props => props.theme.primary};
-  background: ${props => props.theme.sail};
+  /* color: ${props => props.theme.primary};
+  background: ${props => props.theme.sail}; */
   height: ${_sizePour}px;
   width: ${_sizePour * 2}px;
   border-top-left-radius: ${_sizePour * 2}px;
   border-top-right-radius: ${_sizePour * 2}px;
   font-size: ${_sizePour / 5}px;
   font-weight: 600;
-  &:active {
+  &, &:active {
     color: ${props => props.theme.light};
     background: ${props => props.theme.primary};
   }
@@ -171,4 +219,18 @@ export const TimerLabel = styled.p`
   padding: .5rem;
   font-size: 1rem;
   margin: 0;
+`;
+
+
+export const CustomizeBeverageWrap = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  /* #backdrop {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+  } */
 `;

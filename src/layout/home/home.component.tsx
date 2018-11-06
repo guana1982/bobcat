@@ -7,7 +7,7 @@ import LauncherComponent, { Action } from "../../components/global/Launcher";
 import Gesture from "../../components/Menu/Gesture";
 import { InactivityTimerInterface } from "../../models/InactivityTimer";
 
-import { HomeContent, Header, Footer, Grid, Beverage, Col, Pour, CircleBtn, CustomizeBeverageCard, InfoCard, TimerLabel } from "./home.style";
+import { HomeContent, Header, Footer, Grid, Beverage, Col, Pour, CircleBtn, CustomizeBeverageCard, InfoCard, TimerLabel, CustomizeBeverageWrap } from "./home.style";
 import { ReplaySubscription } from "../../components/global/Subscription";
 import { ButtonGroup } from "../../components/global/ButtonGroup";
 import { IBeverageConfig, IBeverage } from "../../models/Config";
@@ -19,6 +19,7 @@ interface HomeProps {
 }
 
 interface HomeState {
+  isSparkling: boolean;
   beverageSelected: number;
   beverageConfig: IBeverageConfig;
 }
@@ -28,12 +29,14 @@ export class Home extends React.Component<HomeProps, HomeState> {
   actionsLauncher: Action[];
   beverages: IBeverage[];
   levels: any = null;
+  types: any = null;
 
   constructor(props) {
     super(props);
     console.log(props);
 
     this.state = {
+      isSparkling: false,
       beverageSelected: null,
       beverageConfig: null
     };
@@ -48,6 +51,11 @@ export class Home extends React.Component<HomeProps, HomeState> {
       {label: "Cucumber", id: 6}
     ];
     console.log(this.beverages);
+
+    this.types = [
+      {label: "Still", value: false},
+      {label: "Sparkling", value: true}
+    ];
 
     this.actionsLauncher = [
       // {
@@ -66,7 +74,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   componentDidMount() {
-    this.props.inactivityTimerConsumer.startTimer();
+    // this.props.inactivityTimerConsumer.startTimer();
 
     this.levels = {
       flavor: [
@@ -103,13 +111,13 @@ export class Home extends React.Component<HomeProps, HomeState> {
       this.props.history.push("/menu/crew");
   }
 
-  private selectBeverage(beverage: IBeverage, sparkling?: boolean) {
+  private selectBeverage(beverage: IBeverage) {
     this.setState({
       beverageSelected: this.beverages.indexOf(beverage),
       beverageConfig: {
-        isSparkling: sparkling,
+        isSparkling: this.state.isSparkling,
         flavor_level: beverage.type !== "water" ? 100 : null,
-        carbonation_level: sparkling ? 100 : 0,
+        carbonation_level: this.state.isSparkling ? 100 : 0,
         temperature_level: 100,
         b_complex: false,
         antioxidants: false
@@ -144,24 +152,24 @@ export class Home extends React.Component<HomeProps, HomeState> {
         <Gesture onGesture={this.onGesture} />
         <Header>
           <h2>Good morning!</h2>
+          <div id="content">
+            <ButtonGroup
+              options={this.types}
+              value={this.state.isSparkling}
+              onChange={(value) => this.setState({isSparkling: value})}>
+            </ButtonGroup>
+          </div>
         </Header>
-        <Grid>
+        <Grid numElement={this.beverages.length}>
         {this.beverages.map((b, i) => {
           return (
-            <Col key={i}>
-              <Beverage onClick={() => this.selectBeverage(b)}>
-                <div id="element">
-                  <h3>{b.label}</h3>
-                  <h5>0-CALS</h5>
-                </div>
-              </Beverage>
-              <Beverage onClick={() => this.selectBeverage(b, true)} type={"sparkling"}>
-                <div id="element">
-                  <h3>{b.label}</h3>
-                  <h5>0-CALS</h5>
-                </div>
-              </Beverage>
-            </Col>
+          <Beverage key={i} type={this.state.isSparkling ? "sparkling" : null} onClick={() => this.selectBeverage(b)}>
+            <div id="element">
+              <h3>{b.label}</h3>
+              <h6>0-CALS</h6>
+              <h5>Tap to customize</h5>
+            </div>
+          </Beverage>
           );
         })}
         </Grid>
@@ -195,58 +203,61 @@ export class Home extends React.Component<HomeProps, HomeState> {
   private CustomizeBeverage = () => {
     return(
       <React.Fragment>
-        <Header>
-          <CircleBtn bgColor="primary" icon={"icons/left-arrow.svg"} onClick={() => this.resetBeverage()}></CircleBtn>
-        </Header>
-        <Grid>
-          <InfoCard>
-            <h4>/</h4>
-          </InfoCard>
-          <CustomizeBeverageCard>
-            {this.state.beverageConfig.isSparkling &&
-              <div>
-                <img src="img/sparkling.svg" />
-                <h4>sparkling</h4>
-              </div>
-            }
+        <CustomizeBeverageWrap>
+          <div id="backdrop"></div>
+          <Header>
+            <CircleBtn bgColor="primary" icon={"icons/left-arrow.svg"} onClick={() => this.resetBeverage()}></CircleBtn>
+          </Header>
+          <Grid>
+            <InfoCard>
+              <h4>/</h4>
+            </InfoCard>
+            <CustomizeBeverageCard>
+              {this.state.beverageConfig.isSparkling &&
+                <div>
+                  <img src="img/sparkling.svg" />
+                  <h4>sparkling</h4>
+                </div>
+              }
 
-            <h2>{this.getBeverageSelected().label}</h2>
+              <h2>{this.getBeverageSelected().label}</h2>
 
-            {this.state.beverageConfig.flavor_level != null &&
+              {this.state.beverageConfig.flavor_level != null &&
+                <ButtonGroup
+                  label={"Flavor"}
+                  options={this.levels.flavor}
+                  value={this.state.beverageConfig.flavor_level}
+                  onChange={(value) => this.handleChange(value, "flavor")}
+                ></ButtonGroup>
+              }
               <ButtonGroup
-                label={"Flavor"}
-                options={this.levels.flavor}
-                value={this.state.beverageConfig.flavor_level}
-                onChange={(value) => this.handleChange(value, "flavor")}
-              ></ButtonGroup>
-            }
-            <ButtonGroup
-              label={"Sparkling"}
-              options={this.levels[this.state.beverageConfig.isSparkling ? "carbonation" : "noCarbonation"]}
-              value={this.state.beverageConfig.carbonation_level}
-              onChange={(value) => this.handleChange(value, "carbonation")}>
-            </ButtonGroup>
-            <ButtonGroup
-              label={"Temp"}
-              options={this.levels.temperature}
-              value={this.state.beverageConfig.temperature_level}
-              onChange={(value) => this.handleChange(value, "temperature")}>
-            </ButtonGroup>
+                label={"Sparkling"}
+                options={this.levels[this.state.beverageConfig.isSparkling ? "carbonation" : "noCarbonation"]}
+                value={this.state.beverageConfig.carbonation_level}
+                onChange={(value) => this.handleChange(value, "carbonation")}>
+              </ButtonGroup>
+              <ButtonGroup
+                label={"Temp"}
+                options={this.levels.temperature}
+                value={this.state.beverageConfig.temperature_level}
+                onChange={(value) => this.handleChange(value, "temperature")}>
+              </ButtonGroup>
 
-            <p>flavor_level: {this.state.beverageConfig.flavor_level}</p>
-            <p>carbonation_level: {this.state.beverageConfig.carbonation_level}</p>
-            <p>temperature_level: {this.state.beverageConfig.temperature_level}</p>
+              <p>flavor_level: {this.state.beverageConfig.flavor_level}</p>
+              <p>carbonation_level: {this.state.beverageConfig.carbonation_level}</p>
+              <p>temperature_level: {this.state.beverageConfig.temperature_level}</p>
 
-            {/* <div>
-              <button type="button">add b-complex</button>
-              <button type="button">add antioxidants</button>
-            </div> */}
-          </CustomizeBeverageCard>
-          <InfoCard>
-            <h4>/</h4>
-          </InfoCard>
-        </Grid>
-        <Pour onTouchStart={() => this.startPour()} onTouchEnd={() => this.stopPour()}>Pour</Pour>
+              {/* <div>
+                <button type="button">add b-complex</button>
+                <button type="button">add antioxidants</button>
+              </div> */}
+            </CustomizeBeverageCard>
+            <InfoCard>
+              <h4>/</h4>
+            </InfoCard>
+          </Grid>
+          <Pour onTouchStart={() => this.startPour()} onTouchEnd={() => this.stopPour()}>Hold to Pour</Pour>
+        </CustomizeBeverageWrap>
       </React.Fragment>
     );
   }
@@ -254,7 +265,8 @@ export class Home extends React.Component<HomeProps, HomeState> {
   render() {
     return (
       <HomeContent>
-        {!this.getBeverageSelected() ? <this.ChoiceBeverage /> : <this.CustomizeBeverage />}
+        <this.ChoiceBeverage />
+        {this.getBeverageSelected() && <this.CustomizeBeverage />}
         <Footer>
           <ReplaySubscription source={this.props.inactivityTimerConsumer.time$}>
             {time =>
