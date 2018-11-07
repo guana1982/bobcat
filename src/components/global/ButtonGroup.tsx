@@ -3,14 +3,15 @@ import * as React from "react";
 import styled, { keyframes } from "styled-components";
 
 const ButtonGroupContent = styled.div`
-  margin: 20px;
+  margin: 15px;
   label {
     display: inline-block;
     color: ${props => props.theme.primary};
     text-transform: capitalize;
     width: 8rem;
-    font-size: 1.1rem;
-    text-align: left
+    font-size: 1.2rem;
+    text-align: left;
+    font-weight: 600;
   }
 `;
 
@@ -20,14 +21,16 @@ export const ButtonGroupWrapper = styled.div`
   display: inline-flex;
   vertical-align: middle;
   border: 2px solid ${props => props.theme.primary};
-  width: 15rem;
+  /* width: 17rem; */
   border-radius: 12px;
   button {
     &:first-child {
-      border-radius: 10px 0 0 10px;
+      border-bottom-left-radius: 10px;
+      border-top-left-radius: 10px;
     }
     &:last-child {
-      border-radius: 0 10px 10px 0;
+      border-bottom-right-radius: 10px;
+      border-top-right-radius: 10px;
       &:before {
         border-right: 0;
       }
@@ -43,6 +46,7 @@ export const ButtonGroupWrapper = styled.div`
       z-index: 100;
     }
     position: relative;
+    width: 5.6rem;
     flex: 1;
     color: ${props => props.theme.primary};
     background: ${props => props.theme.light};

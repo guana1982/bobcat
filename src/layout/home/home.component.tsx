@@ -7,7 +7,7 @@ import LauncherComponent, { Action } from "../../components/global/Launcher";
 import Gesture from "../../components/Menu/Gesture";
 import { InactivityTimerInterface } from "../../models/InactivityTimer";
 
-import { HomeContent, Header, Footer, Grid, Beverage, Col, Pour, CircleBtn, CustomizeBeverageCard, InfoCard, TimerLabel, CustomizeBeverageWrap } from "./home.style";
+import { HomeContent, Header, Footer, Grid, Beverage, Pour, CustomizeBeverageCard, InfoCard, TimerLabel, CustomizeBeverageWrap, ChoiceBeverageWrap } from "./home.style";
 import { ReplaySubscription } from "../../components/global/Subscription";
 import { ButtonGroup } from "../../components/global/ButtonGroup";
 import { IBeverageConfig, IBeverage } from "../../models/Config";
@@ -38,7 +38,13 @@ export class Home extends React.Component<HomeProps, HomeState> {
     this.state = {
       isSparkling: false,
       beverageSelected: null,
-      beverageConfig: null
+      beverageConfig: {
+        flavor_level: null,
+        carbonation_level: null,
+        temperature_level: 100,
+        b_complex: false,
+        antioxidants: false
+      }
     };
 
     this.beverages = [
@@ -79,24 +85,22 @@ export class Home extends React.Component<HomeProps, HomeState> {
     this.levels = {
       flavor: [
         {label: "light", value: 0},
-        {label: "middle", value: 50},
-        {label: "full", value: 100}
-      ],
-      noCarbonation: [
-        {label: "light", value: 0},
-        {label: "middle", value: 25},
-        {label: "strong", value: 50}
+        {label: "full", value: 50},
+        {label: "bold", value: 100}
       ],
       carbonation: [
         {label: "light", value: 50},
-        {label: "middle", value: 75},
-        {label: "strong", value: 100}
+        {label: "medium", value: 75},
+        {label: "full", value: 100}
       ],
       temperature: [
-        {label: "room", value: 100},
-        {label: "middle", value: 50},
-        {label: "cold", value: 0}
+        {label: "ambient", value: 0},
+        {label: "cool", value: 50},
+        {label: "ice-cold", value: 100},
       ],
+      carbTemperature: [
+        {label: "ice-cold", value: 100},
+      ]
     };
   }
 
@@ -104,25 +108,20 @@ export class Home extends React.Component<HomeProps, HomeState> {
     this.props.inactivityTimerConsumer.resetTimer();
   }
 
-  onGesture = (gestureType) => {
-    if (gestureType === "p")
-      this.props.history.push("/menu/tech");
-    else if (gestureType === "v")
-      this.props.history.push("/menu/crew");
-  }
+  /* ==== BEVERAGE ==== */
+  /* ======================================== */
 
   private selectBeverage(beverage: IBeverage) {
-    this.setState({
+    this.setState(prevState => ({
+      ...prevState,
       beverageSelected: this.beverages.indexOf(beverage),
       beverageConfig: {
-        isSparkling: this.state.isSparkling,
-        flavor_level: beverage.type !== "water" ? 100 : null,
-        carbonation_level: this.state.isSparkling ? 100 : 0,
-        temperature_level: 100,
+        ...prevState.beverageConfig,
+        flavor_level: beverage.type !== "water" ? 50 : null,
         b_complex: false,
         antioxidants: false
       }
-    });
+    }));
   }
 
   private getBeverageSelected(): IBeverage {
@@ -146,39 +145,22 @@ export class Home extends React.Component<HomeProps, HomeState> {
     });
   }
 
-  private ChoiceBeverage = () => {
-    return (
-      <React.Fragment>
-        <Gesture onGesture={this.onGesture} />
-        <Header>
-          <h2>Good morning!</h2>
-          <div id="content">
-            <ButtonGroup
-              options={this.types}
-              value={this.state.isSparkling}
-              onChange={(value) => this.setState({isSparkling: value})}>
-            </ButtonGroup>
-          </div>
-        </Header>
-        <Grid numElement={this.beverages.length}>
-        {this.beverages.map((b, i) => {
-          return (
-          <Beverage key={i} type={this.state.isSparkling ? "sparkling" : null} onClick={() => this.selectBeverage(b)}>
-            <div id="element">
-              <h3>{b.label}</h3>
-              <h6>0-CALS</h6>
-              <h5>Tap to customize</h5>
-            </div>
-          </Beverage>
-          );
-        })}
-        </Grid>
-        <LauncherComponent actions={this.actionsLauncher} />
-      </React.Fragment>
-    );
+  /* ==== HANDLE ==== */
+  /* ======================================== */
+
+  private handleType = (value) => {
+    this.setState(prevState => ({
+      ...prevState,
+      isSparkling: value,
+      beverageConfig: {
+        ...prevState.beverageConfig,
+        carbonation_level: value ? 100 : null,
+        temperature_level: 100
+      }
+    }));
   }
 
-  handleChange = (value: any, type: string) => {
+  private handleChange = (value: any, type: string) => {
     let beverageConfig = this.state.beverageConfig;
     switch (type) {
       case "flavor":
@@ -196,32 +178,72 @@ export class Home extends React.Component<HomeProps, HomeState> {
     this.setState({beverageConfig});
   }
 
-  goToScreenSaver = () => {
+  /* ==== ROUTING ==== */
+  /* ======================================== */
+
+  onGesture = (gestureType) => {
+    if (gestureType === "p")
+      this.props.history.push("/menu/tech");
+    else if (gestureType === "v")
+      this.props.history.push("/menu/crew");
+  }
+
+  private goToScreenSaver = () => {
     this.props.history.push("/");
+  }
+
+  /* ==== LAYOUT ==== */
+  /* ======================================== */
+
+  private ChoiceBeverage = () => {
+    return (
+      <React.Fragment>
+        <ChoiceBeverageWrap>
+          <Gesture onGesture={this.onGesture} />
+          <Header>
+            <h2>Good morning!</h2>
+          </Header>
+          <Grid numElement={this.beverages.length}>
+          {this.beverages.map((b, i) => {
+            return (
+            <Beverage key={i} type={this.state.isSparkling ? "sparkling" : null} onClick={() => this.selectBeverage(b)}>
+              <div id="element">
+                <h3>{b.label}</h3>
+                <h6>0-CALS</h6>
+                <h5>Tap to customize</h5>
+              </div>
+            </Beverage>
+            );
+          })}
+          </Grid>
+          <Footer>
+            <ReplaySubscription source={this.props.inactivityTimerConsumer.time$}>
+              {time =>
+                <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
+              }
+            </ReplaySubscription>
+            {/* <button type="button" onClick={() => this.goToScreenSaver()}>Screen</button> */}
+          </Footer>
+          <LauncherComponent actions={this.actionsLauncher} />
+        </ChoiceBeverageWrap>
+      </React.Fragment>
+    );
   }
 
   private CustomizeBeverage = () => {
     return(
       <React.Fragment>
         <CustomizeBeverageWrap>
-          <div id="backdrop"></div>
-          <Header>
-            <CircleBtn bgColor="primary" icon={"icons/left-arrow.svg"} onClick={() => this.resetBeverage()}></CircleBtn>
-          </Header>
-          <Grid>
-            <InfoCard>
-              <h4>/</h4>
-            </InfoCard>
-            <CustomizeBeverageCard>
-              {this.state.beverageConfig.isSparkling &&
-                <div>
-                  <img src="img/sparkling.svg" />
-                  <h4>sparkling</h4>
-                </div>
-              }
-
+          <div id="backdrop" onClick={() => this.resetBeverage()}></div>
+          {/* <InfoCard>
+            <h4>/</h4>
+          </InfoCard> */}
+          <CustomizeBeverageCard type={this.state.isSparkling ? "sparkling" : null}>
+            <header>
               <h2>{this.getBeverageSelected().label}</h2>
-
+              <h6>0-CALS</h6>
+            </header>
+            <aside>
               {this.state.beverageConfig.flavor_level != null &&
                 <ButtonGroup
                   label={"Flavor"}
@@ -230,70 +252,58 @@ export class Home extends React.Component<HomeProps, HomeState> {
                   onChange={(value) => this.handleChange(value, "flavor")}
                 ></ButtonGroup>
               }
-              <ButtonGroup
-                label={"Sparkling"}
-                options={this.levels[this.state.beverageConfig.isSparkling ? "carbonation" : "noCarbonation"]}
-                value={this.state.beverageConfig.carbonation_level}
-                onChange={(value) => this.handleChange(value, "carbonation")}>
-              </ButtonGroup>
+              {this.state.beverageConfig.carbonation_level != null &&
+                <ButtonGroup
+                  label={"Sparkling"}
+                  options={this.levels.carbonation}
+                  value={this.state.beverageConfig.carbonation_level}
+                  onChange={(value) => this.handleChange(value, "carbonation")}>
+                </ButtonGroup>
+              }
               <ButtonGroup
                 label={"Temp"}
-                options={this.levels.temperature}
+                options={this.state.isSparkling ? this.levels.carbTemperature : this.levels.temperature}
                 value={this.state.beverageConfig.temperature_level}
                 onChange={(value) => this.handleChange(value, "temperature")}>
               </ButtonGroup>
+            </aside>
 
-              <p>flavor_level: {this.state.beverageConfig.flavor_level}</p>
-              <p>carbonation_level: {this.state.beverageConfig.carbonation_level}</p>
-              <p>temperature_level: {this.state.beverageConfig.temperature_level}</p>
+            {/* <p>flavor_level: {this.state.beverageConfig.flavor_level}</p>
+            <p>carbonation_level: {this.state.beverageConfig.carbonation_level}</p>
+            <p>temperature_level: {this.state.beverageConfig.temperature_level}</p> */}
 
-              {/* <div>
-                <button type="button">add b-complex</button>
-                <button type="button">add antioxidants</button>
-              </div> */}
-            </CustomizeBeverageCard>
-            <InfoCard>
-              <h4>/</h4>
-            </InfoCard>
-          </Grid>
+            {/* <div>
+              <button type="button">add b-complex</button>
+              <button type="button">add antioxidants</button>
+            </div> */}
+          </CustomizeBeverageCard>
+          {/* <InfoCard>
+            <h4>/</h4>
+          </InfoCard> */}
           <Pour onTouchStart={() => this.startPour()} onTouchEnd={() => this.stopPour()}>Hold to Pour</Pour>
         </CustomizeBeverageWrap>
       </React.Fragment>
     );
   }
 
+  /* ==== MAIN ==== */
+  /* ======================================== */
+
   render() {
     return (
-      <HomeContent>
+      <HomeContent beverageIsSelected={Boolean(this.getBeverageSelected())}>
         <this.ChoiceBeverage />
+        <div id="types-group">
+          <ButtonGroup
+            options={this.types}
+            value={this.state.isSparkling}
+            onChange={(value) => this.handleType(value)}>
+          </ButtonGroup>
+        </div>
         {this.getBeverageSelected() && <this.CustomizeBeverage />}
-        <Footer>
-          <ReplaySubscription source={this.props.inactivityTimerConsumer.time$}>
-            {time =>
-              <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
-            }
-          </ReplaySubscription>
-          {/* <button type="button" onClick={() => this.goToScreenSaver()}>Screen</button> */}
-        </Footer>
       </HomeContent>
     );
   }
 }
 
 export default Home;
-
-/* <div>
-  <h1>{i18n.t("home.label")}</h1>
-  <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
-  <ActionButton />
-  <ConfigConsumer>
-    {({ isLit, onToggleLight }) => (
-      <div className={`room ${isLit ? "lit" : "dark"}`}>
-        The room is {isLit ? "lit" : "dark"}.
-        <br />
-        <button onClick={onToggleLight}>Flip</button>
-      </div>
-    )}
-  </ConfigConsumer>
-</div> */
-/* <LauncherComponent actions={this.actionsLauncher} /> */

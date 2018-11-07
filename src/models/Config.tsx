@@ -21,7 +21,6 @@ export interface IBeverage {
 }
 
 export interface IBeverageConfig {
-  isSparkling?: boolean;
   flavor_level: number;
   carbonation_level: number;
   temperature_level: number;
