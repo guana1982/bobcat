@@ -1,49 +1,79 @@
 import * as React from "react";
 import i18n from "../../i18n";
 
-import { ScreenContent, QrSquare, Webcam, InfoContent } from "./prepay.style";
+import { ScreenContent, QrSquare, Webcam, InfoContent, PrepayContent, Header } from "./prepay.style";
 import { ConfigConsumer, PaymentConsumer, PaymentInterface, PaymentStore } from "../../models";
+import { CircleBtn } from "../../components/global/CircleBtn";
+import { ReplaySubscription } from "../../components/global/Subscription";
+import { Subscription } from "rxjs";
+import { InactivityTimerInterface } from "../../models/InactivityTimer";
 
 interface PrepayProps {
   paymentConsumer: PaymentInterface;
   history: any;
+  inactivityTimerConsumer: InactivityTimerInterface;
 }
-interface PrepayState {}
+interface PrepayState {
+  message: string;
+}
 
 export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
+
+  start_: Subscription;
 
   constructor(props) {
     super(props);
     console.log(props);
-    this.state = {};
+    this.state = {
+      message: null
+    };
   }
 
   componentDidMount() {
-    this.props.paymentConsumer.startScanning()
-    .subscribe(() => console.log("Start Scanning"));
+    this.props.inactivityTimerConsumer.startTimer();
+    this.start();
   }
 
-  componentWillUnmount() {
+  start() {
+    console.log("Start Scanning");
+    this.start_ = this.props.paymentConsumer.startScanning()
+    .subscribe(message => {
+      this.setState(prevState => ({
+        ...prevState,
+        message: message
+      }));
+      if (message)
+        this.stop();
+    });
+  }
+
+  stop() {
+    this.start_.unsubscribe();
     this.props.paymentConsumer.stopQrCamera()
     .subscribe(() => console.log("Stop Scanning"));
   }
 
+  componentWillUnmount() {
+    this.props.inactivityTimerConsumer.resetTimer();
+    this.stop();
+  }
+
   render() {
     return (
-      <div>
-        <div>
-          <button onClick={() => this.props.history.push("/home")}>HOME</button>
-        </div>
+      <PrepayContent>
+        <Header>
+          <CircleBtn onClick={() => this.props.history.push("/home")} bgColor={"primary"} color={"light"} icon={"icons/back.svg"} />
+        </Header>
         <ScreenContent>
           <h2>Place your qr-code in front of the camera</h2>
           <QrSquare />
         </ScreenContent>
         <Webcam />
         <InfoContent>
-          <h2>{"---"}</h2> { /* machine.data.qr || onClick={onRetry} */ }
-          <button>try again</button>
+          <h2>{this.state.message || "---"}</h2>
+          {this.state.message && <button onClick={() => this.start()}>try again</button>}
         </InfoContent>
-      </div>
+      </PrepayContent>
     );
   }
 }

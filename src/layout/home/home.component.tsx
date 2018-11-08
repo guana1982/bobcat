@@ -1,7 +1,6 @@
 import * as React from "react";
 import i18n from "../../i18n";
 
-import { ActionButton } from "../../components/global/ActionButton";
 import { ConfigConsumer, ConfigInterface } from "../../models";
 import LauncherComponent, { Action } from "../../components/global/Launcher";
 import Gesture from "../../components/Menu/Gesture";
@@ -11,6 +10,7 @@ import { HomeContent, Header, Footer, Grid, Beverage, Pour, CustomizeBeverageCar
 import { ReplaySubscription } from "../../components/global/Subscription";
 import { ButtonGroup } from "../../components/global/ButtonGroup";
 import { IBeverageConfig, IBeverage } from "../../models/Config";
+import { CircleBtn } from "../../components/global/CircleBtn";
 
 interface HomeProps {
   history: any;
@@ -80,7 +80,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   componentDidMount() {
-    // this.props.inactivityTimerConsumer.startTimer();
+    this.props.inactivityTimerConsumer.startTimer();
 
     this.levels = {
       flavor: [
@@ -192,6 +192,10 @@ export class Home extends React.Component<HomeProps, HomeState> {
     this.props.history.push("/");
   }
 
+  private goToPrepay = () => {
+    this.props.history.push("/prepay");
+  }
+
   /* ==== LAYOUT ==== */
   /* ======================================== */
 
@@ -210,18 +214,20 @@ export class Home extends React.Component<HomeProps, HomeState> {
               <div id="element">
                 <h3>{b.label}</h3>
                 <h6>0-CALS</h6>
-                <h5>Tap to customize</h5>
+                <h5>Tap to Customize</h5>
               </div>
             </Beverage>
             );
           })}
           </Grid>
           <Footer>
-            <ReplaySubscription source={this.props.inactivityTimerConsumer.time$}>
+            <CircleBtn label={"Nutrition"} color={"primary"} border={true} icon={"icons/info.svg"} />
+            <CircleBtn onClick={() => this.goToPrepay()} label={"Sign In"} color={"primary"} border={true} icon={"icons/qr-code.svg"} />
+            {/* <ReplaySubscription source={this.props.inactivityTimerConsumer.time$}>
               {time =>
                 <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
               }
-            </ReplaySubscription>
+            </ReplaySubscription> */}
             {/* <button type="button" onClick={() => this.goToScreenSaver()}>Screen</button> */}
           </Footer>
           <LauncherComponent actions={this.actionsLauncher} />
@@ -236,7 +242,9 @@ export class Home extends React.Component<HomeProps, HomeState> {
         <CustomizeBeverageWrap>
           <div id="backdrop" onClick={() => this.resetBeverage()}></div>
           {/* <InfoCard>
-            <h4>/</h4>
+            <h3>Sign-up to track your hydration</h3>
+            <img src={"icons/back.svg"} />
+            <h4>Now available in App Stores</h4>
           </InfoCard> */}
           <CustomizeBeverageCard type={this.state.isSparkling ? "sparkling" : null}>
             <header>
@@ -278,7 +286,10 @@ export class Home extends React.Component<HomeProps, HomeState> {
             </div> */}
           </CustomizeBeverageCard>
           {/* <InfoCard>
-            <h4>/</h4>
+            <h3>This office saved</h3>
+            <img src={"icons/back.svg"} />
+            <h2>239</h2>
+            <h4>Plastiiìc Bottles</h4>
           </InfoCard> */}
           <Pour onTouchStart={() => this.startPour()} onTouchEnd={() => this.stopPour()}>Hold to Pour</Pour>
         </CustomizeBeverageWrap>

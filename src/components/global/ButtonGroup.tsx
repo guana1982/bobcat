@@ -2,19 +2,6 @@
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
 
-const ButtonGroupContent = styled.div`
-  margin: 15px;
-  label {
-    display: inline-block;
-    color: ${props => props.theme.primary};
-    text-transform: capitalize;
-    width: 8rem;
-    font-size: 1.2rem;
-    text-align: left;
-    font-weight: 600;
-  }
-`;
-
 export const ButtonGroupWrapper = styled.div`
   position: relative;
   display: -ms-inline-flexbox;
@@ -50,7 +37,7 @@ export const ButtonGroupWrapper = styled.div`
     flex: 1;
     color: ${props => props.theme.primary};
     background: ${props => props.theme.light};
-    padding: .8rem;
+    padding: 1rem .8rem;
     font-size: 1rem;
     &.selected {
       background: ${props => props.theme.sail} !important;
@@ -61,6 +48,19 @@ export const ButtonGroupWrapper = styled.div`
       color: ${props => props.theme.primary};
       background: ${props => props.theme.light};
     }
+  }
+`;
+
+const ButtonGroupContent = styled.div`
+  margin: 15px;
+  label {
+    display: inline-block;
+    color: ${props => props.theme.primary};
+    text-transform: capitalize;
+    width: 8rem;
+    font-size: 1.2rem;
+    text-align: left;
+    font-weight: 600;
   }
 `;
 

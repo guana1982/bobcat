@@ -15,33 +15,11 @@ export const TimerLabel = styled.p`
   margin: 0;
 `;
 
-// const _sizeCircleBtn = 40;
-// interface CircleBtnProps { bgColor?: string; color?: string; icon: string; }
-// export const CircleBtn = styled<CircleBtnProps, "div">("div")`
-//   background: ${props => props.theme[props.bgColor]};
-//   width: ${_sizeCircleBtn}px;
-//   height: ${_sizeCircleBtn}px;
-//   border-radius: 50%;
-//   &:before {
-//     display: inline-block;
-//     width: 50%;
-//     height: 50%;
-//     margin-top: 25%;
-//     margin-left: 25%;
-//     content: "";
-//     background: url(${props => props.icon}) no-repeat 0 0;
-//     background-size: 100%;
-//     background-position: center;
-//   }
-// `;
-
 const _sizePour = 105;
 export const Pour = styled.button`
   position: absolute;
   bottom: ${-_sizePour / 5}px;
   right: calc(50vw - ${_sizePour}px);
-  /* color: ${props => props.theme.primary};
-  background: ${props => props.theme.sail}; */
   height: ${_sizePour}px;
   width: ${_sizePour * 2}px;
   border-top-left-radius: ${_sizePour * 2}px;
@@ -52,12 +30,15 @@ export const Pour = styled.button`
     color: ${props => props.theme.light};
     background: ${props => props.theme.primary};
   }
+  &:active {
+    opacity: .7;
+  }
 `;
 
 /* ==== GRID ==== */
 /* ======================================== */
 
-const _sizeBeverage = 13;
+const _sizeBeverage = 14.2;
 interface BeverageProps { size?: string; status?: string; type?: string; }
 export const Beverage = styled<BeverageProps, "div">("div")`
   padding: 1rem .7rem;
@@ -67,7 +48,7 @@ export const Beverage = styled<BeverageProps, "div">("div")`
   text-align: center;
   pointer-events: default;
   height: ${_sizeBeverage}rem;
-  width: ${_sizeBeverage * 1.5}rem;
+  width: ${_sizeBeverage * 1.4}rem;
   #element {
     position: relative;
     border: ${props => `2px solid ${props.theme.primary}`};
@@ -81,17 +62,18 @@ export const Beverage = styled<BeverageProps, "div">("div")`
       content: " ";
       opacity: .7;
       position: absolute;
-      right: -2.5rem;
+      right: 1rem;
       bottom: .5rem;
       width: 100%;
-      height: 60%;
+      height: ${_sizeBeverage / 2.5}rem;
+      background-position: right;
       background-repeat: no-repeat;
       background-image: url("img/${props => props.type}.svg");
     }
     h3 {
-      position: absolute;
+      position: relative;
       top: ${_sizeBeverage / 8}rem;
-      left: ${_sizeBeverage / 12}rem;
+      left: .5rem;
       font-size: ${_sizeBeverage / 7}rem;
       margin: .5rem;
       &:before {
@@ -101,14 +83,14 @@ export const Beverage = styled<BeverageProps, "div">("div")`
         display: block;
         text-transform: capitalize;
         font-size: 1rem;
-        font-weight: 400;
+        font-weight: 500;
       }
     }
     h6 {
-      position: absolute;
-      top: ${_sizeBeverage / 2.5 - (_sizeBeverage / 14)}rem;
-      left: ${_sizeBeverage / 12}rem;
-      font-size: ${_sizeBeverage / 14}rem;
+      position: relative;
+      top: 1.5rem;
+      left: .5rem;
+      font-size: ${_sizeBeverage / 15}rem;
       bottom: 0;
       color: ${props => props.status === "active" ? "#fff" : props.theme.primary };
       margin: .7rem;
@@ -116,11 +98,10 @@ export const Beverage = styled<BeverageProps, "div">("div")`
     }
     h5 {
       position: absolute;
-      bottom: ${_sizeBeverage / 6}rem;
-      right: ${_sizeBeverage / 14}rem;
-      font-size: ${_sizeBeverage / 13}rem;
+      font-size: ${_sizeBeverage / 14}rem;
       font-weight: 600;
-      bottom: 0;
+      right: .5rem;
+      bottom: .5rem;
       color: ${props => props.status === "active" ? "#fff" : props.theme.primary };
       margin: .7rem;
       text-align: left;
@@ -134,7 +115,7 @@ export const Grid = styled<GridProps, "div">("div")`
   flex-wrap: wrap;
   justify-content: center;
   margin: auto;
-  margin-top: 5rem;
+  margin-top: 4rem;
   max-width: ${props => {
     switch (props.numElement) {
       case 4:
@@ -160,7 +141,7 @@ export const Grid = styled<GridProps, "div">("div")`
 interface CustomizeBeverageProps { type?: string; }
 export const CustomizeBeverageCard = styled<CustomizeBeverageProps, "div">("div")`
   position: absolute;
-  top: 7rem;
+  top: 9rem;
   left: calc(50% - 15rem);
   background-color: ${props => props.theme.light};
   border: 2px solid ${props => props.theme.primary};
@@ -226,12 +207,18 @@ export const InfoCard = styled.div`
 export const Header = styled.div`
   padding: 1.5rem;
   h2 {
-    margin: .5rem 0;
+    margin: 1rem;
     color: ${props => props.theme.primary};
   }
 `;
 
 export const Footer = styled.div`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 3rem 6rem;
   h2 {
     color: ${props => props.theme.primary};
   }
@@ -286,8 +273,7 @@ export const HomeContent = styled<HomeContentProps, "div">("div")`
   }
   #types-group {
     position: absolute;
-    top: 1rem;
-    width: 100%;
+    top: 2rem;
     left: calc(50% - 13.5rem);
     margin: auto;
     ${ButtonGroupWrapper} {

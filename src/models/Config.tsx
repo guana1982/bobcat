@@ -10,6 +10,7 @@ declare var window: any;
 
 export interface ConfigInterface {
   vendorConfig: any;
+  ws: WebSocket;
   onStartPour: (beverage: IBeverage, config: IBeverageConfig) => Observable<any>;
   onStopPour: () => Observable<any>;
 }
@@ -53,8 +54,11 @@ class ConfigStoreComponent extends React.Component<any, any> {
     this.ws.onmessage = data => {
       console.log("socket message was received", data);
       const messageData = JSON.parse(data.data);
-      if (messageData.message_type === "attract_loop" && messageData.value === "stop_video") {
-        this.props.history.push("/home");
+      if (messageData.message_type === "attract_loop") {
+        if (messageData.value === "stop_video")
+          this.props.history.push("/home");
+        else if (messageData.value === "start_camera")
+          this.props.history.push("/prepay");
       }
     };
 
@@ -112,6 +116,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       <ConfigProvider
         value={{
           vendorConfig: this.vendorConfig,
+          ws: this.ws,
           onStartPour: this.onStartPour,
           onStopPour: this.onStopPour
         }}

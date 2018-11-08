@@ -34,11 +34,19 @@ class AppRouter extends React.Component<any, any> {
 
   /* SPECIFY STORE ==> */
   withPaymentStore = Comp => props => (
-    <PaymentStore>
-      <PaymentConsumer>
-        {payment => <Comp {...props} paymentConsumer={payment}></Comp>}
-      </PaymentConsumer>
-    </PaymentStore>
+    <ConfigConsumer>
+    {config =>
+      <InactivityTimerConsumer>
+      {inactivityTimer =>
+        <PaymentStore configConsumer={config}>
+          <PaymentConsumer>
+            {payment => <Comp {...props} inactivityTimerConsumer={inactivityTimer} paymentConsumer={payment}></Comp>}
+          </PaymentConsumer>
+        </PaymentStore>
+      }
+      </InactivityTimerConsumer>
+    }
+    </ConfigConsumer>
   )
 
   withMenuStore = Comp => props => (
@@ -55,7 +63,7 @@ class AppRouter extends React.Component<any, any> {
       <section>
           <Route exact path="/" component={this.withGlobalConsumer(ScreenSaverComponent)}/>
           <Route path="/home" component={this.withGlobalConsumer(HomeComponent)}/>
-          <Route path="/prepay" component={this.withPaymentStore(PrepayComponent)}/>
+          <Route path="/prepay" component={this.withGlobalConsumer(this.withPaymentStore(PrepayComponent))}/>
           <Route path="/menu/:typeMenu(tech|crew)" component={this.withMenuStore(MenuComponent)}/>
       </section>
     );
