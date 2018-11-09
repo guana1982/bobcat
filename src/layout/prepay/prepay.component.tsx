@@ -43,8 +43,7 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
         ...prevState,
         message: message
       }));
-      if (message)
-        this.stop();
+      this.props.inactivityTimerConsumer.clearTimer();
     });
   }
 

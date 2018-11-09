@@ -9,6 +9,7 @@ export interface InactivityTimerInterface {
   time: any;
   time$: Observable<any>;
   startTimer: () => void;
+  clearTimer: () => void;
   resetTimer: () => void;
 }
 
@@ -98,7 +99,8 @@ class InactivityTimerStoreComponent extends React.Component<any, any> {
           time: this.time,
           time$: this.time$.asObservable(),
           startTimer: () => this.startTimer(),
-          resetTimer: () => this.resetTimer()
+          resetTimer: () => this.resetTimer(),
+          clearTimer: () => this.clearTimer(true)
         }}
       >
         {children}

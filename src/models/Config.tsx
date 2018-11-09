@@ -51,22 +51,6 @@ class ConfigStoreComponent extends React.Component<any, any> {
       console.log("connected");
     };
 
-    this.ws.onmessage = data => {
-      console.log("socket message was received", data);
-      const messageData = JSON.parse(data.data);
-      if (messageData.message_type === "attract_loop") {
-        if (messageData.value === "stop_video")
-          this.props.history.push("/home");
-        else if (messageData.value === "start_camera")
-          this.props.history.push("/prepay");
-      }
-    };
-
-    // setTimeout(() => {
-    //   alert("ook");
-    //   this.props.history.push("/home");
-    // }, 1000);
-
     forkJoin(
       mediumLevel.config.getVendor(),
       mediumLevel.config.getBeverages(),

@@ -25,6 +25,7 @@ class ScreenSaverComponent extends React.Component<ScreenSaverProps, ScreenSaver
   componentWillMount() {
     mediumLevel.config.startVideo()
     .subscribe(() => console.log("Video Start!"));
+    this.events();
   }
 
   componentWillUnmount() {
@@ -34,6 +35,20 @@ class ScreenSaverComponent extends React.Component<ScreenSaverProps, ScreenSaver
 
   goToHome() {
     this.props.history.push("/home");
+  }
+
+  events() {
+    console.log("socket detect message");
+    this.props.configConsumer.ws.onmessage = data => {
+      console.log("socket message was received", data);
+      const messageData = JSON.parse(data.data);
+      if (messageData.message_type === "attract_loop") {
+        if (messageData.value === "stop_video")
+          this.props.history.push("/home");
+        else if (messageData.value === "start_camera")
+          this.props.history.push("/prepay");
+      }
+    };
   }
 
   render() {

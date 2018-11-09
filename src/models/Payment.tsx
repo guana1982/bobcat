@@ -5,7 +5,7 @@ import i18n from "../i18n";
 import mediumLevel from "../utils/MediumLevel";
 import { Observable } from "rxjs/internal/Observable";
 import { IBeverageConfig } from "./Config";
-import { Subject, of } from "rxjs";
+import { Subject, of, pipe } from "rxjs";
 // let ws: any;
 declare var window: any;
 
@@ -48,7 +48,14 @@ export class PaymentStore extends React.Component<any> {
               observer.next(qrString);
             }
           };
-        });
+        })
+        .pipe(
+          tap(message => {
+            if (message)
+              this.stopQrCamera()
+              .subscribe(() => console.log("Stop Scanning"));
+          })
+        );
         return onmessage;
       })
     );
