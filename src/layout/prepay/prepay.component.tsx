@@ -7,6 +7,7 @@ import { CircleBtn } from "../../components/global/CircleBtn";
 import { ReplaySubscription } from "../../components/global/Subscription";
 import { Subscription } from "rxjs";
 import { InactivityTimerInterface } from "../../models/InactivityTimer";
+import { TimerLabel } from "../home/home.style";
 
 interface PrepayProps {
   paymentConsumer: PaymentInterface;
@@ -73,6 +74,11 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
           <h2>{this.state.message || "---"}</h2>
           {this.state.message && <button onClick={() => this.start()}>try again</button>}
         </InfoContent>
+        <ReplaySubscription source={this.props.inactivityTimerConsumer.time$}>
+          {time =>
+            <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
+          }
+        </ReplaySubscription>
       </PrepayContent>
     );
   }
