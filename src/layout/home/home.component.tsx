@@ -80,7 +80,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   componentDidMount() {
-    this.props.inactivityTimerConsumer.startTimer();
+    // this.props.inactivityTimerConsumer.startTimer();
 
     this.levels = {
       flavor: [
@@ -221,8 +221,8 @@ export class Home extends React.Component<HomeProps, HomeState> {
           })}
           </Grid>
           <Footer>
-            <CircleBtn label={"Nutrition"} color={"primary"} border={true} icon={"icons/info.svg"} />
-            <CircleBtn onClick={() => this.goToPrepay()} label={"Sign In"} color={"primary"} border={true} icon={"icons/qr-code.svg"} />
+            {/* <CircleBtn label={"Nutrition"} color={"primary"} border={true} icon={"icons/info.svg"} />
+            <CircleBtn onClick={() => this.goToPrepay()} label={"Sign In"} color={"primary"} border={true} icon={"icons/qr-code.svg"} /> */}
             {/* <ReplaySubscription source={this.props.inactivityTimerConsumer.time$}>
               {time =>
                 <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
@@ -241,11 +241,17 @@ export class Home extends React.Component<HomeProps, HomeState> {
       <React.Fragment>
         <CustomizeBeverageWrap>
           <div id="backdrop" onClick={() => this.resetBeverage()}></div>
-          {/* <InfoCard>
-            <h3>Sign-up to track your hydration</h3>
-            <img src={"icons/back.svg"} />
-            <h4>Now available in App Stores</h4>
-          </InfoCard> */}
+          <InfoCard className={"right"}>
+            <header>
+              <h3>Sign-up to track your hydration</h3>
+            </header>
+            <aside>
+              <img src={"icons/smartphone.svg"} />
+            </aside>
+            <footer>
+              <h4>Now available in App Stores</h4>
+            </footer>
+          </InfoCard>
           <CustomizeBeverageCard type={this.state.isSparkling ? "sparkling" : null}>
             <header>
               <h2>{this.getBeverageSelected().label}</h2>
@@ -285,12 +291,18 @@ export class Home extends React.Component<HomeProps, HomeState> {
               <button type="button">add antioxidants</button>
             </div> */}
           </CustomizeBeverageCard>
-          {/* <InfoCard>
-            <h3>This office saved</h3>
-            <img src={"icons/back.svg"} />
-            <h2>239</h2>
-            <h4>Plastiiìc Bottles</h4>
-          </InfoCard> */}
+          <InfoCard className={"left"}>
+            <header>
+              <h3>This office<br/> saved</h3>
+            </header>
+            <aside>
+              <img src={"icons/bottle.svg"} />
+            </aside>
+            <footer>
+              <h2>239</h2>
+              <h4>Plastic Bottles</h4>
+            </footer>
+          </InfoCard>
           <Pour onTouchStart={() => this.startPour()} onTouchEnd={() => this.stopPour()}>Hold to Pour</Pour>
         </CustomizeBeverageWrap>
       </React.Fragment>

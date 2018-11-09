@@ -12,6 +12,7 @@ import { PaymentStore, PaymentConsumer } from "../models/Payment";
 import { MenuStore, MenuConsumer } from "../models/Menu";
 import { ConfigConsumer } from "../models";
 import { InactivityTimerConsumer } from "../models/InactivityTimer";
+import { GlobalStyle } from "./app.style";
 
 class AppRouter extends React.Component<any, any> {
 
@@ -61,6 +62,7 @@ class AppRouter extends React.Component<any, any> {
   render() {
     return (
       <section>
+          <GlobalStyle />
           <Route exact path="/" component={this.withGlobalConsumer(ScreenSaverComponent)}/>
           <Route path="/home" component={this.withGlobalConsumer(HomeComponent)}/>
           <Route path="/prepay" component={this.withGlobalConsumer(this.withPaymentStore(PrepayComponent))}/>

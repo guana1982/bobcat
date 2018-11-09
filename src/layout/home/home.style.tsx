@@ -1,4 +1,4 @@
-import styled, { injectGlobal } from "styled-components";
+import styled from "styled-components";
 import { ButtonGroupWrapper } from "../../components/global/ButtonGroup";
 
 /* ==== COMPONENTS ==== */
@@ -144,7 +144,7 @@ export const CustomizeBeverageCard = styled<CustomizeBeverageProps, "div">("div"
   top: 9rem;
   left: calc(50% - 15rem);
   background-color: ${props => props.theme.light};
-  border: 2px solid ${props => props.theme.primary};
+  border: 1px solid ${props => props.theme.primary};
   border-radius: 15px;
   max-width: 40vw;
   padding: 20px;
@@ -198,7 +198,55 @@ export const CustomizeBeverageCard = styled<CustomizeBeverageProps, "div">("div"
 `;
 
 export const InfoCard = styled.div`
-
+  position: absolute;
+  background: rgb(166, 202, 237);
+  color: rgb(37, 107, 192);
+  text-align: center;
+  top: 11rem;
+  width: 18rem;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border: 1px solid ${props => props.theme.primary};
+  &.right {
+    left: calc(15% - 9rem);
+  }
+  &.left {
+    right: calc(15% - 9rem);
+    footer {
+      padding-top: 0rem;
+    }
+  }
+  header {
+    min-height: 9rem;
+  }
+  aside {
+    display: flex;
+    justify-content: center;
+    min-height: 10rem;
+    img {
+      height: 10rem;
+    }
+  }
+  footer {
+    padding-top: 1rem;
+    min-height: 8rem
+  }
+  h3 {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  h2 {
+    font-size: 2.3rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  h4 {
+    font-size: 1.7rem;
+    font-weight: 500;
+    margin: 0;
+  }
 `;
 
 /* ==== LAYOUT ==== */
