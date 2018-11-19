@@ -17,6 +17,7 @@ import StockShelfLife from "../components/Menu/StockShelfLife";
 import CleanSanitation from "./Custom/CleanSanitation";
 import DailyFlush from "../components/Menu/DailyFlush";
 import InactivityHandler from "../components/Menu/InactivityHandler";
+import Alarms from "../components/Menu/Alarms";
 
 const INACTIVITY_TIMEOUT = 1800; // 30 MINUTES
 const IDLE = "idle";
@@ -152,7 +153,9 @@ const statechart = {
                 submenuId === "clean_sanitation" ||
                 submenuId === "beverage_config" ||
                 submenuId === "stock_shelf_life" ||
-                submenuId === "daily_flush"
+                submenuId === "daily_flush" ||
+                submenuId === "alarms_menu_crew" ||
+                submenuId === "alarms_menu_tech"
               );
             }
           },
@@ -308,6 +311,15 @@ class Menu extends React.Component<any, MenuState> {
             country={vendorConfig.country}
             onBack={this.onBack}
             elementsPerPage={4}
+          />
+        );
+      case "alarms_menu_tech":
+        return (
+          <Alarms
+            menuId={data.menu.menu_id}
+            submenuId={submenuId}
+            onBack={this.onBack}
+            elementsPerPage={8}
           />
         );
       case "wifi_management":

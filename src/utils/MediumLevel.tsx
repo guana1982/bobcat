@@ -42,12 +42,15 @@ export default {
     getReservedBeverage: () => get("dispense/reserved_beverage")
   },
   menu: {
-    getList: () => get("menu"), // of(mockMenu),
+    getList: () => get("menu"),
     getSubMenu: (menuId = "", submenuId = "") => get(`menu/${menuId}/${submenuId}`),
     authorize: (menuId, pin) => post("auth", { menu_id: menuId, pin }),
     saveMenuConfig: (menuId, submenuId, data) => post(`menu/${menuId}/${submenuId}/save_values`, data),
     runAction: menudata => post("menu/run_action"),
-    action: (menuId, submenuId, actionId, payload) => post(`menu/${menuId}/${submenuId}/${actionId}`, payload)
+    action: (menuId, submenuId, actionId, payload) => post(`menu/${menuId}/${submenuId}/${actionId}`, payload),
+  },
+  alarm: {
+    getAlarms: (menuId = "", submenuId = "") => get(`menu/${menuId}/${submenuId}`)
   },
   wifi: {
     getApList: () => get("menu/crew_menu/wifi_management"),
@@ -56,123 +59,27 @@ export default {
     enable: () => post("menu/crew_menu/wifi_management/wifi_enable"),
     disable: () => post("menu/crew_menu/wifi_management/wifi_disable"),
     scan: () => get("menu/crew_menu/wifi_management/wifi_scan")
-  },
-  mobile: {
-    getConfig: () => get("mobile_management/config"),
-    saveConfig: (config) => post(`mobile_management/config`, config),
-    signal: () => get("mobile_management/signal"), // POLLING
-    getStatistics: () => get("mobile_management/statistics"),
-    // resetStatistics: () => delete("mobile_management/statistics"),
-  },
-  initialization: {
-    getConfig: () => get("initialization"),
-    getValues: () => get("initialization/values"),
-    saveValues: (config) => post("initialization/values", config),
-    // resetConfig: () => delete("initialization/values"),
-  },
-  alarm: {
-    getList: () => get("alarm"),
-    runAction: (alarmId, actionId, payload) => post(`alarm/${alarmId}/${actionId}`, payload),
-  },
-  test: {
-    // validateQrFail: data => getFake("validate_qr_fail"),
-    // notFound: data => getFake("unexistent")
   }
 };
 
-
-
-const mockMenu = [
-  {
-    "menu_id": "master_menu",
-    "label_id": "master_menu",
-    "auth_required": "true",
-    "sub_menus": [
-      {
-        "id": "master_submenu",
-        "label_id": "master_submenu"
-      },
-      {
-        "id": "tech_submenu",
-        "label_id": "tech_submenu"
-      },
-      {
-        "id": "crew_submenu",
-        "label_id": "crew_submenu"
-      }
-    ],
-    "gesture": "gesture_type_X"
-  },
-  {
-    "menu_id": "tech_menu",
-    "label_id": "tech_menu",
-    "auth_required": "true",
-    "sub_menus": [
-      {
-        "id": "beverage_settings_tech",
-        "label_id": "beverage_settings"
-      },
-      {
-        "id": "operation_settings_tech",
-        "label_id": "operation_settings"
-      },
-      {
-        "id": "upload_download",
-        "label_id": "upload_download"
-      },
-      {
-        "id": "clean_sanitation",
-        "label_id": "clean_sanitation"
-      },
-      {
-        "id": "initialization_tech",
-        "label_id": "initialization_label"
-      },
-      {
-        "id": "alerts_warnings_tech",
-        "label_id": "alerts_warnings_label"
-      }
-    ],
-    "gesture": "gesture_type_S"
-  },
-  {
-    "menu_id": "crew_menu",
-    "label_id": "crew_menu",
-    "auth_required": "true",
-    "sub_menus": [
-      {
-        "id": "stock_shelf_life",
-        "label_id": "stock_shelf_life"
-      },
-      {
-        "id": "network_management",
-        "label_id": "network_management"
-      },
-      {
-        "id": "daily_flush",
-        "label_id": "daily_flush"
-      },
-      {
-        "id": "alerts_warnings_crew",
-        "label_id": "alerts_warnings_label"
-      }
-    ],
-    "gesture": "gesture_type_V"
-  },
-  {
-    "menu_id": "employee_menu",
-    "label_id": "employee_menu",
-    "auth_required": "false",
-    "sub_menus": [
-      {
-        "id": "daily_flush",
-        "label_id": "daily_flush"
-      },
-      {
-        "id": "operation_settings_employee",
-        "label_id": "operation_settings"
-      }
-    ],
-    "gesture": "gesture_type_V"
-  }
-];
+// mobile: {
+//   getConfig: () => get("mobile_management/config"),
+//   saveConfig: (config) => post(`mobile_management/config`, config),
+//   signal: () => get("mobile_management/signal"), // POLLING
+//   getStatistics: () => get("mobile_management/statistics"),
+//   // resetStatistics: () => delete("mobile_management/statistics"),
+// },
+// initialization: {
+//   getConfig: () => get("initialization"),
+//   getValues: () => get("initialization/values"),
+//   saveValues: (config) => post("initialization/values", config),
+//   // resetConfig: () => delete("initialization/values"),
+// },
+// alarm: {
+//   getList: () => get("alarm"),
+//   runAction: (alarmId, actionId, payload) => post(`alarm/${alarmId}/${actionId}`, payload),
+// },
+// test: {
+//   // validateQrFail: data => getFake("validate_qr_fail"),
+//   // notFound: data => getFake("unexistent")
+// }
