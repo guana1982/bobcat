@@ -2,17 +2,15 @@ import * as React from "react";
 import { compose, lifecycle } from "recompose";
 
 import { I18nextProvider } from "react-i18next";
-import i18n from "../i18n"; // initialized i18next instance
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { MemoryRouter } from "react-router";
 
 import { ThemeProvider } from "styled-components";
-import { ConfigStore } from "../models";
+import { ConfigStore, TimerStore } from "../store";
 import AppRouter from "./app.router";
 import { theme1, theme2 } from "./app.style";
 import InactivityHandler from "../components/Menu/InactivityHandler";
-import { InactivityTimerStore } from "../models/InactivityTimer";
 
 const fullScreen = compose(
   lifecycle({
@@ -35,9 +33,9 @@ export default fullScreen(({
     <MemoryRouter>
       <ThemeProvider theme={theme1}>
         <ConfigStore>
-          <InactivityTimerStore>
+          <TimerStore>
             <AppRouter />
-          </InactivityTimerStore>
+          </TimerStore>
         </ConfigStore>
       </ThemeProvider>
     </MemoryRouter>

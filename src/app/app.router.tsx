@@ -7,8 +7,8 @@ import PrepayComponent from "../layout/prepay/prepay.component";
 import MenuComponent from "../layout/menu/menu.component";
 
 /* ==== STORES ==== */
-import { ConfigConsumer } from "../models";
-import { InactivityTimerConsumer } from "../models/InactivityTimer";
+import { ConfigConsumer } from "../store";
+import { TimerConsumer } from "../store/timer.store";
 import { GlobalStyle } from "./app.style";
 import AttractorComponent from "../layout/attractor/attractor.component";
 
@@ -23,10 +23,10 @@ class AppRouter extends React.Component<any, any> {
   withGlobalConsumer = Comp => props => (
     <ConfigConsumer>
       {config =>
-        <InactivityTimerConsumer>
-           {inactivityTimer =>
-            <Comp {...props} configConsumer={config} inactivityTimerConsumer={inactivityTimer}></Comp>}
-        </InactivityTimerConsumer>
+        <TimerConsumer>
+           {timer =>
+            <Comp {...props} configConsumer={config} timerConsumer={timer}></Comp>}
+        </TimerConsumer>
       }
     </ConfigConsumer>
   )

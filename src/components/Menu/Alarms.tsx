@@ -1,33 +1,25 @@
 import * as React from "react";
 import Pagination from "../common/Pagination";
-import { ConfigConsumer } from "../../models";
+import { ConfigConsumer } from "../../store";
 import mediumLevel from "../../utils/MediumLevel";
 import { __ } from "../../utils/lib/i18n";
 import { map } from "rxjs/operators";
 import * as styles from "../../Menu/Custom/Alarms.scss";
-
-interface IAlarm {
-  alarm_code: string;
-  alarm_category: string;
-  alarm_name: string;
-  alarm_date: string;
-  alarm_state: boolean;
-  alarm_description: string;
-  alarm_type: string;
-  alarm_solution: string;
-}
+import { IAlarm } from "../../models";
 
 interface AlarmsProps {
   onBack: () => void;
   elementsPerPage: number;
   menuId: string;
   submenuId: string;
+  alarms?: IAlarm[];
 }
 
 interface AlarmsState {
   page: number;
   pageAlarm: number;
-  alarms: IAlarm[];
+  totalPages: number;
+  totalAlarms: number;
 }
 
 const prevStep = (step: number, totapStep: number) => step - 1 < 1 ? totapStep : step - 1;
@@ -39,30 +31,33 @@ export class Alarms extends React.Component<AlarmsProps, AlarmsState> {
 
   readonly state: AlarmsState;
 
-  totalPages: number;
-  totalAlarms: number;
-
   constructor(props) {
     super(props);
 
     this.state = {
-      page: 1,
+      page: null,
       pageAlarm: null, // index alarm + 1
-      alarms: []
+      totalPages: null,
+      totalAlarms: null
     };
   }
 
-  componentDidMount() {
-    const { menuId, submenuId } = this.props;
-    mediumLevel.alarm.getAlarms(menuId, submenuId)
-    .pipe(
-      map(data => data.elements)
-    )
-    .subscribe(
-      (elements: IAlarm[]) => this.setAlarms(elements),
-      error => {},
-      () => {}
-    );
+  componentDidMount() { }
+
+  static getDerivedStateFromProps(props, state) {
+    const { elementsPerPage, alarms } = props;
+    const totalAlarms = alarms.length;
+    if (!state.totalAlarms || state.totalAlarms !== totalAlarms) {
+      const totalPages = Math.ceil(totalAlarms / elementsPerPage);
+      return {
+        page: 1,
+        pageAlarm: null,
+        totalAlarms: totalAlarms,
+        totalPages: totalPages
+      };
+    }
+
+    return null;
   }
 
   componentWillUnmount() { }
@@ -73,30 +68,31 @@ export class Alarms extends React.Component<AlarmsProps, AlarmsState> {
   nextPage() {
     this.setState(prevState => ({
       ...prevState,
-      page: nextStep(prevState.page, this.totalPages)
+      page: nextStep(prevState.page, prevState.totalPages)
     }));
   }
 
   prevPage() {
     this.setState(prevState => ({
       ...prevState,
-      page: prevStep(prevState.page, this.totalPages)
+      page: prevStep(prevState.page, prevState.totalPages)
     }));
   }
 
   /* ==== ALARMS ==== */
   /* ======================================== */
 
-  setAlarms(alarms: IAlarm[]) {
-    const { elementsPerPage } = this.props;
-    console.log(alarms.length);
-    this.totalAlarms = alarms.length;
-    this.totalPages = Math.ceil(this.totalAlarms / elementsPerPage);
-    this.setState(prevState => ({
-      ...prevState,
-      alarms: alarms
-    }));
-  }
+  // defineState(alarms: IAlarm[]) {
+  //   const { elementsPerPage } = this.props;
+  //   const totalAlarms = alarms.length;
+  //   const totalPages = Math.ceil(totalAlarms / elementsPerPage);
+  //   return {
+  //     page: 1,
+  //     pageAlarm: null,
+  //     totalAlarms: totalAlarms,
+  //     totalPages: totalPages
+  //   };
+  // }
 
   switchStatus() {
     alert("switch");
@@ -113,14 +109,14 @@ export class Alarms extends React.Component<AlarmsProps, AlarmsState> {
   }
 
   private nextAlarm() {
-    const { pageAlarm } = this.state;
-    const index = nextStep(pageAlarm, this.totalAlarms);
+    const { pageAlarm, totalAlarms } = this.state;
+    const index = nextStep(pageAlarm, totalAlarms);
     this.selectAlarm(index);
   }
 
   private prevAlarm() {
-    const { pageAlarm } = this.state;
-    const index = prevStep(pageAlarm, this.totalAlarms);
+    const { pageAlarm, totalAlarms } = this.state;
+    const index = prevStep(pageAlarm, totalAlarms);
     this.selectAlarm(index);
   }
 
@@ -140,14 +136,15 @@ export class Alarms extends React.Component<AlarmsProps, AlarmsState> {
 
   private AlarmsTable = () => {
     const { elementsPerPage } = this.props;
-    let { alarms, page } = this.state;
+    let { page, totalPages } = this.state;
+    const { alarms } = this.props;
 
     const start = (page - 1) * elementsPerPage;
     const end = start + elementsPerPage;
     const _alarms = alarms.slice(start, end);
     return (
       <React.Fragment>
-        <Pagination page={page} totalPages={this.totalPages} onNext={() => this.nextPage()} onPrev={() => this.prevPage()} />
+        <Pagination page={page} totalPages={totalPages} onNext={() => this.nextPage()} onPrev={() => this.prevPage()} />
         <table className={styles.alarmsTable}>
           <tbody>
             <tr>
@@ -187,11 +184,12 @@ export class Alarms extends React.Component<AlarmsProps, AlarmsState> {
   }
 
   private AlarmDetail = () => {
-    let { alarms, pageAlarm } = this.state;
+    let { pageAlarm, totalAlarms } = this.state;
+    const { alarms } = this.props;
     const alarm = alarms[pageAlarm - 1];
     return(
       <React.Fragment>
-        <Pagination page={pageAlarm} totalPages={this.totalAlarms} onNext={() => this.nextAlarm()} onPrev={() => this.prevAlarm()} />
+        <Pagination page={pageAlarm} totalPages={totalAlarms} onNext={() => this.nextAlarm()} onPrev={() => this.prevAlarm()} />
         <div className={styles.alarm}>
           <div className={styles.header}>
             <span>{__("alarm_id")}: {alarm.alarm_code}</span>
@@ -249,4 +247,11 @@ export class Alarms extends React.Component<AlarmsProps, AlarmsState> {
   }
 }
 
-export default Alarms;
+/* SET ALARMS */
+const withGlobalAlarms = Comp => props => (
+  <ConfigConsumer>
+    {(config: any) => (<Comp {...props} alarms={config.alarms}></Comp>)}
+  </ConfigConsumer>
+);
+
+export default withGlobalAlarms(Alarms);

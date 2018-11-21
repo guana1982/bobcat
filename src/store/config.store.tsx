@@ -1,39 +1,21 @@
 import * as React from "react";
 import { get, post } from "../utils";
-import { map, tap, delay, retry, first, flatMap } from "rxjs/operators";
-import i18n from "../i18n";
+import { map, tap, delay, retry, first, flatMap, mergeMap } from "rxjs/operators";
 import mediumLevel from "../utils/MediumLevel";
 import { forkJoin, of, Observable, Subject } from "rxjs";
 import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { setLangDict } from "../utils/lib/i18n";
 import { withRouter } from "react-router-dom";
+import { IBeverage, ISocket, IBeverageConfig, IAlarm } from "../models";
+import { SOCKET_ALARM } from "../utils/constants";
 declare var window: any;
 
 export interface ConfigInterface {
   vendorConfig: any;
   ws: WebSocketSubject<ISocket>;
+  alarms: IAlarm[];
   onStartPour: (beverage: IBeverage, config: IBeverageConfig) => Observable<any>;
   onStopPour: () => Observable<any>;
-}
-
-export interface IBeverage {
-  label: string;
-  id: number;
-  type?: string;
-}
-
-export interface IBeverageConfig {
-  flavor_level: number;
-  carbonation_level: number;
-  temperature_level: number;
-  b_complex?: boolean;
-  antioxidants?: boolean;
-}
-
-export interface ISocket {
-  message_type: string;
-  name?: string;
-  value: any;
 }
 
 const ConfigContext = React.createContext<ConfigInterface | null>(null);
@@ -43,7 +25,6 @@ export const ConfigConsumer = ConfigContext.Consumer;
 
 class ConfigStoreComponent extends React.Component<any, any> {
 
-  readonly socket_alarm = "alarm_changed";
   vendorConfig: any;
   ws: WebSocketSubject<ISocket>;
 
@@ -51,7 +32,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     super(props);
 
     this.state = {
-      isLit: false
+      alarms: []
     };
 
     /* ==== CONFIG SOCKET ==== */
@@ -71,18 +52,40 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ==== ALARM SOCKET ==== */
     /* ======================================== */
 
-    this.ws
-    .multiplex(
-      () => console.info(`Start => ${this.socket_alarm}`),
-      () => console.info(`End => ${this.socket_alarm}`),
-      (data) => data && data.message_type === this.socket_alarm
-    )
+    const getAlarms = mediumLevel.alarm.getAlarms()
     .pipe(
-      map(data => data.value)
+      tap((data: any) => {
+        this.setState(prevState => ({
+          ...prevState,
+          alarms: data && data.elements || []
+        }));
+      })
+    );
+
+    const socketAlarms = this.ws
+    .multiplex(
+      () => console.info(`Start => ${SOCKET_ALARM}`),
+      () => console.info(`End => ${SOCKET_ALARM}`),
+      (data) => data && data.message_type === SOCKET_ALARM
+    ).pipe(map(data => data.value));
+
+    getAlarms
+    .pipe(
+      mergeMap(() => socketAlarms),
+      mergeMap(value => getAlarms.pipe(map(() => value)))
     )
     .subscribe(value => {
       alert(value);
     });
+
+    setTimeout(() => {
+      const half_length = Math.ceil(this.state.alarms.length / 2);
+      this.setState(prevState => ({
+        ...prevState,
+        alarms: prevState.alarms.splice(0, half_length)
+      }));
+      console.log(this.state.alarms);
+    }, 30000);
 
     /* ==== GET CONFIG ==== */
     /* ======================================== */
@@ -138,6 +141,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       <ConfigProvider
         value={{
           vendorConfig: this.vendorConfig,
+          alarms: this.state.alarms,
           ws: this.ws,
           onStartPour: this.onStartPour,
           onStopPour: this.onStopPour

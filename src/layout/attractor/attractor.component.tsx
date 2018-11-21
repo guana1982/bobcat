@@ -1,25 +1,27 @@
 import * as React from "react";
 import { SreenWrapper } from "../../components/global/ScreenWrapper";
 import mediumLevel from "../../utils/MediumLevel";
-import { InactivityTimerInterface } from "../../models/InactivityTimer";
-import { ConfigInterface } from "../../models/Config";
+import { TimerInterface } from "../../store/timer.store";
+import { ConfigInterface } from "../../store/config.store";
 
 import Lottie from "react-lottie";
 import { map, tap, mergeMap } from "rxjs/operators";
 import { Subscription } from "rxjs";
+import { SOCKET_ATTRACTOR } from "../../utils/constants";
 // const animationData = require("./bubbles.json");
 
 interface AttractorProps {
   history: any;
   configConsumer: ConfigInterface;
-  inactivityTimerConsumer: InactivityTimerInterface;
+  timerConsumer: TimerInterface;
 }
 
 interface AttractorState {}
 
 class AttractorComponent extends React.Component<AttractorProps, AttractorState> {
 
-  readonly socket_type = "attract_loop";
+  readonly state: AttractorState;
+
   wsSub_: Subscription;
 
   constructor(props) {
@@ -59,9 +61,9 @@ class AttractorComponent extends React.Component<AttractorProps, AttractorState>
         const { ws } = this.props.configConsumer;
         const onmessage = ws
         .multiplex(
-          () => console.info(`Start => ${this.socket_type}`),
-          () => console.info(`End => ${this.socket_type}`),
-          (data) => data && data.message_type === this.socket_type
+          () => console.info(`Start => ${SOCKET_ATTRACTOR}`),
+          () => console.info(`End => ${SOCKET_ATTRACTOR}`),
+          (data) => data && data.message_type === SOCKET_ATTRACTOR
         )
         .pipe(
           map(data => data.value)

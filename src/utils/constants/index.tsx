@@ -6,3 +6,7 @@ export const SIZE_TEST = 1;
 export const SIZE_SMALL = 2;
 export const SIZE_MED = 3;
 export const SIZE_BIG = 4;
+// -- SOCKET --
+export const SOCKET_ATTRACTOR = "attract_loop";
+export const SOCKET_ALARM = "alarm_changed";
+export const SOCKET_QR = "qr_found";

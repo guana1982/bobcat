@@ -1,11 +1,10 @@
 import * as React from "react";
 import { get, post } from "../utils";
 import { map, tap, delay } from "rxjs/operators";
-import i18n from "../i18n";
 import { Subject, Observable } from "rxjs";
 import { withRouter } from "react-router-dom";
 
-export interface InactivityTimerInterface {
+export interface TimerInterface {
   time: any;
   time$: Observable<any>;
   startTimer: () => void;
@@ -13,12 +12,12 @@ export interface InactivityTimerInterface {
   resetTimer: () => void;
 }
 
-const InactivityTimerContext = React.createContext<InactivityTimerInterface | null>(null);
+const TimerContext = React.createContext<TimerInterface | null>(null);
 
-export const InactivityTimerProvider = InactivityTimerContext.Provider;
-export const InactivityTimerConsumer = InactivityTimerContext.Consumer;
+export const TimerProvider = TimerContext.Provider;
+export const TimerConsumer = TimerContext.Consumer;
 
-class InactivityTimerStoreComponent extends React.Component<any, any> {
+class TimerStoreComponent extends React.Component<any, any> {
   timer: any;
   time: any;
   seconds: any;
@@ -94,7 +93,7 @@ class InactivityTimerStoreComponent extends React.Component<any, any> {
   render() {
     const { children } = this.props;
     return (
-      <InactivityTimerProvider
+      <TimerProvider
         value={{
           time: this.time,
           time$: this.time$.asObservable(),
@@ -104,10 +103,10 @@ class InactivityTimerStoreComponent extends React.Component<any, any> {
         }}
       >
         {children}
-      </InactivityTimerProvider>
+      </TimerProvider>
     );
   }
 
 }
 
-export const InactivityTimerStore = withRouter(InactivityTimerStoreComponent);
+export const TimerStore = withRouter(TimerStoreComponent);

@@ -1,21 +1,19 @@
 import * as React from "react";
-import i18n from "../../i18n";
 
-import { ConfigConsumer, ConfigInterface } from "../../models";
+import { ConfigConsumer, ConfigInterface, TimerInterface } from "../../store";
 import LauncherComponent, { Action } from "../../components/global/Launcher";
 import Gesture from "../../components/Menu/Gesture";
-import { InactivityTimerInterface } from "../../models/InactivityTimer";
 
 import { HomeContent, Header, Footer, Grid, Beverage, Pour, CustomizeBeverageCard, InfoCard, TimerLabel, CustomizeBeverageWrap, ChoiceBeverageWrap } from "./home.style";
 import { ReplaySubscription } from "../../components/global/Subscription";
 import { ButtonGroup } from "../../components/global/ButtonGroup";
-import { IBeverageConfig, IBeverage } from "../../models/Config";
 import { CircleBtn } from "../../components/global/CircleBtn";
+import { IBeverageConfig, IBeverage } from "../../models";
 
 interface HomeProps {
   history: any;
   configConsumer: ConfigInterface;
-  inactivityTimerConsumer: InactivityTimerInterface;
+  timerConsumer: TimerInterface;
 }
 
 interface HomeState {
@@ -25,6 +23,8 @@ interface HomeState {
 }
 
 export class Home extends React.Component<HomeProps, HomeState> {
+
+  readonly state: HomeState;
 
   actionsLauncher: Action[];
   beverages: IBeverage[];
@@ -80,7 +80,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   componentDidMount() {
-    this.props.inactivityTimerConsumer.startTimer();
+    this.props.timerConsumer.startTimer();
 
     this.levels = {
       flavor: [
@@ -105,7 +105,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   componentWillUnmount() {
-    this.props.inactivityTimerConsumer.resetTimer();
+    this.props.timerConsumer.resetTimer();
   }
 
   /* ==== BEVERAGE ==== */
@@ -223,7 +223,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
           <Footer>
             {/* <CircleBtn label={"Nutrition"} color={"primary"} border={true} icon={"icons/info.svg"} />
             <CircleBtn onClick={() => this.goToPrepay()} label={"Sign In"} color={"primary"} border={true} icon={"icons/qr-code.svg"} /> */}
-            <ReplaySubscription source={this.props.inactivityTimerConsumer.time$}>
+            <ReplaySubscription source={this.props.timerConsumer.time$}>
               {time =>
                 <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
               }

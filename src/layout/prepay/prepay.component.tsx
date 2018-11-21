@@ -1,20 +1,20 @@
 import * as React from "react";
-import i18n from "../../i18n";
 
 import { ScreenContent, QrSquare, Webcam, InfoContent, PrepayContent, Header } from "./prepay.style";
-import { ConfigConsumer, ConfigInterface } from "../../models";
+import { ConfigConsumer, ConfigInterface } from "../../store";
 import { CircleBtn } from "../../components/global/CircleBtn";
 import { ReplaySubscription } from "../../components/global/Subscription";
 import { Subscription } from "rxjs";
-import { InactivityTimerInterface } from "../../models/InactivityTimer";
+import { TimerInterface } from "../../store/timer.store";
 import { TimerLabel } from "../home/home.style";
 import mediumLevel from "../../utils/MediumLevel";
 import { tap, mergeMap, first, map } from "rxjs/operators";
+import { SOCKET_QR } from "../../utils/constants";
 
 interface PrepayProps {
   history: any;
   configConsumer: ConfigInterface;
-  inactivityTimerConsumer: InactivityTimerInterface;
+  timerConsumer: TimerInterface;
 }
 interface PrepayState {
   message: string;
@@ -22,7 +22,8 @@ interface PrepayState {
 
 export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
 
-  readonly socket_type = "qr_found";
+  readonly state: PrepayState;
+
   wsSub_: Subscription;
 
   constructor(props) {
@@ -34,7 +35,7 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
   }
 
   componentDidMount() {
-    this.props.inactivityTimerConsumer.startTimer();
+    this.props.timerConsumer.startTimer();
     this.start();
   }
 
@@ -45,7 +46,7 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
     this.wsSub_ = this.startScanning()
     .subscribe(message => {
       this.setMessage(message);
-      this.props.inactivityTimerConsumer.clearTimer();
+      this.props.timerConsumer.clearTimer();
     });
   }
 
@@ -65,9 +66,9 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
         const { ws } = this.props.configConsumer;
         const onmessage = ws
         .multiplex(
-          () => console.info(`Start => ${this.socket_type}`),
-          () => console.info(`End => ${this.socket_type}`),
-          (data) => data && data.message_type === this.socket_type
+          () => console.info(`Start => ${SOCKET_QR}`),
+          () => console.info(`End => ${SOCKET_QR}`),
+          (data) => data && data.message_type === SOCKET_QR
         )
         .pipe(
           first(),
@@ -80,7 +81,7 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
   }
 
   componentWillUnmount() {
-    this.props.inactivityTimerConsumer.resetTimer();
+    this.props.timerConsumer.resetTimer();
     this.stop();
   }
 
@@ -99,7 +100,7 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
           <h2>{this.state.message || "---"}</h2>
           {this.state.message && <button onClick={() => this.start()}>try again</button>}
         </InfoContent>
-        <ReplaySubscription source={this.props.inactivityTimerConsumer.time$}>
+        <ReplaySubscription source={this.props.timerConsumer.time$}>
           {time =>
             <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
           }

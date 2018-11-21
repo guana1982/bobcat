@@ -1,10 +1,11 @@
 import * as React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Menu from "../../Menu";
-import { ConfigConsumer } from "../../models/Config";
+import { ConfigConsumer, ConfigInterface } from "../../store/config.store";
 
 interface MenuProps {
   history: any;
+  configConsumer: ConfigInterface;
   match: any;
 }
 
@@ -13,6 +14,8 @@ interface MenuState {
 }
 
 export class MenuComponent extends React.Component<MenuProps, MenuState> {
+
+  readonly state: MenuState;
 
   constructor(props) {
     super(props);
@@ -28,20 +31,15 @@ export class MenuComponent extends React.Component<MenuProps, MenuState> {
 
   render() {
     const { typeMenu } = this.props.match.params;
+    const { configConsumer } = this.props;
     return (
-      <div>
-          <ConfigConsumer>
-            {config =>
-              <Menu
-                onTimeout={() => console.log("menu", "timeout")}
-                vendorConfig={config.vendorConfig}
-                disabledMenuOpen={false}
-                typeMenu={`${typeMenu}_menu`}
-                onExit={() => this.props.history.push("/home")}
-              />
-            }
-          </ConfigConsumer>
-      </div>
+      <Menu
+        onTimeout={() => console.log("menu", "timeout")}
+        vendorConfig={configConsumer.vendorConfig}
+        disabledMenuOpen={false}
+        typeMenu={`${typeMenu}_menu`}
+        onExit={() => this.props.history.push("/home")}
+      />
     );
   }
 }

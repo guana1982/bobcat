@@ -50,7 +50,7 @@ export default {
     action: (menuId, submenuId, actionId, payload) => post(`menu/${menuId}/${submenuId}/${actionId}`, payload),
   },
   alarm: {
-    getAlarms: (menuId = "", submenuId = "") => get(`menu/${menuId}/${submenuId}`)
+    getAlarms: (menuId = "tech_menu", submenuId = "alarms_menu_tech") => get(`menu/${menuId}/${submenuId}`)
   },
   wifi: {
     getApList: () => get("menu/crew_menu/wifi_management"),
