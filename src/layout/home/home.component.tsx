@@ -80,7 +80,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   componentDidMount() {
-    // this.props.inactivityTimerConsumer.startTimer();
+    this.props.inactivityTimerConsumer.startTimer();
 
     this.levels = {
       flavor: [

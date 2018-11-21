@@ -2,16 +2,18 @@ import * as React from "react";
 import i18n from "../../i18n";
 
 import { ScreenContent, QrSquare, Webcam, InfoContent, PrepayContent, Header } from "./prepay.style";
-import { ConfigConsumer, PaymentConsumer, PaymentInterface, PaymentStore } from "../../models";
+import { ConfigConsumer, ConfigInterface } from "../../models";
 import { CircleBtn } from "../../components/global/CircleBtn";
 import { ReplaySubscription } from "../../components/global/Subscription";
 import { Subscription } from "rxjs";
 import { InactivityTimerInterface } from "../../models/InactivityTimer";
 import { TimerLabel } from "../home/home.style";
+import mediumLevel from "../../utils/MediumLevel";
+import { tap, mergeMap, first, map } from "rxjs/operators";
 
 interface PrepayProps {
-  paymentConsumer: PaymentInterface;
   history: any;
+  configConsumer: ConfigInterface;
   inactivityTimerConsumer: InactivityTimerInterface;
 }
 interface PrepayState {
@@ -20,7 +22,8 @@ interface PrepayState {
 
 export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
 
-  start_: Subscription;
+  readonly socket_type = "qr_found";
+  wsSub_: Subscription;
 
   constructor(props) {
     super(props);
@@ -35,22 +38,45 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
     this.start();
   }
 
+  setMessage = (message) => this.setState(() => ({ message: message || null }));
+
   start() {
-    console.log("Start Scanning");
-    this.start_ = this.props.paymentConsumer.startScanning()
+    this.setMessage(null);
+    this.wsSub_ = this.startScanning()
     .subscribe(message => {
-      this.setState(prevState => ({
-        ...prevState,
-        message: message
-      }));
+      this.setMessage(message);
       this.props.inactivityTimerConsumer.clearTimer();
     });
   }
 
   stop() {
-    this.start_.unsubscribe();
-    this.props.paymentConsumer.stopQrCamera()
-    .subscribe(() => console.log("Stop Scanning"));
+    mediumLevel.config.stopQrCamera()
+    .pipe(
+      tap(() => this.wsSub_.unsubscribe())
+    )
+    .subscribe();
+  }
+
+
+  startScanning = () => {
+    return mediumLevel.config.startQrCamera()
+    .pipe(
+      mergeMap(() => {
+        const { ws } = this.props.configConsumer;
+        const onmessage = ws
+        .multiplex(
+          () => console.info(`Start => ${this.socket_type}`),
+          () => console.info(`End => ${this.socket_type}`),
+          (data) => data && data.message_type === this.socket_type
+        )
+        .pipe(
+          first(),
+          map(data => data.value)
+        );
+        return onmessage;
+      }),
+      mergeMap(message => mediumLevel.config.stopQrCamera().pipe(map(() => message)))
+    );
   }
 
   componentWillUnmount() {

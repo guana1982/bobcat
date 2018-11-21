@@ -1,55 +1,106 @@
 import * as React from "react";
-import { ConfigConsumer } from "../../models";
+import { SreenWrapper } from "../../components/global/ScreenWrapper";
+import mediumLevel from "../../utils/MediumLevel";
+import { InactivityTimerInterface } from "../../models/InactivityTimer";
+import { ConfigInterface } from "../../models/Config";
 
-interface AttractorProps {}
+import Lottie from "react-lottie";
+import { map, tap, mergeMap } from "rxjs/operators";
+import { Subscription } from "rxjs";
+// const animationData = require("./bubbles.json");
 
-interface AttractorState {
-    date: Date;
+interface AttractorProps {
+  history: any;
+  configConsumer: ConfigInterface;
+  inactivityTimerConsumer: InactivityTimerInterface;
 }
 
-export class Attractor extends React.Component<AttractorProps, AttractorState> {
+interface AttractorState {}
 
-  timerID: any;
+class AttractorComponent extends React.Component<AttractorProps, AttractorState> {
+
+  readonly socket_type = "attract_loop";
+  wsSub_: Subscription;
 
   constructor(props) {
     super(props);
-    this.state = {
-        date: new Date()
-    };
+    console.log(props);
   }
 
-  componentDidMount() {
-    this.timerID = setInterval(
-      () => this.tick(),
-      1000
-    );
-  }
+  componentWillMount() {
+    this.wsSub_ = this.startVideo()
+    .subscribe(value => {
+      let page = "";
+      if (value === "stop_video")
+        page = "home";
+      else if (value === "start_camera")
+        page = "prepay";
 
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({
-      date: new Date()
+      this.props.history.push(`/${page}`);
     });
   }
 
+  componentWillUnmount() {
+    mediumLevel.config.stopVideo()
+    .pipe(
+      tap(() => this.wsSub_.unsubscribe())
+    )
+    .subscribe();
+  }
+
+  goToHome() {
+    this.props.history.push("/home");
+  }
+
+  startVideo() {
+    return mediumLevel.config.startVideo()
+    .pipe(
+      mergeMap(() => {
+        const { ws } = this.props.configConsumer;
+        const onmessage = ws
+        .multiplex(
+          () => console.info(`Start => ${this.socket_type}`),
+          () => console.info(`End => ${this.socket_type}`),
+          (data) => data && data.message_type === this.socket_type
+        )
+        .pipe(
+          map(data => data.value)
+        );
+        return onmessage;
+      })
+    );
+  }
+
   render() {
+
+    // const defaultOptions = {
+    //   loop: true,
+    //   autoplay: true,
+    //   animationData: animationData,
+    //   rendererSettings: {
+    //     preserveAspectRatio: "xMidYMid slice"
+    //   }
+    // };
+
     return (
-      <div>
-        <h1>Attractor!</h1>
-        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
-        {/* <ConfigConsumer>
-          {({ isLit }) => (
-            <div>
-              The room is {isLit ? "lit" : "dark"}.
-            </div>
-          )}
-        </ConfigConsumer> */}
-      </div>
+      // <div>
+      //   <Lottie options={defaultOptions} height={"100vh"} width={"100vw"} />
+      // </div>
+      <SreenWrapper onClick={ () => this.goToHome() }></SreenWrapper>
+      // <video
+      //   autoPlay
+      //   style={{
+      //     // width: "100vw",
+      //     display: "block",
+      //     height: "100vh",
+      //     margin: "auto",
+      //   }}
+      //   src={`/video/video_pepsi_fsu.mp4`}
+      //   loop
+      //   onClick={() => this.goToHome()}
+      // />
     );
   }
 }
 
-export default Attractor;
+export default AttractorComponent;

@@ -2,17 +2,15 @@ import * as React from "react";
 import { Route } from "react-router";
 
 /* ==== PAGES ==== */
-import ScreenSaverComponent from "../layout/screen-saver/screen-saver.component";
 import HomeComponent from "../layout/home/home.component";
 import PrepayComponent from "../layout/prepay/prepay.component";
 import MenuComponent from "../layout/menu/menu.component";
 
 /* ==== STORES ==== */
-import { PaymentStore, PaymentConsumer } from "../models/Payment";
-import { MenuStore, MenuConsumer } from "../models/Menu";
 import { ConfigConsumer } from "../models";
 import { InactivityTimerConsumer } from "../models/InactivityTimer";
 import { GlobalStyle } from "./app.style";
+import AttractorComponent from "../layout/attractor/attractor.component";
 
 class AppRouter extends React.Component<any, any> {
 
@@ -33,40 +31,14 @@ class AppRouter extends React.Component<any, any> {
     </ConfigConsumer>
   )
 
-  /* SPECIFY STORE ==> */
-  withPaymentStore = Comp => props => (
-    <ConfigConsumer>
-    {config =>
-      <InactivityTimerConsumer>
-      {inactivityTimer =>
-        <PaymentStore configConsumer={config}>
-          <PaymentConsumer>
-            {payment => <Comp {...props} inactivityTimerConsumer={inactivityTimer} paymentConsumer={payment}></Comp>}
-          </PaymentConsumer>
-        </PaymentStore>
-      }
-      </InactivityTimerConsumer>
-    }
-    </ConfigConsumer>
-  )
-
-  withMenuStore = Comp => props => (
-    <MenuStore>
-      <MenuConsumer>
-        {menu => <Comp {...props} menuConsumer={menu}></Comp>}
-      </MenuConsumer>
-    </MenuStore>
-  )
-  /* <== SPECIFY STORE */
-
   render() {
     return (
       <section>
           <GlobalStyle />
-          <Route exact path="/" component={this.withGlobalConsumer(ScreenSaverComponent)}/>
+          <Route exact path="/" component={this.withGlobalConsumer(AttractorComponent)}/>
           <Route path="/home" component={this.withGlobalConsumer(HomeComponent)}/>
-          <Route path="/prepay" component={this.withGlobalConsumer(this.withPaymentStore(PrepayComponent))}/>
-          <Route path="/menu/:typeMenu(tech|crew)" component={this.withMenuStore(MenuComponent)}/>
+          <Route path="/prepay" component={this.withGlobalConsumer(this.withGlobalConsumer(PrepayComponent))}/>
+          <Route path="/menu/:typeMenu(tech|crew)" component={this.withGlobalConsumer(MenuComponent)}/>
       </section>
     );
   }
