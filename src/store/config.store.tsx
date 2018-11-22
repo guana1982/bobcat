@@ -1,6 +1,6 @@
 import * as React from "react";
 import { get, post } from "../utils";
-import { map, tap, delay, retry, first, flatMap, mergeMap } from "rxjs/operators";
+import { map, tap, delay, retry, first, flatMap, mergeMap, filter } from "rxjs/operators";
 import mediumLevel from "../utils/MediumLevel";
 import { forkJoin, of, Observable, Subject } from "rxjs";
 import { webSocket, WebSocketSubject } from "rxjs/webSocket";
@@ -54,10 +54,12 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
     const getAlarms = mediumLevel.alarm.getAlarms()
     .pipe(
-      tap((data: any) => {
+      map(data => data && data.elements || []),
+      map((alarms: IAlarm[]) => alarms.filter(alarm => alarm.alarm_state)),
+      tap((alarms: IAlarm[]) => {
         this.setState(prevState => ({
           ...prevState,
-          alarms: data && data.elements || []
+          alarms: alarms
         }));
       })
     );
@@ -75,7 +77,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       mergeMap(value => getAlarms.pipe(map(() => value)))
     )
     .subscribe(value => {
-      alert(value);
+      console.log(value);
     });
 
     setTimeout(() => {

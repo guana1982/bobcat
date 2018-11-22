@@ -50,7 +50,7 @@ export class Alarms extends React.Component<AlarmsProps, AlarmsState> {
     if (!state.totalAlarms || state.totalAlarms !== totalAlarms) {
       const totalPages = Math.ceil(totalAlarms / elementsPerPage);
       return {
-        page: 1,
+        page: totalAlarms > 0 ? 1 : 0,
         pageAlarm: null,
         totalAlarms: totalAlarms,
         totalPages: totalPages
