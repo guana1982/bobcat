@@ -36,6 +36,7 @@ export class MenuComponent extends React.Component<MenuProps, MenuState> {
       <Menu
         onTimeout={() => console.log("menu", "timeout")}
         vendorConfig={configConsumer.vendorConfig}
+        menuList={configConsumer.menuList}
         disabledMenuOpen={false}
         typeMenu={`${typeMenu}_menu`}
         onExit={() => this.props.history.push("/home")}

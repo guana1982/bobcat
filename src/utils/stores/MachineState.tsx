@@ -51,7 +51,7 @@ class MachineStateStore {
   /*
      * alias to `this.dispatch`
      */
-  transition = (to, data) => {
+  transition = (to, data?) => {
     return this.dispatch(to, data);
   }
   @action

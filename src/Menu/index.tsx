@@ -228,61 +228,64 @@ const getBreadcrumbs = (currentState, data) => {
   }
   return BREADCRUMBS[currentState];
 };
-const stateMachine: any = new MachineState(statechart, actions, {}, true, {
-  menu: {},
-  submenu: {}
-});
 type MenuState = {
   canExit: boolean
 };
 @observer
 class Menu extends React.Component<any, MenuState> {
 
+  stateMachine: MachineState;
+
   constructor(props) {
     super(props);
-
+    this.stateMachine = new MachineState(statechart, actions, {}, true, {
+      menu: {},
+      submenu: {}
+    });
     console.log("PROPS_MENU:", this.props.typeMenu);
-    this.onSelect(this.props.typeMenu);
-
     this.state = {
       canExit: true
     };
   }
 
+  componentDidMount() {
+    this.onSelect(this.props.typeMenu);
+  }
+
   onGesture = gestureType => {
-    const requestedMenu = stateMachine.data.menus.find(m => {
+    const requestedMenu = this.props.menuList.find(m => { // stateMachine.data.menus
       return m.gesture === `gesture_type_${gestureType.toUpperCase()}`;
     });
-    stateMachine.transition("NEXT", {
+    this.stateMachine.transition("NEXT", {
       menu: requestedMenu
     });
   }
   onAuthError = () => {
-    stateMachine.transition("AUTH_FAIL");
+    this.stateMachine.transition("AUTH_FAIL");
     setTimeout(() => {
-      stateMachine.transition("PIN");
+      this.stateMachine.transition("PIN");
     }, 820);
   }
   onAuthSuccess = () => {
-    stateMachine.transition("NEXT");
+    this.stateMachine.transition("NEXT");
   }
   onExit = () => {
-    stateMachine.transition("EXIT");
+    this.stateMachine.transition("EXIT");
     this.props.onExit();
   }
   onJumpTo = stateEvent => {
-    stateMachine.transition(stateEvent);
+    this.stateMachine.transition(stateEvent);
   }
   onEnterSubmenu = submenu => {
     console.log(submenu);
-    stateMachine.transition("NEXT", { submenuId: submenu.id });
+    this.stateMachine.transition("NEXT", { submenuId: submenu.id });
   }
   onBack = () => {
     console.log("here");
-    stateMachine.transition("HOME");
+    this.stateMachine.transition("HOME");
   }
   onSaved = () => {
-    // stateMachine.transition("RELOAD")
+    // this.stateMachine.transition("RELOAD")
   }
   onSwitchOffDisplay = () => {
     this.onExit();
@@ -292,7 +295,7 @@ class Menu extends React.Component<any, MenuState> {
     this.setState({ canExit: value });
   }
   renderCustomSubmenu = () => {
-    const { data, data: { submenuId } } = stateMachine;
+    const { data, data: { submenuId } } = this.stateMachine;
     const { vendorConfig } = this.props;
     console.log("renderCustom", submenuId);
     switch (submenuId) {
@@ -348,30 +351,30 @@ class Menu extends React.Component<any, MenuState> {
   }
   onTimeout = () => {
     console.log("timeout");
-    // stateMachine.transition("EXIT")
+    // this.stateMachine.transition("EXIT")
   }
   onSelect = menuType => {
-    const requestedMenu = stateMachine.data.menus.find(m => {
+    const requestedMenu = this.props.menuList.find(m => { // stateMachine.data.menus
       return m.menu_id === menuType;
     });
     console.log("requestedMenu", requestedMenu);
-    stateMachine.transition("NEXT", {
+    this.stateMachine.transition("NEXT", {
       menu: requestedMenu
     });
   }
   render() {
-    const { data } = stateMachine;
+    const { data } = this.stateMachine;
     const { canExit } = this.state;
-    console.log("[MENU]", stateMachine.toString());
-    console.log("[MENU] data %o", stateMachine.data);
-    const breadcrumbs = getBreadcrumbs(stateMachine.toString(), stateMachine.data);
+    console.log("[MENU]", this.stateMachine.toString());
+    console.log("[MENU] data %o", this.stateMachine.data);
+    const breadcrumbs = getBreadcrumbs(this.stateMachine.toString(), this.stateMachine.data);
     const { globalMachineState, disabledMenuOpen } = this.props;
     console.log("data.submenu", data);
     console.log(data);
     return (
       <div>
         <Match
-          state={stateMachine.toString()}
+          state={this.stateMachine.toString()}
           show={[
             `${AUTH}.*`,
             MENU_HOME,
@@ -407,22 +410,22 @@ class Menu extends React.Component<any, MenuState> {
                 right: 0
               }}
             >
-              <Match state={stateMachine.toString()} show={`${AUTH}.*`}>
+              <Match state={this.stateMachine.toString()} show={`${AUTH}.*`}>
                 <Auth
                   menuId={data.menu.menu_id}
                   onError={this.onAuthError}
                   onSuccess={this.onAuthSuccess}
-                  failed={stateMachine.toString() === "auth.failed"}
+                  failed={this.stateMachine.toString() === "auth.failed"}
                 />
               </Match>
-              <Match state={stateMachine.toString()} show={MENU_HOME}>
+              <Match state={this.stateMachine.toString()} show={MENU_HOME}>
                 <MenuHome
                   onTimeout={this.onTimeout}
                   onEnterSubmenu={this.onEnterSubmenu}
                   menu={data.menu}
                 />
               </Match>
-              <Match state={stateMachine.toString()} show={[`${DEFAULT_SUBMENU}.loaded`, `${DEFAULT_SUBMENU}.reloading`]}>
+              <Match state={this.stateMachine.toString()} show={[`${DEFAULT_SUBMENU}.loaded`, `${DEFAULT_SUBMENU}.reloading`]}>
                 <DefaultSubmenu
                   menuId={data.menu.menu_id}
                   submenuId={data.submenu.id}
@@ -432,7 +435,7 @@ class Menu extends React.Component<any, MenuState> {
                   elementsPerPage={10}
                 />
               </Match>
-              <Match state={stateMachine.toString()} show={`${MOSAIC_SUBMENU}.loaded`}>
+              <Match state={this.stateMachine.toString()} show={`${MOSAIC_SUBMENU}.loaded`}>
                 <ActionsMosaicSubmenu
                   menuId={data.menu.menu_id}
                   submenuId={data.submenu.id}
@@ -440,10 +443,10 @@ class Menu extends React.Component<any, MenuState> {
                   onBack={this.onBack}
                 />
               </Match>
-              <Match state={stateMachine.toString()} show={`${CUSTOM_SUBMENU}`}>
+              <Match state={this.stateMachine.toString()} show={`${CUSTOM_SUBMENU}`}>
                 {this.renderCustomSubmenu()}
               </Match>
-              <Match state={stateMachine.toString()} show={ERROR}>
+              <Match state={this.stateMachine.toString()} show={ERROR}>
                 <h2>Menu not implemented yet</h2>
               </Match>
             </div>

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { get, post } from "../utils";
 import { map, tap, delay } from "rxjs/operators";
-import { Subject, Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { withRouter } from "react-router-dom";
 
 export interface TimerInterface {
@@ -21,12 +21,12 @@ class TimerStoreComponent extends React.Component<any, any> {
   timer: any;
   time: any;
   seconds: any;
-  time$: Subject<any>;
+  time$: BehaviorSubject<any>;
 
   constructor(props) {
     super(props);
+    this.time$ = new BehaviorSubject<any>(null);
     this.clearTimer(false);
-    this.time$ = new Subject<any>();
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
   }
@@ -60,19 +60,27 @@ class TimerStoreComponent extends React.Component<any, any> {
     this.timer = 0;
     if (enable) {
       this.timer = setInterval(this.countDown, 1000);
+    } else {
+      this.time$.next(null);
     }
   }
 
+  private handlerTouchStart = () => clearInterval(this.timer);
+  private handlerTouchEnd = () => this.clearTimer(true);
+
   startTimer() {
-    this.clearTimer(true);
-    document.addEventListener("touchstart", () => clearInterval(this.timer));
-    document.addEventListener("touchend", () => this.clearTimer(true));
+    if (this.time$.getValue() === null)
+      this.clearTimer(true);
+    else
+      console.info("Timer already start!");
+    document.addEventListener("touchstart", this.handlerTouchStart);
+    document.addEventListener("touchend", this.handlerTouchEnd);
   }
 
   resetTimer() {
     this.clearTimer(false);
-    document.removeEventListener("touchstart", () => clearInterval(this.timer));
-    document.removeEventListener("touchend", () => this.clearTimer(true));
+    document.removeEventListener("touchstart", this.handlerTouchStart);
+    document.removeEventListener("touchend", this.handlerTouchEnd);
   }
 
   countDown() {

@@ -12,6 +12,7 @@ declare var window: any;
 
 export interface ConfigInterface {
   vendorConfig: any;
+  menuList: any;
   ws: WebSocketSubject<ISocket>;
   alarms: IAlarm[];
   onStartPour: (beverage: IBeverage, config: IBeverageConfig) => Observable<any>;
@@ -26,6 +27,7 @@ export const ConfigConsumer = ConfigContext.Consumer;
 class ConfigStoreComponent extends React.Component<any, any> {
 
   vendorConfig: any;
+  menuList: any;
   ws: WebSocketSubject<ISocket>;
 
   constructor(props) {
@@ -95,6 +97,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     forkJoin(
       mediumLevel.config.getVendor(),
       mediumLevel.config.getBeverages(),
+      mediumLevel.menu.getList(),
       mediumLevel.config.getSizes(),
       mediumLevel.config.getLang(),
       mediumLevel.config.startDisplay(),
@@ -103,11 +106,13 @@ class ConfigStoreComponent extends React.Component<any, any> {
       let [
         vendorConfig,
         beverages,
+        menuList,
         sizes,
         langDict
       ] = res;
 
       this.vendorConfig = vendorConfig;
+      this.menuList = menuList;
       setLangDict(langDict.i18n);
     });
 
@@ -143,6 +148,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       <ConfigProvider
         value={{
           vendorConfig: this.vendorConfig,
+          menuList: this.menuList,
           alarms: this.state.alarms,
           ws: this.ws,
           onStartPour: this.onStartPour,
