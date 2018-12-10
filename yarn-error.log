@@ -1,8 +1,15 @@
 Arguments: 
+<<<<<<< HEAD
   /Users/vinurs/.nvm/versions/node/v8.9.4/bin/node /usr/local/Cellar/yarn/1.0.1/libexec/bin/yarn.js add react-web-animation
 
 PATH: 
   /Applications/MAMP/bin/php/php7.1.1/bin:/Users/vinurs/.nvm/versions/node/v8.9.4/bin:/Users/vinurs/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/vinurs/Library/Android/sdk/platform-tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Wireshark.app/Contents/MacOS:/Users/vinurs/Library/Android/sdk/platform-tools:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/bin:/Users/vinurs/Library/Android/sdk
+=======
+  /Users/vinurs/.nvm/versions/node/v8.9.4/bin/node /usr/local/Cellar/yarn/1.0.1/libexec/bin/yarn.js add unstated
+
+PATH: 
+  /Users/vinurs/.rbenv/shims:/Applications/MAMP/bin/php/php7.1.1/bin:/Users/vinurs/.nvm/versions/node/v8.9.4/bin:/Users/vinurs/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/vinurs/Library/Android/sdk/platform-tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Wireshark.app/Contents/MacOS:/Users/vinurs/Library/Android/sdk/platform-tools:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/bin:/Users/vinurs/Library/Android/sdk
+>>>>>>> Init new structure
 
 Yarn version: 
   1.0.1
