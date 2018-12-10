@@ -99,8 +99,8 @@
 
 .pagination {
   position: absolute;
-  top: -60px;
-  height: 60px;
+  top: -80px;
+  height: 80px;
   right: 0;
   display: flex;
   align-items: center;
@@ -109,8 +109,8 @@
 
 .buttonPrev,
 .buttonNext {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   background: #fff;
   color: gray;
   font-size: 1.5em;
@@ -138,7 +138,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 60px;
+  height: 80px;
   background: #444;
   color: #fff;
   display: flex;

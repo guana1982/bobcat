@@ -29,6 +29,7 @@ const Navbar = ({ onExit, onJumpTo, canExit, breadcrumbs = [] }) => {
         style={{
           marginLeft: "auto",
           fontSize: "1.25em",
+          height: "100%",
           textTransform: "capitalize",
           opacity: canExit ? 1 : 0.5
         }}

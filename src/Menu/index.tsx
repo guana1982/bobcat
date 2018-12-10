@@ -404,7 +404,7 @@ class Menu extends React.Component<any, MenuState> {
             <div
               style={{
                 position: "absolute",
-                top: 60,
+                top: 80,
                 bottom: 0,
                 left: 0,
                 right: 0
