@@ -41,7 +41,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
       beverageConfig: {
         flavor_level: null,
         carbonation_level: null,
-        temperature_level: 100,
+        temperature_level: 0,
         b_complex: false,
         antioxidants: false
       }
@@ -64,10 +64,10 @@ export class Home extends React.Component<HomeProps, HomeState> {
     ];
 
     this.actionsLauncher = [
-      {
-        title: "TEST QR CODE",
-        event: () => this.props.history.push("/prepay")
-      },
+      // {
+      //   title: "TEST QR CODE",
+      //   event: () => this.props.history.push("/prepay")
+      // },
       {
         title: "CREW MENU",
         event: () => this.props.history.push("/menu/crew")
@@ -89,14 +89,14 @@ export class Home extends React.Component<HomeProps, HomeState> {
         {label: "bold", value: 100}
       ],
       carbonation: [
-        {label: "light", value: 50},
-        {label: "medium", value: 75},
+        {label: "light", value: 0},
+        {label: "medium", value: 50},
         {label: "full", value: 100}
       ],
       temperature: [
-        {label: "ambient", value: 0},
+        {label: "ambient", value: 100},
         {label: "cool", value: 50},
-        {label: "ice-cold", value: 100},
+        {label: "ice-cold", value: 0},
       ],
       carbTemperature: [
         {label: "ice-cold", value: 100},
@@ -130,7 +130,11 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   private startPour() {
     const beverageSelected =  this.getBeverageSelected();
-    this.props.configConsumer.onStartPour(beverageSelected, this.state.beverageConfig)
+    const beverageConfig = {...this.state.beverageConfig};
+    if (beverageConfig.carbonation_level == null) {
+      beverageConfig.carbonation_level = 0;
+    }
+    this.props.configConsumer.onStartPour(beverageSelected, beverageConfig)
     .subscribe(data => console.log(data));
   }
 
