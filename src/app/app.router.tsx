@@ -8,7 +8,7 @@ import MenuComponent from "../layout/menu/menu.component";
 
 /* ==== STORES ==== */
 import { ConfigConsumer } from "../store";
-import { TimerConsumer } from "../store/timer.store";
+import { TimerConsumer } from "../store/timer.service";
 import { GlobalStyle } from "./app.style";
 import AttractorComponent from "../layout/attractor/attractor.component";
 
