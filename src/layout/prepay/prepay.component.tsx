@@ -100,11 +100,11 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
           <h2>{this.state.message || "---"}</h2>
           {this.state.message && <button onClick={() => this.start()}>try again</button>}
         </InfoContent>
-        <ReplaySubscription source={this.props.timerConsumer.time$}>
+        {/* <ReplaySubscription source={this.props.timerConsumer.time$}>
           {time =>
             <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
           }
-        </ReplaySubscription>
+        </ReplaySubscription> */}
       </PrepayContent>
     );
   }

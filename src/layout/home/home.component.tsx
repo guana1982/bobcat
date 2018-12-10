@@ -223,11 +223,11 @@ export class Home extends React.Component<HomeProps, HomeState> {
           <Footer>
             {/* <CircleBtn label={"Nutrition"} color={"primary"} border={true} icon={"icons/info.svg"} />
             <CircleBtn onClick={() => this.goToPrepay()} label={"Sign In"} color={"primary"} border={true} icon={"icons/qr-code.svg"} /> */}
-            <ReplaySubscription source={this.props.timerConsumer.time$}>
+            {/* <ReplaySubscription source={this.props.timerConsumer.time$}>
               {time =>
                 <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
               }
-            </ReplaySubscription>
+            </ReplaySubscription> */}
             {/* <button type="button" onClick={() => this.goToScreenSaver()}>Screen</button> */}
           </Footer>
           <LauncherComponent actions={this.actionsLauncher} />
