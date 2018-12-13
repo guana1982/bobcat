@@ -9,6 +9,7 @@ import { ReplaySubscription } from "../../components/global/Subscription";
 import { ButtonGroup } from "../../components/global/ButtonGroup";
 import { CircleBtn } from "../../components/global/CircleBtn";
 import { IBeverageConfig, IBeverage } from "../../models";
+import { __ } from "../../utils/lib/i18n";
 
 interface HomeProps {
   history: any;
@@ -21,6 +22,9 @@ interface HomeState {
   beverageSelected: number;
   beverageConfig: IBeverageConfig;
 }
+
+const beveragePlain = "plain";
+const beverageBev = "bev";
 
 export class Home extends React.Component<HomeProps, HomeState> {
 
@@ -47,15 +51,19 @@ export class Home extends React.Component<HomeProps, HomeState> {
       }
     };
 
-    this.beverages = [
-      {label: "Water", id: 9, type: "water"},
-      {label: "Lemon Lime", id: 1},
-      {label: "Raspberry Lime", id: 2},
-      {label: "Lemon Mint", id: 3},
-      {label: "Ginger Lemon", id: 4},
-      {label: "Peach", id: 5},
-      {label: "Cucumber", id: 6}
-    ];
+    this.beverages = this.props.configConsumer.beverages.filter(beverage => {
+      const type = beverage.beverage_type;
+      return type === beveragePlain || type === beverageBev;
+    });
+    // this.beverages = [
+    //   {label: "Water", id: 9, type: "water"},
+    //   {label: "Lemon Lime", id: 1},
+    //   {label: "Raspberry Lime", id: 2},
+    //   {label: "Lemon Mint", id: 3},
+    //   {label: "Ginger Lemon", id: 4},
+    //   {label: "Peach", id: 5},
+    //   {label: "Cucumber", id: 6}
+    // ];
     console.log(this.beverages);
 
     this.types = [
@@ -117,7 +125,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
       beverageSelected: this.beverages.indexOf(beverage),
       beverageConfig: {
         ...prevState.beverageConfig,
-        flavor_level: beverage.type !== "water" ? 50 : null,
+        flavor_level: beverage.beverage_type !== beveragePlain ? 50 : null,
         b_complex: false,
         antioxidants: false
       }
@@ -216,7 +224,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
             return (
             <Beverage key={i} type={this.state.isSparkling ? "sparkling" : null} onClick={() => this.selectBeverage(b)}>
               <div id="element">
-                <h3>{b.label}</h3>
+                <h3>{__(b.beverage_label_id)}</h3>
                 <h6>0-CALS</h6>
                 <h5>Tap to Customize</h5>
               </div>
@@ -258,7 +266,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
           </InfoCard>
           <CustomizeBeverageCard type={this.state.isSparkling ? "sparkling" : null}>
             <header>
-              <h2>{this.getBeverageSelected().label}</h2>
+              <h2>{__(this.getBeverageSelected().beverage_label_id)}</h2>
               <h6>0-CALS</h6>
             </header>
             <aside>

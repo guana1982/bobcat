@@ -387,10 +387,10 @@ class Menu extends React.Component<any, MenuState> {
           <div
             style={{
               position: "absolute",
-              top: 0,
+              top: "30px",
+              height: "calc(100% - 30px",
               left: 0,
               width: "100%",
-              height: "100%",
               background: "#fff",
               zIndex: 2000
             }}

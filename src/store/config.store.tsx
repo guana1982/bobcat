@@ -15,6 +15,7 @@ export interface ConfigInterface {
   menuList: any;
   ws: WebSocketSubject<ISocket>;
   alarms: IAlarm[];
+  beverages: IBeverage[];
   onStartPour: (beverage: IBeverage, config: IBeverageConfig) => Observable<any>;
   onStopPour: () => Observable<any>;
 }
@@ -27,6 +28,7 @@ export const ConfigConsumer = ConfigContext.Consumer;
 class ConfigStoreComponent extends React.Component<any, any> {
 
   vendorConfig: any;
+  beverages: any;
   menuList: any;
   ws: WebSocketSubject<ISocket>;
 
@@ -112,7 +114,9 @@ class ConfigStoreComponent extends React.Component<any, any> {
       ] = res;
 
       this.vendorConfig = vendorConfig;
+      this.beverages = beverages;
       this.menuList = menuList;
+      console.log(langDict.i18n);
       setLangDict(langDict.i18n);
     });
 
@@ -127,7 +131,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       carbonation_level: config.carbonation_level,
       topping_id: 0,
       topping_perc_id: 0,
-      beverage_id: beverage.id,
+      beverage_id: beverage.beverage_id,
       syrup_perc: config.flavor_level,
       temperature_level: config.temperature_level,
       pour_method: "free_flow"
@@ -148,6 +152,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       <ConfigProvider
         value={{
           vendorConfig: this.vendorConfig,
+          beverages: this.beverages,
           menuList: this.menuList,
           alarms: this.state.alarms,
           ws: this.ws,
