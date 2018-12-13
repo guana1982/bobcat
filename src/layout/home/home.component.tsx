@@ -52,8 +52,8 @@ export class Home extends React.Component<HomeProps, HomeState> {
     };
 
     this.beverages = this.props.configConsumer.beverages.filter(beverage => {
-      const type = beverage.beverage_type;
-      return type === beveragePlain || type === beverageBev;
+      const { beverage_type, line_id } = beverage;
+      return beverage_type === beveragePlain || beverage_type === beverageBev || line_id > 0;
     });
     // this.beverages = [
     //   {label: "Water", id: 9, type: "water"},
