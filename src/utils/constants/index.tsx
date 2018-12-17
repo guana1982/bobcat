@@ -10,3 +10,6 @@ export const SIZE_BIG = 4;
 export const SOCKET_ATTRACTOR = "attract_loop";
 export const SOCKET_ALARM = "alarm_changed";
 export const SOCKET_QR = "qr_found";
+// -- MESSAGES SOCKET --
+export const MESSAGE_STOP_VIDEO = "stop_video";
+export const MESSAGE_START_CAMERA = "start_camera";

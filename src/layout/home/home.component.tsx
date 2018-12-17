@@ -72,10 +72,10 @@ export class Home extends React.Component<HomeProps, HomeState> {
     ];
 
     this.actionsLauncher = [
-      // {
-      //   title: "TEST QR CODE",
-      //   event: () => this.props.history.push("/prepay")
-      // },
+      {
+        title: "TEST QR CODE",
+        event: () => this.props.history.push("/prepay")
+      },
       {
         title: "CREW MENU",
         event: () => this.props.history.push("/menu/crew")

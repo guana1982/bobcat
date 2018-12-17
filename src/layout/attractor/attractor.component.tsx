@@ -7,7 +7,7 @@ import { ConfigInterface } from "../../store/config.store";
 import Lottie from "react-lottie";
 import { map, tap, mergeMap } from "rxjs/operators";
 import { Subscription } from "rxjs";
-import { SOCKET_ATTRACTOR } from "../../utils/constants";
+import { SOCKET_ATTRACTOR, MESSAGE_START_CAMERA, MESSAGE_STOP_VIDEO } from "../../utils/constants";
 // const animationData = require("./bubbles.json");
 
 interface AttractorProps {
@@ -22,55 +22,27 @@ class AttractorComponent extends React.Component<AttractorProps, AttractorState>
 
   readonly state: AttractorState;
 
-  wsSub_: Subscription;
+  video_: Subscription;
 
   constructor(props) {
     super(props);
     console.log(props);
   }
 
-  componentWillMount() {
-    this.wsSub_ = this.startVideo()
-    .subscribe(value => {
-      let page = "";
-      if (value === "stop_video")
-        page = "home";
-      else if (value === "start_camera")
-        page = "prepay";
-
-      this.props.history.push(`/${page}`);
-    });
+  componentDidMount() {
+    this.video_ = mediumLevel.config.startVideo().subscribe();
   }
 
   componentWillUnmount() {
     mediumLevel.config.stopVideo()
     .pipe(
-      tap(() => this.wsSub_.unsubscribe())
+      tap(() => this.video_.unsubscribe())
     )
     .subscribe();
   }
 
   goToHome() {
     this.props.history.push("/home");
-  }
-
-  startVideo() {
-    return mediumLevel.config.startVideo()
-    .pipe(
-      mergeMap(() => {
-        const { ws } = this.props.configConsumer;
-        const onmessage = ws
-        .multiplex(
-          () => console.info(`Start => ${SOCKET_ATTRACTOR}`),
-          () => console.info(`End => ${SOCKET_ATTRACTOR}`),
-          (data) => data && data.message_type === SOCKET_ATTRACTOR
-        )
-        .pipe(
-          map(data => data.value)
-        );
-        return onmessage;
-      })
-    );
   }
 
   render() {

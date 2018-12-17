@@ -7,7 +7,7 @@ import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { setLangDict } from "../utils/lib/i18n";
 import { withRouter } from "react-router-dom";
 import { IBeverage, ISocket, IBeverageConfig, IAlarm } from "../models";
-import { SOCKET_ALARM } from "../utils/constants";
+import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA } from "../utils/constants";
 declare var window: any;
 
 export interface ConfigInterface {
@@ -92,6 +92,30 @@ class ConfigStoreComponent extends React.Component<any, any> {
       }));
       console.log(this.state.alarms);
     }, 30000);
+
+    /* ==== ATTRACTOR SOCKET ==== */
+    /* ======================================== */
+
+    const socketAttractor = this.ws
+    .multiplex(
+      () => console.info(`Start => ${SOCKET_ATTRACTOR}`),
+      () => console.info(`End => ${SOCKET_ATTRACTOR}`),
+      (data) => data && data.message_type === SOCKET_ATTRACTOR
+    ).pipe(map(data => data.value));
+
+    const startSocketAttractor = () => socketAttractor
+    .subscribe(value => {
+      let page = "";
+      if (value === MESSAGE_STOP_VIDEO)
+        page = "home";
+      else if (value === MESSAGE_START_CAMERA)
+        page = "prepay";
+
+      this.props.history.push(`/${page}`);
+      startSocketAttractor();
+    });
+
+    startSocketAttractor();
 
     /* ==== GET CONFIG ==== */
     /* ======================================== */
