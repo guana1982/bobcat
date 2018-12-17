@@ -9,15 +9,17 @@ import posed from "react-pose";
 
 const Box = posed.div({
   close: {
-    left: "-70vw",
+    transform: "translate3d(-75vw, 0, 0)",
     transition: {
-      duration: 1000,
+      ease: "easeOut",
+      duration: 300,
     }
   },
   open: {
-    left: "-10vw",
+    transform: "translate3d(-5vw, 0, 0)",
     transition: {
-      duration: 1000,
+      ease: "easeOut",
+      duration: 300,
     }
   }
 });
@@ -52,13 +54,14 @@ const SvgComponent = props => (
       r={13}
       transform="rotate(-87.94 385.77 590.235)"
       fill="#fff"
+      onClick={props.toggle}
     />
     <path
       className="prefix__cls-1"
       d="M344.36 118.67l-.71-.71 3.15-3.15-3.27-3.27.71-.71 3.98 3.98-3.86 3.86z"
     />
   </svg>
-)
+);
 
 
 /* ========= */
@@ -70,6 +73,7 @@ interface PrepayProps {
 
 interface PrepayState {
   open: boolean;
+  color: boolean;
 }
 
 class SlideComponent extends React.Component<PrepayProps, PrepayState> {
@@ -77,7 +81,8 @@ class SlideComponent extends React.Component<PrepayProps, PrepayState> {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      color: false
     };
   }
 
@@ -88,15 +93,22 @@ class SlideComponent extends React.Component<PrepayProps, PrepayState> {
     });
   }
 
+  changeColor = () => {
+    const colorState = this.state.color;
+    this.setState({
+      color: !colorState
+    });
+  }
+
   render() {
-    const { open } = this.state;
+    const { open, color } = this.state;
     return (
       <React.Fragment>
-        <Box className={styles.slideBox} pose={open ? "open" : "close"}>
-          <button onClick={this.toggleServiceMenu}>
-            <h1>{open ? "open" : "close"}</h1>
+        <Box className={`${styles.slideBox} ${color ? styles.grayColor : ""}`} pose={open ? "open" : "close"}>
+          <button onClick={this.changeColor}>
+            <h1>{"color"}</h1>
           </button>
-          <SvgComponent />
+          <SvgComponent toggle={this.toggleServiceMenu} open={open} />
         </Box>
       </React.Fragment>
     );
