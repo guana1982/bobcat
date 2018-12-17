@@ -10,6 +10,7 @@ import { ButtonGroup } from "../../components/global/ButtonGroup";
 import { CircleBtn } from "../../components/global/CircleBtn";
 import { IBeverageConfig, IBeverage } from "../../models";
 import { __ } from "../../utils/lib/i18n";
+import SlideComponent from "../../components/global/Slide";
 
 interface HomeProps {
   history: any;
@@ -214,6 +215,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   private ChoiceBeverage = () => {
     return (
       <React.Fragment>
+        <SlideComponent />
         <ChoiceBeverageWrap>
           <Gesture onGesture={this.onGesture} />
           <Header>

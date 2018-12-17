@@ -1,0 +1,16 @@
+
+.slideBox {
+  background: transparent;
+  z-index: 10000;
+  position: absolute;
+  top: 0;
+  height: 100vh;
+  button {
+    position: absolute;
+    color: #fff;
+    right: 105px;
+  }
+  svg {
+    height: 100vh;
+  }
+}
