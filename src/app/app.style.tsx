@@ -24,7 +24,8 @@ export const theme1 = {
   danger: "#f16623",
   light: "#EEF6FD",
   dark: "#222",
-  sail: "#B3DAFA"
+  sail: "#B3DAFA",
+  spindle: "#b6ceef"
 };
 
 export const theme2 = {

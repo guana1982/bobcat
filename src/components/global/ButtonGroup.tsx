@@ -30,7 +30,7 @@ export const ButtonGroupWrapper = styled.div`
       right: -1px;
       height: calc(100% - 14px);
       border-right: ${props =>  `2px solid ${props.theme.primary}` };
-      z-index: 100;
+      z-index: 1;
     }
     position: relative;
     width: 5.6rem;

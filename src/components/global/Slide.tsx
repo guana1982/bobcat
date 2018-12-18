@@ -11,14 +11,12 @@ const Box = posed.div({
   close: {
     transform: "translate3d(-75vw, 0, 0)",
     transition: {
-      ease: "easeOut",
       duration: 300,
     }
   },
   open: {
     transform: "translate3d(-5vw, 0, 0)",
     transition: {
-      ease: "easeOut",
       duration: 300,
     }
   }
