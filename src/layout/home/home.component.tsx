@@ -4,7 +4,7 @@ import { ConfigConsumer, ConfigInterface, TimerInterface } from "../../store";
 import LauncherComponent, { Action } from "../../components/global/Launcher";
 import Gesture from "../../components/Menu/Gesture";
 
-import { HomeContent, Header, Footer, Grid, Beverage, Pour, CustomizeBeverageCard, InfoCard, TimerLabel, CustomizeBeverageWrap, ChoiceBeverageWrap, Slide, Button, ToggleSlide, BeverageAnimated } from "./home.style";
+import { HomeContent, Footer, Grid, Beverage, Pour, CustomizeBeverageCard, InfoCard, TimerLabel, CustomizeBeverageWrap, ChoiceBeverageWrap, Slide, Button, ToggleSlide, BeveragesAnimated, HeaderAnimated } from "./home.style";
 import { ReplaySubscription } from "../../components/global/Subscription";
 import { ButtonGroup } from "../../components/global/ButtonGroup";
 import { CircleBtn } from "../../components/global/CircleBtn";
@@ -83,7 +83,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   componentDidMount() {
-    this.props.timerConsumer.startTimer();
+    // this.props.timerConsumer.startTimer();
 
     this.levels = {
       flavor: [
@@ -215,15 +215,16 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   private Slide = () => {
     const { slideOpen } = this.state;
-    const slideBeverages = slideOpen ? this.beverages.slice(0, 3) : this.beverages.slice(0, 2);
+    const slideBeverages = this.beverages.slice(0, 3); // slideOpen ? this.beverages.slice(0, 3) : this.beverages.slice(0, 2);
     return (
       <React.Fragment>
         <Slide pose={slideOpen ? "open" : "close"}>
-          <Header>
+          <HeaderAnimated>
             <h2>Good morning, Angelicalongname!</h2>
-          </Header>
+          </HeaderAnimated>
           <Grid numElement={slideBeverages.length}>
           {slideBeverages.map((b, i) => {
+            const BeverageAnimated = BeveragesAnimated[i];
             return (
             <BeverageAnimated key={i} type={this.state.isSparkling ? "sparkling" : null} onClick={() => this.selectBeverage(b)}>
               <div id="element">
