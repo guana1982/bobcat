@@ -1,5 +1,27 @@
 import styled from "styled-components";
 import { ButtonGroupWrapper } from "../../components/global/ButtonGroup";
+import posed from "react-pose";
+
+/* ==== ANIMATIONS ==== */
+/* ======================================== */
+
+const _sizeSlide = "20rem";
+const _Slide = posed.div({
+  close: {
+    width: _sizeSlide
+  },
+  open: {
+    width: "98.5%"
+  }
+});
+const _toggleSlide = posed.img({
+  close: {
+    transform: "rotate(0deg)"
+  },
+  open: {
+    transform: "rotate(180deg)"
+  }
+});
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */
@@ -35,10 +57,31 @@ export const Pour = styled.button`
   }
 `;
 
+const _sizeButton = 60;
+interface ButtonProps { icon?: string; text?: string; }
+export const Button = styled<ButtonProps, "button">("button")`
+  height: ${_sizeButton}px;
+  width: ${_sizeButton * 2}px;
+  border-radius: 30px;
+  font-size: ${_sizeButton / 4}px;
+  font-weight: 600;
+  &:before {
+    content: "${props => props.text}";
+  }
+  &, &:active {
+    color: ${props => props.theme.light};
+    background: ${props => props.theme.primary};
+  }
+  &:active {
+    opacity: .7;
+  }
+`;
+
+
 /* ==== GRID ==== */
 /* ======================================== */
 
-const _sizeBeverage = 14.2;
+const _sizeBeverage = 11;
 interface BeverageProps { size?: string; status?: string; type?: string; }
 export const Beverage = styled<BeverageProps, "div">("div")`
   padding: 1rem .7rem;
@@ -47,7 +90,7 @@ export const Beverage = styled<BeverageProps, "div">("div")`
   will-change: width, height, left, top;
   text-align: center;
   pointer-events: default;
-  height: ${_sizeBeverage}rem;
+  height: ${_sizeBeverage * 1.4}rem;
   width: ${_sizeBeverage * 1.4}rem;
   #element {
     position: relative;
@@ -115,7 +158,6 @@ export const Grid = styled<GridProps, "div">("div")`
   flex-wrap: wrap;
   justify-content: center;
   margin: auto;
-  margin-top: 4rem;
   max-width: ${props => {
     switch (props.numElement) {
       case 4:
@@ -134,6 +176,15 @@ export const Grid = styled<GridProps, "div">("div")`
     }
   }};
 `;
+
+export const BeverageAnimated = posed(Beverage)({
+  close: {
+    // transform: "scale(1)"
+  },
+  open: {
+    // transform: "scale(1.2)"
+  }
+});
 
 /* ==== CARDS ==== */
 /* ======================================== */
@@ -294,17 +345,44 @@ export const ChoiceBeverageWrap = styled.section`
 
 `;
 
+/* ==== SLIDE ==== */
+/* ======================================== */
+
+export const Slide = styled(_Slide)`
+  position: absolute;
+  top: 0;
+  width: ${_sizeSlide};
+  z-index: 2;
+  background: ${props => props.theme.spindle};
+  height: 100vh;
+  ${Footer} {
+    width: ${_sizeSlide};
+    right: 0;
+  }
+`;
+
+export const ToggleSlide = styled(_toggleSlide)`
+    position: absolute;
+    width: 4rem;
+    right: -1.2rem;
+    top: calc(50% - 2rem);
+`;
+
+
 /* ==== HOME MAIN ==== */
 /* ======================================== */
 
 interface HomeContentProps { beverageIsSelected?: boolean; }
 export const HomeContent = styled<HomeContentProps, "div">("div")`
   background-color: ${props => props.theme.secondary};
-  width: 100vw;
+  width: "calc(100% - ${_sizeSlide})";
   height: 100vh;
   position: absolute;
   top: 0;
-  left: 0;
+  left: ${_sizeSlide};
+  ${Grid} {
+    padding-top: 9.1rem;
+  }
   ${ChoiceBeverageWrap} {
     filter: ${props => props.beverageIsSelected ? "blur(5px)" : null};
     &:after {

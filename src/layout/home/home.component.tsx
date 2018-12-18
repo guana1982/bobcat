@@ -4,7 +4,7 @@ import { ConfigConsumer, ConfigInterface, TimerInterface } from "../../store";
 import LauncherComponent, { Action } from "../../components/global/Launcher";
 import Gesture from "../../components/Menu/Gesture";
 
-import { HomeContent, Header, Footer, Grid, Beverage, Pour, CustomizeBeverageCard, InfoCard, TimerLabel, CustomizeBeverageWrap, ChoiceBeverageWrap } from "./home.style";
+import { HomeContent, Header, Footer, Grid, Beverage, Pour, CustomizeBeverageCard, InfoCard, TimerLabel, CustomizeBeverageWrap, ChoiceBeverageWrap, Slide, Button, ToggleSlide, BeverageAnimated } from "./home.style";
 import { ReplaySubscription } from "../../components/global/Subscription";
 import { ButtonGroup } from "../../components/global/ButtonGroup";
 import { CircleBtn } from "../../components/global/CircleBtn";
@@ -22,6 +22,7 @@ interface HomeState {
   isSparkling: boolean;
   beverageSelected: number;
   beverageConfig: IBeverageConfig;
+  slideOpen: boolean;
 }
 
 const beveragePlain = "plain";
@@ -43,6 +44,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
     this.state = {
       isSparkling: false,
       beverageSelected: null,
+      slideOpen: false,
       beverageConfig: {
         flavor_level: null,
         carbonation_level: null,
@@ -56,15 +58,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
       const { beverage_type, line_id } = beverage;
       return beverage_type === beveragePlain || beverage_type === beverageBev && line_id > 0;
     });
-    // this.beverages = [
-    //   {label: "Water", id: 9, type: "water"},
-    //   {label: "Lemon Lime", id: 1},
-    //   {label: "Raspberry Lime", id: 2},
-    //   {label: "Lemon Mint", id: 3},
-    //   {label: "Ginger Lemon", id: 4},
-    //   {label: "Peach", id: 5},
-    //   {label: "Cucumber", id: 6}
-    // ];
+
     console.log(this.beverages);
 
     this.types = [
@@ -191,6 +185,13 @@ export class Home extends React.Component<HomeProps, HomeState> {
     this.setState({beverageConfig});
   }
 
+  private handleSlide = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      slideOpen: !prevState.slideOpen
+    }));
+  }
+
   /* ==== ROUTING ==== */
   /* ======================================== */
 
@@ -212,15 +213,43 @@ export class Home extends React.Component<HomeProps, HomeState> {
   /* ==== LAYOUT ==== */
   /* ======================================== */
 
+  private Slide = () => {
+    const { slideOpen } = this.state;
+    const slideBeverages = slideOpen ? this.beverages.slice(0, 3) : this.beverages.slice(0, 2);
+    return (
+      <React.Fragment>
+        <Slide pose={slideOpen ? "open" : "close"}>
+          <Header>
+            <h2>Good morning, Angelicalongname!</h2>
+          </Header>
+          <Grid numElement={slideBeverages.length}>
+          {slideBeverages.map((b, i) => {
+            return (
+            <BeverageAnimated key={i} type={this.state.isSparkling ? "sparkling" : null} onClick={() => this.selectBeverage(b)}>
+              <div id="element">
+                <h3>{__(b.beverage_label_id)}</h3>
+                <h6>0-CALS</h6>
+                <h5>Tap to Customize</h5>
+              </div>
+            </BeverageAnimated>
+            );
+          })}
+          </Grid>
+          <Footer>
+            <Button text="SING OUT" />
+          </Footer>
+          <ToggleSlide onClick={() => this.handleSlide()} src={"icons/arrow-circle.svg"} />
+        </Slide>
+      </React.Fragment>
+    );
+  }
+
   private ChoiceBeverage = () => {
     return (
       <React.Fragment>
-        <SlideComponent />
+        {/* <SlideComponent /> */}
         <ChoiceBeverageWrap>
           <Gesture onGesture={this.onGesture} />
-          <Header>
-            <h2>Good morning!</h2>
-          </Header>
           <Grid numElement={this.beverages.length}>
           {this.beverages.map((b, i) => {
             return (
@@ -328,17 +357,20 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   render() {
     return (
-      <HomeContent beverageIsSelected={Boolean(this.getBeverageSelected())}>
-        <this.ChoiceBeverage />
-        <div id="types-group">
-          <ButtonGroup
-            options={this.types}
-            value={this.state.isSparkling}
-            onChange={(value) => this.handleType(value)}>
-          </ButtonGroup>
-        </div>
-        {this.getBeverageSelected() && <this.CustomizeBeverage />}
-      </HomeContent>
+      <React.Fragment>
+        <this.Slide />
+        <HomeContent beverageIsSelected={Boolean(this.getBeverageSelected())}>
+          <this.ChoiceBeverage />
+          <div id="types-group">
+            <ButtonGroup
+              options={this.types}
+              value={this.state.isSparkling}
+              onChange={(value) => this.handleType(value)}>
+            </ButtonGroup>
+          </div>
+          {this.getBeverageSelected() && <this.CustomizeBeverage />}
+        </HomeContent>
+      </React.Fragment>
     );
   }
 }
