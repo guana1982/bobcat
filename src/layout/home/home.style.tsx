@@ -5,13 +5,19 @@ import posed from "react-pose";
 /* ==== ANIMATIONS ==== */
 /* ======================================== */
 
-const _sizeSlide = "20rem";
+const _sizeSlide = "25vw";
 const _Slide = posed.div({
   close: {
-    width: _sizeSlide
+    transform: "translate3d(-73.5vw, 0, 0)",
+    transition: {
+      duration: 300,
+    }
   },
   open: {
-    width: "98.5%"
+    transform: "translate3d(0vw, 0, 0)",
+    transition: {
+      duration: 300,
+    }
   }
 });
 const _toggleSlide = posed.img({
@@ -90,7 +96,7 @@ export const Beverage = styled<BeverageProps, "div">("div")`
   will-change: width, height, left, top;
   text-align: center;
   pointer-events: default;
-  height: ${_sizeBeverage * 1.4}rem;
+  height: ${_sizeBeverage * 1.6}rem;
   width: ${_sizeBeverage * 1.4}rem;
   #element {
     position: relative;
@@ -177,14 +183,39 @@ export const Grid = styled<GridProps, "div">("div")`
   }};
 `;
 
-export const BeverageAnimated = posed(Beverage)({
-  close: {
-    // transform: "scale(1)"
-  },
-  open: {
-    // transform: "scale(1.2)"
-  }
-});
+export const BeveragesAnimated = [
+  posed(Beverage)({
+    close: {
+      transform: "translate3d(calc(79.8vw - 230px), -7.5rem, 0px) scale(1)",
+      delay: 50
+    },
+    open: {
+      transform: "translate3d(calc(0vw - 0px), 0rem, 0px) scale(1.2)",
+      delay: 50
+    }
+  }),
+  posed(Beverage)({
+    close: {
+      transform: "translate3d(calc(55.4vw - 230px), 10.2rem, 0px) scale(1)",
+      delay: 75
+    },
+    open: {
+      transform: "translate3d(calc(0vw - 0px), 0rem, 0px) scale(1.4)",
+      delay: 75
+    }
+  }),
+  posed(Beverage)({
+    close: {
+      transform: "translate3d(calc(31vw - 230px), -34rem, 0px) scale(1)",
+      delay: 100
+    },
+    open: {
+      transform: "translate3d(calc(0vw - 0px), 0rem, 0px) scale(1.2)",
+      delay: 100
+    }
+  })
+];
+
 
 /* ==== CARDS ==== */
 /* ======================================== */
@@ -303,13 +334,26 @@ export const InfoCard = styled.div`
 /* ==== LAYOUT ==== */
 /* ======================================== */
 
-export const Header = styled.div`
+const _HeaderSlide = styled.div`
   padding: 1.5rem;
+  position: absolute;
+  right: 0;
   h2 {
     margin: 1rem;
     color: ${props => props.theme.primary};
   }
 `;
+
+export const HeaderAnimated = posed(_HeaderSlide)({
+  close: {
+    transform: "translate3d(0px, 0px, 0)",
+    width: "25vw"
+  },
+  open: {
+    transform: "translate3d(10px, 10px, 0)",
+    width: "100%"
+  }
+});
 
 export const Footer = styled.div`
   position: absolute;
@@ -351,13 +395,26 @@ export const ChoiceBeverageWrap = styled.section`
 export const Slide = styled(_Slide)`
   position: absolute;
   top: 0;
-  width: ${_sizeSlide};
+  width: 98.6vw;
   z-index: 2;
   background: ${props => props.theme.spindle};
   height: 100vh;
   ${Footer} {
     width: ${_sizeSlide};
     right: 0;
+    padding: 1.5rem;
+    button {
+      margin: auto;
+    }
+  }
+  ${Grid} {
+    position: absolute;
+    top: 15.7rem;
+    right: 0;
+    width: 100%;
+    max-width: 80%;
+    margin: 0% 10%;
+    justify-content: space-evenly;
   }
 `;
 
@@ -381,7 +438,7 @@ export const HomeContent = styled<HomeContentProps, "div">("div")`
   top: 0;
   left: ${_sizeSlide};
   ${Grid} {
-    padding-top: 9.1rem;
+    padding-top: 8.1rem;
   }
   ${ChoiceBeverageWrap} {
     filter: ${props => props.beverageIsSelected ? "blur(5px)" : null};
