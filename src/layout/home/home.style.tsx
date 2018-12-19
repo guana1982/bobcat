@@ -186,31 +186,31 @@ export const Grid = styled<GridProps, "div">("div")`
 export const BeveragesAnimated = [
   posed(Beverage)({
     close: {
-      transform: "translate3d(calc(79.8vw - 230px), -7.5rem, 0px) scale(1)",
+      transform: "translate3d(62.8vw, -7.5rem, 0px) scale(1)",
       delay: 50
     },
     open: {
-      transform: "translate3d(calc(0vw - 0px), 0rem, 0px) scale(1.2)",
+      transform: "translate3d(0vw, 0rem, 0px) scale(1.2)",
       delay: 50
     }
   }),
   posed(Beverage)({
     close: {
-      transform: "translate3d(calc(55.4vw - 230px), 10.2rem, 0px) scale(1)",
+      transform: "translate3d(36.5vw, 10.2rem, 0px) scale(1)",
       delay: 75
     },
     open: {
-      transform: "translate3d(calc(0vw - 0px), 0rem, 0px) scale(1.4)",
+      transform: "translate3d(0vw, 0rem, 0px) scale(1.4)",
       delay: 75
     }
   }),
   posed(Beverage)({
     close: {
-      transform: "translate3d(calc(31vw - 230px), -34rem, 0px) scale(1)",
+      transform: "translate3d(10vw, 34rem, 0px) scale(1)",
       delay: 100
     },
     open: {
-      transform: "translate3d(calc(0vw - 0px), 0rem, 0px) scale(1.2)",
+      transform: "translate3d(0vw, 0rem, 0px) scale(1.2)",
       delay: 100
     }
   })
@@ -414,7 +414,7 @@ export const Slide = styled(_Slide)`
     width: 100%;
     max-width: 80%;
     margin: 0% 10%;
-    justify-content: space-evenly;
+    justify-content: space-around;
   }
 `;
 
