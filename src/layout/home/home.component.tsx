@@ -222,15 +222,21 @@ export class Home extends React.Component<HomeProps, HomeState> {
           <HeaderAnimated>
             <h2>Good morning, Angelicalongname!</h2>
           </HeaderAnimated>
+          <h1 id="title">Your Drinks</h1>
           <Grid numElement={slideBeverages.length}>
           {slideBeverages.map((b, i) => {
             const BeverageAnimated = BeveragesAnimated[i];
             return (
-            <BeverageAnimated key={i} type={this.state.isSparkling ? "sparkling" : null} onClick={() => this.selectBeverage(b)}>
+            <BeverageAnimated key={i} type={i === 1 ? "info" : this.state.isSparkling ? "sparkling" : null} onClick={() => this.selectBeverage(b)}>
               <div id="element">
+                <div id="indicators">
+                  {(i === 1 || i === 2) && <img src="icons/heart.svg" />}
+                  {i === 1 && <img src="icons/heart.svg" />}
+                </div>
                 <h3>{__(b.beverage_label_id)}</h3>
                 <h6>0-CALS</h6>
-                <h5>Tap to Customize</h5>
+                {i === 1 && <h5>Save favorites from smartphone</h5> }
+                {i === 0 && <div id="overlay"><h4>Pouring</h4></div>}
               </div>
             </BeverageAnimated>
             );
@@ -258,7 +264,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
               <div id="element">
                 <h3>{__(b.beverage_label_id)}</h3>
                 <h6>0-CALS</h6>
-                <h5>Tap to Customize</h5>
+                {/* <h5>Tap to Customize</h5> */}
               </div>
             </Beverage>
             );

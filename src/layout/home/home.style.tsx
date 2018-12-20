@@ -86,7 +86,10 @@ export const Button = styled<ButtonProps, "button">("button")`
 
 /* ==== GRID ==== */
 /* ======================================== */
-
+export enum BeverageType {
+  Info = "info",
+  Sparkling = "sparkling"
+}
 const _sizeBeverage = 11;
 interface BeverageProps { size?: string; status?: string; type?: string; }
 export const Beverage = styled<BeverageProps, "div">("div")`
@@ -100,20 +103,24 @@ export const Beverage = styled<BeverageProps, "div">("div")`
   width: ${_sizeBeverage * 1.4}rem;
   #element {
     position: relative;
-    border: ${props => `2px solid ${props.theme.primary}`};
-    background-color: ${props => props.theme[props.status === "active" ? "primary" : "light"] };
+    border: ${props => `2px ${props.type === BeverageType.Info ? "dashed" : "solid"} ${props.theme.primary}`};
+    background-color: ${props => props.type === BeverageType.Info ? "rgba(255, 255, 255, 0.3)" : props.theme["light"] };
     width: 100%;
-    border-radius: 1.2rem;
+    border-radius: 1rem;
     color: #0034B0;
     height: 100%;
     text-align: left;
+    * {
+      opacity: ${props => props.type === BeverageType.Info ? .6 : 1 };
+    }
     &:before {
       content: " ";
       opacity: .7;
       position: absolute;
-      right: 1rem;
-      bottom: .5rem;
+      right: .5rem;
+      bottom: .1rem;
       width: 100%;
+      height: 5.4rem !important;
       height: ${_sizeBeverage / 2.5}rem;
       background-position: right;
       background-repeat: no-repeat;
@@ -121,14 +128,16 @@ export const Beverage = styled<BeverageProps, "div">("div")`
     }
     h3 {
       position: relative;
-      top: ${_sizeBeverage / 8}rem;
-      left: .5rem;
+      word-wrap: break-word;
+      top: ${_sizeBeverage / 2.5}rem;
+      left: .7rem;
       font-size: ${_sizeBeverage / 7}rem;
       margin: .5rem;
+      left: 0;
       &:before {
         position: absolute;
         top: -20px;
-        content: "${props => props.type} ";
+        content: "${props => props.type === BeverageType.Sparkling ? props.type : null} ";
         display: block;
         text-transform: capitalize;
         font-size: 1rem;
@@ -137,23 +146,50 @@ export const Beverage = styled<BeverageProps, "div">("div")`
     }
     h6 {
       position: relative;
-      top: 1.5rem;
+      top: ${_sizeBeverage / 2.5}rem;
       left: .5rem;
-      font-size: ${_sizeBeverage / 15}rem;
+      font-size: ${_sizeBeverage / 13.5}rem;
       bottom: 0;
       color: ${props => props.status === "active" ? "#fff" : props.theme.primary };
       margin: .7rem;
       text-align: left;
+      left: 0;
     }
     h5 {
       position: absolute;
-      font-size: ${_sizeBeverage / 14}rem;
+      text-align: center;
+      font-size: ${_sizeBeverage / 10}rem;
+      opacity: 1 !important;
       font-weight: 600;
       right: .5rem;
       bottom: .5rem;
       color: ${props => props.status === "active" ? "#fff" : props.theme.primary };
       margin: .7rem;
-      text-align: left;
+    }
+  }
+  #indicators {
+    position: absolute;
+    right: 0;
+    top: 10px;
+    img {
+      width: 2rem;
+      margin-right: 10px;
+    }
+  }
+  #overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 91, 195, .9);
+    border-radius: 0.7rem;
+    h4 {
+      word-wrap: break-word;
+      margin-top: calc(50% - .75rem);
+      color: #fff;
+      text-align: center;
+      font-size: 1.5rem;
     }
   }
 `;
@@ -382,6 +418,7 @@ export const CustomizeBeverageWrap = styled.section`
     left: 0;
     height: 100vh;
     width: 75vw;
+    background: rgba(0, 91, 195, .6);
   }
 `;
 
@@ -399,6 +436,13 @@ export const Slide = styled(_Slide)`
   z-index: 2;
   background: ${props => props.theme.spindle};
   height: 100vh;
+  #title {
+    position: absolute;
+    top: 7rem;
+    left: 5rem;
+    font-size: 2rem;
+    color: ${props => props.theme.primary};
+  }
   ${Footer} {
     width: ${_sizeSlide};
     right: 0;
@@ -441,7 +485,7 @@ export const HomeContent = styled<HomeContentProps, "div">("div")`
     padding-top: 8.1rem;
   }
   ${ChoiceBeverageWrap} {
-    filter: ${props => props.beverageIsSelected ? "blur(5px)" : null};
+    /* filter: ${props => props.beverageIsSelected ? "blur(5px)" : null}; */
     &:after {
       display: ${props => !props.beverageIsSelected ? "none" : null};
       content: '';
@@ -459,6 +503,7 @@ export const HomeContent = styled<HomeContentProps, "div">("div")`
     top: 2rem;
     left: calc(50% - 13.5rem);
     margin: auto;
+    z-index: 1;
     ${ButtonGroupWrapper} {
       width: 25rem;
     }
