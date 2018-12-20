@@ -47,7 +47,7 @@ const _sizePour = 105;
 export const Pour = styled.button`
   position: absolute;
   bottom: ${-_sizePour / 5}px;
-  right: calc(50vw - ${_sizePour}px);
+  right: calc(50% - ${_sizePour}px);
   height: ${_sizePour}px;
   width: ${_sizePour * 2}px;
   border-top-left-radius: ${_sizePour * 2}px;
@@ -223,13 +223,13 @@ export const BeveragesAnimated = [
 interface CustomizeBeverageProps { type?: string; }
 export const CustomizeBeverageCard = styled<CustomizeBeverageProps, "div">("div")`
   position: absolute;
-  top: 9rem;
-  left: calc(50% - 15rem);
+  top: 10rem;
+  left: calc(50% - 13.5rem);
   background-color: ${props => props.theme.light};
   border: 1px solid ${props => props.theme.primary};
   border-radius: 15px;
   max-width: 40vw;
-  padding: 20px;
+  padding: 10px;
   header {
     position: relative;
     min-height: 10rem;
@@ -284,18 +284,19 @@ export const InfoCard = styled.div`
   background: rgb(166, 202, 237);
   color: rgb(37, 107, 192);
   text-align: center;
-  top: 11rem;
-  width: 18rem;
+  top: 12rem;
+  width: 14rem;
+  height: 27rem;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   padding: 15px;
   border: 1px solid ${props => props.theme.primary};
   &.right {
-    left: calc(15% - 9rem);
+    left: calc(15% - 6.5rem);
   }
   &.left {
-    right: calc(15% - 9rem);
+    right: calc(15% - 6.5rem);
     footer {
       padding-top: 0rem;
     }
@@ -316,16 +317,16 @@ export const InfoCard = styled.div`
     min-height: 8rem
   }
   h3 {
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: 600;
   }
   h2 {
-    font-size: 2.3rem;
+    font-size: 1.9rem;
     font-weight: 600;
     margin: 0;
   }
   h4 {
-    font-size: 1.7rem;
+    font-size: 1.3rem;
     font-weight: 500;
     margin: 0;
   }
@@ -375,13 +376,12 @@ export const CustomizeBeverageWrap = styled.section`
   top: 0;
   left: 0;
   height: 100vh;
-  width: 100vw;
+  width: 75vw;
   #backdrop {
-    position: absolute;
     top: 0;
     left: 0;
     height: 100vh;
-    width: 100vw;
+    width: 75vw;
   }
 `;
 

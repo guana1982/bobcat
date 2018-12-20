@@ -57,7 +57,7 @@ const ButtonGroupContent = styled.div`
     display: inline-block;
     color: ${props => props.theme.primary};
     text-transform: capitalize;
-    width: 8rem;
+    width: 6.5rem;
     font-size: 1.2rem;
     text-align: left;
     font-weight: 600;
