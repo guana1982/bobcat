@@ -2,15 +2,14 @@ import * as React from "react";
 import { Route } from "react-router";
 
 /* ==== PAGES ==== */
-import HomeComponent from "../layout/home/home.component";
-import PrepayComponent from "../layout/prepay/prepay.component";
-import MenuComponent from "../layout/menu/menu.component";
+import HomeComponent from "@modules/main/pages/home/home.component";
+import PrepayComponent from "@modules/main/pages/prepay/prepay.component";
+// import MenuComponent from "@modules/main/pages/menu/menu.component";
 
 /* ==== STORES ==== */
-import { ConfigConsumer } from "../store";
-import { TimerConsumer } from "../store/timer.store";
+import { ConfigConsumer, TimerConsumer } from "@containers/index";
 import { GlobalStyle } from "./app.style";
-import AttractorComponent from "../layout/attractor/attractor.component";
+import AttractorComponent from "@modules/main/pages/attractor/attractor.component";
 
 class AppRouter extends React.Component<any, any> {
 
@@ -38,7 +37,7 @@ class AppRouter extends React.Component<any, any> {
           <Route exact path="/" component={this.withGlobalConsumer(AttractorComponent)}/>
           <Route path="/home" component={this.withGlobalConsumer(HomeComponent)}/>
           <Route path="/prepay" component={this.withGlobalConsumer(this.withGlobalConsumer(PrepayComponent))}/>
-          <Route path="/menu/:typeMenu(tech|crew)" component={this.withGlobalConsumer(MenuComponent)}/>
+          {/* <Route path="/menu/:typeMenu(tech|crew)" component={this.withGlobalConsumer(MenuComponent)}/> */}
       </section>
     );
   }

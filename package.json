@@ -53,6 +53,7 @@
     "@zxing/library": "^0.8.3",
     "animated": "^0.2.2",
     "axios": "^0.18.0",
+    "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-styled-components": "^1.8.0",
     "classnames": "^2.2.6",
     "create-subscription": "^16.5.2",

@@ -9,7 +9,16 @@
         "lib": ["es5", "es6", "dom", "es7"],
         "experimentalDecorators": true,
         "allowJs": true,
-        "downlevelIteration": true
+        "downlevelIteration": true,
+        "baseUrl": ".",
+        "paths": {
+            "@core/*": ["src/app/core/*"],
+            "@components/*": ["src/app/core/components/*"],
+            "@containers/*": ["src/app/core/containers/*"],
+            "@models/*": ["src/app/core/models/*"],
+            "@utils/*": ["src/app/core/utils/*"],
+            "@modules/*": ["src/app/modules/*"]
+        }
     },
     "include": [
         "./src/**/*"

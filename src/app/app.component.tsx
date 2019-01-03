@@ -7,10 +7,10 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { MemoryRouter } from "react-router";
 
 import { ThemeProvider } from "styled-components";
-import { ConfigStore, TimerStore } from "../store";
+import { ConfigStore, TimerStore } from "@containers/index";
 import AppRouter from "./app.router";
 import { theme1, theme2 } from "./app.style";
-import InactivityHandler from "../components/Menu/InactivityHandler";
+// import InactivityHandler from "../components/Menu/InactivityHandler";
 
 const fullScreen = compose(
   lifecycle({
