@@ -10,6 +10,7 @@ import PrepayComponent from "@modules/main/pages/prepay/prepay.component";
 import { ConfigConsumer, TimerConsumer } from "@containers/index";
 import { GlobalStyle } from "./app.style";
 import AttractorComponent from "@modules/main/pages/attractor/attractor.component";
+import { MenuComponent } from "@modules/service/pages/menu/menu.components";
 
 class AppRouter extends React.Component<any, any> {
 
@@ -34,7 +35,8 @@ class AppRouter extends React.Component<any, any> {
     return (
       <section>
           <GlobalStyle />
-          <Route exact path="/" component={this.withGlobalConsumer(AttractorComponent)}/>
+          <Route exact path="/" component={this.withGlobalConsumer(MenuComponent)}/>
+          {/* <Route exact path="/" component={this.withGlobalConsumer(AttractorComponent)}/> */}
           <Route path="/home" component={this.withGlobalConsumer(HomeComponent)}/>
           <Route path="/prepay" component={this.withGlobalConsumer(this.withGlobalConsumer(PrepayComponent))}/>
           {/* <Route path="/menu/:typeMenu(tech|crew)" component={this.withGlobalConsumer(MenuComponent)}/> */}
