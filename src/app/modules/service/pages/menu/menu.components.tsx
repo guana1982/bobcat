@@ -1,6 +1,8 @@
 import * as React from "react";
-import { MButton } from "@modules/service/components/Button";
+import { MButton, MTypes } from "@modules/service/components/Button";
 import { MenuContent, Grid, Group, SIZE_GROUP_ALARM, SIZE_GROUP_INFO } from "./menu.style";
+import { ThemeProvider } from "styled-components";
+import { themeMenu } from "@style";
 
 interface MenuProps {}
 
@@ -24,8 +26,7 @@ export class MenuComponent extends React.Component<MenuProps, MenuState> {
 
   render() {
     return (
-      <div>
-        <p>Test</p>
+      <ThemeProvider theme={themeMenu}>
         <MenuContent>
           <Grid>
             <Group title="LINES ASSIGNMENT">
@@ -50,11 +51,11 @@ export class MenuComponent extends React.Component<MenuProps, MenuState> {
             <Group title="SYSTEM">
               <MButton>SYSTEM REBOOT</MButton>
               <MButton>SERVICE LANGUAGE</MButton>
-              <MButton>CONNECTIVITY</MButton>
+              <MButton info type={MTypes.INFO_SUCCESS}>CONNECTIVITY</MButton>
               <MButton>UPDATE</MButton>
             </Group>
             <Group title="ALARMS" size={SIZE_GROUP_ALARM}>
-              <MButton>EQUIPMENT STATUS</MButton>
+              <MButton info type={MTypes.INFO_DANGER}>EQUIPMENT STATUS</MButton>
             </Group>
             <Group id="info-group" size={SIZE_GROUP_INFO}>
               <ul>
@@ -69,7 +70,7 @@ export class MenuComponent extends React.Component<MenuProps, MenuState> {
             <MButton id="exit-btn">EXIT TO COSUMER UI</MButton>
           </Grid>
         </MenuContent>
-      </div>
+      </ThemeProvider>
     );
   }
 }

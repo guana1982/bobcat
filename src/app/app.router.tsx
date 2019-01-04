@@ -8,7 +8,7 @@ import PrepayComponent from "@modules/main/pages/prepay/prepay.component";
 
 /* ==== STORES ==== */
 import { ConfigConsumer, TimerConsumer } from "@containers/index";
-import { GlobalStyle } from "./app.style";
+import { GlobalStyle } from "@style";
 import AttractorComponent from "@modules/main/pages/attractor/attractor.component";
 import { MenuComponent } from "@modules/service/pages/menu/menu.components";
 

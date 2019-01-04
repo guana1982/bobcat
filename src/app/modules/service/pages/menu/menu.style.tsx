@@ -5,27 +5,6 @@ import { MButton } from "../../components/Button";
 /* ==== COMPONENTS ==== */
 /* ======================================== */
 
-// const _sizeButton = 60;
-// interface ButtonProps { icon?: string; text?: string; }
-// export const Button = styled<ButtonProps, "button">("button")`
-//   height: ${_sizeButton}px;
-//   width: ${_sizeButton * 2}px;
-//   border-radius: 30px;
-//   font-size: ${_sizeButton / 4}px;
-//   font-weight: 600;
-//   &:before {
-//     content: "${props => props.text}";
-//   }
-//   &, &:active {
-//     color: ${props => props.theme.light};
-//     background: ${props => props.theme.primary};
-//   }
-//   &:active {
-//     opacity: .7;
-//   }
-// `;
-
-
 /* ==== GRID ==== */
 /* ======================================== */
 
@@ -50,7 +29,7 @@ interface GroupProps { size?: number; title?: string; }
 export const Group = styled<GroupProps, "div">("div")`
   /* max-height: 25%; */
   position: relative;
-  background: #E7E7E7;
+  background: ${props => props.theme.primary};
   border-radius: 1rem;
   margin: .5rem;
   padding: .5rem;
@@ -99,7 +78,7 @@ export const Group = styled<GroupProps, "div">("div")`
 
 interface HomeContentProps { beverageIsSelected?: boolean; }
 export const MenuContent = styled<HomeContentProps, "div">("div")`
-  background: #1C1C1C;
+  background: ${props => props.theme.dark};
   width: 100vw;
   height: 100vh;
   position: absolute;

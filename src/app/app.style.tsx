@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-export const theme1 = {
+export const themeMain = {
   primary: "#005BC3",
   secondary: "#E9F3FC",
   danger: "#f16623",
@@ -10,12 +10,14 @@ export const theme1 = {
   spindle: "#b6ceef"
 };
 
-export const theme2 = {
-  primary: "#ff0198",
-  secondary: "#01c1d6",
-  danger: "#eb238e",
-  light: "#f4f4f4",
-  dark: "#222"
+export const themeMenu = {
+  primary: "#E7E7E7",
+  secondary: "#D9D9D9",
+  danger: "#D60000",
+  warning: "#FAD201",
+  success: "#009933",
+  light: "#FCFCFC",
+  dark: "#262626"
 };
 
 export const GlobalStyle = createGlobalStyle`

@@ -8,9 +8,9 @@ import { MemoryRouter } from "react-router";
 
 import { ThemeProvider } from "styled-components";
 import { ConfigStore, TimerStore } from "@containers/index";
+import { themeMain } from "@style";
 import AppRouter from "./app.router";
-import { theme1, theme2 } from "./app.style";
-// import InactivityHandler from "../components/Menu/InactivityHandler";
+declare var document: any;
 
 const fullScreen = compose(
   lifecycle({
@@ -31,7 +31,7 @@ export default fullScreen(({
 }) => {
   return (
     <MemoryRouter>
-      <ThemeProvider theme={theme1}>
+      <ThemeProvider theme={themeMain}>
         <ConfigStore>
           <TimerStore>
             <AppRouter />

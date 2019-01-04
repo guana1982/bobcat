@@ -12,6 +12,7 @@
         "downlevelIteration": true,
         "baseUrl": ".",
         "paths": {
+            "@style": ["src/app/app.style"],
             "@core/*": ["src/app/core/*"],
             "@components/*": ["src/app/core/components/*"],
             "@containers/*": ["src/app/core/containers/*"],
