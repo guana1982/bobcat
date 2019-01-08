@@ -7,12 +7,13 @@ export enum MTypes {
 }
 
 const _size = 6;
-interface MButtonProps { info?: any; type?: MTypes; }
+interface MButtonProps { info?: any; type?: MTypes; light: boolean; visibled: boolean; }
 export const MButton = styled<MButtonProps, "button">("button")`
   position: relative;
   width: ${_size * 1.5}rem;
   height: ${_size}rem;
-  background: ${props => props.theme.secondary};
+  background: ${props => props.theme[props.light ? "light" : "secondary"]};
+  opacity: ${props => props.visibled ? 1 : null};
   color: ${props => props.theme.dark};
   font-size: 1.2rem;
   font-weight: 500;

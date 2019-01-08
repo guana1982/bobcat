@@ -30,25 +30,24 @@ module.exports = {
         use: [
           'style-loader', 
           { 
-            loader: 'typings-for-css-modules-loader', 
-            options: cssOptions
+            loader: 'css-loader'
           }
         ],
       },
-      {
-        test: /\.scss$/,
-        loaders: [
-          'style-loader',
-          { 
-            loader: 'typings-for-css-modules-loader',  
-            options: { 
-              ...cssOptions,
-              sass: true
-            } 
-          },
-          'sass-loader',
-        ],
-      },
+      // {
+      //   test: /\.scss$/,
+      //   loaders: [
+      //     'style-loader',
+      //     { 
+      //       loader: 'typings-for-css-modules-loader',  
+      //       options: { 
+      //         ...cssOptions,
+      //         sass: true
+      //       } 
+      //     },
+      //     'sass-loader',
+      //   ],
+      // },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loaders: [

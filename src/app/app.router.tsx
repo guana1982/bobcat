@@ -10,7 +10,7 @@ import PrepayComponent from "@modules/main/pages/prepay/prepay.component";
 import { ConfigConsumer, TimerConsumer } from "@containers/index";
 import { GlobalStyle } from "@style";
 import AttractorComponent from "@modules/main/pages/attractor/attractor.component";
-import { MenuComponent } from "@modules/service/pages/menu/menu.components";
+import { MenuComponent } from "@modules/service/pages/menu/menu.component";
 
 class AppRouter extends React.Component<any, any> {
 
