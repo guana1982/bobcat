@@ -1,8 +1,6 @@
 import * as React from "react";
 import { compose, lifecycle } from "recompose";
 
-import { I18nextProvider } from "react-i18next";
-
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { MemoryRouter } from "react-router";
 

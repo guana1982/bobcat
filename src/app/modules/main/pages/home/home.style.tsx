@@ -375,6 +375,11 @@ const _HeaderSlide = styled.div`
   padding: 1.5rem;
   position: absolute;
   right: 0;
+  word-wrap: break-word;
+  width: 25vw;
+  &.open {
+    width: 98vw;
+  }
   h2 {
     margin: 1rem;
     color: ${props => props.theme.primary};
@@ -383,12 +388,10 @@ const _HeaderSlide = styled.div`
 
 export const HeaderAnimated = posed(_HeaderSlide)({
   close: {
-    transform: "translate3d(0px, 0px, 0)",
-    width: "25vw"
+    // transform: "translate3d(0, 0px, 0)",
   },
   open: {
-    transform: "translate3d(10px, 10px, 0)",
-    width: "100%"
+    // transform: "translate3d(0, 10px, 0)",
   }
 });
 

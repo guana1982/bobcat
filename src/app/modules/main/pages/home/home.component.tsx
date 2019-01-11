@@ -219,7 +219,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
     return (
       <React.Fragment>
         <Slide pose={slideOpen ? "open" : "close"}>
-          <HeaderAnimated>
+          <HeaderAnimated className={slideOpen && "open"}>
             <h2>Good morning, Angelicalongname!</h2>
           </HeaderAnimated>
           <h1 id="title">Your Drinks</h1>
@@ -236,7 +236,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
                 <h3>{__(b.beverage_label_id)}</h3>
                 <h6>0-CALS</h6>
                 {i === 1 && <h5>Save favorites from smartphone</h5> }
-                {i === 0 && <div id="overlay"><h4>Pouring</h4></div>}
+                {/* {i === 0 && <div id="overlay"><h4>Pouring</h4></div>} */}
               </div>
             </BeverageAnimated>
             );
