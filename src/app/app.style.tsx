@@ -17,7 +17,7 @@ export const themeMenu = {
   warning: "#FAD201",
   success: "#009933",
   light: "#FCFCFC",
-  dark: "#262626"
+  dark: "#383838"
 };
 
 export const GlobalStyle = createGlobalStyle`

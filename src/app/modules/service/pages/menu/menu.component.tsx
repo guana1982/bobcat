@@ -69,7 +69,7 @@ export class MenuComponent extends React.Component<MenuProps, MenuState> {
                   <li>BIOS VERSION: ———</li>
                 </ul>
               </Group>
-              <MButton id="exit-btn">EXIT TO COSUMER UI</MButton>
+              <MButton id="exit-btn" onClick={() => location.reload()}>EXIT TO COSUMER UI</MButton>
             </Grid>
           </MenuContent>
 

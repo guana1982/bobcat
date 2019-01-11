@@ -1,6 +1,11 @@
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
 
+export enum ModalTheme {
+  Dark = "dark",
+  Light = "light"
+}
+
 export const Box = styled.div`
   &:not(.container) {
     display: flex;
@@ -47,7 +52,7 @@ const Overlay = styled.div`
   background: rgba(0,0,0, .6);
 `;
 
-const ModalWrapper = styled.div`
+export const ModalContent = styled.div`
   position: absolute;
   left: 50%;
   top: 50%;
@@ -90,6 +95,23 @@ const ModalWrapper = styled.div`
   }
 `;
 
+const ModalWrapper = styled.div`
+  &.${ModalTheme.Dark} {
+    ${Overlay} {
+      background: ${props => props.theme.secondary};
+      opacity: .5;
+    }
+    ${ModalContent} {
+      background: ${props => props.theme.dark};
+      header, footer {
+        h2, h3, button {
+          color: ${props => props.theme.light};
+        }
+      }
+    }
+  }
+`;
+
 export interface Action {
   title: string;
   icon?: any;
@@ -107,8 +129,8 @@ export const ACTIONS_CONFIRM: Action[] = [
   event: () => console.log("finish")
 }];
 
-
 interface ModalProps {
+  themeMode?: ModalTheme;
   title: string;
   subTitle?: string;
   content: any;
@@ -124,11 +146,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   readonly state: ModalState;
 
   render() {
-    const { title, subTitle, content, actions } = this.props;
+    const { title, subTitle, content, actions, themeMode } = this.props;
     return (
-      <React.Fragment>
+      <ModalWrapper className={themeMode}>
         <Overlay />
-        <ModalWrapper>
+        <ModalContent>
           <header>
             <h2>{title}</h2>
             {subTitle && <h3>{subTitle}</h3>}
@@ -139,8 +161,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
           <footer>
             { actions.map((action, index) => <button key={index} onClick={() => action.event()}>{action.title}</button>) }
           </footer>
-        </ModalWrapper>
-      </React.Fragment>
+        </ModalContent>
+      </ModalWrapper>
     );
   }
 }

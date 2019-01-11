@@ -10,6 +10,8 @@ import { ButtonGroup } from "../../components/ButtonGroup";
 import { CircleBtn } from "../../components/CircleBtn";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
+import Gesture from "@core/components/Gesture";
+import { NumberPad } from "@core/components/NumberPad";
 // import SlideComponent from "../../components/Slide";
 
 interface HomeProps {
@@ -197,9 +199,9 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   onGesture = (gestureType) => {
     if (gestureType === "p")
-      this.props.history.push("/menu/tech");
-    else if (gestureType === "v")
-      this.props.history.push("/menu/crew");
+      this.props.history.push("/service");
+    // else if (gestureType === "v")
+    //   this.props.history.push("/menu/crew");
   }
 
   private goToScreenSaver = () => {
@@ -256,7 +258,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
       <React.Fragment>
         {/* <SlideComponent /> */}
         <ChoiceBeverageWrap>
-          {/* <Gesture onGesture={this.onGesture} /> */}
+          <Gesture onGesture={this.onGesture} />
           <Grid numElement={this.beverages.length}>
           {this.beverages.map((b, i) => {
             return (
@@ -377,6 +379,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
           </div>
           {this.getBeverageSelected() && <this.CustomizeBeverage />}
         </HomeContent>
+        <NumberPad />
       </React.Fragment>
     );
   }

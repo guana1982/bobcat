@@ -40,6 +40,7 @@ class AppRouter extends React.Component<any, any> {
           <Route path="/home" component={this.withGlobalConsumer(HomeComponent)}/>
           <Route path="/prepay" component={this.withGlobalConsumer(this.withGlobalConsumer(PrepayComponent))}/>
           {/* <Route path="/menu/:typeMenu(tech|crew)" component={this.withGlobalConsumer(MenuComponent)}/> */}
+          <Route path="/service" component={this.withGlobalConsumer(MenuComponent)}/>
       </section>
     );
   }
