@@ -1,7 +1,7 @@
 
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
-import { MButton } from "./Button";
+import { MButton, MTypes } from "./Button";
 
 const ButtonGroupContent = styled.div`
   margin: 15px;
@@ -38,7 +38,12 @@ export class MButtonGroup extends React.Component<MButtonGroupProps, MButtonGrou
     return (
       <div>
           {this.props.options ? this.props.options.map((e, i) =>
-            <MButton key={i} onClick={() => this.props.onChange(e.value)} type="button">{e.label}</MButton>
+            <MButton
+              key={i} light
+              onClick={() => this.props.onChange(e.value)}
+              info type={this.props.value === e.value ? MTypes.INFO_SUCCESS : null}>
+              {e.label}
+            </MButton>
           ) : " --- " }
       </div>
     );

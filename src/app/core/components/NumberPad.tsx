@@ -5,6 +5,7 @@ import Keyboard from "react-simple-keyboard";
 import { Modal, ACTIONS_CONFIRM, Box, ModalTheme, ModalContent } from "../../modules/service/components/Modal";
 import { ThemeProvider } from "styled-components";
 import { themeMenu } from "@style";
+import { MInput } from "@modules/service/components/Input";
 
 const NumberPadWrapper = styled.div`
   position: absolute;
@@ -13,17 +14,6 @@ const NumberPadWrapper = styled.div`
   left: 0px;
   width: 100vw;
   height: 100vh;
-
-  input {
-    /* width: 100%;
-    height: 100px; */
-    border-radius: 15px;
-    padding: 10px;
-    margin: 30px;
-    font-size: 20px;
-    border: none;
-    box-sizing: border-box;
-  }
 
   ${ModalContent} {
     min-width: 380px;
@@ -112,7 +102,7 @@ export class NumberPad extends React.Component<NumberPadProps, NumberPadState> {
             themeMode={ModalTheme.Dark}
             content={
               <div>
-                <input
+                <MInput
                   value={this.state.input}
                   type="password"
                   onChange={e => console.log(e)}

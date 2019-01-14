@@ -4,10 +4,16 @@ import { MenuContent, Grid, Group, SIZE_GROUP_ALARM, SIZE_GROUP_INFO } from "./m
 import { ThemeProvider } from "styled-components";
 import { themeMenu } from "@style";
 import { Modal,  Box, ACTIONS_CONFIRM, ACTIONS_CLOSE } from "@modules/service/components/Modal";
+import { MButtonGroup } from "@modules/service/components/ButtonGroup";
 
 interface MenuProps {}
 
-interface MenuState {}
+interface MenuState {
+  languageList: any;
+  languageSelected: any;
+  videoList: any;
+  videoSelected: any;
+}
 
 export class MenuComponent extends React.Component<MenuProps, MenuState> {
 
@@ -15,6 +21,20 @@ export class MenuComponent extends React.Component<MenuProps, MenuState> {
 
   constructor(props) {
     super(props);
+    this.state = {
+      languageList: [
+        {label: "ENGLISH \n (United States)", value: 0},
+        {label: "FRANCAIS (Canada)", value: 1},
+        {label: "ESPANOL (Mexico)", value: 2}
+      ],
+      languageSelected: null,
+      videoList: [
+        {label: "video 1", value: 0},
+        {label: "video 2", value: 1},
+        {label: "video 3", value: 2}
+      ],
+      videoSelected: null,
+    };
   }
 
   componentDidMount() {
@@ -24,6 +44,22 @@ export class MenuComponent extends React.Component<MenuProps, MenuState> {
   componentWillUnmount() {
 
   }
+
+  /* ==== HANDLE ==== */
+  /* ======================================== */
+
+  handleLanguage = (value) => {
+    console.log(value);
+    this.setState({languageSelected: value});
+  }
+
+  handleVideo = (value) => {
+    console.log(value);
+    this.setState({videoSelected: value});
+  }
+
+  /* ==== MAIN ==== */
+  /* ======================================== */
 
   render() {
     return (
@@ -169,6 +205,32 @@ export class MenuComponent extends React.Component<MenuProps, MenuState> {
                   </h4>
                 </Box>
               </div>
+            }
+            actions={ACTIONS_CONFIRM}
+          ></Modal> */}
+
+          {/* <Modal
+            title="SERVICE LANGUAGE"
+            subTitle="SELECT DESIRED LANGUAGE"
+            content={
+              <MButtonGroup
+                options={this.state.languageList}
+                value={this.state.languageSelected}
+                onChange={(value) => this.handleLanguage(value)}
+              />
+            }
+            actions={ACTIONS_CONFIRM}
+          ></Modal> */}
+
+          {/* <Modal
+            title="VIDEO SELECTION"
+            subTitle="SELECT DESIRED VIDEO"
+            content={
+              <MButtonGroup
+                options={this.state.videoList}
+                value={this.state.videoSelected}
+                onChange={(value) => this.handleVideo(value)}
+              />
             }
             actions={ACTIONS_CONFIRM}
           ></Modal> */}

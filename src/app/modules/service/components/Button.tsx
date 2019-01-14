@@ -15,13 +15,14 @@ export const MButton = styled<MButtonProps, "button">("button")`
   background: ${props => props.theme[props.light ? "light" : "secondary"]};
   opacity: ${props => props.visibled ? 1 : null};
   color: ${props => props.theme.dark};
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   margin: 1rem;
   border-radius: 1rem;
   border: 1px solid ${props => props.theme.dark};
   text-transform: uppercase;
   padding: .5rem;
+  white-space: pre-wrap;
   &:active {
     background: ${props => props.theme.secondary};
     color: ${props => props.theme.dark};
