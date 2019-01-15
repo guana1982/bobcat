@@ -16,7 +16,7 @@ export const MButton = styled<MButtonProps, "button">("button")`
   opacity: ${props => props.visibled ? 1 : null};
   color: ${props => props.theme.dark};
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   margin: 1rem;
   border-radius: 1rem;
   border: 1px solid ${props => props.theme.dark};
@@ -32,7 +32,7 @@ export const MButton = styled<MButtonProps, "button">("button")`
     width: ${_size * 1.2}rem;
     height: ${_size}rem;
     font-size: 0.9rem;
-    font-weight: 600;
+    /* font-weight: 600; */
   }
   &:before {
     display: ${props => props.info ? null : "none"};

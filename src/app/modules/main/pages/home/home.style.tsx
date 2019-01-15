@@ -86,7 +86,7 @@ export const Button = styled<ButtonProps, "button">("button")`
 
 /* ==== GRID ==== */
 /* ======================================== */
-export enum BeverageType {
+export enum BeverageTypes {
   Info = "info",
   Sparkling = "sparkling"
 }
@@ -103,15 +103,15 @@ export const Beverage = styled<BeverageProps, "div">("div")`
   width: ${_sizeBeverage * 1.4}rem;
   #element {
     position: relative;
-    border: ${props => `2px ${props.type === BeverageType.Info ? "dashed" : "solid"} ${props.theme.primary}`};
-    background-color: ${props => props.type === BeverageType.Info ? "rgba(255, 255, 255, 0.3)" : props.theme["light"] };
+    border: ${props => `2px ${props.type === BeverageTypes.Info ? "dashed" : "solid"} ${props.theme.primary}`};
+    background-color: ${props => props.type === BeverageTypes.Info ? "rgba(255, 255, 255, 0.3)" : props.theme["light"] };
     width: 100%;
     border-radius: 1rem;
     color: #0034B0;
     height: 100%;
     text-align: left;
     * {
-      opacity: ${props => props.type === BeverageType.Info ? .6 : 1 };
+      opacity: ${props => props.type === BeverageTypes.Info ? .6 : 1 };
     }
     &:before {
       content: " ";
@@ -137,7 +137,7 @@ export const Beverage = styled<BeverageProps, "div">("div")`
       &:before {
         position: absolute;
         top: -20px;
-        content: "${props => props.type === BeverageType.Sparkling ? props.type : null} ";
+        content: "${props => props.type === BeverageTypes.Sparkling ? props.type : null} ";
         display: block;
         text-transform: capitalize;
         font-size: 1rem;

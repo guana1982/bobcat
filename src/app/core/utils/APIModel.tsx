@@ -1,4 +1,7 @@
 
+/* ==== BEVERAGE ==== */
+/* ======================================== */
+
 export interface IBeverageModel {
   carbonation_levels: Carbonationlevels;
   last_sanification_date: string;
@@ -37,3 +40,29 @@ interface Carbonationlevels {
   values: number[];
   type: string;
 }
+
+/* ==== CONNECTIVITY ==== */
+/* ======================================== */
+
+export interface IWifi {
+  actions: Action[];
+  networks: INetwork[];
+  wifi_enable: boolean;
+}
+
+export interface INetwork {
+  encryption: string;
+  power: string;
+  locked: boolean;
+  status: number;
+  bssid: string;
+  ip: string;
+  favorited: boolean;
+}
+
+interface Action {
+  label_id: string;
+  group_label_id: string;
+  id: string;
+}
+

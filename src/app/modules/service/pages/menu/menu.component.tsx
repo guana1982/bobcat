@@ -5,6 +5,7 @@ import { ThemeProvider } from "styled-components";
 import { themeMenu } from "@style";
 import { Modal,  Box, ACTIONS_CONFIRM, ACTIONS_CLOSE } from "@modules/service/components/Modal";
 import { MButtonGroup } from "@modules/service/components/ButtonGroup";
+import ConnectivityComponent from "../connectivity/connectivity.component";
 
 interface MenuProps {}
 
@@ -234,6 +235,8 @@ export class MenuComponent extends React.Component<MenuProps, MenuState> {
             }
             actions={ACTIONS_CONFIRM}
           ></Modal> */}
+
+          {/* <ConnectivityComponent /> */}
 
         </React.Fragment>
       </ThemeProvider>
