@@ -111,9 +111,9 @@ class ConnectivityComponent extends React.Component<ConnectivityProps, Connectiv
   render() {
     const { connectionList, connectionSelected, networks } = this.state;
     return (
-      <Modal
-        title="Connectivity"
-        content={
+      // <Modal
+      //   title="Connectivity"
+      //   content={
           <div>
             <Box>
               {connectionList.map((connection, index) => {
@@ -134,9 +134,9 @@ class ConnectivityComponent extends React.Component<ConnectivityProps, Connectiv
             {connectionSelected === ConnectionTypes.MobileData && <MobileData />}
             {connectionSelected === ConnectionTypes.Ethernet && <Ethernet />}
           </div>
-        }
-        actions={ACTIONS_CONFIRM}
-      ></Modal>
+      //   }
+      //   actions={ACTIONS_CONFIRM}
+      // ></Modal>
     );
   }
 }
