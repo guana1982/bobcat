@@ -34,7 +34,7 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
   }
 
   componentDidMount() {
-    // this.props.timerConsumer.startTimer();
+    this.props.timerConsumer.startTimer();
     this.start();
   }
 
