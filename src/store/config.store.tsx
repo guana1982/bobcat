@@ -156,7 +156,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       topping_id: 0,
       topping_perc_id: 0,
       beverage_id: beverage.beverage_id,
-      syrup_perc: config.flavor_level,
+      syrup_intensity: config.flavor_level,
       temperature_level: config.temperature_level,
       pour_method: "free_flow"
     };

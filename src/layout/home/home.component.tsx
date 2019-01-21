@@ -87,9 +87,9 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
     this.levels = {
       flavor: [
-        {label: "light", value: 0},
-        {label: "full", value: 50},
-        {label: "bold", value: 100}
+        {label: "light", value: 1},
+        {label: "full", value: 2},
+        {label: "bold", value: 3}
       ],
       carbonation: [
         {label: "light", value: 0},
@@ -120,7 +120,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
       beverageSelected: this.beverages.indexOf(beverage),
       beverageConfig: {
         ...prevState.beverageConfig,
-        flavor_level: beverage.beverage_type !== beveragePlain ? 50 : null,
+        flavor_level: beverage.beverage_type !== beveragePlain ? this.levels.flavor[0].value : null,
         b_complex: false,
         antioxidants: false
       }
