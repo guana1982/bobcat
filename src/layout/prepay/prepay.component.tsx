@@ -1,12 +1,11 @@
 import * as React from "react";
 
-import { ScreenContent, QrSquare, Webcam, InfoContent, PrepayContent, Header } from "./prepay.style";
+import { QrSquare, Webcam, PrepayContent, Header, SectionWrap, SectionContent } from "./prepay.style";
 import { ConfigConsumer, ConfigInterface } from "../../store";
 import { CircleBtn } from "../../components/global/CircleBtn";
 import { ReplaySubscription } from "../../components/global/Subscription";
 import { Subscription } from "rxjs";
 import { TimerInterface } from "../../store/timer.store";
-import { TimerLabel } from "../home/home.style";
 import mediumLevel from "../../utils/MediumLevel";
 import { tap, mergeMap, first, map } from "rxjs/operators";
 import { SOCKET_QR } from "../../utils/constants";
@@ -35,7 +34,7 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
   }
 
   componentDidMount() {
-    this.props.timerConsumer.startTimer();
+    // this.props.timerConsumer.startTimer();
     this.start();
   }
 
@@ -89,17 +88,27 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
     return (
       <PrepayContent>
         <Header>
-          <CircleBtn onClick={() => this.props.history.push("/home")} bgColor={"primary"} color={"light"} icon={"icons/back.svg"} />
+          <CircleBtn onClick={() => this.props.history.push("/home")} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
         </Header>
-        <ScreenContent>
-          <h2>Place your qr-code in front of the camera</h2>
-          <QrSquare />
-        </ScreenContent>
-        <Webcam />
-        <InfoContent>
+        <SectionContent>
+          <SectionWrap>
+            <h2>{"Download the Acqua+ App to \n to Create an Account!"}</h2>
+            <Webcam>
+              <QrSquare><span /></QrSquare>
+            </Webcam>
+          </SectionWrap>
+          <SectionWrap>
+            <img id="banner" src={"icons/smartphone_bottle.svg"} />
+            <h1>{"Present your code \n to the camera"}</h1>
+            <img id="icon" src={"icons/arrow.svg"} />
+          </SectionWrap>
+        </SectionContent>
+
+        {/* <InfoContent>
           <h2>{this.state.message || "---"}</h2>
           {this.state.message && <button onClick={() => this.start()}>try again</button>}
-        </InfoContent>
+        </InfoContent> */}
+
         {/* <ReplaySubscription source={this.props.timerConsumer.time$}>
           {time =>
             <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>

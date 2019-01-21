@@ -5,25 +5,61 @@ import styled from "styled-components";
 /* ======================================== */
 
 export const QrSquare = styled.div`
-  position: absolute;
-  left: 0;
-  right: 0;
+  position: relative;
   margin: auto;
-  top: 85px;
-  width: 230px;
-  height: 230px;
-  border: 2px solid white;
+  margin-top: 50px;
+  width: 250px;
+  height: 250px;
   z-index: 99;
+  &:before {
+      display: block;
+      content: "";
+      width: 4rem;
+      height: 4rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-top: .3rem solid #fff;
+      border-left: .3rem solid #fff;
+  }
+  &:after {
+      display: block;
+      content: "";
+      width: 4rem;
+      height: 4rem;
+      position: absolute;
+      top: 0;
+      right: 0;
+      border-top: .3rem solid #fff;
+      border-right: .3rem solid #fff;
+  }
+  span:before {
+      display: block;
+      content: "";
+      width: 4rem;
+      height: 4rem;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      border-bottom: .3rem solid #fff;
+      border-left: .3rem solid #fff;
+  }
+  span:after {
+      display: block;
+      content: "";
+      width: 4rem;
+      height: 4rem;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      border-bottom: .3rem solid #fff;
+      border-right: .3rem solid #fff;
+  }
 `;
 
 export const Webcam = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 270px;
-  height: 270px;
-  margin-left: -135px;
-  margin-top: -135px;
+  width: 350px;
+  height: 350px;
   background-color: #0000ff;
 `;
 
@@ -31,38 +67,44 @@ export const Webcam = styled.div`
 /* ======================================== */
 
 export const Header = styled.div`
-  padding: 1.5rem;
   display: flex;
+  justify-content: flex-end;
+  padding: 1.5rem;
 `;
 
-interface InfoContentProps { textColor?: string; }
-export const InfoContent = styled<InfoContentProps, "div">("div")`
-  text-align: center;
-  position: absolute;
-  bottom: 80px;
+export const SectionContent = styled.div`
+  display: flex;
   width: 100%;
-  h2 {
-    color: ${props => props.textColor || "black"};
-  }
-  button {
-    padding: 10px;
-    border: 1px solid gray;
-  }
+  height: calc(100% - 7.5rem);
 `;
 
-export const ScreenContent = styled.div`
-  position: absolute;
-  width: 600px;
-  height: 400px;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  color: white;
-  text-align: center;
-  h2 {
+export const SectionWrap = styled.div`
+  position: relative;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  &:nth-child(2) {
+    justify-content: space-around;
+  }
+  ${Webcam} {
+    margin-top: 3rem;
+  }
+  h1, h2 {
     color: ${props => props.theme.primary};
+    font-weight: 600;
+    white-space: pre-wrap;
+    text-align: center;
+  }
+  h2 { font-size: 2rem; }
+  h1 { font-size: 2.2rem; }
+  img {
+    &#banner {
+      width: 15rem;
+    }
+    &#icon {
+      width: 4rem;
+    }
   }
 `;
 
