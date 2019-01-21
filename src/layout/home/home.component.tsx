@@ -4,13 +4,14 @@ import { ConfigConsumer, ConfigInterface, TimerInterface } from "../../store";
 import LauncherComponent, { Action } from "../../components/global/Launcher";
 import Gesture from "../../components/Menu/Gesture";
 
-import { HomeContent, Footer, Grid, Beverage, Pour, CustomizeBeverageCard, InfoCard, TimerLabel, CustomizeBeverageWrap, ChoiceBeverageWrap, Slide, Button, ToggleSlide, BeveragesAnimated, HeaderAnimated } from "./home.style";
+import { HomeContent, Footer, Grid, Beverage, Pour, CustomizeBeverageCard, InfoCard, CustomizeBeverageWrap, ChoiceBeverageWrap, Slide, ToggleSlide, BeveragesAnimated, HeaderAnimated } from "./home.style";
 import { ReplaySubscription } from "../../components/global/Subscription";
 import { ButtonGroup } from "../../components/global/ButtonGroup";
 import { CircleBtn } from "../../components/global/CircleBtn";
 import { IBeverageConfig, IBeverage } from "../../models";
 import { __ } from "../../utils/lib/i18n";
 import SlideComponent from "../../components/global/Slide";
+import { Button, ButtonTypes } from "../../components/global/Button";
 
 interface HomeProps {
   history: any;
@@ -215,11 +216,11 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   private Slide = () => {
     const { slideOpen } = this.state;
-    const slideBeverages = this.beverages.slice(0, 3); // slideOpen ? this.beverages.slice(0, 3) : this.beverages.slice(0, 2);
+    const slideBeverages = [{beverage_label_id: "Favorite 1"}, {beverage_label_id: "Last Pour"}, {beverage_label_id: "Favorite 2"}]; // this.beverages.slice(0, 3);
     return (
       <React.Fragment>
         <Slide pose={slideOpen ? "open" : "close"}>
-          <HeaderAnimated>
+          <HeaderAnimated className={slideOpen && "open"}>
             <h2>Good morning, Angelicalongname!</h2>
           </HeaderAnimated>
           <h1 id="title">Your Drinks</h1>
@@ -227,24 +228,22 @@ export class Home extends React.Component<HomeProps, HomeState> {
           {slideBeverages.map((b, i) => {
             const BeverageAnimated = BeveragesAnimated[i];
             return (
-            <BeverageAnimated key={i} type={i === 1 ? "info" : this.state.isSparkling ? "sparkling" : null} onClick={() => this.selectBeverage(b)}>
+            <BeverageAnimated key={i} type={"info"}> {/* i === 1 ? "info" : this.state.isSparkling ? "sparkling" : null  // onClick={() => this.selectBeverage(b)} */}
               <div id="element">
                 <div id="indicators">
-                  {(i === 1 || i === 2) && <img src="icons/heart.svg" />}
-                  {i === 1 && <img src="icons/heart.svg" />}
+                  {(i === 0 || i === 2) && <img src="icons/heart.svg" />}
+                  {i === 1 && <img src="icons/rewind.svg" />}
                 </div>
                 <h3>{__(b.beverage_label_id)}</h3>
                 <h6>0-CALS</h6>
-                {i === 1 && <h5>Save favorites from smartphone</h5> }
-                {i === 0 && <div id="overlay"><h4>Pouring</h4></div>}
+                {i === 0 && !slideOpen && <h5>Save favorites from smartphone</h5> }
+                {/* {i === 0 && <div id="overlay"><h4>Pouring</h4></div>} */}
               </div>
             </BeverageAnimated>
             );
           })}
           </Grid>
-          <Footer>
-            <Button text="SING OUT" />
-          </Footer>
+          <h3 id="info">Save favorites from smartphone</h3>
           <ToggleSlide onClick={() => this.handleSlide()} src={"icons/arrow-circle.svg"} />
         </Slide>
       </React.Fragment>
@@ -282,6 +281,9 @@ export class Home extends React.Component<HomeProps, HomeState> {
           </Footer>
           <LauncherComponent actions={this.actionsLauncher} />
         </ChoiceBeverageWrap>
+        <Footer>
+          <Button type={ButtonTypes.Transparent} text="SING OUT" icon="logout" />
+        </Footer>
       </React.Fragment>
     );
   }

@@ -32,16 +32,16 @@ const _toggleSlide = posed.img({
 /* ==== COMPONENTS ==== */
 /* ======================================== */
 
-export const TimerLabel = styled.p`
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  background-color: ${props => props.theme.primary};
-  color: #fff;
-  padding: .5rem;
-  font-size: 1rem;
-  margin: 0;
-`;
+// export const TimerLabel = styled.p`
+//   position: absolute;
+//   right: 0;
+//   bottom: 0;
+//   background-color: ${props => props.theme.primary};
+//   color: #fff;
+//   padding: .5rem;
+//   font-size: 1rem;
+//   margin: 0;
+// `;
 
 const _sizePour = 105;
 export const Pour = styled.button`
@@ -63,27 +63,6 @@ export const Pour = styled.button`
   }
 `;
 
-const _sizeButton = 60;
-interface ButtonProps { icon?: string; text?: string; }
-export const Button = styled<ButtonProps, "button">("button")`
-  height: ${_sizeButton}px;
-  width: ${_sizeButton * 2}px;
-  border-radius: 30px;
-  font-size: ${_sizeButton / 4}px;
-  font-weight: 600;
-  &:before {
-    content: "${props => props.text}";
-  }
-  &, &:active {
-    color: ${props => props.theme.light};
-    background: ${props => props.theme.primary};
-  }
-  &:active {
-    opacity: .7;
-  }
-`;
-
-
 /* ==== GRID ==== */
 /* ======================================== */
 export enum BeverageType {
@@ -91,7 +70,7 @@ export enum BeverageType {
   Sparkling = "sparkling"
 }
 const _sizeBeverage = 11;
-interface BeverageProps { size?: string; status?: string; type?: string; }
+interface BeverageProps { size?: string; status?: string; type?: BeverageType; }
 export const Beverage = styled<BeverageProps, "div">("div")`
   padding: 1rem .7rem;
   transition: 1s all;
@@ -171,6 +150,7 @@ export const Beverage = styled<BeverageProps, "div">("div")`
     position: absolute;
     right: 0;
     top: 10px;
+    width: 3rem;
     img {
       width: 2rem;
       margin-right: 10px;
@@ -375,6 +355,11 @@ const _HeaderSlide = styled.div`
   padding: 1.5rem;
   position: absolute;
   right: 0;
+  word-wrap: break-word;
+  width: 25vw;
+  &.open {
+    width: 98vw;
+  }
   h2 {
     margin: 1rem;
     color: ${props => props.theme.primary};
@@ -383,12 +368,10 @@ const _HeaderSlide = styled.div`
 
 export const HeaderAnimated = posed(_HeaderSlide)({
   close: {
-    transform: "translate3d(0px, 0px, 0)",
-    width: "25vw"
+    // transform: "translate3d(0, 0px, 0)",
   },
   open: {
-    transform: "translate3d(10px, 10px, 0)",
-    width: "100%"
+    // transform: "translate3d(0, 10px, 0)",
   }
 });
 
@@ -397,8 +380,8 @@ export const Footer = styled.div`
   bottom: 0;
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  padding: 3rem 6rem;
+  justify-content: flex-end;
+  padding: 2rem;
   h2 {
     color: ${props => props.theme.primary};
   }
@@ -441,6 +424,15 @@ export const Slide = styled(_Slide)`
     top: 7rem;
     left: 5rem;
     font-size: 2rem;
+    color: ${props => props.theme.primary};
+  }
+  #info {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 7rem;
+    right: 0;
+    font-size: 1.7rem;
     color: ${props => props.theme.primary};
   }
   ${Footer} {
