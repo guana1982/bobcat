@@ -4,7 +4,7 @@ import { ConfigConsumer, ConfigInterface, TimerInterface } from "../../store";
 import LauncherComponent, { Action } from "../../components/global/Launcher";
 import Gesture from "../../components/Menu/Gesture";
 
-import { HomeContent, Footer, Grid, Beverage, Pour, CustomizeBeverageCard, InfoCard, CustomizeBeverageWrap, ChoiceBeverageWrap, Slide, ToggleSlide, BeveragesAnimated, HeaderAnimated } from "./home.style";
+import { HomeContent, Footer, Grid, Pour, CustomizeBeverageCard, InfoCard, CustomizeBeverageWrap, ChoiceBeverageWrap, Slide, ToggleSlide, HeaderAnimated } from "./home.style";
 import { ReplaySubscription } from "../../components/global/Subscription";
 import { ButtonGroup } from "../../components/global/ButtonGroup";
 import { CircleBtn } from "../../components/global/CircleBtn";
@@ -13,6 +13,7 @@ import { __ } from "../../utils/lib/i18n";
 import SlideComponent from "../../components/global/Slide";
 import { Button, ButtonTypes } from "../../components/global/Button";
 import { Beverages } from "../../utils/constants";
+import { BeveragesAnimated, Beverage, BeverageIndicators } from "../../components/global/Beverage";
 
 interface HomeProps {
   history: any;
@@ -216,23 +217,18 @@ export class Home extends React.Component<HomeProps, HomeState> {
           </HeaderAnimated>
           <h1 id="title">Your Drinks</h1>
           <Grid numElement={slideBeverages.length}>
-          {slideBeverages.map((b, i) => {
-            const BeverageAnimated = BeveragesAnimated[i];
-            return (
-            <BeverageAnimated key={i} type={"info"}> {/* i === 1 ? "info" : this.state.isSparkling ? "sparkling" : null  // onClick={() => this.selectBeverage(b)} */}
-              <div id="element">
-                <div id="indicators">
-                  {(i === 0 || i === 2) && <img src="icons/heart.svg" />}
-                  {i === 1 && <img src="icons/rewind.svg" />}
-                </div>
-                <h3>{__(b.beverage_label_id)}</h3>
-                <h6>0-CALS</h6>
-                {i === 0 && !slideOpen && <h5>Save favorites from smartphone</h5> }
-                {/* {i === 0 && <div id="overlay"><h4>Pouring</h4></div>} */}
-              </div>
-            </BeverageAnimated>
-            );
-          })}
+            {slideBeverages.map((b, i) => {
+              const BeverageAnimated = BeveragesAnimated[i];
+              return (
+                <BeverageAnimated
+                  key={i}
+                  indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
+                  label={i === 0 && !slideOpen ? "Save favorites from smartphone" : null}
+                  beverage={b}
+                  type={"info"}
+                />
+              );
+            })}
           </Grid>
           <h3 id="info">Save favorites from smartphone</h3>
           <ToggleSlide onClick={() => this.handleSlide()} src={"icons/arrow-circle.svg"} />
@@ -245,21 +241,17 @@ export class Home extends React.Component<HomeProps, HomeState> {
     const { beverages } = this.props.configConsumer;
     return (
       <React.Fragment>
-        {/* <SlideComponent /> */}
         <ChoiceBeverageWrap>
           <Gesture onGesture={this.onGesture} />
           <Grid numElement={beverages.length}>
-          {beverages.map((b, i) => {
-            return (
-            <Beverage key={i} type={this.state.isSparkling ? "sparkling" : null} onClick={() => this.selectBeverage(b)}>
-              <div id="element">
-                <h3>{__(b.beverage_label_id)}</h3>
-                <h6>0-CALS</h6>
-                {/* <h5>Tap to Customize</h5> */}
-              </div>
-            </Beverage>
-            );
-          })}
+            {beverages.map((b, i) =>
+              <Beverage
+                key={i}
+                type={this.state.isSparkling ? "sparkling" : null}
+                beverage={b}
+                onClick={() => this.selectBeverage(b)}
+              />
+            )};
           </Grid>
           <Footer>
             {/* <CircleBtn label={"Nutrition"} color={"primary"} border={true} icon={"icons/info.svg"} />
