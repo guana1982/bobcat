@@ -7,7 +7,7 @@ import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { setLangDict } from "../utils/lib/i18n";
 import { withRouter } from "react-router-dom";
 import { IBeverage, ISocket, IBeverageConfig, IAlarm } from "../models";
-import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages } from "../utils/constants";
+import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages } from "../utils/constants";
 declare var window: any;
 
 export interface ConfigInterface {
@@ -28,7 +28,6 @@ export const ConfigConsumer = ConfigContext.Consumer;
 class ConfigStoreComponent extends React.Component<any, any> {
 
   vendorConfig: any;
-  beverages: any;
   menuList: any;
   ws: WebSocketSubject<ISocket>;
 
@@ -36,8 +35,13 @@ class ConfigStoreComponent extends React.Component<any, any> {
     super(props);
 
     this.state = {
+      beverages: [],
       alarms: []
     };
+
+  }
+
+  componentDidMount() {
 
     /* ==== CONFIG SOCKET ==== */
     /* ======================================== */
@@ -139,8 +143,10 @@ class ConfigStoreComponent extends React.Component<any, any> {
       ] = res;
 
       this.vendorConfig = vendorConfig;
-      this.beverages = beverages;
       this.menuList = menuList;
+
+      this.setState({beverages: beverages});
+
       console.log(langDict.i18n);
       setLangDict(langDict.i18n);
     });
@@ -173,11 +179,18 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
   render() {
     const { children } = this.props;
+
+    // -- FILTER BEVERAGES --
+    const beverages = this.state.beverages.filter(beverage => {
+      const { beverage_type, line_id } = beverage;
+      return beverage_type === Beverages.Plain || beverage_type === Beverages.Bev && line_id > 0;
+    });
+
     return (
       <ConfigProvider
         value={{
           vendorConfig: this.vendorConfig,
-          beverages: this.beverages,
+          beverages: beverages,
           menuList: this.menuList,
           alarms: this.state.alarms,
           ws: this.ws,

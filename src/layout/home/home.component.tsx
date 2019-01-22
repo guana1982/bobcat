@@ -12,6 +12,7 @@ import { IBeverageConfig, IBeverage } from "../../models";
 import { __ } from "../../utils/lib/i18n";
 import SlideComponent from "../../components/global/Slide";
 import { Button, ButtonTypes } from "../../components/global/Button";
+import { Beverages } from "../../utils/constants";
 
 interface HomeProps {
   history: any;
@@ -26,21 +27,16 @@ interface HomeState {
   slideOpen: boolean;
 }
 
-const beveragePlain = "plain";
-const beverageBev = "bev";
-
 export class Home extends React.Component<HomeProps, HomeState> {
 
   readonly state: HomeState;
 
   actionsLauncher: Action[];
-  beverages: IBeverage[];
   levels: any = null;
   types: any = null;
 
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.state = {
       isSparkling: false,
@@ -54,13 +50,6 @@ export class Home extends React.Component<HomeProps, HomeState> {
         antioxidants: false
       }
     };
-
-    this.beverages = this.props.configConsumer.beverages.filter(beverage => {
-      const { beverage_type, line_id } = beverage;
-      return beverage_type === beveragePlain || beverage_type === beverageBev && line_id > 0;
-    });
-
-    console.log(this.beverages);
 
     this.types = [
       {label: "Still", value: false},
@@ -116,12 +105,13 @@ export class Home extends React.Component<HomeProps, HomeState> {
   /* ======================================== */
 
   private selectBeverage(beverage: IBeverage) {
+    const { beverages } = this.props.configConsumer;
     this.setState(prevState => ({
       ...prevState,
-      beverageSelected: this.beverages.indexOf(beverage),
+      beverageSelected: beverages.indexOf(beverage),
       beverageConfig: {
         ...prevState.beverageConfig,
-        flavor_level: beverage.beverage_type !== beveragePlain ? this.levels.flavor[0].value : null,
+        flavor_level: beverage.beverage_type !== Beverages.Plain ? this.levels.flavor[0].value : null,
         b_complex: false,
         antioxidants: false
       }
@@ -129,7 +119,8 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   private getBeverageSelected(): IBeverage {
-    return this.beverages ? this.beverages[this.state.beverageSelected] : null;
+    const { beverages } = this.props.configConsumer;
+    return beverages ? beverages[this.state.beverageSelected] : null;
   }
 
   private startPour() {
@@ -251,13 +242,14 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   private ChoiceBeverage = () => {
+    const { beverages } = this.props.configConsumer;
     return (
       <React.Fragment>
         {/* <SlideComponent /> */}
         <ChoiceBeverageWrap>
           <Gesture onGesture={this.onGesture} />
-          <Grid numElement={this.beverages.length}>
-          {this.beverages.map((b, i) => {
+          <Grid numElement={beverages.length}>
+          {beverages.map((b, i) => {
             return (
             <Beverage key={i} type={this.state.isSparkling ? "sparkling" : null} onClick={() => this.selectBeverage(b)}>
               <div id="element">
@@ -365,18 +357,23 @@ export class Home extends React.Component<HomeProps, HomeState> {
   /* ======================================== */
 
   render() {
+    const { beverages } = this.props.configConsumer;
     return (
       <React.Fragment>
         <this.Slide />
         <HomeContent beverageIsSelected={Boolean(this.getBeverageSelected())}>
-          <this.ChoiceBeverage />
-          <div id="types-group">
-            <ButtonGroup
-              options={this.types}
-              value={this.state.isSparkling}
-              onChange={(value) => this.handleType(value)}>
-            </ButtonGroup>
-          </div>
+          {beverages.length > 0 && (
+            <React.Fragment>
+              <this.ChoiceBeverage />
+              <div id="types-group">
+                <ButtonGroup
+                  options={this.types}
+                  value={this.state.isSparkling}
+                  onChange={(value) => this.handleType(value)}>
+                </ButtonGroup>
+              </div>
+            </React.Fragment>
+          )}
           {this.getBeverageSelected() && <this.CustomizeBeverage />}
         </HomeContent>
       </React.Fragment>

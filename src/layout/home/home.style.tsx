@@ -468,7 +468,7 @@ export const ToggleSlide = styled(_toggleSlide)`
 interface HomeContentProps { beverageIsSelected?: boolean; }
 export const HomeContent = styled<HomeContentProps, "div">("div")`
   background-color: ${props => props.theme.secondary};
-  width: "calc(100% - ${_sizeSlide})";
+  width:  75vw;
   height: 100vh;
   position: absolute;
   top: 0;

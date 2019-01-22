@@ -1,9 +1,15 @@
-// PAGES
+// -- PAGES --
 export enum Pages {
   Attractor = "/",
   Home = "/home",
   Prepay = "/prepay",
   Menu = "/menu/:typeMenu(tech|crew)"
+}
+
+// -- BEVERAGE --
+export enum Beverages {
+  Plain = "plain",
+  Bev = "bev"
 }
 
 // -- PAYMENT METHODS --
