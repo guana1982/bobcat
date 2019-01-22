@@ -7,7 +7,7 @@ import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { setLangDict } from "../utils/lib/i18n";
 import { withRouter } from "react-router-dom";
 import { IBeverage, ISocket, IBeverageConfig, IAlarm } from "../models";
-import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA } from "../utils/constants";
+import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages } from "../utils/constants";
 declare var window: any;
 
 export interface ConfigInterface {
@@ -68,7 +68,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       })
     );
 
-    const socketAlarms = this.ws
+    const socketAlarms$ = this.ws
     .multiplex(
       () => console.info(`Start => ${SOCKET_ALARM}`),
       () => console.info(`End => ${SOCKET_ALARM}`),
@@ -77,7 +77,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
     getAlarms
     .pipe(
-      mergeMap(() => socketAlarms),
+      mergeMap(() => socketAlarms$),
       mergeMap(value => getAlarms.pipe(map(() => value)))
     )
     .subscribe(value => {
@@ -96,26 +96,27 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ==== ATTRACTOR SOCKET ==== */
     /* ======================================== */
 
-    const socketAttractor = this.ws
+    const socketAttractor$ = this.ws
     .multiplex(
       () => console.info(`Start => ${SOCKET_ATTRACTOR}`),
       () => console.info(`End => ${SOCKET_ATTRACTOR}`),
       (data) => data && data.message_type === SOCKET_ATTRACTOR
     ).pipe(map(data => data.value));
 
-    const startSocketAttractor = () => socketAttractor
+    socketAttractor$
     .subscribe(value => {
+      const { pathname } = this.props.location;
+      if (pathname !== Pages.Attractor && pathname !== Pages.Home)
+        return;
+
       let page = "";
       if (value === MESSAGE_STOP_VIDEO)
-        page = "home";
+        page = Pages.Home;
       else if (value === MESSAGE_START_CAMERA)
-        page = "prepay";
+        page = Pages.Prepay;
 
-      this.props.history.push(`/${page}`);
-      startSocketAttractor();
+      this.props.history.push(page);
     });
-
-    startSocketAttractor();
 
     /* ==== GET CONFIG ==== */
     /* ======================================== */

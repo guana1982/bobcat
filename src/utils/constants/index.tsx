@@ -1,3 +1,11 @@
+// PAGES
+export enum Pages {
+  Attractor = "/",
+  Home = "/home",
+  Prepay = "/prepay",
+  Menu = "/menu/:typeMenu(tech|crew)"
+}
+
 // -- PAYMENT METHODS --
 export const PAYMENT_QR_PRE = "qr_code_pre_payment";
 export const PAYMENT_QR_POST = "qr_code_post_payment";
