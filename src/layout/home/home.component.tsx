@@ -26,6 +26,7 @@ interface HomeState {
   beverageSelected: number;
   beverageConfig: IBeverageConfig;
   slideOpen: boolean;
+  isLogged: boolean;
 }
 
 export class Home extends React.Component<HomeProps, HomeState> {
@@ -43,6 +44,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
       isSparkling: false,
       beverageSelected: null,
       slideOpen: false,
+      isLogged: true,
       beverageConfig: {
         flavor_level: null,
         carbonation_level: null,
@@ -74,7 +76,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   componentDidMount() {
-    this.props.timerConsumer.startTimer();
+    // this.props.timerConsumer.startTimer();
 
     this.levels = {
       flavor: [
@@ -239,6 +241,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   private ChoiceBeverage = () => {
     const { beverages } = this.props.configConsumer;
+    const { isLogged } = this.state;
     return (
       <React.Fragment>
         <ChoiceBeverageWrap>
@@ -251,7 +254,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
                 beverage={b}
                 onClick={() => this.selectBeverage(b)}
               />
-            )};
+            )}
           </Grid>
           <Footer>
             {/* <CircleBtn label={"Nutrition"} color={"primary"} border={true} icon={"icons/info.svg"} />
@@ -263,10 +266,11 @@ export class Home extends React.Component<HomeProps, HomeState> {
             </ReplaySubscription> */}
             {/* <button type="button" onClick={() => this.goToScreenSaver()}>Screen</button> */}
           </Footer>
-          <LauncherComponent actions={this.actionsLauncher} />
+          {/* <LauncherComponent actions={this.actionsLauncher} /> */}
         </ChoiceBeverageWrap>
         <Footer>
-          <Button type={ButtonTypes.Transparent} text="SING OUT" icon="logout" />
+          {!isLogged && <Button type={ButtonTypes.Transparent} onClick={() => this.goToPrepay()} text="SING IN" icon="logout" />}
+          {isLogged && <Button type={ButtonTypes.Transparent} text="SING OUT" icon="logout" />}
         </Footer>
       </React.Fragment>
     );
@@ -350,17 +354,18 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   render() {
     const { beverages } = this.props.configConsumer;
+    const { isLogged, isSparkling } = this.state;
     return (
       <React.Fragment>
-        <this.Slide />
-        <HomeContent beverageIsSelected={Boolean(this.getBeverageSelected())}>
+        {isLogged && <this.Slide />}
+        <HomeContent isLogged={isLogged} beverageIsSelected={Boolean(this.getBeverageSelected())}>
           {beverages.length > 0 && (
             <React.Fragment>
               <this.ChoiceBeverage />
               <div id="types-group">
                 <ButtonGroup
                   options={this.types}
-                  value={this.state.isSparkling}
+                  value={isSparkling}
                   onChange={(value) => this.handleType(value)}>
                 </ButtonGroup>
               </div>

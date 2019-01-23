@@ -81,11 +81,8 @@ export const Grid = styled<GridProps, "div">("div")`
         return "900px";
         break;
       case 6:
-      case 7:
-        return "1200px";
-        break;
       default:
-        return "100%";
+        return "1150px";
         break;
     }
   }};
@@ -93,26 +90,31 @@ export const Grid = styled<GridProps, "div">("div")`
 
 /* ==== CARDS ==== */
 /* ======================================== */
-
+const _sizeBeverageCard = 410;
 interface CustomizeBeverageProps { type?: string; }
 export const CustomizeBeverageCard = styled<CustomizeBeverageProps, "div">("div")`
   position: absolute;
-  top: 10rem;
-  left: calc(50% - 13.5rem);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  left: calc(50% - ${_sizeBeverageCard / 2}px);
   background-color: ${props => props.theme.light};
   border: 1px solid ${props => props.theme.primary};
   border-radius: 15px;
-  max-width: 40vw;
+  width: ${_sizeBeverageCard}px;
   padding: 10px;
+  min-height: ${_sizeBeverageCard * 1.2}px;
   header {
     position: relative;
-    min-height: 10rem;
+    padding: 1rem;
     &:before {
       content: " ";
       opacity: .7;
       position: absolute;
       left: calc(50% - 8rem);
-      top: 1rem;
+      top: 20%;
       width: 100%;
       max-width: 16rem;
       height: 100%;
@@ -120,45 +122,45 @@ export const CustomizeBeverageCard = styled<CustomizeBeverageProps, "div">("div"
       background-image: url("img/${props => props.type}.svg");
     }
     h2 {
-      position: absolute;
-      top: 3rem;
-      left: 2rem;
+      position: relative;
+      padding-top: 2rem;
       font-size: 3rem;
       margin: .5rem;
       color: ${props => props.theme.primary };
       &:before {
         position: absolute;
-        top: -2rem;
         content: "${props => props.type} ";
-        font-size: 2rem;
+        font-size: 1.8rem;
+        top: 0;
         display: block;
         text-transform: uppercase;
         font-weight: 400;
       }
     }
     h6 {
-      position: absolute;
+      position: relative;
       font-size: 1rem;
-      bottom: 0;
-      left: 3rem;
+      left: .7rem;
       margin: 0;
       color: ${props => props.theme.primary };
     }
   }
   aside {
-    min-height: 20rem;
+    min-height: 246px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-bottom: 1rem;
   }
 `;
 
 export const InfoCard = styled.div`
   position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   background: rgb(166, 202, 237);
   color: rgb(37, 107, 192);
   text-align: center;
-  top: 12rem;
   width: 14rem;
   height: 27rem;
   border-radius: 15px;
@@ -252,13 +254,13 @@ export const CustomizeBeverageWrap = styled.section`
   position: absolute;
   top: 0;
   left: 0;
-  height: 100vh;
-  width: 75vw;
+  /* height: 100vh;
+  width: 75vw; */
   #backdrop {
     top: 0;
     left: 0;
-    height: 100vh;
-    width: 75vw;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 91, 195, .6);
   }
 `;
@@ -323,14 +325,14 @@ export const ToggleSlide = styled(_toggleSlide)`
 /* ==== HOME MAIN ==== */
 /* ======================================== */
 
-interface HomeContentProps { beverageIsSelected?: boolean; }
+interface HomeContentProps { beverageIsSelected?: boolean; isLogged: boolean; }
 export const HomeContent = styled<HomeContentProps, "div">("div")`
   background-color: ${props => props.theme.secondary};
-  width:  75vw;
+  width: ${props => props.isLogged ? "75vw" : "100vw"};
   height: 100vh;
   position: absolute;
+  left: ${props => props.isLogged ? _sizeSlide : 0};
   top: 0;
-  left: ${_sizeSlide};
   ${Grid} {
     padding-top: 8.1rem;
   }

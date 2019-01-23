@@ -44,11 +44,15 @@ interface ButtonProps {
   type: ButtonTypes;
   text?: string;
   icon?: string;
+  onClick?: () => void;
 }
 
-export const Button = (props: ButtonProps) => (
-  <ButtonWrap className={props.type}>
-    {props.text}
-    <img src={`icons/${props.icon}.svg`} />
-  </ButtonWrap>
-);
+export const Button = (props: ButtonProps) => {
+  const {type, text, icon, onClick} = props;
+  return (
+    <ButtonWrap className={type} onClick={onClick}>
+      {text}
+      <img src={`icons/${icon}.svg`} />
+    </ButtonWrap>
+  );
+};
