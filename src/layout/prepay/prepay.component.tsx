@@ -6,17 +6,21 @@ import { CircleBtn } from "../../components/global/CircleBtn";
 import { ReplaySubscription } from "../../components/global/Subscription";
 import { Subscription } from "rxjs";
 import { TimerInterface } from "../../store/timer.store";
-import mediumLevel from "../../utils/MediumLevel";
 import { tap, mergeMap, first, map } from "rxjs/operators";
-import { SOCKET_QR } from "../../utils/constants";
+import { Alert, AlertTypes, AlertProps } from "../../components/global/Alert";
+import { ConsumerInterface } from "../../store/consumer.store";
+import { IdentificationConsumerTypes } from "../../utils/APIModel";
+import { Pages } from "../../utils/constants";
 
 interface PrepayProps {
   history: any;
   configConsumer: ConfigInterface;
   timerConsumer: TimerInterface;
+  consumerConsumer: ConsumerInterface;
 }
+
 interface PrepayState {
-  message: string;
+  alert: AlertProps;
 }
 
 export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
@@ -27,9 +31,8 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
 
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
-      message: null
+      alert: undefined
     };
   }
 
@@ -38,45 +41,41 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
     this.start();
   }
 
-  setMessage = (message) => this.setState(() => ({ message: message || null }));
+  private goToHome = () => {
+    this.props.history.push(Pages.Home);
+  }
 
   start() {
-    this.setMessage(null);
-    this.wsSub_ = this.startScanning()
-    .subscribe(message => {
-      this.setMessage(message);
+    const { startScanning } = this.props.consumerConsumer;
+    this.wsSub_ = startScanning()
+    .subscribe(status => {
       this.props.timerConsumer.clearTimer();
+      if (status) {
+        this.handleAlert({
+          type: AlertTypes.Success,
+          timeout: true,
+          onDismiss: () => {
+            this.goToHome();
+            this.handleAlert();
+          }
+        });
+      } else {
+        this.handleAlert({
+          type: AlertTypes.Error,
+          timeout: true,
+          onDismiss: () => {
+            this.start();
+            this.handleAlert();
+          }
+        });
+      }
     });
   }
 
   stop() {
-    mediumLevel.config.stopQrCamera()
-    .pipe(
-      tap(() => this.wsSub_.unsubscribe())
-    )
-    .subscribe();
-  }
-
-
-  startScanning = () => {
-    return mediumLevel.config.startQrCamera()
-    .pipe(
-      mergeMap(() => {
-        const { ws } = this.props.configConsumer;
-        const onmessage = ws
-        .multiplex(
-          () => console.info(`Start => ${SOCKET_QR}`),
-          () => console.info(`End => ${SOCKET_QR}`),
-          (data) => data && data.message_type === SOCKET_QR
-        )
-        .pipe(
-          first(),
-          map(data => data.value)
-        );
-        return onmessage;
-      }),
-      mergeMap(message => mediumLevel.config.stopQrCamera().pipe(map(() => message)))
-    );
+    const { stopScanning } = this.props.consumerConsumer;
+    this.wsSub_.unsubscribe();
+    stopScanning().subscribe();
   }
 
   componentWillUnmount() {
@@ -84,7 +83,18 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
     this.stop();
   }
 
+  /* ==== HANDLE ==== */
+  /* ======================================== */
+
+  private handleAlert = (alert?: AlertProps) => {
+    this.setState(prevState => ({
+      ...prevState,
+      alert: alert
+    }));
+  }
+
   render() {
+    const { alert } = this.state;
     return (
       <PrepayContent>
         <Header>
@@ -114,6 +124,7 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
             <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
           }
         </ReplaySubscription> */}
+        {alert && <Alert {...alert} />}
       </PrepayContent>
     );
   }

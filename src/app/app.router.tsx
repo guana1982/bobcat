@@ -12,6 +12,7 @@ import { TimerConsumer } from "../store/timer.store";
 import { GlobalStyle } from "./app.style";
 import AttractorComponent from "../layout/attractor/attractor.component";
 import { Pages } from "../utils/constants";
+import { ConsumerConsumer, ConsumerStore } from "../store/consumer.store";
 
 class AppRouter extends React.Component<any, any> {
 
@@ -25,8 +26,11 @@ class AppRouter extends React.Component<any, any> {
     <ConfigConsumer>
       {config =>
         <TimerConsumer>
-           {timer =>
-            <Comp {...props} configConsumer={config} timerConsumer={timer}></Comp>}
+          {timer =>
+            <ConsumerConsumer>
+              { consumer => <Comp {...props} configConsumer={config} timerConsumer={timer} consumerConsumer={consumer}></Comp> }
+            </ConsumerConsumer>
+          }
         </TimerConsumer>
       }
     </ConfigConsumer>

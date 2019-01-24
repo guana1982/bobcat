@@ -12,13 +12,16 @@ import { IBeverageConfig, IBeverage } from "../../models";
 import { __ } from "../../utils/lib/i18n";
 import SlideComponent from "../../components/global/Slide";
 import { Button, ButtonTypes } from "../../components/global/Button";
-import { Beverages } from "../../utils/constants";
+import { Beverages, Pages } from "../../utils/constants";
 import { BeveragesAnimated, Beverage, BeverageIndicators } from "../../components/global/Beverage";
+import { ConsumerInterface } from "../../store/consumer.store";
+import { IdentificationConsumerTypes } from "../../utils/APIModel";
 
 interface HomeProps {
   history: any;
   configConsumer: ConfigInterface;
   timerConsumer: TimerInterface;
+  consumerConsumer: ConsumerInterface;
 }
 
 interface HomeState {
@@ -26,7 +29,6 @@ interface HomeState {
   beverageSelected: number;
   beverageConfig: IBeverageConfig;
   slideOpen: boolean;
-  isLogged: boolean;
 }
 
 export class Home extends React.Component<HomeProps, HomeState> {
@@ -40,15 +42,35 @@ export class Home extends React.Component<HomeProps, HomeState> {
   constructor(props) {
     super(props);
 
+    this.levels = {
+      flavor: [
+        {label: "light", value: 1},
+        {label: "full", value: 2},
+        {label: "bold", value: 3}
+      ],
+      carbonation: [
+        {label: "light", value: 20},
+        {label: "medium", value: 50},
+        {label: "full", value: 100}
+      ],
+      temperature: [
+        {label: "ambient", value: 100},
+        {label: "cool", value: 50},
+        {label: "ice-cold", value: 0},
+      ],
+      carbTemperature: [
+        {label: "ice-cold", value: 100},
+      ]
+    };
+
     this.state = {
       isSparkling: false,
       beverageSelected: null,
       slideOpen: false,
-      isLogged: true,
       beverageConfig: {
         flavor_level: null,
         carbonation_level: null,
-        temperature_level: 0,
+        temperature_level: this.levels.temperature[2].value,
         b_complex: false,
         antioxidants: false
       }
@@ -76,28 +98,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   componentDidMount() {
-    // this.props.timerConsumer.startTimer();
-
-    this.levels = {
-      flavor: [
-        {label: "light", value: 1},
-        {label: "full", value: 2},
-        {label: "bold", value: 3}
-      ],
-      carbonation: [
-        {label: "light", value: 0},
-        {label: "medium", value: 50},
-        {label: "full", value: 100}
-      ],
-      temperature: [
-        {label: "ambient", value: 100},
-        {label: "cool", value: 50},
-        {label: "ice-cold", value: 0},
-      ],
-      carbTemperature: [
-        {label: "ice-cold", value: 100},
-      ]
-    };
+    this.props.timerConsumer.startTimer();
   }
 
   componentWillUnmount() {
@@ -156,8 +157,8 @@ export class Home extends React.Component<HomeProps, HomeState> {
       isSparkling: value,
       beverageConfig: {
         ...prevState.beverageConfig,
-        carbonation_level: value ? 100 : null,
-        temperature_level: 100
+        carbonation_level: value ? this.levels.carbonation[2].value : null,
+        temperature_level: this.levels.temperature[0].value
       }
     }));
   }
@@ -198,11 +199,11 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   private goToScreenSaver = () => {
-    this.props.history.push("/");
+    this.props.history.push(Pages.Attractor);
   }
 
   private goToPrepay = () => {
-    this.props.history.push("/prepay");
+    this.props.history.push(Pages.Prepay);
   }
 
   /* ==== LAYOUT ==== */
@@ -210,12 +211,15 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   private Slide = () => {
     const { slideOpen } = this.state;
-    const slideBeverages = [{beverage_label_id: "Favorite 1"}, {beverage_label_id: "Last Pour"}, {beverage_label_id: "Favorite 2"}]; // this.beverages.slice(0, 3);
+    const { dataConsumer } = this.props.consumerConsumer;
+    // [{beverage_label_id: "Favorite 1"}, {beverage_label_id: "Last Pour"}, {beverage_label_id: "Favorite 2"}];
+    const slideBeverages = [dataConsumer.favourite[0], dataConsumer.last_pour, dataConsumer.favourite[1]];
     return (
       <React.Fragment>
+      {dataConsumer.identification_type === IdentificationConsumerTypes.Phone &&
         <Slide pose={slideOpen ? "open" : "close"}>
           <HeaderAnimated className={slideOpen && "open"}>
-            <h2>Good morning, Angelicalongname!</h2>
+            <h2>Good morning, {dataConsumer.consumer_nick}!</h2>
           </HeaderAnimated>
           <h1 id="title">Your Drinks</h1>
           <Grid numElement={slideBeverages.length}>
@@ -226,22 +230,22 @@ export class Home extends React.Component<HomeProps, HomeState> {
                   key={i}
                   indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
                   label={i === 0 && !slideOpen ? "Save favorites from smartphone" : null}
-                  beverage={b}
-                  type={"info"}
+                  title={b.flavorTitle}
+                  // type={"info"}
                 />
               );
             })}
           </Grid>
           <h3 id="info">Save favorites from smartphone</h3>
           <ToggleSlide onClick={() => this.handleSlide()} src={"icons/arrow-circle.svg"} />
-        </Slide>
+        </Slide>}
       </React.Fragment>
     );
   }
 
   private ChoiceBeverage = () => {
     const { beverages } = this.props.configConsumer;
-    const { isLogged } = this.state;
+    const { isLogged, resetConsumer } = this.props.consumerConsumer;
     return (
       <React.Fragment>
         <ChoiceBeverageWrap>
@@ -270,7 +274,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
         </ChoiceBeverageWrap>
         <Footer>
           {!isLogged && <Button type={ButtonTypes.Transparent} onClick={() => this.goToPrepay()} text="SING IN" icon="logout" />}
-          {isLogged && <Button type={ButtonTypes.Transparent} text="SING OUT" icon="logout" />}
+          {isLogged && <Button type={ButtonTypes.Transparent} onClick={() => resetConsumer()} text="SING OUT" icon="logout" />}
         </Footer>
       </React.Fragment>
     );
@@ -354,7 +358,8 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   render() {
     const { beverages } = this.props.configConsumer;
-    const { isLogged, isSparkling } = this.state;
+    const { isLogged } = this.props.consumerConsumer;
+    const { isSparkling } = this.state;
     return (
       <React.Fragment>
         {isLogged && <this.Slide />}

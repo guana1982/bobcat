@@ -2,6 +2,8 @@ import * as React from "react";
 import styled from "styled-components";
 import { __ } from "../../utils/lib/i18n";
 
+export const DEFAULT_TIMEOUT_ALERT = 6000;
+
 export enum AlertTypes {
   Success = "success",
   Error = "error"
@@ -43,13 +45,17 @@ const AlertContent = styled.div`
   height: 100%;
 `;
 
-interface ButtonProps {
+export interface AlertProps {
   type: AlertTypes;
+  timeout?: boolean | number;
   onDismiss?: () => void;
 }
 
-export const Alert = (props: ButtonProps) => {
-  const {type, onDismiss} = props;
+export const Alert = (props: AlertProps) => {
+  const {type, onDismiss, timeout} = props;
+  if (timeout) {
+    setTimeout(onDismiss, typeof timeout === "boolean" ? DEFAULT_TIMEOUT_ALERT : timeout);
+  }
   return (
     <AlertContent>
       <Overlay onClick={onDismiss} />

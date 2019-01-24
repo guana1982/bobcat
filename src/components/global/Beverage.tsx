@@ -121,23 +121,24 @@ export enum BeverageIndicators {
 }
 
 interface BeverageProps {
-  beverage: IBeverage;
+  beverage?: IBeverage;
   type: string;
   onClick?: (beverage: IBeverage) => void;
   indicators?: BeverageIndicators[];
   label?: string;
   pouring?: boolean;
+  title?: string;
 }
 
 export const Beverage = forwardRef((props: BeverageProps , innerRef) => {
-  const { beverage, type, indicators, onClick, label, pouring } = props;
+  const { title, beverage, type, indicators, onClick, label, pouring } = props;
   return (
     <BeverageWrap ref={innerRef} type={type} onClick={onClick}>
       <div id="element">
         <div id="indicators">
           {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
         </div>
-        <h3>{__(beverage.beverage_label_id)}</h3>
+        <h3>{title ? title : __(beverage.beverage_label_id)}</h3>
         <h6>0-CALS</h6>
         {label && <h5>{__(label)}</h5>}
         {pouring && <div id="overlay"><h4>{__("Pouring")}</h4></div>}

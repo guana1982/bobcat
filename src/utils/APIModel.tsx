@@ -1,4 +1,6 @@
 
+// === BEVERAGE ===
+
 export interface IBeverageModel {
   carbonation_levels: Carbonationlevels;
   last_sanification_date: string;
@@ -36,4 +38,46 @@ interface Topping {
 interface Carbonationlevels {
   values: number[];
   type: string;
+}
+
+// === CONSUMER ===
+
+export enum IdentificationConsumerTypes {
+  NoAuth = "0",
+  VesselSticker = "1",
+  Vessel = "2",
+  Phone = "3",
+  // PromoCode = 4
+}
+
+export interface IConsumerModel {
+  identification_type?: IdentificationConsumerTypes;
+  consumer_id: string;
+  consumer_nick: string;
+  saveBottles: string;
+  currHydraLvl: string;
+  hydraGoal: string;
+  favourite: Favourite[];
+  last_pour: Favourite;
+}
+
+interface Favourite {
+  flavorTitle: string;
+  carbLvl: string;
+  coldLvl: string;
+  flavours: Flavour[];
+  enhancements: Enhancement[];
+}
+
+interface Enhancement {
+  product: Product;
+}
+
+interface Flavour {
+  flavorStrength: string;
+  product: Product;
+}
+
+interface Product {
+  flavorUpc: string;
 }
