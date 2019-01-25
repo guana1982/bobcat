@@ -56,7 +56,6 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
           timeout: true,
           onDismiss: () => {
             this.goToHome();
-            this.handleAlert();
           }
         });
       } else {

@@ -35,7 +35,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   readonly state: HomeState;
 
-  actionsLauncher: Action[];
+  // actionsLauncher: Action[];
   levels: any = null;
   types: any = null;
 
@@ -81,20 +81,20 @@ export class Home extends React.Component<HomeProps, HomeState> {
       {label: "Sparkling", value: true}
     ];
 
-    this.actionsLauncher = [
-      {
-        title: "TEST QR CODE",
-        event: () => this.props.history.push("/prepay")
-      },
-      {
-        title: "CREW MENU",
-        event: () => this.props.history.push("/menu/crew")
-      },
-      {
-        title: "TECH MENU",
-        event: () => this.props.history.push("/menu/tech")
-      }
-    ];
+    // this.actionsLauncher = [
+    //   {
+    //     title: "TEST QR CODE",
+    //     event: () => this.props.history.push("/prepay")
+    //   },
+    //   {
+    //     title: "CREW MENU",
+    //     event: () => this.props.history.push("/menu/crew")
+    //   },
+    //   {
+    //     title: "TECH MENU",
+    //     event: () => this.props.history.push("/menu/tech")
+    //   }
+    // ];
   }
 
   componentDidMount() {
@@ -193,9 +193,9 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   onGesture = (gestureType) => {
     if (gestureType === "p")
-      this.props.history.push("/menu/tech");
+      this.props.history.push(Pages.MenuTech);
     else if (gestureType === "v")
-      this.props.history.push("/menu/crew");
+      this.props.history.push(Pages.MenuCrew);
   }
 
   private goToScreenSaver = () => {
@@ -229,14 +229,14 @@ export class Home extends React.Component<HomeProps, HomeState> {
                 <BeverageAnimated
                   key={i}
                   indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
-                  label={i === 0 && !slideOpen ? "Save favorites from smartphone" : null}
+                  // label={i === 0 && !slideOpen ? "Save favorites from smartphone" : null}
                   title={b.flavorTitle}
                   // type={"info"}
                 />
               );
             })}
           </Grid>
-          <h3 id="info">Save favorites from smartphone</h3>
+          {/* <h3 id="info">Save favorites from smartphone</h3> */}
           <ToggleSlide onClick={() => this.handleSlide()} src={"icons/arrow-circle.svg"} />
         </Slide>}
       </React.Fragment>

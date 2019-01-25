@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { __ } from "../../utils/lib/i18n";
 
-export const DEFAULT_TIMEOUT_ALERT = 6000;
+export const DEFAULT_TIMEOUT_ALERT = 3000;
 
 export enum AlertTypes {
   Success = "success",

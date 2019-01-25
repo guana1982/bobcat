@@ -7,7 +7,7 @@ import { ConfigInterface } from "../../store/config.store";
 import Lottie from "react-lottie";
 import { map, tap, mergeMap } from "rxjs/operators";
 import { Subscription } from "rxjs";
-import { SOCKET_ATTRACTOR, MESSAGE_START_CAMERA, MESSAGE_STOP_VIDEO } from "../../utils/constants";
+import { SOCKET_ATTRACTOR, MESSAGE_START_CAMERA, MESSAGE_STOP_VIDEO, Pages } from "../../utils/constants";
 // const animationData = require("./bubbles.json");
 
 interface AttractorProps {
@@ -42,7 +42,7 @@ class AttractorComponent extends React.Component<AttractorProps, AttractorState>
   }
 
   goToHome() {
-    this.props.history.push("/home");
+    this.props.history.push(Pages.Home);
   }
 
   render() {

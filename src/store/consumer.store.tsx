@@ -29,10 +29,6 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     };
   }
 
-  componentDidMount() {
-
-  }
-
   /* ==== CONSUMER SOCKET ==== */
   /* ======================================== */
 

@@ -3,7 +3,9 @@ export enum Pages {
   Attractor = "/",
   Home = "/home",
   Prepay = "/prepay",
-  Menu = "/menu/:typeMenu(tech|crew)"
+  Menu = "/menu/:typeMenu(tech|crew)",
+  MenuCrew = "/menu/crew",
+  MenuTech = "/menu/tech"
 }
 
 // -- BEVERAGE --
