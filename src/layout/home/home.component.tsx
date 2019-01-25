@@ -151,21 +151,17 @@ export class Home extends React.Component<HomeProps, HomeState> {
   /* ==== BEVERAGE CONSUMER ==== */
   /* ======================================== */
 
-  getConsumerBeverage = (): IConsumerBeverage[] => {
-    const { dataConsumer } = this.props.consumerConsumer;
-    // [{beverage_label_id: "Favorite 1"}, {beverage_label_id: "Last Pour"}, {beverage_label_id: "Favorite 2"}];
-    return [dataConsumer.favourite[0], dataConsumer.last_pour, dataConsumer.favourite[1]];
-  }
-
   private startConsumerPour(consumerBeverage: IConsumerBeverage) {
     console.log("START", consumerBeverage);
+    // const beverageSelected: any = { beverage_id: 9 };
+    // const beverageConfig: any = { beverage_id: 9 };
     // this.props.configConsumer.onStartPour(beverageSelected, beverageConfig)
     // .subscribe(data => console.log(data));
   }
 
   private stopConsumerPour(consumerBeverage: IConsumerBeverage) {
     console.log("STOP", consumerBeverage);
-    this.stopPour();
+    // this.stopPour();
   }
 
   /* ==== HANDLE ==== */
@@ -218,10 +214,6 @@ export class Home extends React.Component<HomeProps, HomeState> {
       this.props.history.push(Pages.MenuCrew);
   }
 
-  private goToScreenSaver = () => {
-    this.props.history.push(Pages.Attractor);
-  }
-
   private goToPrepay = () => {
     this.props.history.push(Pages.Prepay);
   }
@@ -231,8 +223,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   private Slide = () => {
     const { slideOpen } = this.state;
-    const { dataConsumer } = this.props.consumerConsumer;
-    const slideBeverages: IConsumerBeverage[] = this.getConsumerBeverage();
+    const { dataConsumer, consumerBeverages } = this.props.consumerConsumer;
     return (
       <React.Fragment>
       {dataConsumer.identification_type === IdentificationConsumerTypes.Phone &&
@@ -241,13 +232,12 @@ export class Home extends React.Component<HomeProps, HomeState> {
             <h2>Good morning, {dataConsumer.consumer_nick}!</h2>
           </HeaderAnimated>
           <h1 id="title">Your Drinks</h1>
-          <Grid numElement={slideBeverages.length}>
-            {slideBeverages.map((b, i) => {
+          <Grid numElement={consumerBeverages.length}>
+            {consumerBeverages.map((b, i) => {
               const BeverageAnimated = BeveragesAnimated[i];
-
               return (
                 <BeverageAnimated
-                  pouring={true}
+                  // pouring={true}
                   onTouchStart={() => this.startConsumerPour(b)} onTouchEnd={() => this.stopConsumerPour(b)}
                   key={i}
                   indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
@@ -380,12 +370,14 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   render() {
     const { beverages } = this.props.configConsumer;
-    const { isLogged } = this.props.consumerConsumer;
+    const { consumerBeverages } = this.props.consumerConsumer;
     const { isSparkling } = this.state;
+    const presentSlide = consumerBeverages.length > 0;
+
     return (
       <React.Fragment>
-        {isLogged && <this.Slide />}
-        <HomeContent isLogged={isLogged} beverageIsSelected={Boolean(this.getBeverageSelected())}>
+        {presentSlide && <this.Slide />}
+        <HomeContent isLogged={presentSlide} beverageIsSelected={Boolean(this.getBeverageSelected())}>
           {beverages.length > 0 && (
             <React.Fragment>
               <this.ChoiceBeverage />

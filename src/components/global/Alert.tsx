@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { __ } from "../../utils/lib/i18n";
 
-export const DEFAULT_TIMEOUT_ALERT = 3000;
+export const DEFAULT_TIMEOUT_ALERT = 6000;
 
 export enum AlertTypes {
   Success = "success",
@@ -53,12 +53,26 @@ export interface AlertProps {
 
 export const Alert = (props: AlertProps) => {
   const {type, onDismiss, timeout} = props;
+  let timeout_ = null;
   if (timeout) {
-    setTimeout(onDismiss, typeof timeout === "boolean" ? DEFAULT_TIMEOUT_ALERT : timeout);
+    timeout_ = setTimeout(onDismiss, typeof timeout === "boolean" ? DEFAULT_TIMEOUT_ALERT : timeout);
   }
+
+  console.log(timeout_);
+  const stopTimeout = () => {
+    if (timeout_) {
+      window.clearTimeout(timeout_);
+    }
+  };
+
+  const dismiss = () => {
+    stopTimeout();
+    onDismiss();
+  };
+
   return (
     <AlertContent>
-      <Overlay onClick={onDismiss} />
+      <Overlay onClick={dismiss} />
       <AlertWrap>
         {__(type)}
       </AlertWrap>

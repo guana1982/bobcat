@@ -97,13 +97,7 @@ export const BeverageWrap = styled<BeverageWrapProps, "div">("div")`
       margin-right: 10px;
     }
   }
-  &:active {
-    .overlay#pouring {
-      display: ${props => props.pouring ? "block" : "none"};
-    }
-  }
   .overlay {
-    display: none;
     position: absolute;
     top: 0;
     left: 0;
@@ -149,7 +143,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef) => {
         <h3>{title ? title : __(beverage.beverage_label_id)}</h3>
         <h6>0-CALS</h6>
         {label && <h5>{__(label)}</h5>}
-        <div id="pouring" className="overlay"><h4>{__("Pouring")}</h4></div>
+        {pouring && <div className="overlay"><h4>{__("Pouring")}</h4></div>}
       </div>
     </BeverageWrap>
   );
