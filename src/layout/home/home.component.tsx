@@ -15,7 +15,7 @@ import { Button, ButtonTypes } from "../../components/global/Button";
 import { Beverages, Pages } from "../../utils/constants";
 import { BeveragesAnimated, Beverage, BeverageIndicators } from "../../components/global/Beverage";
 import { ConsumerInterface } from "../../store/consumer.store";
-import { IdentificationConsumerTypes } from "../../utils/APIModel";
+import { IdentificationConsumerTypes, IConsumerBeverage } from "../../utils/APIModel";
 
 interface HomeProps {
   history: any;
@@ -148,6 +148,26 @@ export class Home extends React.Component<HomeProps, HomeState> {
     });
   }
 
+  /* ==== BEVERAGE CONSUMER ==== */
+  /* ======================================== */
+
+  getConsumerBeverage = (): IConsumerBeverage[] => {
+    const { dataConsumer } = this.props.consumerConsumer;
+    // [{beverage_label_id: "Favorite 1"}, {beverage_label_id: "Last Pour"}, {beverage_label_id: "Favorite 2"}];
+    return [dataConsumer.favourite[0], dataConsumer.last_pour, dataConsumer.favourite[1]];
+  }
+
+  private startConsumerPour(consumerBeverage: IConsumerBeverage) {
+    console.log("START", consumerBeverage);
+    // this.props.configConsumer.onStartPour(beverageSelected, beverageConfig)
+    // .subscribe(data => console.log(data));
+  }
+
+  private stopConsumerPour(consumerBeverage: IConsumerBeverage) {
+    console.log("STOP", consumerBeverage);
+    this.stopPour();
+  }
+
   /* ==== HANDLE ==== */
   /* ======================================== */
 
@@ -212,8 +232,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   private Slide = () => {
     const { slideOpen } = this.state;
     const { dataConsumer } = this.props.consumerConsumer;
-    // [{beverage_label_id: "Favorite 1"}, {beverage_label_id: "Last Pour"}, {beverage_label_id: "Favorite 2"}];
-    const slideBeverages = [dataConsumer.favourite[0], dataConsumer.last_pour, dataConsumer.favourite[1]];
+    const slideBeverages: IConsumerBeverage[] = this.getConsumerBeverage();
     return (
       <React.Fragment>
       {dataConsumer.identification_type === IdentificationConsumerTypes.Phone &&
@@ -225,8 +244,11 @@ export class Home extends React.Component<HomeProps, HomeState> {
           <Grid numElement={slideBeverages.length}>
             {slideBeverages.map((b, i) => {
               const BeverageAnimated = BeveragesAnimated[i];
+
               return (
                 <BeverageAnimated
+                  pouring={true}
+                  onTouchStart={() => this.startConsumerPour(b)} onTouchEnd={() => this.stopConsumerPour(b)}
                   key={i}
                   indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
                   // label={i === 0 && !slideOpen ? "Save favorites from smartphone" : null}

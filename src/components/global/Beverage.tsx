@@ -11,7 +11,7 @@ export enum BeverageType {
   Sparkling = "sparkling"
 }
 const _sizeBeverage = 11;
-interface BeverageWrapProps { size?: string; status?: string; type?: BeverageType; }
+interface BeverageWrapProps { size?: string; pouring?: boolean; status?: string; type?: BeverageType; }
 export const BeverageWrap = styled<BeverageWrapProps, "div">("div")`
   padding: 1rem .7rem;
   transition: 1s all;
@@ -97,7 +97,13 @@ export const BeverageWrap = styled<BeverageWrapProps, "div">("div")`
       margin-right: 10px;
     }
   }
-  #overlay {
+  &:active {
+    .overlay#pouring {
+      display: ${props => props.pouring ? "block" : "none"};
+    }
+  }
+  .overlay {
+    display: none;
     position: absolute;
     top: 0;
     left: 0;
@@ -124,6 +130,8 @@ interface BeverageProps {
   beverage?: IBeverage;
   type: string;
   onClick?: (beverage: IBeverage) => void;
+  onTouchStart?: () => void;
+  onTouchEnd?: () => void;
   indicators?: BeverageIndicators[];
   label?: string;
   pouring?: boolean;
@@ -131,9 +139,9 @@ interface BeverageProps {
 }
 
 export const Beverage = forwardRef((props: BeverageProps , innerRef) => {
-  const { title, beverage, type, indicators, onClick, label, pouring } = props;
+  const { title, beverage, type, indicators, onClick, onTouchStart, onTouchEnd, label, pouring } = props;
   return (
-    <BeverageWrap ref={innerRef} type={type} onClick={onClick}>
+    <BeverageWrap pouring={pouring} ref={innerRef} type={type} onClick={onClick} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
       <div id="element">
         <div id="indicators">
           {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
@@ -141,7 +149,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef) => {
         <h3>{title ? title : __(beverage.beverage_label_id)}</h3>
         <h6>0-CALS</h6>
         {label && <h5>{__(label)}</h5>}
-        {pouring && <div id="overlay"><h4>{__("Pouring")}</h4></div>}
+        <div id="pouring" className="overlay"><h4>{__("Pouring")}</h4></div>
       </div>
     </BeverageWrap>
   );

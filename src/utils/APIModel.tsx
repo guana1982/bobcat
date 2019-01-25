@@ -57,11 +57,11 @@ export interface IConsumerModel {
   saveBottles: string;
   currHydraLvl: string;
   hydraGoal: string;
-  favourite: Favourite[];
-  last_pour: Favourite;
+  favourite: IConsumerBeverage[];
+  last_pour: IConsumerBeverage;
 }
 
-interface Favourite {
+export interface IConsumerBeverage {
   flavorTitle: string;
   carbLvl: string;
   coldLvl: string;

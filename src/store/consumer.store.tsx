@@ -1,10 +1,11 @@
 import * as React from "react";
 import mediumLevel from "../utils/lib/mediumLevel";
 import { mergeMap, first, map, tap } from "rxjs/operators";
-import { SOCKET_CONSUMER } from "../utils/constants";
+import { SOCKET_CONSUMER, Pages } from "../utils/constants";
 import { IConsumerModel, IdentificationConsumerTypes } from "../utils/APIModel";
 import { Observable } from "rxjs";
-import { ConfigConsumer, withConfig } from "./config.store";
+import { withConfig } from "./config.store";
+import { withRouter } from "react-router-dom";
 
 export interface ConsumerInterface {
   isLogged: boolean;
@@ -29,6 +30,14 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     };
   }
 
+  resetConsumer = () => {
+    this.setState({
+      isLogged: false,
+      dataConsumer: null
+    });
+    this.props.history.push(Pages.Attractor);
+  }
+
   /* ==== CONSUMER SOCKET ==== */
   /* ======================================== */
 
@@ -47,8 +56,10 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     return socketConsumer$;
   }
 
+  /* ==== SCANNING ==== */
+  /* ======================================== */
+
   startScanning = () => {
-    // let response: IConsumerModel = null;
     return mediumLevel.config.startQrCamera()
     .pipe(
       mergeMap(() => this.getDataFromSocket(SOCKET_CONSUMER.QR)),
@@ -68,8 +79,6 @@ class ConsumerStoreComponent extends React.Component<any, any> {
   stopScanning = () => {
     return mediumLevel.config.stopQrCamera();
   }
-
-  resetConsumer = () => location.reload();
 
   /* ==== MAIN ==== */
   /* ======================================== */
@@ -95,4 +104,4 @@ class ConsumerStoreComponent extends React.Component<any, any> {
   }
 }
 
-export const ConsumerStore = withConfig(ConsumerStoreComponent);
+export const ConsumerStore = withConfig(withRouter(ConsumerStoreComponent));
