@@ -57,6 +57,18 @@ class ConfigStoreComponent extends React.Component<any, any> {
       }
     });
 
+    /* ==== TEST SOCKET ==== */
+    /* ======================================== */
+
+    const socketTest$ = this.ws
+    .multiplex(
+      () => console.info(`Start => ${"Socket test"}`),
+      () => console.info(`End => ${"Socket test"}`),
+      (data) => true
+    );
+
+    socketTest$.subscribe(data => console.log("SOCKET", data));
+
     /* ==== ALARM SOCKET ==== */
     /* ======================================== */
 

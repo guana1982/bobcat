@@ -1,9 +1,9 @@
 import * as React from "react";
 import mediumLevel from "../utils/lib/mediumLevel";
-import { mergeMap, first, map, tap } from "rxjs/operators";
+import { mergeMap, first, map, tap, delay } from "rxjs/operators";
 import { SOCKET_CONSUMER, Pages } from "../utils/constants";
 import { IConsumerModel, IdentificationConsumerTypes, IConsumerBeverage } from "../utils/APIModel";
-import { Observable } from "rxjs";
+import { Observable, of, merge } from "rxjs";
 import { withConfig } from "./config.store";
 import { withRouter } from "react-router-dom";
 
@@ -41,10 +41,108 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     this.props.history.push(Pages.Attractor);
   }
 
+  getConsumerBeverage = (dataConsumer): IConsumerBeverage[] => {
+    // [{beverage_label_id: "Favorite 1"}, {beverage_label_id: "Last Pour"}, {beverage_label_id: "Favorite 2"}];
+    let consumerBeverages = [];
+    if (dataConsumer && dataConsumer.favourite && dataConsumer.favourite[0]) {
+      consumerBeverages = [dataConsumer.favourite[0], dataConsumer.last_pour, dataConsumer.favourite[1]];
+    }
+    return consumerBeverages;
+  }
+
   /* ==== CONSUMER SOCKET ==== */
   /* ======================================== */
 
-  getDataFromSocket = (type: SOCKET_CONSUMER) => {
+  getDataFromSocket = (type: SOCKET_CONSUMER): Observable<any> => {
+
+    // if (type === SOCKET_CONSUMER.SERVER) {
+    //   const testServer = {
+    //     "consumer_nick": "Daniele",
+    //     "identification_type": "2",
+    //     "last_pour": {
+    //       "flavorTitle": "Limeeee",
+    //       "enhancements": [
+    //         {
+    //           "product": {
+    //             "flavorUpc": ""
+    //           }
+    //         }
+    //       ],
+    //       "flavours": [
+    //         {
+    //           "product": {
+    //             "flavorUpc": "3"
+    //           },
+    //           "flavorStrength": "3"
+    //         }
+    //       ],
+    //       "carbLvl": "100",
+    //       "coldLvl": "0"
+    //     },
+    //     "favourite": [
+    //       {
+    //         "flavorTitle": "Superlemon",
+    //         "enhancements": [],
+    //         "flavours": [
+    //           {
+    //             "product": {
+    //               "flavorUpc": "2"
+    //             },
+    //             "flavorStrength": "3"
+    //           }
+    //         ],
+    //         "carbLvl": "100",
+    //         "coldLvl": "0"
+    //       },
+    //       {
+    //         "flavorTitle": "Raspy",
+    //         "enhancements": [
+    //           {
+    //             "product": {
+    //               "flavorUpc": ""
+    //             }
+    //           }
+    //         ],
+    //         "flavours": [
+    //           {
+    //             "product": {
+    //               "flavorUpc": "4"
+    //             },
+    //             "flavorStrength": "2"
+    //           }
+    //         ],
+    //         "carbLvl": "50",
+    //         "coldLvl": "50"
+    //       },
+    //       {
+    //         "flavorTitle": "MyPeach",
+    //         "enhancements": [
+    //           {
+    //             "product": {
+    //               "flavorUpc": ""
+    //             }
+    //           }
+    //         ],
+    //         "flavours": [
+    //           {
+    //             "product": {
+    //               "flavorUpc": "5"
+    //             },
+    //             "flavorStrength": "1"
+    //           }
+    //         ],
+    //         "carbLvl": "0",
+    //         "coldLvl": "100"
+    //       }
+    //     ],
+    //     "saveBottles": "5",
+    //     "consumer_id": "00001",
+    //     "hydraGoal": "90",
+    //     "currHydraLvl": "66"
+    //   };
+    //   return of(testServer).pipe(delay(5000));
+    // }
+
     const { ws } = this.props.configConsumer;
     const socketConsumer$ = ws
     .multiplex(
@@ -64,36 +162,40 @@ class ConsumerStoreComponent extends React.Component<any, any> {
 
   startScanning = (): Observable<boolean> => {
 
-    const getConsumerBeverage = (dataConsumer): IConsumerBeverage[] => {
-      // [{beverage_label_id: "Favorite 1"}, {beverage_label_id: "Last Pour"}, {beverage_label_id: "Favorite 2"}];
-      let consumerBeverages = [];
-      if (dataConsumer && dataConsumer.favourite && dataConsumer.favourite[0]) {
-        consumerBeverages = [dataConsumer.favourite[0], dataConsumer.last_pour, dataConsumer.favourite[1]];
-      }
-      return consumerBeverages;
-    };
+    const loadDataFromQr: Observable<true | false> =
+      mediumLevel.config.startQrCamera()
+      .pipe(
+        mergeMap(() => this.getDataFromSocket(SOCKET_CONSUMER.QR)),
+        tap(() => this.stopScanning().subscribe()),
+        map((data: IConsumerModel) => {
+          console.log(data);
+          const isLogged = data.identification_type !== IdentificationConsumerTypes.NoAuth;
+          this.setState({
+            isLogged: isLogged,
+            dataConsumer: data,
+            consumerBeverages: this.getConsumerBeverage(data)
+          });
+          return isLogged;
+        }),
+      );
 
-    return mediumLevel.config.startQrCamera()
-    .pipe(
-      mergeMap(() => this.getDataFromSocket(SOCKET_CONSUMER.QR)),
-      tap(() => this.stopScanning().subscribe()),
-      map((data: IConsumerModel) => {
-        console.log(data);
-        const isLogged = data.identification_type !== IdentificationConsumerTypes.NoAuth;
-        this.setState({
-          isLogged: isLogged,
-          dataConsumer: data,
-          consumerBeverages: getConsumerBeverage(data)
-        });
-        return isLogged;
-      })
-    );
+    const loadDataFromServer: Observable<null> =
+      this.getDataFromSocket(SOCKET_CONSUMER.SERVER)
+      .pipe(
+        map((data: IConsumerModel) => {
+          this.setState({
+            dataConsumer: data,
+            consumerBeverages: this.getConsumerBeverage(data)
+          });
+          return null;
+        }),
+      );
 
+    return merge(loadDataFromQr, loadDataFromServer);
   }
 
-  stopScanning = () => {
-    return mediumLevel.config.stopQrCamera();
-  }
+
+  stopScanning = () => mediumLevel.config.stopQrCamera().pipe(first());
 
   /* ==== MAIN ==== */
   /* ======================================== */
@@ -109,7 +211,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
           consumerBeverages: consumerBeverages,
           startScanning: this.startScanning,
           stopScanning: this.stopScanning,
-          resetConsumer: this.resetConsumer,
+          resetConsumer: this.resetConsumer
         }}
       >
         <React.Fragment>

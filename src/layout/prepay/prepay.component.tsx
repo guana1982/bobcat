@@ -47,10 +47,10 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
 
   start() {
     const { startScanning } = this.props.consumerConsumer;
-    this.wsSub_ = startScanning()
-    .subscribe(status => {
+    startScanning()
+    .subscribe((status: true | false | null) => { // => true: correct qr / false: error qr / null: data from server <=
       this.props.timerConsumer.clearTimer();
-      if (status) {
+      if (status === true) {
         this.handleAlert({
           type: AlertTypes.Success,
           timeout: true,
@@ -58,7 +58,7 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
             this.goToHome();
           }
         });
-      } else {
+      } else if (status === false) {
         this.handleAlert({
           type: AlertTypes.Error,
           timeout: true,
@@ -73,7 +73,6 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
 
   stop() {
     const { stopScanning } = this.props.consumerConsumer;
-    this.wsSub_.unsubscribe();
     stopScanning().subscribe();
   }
 

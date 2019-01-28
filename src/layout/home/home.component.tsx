@@ -226,7 +226,6 @@ export class Home extends React.Component<HomeProps, HomeState> {
     const { dataConsumer, consumerBeverages } = this.props.consumerConsumer;
     return (
       <React.Fragment>
-      {dataConsumer.identification_type === IdentificationConsumerTypes.Phone &&
         <Slide pose={slideOpen ? "open" : "close"}>
           <HeaderAnimated className={slideOpen && "open"}>
             <h2>Good morning, {dataConsumer.consumer_nick}!</h2>
@@ -250,7 +249,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
           </Grid>
           {/* <h3 id="info">Save favorites from smartphone</h3> */}
           <ToggleSlide onClick={() => this.handleSlide()} src={"icons/arrow-circle.svg"} />
-        </Slide>}
+        </Slide>
       </React.Fragment>
     );
   }
