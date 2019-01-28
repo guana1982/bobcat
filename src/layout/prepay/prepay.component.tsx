@@ -27,8 +27,6 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
 
   readonly state: PrepayState;
 
-  wsSub_: Subscription;
-
   constructor(props) {
     super(props);
     this.state = {

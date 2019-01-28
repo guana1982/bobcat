@@ -27,6 +27,7 @@ interface HomeProps {
 interface HomeState {
   isSparkling: boolean;
   beverageSelected: number;
+  indexFavoritePouring_: number;
   beverageConfig: IBeverageConfig;
   slideOpen: boolean;
 }
@@ -67,6 +68,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
       isSparkling: false,
       beverageSelected: null,
       slideOpen: false,
+      indexFavoritePouring_: null,
       beverageConfig: {
         flavor_level: null,
         carbonation_level: null,
@@ -151,17 +153,23 @@ export class Home extends React.Component<HomeProps, HomeState> {
   /* ==== BEVERAGE CONSUMER ==== */
   /* ======================================== */
 
-  private startConsumerPour(consumerBeverage: IConsumerBeverage) {
+  private startConsumerPour(consumerBeverage: IConsumerBeverage, index: number) {
     console.log("START", consumerBeverage);
-    // const beverageSelected: any = { beverage_id: 9 };
-    // const beverageConfig: any = { beverage_id: 9 };
-    // this.props.configConsumer.onStartPour(beverageSelected, beverageConfig)
-    // .subscribe(data => console.log(data));
+    this.setState({indexFavoritePouring_: index});
+    const beverageSelected: any = { beverage_id: Number(consumerBeverage.flavours[0].product.flavorUpc) };
+    const beverageConfig: IBeverageConfig = {
+      flavor_level: Number(consumerBeverage.flavours[0].flavorStrength),
+      carbonation_level: Number(consumerBeverage.carbLvl),
+      temperature_level: Number(consumerBeverage.coldLvl),
+    };
+    this.props.configConsumer.onStartPour(beverageSelected, beverageConfig)
+    .subscribe(data => console.log(data));
   }
 
   private stopConsumerPour(consumerBeverage: IConsumerBeverage) {
     console.log("STOP", consumerBeverage);
-    // this.stopPour();
+    this.setState({indexFavoritePouring_: null});
+    this.stopPour();
   }
 
   /* ==== HANDLE ==== */
@@ -222,7 +230,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   /* ======================================== */
 
   private Slide = () => {
-    const { slideOpen } = this.state;
+    const { slideOpen, indexFavoritePouring_ } = this.state;
     const { dataConsumer, consumerBeverages } = this.props.consumerConsumer;
     return (
       <React.Fragment>
@@ -236,8 +244,8 @@ export class Home extends React.Component<HomeProps, HomeState> {
               const BeverageAnimated = BeveragesAnimated[i];
               return (
                 <BeverageAnimated
-                  // pouring={true}
-                  onTouchStart={() => this.startConsumerPour(b)} onTouchEnd={() => this.stopConsumerPour(b)}
+                  pouring={i === indexFavoritePouring_}
+                  onTouchStart={() => this.startConsumerPour(b, i)} onTouchEnd={() => this.stopConsumerPour(b)}
                   key={i}
                   indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
                   // label={i === 0 && !slideOpen ? "Save favorites from smartphone" : null}
