@@ -285,8 +285,8 @@ export class Home extends React.Component<HomeProps, HomeState> {
           {/* <LauncherComponent actions={this.actionsLauncher} /> */}
         </ChoiceBeverageWrap>
         <Footer>
-          {!isLogged && <Button type={ButtonTypes.Transparent} onClick={() => this.goToPrepay()} text="SING IN" icon="logout" />}
-          {isLogged && <Button type={ButtonTypes.Transparent} onClick={() => resetConsumer()} text="SING OUT" icon="logout" />}
+          {!isLogged && <Button type={ButtonTypes.Transparent} onClick={() => this.goToPrepay()} text="SIGN IN" icon="logout" />}
+          {isLogged && <Button type={ButtonTypes.Transparent} onClick={() => resetConsumer()} text="SIGN OUT" icon="logout" />}
         </Footer>
       </React.Fragment>
     );
