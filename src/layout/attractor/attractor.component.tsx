@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SreenWrapper } from "../../components/global/ScreenWrapper";
+import { SreenWrapper, Warning } from "../../components/global/ScreenWrapper";
 import mediumLevel from "../../utils/MediumLevel";
 import { TimerInterface } from "../../store/timer.store";
 import { ConfigInterface } from "../../store/config.store";
@@ -60,7 +60,10 @@ class AttractorComponent extends React.Component<AttractorProps, AttractorState>
       // <div>
       //   <Lottie options={defaultOptions} height={"100vh"} width={"100vw"} />
       // </div>
-      <SreenWrapper onClick={ () => this.goToHome() }></SreenWrapper>
+      <React.Fragment>
+        <SreenWrapper onClick={ () => this.goToHome() } />
+        {/* <Warning /> */}
+      </React.Fragment>
       // <video
       //   autoPlay
       //   style={{
