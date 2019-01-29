@@ -13,9 +13,10 @@ import { __ } from "../../utils/lib/i18n";
 import SlideComponent from "../../components/global/Slide";
 import { Button, ButtonTypes } from "../../components/global/Button";
 import { Beverages, Pages } from "../../utils/constants";
-import { BeveragesAnimated, Beverage, BeverageIndicators } from "../../components/global/Beverage";
+import { BeveragesAnimated, Beverage, BeverageIndicators, BeverageTypes } from "../../components/global/Beverage";
 import { ConsumerInterface } from "../../store/consumer.store";
 import { IdentificationConsumerTypes, IConsumerBeverage } from "../../utils/APIModel";
+import { BeverageStatus } from "../../models/beverage.model";
 
 interface HomeProps {
   history: any;
@@ -135,11 +136,13 @@ export class Home extends React.Component<HomeProps, HomeState> {
     if (beverageConfig.carbonation_level == null) {
       beverageConfig.carbonation_level = 0;
     }
+    this.props.timerConsumer.resetTimer();
     this.props.configConsumer.onStartPour(beverageSelected, beverageConfig)
     .subscribe(data => console.log(data));
   }
 
   private stopPour() {
+    this.props.timerConsumer.startTimer();
     this.props.configConsumer.onStopPour()
     .subscribe(data => console.log(data));
   }
@@ -248,14 +251,15 @@ export class Home extends React.Component<HomeProps, HomeState> {
                   onTouchStart={() => this.startConsumerPour(b, i)} onTouchEnd={() => this.stopConsumerPour(b)}
                   key={i}
                   indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
-                  // label={i === 0 && !slideOpen ? "Save favorites from smartphone" : null}
+                  label={i === 0 && !slideOpen && b.$type === BeverageTypes.Info ? "Save favorites from smartphone" : null}
+                  status_id={b.$status_id}
                   title={b.flavorTitle}
-                  // type={"info"}
+                  type={b.$type}
                 />
               );
             })}
           </Grid>
-          {/* <h3 id="info">Save favorites from smartphone</h3> */}
+          {consumerBeverages[0].$type === BeverageTypes.Info && <h3 id="info">Save favorites from smartphone</h3>}
           <ToggleSlide onClick={() => this.handleSlide()} src={"icons/arrow-circle.svg"} />
         </Slide>
       </React.Fragment>
@@ -270,14 +274,18 @@ export class Home extends React.Component<HomeProps, HomeState> {
         <ChoiceBeverageWrap>
           <Gesture onGesture={this.onGesture} />
           <Grid numElement={beverages.length}>
-            {beverages.map((b, i) =>
-              <Beverage
-                key={i}
-                type={this.state.isSparkling ? "sparkling" : null}
-                beverage={b}
-                onClick={() => this.selectBeverage(b)}
-              />
-            )}
+            {beverages.map((b, i) => {
+              return (
+                <Beverage
+                  key={i}
+                  type={this.state.isSparkling ? "sparkling" : null}
+                  beverage={b}
+                  status_id={b.status_id}
+                  title={b.beverage_label_id}
+                  onClick={() => this.selectBeverage(b)}
+                />
+              );
+            })}
           </Grid>
           <Footer>
             {/* <CircleBtn label={"Nutrition"} color={"primary"} border={true} icon={"icons/info.svg"} />

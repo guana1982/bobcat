@@ -5,13 +5,15 @@ import posed from "react-pose";
 import { __ } from "../../utils/lib/i18n";
 import { IBeverage } from "../../models";
 import { forwardRef } from "react";
+import { BeverageStatus } from "../../models/beverage.model";
 
-export enum BeverageType {
+export enum BeverageTypes {
   Info = "info",
   Sparkling = "sparkling"
 }
+
 const _sizeBeverage = 11;
-interface BeverageWrapProps { size?: string; pouring?: boolean; status?: string; type?: BeverageType; }
+interface BeverageWrapProps { size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; }
 export const BeverageWrap = styled<BeverageWrapProps, "div">("div")`
   padding: 1rem .7rem;
   transition: 1s all;
@@ -23,15 +25,15 @@ export const BeverageWrap = styled<BeverageWrapProps, "div">("div")`
   width: ${_sizeBeverage * 1.4}rem;
   #element {
     position: relative;
-    border: ${props => `2px ${props.type === BeverageType.Info ? "dashed" : "solid"} ${props.theme.primary}`};
-    background-color: ${props => props.type === BeverageType.Info ? "rgba(255, 255, 255, 0.3)" : props.theme["light"] };
+    border: ${props => `2px ${props.type === BeverageTypes.Info ? "dashed" : "solid"} ${props.theme.primary}`};
+    background-color: ${props => props.type === BeverageTypes.Info ? "rgba(255, 255, 255, 0.3)" : props.theme["light"] };
     width: 100%;
     border-radius: 1rem;
     color: #0034B0;
     height: 100%;
     text-align: left;
     * {
-      opacity: ${props => props.type === BeverageType.Info ? .6 : 1 };
+      opacity: ${props => props.type === BeverageTypes.Info ? .6 : 1 };
     }
     &:before {
       content: " ";
@@ -57,7 +59,7 @@ export const BeverageWrap = styled<BeverageWrapProps, "div">("div")`
       &:before {
         position: absolute;
         top: -20px;
-        content: "${props => props.type === BeverageType.Sparkling ? props.type : null} ";
+        content: "${props => props.type === BeverageTypes.Sparkling ? props.type : null} ";
         display: block;
         text-transform: capitalize;
         font-size: 1rem;
@@ -123,26 +125,38 @@ export enum BeverageIndicators {
 interface BeverageProps {
   beverage?: IBeverage;
   type: string;
-  onClick?: (beverage: IBeverage) => void;
+  onClick?: () => void;
   onTouchStart?: () => void;
   onTouchEnd?: () => void;
   indicators?: BeverageIndicators[];
   label?: string;
   pouring?: boolean;
+  status_id?: BeverageStatus;
   title?: string;
 }
 
 export const Beverage = forwardRef((props: BeverageProps , innerRef) => {
-  const { title, beverage, type, indicators, onClick, onTouchStart, onTouchEnd, label, pouring } = props;
+  const { title, type, indicators, label, pouring, status_id } = props;
+  const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
+  const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
+
+  let  onClick, onTouchStart, onTouchEnd  = null;
+  if (!$disabledTouch) {
+    onClick = props.onClick;
+    onTouchStart = props.onTouchStart;
+    onTouchEnd = props.onTouchEnd;
+  }
+
   return (
     <BeverageWrap pouring={pouring} ref={innerRef} type={type} onClick={onClick} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
       <div id="element">
         <div id="indicators">
           {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
         </div>
-        <h3>{title ? title : __(beverage.beverage_label_id)}</h3>
+        <h3>{__(title)}</h3>
         <h6>0-CALS</h6>
         {label && <h5>{__(label)}</h5>}
+        {$outOfStock && <div className="overlay"><h4>{__("Out Of Stock")}</h4></div>}
         {pouring && <div className="overlay"><h4>{__("Pouring")}</h4></div>}
       </div>
     </BeverageWrap>

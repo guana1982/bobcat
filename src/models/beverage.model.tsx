@@ -23,7 +23,7 @@ export interface IBeverage {
   beverage_menu_index: number;
   beverage_label_id: string;
   beverage_logo_id: number;
-  status_id: string;
+  status_id: BeverageStatus;
   remaining_bib: number;
   bib_reload_date: string;
   bib_size: number;
@@ -44,4 +44,11 @@ interface Topping {
 interface Toppingpercs {
   type: string;
   values: number[];
+}
+
+export enum BeverageStatus {
+  SodaAlarm = "soda_alarm",
+  PlainAlarm = "plain_alarm",
+  EmptyBib = "empty_bib",
+  Ok = "ok"
 }

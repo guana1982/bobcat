@@ -6,6 +6,9 @@ import { IConsumerModel, IdentificationConsumerTypes, IConsumerBeverage } from "
 import { Observable, of, merge } from "rxjs";
 import { withConfig } from "./config.store";
 import { withRouter } from "react-router-dom";
+import { IBeverage } from "../models";
+import { BeverageStatus } from "../models/beverage.model";
+import { BeverageTypes } from "../components/global/Beverage";
 
 export interface ConsumerInterface {
   isLogged: boolean;
@@ -42,11 +45,36 @@ class ConsumerStoreComponent extends React.Component<any, any> {
   }
 
   getConsumerBeverage = (dataConsumer): IConsumerBeverage[] => {
-    // [{beverage_label_id: "Favorite 1"}, {beverage_label_id: "Last Pour"}, {beverage_label_id: "Favorite 2"}];
-    let consumerBeverages = [];
-    if (dataConsumer && dataConsumer.favourite && dataConsumer.favourite[0]) {
-      consumerBeverages = [dataConsumer.favourite[0], dataConsumer.last_pour, dataConsumer.favourite[1]];
-    }
+    const infoBeverages: any = [{
+      flavorTitle: "Favorite 1"
+    }, {
+      flavorTitle: "Last Pour"
+    }, {
+      flavorTitle: "Favorite 2"
+    }];
+
+    if (!dataConsumer)
+      return infoBeverages;
+
+    let consumerBeverages: IConsumerBeverage[] = [dataConsumer.favourite[0], dataConsumer.last_pour, dataConsumer.favourite[1]];
+    const { beverages } = this.props.configConsumer;
+
+    consumerBeverages = consumerBeverages.map((consumerBeverage, index) => {
+      if (consumerBeverage && consumerBeverage.flavours && consumerBeverage.flavours.length > 0) {
+        const beverageFlavor: IBeverage = beverages.filter((b) => Number(b.beverage_id) === Number(consumerBeverage.flavours[0].product.flavorUpc))[0];
+        consumerBeverage.$type = null;
+        if (consumerBeverage.flavorTitle === undefined || consumerBeverage.flavorTitle === null || consumerBeverage.flavorTitle === "") {
+          consumerBeverage.flavorTitle = beverageFlavor.beverage_label_id;
+        }
+        consumerBeverage.$status_id = beverageFlavor.status_id;
+        return consumerBeverage;
+      } else {
+        const infoBeverage = infoBeverages[index];
+        infoBeverage.$type = BeverageTypes.Info;
+        return infoBeverage;
+      }
+    });
+
     return consumerBeverages;
   }
 
@@ -162,11 +190,42 @@ class ConsumerStoreComponent extends React.Component<any, any> {
 
   startScanning = (): Observable<boolean> => {
 
+  //   const test: any = {
+  //     "identification_type": "3",
+  //     "consumer_id": "0001",
+  //     "consumer_nick": "Pippo",
+  //     "saveBottles": "10",
+  //     "currHydraLvl": "5",
+  //     "hydraGoal": "10",
+  //     "favourite": [
+  //     {
+  //             "flavorTitle": "",
+  //             "carbLvl": "0",
+  //             "coldLvl": "0",
+  //             "flavours": [{
+  //                 "flavorStrength": "1",
+  //                 "product": {
+  //                     "flavorUpc": "1"
+  //                 }
+  //             }],
+  //             "enhancements": []
+  //         }
+  //     ],
+  //     "last_pour": {
+  //         "flavorTitle": "",
+  //         "carbLvl": "",
+  //         "coldLvl": "",
+  //         "flavours": [],
+  //         "enhancements": []
+  //     }
+  // };
+
     const loadDataFromQr: Observable<true | false> =
       mediumLevel.config.startQrCamera()
       .pipe(
         mergeMap(() => this.getDataFromSocket(SOCKET_CONSUMER.QR)),
         tap(() => this.stopScanning().subscribe()),
+        // map(() => test),
         map((data: IConsumerModel) => {
           console.log(data);
           const isLogged = data.identification_type !== IdentificationConsumerTypes.NoAuth;
