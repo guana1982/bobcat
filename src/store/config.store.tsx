@@ -43,8 +43,6 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
   componentDidMount() {
 
-    setTimeout(() => this.setState({beverages: []}), 5000);
-
     /* ==== CONFIG SOCKET ==== */
     /* ======================================== */
 
