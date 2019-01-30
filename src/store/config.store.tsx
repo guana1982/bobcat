@@ -43,6 +43,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
   componentDidMount() {
 
+    setTimeout(() => this.setState({beverages: []}), 5000);
+
     /* ==== CONFIG SOCKET ==== */
     /* ======================================== */
 
@@ -72,15 +74,13 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ==== ALARM SOCKET ==== */
     /* ======================================== */
 
-    const getAlarms = mediumLevel.alarm.getAlarms()
+    const setAlarms = mediumLevel.alarm.getAlarms()
     .pipe(
       map(data => data && data.elements || []),
       map((alarms: IAlarm[]) => alarms.filter(alarm => alarm.alarm_state)),
       tap((alarms: IAlarm[]) => {
-        this.setState(prevState => ({
-          ...prevState,
-          alarms: alarms
-        }));
+        console.log("ALARMS", alarms);
+        this.setState({alarms: alarms});
       })
     );
 
@@ -91,23 +91,22 @@ class ConfigStoreComponent extends React.Component<any, any> {
       (data) => data && data.message_type === SOCKET_ALARM
     ).pipe(map(data => data.value));
 
-    getAlarms
+    setAlarms
     .pipe(
       mergeMap(() => socketAlarms$),
-      mergeMap(value => getAlarms.pipe(map(() => value)))
+      mergeMap(() => setAlarms),
+      mergeMap(() => setBeverages)
     )
-    .subscribe(value => {
-      console.log(value);
-    });
+    .subscribe();
 
-    setTimeout(() => {
-      const half_length = Math.ceil(this.state.alarms.length / 2);
-      this.setState(prevState => ({
-        ...prevState,
-        alarms: prevState.alarms.splice(0, half_length)
-      }));
-      console.log(this.state.alarms);
-    }, 30000);
+    // setTimeout(() => {
+    //   const half_length = Math.ceil(this.state.alarms.length / 2);
+    //   this.setState(prevState => ({
+    //     ...prevState,
+    //     alarms: prevState.alarms.splice(0, half_length)
+    //   }));
+    //   console.log(this.state.alarms);
+    // }, 30000);
 
     /* ==== ATTRACTOR SOCKET ==== */
     /* ======================================== */
@@ -137,9 +136,14 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ==== GET CONFIG ==== */
     /* ======================================== */
 
+    const setBeverages = mediumLevel.config.getBeverages()
+    .pipe(
+      tap(beverages => this.setState({beverages: beverages}))
+    );
+
     forkJoin(
       mediumLevel.config.getVendor(),
-      mediumLevel.config.getBeverages(),
+      setBeverages,
       mediumLevel.menu.getList(),
       mediumLevel.config.getSizes(),
       mediumLevel.config.getLang(),
@@ -156,8 +160,6 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
       this.vendorConfig = vendorConfig;
       this.menuList = menuList;
-
-      this.setState({beverages: beverages});
 
       console.log(langDict.i18n);
       setLangDict(langDict.i18n);

@@ -42,7 +42,7 @@ class AppRouter extends React.Component<any, any> {
           <GlobalStyle />
           <Route exact path={Pages.Attractor} component={this.withGlobalConsumer(AttractorComponent)}/>
           <Route path={Pages.Home} component={this.withGlobalConsumer(HomeComponent)}/>
-          <Route path={Pages.Prepay} component={this.withGlobalConsumer(this.withGlobalConsumer(PrepayComponent))}/>
+          <Route path={Pages.Prepay} component={this.withGlobalConsumer(PrepayComponent)}/>
           <Route path={Pages.Menu} component={this.withGlobalConsumer(MenuComponent)}/>
       </section>
     );

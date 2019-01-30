@@ -20,7 +20,7 @@ import CarbonationImage from "../../Menu/CarbonationImage";
 import * as styles from "../../Menu/Custom/Lines.scss";
 
 const SODA = "soda";
-const WATER = "still";
+const WATER = "plain";
 const AMB = "amb";
 const NOT_USED = -1;
 const noop = () => {};
@@ -40,6 +40,7 @@ const enhance = compose(
     //     name: line.shortname || null
     //   };
     // });
+    console.log("initialLines", props.initialLines);
     const linesConfig = props.initialLines
       .filter(l => l.line_id > 0 && l.beverage_type !== SODA && l.beverage_type !== WATER && l.beverage_type !== AMB);
     return linesConfig;

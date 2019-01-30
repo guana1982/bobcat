@@ -53,8 +53,8 @@ class ConsumerStoreComponent extends React.Component<any, any> {
       flavorTitle: "Favorite 2"
     }];
 
-    if (!dataConsumer)
-      return infoBeverages;
+    if (!dataConsumer.consumer_id)
+      return [];
 
     let consumerBeverages: IConsumerBeverage[] = [dataConsumer.favourite[0], dataConsumer.last_pour, dataConsumer.favourite[1]];
     const { beverages } = this.props.configConsumer;
