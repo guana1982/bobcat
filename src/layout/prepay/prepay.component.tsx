@@ -94,7 +94,7 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
     return (
       <PrepayContent>
         <Header>
-          <CircleBtn onClick={() => this.props.history.push("/home")} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
+          <CircleBtn onClick={() => this.goToHome()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
         </Header>
         <SectionContent>
           <SectionWrap>

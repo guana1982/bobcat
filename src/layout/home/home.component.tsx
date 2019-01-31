@@ -389,10 +389,6 @@ export class Home extends React.Component<HomeProps, HomeState> {
     const { isSparkling } = this.state;
     const presentSlide = consumerBeverages.length > 0;
 
-    console.log(this.props);
-
-    console.log(this.state);
-
     return (
       <React.Fragment>
         {presentSlide && <this.Slide />}

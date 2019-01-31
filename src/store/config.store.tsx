@@ -1,6 +1,6 @@
 import * as React from "react";
 import { get, post } from "../utils";
-import { map, tap, delay, retry, first, flatMap, mergeMap, filter } from "rxjs/operators";
+import { map, tap, delay, retry, first, flatMap, mergeMap, filter, debounceTime } from "rxjs/operators";
 import mediumLevel from "../utils/MediumLevel";
 import { forkJoin, of, Observable, Subject } from "rxjs";
 import { webSocket, WebSocketSubject } from "rxjs/webSocket";
@@ -92,6 +92,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     setAlarms
     .pipe(
       mergeMap(() => socketAlarms$),
+      debounceTime(250),
       mergeMap(() => setAlarms),
       mergeMap(() => setBeverages)
     )
@@ -136,7 +137,10 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
     const setBeverages = mediumLevel.config.getBeverages()
     .pipe(
-      tap(beverages => this.setState({beverages: beverages}))
+      tap(beverages => {
+        console.log("BEVERAGES", beverages);
+        this.setState({beverages: beverages});
+      })
     );
 
     forkJoin(

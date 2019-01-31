@@ -281,4 +281,4 @@ class ConsumerStoreComponent extends React.Component<any, any> {
   }
 }
 
-export const ConsumerStore = withConfig(withRouter(ConsumerStoreComponent));
+export const ConsumerStore = withRouter(withConfig(ConsumerStoreComponent));

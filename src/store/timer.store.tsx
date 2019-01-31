@@ -3,6 +3,7 @@ import { get, post } from "../utils";
 import { map, tap, delay } from "rxjs/operators";
 import { BehaviorSubject, Observable } from "rxjs";
 import { withRouter } from "react-router-dom";
+import { Pages } from "../utils/constants";
 
 export interface TimerInterface {
   time: any;
@@ -94,7 +95,7 @@ class TimerStoreComponent extends React.Component<any, any> {
     // Check if we're at zero.
     if (seconds === 0) {
       clearInterval(this.timer);
-      this.props.history.push("/");
+      this.props.history.push(Pages.Attractor);
     }
   }
 

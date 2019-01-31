@@ -2,6 +2,7 @@ import * as React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Menu from "../../Menu";
 import { ConfigConsumer, ConfigInterface } from "../../store/config.store";
+import { Pages } from "../../utils/constants";
 
 interface MenuProps {
   history: any;
@@ -39,7 +40,7 @@ export class MenuComponent extends React.Component<MenuProps, MenuState> {
         menuList={configConsumer.menuList}
         disabledMenuOpen={false}
         typeMenu={`${typeMenu}_menu`}
-        onExit={() => this.props.history.push("/home")}
+        onExit={() => this.props.history.push(Pages.Home)}
       />
     );
   }
