@@ -9,6 +9,91 @@ import { withRouter } from "react-router-dom";
 import { IBeverage } from "../models";
 import { BeverageStatus } from "../models/beverage.model";
 import { BeverageTypes } from "../components/global/Beverage";
+import { __ } from "../utils/lib/i18n";
+
+const testQR = {
+  "saveBottles": "300",
+  "consumer_nick": "John William Doe",
+  "last_pour": {
+     "enhancements": [
+
+     ],
+     "flavours": [
+
+     ],
+     "carbLvl": "",
+     "coldLvl": "",
+     "flavorTitle": ""
+  },
+  "consumer_id": "01020304-0102-0304-0102-030401020304",
+  "currHydraLvl": "5",
+  "favourite": [
+     {
+        "enhancements": [
+
+        ],
+        "flavours": [
+           {
+              "flavorStrength": "0",
+              "product": {
+                 "flavorUpc": "102"
+              }
+           }
+        ],
+        "carbLvl": "0",
+        "coldLvl": "0",
+        "flavorTitle": ""
+     },
+     {
+        "enhancements": [
+
+        ],
+        "flavours": [
+           {
+              "flavorStrength": "0",
+              "product": {
+                 "flavorUpc": "102"
+              }
+           }
+        ],
+        "carbLvl": "0",
+        "coldLvl": "0",
+        "flavorTitle": ""
+     },
+     {
+        "enhancements": [
+
+        ],
+        "flavours": [
+           {
+              "flavorStrength": "0",
+              "product": {
+                 "flavorUpc": "102"
+              }
+           }
+        ],
+        "carbLvl": "0",
+        "coldLvl": "0",
+        "flavorTitle": ""
+     },
+     {
+        "enhancements": [],
+        "flavours": [
+           {
+              "flavorStrength": "0",
+              "product": {
+                 "flavorUpc": "3"
+              }
+           }
+        ],
+        "carbLvl": "0",
+        "coldLvl": "0",
+        "flavorTitle": ""
+     }
+  ],
+  "hydraGoal": "5",
+  "identification_type": "3"
+};
 
 export interface ConsumerInterface {
   isLogged: boolean;
@@ -61,7 +146,11 @@ class ConsumerStoreComponent extends React.Component<any, any> {
 
     consumerBeverages = consumerBeverages.map((consumerBeverage, index) => {
       if (consumerBeverage && consumerBeverage.flavours && consumerBeverage.flavours.length > 0) {
-        const beverageFlavor: IBeverage = beverages.filter((b) => Number(b.beverage_id) === Number(consumerBeverage.flavours[0].product.flavorUpc))[0];
+        let beverageFlavor: IBeverage = beverages.filter((b) => Number(b.beverage_id) === Number(consumerBeverage.flavours[0].product.flavorUpc))[0];
+
+        if (!beverageFlavor)
+          beverageFlavor = { beverage_label_id: __("Not Available"), status_id: BeverageStatus.EmptyBib };
+
         consumerBeverage.$type = null;
         if (consumerBeverage.flavorTitle === undefined || consumerBeverage.flavorTitle === null || consumerBeverage.flavorTitle === "") {
           consumerBeverage.flavorTitle = beverageFlavor.beverage_label_id;
@@ -82,95 +171,6 @@ class ConsumerStoreComponent extends React.Component<any, any> {
   /* ======================================== */
 
   getDataFromSocket = (type: SOCKET_CONSUMER): Observable<any> => {
-
-    // if (type === SOCKET_CONSUMER.SERVER) {
-    //   const testServer = {
-    //     "consumer_nick": "Daniele",
-    //     "identification_type": "2",
-    //     "last_pour": {
-    //       "flavorTitle": "Limeeee",
-    //       "enhancements": [
-    //         {
-    //           "product": {
-    //             "flavorUpc": ""
-    //           }
-    //         }
-    //       ],
-    //       "flavours": [
-    //         {
-    //           "product": {
-    //             "flavorUpc": "3"
-    //           },
-    //           "flavorStrength": "3"
-    //         }
-    //       ],
-    //       "carbLvl": "100",
-    //       "coldLvl": "0"
-    //     },
-    //     "favourite": [
-    //       {
-    //         "flavorTitle": "Superlemon",
-    //         "enhancements": [],
-    //         "flavours": [
-    //           {
-    //             "product": {
-    //               "flavorUpc": "2"
-    //             },
-    //             "flavorStrength": "3"
-    //           }
-    //         ],
-    //         "carbLvl": "100",
-    //         "coldLvl": "0"
-    //       },
-    //       {
-    //         "flavorTitle": "Raspy",
-    //         "enhancements": [
-    //           {
-    //             "product": {
-    //               "flavorUpc": ""
-    //             }
-    //           }
-    //         ],
-    //         "flavours": [
-    //           {
-    //             "product": {
-    //               "flavorUpc": "4"
-    //             },
-    //             "flavorStrength": "2"
-    //           }
-    //         ],
-    //         "carbLvl": "50",
-    //         "coldLvl": "50"
-    //       },
-    //       {
-    //         "flavorTitle": "MyPeach",
-    //         "enhancements": [
-    //           {
-    //             "product": {
-    //               "flavorUpc": ""
-    //             }
-    //           }
-    //         ],
-    //         "flavours": [
-    //           {
-    //             "product": {
-    //               "flavorUpc": "5"
-    //             },
-    //             "flavorStrength": "1"
-    //           }
-    //         ],
-    //         "carbLvl": "0",
-    //         "coldLvl": "100"
-    //       }
-    //     ],
-    //     "saveBottles": "5",
-    //     "consumer_id": "00001",
-    //     "hydraGoal": "90",
-    //     "currHydraLvl": "66"
-    //   };
-    //   return of(testServer).pipe(delay(5000));
-    // }
-
     const { ws } = this.props.configConsumer;
     const socketConsumer$ = ws
     .multiplex(
@@ -180,7 +180,8 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     )
     .pipe(
       first(),
-      map((data: any) => data.value)
+      map((data: any) => data.value),
+      map(() => testQR)
     );
     return socketConsumer$;
   }
@@ -190,42 +191,11 @@ class ConsumerStoreComponent extends React.Component<any, any> {
 
   startScanning = (): Observable<boolean> => {
 
-  //   const test: any = {
-  //     "identification_type": "3",
-  //     "consumer_id": "0001",
-  //     "consumer_nick": "Pippo",
-  //     "saveBottles": "10",
-  //     "currHydraLvl": "5",
-  //     "hydraGoal": "10",
-  //     "favourite": [
-  //     {
-  //             "flavorTitle": "",
-  //             "carbLvl": "0",
-  //             "coldLvl": "0",
-  //             "flavours": [{
-  //                 "flavorStrength": "1",
-  //                 "product": {
-  //                     "flavorUpc": "1"
-  //                 }
-  //             }],
-  //             "enhancements": []
-  //         }
-  //     ],
-  //     "last_pour": {
-  //         "flavorTitle": "",
-  //         "carbLvl": "",
-  //         "coldLvl": "",
-  //         "flavours": [],
-  //         "enhancements": []
-  //     }
-  // };
-
     const loadDataFromQr: Observable<true | false> =
       mediumLevel.config.startQrCamera()
       .pipe(
         mergeMap(() => this.getDataFromSocket(SOCKET_CONSUMER.QR)),
         tap(() => this.stopScanning().subscribe()),
-        // map(() => test),
         map((data: IConsumerModel) => {
           console.log(data);
           const isLogged = data.identification_type !== IdentificationConsumerTypes.NoAuth;
@@ -280,5 +250,11 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     );
   }
 }
+
+export const withConsumer = Comp => props => (
+  <ConsumerConsumer>
+    {consumer => <Comp {...props} consumerConsumer={consumer}></Comp> }
+  </ConsumerConsumer>
+);
 
 export const ConsumerStore = withRouter(withConfig(ConsumerStoreComponent));

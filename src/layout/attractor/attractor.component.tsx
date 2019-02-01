@@ -8,7 +8,7 @@ import Lottie from "react-lottie";
 import { map, tap, mergeMap } from "rxjs/operators";
 import { Subscription } from "rxjs";
 import { SOCKET_ATTRACTOR, MESSAGE_START_CAMERA, MESSAGE_STOP_VIDEO, Pages } from "../../utils/constants";
-// const animationData = require("./bubbles.json");
+const animationData = require("./test.json");
 
 interface AttractorProps {
   history: any;
@@ -47,18 +47,18 @@ class AttractorComponent extends React.Component<AttractorProps, AttractorState>
 
   render() {
 
-    // const defaultOptions = {
-    //   loop: true,
-    //   autoplay: true,
-    //   animationData: animationData,
-    //   rendererSettings: {
-    //     preserveAspectRatio: "xMidYMid slice"
-    //   }
-    // };
+    const defaultOptions = {
+      loop: true,
+      autoplay: true,
+      animationData: animationData,
+      rendererSettings: {
+        preserveAspectRatio: "xMidYMid slice"
+      }
+    };
 
     return (
       // <div>
-      //   <Lottie options={defaultOptions} height={"100vh"} width={"100vw"} />
+      //   <Lottie options={defaultOptions} height={"50vh"} width={"50vw"} />
       // </div>
       <React.Fragment>
         <SreenWrapper onClick={ () => this.goToHome() } />
