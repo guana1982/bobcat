@@ -57,8 +57,8 @@ class ConsumerStoreComponent extends React.Component<any, any> {
   private compareConsumerBeverage = (consumerBeverages: IConsumerBeverage[]): IConsumerBeverage[] => {
     const { beverages } = this.props.configConsumer;
     return consumerBeverages.map((consumerBeverage, index) => {
-      if (consumerBeverage && consumerBeverage.flavours && consumerBeverage.flavours.length > 0) {
-        let beverageFlavor: IBeverage = beverages.filter((b) => Number(b.beverage_id) === Number(consumerBeverage.flavours[0].product.flavorUpc))[0];
+      if (consumerBeverage && consumerBeverage.flavors && consumerBeverage.flavors.length > 0) {
+        let beverageFlavor: IBeverage = beverages.filter((b) => Number(b.beverage_id) === Number(consumerBeverage.flavors[0].product.flavorUpc))[0];
 
         if (!beverageFlavor)
           beverageFlavor = { beverage_label_id: __("Not Available"), status_id: BeverageStatus.EmptyBib };
@@ -77,11 +77,11 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     });
   }
 
-  getConsumerBeverages = (dataConsumer): IConsumerBeverage[] => {
+  getConsumerBeverages = (dataConsumer: IConsumerModel): IConsumerBeverage[] => {
     if (!dataConsumer.consumer_id)
       return [];
 
-    let consumerBeverages: IConsumerBeverage[] = [dataConsumer.favourite[0], dataConsumer.last_pour, dataConsumer.favourite[1]];
+    let consumerBeverages: IConsumerBeverage[] = [dataConsumer.favorites[0], dataConsumer.last_pour, dataConsumer.favorites[1]];
 
     const finalConsumerBeverages = this.compareConsumerBeverage(consumerBeverages);
 

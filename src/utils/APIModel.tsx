@@ -59,7 +59,7 @@ export interface IConsumerModel {
   saveBottles: string;
   currHydraLvl: string;
   hydraGoal: string;
-  favourite: IConsumerBeverage[];
+  favorites: IConsumerBeverage[];
   last_pour: IConsumerBeverage;
 }
 
@@ -67,7 +67,7 @@ export interface IConsumerBeverage {
   flavorTitle: string;
   carbLvl: string;
   coldLvl: string;
-  flavours: Flavour[];
+  flavors: Flavour[];
   enhancements: Enhancement[];
   $type?: BeverageTypes;
   $status_id?: BeverageStatus;

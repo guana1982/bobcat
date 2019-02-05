@@ -30698,3 +30698,260 @@ Digital input found
 Digital input found
 Digital input found
 Digital input found
+OPTIONS  /api/v0/config/stop_video
+('192.168.188.126', 50265) connected to WebSocket
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 05/Feb/2019 13:21:51
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.575685 s, 7.1 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 05/Feb/2019 13:21:52
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 05/Feb/2019 13:21:52
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 05/Feb/2019 13:21:52
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 05/Feb/2019 13:21:52
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 05/Feb/2019 13:21:52
+return status =  0 ,error value =  False
+Digital input found
+Messagge from Websocket undefined
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 05/Feb/2019 13:21:53
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 05/Feb/2019 13:21:53
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 05/Feb/2019 13:21:53
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+No lease, forking to background
+UTILS: eth0 pass
+Digital input found
+Digital input found
+UTILS: ping results {'ppp0': 99999, 'eth0': 99999, 'wlan0': 65.224000000000004}
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+('192.168.188.126', 51521) connected to WebSocket
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 05/Feb/2019 13:26:48
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.567826 s, 7.2 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 05/Feb/2019 13:26:48
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 05/Feb/2019 13:26:48
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 05/Feb/2019 13:26:48
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 05/Feb/2019 13:26:48
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 05/Feb/2019 13:26:48
+return status =  0 ,error value =  False
+Digital input found
+Messagge from Websocket undefined
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 05/Feb/2019 13:26:50
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 05/Feb/2019 13:26:50
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 05/Feb/2019 13:26:50
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+('192.168.188.126', 51709) connected to WebSocket
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 05/Feb/2019 13:27:28
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.579304 s, 7.1 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 05/Feb/2019 13:27:29
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 05/Feb/2019 13:27:29
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 05/Feb/2019 13:27:29
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 05/Feb/2019 13:27:29
+Messagge from Websocket undefined
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 05/Feb/2019 13:27:29
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 05/Feb/2019 13:27:29
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 05/Feb/2019 13:27:29
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 05/Feb/2019 13:27:29
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+No lease, forking to background
+UTILS: eth0 pass
+Digital input found
