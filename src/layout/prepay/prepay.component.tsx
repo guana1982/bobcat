@@ -89,6 +89,9 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
     }));
   }
 
+  /* ==== MAIN ==== */
+  /* ======================================== */
+
   render() {
     const { alert } = this.state;
     return (

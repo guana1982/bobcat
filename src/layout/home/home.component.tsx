@@ -12,11 +12,13 @@ import { IBeverageConfig, IBeverage } from "../../models";
 import { __ } from "../../utils/lib/i18n";
 import SlideComponent from "../../components/global/Slide";
 import { Button, ButtonTypes } from "../../components/global/Button";
-import { Beverages, Pages } from "../../utils/constants";
+import { Beverages, Pages, AlarmsOutOfStock } from "../../utils/constants";
 import { BeveragesAnimated, Beverage, BeverageIndicators, BeverageTypes } from "../../components/global/Beverage";
 import { ConsumerInterface } from "../../store/consumer.store";
 import { IdentificationConsumerTypes, IConsumerBeverage } from "../../utils/APIModel";
 import { BeverageStatus } from "../../models/beverage.model";
+import { Alert, AlertProps, AlertTypes } from "../../components/global/Alert";
+import { mergeMap, first } from "rxjs/operators";
 
 interface HomeProps {
   history: any;
@@ -31,6 +33,7 @@ interface HomeState {
   indexFavoritePouring_: number;
   beverageConfig: IBeverageConfig;
   slideOpen: boolean;
+  alert: AlertProps;
 }
 
 export class Home extends React.Component<HomeProps, HomeState> {
@@ -70,6 +73,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
       beverageSelected: null,
       slideOpen: false,
       indexFavoritePouring_: null,
+      alert: undefined,
       beverageConfig: {
         flavor_level: null,
         carbonation_level: null,
@@ -136,9 +140,25 @@ export class Home extends React.Component<HomeProps, HomeState> {
     if (beverageConfig.carbonation_level == null) {
       beverageConfig.carbonation_level = 0;
     }
+    console.log(this.props.configConsumer.socketAlarms$);
     this.props.timerConsumer.resetTimer();
-    this.props.configConsumer.onStartPour(beverageSelected, beverageConfig)
-    .subscribe(data => console.log(data));
+    const startPour = this.props.configConsumer.onStartPour(beverageSelected, beverageConfig)
+    .pipe(
+      mergeMap(() => this.props.configConsumer.socketAlarms$.pipe(first()))
+    )
+    .subscribe(data => {
+      if (data.value === true && data.name in AlarmsOutOfStock) { // Object.values(AlarmsOutOfStock).includes(data.name)
+        startPour.unsubscribe();
+        this.resetBeverage();
+        this.handleAlert({
+          type: AlertTypes.OutOfStock,
+          timeout: true,
+          onDismiss: () => {
+            this.handleAlert();
+          }
+        });
+      }
+    });
   }
 
   private stopPour() {
@@ -166,7 +186,20 @@ export class Home extends React.Component<HomeProps, HomeState> {
       temperature_level: Number(consumerBeverage.coldLvl),
     };
     this.props.configConsumer.onStartPour(beverageSelected, beverageConfig)
-    .subscribe(data => console.log(data));
+    .pipe(
+      mergeMap(() => this.props.configConsumer.socketAlarms$.pipe(first()))
+    )
+    .subscribe(data => {
+      if (data.value === true && data.name in AlarmsOutOfStock) {
+        this.handleAlert({
+          type: AlertTypes.OutOfStock,
+          timeout: true,
+          onDismiss: () => {
+            this.handleAlert();
+          }
+        });
+      }
+    });
   }
 
   private stopConsumerPour(consumerBeverage: IConsumerBeverage) {
@@ -380,13 +413,24 @@ export class Home extends React.Component<HomeProps, HomeState> {
     );
   }
 
+  /* ==== HANDLE ==== */
+  /* ======================================== */
+
+  private handleAlert = (alert?: AlertProps) => {
+    this.setState(prevState => ({
+      ...prevState,
+      alert: alert
+    }));
+  }
+
+
   /* ==== MAIN ==== */
   /* ======================================== */
 
   render() {
     const { beverages } = this.props.configConsumer;
     const { consumerBeverages } = this.props.consumerConsumer;
-    const { isSparkling } = this.state;
+    const { isSparkling, alert } = this.state;
     const presentSlide = consumerBeverages.length > 0;
 
     return (
@@ -407,6 +451,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
           )}
           {this.getBeverageSelected() && <this.CustomizeBeverage />}
         </HomeContent>
+        {alert && <Alert {...alert} />}
       </React.Fragment>
     );
   }

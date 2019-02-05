@@ -16,6 +16,7 @@ export interface ConfigInterface {
   ws: WebSocketSubject<ISocket>;
   alarms: IAlarm[];
   beverages: IBeverage[];
+  socketAlarms$: Observable<ISocket>;
   onStartPour: (beverage: IBeverage, config: IBeverageConfig) => Observable<any>;
   onStopPour: () => Observable<any>;
 }
@@ -30,6 +31,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
   vendorConfig: any;
   menuList: any;
   ws: WebSocketSubject<ISocket>;
+  socketAlarms$: Observable<any>;
 
   constructor(props) {
     super(props);
@@ -82,17 +84,16 @@ class ConfigStoreComponent extends React.Component<any, any> {
       })
     );
 
-    const socketAlarms$ = this.ws
+    this.socketAlarms$ = this.ws
     .multiplex(
       () => console.info(`Start => ${SOCKET_ALARM}`),
       () => console.info(`End => ${SOCKET_ALARM}`),
       (data) => data && data.message_type === SOCKET_ALARM
-    ).pipe(map(data => data.value));
+    ).pipe(debounceTime(250));
 
     setAlarms
     .pipe(
-      mergeMap(() => socketAlarms$),
-      debounceTime(250),
+      mergeMap(() => this.socketAlarms$),
       mergeMap(() => setAlarms),
       mergeMap(() => setBeverages)
     )
@@ -211,7 +212,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
           alarms: this.state.alarms,
           ws: this.ws,
           onStartPour: this.onStartPour,
-          onStopPour: this.onStopPour
+          onStopPour: this.onStopPour,
+          socketAlarms$: this.socketAlarms$
         }}
       >
         {children}

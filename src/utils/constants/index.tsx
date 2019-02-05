@@ -14,6 +14,18 @@ export enum Beverages {
   Bev = "bev"
 }
 
+// -- BEVERAGE --
+export enum AlarmsOutOfStock {
+  flux1,
+  flux2,
+  flux3,
+  flux4,
+  flux5,
+  flux6,
+  flux_water,
+  flux_soda,
+}
+
 // -- PAYMENT METHODS --
 export const PAYMENT_QR_PRE = "qr_code_pre_payment";
 export const PAYMENT_QR_POST = "qr_code_post_payment";

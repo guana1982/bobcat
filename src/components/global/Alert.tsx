@@ -6,7 +6,8 @@ export const DEFAULT_TIMEOUT_ALERT = 6000;
 
 export enum AlertTypes {
   Success = "success",
-  Error = "error"
+  Error = "error",
+  OutOfStock = "Out Of Stock"
 }
 
 const AlertWrap = styled.div`
@@ -58,7 +59,7 @@ export const Alert = (props: AlertProps) => {
     timeout_ = setTimeout(onDismiss, typeof timeout === "boolean" ? DEFAULT_TIMEOUT_ALERT : timeout);
   }
 
-  console.log(timeout_);
+  // console.log(timeout_);
   const stopTimeout = () => {
     if (timeout_) {
       window.clearTimeout(timeout_);
