@@ -215,7 +215,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
       beverageConfig: {
         ...prevState.beverageConfig,
         carbonation_level: value ? this.levels.carbonation[2].value : null,
-        temperature_level: value ? this.levels.carbTemperature[0].value : this.levels.temperature[0].value
+        temperature_level: value ? this.levels.carbTemperature[0].value : this.levels.temperature[2].value
       }
     }));
   }
