@@ -140,28 +140,28 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
     let bevSelected, bevConfig = null;
 
-    if (!(beverageSelected && beverageConfig)) {
-      bevSelected =  this.getBeverageSelected();
-      bevConfig = {...this.state.beverageConfig};
-      if (beverageConfig.carbonation_level == null) {
-        beverageConfig.carbonation_level = 0;
-      }
-    } else {
+    if (beverageSelected && beverageConfig) {
       bevSelected = beverageSelected;
       bevConfig = beverageConfig;
+    } else {
+      bevSelected =  this.getBeverageSelected();
+      bevConfig = {...this.state.beverageConfig};
+      if (bevConfig.carbonation_level == null) {
+        bevConfig.carbonation_level = 0;
+      }
     }
 
     this.props.timerConsumer.resetTimer();
     this.pouring_ = this.props.configConsumer.onStartPour(bevSelected, bevConfig)
     .subscribe(data => {
       if (data.value === true && data.name in AlarmsOutOfStock) { // Object.values(AlarmsOutOfStock).includes(data.name)
-        this.pouring_.unsubscribe();
-        this.props.consumerConsumer.setOutOfStockConsumerBeverage(this.state.indexFavoritePouring_); // => TO IMPROVE
+        this.pouring_ && this.pouring_.unsubscribe();
         this.resetBeverage();
         this.handleAlert({
           type: AlertTypes.OutOfStock,
           timeout: true,
           onDismiss: () => {
+            this.props.consumerConsumer.updateConsumerBeverages();  // => TO IMPROVE
             this.handleAlert();
           }
         });
@@ -172,7 +172,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   private stopPour() {
     this.props.timerConsumer.startTimer();
-    this.pouring_.unsubscribe();
+    this.pouring_ && this.pouring_.unsubscribe();
     this.props.configConsumer.onStopPour()
     .subscribe(data => console.log(data));
   }

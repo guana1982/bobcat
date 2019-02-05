@@ -18,7 +18,7 @@ export interface ConsumerInterface {
   resetConsumer: () => void;
   startScanning: () => Observable<boolean>;
   stopScanning: () => Observable<any>;
-  setOutOfStockConsumerBeverage: (index: number) => void;
+  updateConsumerBeverages: () => void;
 }
 
 const ConsumerContext = React.createContext<ConsumerInterface | null>(null);
@@ -27,6 +27,14 @@ export const ConsumerProvider = ConsumerContext.Provider;
 export const ConsumerConsumer = ConsumerContext.Consumer;
 
 class ConsumerStoreComponent extends React.Component<any, any> {
+
+  readonly infoBeverages: any = [{
+    flavorTitle: "Favorite 1"
+  }, {
+    flavorTitle: "Last Pour"
+  }, {
+    flavorTitle: "Favorite 2"
+  }];
 
   constructor(props) {
     super(props);
@@ -46,31 +54,9 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     this.props.history.push(Pages.Attractor);
   }
 
-  setOutOfStockConsumerBeverage = (index: number) => { // => TO IMPROVE
-    const { consumerBeverages } = this.state;
-    if (!index || index > consumerBeverages.length)
-      return;
-
-    consumerBeverages[index].$status_id = BeverageStatus.EmptyBib;
-    this.setState({consumerBeverages: consumerBeverages});
-  }
-
-  getConsumerBeverage = (dataConsumer): IConsumerBeverage[] => {
-    const infoBeverages: any = [{
-      flavorTitle: "Favorite 1"
-    }, {
-      flavorTitle: "Last Pour"
-    }, {
-      flavorTitle: "Favorite 2"
-    }];
-
-    if (!dataConsumer.consumer_id)
-      return [];
-
-    let consumerBeverages: IConsumerBeverage[] = [dataConsumer.favourite[0], dataConsumer.last_pour, dataConsumer.favourite[1]];
+  private compareConsumerBeverage = (consumerBeverages: IConsumerBeverage[]): IConsumerBeverage[] => {
     const { beverages } = this.props.configConsumer;
-
-    consumerBeverages = consumerBeverages.map((consumerBeverage, index) => {
+    return consumerBeverages.map((consumerBeverage, index) => {
       if (consumerBeverage && consumerBeverage.flavours && consumerBeverage.flavours.length > 0) {
         let beverageFlavor: IBeverage = beverages.filter((b) => Number(b.beverage_id) === Number(consumerBeverage.flavours[0].product.flavorUpc))[0];
 
@@ -84,13 +70,30 @@ class ConsumerStoreComponent extends React.Component<any, any> {
         consumerBeverage.$status_id = beverageFlavor.status_id;
         return consumerBeverage;
       } else {
-        const infoBeverage = infoBeverages[index];
+        const infoBeverage = this.infoBeverages[index];
         infoBeverage.$type = BeverageTypes.Info;
         return infoBeverage;
       }
     });
+  }
 
-    return consumerBeverages;
+  getConsumerBeverages = (dataConsumer): IConsumerBeverage[] => {
+    if (!dataConsumer.consumer_id)
+      return [];
+
+    let consumerBeverages: IConsumerBeverage[] = [dataConsumer.favourite[0], dataConsumer.last_pour, dataConsumer.favourite[1]];
+
+    const finalConsumerBeverages = this.compareConsumerBeverage(consumerBeverages);
+
+    return finalConsumerBeverages;
+  }
+
+  updateConsumerBeverages = (): void => {
+    const { consumerBeverages } = this.state;
+    let finalConsumerBeverages = this.compareConsumerBeverage(consumerBeverages);
+    this.setState({
+      consumerBeverages: finalConsumerBeverages
+    });
   }
 
   /* ==== CONSUMER SOCKET ==== */
@@ -127,7 +130,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
           this.setState({
             isLogged: isLogged,
             dataConsumer: data,
-            consumerBeverages: this.getConsumerBeverage(data)
+            consumerBeverages: this.getConsumerBeverages(data)
           });
           return isLogged;
         }),
@@ -139,7 +142,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
         map((data: IConsumerModel) => {
           this.setState({
             dataConsumer: data,
-            consumerBeverages: this.getConsumerBeverage(data)
+            consumerBeverages: this.getConsumerBeverages(data)
           });
           return null;
         }),
@@ -166,7 +169,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
           startScanning: this.startScanning,
           stopScanning: this.stopScanning,
           resetConsumer: this.resetConsumer,
-          setOutOfStockConsumerBeverage: this.setOutOfStockConsumerBeverage
+          updateConsumerBeverages: this.updateConsumerBeverages
         }}
       >
         <React.Fragment>
