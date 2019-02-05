@@ -19,6 +19,7 @@ import { IdentificationConsumerTypes, IConsumerBeverage } from "../../utils/APIM
 import { BeverageStatus } from "../../models/beverage.model";
 import { Alert, AlertProps, AlertTypes } from "../../components/global/Alert";
 import { mergeMap, first } from "rxjs/operators";
+import { Subscription } from "rxjs";
 
 interface HomeProps {
   history: any;
@@ -41,6 +42,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   readonly state: HomeState;
 
   // actionsLauncher: Action[];
+  pouring_: Subscription = null;
   levels: any = null;
   types: any = null;
 
@@ -134,21 +136,27 @@ export class Home extends React.Component<HomeProps, HomeState> {
     return beverages ? beverages[this.state.beverageSelected] : null;
   }
 
-  private startPour() {
-    const beverageSelected =  this.getBeverageSelected();
-    const beverageConfig = {...this.state.beverageConfig};
-    if (beverageConfig.carbonation_level == null) {
-      beverageConfig.carbonation_level = 0;
+  private startPour(beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig) {
+
+    let bevSelected, bevConfig = null;
+
+    if (!(beverageSelected && beverageConfig)) {
+      bevSelected =  this.getBeverageSelected();
+      bevConfig = {...this.state.beverageConfig};
+      if (beverageConfig.carbonation_level == null) {
+        beverageConfig.carbonation_level = 0;
+      }
+    } else {
+      bevSelected = beverageSelected;
+      bevConfig = beverageConfig;
     }
-    console.log(this.props.configConsumer.socketAlarms$);
+
     this.props.timerConsumer.resetTimer();
-    const startPour = this.props.configConsumer.onStartPour(beverageSelected, beverageConfig)
-    .pipe(
-      mergeMap(() => this.props.configConsumer.socketAlarms$.pipe(first()))
-    )
+    this.pouring_ = this.props.configConsumer.onStartPour(bevSelected, bevConfig)
     .subscribe(data => {
       if (data.value === true && data.name in AlarmsOutOfStock) { // Object.values(AlarmsOutOfStock).includes(data.name)
-        startPour.unsubscribe();
+        this.pouring_.unsubscribe();
+        this.props.consumerConsumer.setOutOfStockConsumerBeverage(this.state.indexFavoritePouring_); // => TO IMPROVE
         this.resetBeverage();
         this.handleAlert({
           type: AlertTypes.OutOfStock,
@@ -159,17 +167,20 @@ export class Home extends React.Component<HomeProps, HomeState> {
         });
       }
     });
+
   }
 
   private stopPour() {
     this.props.timerConsumer.startTimer();
+    this.pouring_.unsubscribe();
     this.props.configConsumer.onStopPour()
     .subscribe(data => console.log(data));
   }
 
   private resetBeverage() {
     this.setState({
-      beverageSelected: null
+      beverageSelected: null,
+      indexFavoritePouring_: null
     });
   }
 
@@ -185,26 +196,12 @@ export class Home extends React.Component<HomeProps, HomeState> {
       carbonation_level: Number(consumerBeverage.carbLvl),
       temperature_level: Number(consumerBeverage.coldLvl),
     };
-    this.props.configConsumer.onStartPour(beverageSelected, beverageConfig)
-    .pipe(
-      mergeMap(() => this.props.configConsumer.socketAlarms$.pipe(first()))
-    )
-    .subscribe(data => {
-      if (data.value === true && data.name in AlarmsOutOfStock) {
-        this.handleAlert({
-          type: AlertTypes.OutOfStock,
-          timeout: true,
-          onDismiss: () => {
-            this.handleAlert();
-          }
-        });
-      }
-    });
+    this.startPour(beverageSelected, beverageConfig);
   }
 
   private stopConsumerPour(consumerBeverage: IConsumerBeverage) {
     console.log("STOP", consumerBeverage);
-    this.setState({indexFavoritePouring_: null});
+    this.resetBeverage();
     this.stopPour();
   }
 

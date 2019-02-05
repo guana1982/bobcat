@@ -39,6 +39,7 @@ const Overlay = styled.div`
 `;
 
 const AlertContent = styled.div`
+  z-index: 999;
   position: absolute;
   top: 0;
   left: 0;

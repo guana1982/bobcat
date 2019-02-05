@@ -11,90 +11,6 @@ import { BeverageStatus } from "../models/beverage.model";
 import { BeverageTypes } from "../components/global/Beverage";
 import { __ } from "../utils/lib/i18n";
 
-const testQR = {
-  "saveBottles": "300",
-  "consumer_nick": "John William Doe",
-  "last_pour": {
-     "enhancements": [
-
-     ],
-     "flavours": [
-
-     ],
-     "carbLvl": "",
-     "coldLvl": "",
-     "flavorTitle": ""
-  },
-  "consumer_id": "01020304-0102-0304-0102-030401020304",
-  "currHydraLvl": "5",
-  "favourite": [
-     {
-        "enhancements": [
-
-        ],
-        "flavours": [
-           {
-              "flavorStrength": "0",
-              "product": {
-                 "flavorUpc": "102"
-              }
-           }
-        ],
-        "carbLvl": "0",
-        "coldLvl": "0",
-        "flavorTitle": ""
-     },
-     {
-        "enhancements": [
-
-        ],
-        "flavours": [
-           {
-              "flavorStrength": "0",
-              "product": {
-                 "flavorUpc": "102"
-              }
-           }
-        ],
-        "carbLvl": "0",
-        "coldLvl": "0",
-        "flavorTitle": ""
-     },
-     {
-        "enhancements": [
-
-        ],
-        "flavours": [
-           {
-              "flavorStrength": "0",
-              "product": {
-                 "flavorUpc": "102"
-              }
-           }
-        ],
-        "carbLvl": "0",
-        "coldLvl": "0",
-        "flavorTitle": ""
-     },
-     {
-        "enhancements": [],
-        "flavours": [
-           {
-              "flavorStrength": "0",
-              "product": {
-                 "flavorUpc": "3"
-              }
-           }
-        ],
-        "carbLvl": "0",
-        "coldLvl": "0",
-        "flavorTitle": ""
-     }
-  ],
-  "hydraGoal": "5",
-  "identification_type": "3"
-};
-
 export interface ConsumerInterface {
   isLogged: boolean;
   dataConsumer: IConsumerModel;
@@ -102,6 +18,7 @@ export interface ConsumerInterface {
   resetConsumer: () => void;
   startScanning: () => Observable<boolean>;
   stopScanning: () => Observable<any>;
+  setOutOfStockConsumerBeverage: (index: number) => void;
 }
 
 const ConsumerContext = React.createContext<ConsumerInterface | null>(null);
@@ -127,6 +44,15 @@ class ConsumerStoreComponent extends React.Component<any, any> {
       consumerBeverages: []
     });
     this.props.history.push(Pages.Attractor);
+  }
+
+  setOutOfStockConsumerBeverage = (index: number) => { // => TO IMPROVE
+    const { consumerBeverages } = this.state;
+    if (!index || index > consumerBeverages.length)
+      return;
+
+    consumerBeverages[index].$status_id = BeverageStatus.EmptyBib;
+    this.setState({consumerBeverages: consumerBeverages});
   }
 
   getConsumerBeverage = (dataConsumer): IConsumerBeverage[] => {
@@ -180,8 +106,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     )
     .pipe(
       first(),
-      map((data: any) => data.value),
-      // map(() => testQR)
+      map((data: any) => data.value)
     );
     return socketConsumer$;
   }
@@ -240,7 +165,8 @@ class ConsumerStoreComponent extends React.Component<any, any> {
           consumerBeverages: consumerBeverages,
           startScanning: this.startScanning,
           stopScanning: this.stopScanning,
-          resetConsumer: this.resetConsumer
+          resetConsumer: this.resetConsumer,
+          setOutOfStockConsumerBeverage: this.setOutOfStockConsumerBeverage
         }}
       >
         <React.Fragment>

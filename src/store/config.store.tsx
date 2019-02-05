@@ -16,7 +16,6 @@ export interface ConfigInterface {
   ws: WebSocketSubject<ISocket>;
   alarms: IAlarm[];
   beverages: IBeverage[];
-  socketAlarms$: Observable<ISocket>;
   onStartPour: (beverage: IBeverage, config: IBeverageConfig) => Observable<any>;
   onStopPour: () => Observable<any>;
 }
@@ -184,7 +183,10 @@ class ConfigStoreComponent extends React.Component<any, any> {
       temperature_level: config.temperature_level,
       pour_method: "free_flow"
     };
-    return mediumLevel.dispense.pour(recipe);
+    return mediumLevel.dispense.pour(recipe)
+    .pipe(
+      mergeMap(() => this.socketAlarms$.pipe(first()))
+    );
   }
 
   private onStopPour = () => {
@@ -212,8 +214,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
           alarms: this.state.alarms,
           ws: this.ws,
           onStartPour: this.onStartPour,
-          onStopPour: this.onStopPour,
-          socketAlarms$: this.socketAlarms$
+          onStopPour: this.onStopPour
         }}
       >
         {children}
