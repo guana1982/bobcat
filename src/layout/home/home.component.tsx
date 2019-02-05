@@ -66,7 +66,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
         {label: "ice-cold", value: 0},
       ],
       carbTemperature: [
-        {label: "ice-cold", value: 100},
+        {label: "ice-cold", value: 0},
       ]
     };
 
@@ -208,14 +208,14 @@ export class Home extends React.Component<HomeProps, HomeState> {
   /* ==== HANDLE ==== */
   /* ======================================== */
 
-  private handleType = (value) => {
+  private handleType = (value) => { // TRUE => isSparkling
     this.setState(prevState => ({
       ...prevState,
       isSparkling: value,
       beverageConfig: {
         ...prevState.beverageConfig,
         carbonation_level: value ? this.levels.carbonation[2].value : null,
-        temperature_level: this.levels.temperature[0].value
+        temperature_level: value ? this.levels.carbTemperature[0].value : this.levels.temperature[0].value
       }
     }));
   }
