@@ -190,9 +190,9 @@ export class Home extends React.Component<HomeProps, HomeState> {
   private startConsumerPour(consumerBeverage: IConsumerBeverage, index: number) {
     console.log("START", consumerBeverage);
     this.setState({indexFavoritePouring_: index});
-    const beverageSelected: any = { beverage_id: Number(consumerBeverage.flavours[0].product.flavorUpc) };
+    const beverageSelected: any = { beverage_id: Number(consumerBeverage.flavors[0].product.flavorUpc) };
     const beverageConfig: IBeverageConfig = {
-      flavor_level: Number(consumerBeverage.flavours[0].flavorStrength),
+      flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),
       carbonation_level: Number(consumerBeverage.carbLvl),
       temperature_level: Number(consumerBeverage.coldLvl),
     };
