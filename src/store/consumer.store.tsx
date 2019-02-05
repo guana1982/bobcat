@@ -81,7 +81,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     if (!dataConsumer.consumer_id)
       return [];
 
-    let consumerBeverages: IConsumerBeverage[] = [dataConsumer.favorites[0], dataConsumer.last_pour, dataConsumer.favorites[1]];
+    let consumerBeverages: IConsumerBeverage[] = [dataConsumer.favorites[0], dataConsumer.lastPour, dataConsumer.favorites[1]];
 
     const finalConsumerBeverages = this.compareConsumerBeverage(consumerBeverages);
 

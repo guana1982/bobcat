@@ -54,20 +54,21 @@ export enum IdentificationConsumerTypes {
 
 export interface IConsumerModel {
   identification_type?: IdentificationConsumerTypes;
+  pack_id?: string;
   consumer_id: string;
   consumer_nick: string;
-  saveBottles: string;
-  currHydraLvl: string;
-  hydraGoal: string;
+  saveBottles: number;
+  currHydraLvl: number;
+  hydraGoal: number;
   favorites: IConsumerBeverage[];
-  last_pour: IConsumerBeverage;
+  lastPour: IConsumerBeverage;
 }
 
 export interface IConsumerBeverage {
   flavorTitle: string;
-  carbLvl: string;
-  coldLvl: string;
-  flavors: Flavour[];
+  carbLvl: number;
+  coldLvl: number;
+  flavors: Flavor[];
   enhancements: Enhancement[];
   $type?: BeverageTypes;
   $status_id?: BeverageStatus;
@@ -77,8 +78,8 @@ interface Enhancement {
   product: Product;
 }
 
-interface Flavour {
-  flavorStrength: string;
+interface Flavor {
+  flavorStrength: number;
   product: Product;
 }
 
