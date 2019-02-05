@@ -124,7 +124,7 @@ export enum BeverageIndicators {
 
 interface BeverageProps {
   beverage?: IBeverage;
-  type: string;
+  type: BeverageTypes;
   onClick?: () => void;
   onTouchStart?: () => void;
   onTouchEnd?: () => void;
@@ -135,7 +135,7 @@ interface BeverageProps {
   title?: string;
 }
 
-export const Beverage = forwardRef((props: BeverageProps , innerRef) => {
+export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   const { title, type, indicators, label, pouring, status_id } = props;
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;

@@ -278,7 +278,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
               return (
                 <Beverage
                   key={i}
-                  type={this.state.isSparkling ? "sparkling" : null}
+                  type={this.state.isSparkling ? BeverageTypes.Sparkling : null}
                   beverage={b}
                   status_id={b.status_id}
                   title={b.beverage_label_id}
