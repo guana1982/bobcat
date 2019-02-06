@@ -27,7 +27,7 @@ export const CircleBtnWrapper = styled<CircleBtnProps, "div">("div")`
   }
 `;
 
-const CircleBtnContent = styled.div`
+const CircleBtnContent = styled.button`
 
     background: transparent;
     text-align: center;

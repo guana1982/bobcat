@@ -107,7 +107,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   componentDidMount() {
-    this.props.timerConsumer.startTimer();
+    // this.props.timerConsumer.startTimer();
   }
 
   componentWillUnmount() {
@@ -290,7 +290,9 @@ export class Home extends React.Component<HomeProps, HomeState> {
             })}
           </Grid>
           {consumerBeverages[0].$type === BeverageTypes.Info && <h3 id="info">Save favorites from smartphone</h3>}
-          <ToggleSlide onClick={() => this.handleSlide()} src={"icons/arrow-circle.svg"} />
+          <button onClick={() => this.handleSlide()}> { /* TO IMPROVE */ }
+            <ToggleSlide src={"icons/arrow-circle.svg"} />
+          </button>
         </Slide>
       </React.Fragment>
     );
@@ -330,8 +332,8 @@ export class Home extends React.Component<HomeProps, HomeState> {
           {/* <LauncherComponent actions={this.actionsLauncher} /> */}
         </ChoiceBeverageWrap>
         <Footer>
-          {!isLogged && <Button type={ButtonTypes.Transparent} onClick={() => this.goToPrepay()} text="SIGN IN" icon="logout" />}
-          {isLogged && <Button type={ButtonTypes.Transparent} onClick={() => resetConsumer()} text="SIGN OUT" icon="logout" />}
+          {!isLogged && <Button data-focus={[3, 0]} type={ButtonTypes.Transparent} onClick={() => this.goToPrepay()} text="SIGN IN" icon="logout" />}
+          {isLogged && <Button data-focus={[3, 0]} type={ButtonTypes.Transparent} onClick={() => resetConsumer()} text="SIGN OUT" icon="logout" />}
         </Footer>
       </React.Fragment>
     );

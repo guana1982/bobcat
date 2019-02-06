@@ -10,6 +10,7 @@ import { IBeverage } from "../models";
 import { BeverageStatus } from "../models/beverage.model";
 import { BeverageTypes } from "../components/global/Beverage";
 import { __ } from "../utils/lib/i18n";
+import { TEST_QR } from "../utils/APIMock";
 
 export interface ConsumerInterface {
   isLogged: boolean;
@@ -38,10 +39,10 @@ class ConsumerStoreComponent extends React.Component<any, any> {
 
   constructor(props) {
     super(props);
-    this.state = {
-      isLogged: false,
-      dataConsumer: null,
-      consumerBeverages: []
+    this.state = { // TEST QR
+      isLogged: true,
+      dataConsumer: TEST_QR,
+      consumerBeverages: this.getConsumerBeverages(TEST_QR)
     };
   }
 
