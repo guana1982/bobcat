@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
 
 export const theme1 = {
   primary: "#005BC3",
-  secondary: "#E9F3FC",
+  secondary: "#fff",
   danger: "#f16623",
   light: "#EEF6FD",
   dark: "#222",

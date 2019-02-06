@@ -23,13 +23,20 @@ export const BeverageWrap = styled<BeverageWrapProps, "div">("div")`
   pointer-events: default;
   height: ${_sizeBeverage * 1.6}rem;
   width: ${_sizeBeverage * 1.4}rem;
+  background-image: url("orange_grapefruit_svg.svg");
+  background-repeat: no-repeat;
+  background-size: 95%;
   #element {
+
     position: relative;
-    border: ${props => `2px ${props.type === BeverageTypes.Info ? "dashed" : "solid"} ${props.theme.primary}`};
-    background-color: ${props => props.type === BeverageTypes.Info ? "rgba(255, 255, 255, 0.3)" : props.theme["light"] };
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+
+    /* border: ${props => `2px ${props.type === BeverageTypes.Info ? "dashed" : "solid"} ${props.theme.primary}`}; */
+    /* background-color: ${props => props.type === BeverageTypes.Info ? "rgba(255, 255, 255, 0.3)" : props.theme["light"] }; */
     width: 100%;
     border-radius: 1rem;
-    color: #0034B0;
+    color: ${props => props.theme.primary};
     height: 100%;
     text-align: left;
     * {
