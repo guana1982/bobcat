@@ -19,6 +19,7 @@ import LineCalibration from "./LineCalibration";
 import CarbonationImage from "../../Menu/CarbonationImage";
 import * as styles from "../../Menu/Custom/Lines.scss";
 
+const BEV = "bev";
 const SODA = "soda";
 const WATER = "plain";
 const AMB = "amb";
@@ -121,6 +122,7 @@ const PaginatedLines = enhance(
         <div className={styles.lines}>
           {linesConfig.slice(start, end).map((line, index) => {
             const actualIndex = line.line_id; // index + elementsPerPage * (page - 1) + 1;
+            const filterBeverages = availableBeverages.filter(beverage => beverage.beverage_type && beverage.beverage_type === BEV)
             const lineBeverage = availableBeverages.find(l => l.beverage_id === line.beverage_id) || {};
             return (
               <div key={actualIndex} className={styles.line}>
@@ -128,7 +130,7 @@ const PaginatedLines = enhance(
                   <BeveragesDropdown
                     onSelect={onSelectBeverage(line, actualIndex)}
                     linesConfig={linesConfig}
-                    beverages={availableBeverages}
+                    beverages={filterBeverages}
                     countries={countries}
                     initialCountry={country}
                     title={__("line") + "#" + line.line_id}
