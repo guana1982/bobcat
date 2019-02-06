@@ -10,6 +10,7 @@ import AppRouter from "./app.router";
 import { theme1, theme2 } from "./app.style";
 import InactivityHandler from "../components/Menu/InactivityHandler";
 import { ConsumerStore } from "../store/consumer.store";
+import { AccessibilityStore } from "../store/accessibility.store";
 
 const fullScreen = compose(
   lifecycle({
@@ -34,7 +35,9 @@ export default fullScreen(({
         <ConfigStore>
           <ConsumerStore>
             <TimerStore>
-              <AppRouter />
+              <AccessibilityStore>
+                <AppRouter />
+              </AccessibilityStore>
             </TimerStore>
           </ConsumerStore>
         </ConfigStore>
