@@ -31388,3 +31388,1982 @@ brcmfmac: brcmf_sdio_hdparse: seq 203: sequence number error, expect 202
 Digital input found
 Digital input found
 Digital input found
+
+roo
+
+
+
+Poky (Yocto Project Reference Distro) 2.1.1 icoremx6dl-alma /dev/ttymxc3
+
+icoremx6dl-alma login: ciao    root
+Password: 
+7[r[999;999H[6n8root@icoremx6dl-alma:~# reboot
+
+Broadcast message from root@icoremx6dl-alma (ttymxc3) (Wed Feb  6 14:39:23 20The system is going down for reboot NOW!
+INIT: Switching to runlevel: 6
+INIT: Sending processes the TERM signal
+root@icoremx6dl-alma:~# Stopping Dropbear SSH server: stopped /usr/sbin/dropbear (pid 363)
+dropbear.
+ * Stopping Avahi mDNS/DNS-SD Daemon: avahi-daemon
+[A[179G[ ok ]
+Stopping advanced power management daemon: no /usr/sbin/apmd found; none killed
+apmd.
+Stopping bluetooth
+/usr/libexec/bluetooth/bluetoothd
+Stopping system message bus: dbus.
+Stopping syslogd/klogd: stopped syslogd (pid 383)
+stopped klogd (pid 386)
+done
+Stopping Weston
+Stopping Telephony daemon
+ALSA: Storing mixer settings...
+/usr/sbin/alsactl: save_state:1595: No soundcards found...
+Stopping rpcbind daemon...
+done.
+Stopping Linux NFC daemon
+[1228:1238:0206/143924:ERROR:display_poll_thread.cc(96)] wl_display_dispatch failed with an error.104
+Deconfiguring network interfaces... ifdown: interface eth0:1 not configured
+done.
+--------------------------------------------------
+------------------ IT: ALMASTOP ------------------
+--------------------------------------------------
+Sending all processes the TERM signal...
+Error VT_WAITACTIVE failed
+: Interrupted system call
+logout
+Bluetooth: hci0 sending frame failed (-16)
+[1150:1150:0206/143925:ERROR:zygote_host_impl_linux.cc(542)] Failed to send GetTerminationStatus message to zygote
+[1150:1150:0206/143925:ERROR:delegated_frame_host.cc(543)] Not implemented reached in virtual void content::DelegatedFrameHost::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+[1150:1150:0206/143925:ERROR:surface_display_output_surface.cc(100)] Not implemented reached in virtual void cc::SurfaceDisplayOutputSurface::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+[1150:1150:0206/143925:ERROR:surface_display_output_surface.cc(100)] Not implemented reached in virtual void cc::SurfaceDisplayOutputSurface::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+Sending all processes the KILL signal...
+Unmounting remote filesystems...
+Deactivating swap...
+Unmounting local filesystems...
+mount: mounting /dev/root on / failed: Device or resource busy
+Rebooting... reboot: Restarting system
+ 
+
+U-Boot 2016.07+fslc+g0526cd3 (Sep 20 2017 - 12:38:21 +0200)
+
+CPU:   Freescale i.MX6DL rev1.3 at 792 MHz
+Reset cause: WDOG
+Board: i.Core M6DL
+I2C:   ready
+DRAM:  1 GiB
+EDIMM 1.5 version
+MMC:   FSL_SDHC: 0, FSL_SDHC: 1
+Display: Amp-WD (800x480)
+In:    serial
+Out:   serial
+Err:   serial
+mmc_get_env_devno returns 1
+switch to partitions #0, OK
+mmc1(part 0) is current device
+Net:   FEC
+
+Version: Engicam Yocto U-Boot 3.00
+Note:    iCoreM6 default U-Boot
+
+Hit any key to stop autoboot:  1  0 
+reading icoremx6dl-intellitower.dtb
+57339 bytes read in 19 ms (2.9 MiB/s)
+reading uImage
+6313320 bytes read in 178 ms (33.8 MiB/s)
+## Booting kernel from Legacy Image at 12000000 ...
+   Image Name:   Linux-4.1.15+gea872df
+   Image Type:   ARM Linux Kernel Image (uncompressed)
+   Data Size:    6313256 Bytes = 6 MiB
+   Load Address: 10008000
+   Entry Point:  10008000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at 18000000
+   Booting using the fdt blob at 0x18000000
+   Loading Kernel Image ... OK
+   Using Device Tree in place at 18000000, end 18010ffa
+
+Starting kernel ...
+
+Booting Linux on physical CPU 0x0
+Linux version 4.1.15+gea872df (user@ubuntu) (gcc version 5.3.0 (GCC) ) #1 SMP PREEMPT Wed Dec 19 15:19:12 CET 2018
+CPU: ARMv7 Processor [412fc09a] revision 10 (ARMv7), cr=10c53c7d
+CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+Machine model: Engicam i.CoreM6 DualLite/Solo Capacitive open frame
+Reserved memory: created CMA memory pool at 0x3c000000, size 320 MiB
+Reserved memory: initialized node linux,cma, compatible id shared-dma-pool
+Memory policy: Data cache writealloc
+PERCPU: Embedded 12 pages/cpu @ab71c000 s17228 r8192 d23732 u49152
+Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 260096
+Kernel command line: console=ttymxc3,115200 cma=96MB video=mxcfb0:dev=ldb,Amp-WD root=/dev/mmcblk1p2 rootwait rw
+PID hash table entries: 4096 (order: 2, 16384 bytes)
+Dentry cache hash table entries: 131072 (order: 7, 524288 bytes)
+Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
+Memory: 699008K/1048576K available (7880K kernel code, 395K rwdata, 2828K rodata, 384K init, 431K bss, 21888K reserved, 327680K cma-reserved, 0K highmem)
+Virtual kernel memory layout:
+    vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+    fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)
+    vmalloc : 0xc0800000 - 0xff000000   (1000 MB)
+    lowmem  : 0x80000000 - 0xc0000000   (1024 MB)
+    pkmap   : 0x7fe00000 - 0x80000000   (   2 MB)
+    modules : 0x7f000000 - 0x7fe00000   (  14 MB)
+      .text : 0x80008000 - 0x80a7d5a8   (10710 kB)
+      .init : 0x80a7e000 - 0x80ade000   ( 384 kB)
+      .data : 0x80ade000 - 0x80b40ee0   ( 396 kB)
+       .bss : 0x80b43000 - 0x80baefa0   ( 432 kB)
+SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+Preemptible hierarchical RCU implementation.
+	RCU restricting CPUs from NR_CPUS=4 to nr_cpu_ids=2.
+RCU: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=2
+NR_IRQS:16 nr_irqs:16 16
+L2C-310 erratum 769419 enabled
+L2C-310 enabling early BRESP for Cortex-A9
+L2C-310 full line of zeros enabled for Cortex-A9
+L2C-310 ID prefetch enabled, offset 16 lines
+L2C-310 dynamic clock gating enabled, standby mode enabled
+L2C-310 cache controller enabled, 16 ways, 512 kB
+L2C-310: CACHE_ID 0x410000c8, AUX_CTRL 0x76450001
+mxc_clocksource_init 3000000
+Switching to timer-based delay loop, resolution 333ns
+sched_clock: 32 bits at 3000kHz, resolution 333ns, wraps every 715827882841ns
+clocksource mxc_timer1: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 637086815595 ns
+Console: colour dummy device 80x30
+Calibrating delay loop (skipped), value calculated using timer frequency.. 6.00 BogoMIPS (lpj=30000)
+pid_max: default: 32768 minimum: 301
+Mount-cache hash table entries: 2048 (order: 1, 8192 bytes)
+Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes)
+CPU: Testing write buffer coherency: ok
+CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+Setting up static identity map for 0x10008280 - 0x100082d8
+CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
+Brought up 2 CPUs
+SMP: Total of 2 processors activated (12.00 BogoMIPS).
+CPU: All CPU(s) started in SVC mode.
+devtmpfs: initialized
+VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 4
+clocksource jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+pinctrl core: initialized pinctrl subsystem
+NET: Registered protocol family 16
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+cpuidle: using governor ladder
+cpuidle: using governor menu
+CPU identified as i.MX6DL, silicon rev 1.3
+i.Core M6 1.5 version
+[ML]	 imx6q_csi_mux_init 15
+hw-breakpoint: found 5 (+1 reserved) breakpoint and 1 watchpoint registers.
+hw-breakpoint: maximum watchpoint size is 4 bytes.
+imx6dl-pinctrl 20e0000.iomuxc: initialized IMX pinctrl driver
+imx-gpc 20dc000.gpc: no fsl,ldo-bypass found!
+mxs-dma 110000.dma-apbh: initialized
+SCSI subsystem initialized
+usbcore: registered new interface driver usbfs
+usbcore: registered new interface driver hub
+usbcore: registered new device driver usb
+2000000.aips-bus:usbphy_nop1 supply vcc not found, using dummy regulator
+2000000.aips-bus:usbphy_nop2 supply vcc not found, using dummy regulator
+i2c i2c-0: IMX I2C adapter registered
+i2c i2c-0: can't use DMA
+i2c i2c-1: IMX I2C adapter registered
+i2c i2c-1: can't use DMA
+i2c i2c-2: IMX I2C adapter registered
+i2c i2c-2: can't use DMA
+media: Linux media interface: v0.10
+Linux video capture interface: v2.00
+pps_core: LinuxPPS API ver. 1 registered
+pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+PTP clock support registered
+imx-ipuv3 2400000.ipu: IPU DMFC NORMAL mode: 1(0~1), 5B(4,5), 5F(6,7)
+MIPI CSI2 driver module loaded
+Advanced Linux Sound Architecture Driver Initialized.
+Bluetooth: Core ver 2.20
+NET: Registered protocol family 31
+Bluetooth: HCI device and connection manager initialized
+Bluetooth: HCI socket layer initialized
+Bluetooth: L2CAP socket layer initialized
+Bluetooth: SCO socket layer initialized
+Switched to clocksource mxc_timer1
+NET: Registered protocol family 2
+TCP established hash table entries: 8192 (order: 3, 32768 bytes)
+TCP bind hash table entries: 8192 (order: 4, 65536 bytes)
+TCP: Hash tables configured (established 8192 bind 8192)
+UDP hash table entries: 512 (order: 2, 16384 bytes)
+UDP-Lite hash table entries: 512 (order: 2, 16384 bytes)
+NET: Registered protocol family 1
+RPC: Registered named UNIX socket transport module.
+RPC: Registered udp transport module.
+RPC: Registered tcp transport module.
+RPC: Registered tcp NFSv4.1 backchannel transport module.
+CPU PMU: Failed to parse /soc/pmu/interrupt-affinity[0]
+hw perfevents: enabled with armv7_cortex_a9 PMU driver, 7 counters available
+imx rpmsg driver is registered.
+Bus freq driver module loaded
+futex hash table entries: 512 (order: 3, 32768 bytes)
+VFS: Disk quotas dquot_6.6.0
+VFS: Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+NFS: Registering the id_resolver key type
+Key type id_resolver registered
+Key type id_legacy registered
+jffs2: version 2.2. (NAND) © 2001-2006 Red Hat, Inc.
+fuse init (API version 7.23)
+io scheduler noop registered
+io scheduler deadline registered
+io scheduler cfq registered (default)
+imx-weim 21b8000.weim: Driver registered.
+gpio-export gpio_export: 16 gpio(s) exported
+backlight supply power not found, using dummy regulator
+ledlights0 supply power not found, using dummy regulator
+ledlights1 supply power not found, using dummy regulator
+MIPI DSI driver module loaded
+mxc_sdc_fb fb@0: registered mxc display driver ldb
+imx-ipuv3 2400000.ipu: IPU DMFC DP HIGH RESOLUTION: 1(0,1), 5B(2~5), 5F(6,7)
+mxc_sdc_fb fb@1: NO mxc display driver found!
+mxc_sdc_fb fb@2: NO mxc display driver found!
+imx-sdma 20ec000.sdma: no iram assigned, using external mem
+imx-sdma 20ec000.sdma: no event needs to be remapped
+imx-sdma 20ec000.sdma: loaded firmware 3.3
+imx-sdma 20ec000.sdma: initialized
+21e8000.serial: ttymxc1 at MMIO 0x21e8000 (irq = 296, base_baud = 5000000) is a IMX
+21ec000.serial: ttymxc2 at MMIO 0x21ec000 (irq = 297, base_baud = 5000000) is a IMX
+21f0000.serial: ttymxc3 at MMIO 0x21f0000 (irq = 298, base_baud = 5000000) is a IMX
+console [ttymxc3] enabled
+21f4000.serial: ttymxc4 at MMIO 0x21f4000 (irq = 299, base_baud = 5000000) is a IMX
+imx sema4 driver is registered.
+[drm] Initialized drm 1.1.0 20060810
+[drm] Initialized vivante 1.0.0 20120216 on minor 0
+brd: module loaded
+loop: module loaded
+nand: No NAND device found
+CAN device driver interface
+2188000.ethernet supply phy not found, using dummy regulator
+pps pps0: new PPS source ptp0
+libphy: fec_enet_mii_bus: probed
+fec 2188000.ethernet eth0: registered PHC device 0
+PPP generic driver version 2.4.2
+PPP BSD Compression module registered
+PPP Deflate Compression module registered
+PPP MPPE Compression module registered
+NET: Registered protocol family 24
+ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+ehci-mxc: Freescale On-Chip EHCI Host driver
+usbcore: registered new interface driver usb-storage
+usbcore: registered new interface driver usbserial
+usbcore: registered new interface driver usbserial_generic
+usbserial: USB Serial support registered for generic
+usbcore: registered new interface driver ftdi_sio
+usbserial: USB Serial support registered for FTDI USB Serial Device
+usbcore: registered new interface driver option
+usbserial: USB Serial support registered for GSM modem (1-port)
+usbcore: registered new interface driver pl2303
+usbserial: USB Serial support registered for pl2303
+2184800.usbmisc supply vbus-wakeup not found, using dummy regulator
+ci_hdrc ci_hdrc.0: EHCI Host Controller
+ci_hdrc ci_hdrc.0: new USB bus registered, assigned bus number 1
+ci_hdrc ci_hdrc.0: USB 2.0 started, EHCI 1.00
+hub 1-0:1.0: USB hub found
+hub 1-0:1.0: 1 port detected
+ci_hdrc ci_hdrc.1: EHCI Host Controller
+ci_hdrc ci_hdrc.1: new USB bus registered, assigned bus number 2
+ci_hdrc ci_hdrc.1: USB 2.0 started, EHCI 1.00
+hub 2-0:1.0: USB hub found
+hub 2-0:1.0: 1 port detected
+mousedev: PS/2 mouse device common for all mice
+snvs_rtc 20cc000.snvs:snvs-rtc-lp: rtc core: registered 20cc000.snvs:snvs-r as rtc0
+i2c /dev entries driver
+IR NEC protocol handler initialized
+IR RC5(x/sz) protocol handler initialized
+IR RC6 protocol handler initialized
+IR JVC protocol handler initialized
+IR Sony protocol handler initialized
+IR SANYO protocol handler initialized
+IR Sharp protocol handler initialized
+IR MCE Keyboard/mouse protocol handler initialized
+IR XMP protocol handler initialized
+mxc_v4l2_output v4l2_out: V4L2 device registered as video16
+mxc_v4l2_output v4l2_out: V4L2 device registered as video17
+imx2-wdt 20bc000.wdog: timeout 60 sec (nowayout=0)
+Bluetooth: HCI UART driver ver 2.3
+Bluetooth: HCI UART protocol H4 registered
+Bluetooth: HCI UART protocol BCSP registered
+Bluetooth: HCI UART protocol ATH3K registered
+usbcore: registered new interface driver bcm203x
+usbcore: registered new interface driver btusb
+usbcore: registered new interface driver ath3k
+sdhci: Secure Digital Host Controller Interface driver
+sdhci: Copyright(c) Pierre Ossman
+sdhci-pltfm: SDHCI platform and OF driver helper
+/soc/aips-bus@02100000/usdhc@02190000: voltage-ranges unspecified
+sdhci-esdhc-imx 2190000.usdhc: Got CD GPIO
+sdhci-esdhc-imx 2190000.usdhc: No vmmc regulator found
+sdhci-esdhc-imx 2190000.usdhc: No vqmmc regulator found
+mmc0: SDHCI controller on 2190000.usdhc [2190000.usdhc] using ADMA
+/soc/aips-bus@02100000/usdhc@02194000: voltage-ranges unspecified
+sdhci-esdhc-imx 2194000.usdhc: No vmmc regulator found
+sdhci-esdhc-imx 2194000.usdhc: No vqmmc regulator found
+mmc2: SDHCI controller on 2194000.usdhc [2194000.usdhc] using ADMA
+/soc/aips-bus@02100000/usdhc@02198000: voltage-ranges unspecified
+sdhci-esdhc-imx 2198000.usdhc: No vmmc regulator found
+sdhci-esdhc-imx 2198000.usdhc: No vqmmc regulator found
+mmc2: queuing unknown CIS tuple 0x80 (2 bytes)
+mmc2: queuing unknown CIS tuple 0x80 (3 bytes)
+mmc2: queuing unknown CIS tuple 0x80 (3 bytes)
+mmc2: queuing unknown CIS tuple 0x80 (7 bytes)
+mmc1: SDHCI controller on 2198000.usdhc [2198000.usdhc] using ADMA
+mxc_vpu 2040000.vpu_fsl: VPU initialized
+usb 2-1: new high-speed USB device number 2 using ci_hdrc
+mxc_vdoa 21e4000.vdoa: i.MX Video Data Order Adapter(VDOA) driver probed
+mxc_hdmi_cec soc:hdmi_cec@00120000: HDMI CEC initialized
+usbcore: registered new interface driver usbhid
+usbhid: USB HID core driver
+fsl-asrc 2034000.asrc: driver registered
+fsl-hdmi-dai soc:hdmi_audio@00120000: failed to probe. Load HDMI-video first.
+fsl-hdmi-dai: probe of soc:hdmi_audio@00120000 failed with error -12
+imx-audio-hdmi sound-hdmi: initialize HDMI-audio failed. load HDMI-video first!
+NET: Registered protocol family 26
+ipip: IPv4 over IPv4 tunneling driver
+NET: Registered protocol family 10
+sit: IPv6 over IPv4 tunneling driver
+NET: Registered protocol family 17
+bridge: automatic filtering via arp/ip/ip6tables has been deprecated. Update your scripts to load br_netfilter if you need this.
+mmc2: new high speed SDIO card at address 0001
+can: controller area network core (rev 20120528 abi 9)
+brcmfmac: brcmf_sdio_drivestrengthinit: No SDIO Drive strength init done for chip 43430 rev 1 pmurev 24
+brcmfmac_sdio mmc2:0001:1: Direct firmware load for brcm/brcmfmac43430-sdio.bin failed with error -2
+brcmfmac_sdio mmc2:0001:1: Falling back to user helper
+NET: Registered protocol family 29
+can: raw protocol (rev 20120528)
+can: broadcast manager protocol (rev 20120528 t)
+can: netlink gateway (rev 20130117) max_hops=1
+Bluetooth: RFCOMM TTY layer initialized
+Bluetooth: RFCOMM socket layer initialized
+Bluetooth: RFCOMM ver 1.11
+Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+Bluetooth: BNEP filters: protocol multicast
+Bluetooth: BNEP socket layer initialized
+Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+Bluetooth: HIDP socket layer initialized
+8021q: 802.1Q VLAN Support v1.8
+Key type dns_resolver registered
+hub 2-1:1.0: USB hub found
+mmc1: MAN_BKOPS_EN bit is not set
+hub 2-1:1.0: 4 ports detected
+i.Core M6 1.5 version
+mmc1: new DDR MMC card at address 0001
+mmcblk1: mmc1:0001 M62704 3.53 GiB 
+mmcblk1boot0: mmc1:0001 M62704 partition 1 2.00 MiB
+mmcblk1boot1: mmc1:0001 M62704 partition 2 2.00 MiB
+mmcblk1rpmb: mmc1:0001 M62704 partition 3 512 KiB
+ mmcblk1: p1 p2 p3
+imx_epdc_fb 20f4000.epdc: can't get/select pinctrl
+snvs_rtc 20cc000.snvs:snvs-rtc-lp: setting system clock to 2019-02-06 14:39:38 UTC (1549463978)
+ALSA device list:
+  No soundcards found.
+EXT3-fs (mmcblk1p2): error: couldn't mount because of unsupported optional features (240)
+EXT2-fs (mmcblk1p2): error: couldn't mount because of unsupported optional features (244)
+EXT4-fs (mmcblk1p2): recovery complete
+EXT4-fs (mmcblk1p2): mounted filesystem with ordered data mode. Opts: (null)
+VFS: Mounted root (ext4 filesystem) on device 179:2.
+devtmpfs: mounted
+Freeing unused kernel memory: 384K (80a7e000 - 80ade000)
+INIT: version 2.88 bootingusb 2-1.3: new full-speed USB device number 3 using ci_hdrc
+
+input: ILITEK Multi-Touch-V3000 as /devices/soc0/soc/2100000.aips-bus/2184200.usb/ci_hdrc.1/usb2/2-1/2-1.3/2-1.3:1.0/0003:222A:0001.0001/input/input0
+hid-multitouch 0003:222A:0001.0001: input: USB HID v1.10 Device [ILITEK Multi-Touch-V3000] on usb-ci_hdrc.1-1.3/input0
+input: ILITEK Multi-Touch-V3000 as /devices/soc0/soc/2100000.aips-bus/2184200.usb/ci_hdrc.1/usb2/2-1/2-1.3/2-1.3:1.1/0003:222A:0001.0002/input/input1
+hid-generic 0003:222A:0001.0002: input: USB HID v1.10 Mouse [ILITEK Multi-Touch-V3000] on usb-ci_hdrc.1-1.3/input1
+Starting udev
+udev: Not using udev cache because of changes detected in the following files:
+udev:     /proc/version /proc/cmdline /proc/devices
+udev:     lib/udev/rules.d/* etc/udev/rules.d/*
+udev: The udev cache will be regenerated. To identify the detected changes,
+udev: compare the cached sysconf at   /etc/udev/cache.data
+udev: against the current sysconf at  /dev/shm/udev.cache
+udevd[127]: starting version 3.1.5
+random: udevd urandom read with 25 bits of entropy available
+galcore: clk_get vg clock failed, disable vg!
+Galcore version 5.0.11.41671
+usb 2-1.2: new high-speed USB device number 4 using ci_hdrc
+brcmfmac: brcmf_c_preinit_dcmds: Firmware version = wl0: Nov 14 2016 00:32:49 version 7.45.41.32 (r662793) FWID 01-8b473c3f
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+brcmfmac: brcmf_cfg80211_reg_notifier: not a ISO3166 code
+uvcvideo: Found UVC 1.00 device VGA USB Camera (05a3:9210)
+input: VGA USB Camera as /devices/soc0/soc/2100000.aips-bus/2184200.usb/ci_hdrc.1/usb2/2-1/2-1.2/2-1.2:1.0/input/input2
+usbcore: registered new interface driver uvcvideo
+USB Video Class driver (1.1.1)
+EXT4-fs (mmcblk1p2): re-mounted. Opts: data=ordered
+bootlogd: cannot allocate pseudo tty: No such file or directory
+Populating dev cache
+ALSA: Restoring mixer settings...
+/usr/sbin/alsactl: load_state:1735: No soundcards found...
+--------------------------------------------------
+------------- Alma Startup Runlevel S ------------
+--------------------------------------------------
+/etc/rcS.d/S99StartUpAlma: line 7: /sys/class/graphics/fbcon/cursor_blink: No such file or directory
+INIT: Entering runlevel: 5
+Configuring network interfaces... fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+Sending discover...
+Sending discover...
+Done setting line discpline
+No lease, forking to background
+ifconfig: SIOCSIFFLAGS: Cannot assign requested address
+Starting system message bus: dbus.
+Starting Dropbear SSH server: dropbear.
+Starting rpcbind daemon...done.
+Starting advanced power management daemon: No APM support in kernel
+(failed.)
+Starting syslogd/klogd: done
+ * Starting Avahi mDNS/DNS-SD Daemon: avahi-daemon
+[A[74G[ ok ]
+Starting Telephony daemon
+Starting Linux NFC daemon
+--------------------------------------------------
+------------- Alma Startup Runlevel 5 ------------
+--------------------------------------------------
+system is setup
+--------------------------------------------
+---------- IT: Start medium level ----------
+--------------------------------------------
+MQTT: missing mqtt credential file
+
+Beverages: 1 topping groups
+Beverages: number of toppings in each topping groups:  [1]
+Beverages: 14 brands
+/usr/lib/python3.5/site-packages/openpyxl-2.5.3-py3.5.egg/openpyxl/reader/worksheet.py:318: UserWarning: Unknown extension is not supported and will be removed
+  warn(msg)
+Internationalization: 1 languages
+Internationalization: 286 labels
+Loading master settings
+i2cset -y 2 0x51 0x03 0x8ca w : OK
+i2cset -y 2 0x51 0x00 0x80 w : OK
+Loading tech settings
+Beverages: beverage_id [7, 8, 12, 13, 14] not found in line ids. Beverages disabled
+Loading crew settings
+Cycles initializated
+LINEDATA: Consumptions initializated
+STM32: set display
+STM32: variables initialized
+STM32: reset volumes
+STM32: closed loop variables initialized
+Last flush date 2018-07-04
+Last unlock date 2018-07-04
+Linedata initializated
+ifdown: interface wlan0 not configured
+Wifi: Network bringed down
+kill: usage: kill [-s sigspec | -n signum | -sigspec] pid | jobspec ... or kill -l [sigspec]
+brcmfmac: brcmf_add_if: ERROR: netdev:wlan0 already exists
+brcmfmac: brcmf_add_if: ignore IF event
+Wifi: Network bringed up
+ifdown: interface wlan0 not configured
+Wifi: Network bringed down
+Preferred network found
+Network locked
+Attract loop - Start camera
+Successfully initialized wpa_supplicant
+rfkill: Cannot open RFKILL control device
+udhcpc (v1.24.1) started
+Sending discover...
+Sending discover...
+Sending select for 192.168.188.204...
+Lease of 192.168.188.204 obtained, lease time 259200
+/etc/udhcpc.d/50default: Adding DNS 192.168.188.1
+Wifi: Network bringed up
+Bluetooth: bringed up
+Tower locked: False
+random: nonblocking pool is initialized
+IT start webserver!
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+IT start websocket!
+Sending discover...
+Sending discover...
+No lease, forking to background
+UTILS: eth0 pass
+UTILS: ping results {'ppp0': 99999, 'eth0': 99999, 'wlan0': 28.210999999999999}
+RTNETLINK answers: No such process
+Cannot find device "ppp0"
+UTILS: Setting default network interface, wlan0
+--------------------------------------------
+----------- IT: Start high level -----------
+--------------------------------------------
+ff0000ffColor key sws
+
+Poky (Yocto Project Reference Distro) 2.1.1 icoremx6dl-alma /dev/ttymxc3
+
+icoremx6dl-alma login: [1235:1235:0206/144033:ERROR:sandbox_linux.cc(338)] InitializeSandbox() called with multiple threads in process gpu-process
+[1157:1157:0206/144033:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1157:0206/144033:ERROR:desktop_window_tree_host_ozone.cc(572)] Not implemented reached in virtual void views::DesktopWindowTreeHostOzone::SetWindowIcons(const gfx::ImageSkia&, const gfx::ImageSkia&)
+[1157:1157:0206/144033:ERROR:ozone_webui.cc(60)] Not implemented reached in virtual void views::OzoneWebUI::GetDefaultFontDescription(std::__cxx11::string*, int*, int*, gfx::FontRenderParams*) const
+[1157:1157:0206/144033:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1157:0206/144033:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1157:0206/144033:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1157:0206/144033:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1157:0206/144033:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1157:0206/144033:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1157:0206/144033:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1157:0206/144033:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1157:0206/144033:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1157:0206/144033:ERROR:desktop_window_tree_host_ozone.cc(572)] Not implemented reached in virtual void views::DesktopWindowTreeHostOzone::SetWindowIcons(const gfx::ImageSkia&, const gfx::ImageSkia&)
+[1157:1157:0206/144034:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1157:0206/144034:ERROR:surface_display_output_surface.cc(100)] Not implemented reached in virtual void cc::SurfaceDisplayOutputSurface::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+[1157:1157:0206/144036:ERROR:delegated_frame_host.cc(543)] Not implemented reached in virtual void content::DelegatedFrameHost::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:40:39
+('127.0.0.1', 40078) connected to WebSocket
+[1157:1157:0206/144039:ERROR:delegated_frame_host.cc(543)] Not implemented reached in virtual void content::DelegatedFrameHost::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+[1157:1157:0206/144039:ERROR:delegated_frame_host.cc(543)] Not implemented reached in virtual void content::DelegatedFrameHost::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 127.0.0.1 Date: 06/Feb/2019 14:40:40
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 127.0.0.1 Date: 06/Feb/2019 14:40:40
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 127.0.0.1 Date: 06/Feb/2019 14:40:40
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 127.0.0.1 Date: 06/Feb/2019 14:40:40
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 127.0.0.1 Date: 06/Feb/2019 14:40:40
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 127.0.0.1 Date: 06/Feb/2019 14:40:40
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 127.0.0.1 Date: 06/Feb/2019 14:40:40
+STM32: set display
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:40:43
+[1157:1189:0206/144043:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144043:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144043:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144043:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144043:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144043:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144043:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144043:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144043:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144043:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144043:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.87458 s, 4.7 MB/s
+return status =  0 ,error value =  False
+[1157:1189:0206/144047:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144047:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144047:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144047:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144047:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144047:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144047:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+POST  /api/v0/config/start_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:40:50
+Messagge from Websocket undefined
+[1157:1189:0206/144050:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1157:1189:0206/144050:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+Found QR 3
+ID_TYPE: 3
+POST  /api/v0/config/stop_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:40:54
+Traceback (most recent call last):
+  File "/home/root/mediumlevel_intellitower/PerpetualTimer.py", line 32, in handle_function
+    self.hFunction()
+  File "/home/root/mediumlevel_intellitower/ProductLib.py", line 2535, in qr_handler
+    self.consumer_from_qr(self.last_qr)
+  File "/home/root/mediumlevel_intellitower/ProductLib.py", line 2662, in consumer_from_qr
+    'counter': str(self.mqttc.msg_count),
+AttributeError: 'NoneType' object has no attribute 'msg_count'
+
+qr_thread
+Messagge from Websocket undefined
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.628962 s, 6.5 MB/s
+return status =  0 ,error value =  False
+Wed Feb  6 14:40:58 UTC 2019
+POST  /api/v0/config/stop_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:40:58
+return status =  0 ,error value =  False
+[1157:1189:0206/144058:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+ALS: setting display PWM to 40
+ALS: setting led PWM to 20 70
+STM32: set display
+ALS: setting display PWM to 25
+ALS: setting led PWM to 10 60
+STM32: set display
+usb 2-1.4: new full-speed USB device number 5 using ci_hdrc
+input: MOSART Semi. 2.4G Wireless Mouse as /devices/soc0/soc/2100000.aips-bus/2184200.usb/ci_hdrc.1/usb2/2-1/2-1.4/2-1.4:1.0/0003:062A:4102.0003/input/input3
+hid-generic 0003:062A:4102.0003: input: USB HID v1.10 Mouse [MOSART Semi. 2.4G Wireless Mouse] on usb-ci_hdrc.1-1.4/input0
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:42:13
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:42:13
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.735476 s, 5.6 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:42:14
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:42:16
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.605507 s, 6.8 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:42:20
+Messagge from Websocket undefined
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+Found QR 3
+ID_TYPE: 3
+Traceback (most recent call last):
+  File "/home/root/mediumlevel_intellitower/PerpetualTimer.py", line 32, in handle_function
+    self.hFunction()
+  File "/home/root/mediumlevel_intellitower/ProductLib.py", line 2535, in qr_handler
+    self.consumer_from_qr(self.last_qr)
+  File "/home/root/mediumlevel_intellitower/ProductLib.py", line 2662, in consumer_from_qr
+    'counter': str(self.mqttc.msg_count),
+AttributeError: 'NoneType' object has no attribute 'msg_count'
+
+qr_thread
+POST  /api/v0/config/stop_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:42:28
+Messagge from Websocket undefined
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.604066 s, 6.8 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:42:30
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:43:01
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:43:01
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.87443 s, 4.7 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:43:02
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:43:02
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.702504 s, 5.8 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:43:32
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:43:32
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.66717 s, 6.1 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:43:33
+return status =  0 ,error value =  False
+
+Poky (Yocto Project Reference Distro) 2.1.1 icoremx6dl-alma /dev/ttymxc3
+
+icoremx6dl-alma login: root
+Password: 
+7[r[999;999H[6n8root@icoremx6dl-alma:~# reboot
+
+Broadcast message from root@icoremx6dl-alma (ttymxc3) (Wed Feb  6 14:44:56 20The system is going down for reboot NOW!
+INIT: Switching to runlevel: 6
+INIT: Sending processes the TERM signal
+root@icoremx6dl-alma:~# Stopping Dropbear SSH server: stopped /usr/sbin/dropbear (pid 369)
+dropbear.
+ * Stopping Avahi mDNS/DNS-SD Daemon: avahi-daemon
+[A[179G[ ok ]
+Stopping advanced power management daemon: no /usr/sbin/apmd found; none killed
+apmd.
+Stopping bluetooth
+/usr/libexec/bluetooth/bluetoothd
+Stopping system message bus: dbus.
+Stopping syslogd/klogd: stopped syslogd (pid 389)
+stopped klogd (pid 393)
+done
+Stopping Weston
+Stopping Telephony daemon
+ALSA: Storing mixer settings...
+/usr/sbin/alsactl: save_state:1595: No soundcards found...
+Stopping rpcbind daemon...
+done.
+Stopping Linux NFC daemon
+Deconfiguring network interfaces... [1235:1241:0206/144458:ERROR:display_poll_thread.cc(96)] wl_display_dispatch failed with an error.104
+ifdown: interface eth0:1 not configured
+done.
+--------------------------------------------------
+------------------ IT: ALMASTOP ------------------
+--------------------------------------------------
+Sending all processes the TERM signal...
+logout
+Error VT_WAITACTIVE failed
+: Interrupted system call
+Bluetooth: hci0 sending frame failed (-16)
+[1157:1157:0206/144458:ERROR:zygote_host_impl_linux.cc(542)] Failed to send GetTerminationStatus message to zygote
+[1157:1157:0206/144458:ERROR:delegated_frame_host.cc(543)] Not implemented reached in virtual void content::DelegatedFrameHost::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+[1157:1157:0206/144458:ERROR:surface_display_output_surface.cc(100)] Not implemented reached in virtual void cc::SurfaceDisplayOutputSurface::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+[1157:1157:0206/144458:ERROR:surface_display_output_surface.cc(100)] Not implemented reached in virtual void cc::SurfaceDisplayOutputSurface::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+Sending all processes the KILL signal...
+Unmounting remote filesystems...
+Deactivating swap...
+Unmounting local filesystems...
+mount: mounting /dev/root on / failed: Device or resource busy
+Rebooting... reboot: Restarting system
+ 
+
+U-Boot 2016.07+fslc+g0526cd3 (Sep 20 2017 - 12:38:21 +0200)
+
+CPU:   Freescale i.MX6DL rev1.3 at 792 MHz
+Reset cause: WDOG
+Board: i.Core M6DL
+I2C:   ready
+DRAM:  1 GiB
+EDIMM 1.5 version
+MMC:   FSL_SDHC: 0, FSL_SDHC: 1
+Display: Amp-WD (800x480)
+In:    serial
+Out:   serial
+Err:   serial
+mmc_get_env_devno returns 1
+switch to partitions #0, OK
+mmc1(part 0) is current device
+Net:   FEC
+
+Version: Engicam Yocto U-Boot 3.00
+Note:    iCoreM6 default U-Boot
+
+Hit any key to stop autoboot:  1  0 
+reading icoremx6dl-intellitower.dtb
+57339 bytes read in 18 ms (3 MiB/s)
+reading uImage
+6313320 bytes read in 178 ms (33.8 MiB/s)
+## Booting kernel from Legacy Image at 12000000 ...
+   Image Name:   Linux-4.1.15+gea872df
+   Image Type:   ARM Linux Kernel Image (uncompressed)
+   Data Size:    6313256 Bytes = 6 MiB
+   Load Address: 10008000
+   Entry Point:  10008000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at 18000000
+   Booting using the fdt blob at 0x18000000
+   Loading Kernel Image ... OK
+   Using Device Tree in place at 18000000, end 18010ffa
+
+Starting kernel ...
+
+Booting Linux on physical CPU 0x0
+Linux version 4.1.15+gea872df (user@ubuntu) (gcc version 5.3.0 (GCC) ) #1 SMP PREEMPT Wed Dec 19 15:19:12 CET 2018
+CPU: ARMv7 Processor [412fc09a] revision 10 (ARMv7), cr=10c53c7d
+CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+Machine model: Engicam i.CoreM6 DualLite/Solo Capacitive open frame
+Reserved memory: created CMA memory pool at 0x3c000000, size 320 MiB
+Reserved memory: initialized node linux,cma, compatible id shared-dma-pool
+Memory policy: Data cache writealloc
+PERCPU: Embedded 12 pages/cpu @ab71c000 s17228 r8192 d23732 u49152
+Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 260096
+Kernel command line: console=ttymxc3,115200 cma=96MB video=mxcfb0:dev=ldb,Amp-WD root=/dev/mmcblk1p2 rootwait rw
+PID hash table entries: 4096 (order: 2, 16384 bytes)
+Dentry cache hash table entries: 131072 (order: 7, 524288 bytes)
+Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
+Memory: 699008K/1048576K available (7880K kernel code, 395K rwdata, 2828K rodata, 384K init, 431K bss, 21888K reserved, 327680K cma-reserved, 0K highmem)
+Virtual kernel memory layout:
+    vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+    fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)
+    vmalloc : 0xc0800000 - 0xff000000   (1000 MB)
+    lowmem  : 0x80000000 - 0xc0000000   (1024 MB)
+    pkmap   : 0x7fe00000 - 0x80000000   (   2 MB)
+    modules : 0x7f000000 - 0x7fe00000   (  14 MB)
+      .text : 0x80008000 - 0x80a7d5a8   (10710 kB)
+      .init : 0x80a7e000 - 0x80ade000   ( 384 kB)
+      .data : 0x80ade000 - 0x80b40ee0   ( 396 kB)
+       .bss : 0x80b43000 - 0x80baefa0   ( 432 kB)
+SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+Preemptible hierarchical RCU implementation.
+	RCU restricting CPUs from NR_CPUS=4 to nr_cpu_ids=2.
+RCU: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=2
+NR_IRQS:16 nr_irqs:16 16
+L2C-310 erratum 769419 enabled
+L2C-310 enabling early BRESP for Cortex-A9
+L2C-310 full line of zeros enabled for Cortex-A9
+L2C-310 ID prefetch enabled, offset 16 lines
+L2C-310 dynamic clock gating enabled, standby mode enabled
+L2C-310 cache controller enabled, 16 ways, 512 kB
+L2C-310: CACHE_ID 0x410000c8, AUX_CTRL 0x76450001
+mxc_clocksource_init 3000000
+Switching to timer-based delay loop, resolution 333ns
+sched_clock: 32 bits at 3000kHz, resolution 333ns, wraps every 715827882841ns
+clocksource mxc_timer1: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 637086815595 ns
+Console: colour dummy device 80x30
+Calibrating delay loop (skipped), value calculated using timer frequency.. 6.00 BogoMIPS (lpj=30000)
+pid_max: default: 32768 minimum: 301
+Mount-cache hash table entries: 2048 (order: 1, 8192 bytes)
+Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes)
+CPU: Testing write buffer coherency: ok
+CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+Setting up static identity map for 0x10008280 - 0x100082d8
+CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
+Brought up 2 CPUs
+SMP: Total of 2 processors activated (12.00 BogoMIPS).
+CPU: All CPU(s) started in SVC mode.
+devtmpfs: initialized
+VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 4
+clocksource jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+pinctrl core: initialized pinctrl subsystem
+NET: Registered protocol family 16
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+cpuidle: using governor ladder
+cpuidle: using governor menu
+CPU identified as i.MX6DL, silicon rev 1.3
+i.Core M6 1.5 version
+[ML]	 imx6q_csi_mux_init 15
+hw-breakpoint: found 5 (+1 reserved) breakpoint and 1 watchpoint registers.
+hw-breakpoint: maximum watchpoint size is 4 bytes.
+imx6dl-pinctrl 20e0000.iomuxc: initialized IMX pinctrl driver
+imx-gpc 20dc000.gpc: no fsl,ldo-bypass found!
+mxs-dma 110000.dma-apbh: initialized
+SCSI subsystem initialized
+usbcore: registered new interface driver usbfs
+usbcore: registered new interface driver hub
+usbcore: registered new device driver usb
+2000000.aips-bus:usbphy_nop1 supply vcc not found, using dummy regulator
+2000000.aips-bus:usbphy_nop2 supply vcc not found, using dummy regulator
+i2c i2c-0: IMX I2C adapter registered
+i2c i2c-0: can't use DMA
+i2c i2c-1: IMX I2C adapter registered
+i2c i2c-1: can't use DMA
+i2c i2c-2: IMX I2C adapter registered
+i2c i2c-2: can't use DMA
+media: Linux media interface: v0.10
+Linux video capture interface: v2.00
+pps_core: LinuxPPS API ver. 1 registered
+pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+PTP clock support registered
+imx-ipuv3 2400000.ipu: IPU DMFC NORMAL mode: 1(0~1), 5B(4,5), 5F(6,7)
+MIPI CSI2 driver module loaded
+Advanced Linux Sound Architecture Driver Initialized.
+Bluetooth: Core ver 2.20
+NET: Registered protocol family 31
+Bluetooth: HCI device and connection manager initialized
+Bluetooth: HCI socket layer initialized
+Bluetooth: L2CAP socket layer initialized
+Bluetooth: SCO socket layer initialized
+Switched to clocksource mxc_timer1
+NET: Registered protocol family 2
+TCP established hash table entries: 8192 (order: 3, 32768 bytes)
+TCP bind hash table entries: 8192 (order: 4, 65536 bytes)
+TCP: Hash tables configured (established 8192 bind 8192)
+UDP hash table entries: 512 (order: 2, 16384 bytes)
+UDP-Lite hash table entries: 512 (order: 2, 16384 bytes)
+NET: Registered protocol family 1
+RPC: Registered named UNIX socket transport module.
+RPC: Registered udp transport module.
+RPC: Registered tcp transport module.
+RPC: Registered tcp NFSv4.1 backchannel transport module.
+CPU PMU: Failed to parse /soc/pmu/interrupt-affinity[0]
+hw perfevents: enabled with armv7_cortex_a9 PMU driver, 7 counters available
+imx rpmsg driver is registered.
+Bus freq driver module loaded
+futex hash table entries: 512 (order: 3, 32768 bytes)
+VFS: Disk quotas dquot_6.6.0
+VFS: Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+NFS: Registering the id_resolver key type
+Key type id_resolver registered
+Key type id_legacy registered
+jffs2: version 2.2. (NAND) © 2001-2006 Red Hat, Inc.
+fuse init (API version 7.23)
+io scheduler noop registered
+io scheduler deadline registered
+io scheduler cfq registered (default)
+imx-weim 21b8000.weim: Driver registered.
+gpio-export gpio_export: 16 gpio(s) exported
+backlight supply power not found, using dummy regulator
+ledlights0 supply power not found, using dummy regulator
+ledlights1 supply power not found, using dummy regulator
+MIPI DSI driver module loaded
+mxc_sdc_fb fb@0: registered mxc display driver ldb
+imx-ipuv3 2400000.ipu: IPU DMFC DP HIGH RESOLUTION: 1(0,1), 5B(2~5), 5F(6,7)
+mxc_sdc_fb fb@1: NO mxc display driver found!
+mxc_sdc_fb fb@2: NO mxc display driver found!
+imx-sdma 20ec000.sdma: no iram assigned, using external mem
+imx-sdma 20ec000.sdma: no event needs to be remapped
+imx-sdma 20ec000.sdma: loaded firmware 3.3
+imx-sdma 20ec000.sdma: initialized
+21e8000.serial: ttymxc1 at MMIO 0x21e8000 (irq = 296, base_baud = 5000000) is a IMX
+21ec000.serial: ttymxc2 at MMIO 0x21ec000 (irq = 297, base_baud = 5000000) is a IMX
+21f0000.serial: ttymxc3 at MMIO 0x21f0000 (irq = 298, base_baud = 5000000) is a IMX
+console [ttymxc3] enabled
+21f4000.serial: ttymxc4 at MMIO 0x21f4000 (irq = 299, base_baud = 5000000) is a IMX
+imx sema4 driver is registered.
+[drm] Initialized drm 1.1.0 20060810
+[drm] Initialized vivante 1.0.0 20120216 on minor 0
+brd: module loaded
+loop: module loaded
+nand: No NAND device found
+CAN device driver interface
+2188000.ethernet supply phy not found, using dummy regulator
+pps pps0: new PPS source ptp0
+libphy: fec_enet_mii_bus: probed
+fec 2188000.ethernet eth0: registered PHC device 0
+PPP generic driver version 2.4.2
+PPP BSD Compression module registered
+PPP Deflate Compression module registered
+PPP MPPE Compression module registered
+NET: Registered protocol family 24
+ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+ehci-mxc: Freescale On-Chip EHCI Host driver
+usbcore: registered new interface driver usb-storage
+usbcore: registered new interface driver usbserial
+usbcore: registered new interface driver usbserial_generic
+usbserial: USB Serial support registered for generic
+usbcore: registered new interface driver ftdi_sio
+usbserial: USB Serial support registered for FTDI USB Serial Device
+usbcore: registered new interface driver option
+usbserial: USB Serial support registered for GSM modem (1-port)
+usbcore: registered new interface driver pl2303
+usbserial: USB Serial support registered for pl2303
+2184800.usbmisc supply vbus-wakeup not found, using dummy regulator
+ci_hdrc ci_hdrc.0: EHCI Host Controller
+ci_hdrc ci_hdrc.0: new USB bus registered, assigned bus number 1
+ci_hdrc ci_hdrc.0: USB 2.0 started, EHCI 1.00
+hub 1-0:1.0: USB hub found
+hub 1-0:1.0: 1 port detected
+ci_hdrc ci_hdrc.1: EHCI Host Controller
+ci_hdrc ci_hdrc.1: new USB bus registered, assigned bus number 2
+ci_hdrc ci_hdrc.1: USB 2.0 started, EHCI 1.00
+hub 2-0:1.0: USB hub found
+hub 2-0:1.0: 1 port detected
+mousedev: PS/2 mouse device common for all mice
+snvs_rtc 20cc000.snvs:snvs-rtc-lp: rtc core: registered 20cc000.snvs:snvs-r as rtc0
+i2c /dev entries driver
+IR NEC protocol handler initialized
+IR RC5(x/sz) protocol handler initialized
+IR RC6 protocol handler initialized
+IR JVC protocol handler initialized
+IR Sony protocol handler initialized
+IR SANYO protocol handler initialized
+IR Sharp protocol handler initialized
+IR MCE Keyboard/mouse protocol handler initialized
+IR XMP protocol handler initialized
+mxc_v4l2_output v4l2_out: V4L2 device registered as video16
+mxc_v4l2_output v4l2_out: V4L2 device registered as video17
+imx2-wdt 20bc000.wdog: timeout 60 sec (nowayout=0)
+Bluetooth: HCI UART driver ver 2.3
+Bluetooth: HCI UART protocol H4 registered
+Bluetooth: HCI UART protocol BCSP registered
+Bluetooth: HCI UART protocol ATH3K registered
+usbcore: registered new interface driver bcm203x
+usbcore: registered new interface driver btusb
+usbcore: registered new interface driver ath3k
+sdhci: Secure Digital Host Controller Interface driver
+sdhci: Copyright(c) Pierre Ossman
+sdhci-pltfm: SDHCI platform and OF driver helper
+/soc/aips-bus@02100000/usdhc@02190000: voltage-ranges unspecified
+sdhci-esdhc-imx 2190000.usdhc: Got CD GPIO
+sdhci-esdhc-imx 2190000.usdhc: No vmmc regulator found
+sdhci-esdhc-imx 2190000.usdhc: No vqmmc regulator found
+mmc0: SDHCI controller on 2190000.usdhc [2190000.usdhc] using ADMA
+/soc/aips-bus@02100000/usdhc@02194000: voltage-ranges unspecified
+sdhci-esdhc-imx 2194000.usdhc: No vmmc regulator found
+sdhci-esdhc-imx 2194000.usdhc: No vqmmc regulator found
+mmc2: SDHCI controller on 2194000.usdhc [2194000.usdhc] using ADMA
+/soc/aips-bus@02100000/usdhc@02198000: voltage-ranges unspecified
+sdhci-esdhc-imx 2198000.usdhc: No vmmc regulator found
+sdhci-esdhc-imx 2198000.usdhc: No vqmmc regulator found
+mmc2: queuing unknown CIS tuple 0x80 (2 bytes)
+mmc2: queuing unknown CIS tuple 0x80 (3 bytes)
+mmc2: queuing unknown CIS tuple 0x80 (3 bytes)
+mmc2: queuing unknown CIS tuple 0x80 (7 bytes)
+usb 2-1: new high-speed USB device number 2 using ci_hdrc
+mmc1: SDHCI controller on 2198000.usdhc [2198000.usdhc] using ADMA
+mxc_vpu 2040000.vpu_fsl: VPU initialized
+mxc_vdoa 21e4000.vdoa: i.MX Video Data Order Adapter(VDOA) driver probed
+mxc_hdmi_cec soc:hdmi_cec@00120000: HDMI CEC initialized
+usbcore: registered new interface driver usbhid
+usbhid: USB HID core driver
+fsl-asrc 2034000.asrc: driver registered
+fsl-hdmi-dai soc:hdmi_audio@00120000: failed to probe. Load HDMI-video first.
+fsl-hdmi-dai: probe of soc:hdmi_audio@00120000 failed with error -12
+imx-audio-hdmi sound-hdmi: initialize HDMI-audio failed. load HDMI-video first!
+NET: Registered protocol family 26
+ipip: IPv4 over IPv4 tunneling driver
+NET: Registered protocol family 10
+sit: IPv6 over IPv4 tunneling driver
+NET: Registered protocol family 17
+bridge: automatic filtering via arp/ip/ip6tables has been deprecated. Update your scripts to load br_netfilter if you need this.
+can: controller area network core (rev 20120528 abi 9)
+NET: Registered protocol family 29
+can: raw protocol (rev 20120528)
+can: broadcast manager protocol (rev 20120528 t)
+mmc2: new high speed SDIO card at address 0001
+can: netlink gateway (rev 20130117) max_hops=1
+brcmfmac: brcmf_sdio_drivestrengthinit: No SDIO Drive strength init done for chip 43430 rev 1 pmurev 24
+brcmfmac_sdio mmc2:0001:1: Direct firmware load for brcm/brcmfmac43430-sdio.bin failed with error -2
+brcmfmac_sdio mmc2:0001:1: Falling back to user helper
+Bluetooth: RFCOMM TTY layer initialized
+Bluetooth: RFCOMM socket layer initialized
+hub 2-1:1.0: USB hub found
+hub 2-1:1.0: 4 ports detected
+Bluetooth: RFCOMM ver 1.11
+Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+Bluetooth: BNEP filters: protocol multicast
+Bluetooth: BNEP socket layer initialized
+Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+Bluetooth: HIDP socket layer initialized
+8021q: 802.1Q VLAN Support v1.8
+Key type dns_resolver registered
+i.Core M6 1.5 version
+mmc1: MAN_BKOPS_EN bit is not set
+imx_epdc_fb 20f4000.epdc: can't get/select pinctrl
+snvs_rtc 20cc000.snvs:snvs-rtc-lp: setting system clock to 2019-02-06 14:45:11 UTC (1549464311)
+mmc1: new DDR MMC card at address 0001
+mmcblk1: mmc1:0001 M62704 3.53 GiB 
+mmcblk1boot0: mmc1:0001 M62704 partition 1 2.00 MiB
+mmcblk1boot1: mmc1:0001 M62704 partition 2 2.00 MiB
+mmcblk1rpmb: mmc1:0001 M62704 partition 3 512 KiB
+ mmcblk1: p1 p2 p3
+ALSA device list:
+  No soundcards found.
+EXT3-fs (mmcblk1p2): error: couldn't mount because of unsupported optional features (240)
+EXT2-fs (mmcblk1p2): error: couldn't mount because of unsupported optional features (244)
+usb 2-1.3: new full-speed USB device number 3 using ci_hdrc
+EXT4-fs (mmcblk1p2): recovery complete
+EXT4-fs (mmcblk1p2): mounted filesystem with ordered data mode. Opts: (null)
+VFS: Mounted root (ext4 filesystem) on device 179:2.
+devtmpfs: mounted
+Freeing unused kernel memory: 384K (80a7e000 - 80ade000)
+INIT: version 2.88 bootinginput: ILITEK Multi-Touch-V3000 as /devices/soc0/soc/2100000.aips-bus/2184200.usb/ci_hdrc.1/usb2/2-1/2-1.3/2-1.3:1.0/0003:222A:0001.0001/input/input0
+hid-multitouch 0003:222A:0001.0001: input: USB HID v1.10 Device [ILITEK Multi-Touch-V3000] on usb-ci_hdrc.1-1.3/input0
+
+input: ILITEK Multi-Touch-V3000 as /devices/soc0/soc/2100000.aips-bus/2184200.usb/ci_hdrc.1/usb2/2-1/2-1.3/2-1.3:1.1/0003:222A:0001.0002/input/input1
+hid-generic 0003:222A:0001.0002: input: USB HID v1.10 Mouse [ILITEK Multi-Touch-V3000] on usb-ci_hdrc.1-1.3/input1
+Starting udev
+udev: Not using udev cache because of changes detected in the following files:
+udev:     /proc/version /proc/cmdline /proc/devices
+udev:     lib/udev/rules.d/* etc/udev/rules.d/*
+udev: The udev cache will be regenerated. To identify the detected changes,
+udev: compare the cached sysconf at   /etc/udev/cache.data
+udev: against the current sysconf at  /dev/shm/udev.cache
+udevd[128]: starting version 3.1.5
+random: udevd urandom read with 27 bits of entropy available
+usb 2-1.2: new high-speed USB device number 4 using ci_hdrc
+galcore: clk_get vg clock failed, disable vg!
+Galcore version 5.0.11.41671
+brcmfmac: brcmf_c_preinit_dcmds: Firmware version = wl0: Nov 14 2016 00:32:49 version 7.45.41.32 (r662793) FWID 01-8b473c3f
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+brcmfmac: brcmf_cfg80211_reg_notifier: not a ISO3166 code
+usb 2-1.4: new full-speed USB device number 5 using ci_hdrc
+input: MOSART Semi. 2.4G Wireless Mouse as /devices/soc0/soc/2100000.aips-bus/2184200.usb/ci_hdrc.1/usb2/2-1/2-1.4/2-1.4:1.0/0003:062A:4102.0003/input/input2
+hid-generic 0003:062A:4102.0003: input: USB HID v1.10 Mouse [MOSART Semi. 2.4G Wireless Mouse] on usb-ci_hdrc.1-1.4/input0
+uvcvideo: Found UVC 1.00 device VGA USB Camera (05a3:9210)
+input: VGA USB Camera as /devices/soc0/soc/2100000.aips-bus/2184200.usb/ci_hdrc.1/usb2/2-1/2-1.2/2-1.2:1.0/input/input3
+usbcore: registered new interface driver uvcvideo
+USB Video Class driver (1.1.1)
+EXT4-fs (mmcblk1p2): re-mounted. Opts: data=ordered
+bootlogd: cannot allocate pseudo tty: No such file or directory
+Populating dev cache
+ALSA: Restoring mixer settings...
+/usr/sbin/alsactl: load_state:1735: No soundcards found...
+--------------------------------------------------
+------------- Alma Startup Runlevel S ------------
+--------------------------------------------------
+/etc/rcS.d/S99StartUpAlma: line 7: /sys/class/graphics/fbcon/cursor_blink: No such file or directory
+INIT: Entering runlevel: 5
+Configuring network interfaces... fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+Sending discover...
+Sending discover...
+Done setting line discpline
+No lease, forking to background
+ifconfig: SIOCSIFFLAGS: Cannot assign requested address
+Starting system message bus: dbus.
+Starting Dropbear SSH server: dropbear.
+Starting rpcbind daemon...done.
+Starting advanced power management daemon: No APM support in kernel
+(failed.)
+Starting syslogd/klogd: done
+ * Starting Avahi mDNS/DNS-SD Daemon: avahi-daemon
+[A[74G[ ok ]
+Starting Telephony daemon
+Starting Linux NFC daemon
+--------------------------------------------------
+------------- Alma Startup Runlevel 5 ------------
+--------------------------------------------------
+system is setup
+--------------------------------------------
+---------- IT: Start medium level ----------
+--------------------------------------------
+random: nonblocking pool is initialized
+MQTT: missing mqtt credential file
+
+Beverages: 1 topping groups
+Beverages: number of toppings in each topping groups:  [1]
+Beverages: 14 brands
+/usr/lib/python3.5/site-packages/openpyxl-2.5.3-py3.5.egg/openpyxl/reader/worksheet.py:318: UserWarning: Unknown extension is not supported and will be removed
+  warn(msg)
+Internationalization: 1 languages
+Internationalization: 286 labels
+Loading master settings
+i2cset -y 2 0x51 0x03 0x8ca w : OK
+i2cset -y 2 0x51 0x00 0x80 w : OK
+Loading tech settings
+Beverages: beverage_id [7, 8, 12, 13, 14] not found in line ids. Beverages disabled
+Loading crew settings
+Cycles initializated
+LINEDATA: Consumptions initializated
+STM32: set display
+STM32: variables initialized
+STM32: reset volumes
+STM32: closed loop variables initialized
+Last flush date 2018-07-04
+Last unlock date 2018-07-04
+Linedata initializated
+ifdown: interface wlan0 not configured
+Wifi: Network bringed down
+kill: usage: kill [-s sigspec | -n signum | -sigspec] pid | jobspec ... or kill -l [sigspec]
+brcmfmac: brcmf_add_if: ERROR: netdev:wlan0 already exists
+brcmfmac: brcmf_add_if: ignore IF event
+Wifi: Network bringed up
+ifdown: interface wlan0 not configured
+Wifi: Network bringed down
+Preferred network found
+Network locked
+Attract loop - Start camera
+Successfully initialized wpa_supplicant
+rfkill: Cannot open RFKILL control device
+udhcpc (v1.24.1) started
+brcmfmac: brcmf_sdio_hdparse: seq 105: sequence number error, expect 104
+brcmfmac: brcmf_sdio_hdparse: seq 104: sequence number error, expect 106
+brcmfmac: brcmf_sdio_hdparse: seq 106: sequence number error, expect 105
+Sending discover...
+Sending discover...
+Sending select for 192.168.188.204...
+Lease of 192.168.188.204 obtained, lease time 259200
+/etc/udhcpc.d/50default: Adding DNS 192.168.188.1
+Wifi: Network bringed up
+Bluetooth: bringed up
+Tower locked: False
+IT start webserver!
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+IT start websocket!
+Sending discover...
+Sending discover...
+No lease, forking to background
+UTILS: eth0 pass
+UTILS: ping results {'wlan0': 71.748999999999995, 'eth0': 99999, 'ppp0': 99999}
+RTNETLINK answers: No such process
+Cannot find device "ppp0"
+UTILS: Setting default network interface, wlan0
+--------------------------------------------
+----------- IT: Start high level -----------
+--------------------------------------------
+ff0000ffColor key sws
+
+Poky (Yocto Project Reference Distro) 2.1.1 icoremx6dl-alma /dev/ttymxc3
+
+icoremx6dl-alma login: [1232:1232:0206/144606:ERROR:sandbox_linux.cc(338)] InitializeSandbox() called with multiple threads in process gpu-process
+[1155:1155:0206/144606:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1155:0206/144606:ERROR:desktop_window_tree_host_ozone.cc(572)] Not implemented reached in virtual void views::DesktopWindowTreeHostOzone::SetWindowIcons(const gfx::ImageSkia&, const gfx::ImageSkia&)
+[1155:1155:0206/144606:ERROR:ozone_webui.cc(60)] Not implemented reached in virtual void views::OzoneWebUI::GetDefaultFontDescription(std::__cxx11::string*, int*, int*, gfx::FontRenderParams*) const
+[1155:1155:0206/144606:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1155:0206/144606:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1155:0206/144606:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1155:0206/144606:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1155:0206/144606:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1155:0206/144606:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1155:0206/144606:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1155:0206/144606:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1155:0206/144606:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1155:0206/144606:ERROR:desktop_window_tree_host_ozone.cc(572)] Not implemented reached in virtual void views::DesktopWindowTreeHostOzone::SetWindowIcons(const gfx::ImageSkia&, const gfx::ImageSkia&)
+[1155:1155:0206/144606:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1155:0206/144607:ERROR:surface_display_output_surface.cc(100)] Not implemented reached in virtual void cc::SurfaceDisplayOutputSurface::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+[1155:1155:0206/144609:ERROR:delegated_frame_host.cc(543)] Not implemented reached in virtual void content::DelegatedFrameHost::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:46:12
+('127.0.0.1', 33701) connected to WebSocket
+[1155:1155:0206/144612:ERROR:delegated_frame_host.cc(543)] Not implemented reached in virtual void content::DelegatedFrameHost::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+[1155:1155:0206/144612:ERROR:delegated_frame_host.cc(543)] Not implemented reached in virtual void content::DelegatedFrameHost::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 127.0.0.1 Date: 06/Feb/2019 14:46:12
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+GET  /api/v0/config/vendor IP: 127.0.0.1 Date: 06/Feb/2019 14:46:12
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 127.0.0.1 Date: 06/Feb/2019 14:46:13
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 127.0.0.1 Date: 06/Feb/2019 14:46:13
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 127.0.0.1 Date: 06/Feb/2019 14:46:13
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 127.0.0.1 Date: 06/Feb/2019 14:46:13
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 127.0.0.1 Date: 06/Feb/2019 14:46:13
+STM32: set display
+return status =  0 ,error value =  False
+Wed Feb  6 14:46:32 UTC 2019
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:46:33
+[1155:1187:0206/144633:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144633:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144633:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144633:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144633:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144633:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144633:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144633:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144633:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144633:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144633:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.981336 s, 4.2 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:47:03
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:47:03
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.849107 s, 4.8 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:47:05
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:47:05
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.730567 s, 5.6 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:47:09
+Messagge from Websocket undefined
+[1155:1187:0206/144709:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+return status =  0 ,error value =  False
+[1155:1187:0206/144709:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+Messagge from Websocket undefined
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+Found QR 3
+ID_TYPE: 3
+Traceback (most recent call last):
+  File "/home/root/mediumlevel_intellitower/PerpetualTimer.py", line 32, in handle_function
+    self.hFunction()
+  File "/home/root/mediumlevel_intellitower/ProductLib.py", line 2535, in qr_handler
+    self.consumer_from_qr(self.last_qr)
+  File "/home/root/mediumlevel_intellitower/ProductLib.py", line 2662, in consumer_from_qr
+    'counter': str(self.mqttc.msg_count),
+AttributeError: 'NoneType' object has no attribute 'msg_count'
+
+qr_thread
+POST  /api/v0/config/stop_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:47:13
+Messagge from Websocket undefined
+[1155:1187:0206/144714:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.647928 s, 6.3 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:47:18
+return status =  0 ,error value =  False
+[1155:1187:0206/144718:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+ALS: setting display PWM to 25
+ALS: setting led PWM to 10 60
+STM32: set display
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:47:48
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:47:49
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.839038 s, 4.9 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:47:50
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:47:50
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.880979 s, 4.6 MB/s
+return status =  0 ,error value =  False
+[1155:1187:0206/144807:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144807:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144807:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144807:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144807:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1155:1187:0206/144807:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:48:19
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:48:19
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.656257 s, 6.2 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:48:20
+return status =  0 ,error value =  False
+
+Poky (Yocto Project Reference Distro) 2.1.1 icoremx6dl-alma /dev/ttymxc3
+
+icoremx6dl-alma login: reboot      root
+Password: 
+7[r[999;999H[6n8root@icoremx6dl-alma:~# reboot
+
+Broadcast message from root@icoremx6dl-alma (ttymxc3) (Wed Feb  6 14:51:52 20The system is going down for reboot NOW!
+INIT: Switching to runlevel: 6
+root@icoremx6dl-alma:~# INIT: Sending processes the TERM signal
+Stopping Dropbear SSH server: stopped /usr/sbin/dropbear (pid 371)
+dropbear.
+ * Stopping Avahi mDNS/DNS-SD Daemon: avahi-daemon
+[A[179G[ ok ]
+Stopping advanced power management daemon: no /usr/sbin/apmd found; none killed
+apmd.
+Stopping bluetooth
+/usr/libexec/bluetooth/bluetoothd
+Stopping system message bus: dbus.
+Stopping syslogd/klogd: stopped syslogd (pid 391)
+stopped klogd (pid 394)
+done
+Stopping Weston
+Stopping Telephony daemon
+ALSA: Storing mixer settings...
+/usr/sbin/alsactl: save_state:1595: No soundcards found...
+Stopping rpcbind daemon...
+done.
+Stopping Linux NFC daemon
+[1232:1239:0206/145153:ERROR:display_poll_thread.cc(96)] wl_display_dispatch failed with an error.104
+Deconfiguring network interfaces... ifdown: interface eth0:1 not configured
+done.
+--------------------------------------------------
+------------------ IT: ALMASTOP -------------brcmfmac: brcmf_sdiod_regrw_helper: failed to read data F1@0x1000e, err: -110
+-----
+--------------------------------------------------
+Sending all processes the TERM signal...
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+logout
+Error VT_WAITACTIVE failed
+: Interrupted system call
+Bluetooth: hci0 sending frame failed (-16)
+[1155:1155:0206/145154:ERROR:zygote_host_impl_linux.cc(542)] Failed to send GetTerminationStatus message to zygote
+[1155:1155:0206/145154:ERROR:delegated_frame_host.cc(543)] Not implemented reached in virtual void content::DelegatedFrameHost::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+[1155:1155:0206/145154:ERROR:surface_display_output_surface.cc(100)] Not implemented reached in virtual void cc::SurfaceDisplayOutputSurface::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+[1155:1155:0206/145154:ERROR:surface_display_output_surface.cc(100)] Not implemented reached in virtual void cc::SurfaceDisplayOutputSurface::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+Sending all processes the KILL signal...
+Unmounting remote filesystems...
+Deactivating swap...
+Unmounting local filesystems...
+mount: mounting /dev/root on / failed: Device or resource busy
+Rebooting... reboot: Restarting system
+ 
+
+U-Boot 2016.07+fslc+g0526cd3 (Sep 20 2017 - 12:38:21 +0200)
+
+CPU:   Freescale i.MX6DL rev1.3 at 792 MHz
+Reset cause: WDOG
+Board: i.Core M6DL
+I2C:   ready
+DRAM:  1 GiB
+EDIMM 1.5 version
+MMC:   FSL_SDHC: 0, FSL_SDHC: 1
+Display: Amp-WD (800x480)
+In:    serial
+Out:   serial
+Err:   serial
+mmc_get_env_devno returns 1
+switch to partitions #0, OK
+mmc1(part 0) is current device
+Net:   FEC
+
+Version: Engicam Yocto U-Boot 3.00
+Note:    iCoreM6 default U-Boot
+
+Hit any key to stop autoboot:  1  0 
+reading icoremx6dl-intellitower.dtb
+57339 bytes read in 19 ms (2.9 MiB/s)
+reading uImage
+6313320 bytes read in 178 ms (33.8 MiB/s)
+## Booting kernel from Legacy Image at 12000000 ...
+   Image Name:   Linux-4.1.15+gea872df
+   Image Type:   ARM Linux Kernel Image (uncompressed)
+   Data Size:    6313256 Bytes = 6 MiB
+   Load Address: 10008000
+   Entry Point:  10008000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at 18000000
+   Booting using the fdt blob at 0x18000000
+   Loading Kernel Image ... OK
+   Using Device Tree in place at 18000000, end 18010ffa
+
+Starting kernel ...
+
+Booting Linux on physical CPU 0x0
+Linux version 4.1.15+gea872df (user@ubuntu) (gcc version 5.3.0 (GCC) ) #1 SMP PREEMPT Wed Dec 19 15:19:12 CET 2018
+CPU: ARMv7 Processor [412fc09a] revision 10 (ARMv7), cr=10c53c7d
+CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+Machine model: Engicam i.CoreM6 DualLite/Solo Capacitive open frame
+Reserved memory: created CMA memory pool at 0x3c000000, size 320 MiB
+Reserved memory: initialized node linux,cma, compatible id shared-dma-pool
+Memory policy: Data cache writealloc
+PERCPU: Embedded 12 pages/cpu @ab71c000 s17228 r8192 d23732 u49152
+Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 260096
+Kernel command line: console=ttymxc3,115200 cma=96MB video=mxcfb0:dev=ldb,Amp-WD root=/dev/mmcblk1p2 rootwait rw
+PID hash table entries: 4096 (order: 2, 16384 bytes)
+Dentry cache hash table entries: 131072 (order: 7, 524288 bytes)
+Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
+Memory: 699008K/1048576K available (7880K kernel code, 395K rwdata, 2828K rodata, 384K init, 431K bss, 21888K reserved, 327680K cma-reserved, 0K highmem)
+Virtual kernel memory layout:
+    vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+    fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)
+    vmalloc : 0xc0800000 - 0xff000000   (1000 MB)
+    lowmem  : 0x80000000 - 0xc0000000   (1024 MB)
+    pkmap   : 0x7fe00000 - 0x80000000   (   2 MB)
+    modules : 0x7f000000 - 0x7fe00000   (  14 MB)
+      .text : 0x80008000 - 0x80a7d5a8   (10710 kB)
+      .init : 0x80a7e000 - 0x80ade000   ( 384 kB)
+      .data : 0x80ade000 - 0x80b40ee0   ( 396 kB)
+       .bss : 0x80b43000 - 0x80baefa0   ( 432 kB)
+SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+Preemptible hierarchical RCU implementation.
+	RCU restricting CPUs from NR_CPUS=4 to nr_cpu_ids=2.
+RCU: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=2
+NR_IRQS:16 nr_irqs:16 16
+L2C-310 erratum 769419 enabled
+L2C-310 enabling early BRESP for Cortex-A9
+L2C-310 full line of zeros enabled for Cortex-A9
+L2C-310 ID prefetch enabled, offset 16 lines
+L2C-310 dynamic clock gating enabled, standby mode enabled
+L2C-310 cache controller enabled, 16 ways, 512 kB
+L2C-310: CACHE_ID 0x410000c8, AUX_CTRL 0x76450001
+mxc_clocksource_init 3000000
+Switching to timer-based delay loop, resolution 333ns
+sched_clock: 32 bits at 3000kHz, resolution 333ns, wraps every 715827882841ns
+clocksource mxc_timer1: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 637086815595 ns
+Console: colour dummy device 80x30
+Calibrating delay loop (skipped), value calculated using timer frequency.. 6.00 BogoMIPS (lpj=30000)
+pid_max: default: 32768 minimum: 301
+Mount-cache hash table entries: 2048 (order: 1, 8192 bytes)
+Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes)
+CPU: Testing write buffer coherency: ok
+CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+Setting up static identity map for 0x10008280 - 0x100082d8
+CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
+Brought up 2 CPUs
+SMP: Total of 2 processors activated (12.00 BogoMIPS).
+CPU: All CPU(s) started in SVC mode.
+devtmpfs: initialized
+VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 4
+clocksource jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+pinctrl core: initialized pinctrl subsystem
+NET: Registered protocol family 16
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+cpuidle: using governor ladder
+cpuidle: using governor menu
+CPU identified as i.MX6DL, silicon rev 1.3
+i.Core M6 1.5 version
+[ML]	 imx6q_csi_mux_init 15
+hw-breakpoint: found 5 (+1 reserved) breakpoint and 1 watchpoint registers.
+hw-breakpoint: maximum watchpoint size is 4 bytes.
+imx6dl-pinctrl 20e0000.iomuxc: initialized IMX pinctrl driver
+imx-gpc 20dc000.gpc: no fsl,ldo-bypass found!
+mxs-dma 110000.dma-apbh: initialized
+SCSI subsystem initialized
+usbcore: registered new interface driver usbfs
+usbcore: registered new interface driver hub
+usbcore: registered new device driver usb
+2000000.aips-bus:usbphy_nop1 supply vcc not found, using dummy regulator
+2000000.aips-bus:usbphy_nop2 supply vcc not found, using dummy regulator
+i2c i2c-0: IMX I2C adapter registered
+i2c i2c-0: can't use DMA
+i2c i2c-1: IMX I2C adapter registered
+i2c i2c-1: can't use DMA
+i2c i2c-2: IMX I2C adapter registered
+i2c i2c-2: can't use DMA
+media: Linux media interface: v0.10
+Linux video capture interface: v2.00
+pps_core: LinuxPPS API ver. 1 registered
+pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+PTP clock support registered
+imx-ipuv3 2400000.ipu: IPU DMFC NORMAL mode: 1(0~1), 5B(4,5), 5F(6,7)
+MIPI CSI2 driver module loaded
+Advanced Linux Sound Architecture Driver Initialized.
+Bluetooth: Core ver 2.20
+NET: Registered protocol family 31
+Bluetooth: HCI device and connection manager initialized
+Bluetooth: HCI socket layer initialized
+Bluetooth: L2CAP socket layer initialized
+Bluetooth: SCO socket layer initialized
+Switched to clocksource mxc_timer1
+NET: Registered protocol family 2
+TCP established hash table entries: 8192 (order: 3, 32768 bytes)
+TCP bind hash table entries: 8192 (order: 4, 65536 bytes)
+TCP: Hash tables configured (established 8192 bind 8192)
+UDP hash table entries: 512 (order: 2, 16384 bytes)
+UDP-Lite hash table entries: 512 (order: 2, 16384 bytes)
+NET: Registered protocol family 1
+RPC: Registered named UNIX socket transport module.
+RPC: Registered udp transport module.
+RPC: Registered tcp transport module.
+RPC: Registered tcp NFSv4.1 backchannel transport module.
+CPU PMU: Failed to parse /soc/pmu/interrupt-affinity[0]
+hw perfevents: enabled with armv7_cortex_a9 PMU driver, 7 counters available
+imx rpmsg driver is registered.
+Bus freq driver module loaded
+futex hash table entries: 512 (order: 3, 32768 bytes)
+VFS: Disk quotas dquot_6.6.0
+VFS: Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+NFS: Registering the id_resolver key type
+Key type id_resolver registered
+Key type id_legacy registered
+jffs2: version 2.2. (NAND) © 2001-2006 Red Hat, Inc.
+fuse init (API version 7.23)
+io scheduler noop registered
+io scheduler deadline registered
+io scheduler cfq registered (default)
+imx-weim 21b8000.weim: Driver registered.
+gpio-export gpio_export: 16 gpio(s) exported
+backlight supply power not found, using dummy regulator
+ledlights0 supply power not found, using dummy regulator
+ledlights1 supply power not found, using dummy regulator
+MIPI DSI driver module loaded
+mxc_sdc_fb fb@0: registered mxc display driver ldb
+imx-ipuv3 2400000.ipu: IPU DMFC DP HIGH RESOLUTION: 1(0,1), 5B(2~5), 5F(6,7)
+mxc_sdc_fb fb@1: NO mxc display driver found!
+mxc_sdc_fb fb@2: NO mxc display driver found!
+imx-sdma 20ec000.sdma: no iram assigned, using external mem
+imx-sdma 20ec000.sdma: no event needs to be remapped
+imx-sdma 20ec000.sdma: loaded firmware 3.3
+imx-sdma 20ec000.sdma: initialized
+21e8000.serial: ttymxc1 at MMIO 0x21e8000 (irq = 296, base_baud = 5000000) is a IMX
+21ec000.serial: ttymxc2 at MMIO 0x21ec000 (irq = 297, base_baud = 5000000) is a IMX
+21f0000.serial: ttymxc3 at MMIO 0x21f0000 (irq = 298, base_baud = 5000000) is a IMX
+console [ttymxc3] enabled
+21f4000.serial: ttymxc4 at MMIO 0x21f4000 (irq = 299, base_baud = 5000000) is a IMX
+imx sema4 driver is registered.
+[drm] Initialized drm 1.1.0 20060810
+[drm] Initialized vivante 1.0.0 20120216 on minor 0
+brd: module loaded
+loop: module loaded
+nand: No NAND device found
+CAN device driver interface
+2188000.ethernet supply phy not found, using dummy regulator
+pps pps0: new PPS source ptp0
+libphy: fec_enet_mii_bus: probed
+fec 2188000.ethernet eth0: registered PHC device 0
+PPP generic driver version 2.4.2
+PPP BSD Compression module registered
+PPP Deflate Compression module registered
+PPP MPPE Compression module registered
+NET: Registered protocol family 24
+ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+ehci-mxc: Freescale On-Chip EHCI Host driver
+usbcore: registered new interface driver usb-storage
+usbcore: registered new interface driver usbserial
+usbcore: registered new interface driver usbserial_generic
+usbserial: USB Serial support registered for generic
+usbcore: registered new interface driver ftdi_sio
+usbserial: USB Serial support registered for FTDI USB Serial Device
+usbcore: registered new interface driver option
+usbserial: USB Serial support registered for GSM modem (1-port)
+usbcore: registered new interface driver pl2303
+usbserial: USB Serial support registered for pl2303
+2184800.usbmisc supply vbus-wakeup not found, using dummy regulator
+ci_hdrc ci_hdrc.0: EHCI Host Controller
+ci_hdrc ci_hdrc.0: new USB bus registered, assigned bus number 1
+ci_hdrc ci_hdrc.0: USB 2.0 started, EHCI 1.00
+hub 1-0:1.0: USB hub found
+hub 1-0:1.0: 1 port detected
+ci_hdrc ci_hdrc.1: EHCI Host Controller
+ci_hdrc ci_hdrc.1: new USB bus registered, assigned bus number 2
+ci_hdrc ci_hdrc.1: USB 2.0 started, EHCI 1.00
+hub 2-0:1.0: USB hub found
+hub 2-0:1.0: 1 port detected
+mousedev: PS/2 mouse device common for all mice
+snvs_rtc 20cc000.snvs:snvs-rtc-lp: rtc core: registered 20cc000.snvs:snvs-r as rtc0
+i2c /dev entries driver
+IR NEC protocol handler initialized
+IR RC5(x/sz) protocol handler initialized
+IR RC6 protocol handler initialized
+IR JVC protocol handler initialized
+IR Sony protocol handler initialized
+IR SANYO protocol handler initialized
+IR Sharp protocol handler initialized
+IR MCE Keyboard/mouse protocol handler initialized
+IR XMP protocol handler initialized
+mxc_v4l2_output v4l2_out: V4L2 device registered as video16
+mxc_v4l2_output v4l2_out: V4L2 device registered as video17
+imx2-wdt 20bc000.wdog: timeout 60 sec (nowayout=0)
+Bluetooth: HCI UART driver ver 2.3
+Bluetooth: HCI UART protocol H4 registered
+Bluetooth: HCI UART protocol BCSP registered
+Bluetooth: HCI UART protocol ATH3K registered
+usbcore: registered new interface driver bcm203x
+usbcore: registered new interface driver btusb
+usbcore: registered new interface driver ath3k
+sdhci: Secure Digital Host Controller Interface driver
+sdhci: Copyright(c) Pierre Ossman
+sdhci-pltfm: SDHCI platform and OF driver helper
+/soc/aips-bus@02100000/usdhc@02190000: voltage-ranges unspecified
+sdhci-esdhc-imx 2190000.usdhc: Got CD GPIO
+sdhci-esdhc-imx 2190000.usdhc: No vmmc regulator found
+sdhci-esdhc-imx 2190000.usdhc: No vqmmc regulator found
+mmc0: SDHCI controller on 2190000.usdhc [2190000.usdhc] using ADMA
+/soc/aips-bus@02100000/usdhc@02194000: voltage-ranges unspecified
+sdhci-esdhc-imx 2194000.usdhc: No vmmc regulator found
+sdhci-esdhc-imx 2194000.usdhc: No vqmmc regulator found
+mmc2: SDHCI controller on 2194000.usdhc [2194000.usdhc] using ADMA
+/soc/aips-bus@02100000/usdhc@02198000: voltage-ranges unspecified
+sdhci-esdhc-imx 2198000.usdhc: No vmmc regulator found
+sdhci-esdhc-imx 2198000.usdhc: No vqmmc regulator found
+mmc2: queuing unknown CIS tuple 0x80 (2 bytes)
+mmc2: queuing unknown CIS tuple 0x80 (3 bytes)
+mmc2: queuing unknown CIS tuple 0x80 (3 bytes)
+mmc2: queuing unknown CIS tuple 0x80 (7 bytes)
+usb 2-1: new high-speed USB device number 2 using ci_hdrc
+mmc1: SDHCI controller on 2198000.usdhc [2198000.usdhc] using ADMA
+mxc_vpu 2040000.vpu_fsl: VPU initialized
+mxc_vdoa 21e4000.vdoa: i.MX Video Data Order Adapter(VDOA) driver probed
+mxc_hdmi_cec soc:hdmi_cec@00120000: HDMI CEC initialized
+usbcore: registered new interface driver usbhid
+usbhid: USB HID core driver
+fsl-asrc 2034000.asrc: driver registered
+fsl-hdmi-dai soc:hdmi_audio@00120000: failed to probe. Load HDMI-video first.
+fsl-hdmi-dai: probe of soc:hdmi_audio@00120000 failed with error -12
+imx-audio-hdmi sound-hdmi: initialize HDMI-audio failed. load HDMI-video first!
+NET: Registered protocol family 26
+ipip: IPv4 over IPv4 tunneling driver
+NET: Registered protocol family 10
+sit: IPv6 over IPv4 tunneling driver
+NET: Registered protocol family 17
+bridge: automatic filtering via arp/ip/ip6tables has been deprecated. Update your scripts to load br_netfilter if you need this.
+can: controller area network core (rev 20120528 abi 9)
+NET: Registered protocol family 29
+can: raw protocol (rev 20120528)
+can: broadcast manager protocol (rev 20120528 t)
+mmc2: new high speed SDIO card at address 0001
+can: netlink gateway (rev 20130117) max_hops=1
+brcmfmac: brcmf_sdio_drivestrengthinit: No SDIO Drive strength init done for chip 43430 rev 1 pmurev 24
+brcmfmac_sdio mmc2:0001:1: Direct firmware load for brcm/brcmfmac43430-sdio.bin failed with error -2
+brcmfmac_sdio mmc2:0001:1: Falling back to user helper
+Bluetooth: RFCOMM TTY layer initialized
+Bluetooth: RFCOMM socket layer initialized
+hub 2-1:1.0: USB hub found
+hub 2-1:1.0: 4 ports detected
+Bluetooth: RFCOMM ver 1.11
+Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+Bluetooth: BNEP filters: protocol multicast
+Bluetooth: BNEP socket layer initialized
+Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+Bluetooth: HIDP socket layer initialized
+8021q: 802.1Q VLAN Support v1.8
+Key type dns_resolver registered
+i.Core M6 1.5 version
+mmc1: MAN_BKOPS_EN bit is not set
+imx_epdc_fb 20f4000.epdc: can't get/select pinctrl
+snvs_rtc 20cc000.snvs:snvs-rtc-lp: setting system clock to 2019-02-06 14:52:07 UTC (1549464727)
+mmc1: new DDR MMC card at address 0001
+mmcblk1: mmc1:0001 M62704 3.53 GiB 
+mmcblk1boot0: mmc1:0001 M62704 partition 1 2.00 MiB
+mmcblk1boot1: mmc1:0001 M62704 partition 2 2.00 MiB
+mmcblk1rpmb: mmc1:0001 M62704 partition 3 512 KiB
+ mmcblk1: p1 p2 p3
+ALSA device list:
+  No soundcards found.
+EXT3-fs (mmcblk1p2): error: couldn't mount because of unsupported optional features (240)
+EXT2-fs (mmcblk1p2): error: couldn't mount because of unsupported optional features (244)
+EXT4-fs (mmcblk1p2): recovery complete
+EXT4-fs (mmcblk1p2): mounted filesystem with ordered data mode. Opts: (null)
+VFS: Mounted root (ext4 filesystem) on device 179:2.
+devtmpfs: mounted
+Freeing unused kernel memory: 384K (80a7e000 - 80ade000)
+usb 2-1.3: new full-speed USB device number 3 using ci_hdrc
+INIT: version 2.88 booting
+input: ILITEK Multi-Touch-V3000 as /devices/soc0/soc/2100000.aips-bus/2184200.usb/ci_hdrc.1/usb2/2-1/2-1.3/2-1.3:1.0/0003:222A:0001.0001/input/input0
+hid-multitouch 0003:222A:0001.0001: input: USB HID v1.10 Device [ILITEK Multi-Touch-V3000] on usb-ci_hdrc.1-1.3/input0
+input: ILITEK Multi-Touch-V3000 as /devices/soc0/soc/2100000.aips-bus/2184200.usb/ci_hdrc.1/usb2/2-1/2-1.3/2-1.3:1.1/0003:222A:0001.0002/input/input1
+hid-generic 0003:222A:0001.0002: input: USB HID v1.10 Mouse [ILITEK Multi-Touch-V3000] on usb-ci_hdrc.1-1.3/input1
+Starting udev
+udev: Not using udev cache because of changes detected in the following files:
+udev:     /proc/version /proc/cmdline /proc/devices
+udev:     lib/udev/rules.d/* etc/udev/rules.d/*
+udev: The udev cache will be regenerated. To identify the detected changes,
+udev: compare the cached sysconf at   /etc/udev/cache.data
+udev: against the current sysconf at  /dev/shm/udev.cache
+udevd[128]: starting version 3.1.5
+random: udevd urandom read with 24 bits of entropy available
+galcore: clk_get vg clock failed, disable vg!
+Galcore version 5.0.11.41671
+usb 2-1.2: new high-speed USB device number 4 using ci_hdrc
+brcmfmac: brcmf_c_preinit_dcmds: Firmware version = wl0: Nov 14 2016 00:32:49 version 7.45.41.32 (r662793) FWID 01-8b473c3f
+brcmfmac: brcmf_cfg80211_reg_notifier: not a ISO3166 code
+usb 2-1.4: new full-speed USB device number 5 using ci_hdrc
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+input: MOSART Semi. 2.4G Wireless Mouse as /devices/soc0/soc/2100000.aips-bus/2184200.usb/ci_hdrc.1/usb2/2-1/2-1.4/2-1.4:1.0/0003:062A:4102.0003/input/input2
+hid-generic 0003:062A:4102.0003: input: USB HID v1.10 Mouse [MOSART Semi. 2.4G Wireless Mouse] on usb-ci_hdrc.1-1.4/input0
+uvcvideo: Found UVC 1.00 device VGA USB Camera (05a3:9210)
+input: VGA USB Camera as /devices/soc0/soc/2100000.aips-bus/2184200.usb/ci_hdrc.1/usb2/2-1/2-1.2/2-1.2:1.0/input/input3
+usbcore: registered new interface driver uvcvideo
+USB Video Class driver (1.1.1)
+EXT4-fs (mmcblk1p2): re-mounted. Opts: data=ordered
+bootlogd: cannot allocate pseudo tty: No such file or directory
+Populating dev cache
+ALSA: Restoring mixer settings...
+/usr/sbin/alsactl: load_state:1735: No soundcards found...
+--------------------------------------------------
+------------- Alma Startup Runlevel S ------------
+--------------------------------------------------
+/etc/rcS.d/S99StartUpAlma: line 7: /sys/class/graphics/fbcon/cursor_blink: No such file or directory
+INIT: Entering runlevel: 5
+Configuring network interfaces... fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+Sending discover...
+Sending discover...
+Done setting line discpline
+No lease, forking to background
+ifconfig: SIOCSIFFLAGS: Cannot assign requested address
+Starting system message bus: dbus.
+Starting Dropbear SSH server: dropbear.
+Starting rpcbind daemon...done.
+Starting advanced power management daemon: No APM support in kernel
+(failed.)
+Starting syslogd/klogd: done
+ * Starting Avahi mDNS/DNS-SD Daemon: avahi-daemon
+[A[74G[ ok ]
+Starting Telephony daemon
+Starting Linux NFC daemon
+--------------------------------------------------
+------------- Alma Startup Runlevel 5 ------------
+--------------------------------------------------
+system is setup
+--------------------------------------------
+---------- IT: Start medium level ----------
+--------------------------------------------
+MQTT: missing mqtt credential file
+
+Beverages: 1 topping groups
+Beverages: number of toppings in each topping groups:  [1]
+Beverages: 14 brands
+/usr/lib/python3.5/site-packages/openpyxl-2.5.3-py3.5.egg/openpyxl/reader/worksheet.py:318: UserWarning: Unknown extension is not supported and will be removed
+  warn(msg)
+Internationalization: 1 languages
+Internationalization: 286 labels
+Loading master settings
+i2cset -y 2 0x51 0x03 0x8ca w : OK
+i2cset -y 2 0x51 0x00 0x80 w : OK
+Loading tech settings
+Beverages: beverage_id [7, 8, 12, 13, 14] not found in line ids. Beverages disabled
+Loading crew settings
+Cycles initializated
+LINEDATA: Consumptions initializated
+STM32: set display
+STM32: variables initialized
+STM32: reset volumes
+STM32: closed loop variables initialized
+Last flush date 2018-07-04
+Last unlock date 2018-07-04
+Linedata initializated
+ifdown: interface wlan0 not configured
+Wifi: Network bringed down
+kill: usage: kill [-s sigspec | -n signum | -sigspec] pid | jobspec ... or kill -l [sigspec]
+brcmfmac: brcmf_add_if: ERROR: netdev:wlan0 already exists
+brcmfmac: brcmf_add_if: ignore IF event
+Wifi: Network bringed up
+ifdown: interface wlan0 not configured
+Wifi: Network bringed down
+Preferred network found
+Network locked
+Attract loop - Start camera
+Successfully initialized wpa_supplicant
+rfkill: Cannot open RFKILL control device
+udhcpc (v1.24.1) started
+brcmfmac: brcmf_sdio_hdparse: seq 97: sequence number error, expect 96
+brcmfmac: brcmf_sdio_hdparse: seq 96: sequence number error, expect 98
+brcmfmac: brcmf_sdio_hdparse: seq 98: sequence number error, expect 97
+Sending discover...
+Sending discover...
+Sending select for 192.168.188.204...
+Lease of 192.168.188.204 obtained, lease time 259200
+/etc/udhcpc.d/50default: Adding DNS 192.168.188.1
+Wifi: Network bringed up
+Bluetooth: bringed up
+Tower locked: False
+IT start webserver!
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+IT start websocket!
+usb 2-1.4: USB disconnect, device number 5
+random: nonblocking pool is initialized
+Sending discover...
+Sending discover...
+No lease, forking to background
+UTILS: eth0 pass
+UTILS: ping results {'ppp0': 99999, 'eth0': 99999, 'wlan0': 33.875999999999998}
+RTNETLINK answers: No such process
+Cannot find device "ppp0"
+UTILS: Setting default network interface, wlan0
+--------------------------------------------
+----------- IT: Start high level -----------
+--------------------------------------------
+ff0000ffColor key sws
+
+Poky (Yocto Project Reference Distro) 2.1.1 icoremx6dl-alma /dev/ttymxc3
+
+icoremx6dl-alma login: [1231:1231:0206/145302:ERROR:sandbox_linux.cc(338)] InitializeSandbox() called with multiple threads in process gpu-process
+[1154:1154:0206/145302:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1154:0206/145302:ERROR:desktop_window_tree_host_ozone.cc(572)] Not implemented reached in virtual void views::DesktopWindowTreeHostOzone::SetWindowIcons(const gfx::ImageSkia&, const gfx::ImageSkia&)
+[1154:1154:0206/145302:ERROR:ozone_webui.cc(60)] Not implemented reached in virtual void views::OzoneWebUI::GetDefaultFontDescription(std::__cxx11::string*, int*, int*, gfx::FontRenderParams*) const
+[1154:1154:0206/145302:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1154:0206/145302:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1154:0206/145302:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1154:0206/145302:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1154:0206/145302:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1154:0206/145302:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1154:0206/145302:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1154:0206/145302:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1154:0206/145302:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1154:0206/145302:ERROR:desktop_window_tree_host_ozone.cc(572)] Not implemented reached in virtual void views::DesktopWindowTreeHostOzone::SetWindowIcons(const gfx::ImageSkia&, const gfx::ImageSkia&)
+[1154:1154:0206/145302:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1154:0206/145303:ERROR:surface_display_output_surface.cc(100)] Not implemented reached in virtual void cc::SurfaceDisplayOutputSurface::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+[1154:1154:0206/145305:ERROR:delegated_frame_host.cc(543)] Not implemented reached in virtual void content::DelegatedFrameHost::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:53:08
+('127.0.0.1', 44997) connected to WebSocket
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 127.0.0.1 Date: 06/Feb/2019 14:53:08
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 127.0.0.1 Date: 06/Feb/2019 14:53:08
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 127.0.0.1 Date: 06/Feb/2019 14:53:08
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 127.0.0.1 Date: 06/Feb/2019 14:53:08
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 127.0.0.1 Date: 06/Feb/2019 14:53:08
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 127.0.0.1 Date: 06/Feb/2019 14:53:08
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 127.0.0.1 Date: 06/Feb/2019 14:53:09
+Messagge from Websocket undefined
+STM32: set display
+return status =  0 ,error value =  False
+[1154:1154:0206/145309:ERROR:delegated_frame_host.cc(543)] Not implemented reached in virtual void content::DelegatedFrameHost::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+[1154:1154:0206/145309:ERROR:delegated_frame_host.cc(543)] Not implemented reached in virtual void content::DelegatedFrameHost::SetBeginFrameSource(cc::SurfaceId, cc::BeginFrameSource*)
+Wed Feb  6 14:53:27 UTC 2019
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:54:00
+[1154:1187:0206/145400:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145400:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145400:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145400:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145400:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145400:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145400:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145400:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+[1154:1187:0206/145400:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145400:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145400:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.820662 s, 5.0 MB/s
+return status =  0 ,error value =  False
+[1154:1187:0206/145405:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145405:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145405:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145405:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145405:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145405:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145405:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+Messagge from Websocket undefined
+POST  /api/v0/config/start_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:54:09
+[1154:1187:0206/145409:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[1154:1187:0206/145409:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+Found QR 3
+ID_TYPE: 3
+POST  /api/v0/config/stop_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:54:18
+Traceback (most recent call last)uvcvideo: Failed to resubmit video URB (-1).
+:
+  File "/home/root/mediumlevel_intellitower/PerpetualTimer.py", line 32, in handle_function
+    self.hFunction()
+  File "/home/root/mediumlevel_intellitower/ProductLib.py", line 2535, in qr_handler
+    self.consumer_from_qr(self.last_qr)
+  File "/home/root/mediumlevel_intellitower/ProductLib.py", line 2662, in consumer_from_qr
+    'counter': str(self.mqttc.msg_count),
+AttributeError: 'NoneType' object has no attribute 'msg_count'
+
+qr_thread
+Messagge from Websocket undefined
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.715534 s, 5.7 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:54:20
+return status =  0 ,error value =  False
+[1154:1187:0206/145420:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+ALS: setting display PWM to 25
+ALS: setting led PWM to 10 60
+STM32: set display
+usb 2-1.1: new full-speed USB device number 6 using ci_hdrc
+input: MOSART Semi. 2.4G Wireless Mouse as /devices/soc0/soc/2100000.aips-bus/2184200.usb/ci_hdrc.1/usb2/2-1/2-1.1/2-1.1:1.0/0003:062A:4102.0004/input/input4
+hid-generic 0003:062A:4102.0004: input: USB HID v1.10 Mouse [MOSART Semi. 2.4G Wireless Mouse] on usb-ci_hdrc.1-1.1/input0
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:55:09
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:55:09
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.773791 s, 5.3 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:55:10
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:55:15
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.649986 s, 6.3 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:55:18
+Messagge from Websocket undefined
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+Found QR 3
+ID_TYPE: 3
+Traceback (most recent call last):
+  File "/home/root/mediumlevel_intellitower/PerpetualTimer.py", line 32, in handle_function
+    self.hFunction()
+  File "/home/root/mediumlevel_intellitower/ProductLib.py", line 2535, in qr_handler
+    self.consumer_from_qr(self.last_qr)
+  File "/home/root/mediumlevel_intellitower/ProductLib.py", line 2662, in consumer_from_qr
+    'counter': str(self.mqttc.msg_count),
+AttributeError: 'NoneType' object has no attribute 'msg_count'
+
+qr_thread
+POST  /api/v0/config/stop_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:55:27
+Messagge from Websocket undefined
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.578427 s, 7.1 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_camera_qr_reading IP: 127.0.0.1 Date: 06/Feb/2019 14:55:30
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:56:00
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 06/Feb/2019 14:56:00
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.675187 s, 6.1 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 06/Feb/2019 14:56:01
+return status =  0 ,error value =  False
+usb 2-1.1: USB disconnect, device number 6

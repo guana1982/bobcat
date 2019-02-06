@@ -10,6 +10,7 @@ import { IBeverage } from "../models";
 import { BeverageStatus } from "../models/beverage.model";
 import { BeverageTypes } from "../components/global/Beverage";
 import { __ } from "../utils/lib/i18n";
+import { TEST_QR } from "../utils/APIMock";
 
 export interface ConsumerInterface {
   isLogged: boolean;
@@ -109,7 +110,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     )
     .pipe(
       first(),
-      map((data: any) => data.value)
+      map((data: any) => TEST_QR)
     );
     return socketConsumer$;
   }

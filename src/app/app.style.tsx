@@ -25,7 +25,7 @@ export const theme1 = {
   light: "#EEF6FD",
   dark: "#222",
   sail: "#B3DAFA",
-  spindle: "#b6ceef"
+  spindle: "#fff",
 };
 
 export const theme2 = {
