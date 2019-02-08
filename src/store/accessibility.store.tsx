@@ -1,5 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { withRouter } from "react-router-dom";
+import { Pages } from "../utils/constants";
 
 export enum FocusAttribute {
   Button = "data-btn-focus",
@@ -8,9 +10,9 @@ export enum FocusAttribute {
 
 export enum FocusElm {
   Controller = "focus-controller",
-  Horizontal = "focus-horizontal",
   Init = "init-focus",
-  Disable = "no-focus"
+  Disable = "no-focus",
+  Extra = "extra-focus"
 }
 
 enum Actions {
@@ -97,11 +99,21 @@ class AccessibilityStoreComponent extends React.Component<any, any> {
   }
 
   getContainers(): any[] {
-    return Array.from(document.querySelectorAll(`[${FocusAttribute.Container}]`));
+    return Array.from(document.querySelectorAll(`[${FocusAttribute.Container}=${FocusElm.Controller}]`));
   }
 
   getButtons(container): any[] {
     return Array.from(container.getElementsByTagName("button"));
+  }
+
+  getExtraButtons(): any[] {
+    const extraContainers = Array.from(document.querySelectorAll(`[${FocusAttribute.Container}=${FocusElm.Extra}]`));
+    let buttons = [];
+    extraContainers.forEach(extraContainers => {
+      const buttonsContainer = this.getButtons(extraContainers);
+      buttons = buttons.concat(buttonsContainer);
+    });
+    return buttons;
   }
 
   getActiveElement(parents: Parent[]): any {
@@ -143,6 +155,10 @@ class AccessibilityStoreComponent extends React.Component<any, any> {
     if (direction === undefined && action === undefined)
       return;
 
+    const { pathname } = this.props.location;
+    if (pathname === Pages.Attractor)
+      this.props.history.push(Pages.Home);
+
     this.detectComponents();
 
     if (!this.activeElement) {
@@ -165,8 +181,11 @@ class AccessibilityStoreComponent extends React.Component<any, any> {
   detectComponents() {
     const containers = this.getContainers();
     this.lastContainer = containers[containers.length - 1];
-    const buttons = this.getButtons(this.lastContainer);
+
+    const extraButtons =  this.getExtraButtons();
+    const buttons = [...this.getButtons(this.lastContainer), ...extraButtons];
     this.parents = this.getParents(buttons);
+
     this.activeElement = this.getActiveElement(this.parents);
   }
 
@@ -214,8 +233,6 @@ class AccessibilityStoreComponent extends React.Component<any, any> {
     setTimeout(() => {
       const containers = this.getContainers();
       const lastContainer = containers[containers.length - 1];
-      console.log(lastContainer);
-      console.log(this.lastContainer);
       if (lastContainer !== this.lastContainer) {
         console.log("New Container");
         this.detectComponents();
@@ -249,4 +266,4 @@ class AccessibilityStoreComponent extends React.Component<any, any> {
 
 }
 
-export const AccessibilityStore = AccessibilityStoreComponent;
+export const AccessibilityStore = withRouter(AccessibilityStoreComponent);

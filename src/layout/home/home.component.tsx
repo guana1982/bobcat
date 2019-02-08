@@ -245,6 +245,18 @@ export class Home extends React.Component<HomeProps, HomeState> {
   private Slide = () => {
     const { slideOpen, indexFavoritePouring_ } = this.state;
     const { dataConsumer, consumerBeverages } = this.props.consumerConsumer;
+    const beverageSelected = this.getBeverageSelected();
+
+    const slideFocus = () => {
+      if (slideOpen) {
+        return FocusElm.Controller;
+      }
+      if (beverageSelected) {
+        return FocusElm.Extra;
+      }
+      return null;
+    };
+
     const checkBtnFocus = (i) => {
       if (!slideOpen && i === 2) {
           return FocusElm.Disable;
@@ -256,7 +268,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
     };
     return (
       <React.Fragment>
-        <Slide dataFocus={slideOpen ? FocusElm.Controller : null} pose={slideOpen ? "open" : "close"}>
+        <Slide dataFocus={slideFocus()} pose={slideOpen ? "open" : "close"}>
           <HeaderAnimated className={slideOpen && "open"}>
             <h2>Good morning, {dataConsumer.consumer_nick}!</h2>
           </HeaderAnimated>
@@ -320,9 +332,10 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   private CustomizeBeverage = () => {
+    const { slideOpen } = this.state;
     return(
       <React.Fragment>
-        <CustomizeBeverageWrap dataFocus={FocusElm.Controller}>
+        <CustomizeBeverageWrap dataFocus={!slideOpen ? FocusElm.Controller : null}>
           <div id="backdrop" onClick={() => this.resetBeverage()}></div>
           <InfoCard className={"right"}>
             <header>
@@ -406,7 +419,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
     const { consumerBeverages } = this.props.consumerConsumer;
     const { isSparkling, alert } = this.state;
     const presentSlide = consumerBeverages.length > 0;
-
+    const beverageSelected = this.getBeverageSelected();
     return (
       <section data-focus={FocusElm.Controller}>
         {presentSlide && <this.Slide />}
@@ -414,7 +427,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
           {beverages.length > 0 && (
             <React.Fragment>
               <this.ChoiceBeverage />
-              <div id="types-group">
+              <div data-focus={beverageSelected ? FocusElm.Extra : null} id="types-group">
                 <ButtonGroup
                   options={this.types}
                   value={isSparkling}
@@ -423,7 +436,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
               </div>
             </React.Fragment>
           )}
-          {this.getBeverageSelected() && <this.CustomizeBeverage />}
+          {beverageSelected && <this.CustomizeBeverage />}
         </HomeContent>
         {alert && <Alert {...alert} />}
       </section>
