@@ -29,7 +29,7 @@ export const CircleBtnWrapper = styled<CircleBtnProps, "div">("div")`
 `;
 
 interface CircleBtnContentProps { dataBtnFocus: FocusElm; "data-btn-focus"?: any; onClick?: any; }
-const CircleBtnContent = styled<CircleBtnContentProps, "button">("button").attrs({
+export const CircleBtnContent = styled<CircleBtnContentProps, "button">("button").attrs({
   "data-btn-focus": props => props.dataBtnFocus
 })`
     background: transparent;

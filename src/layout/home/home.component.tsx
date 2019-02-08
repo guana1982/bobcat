@@ -15,6 +15,7 @@ import { IdentificationConsumerTypes, IConsumerBeverage } from "../../utils/APIM
 import { Alert, AlertProps, AlertTypes } from "../../components/global/Alert";
 import { Subscription } from "rxjs";
 import { FocusElm } from "../../store/accessibility.store";
+import { CircleBtn } from "../../components/global/CircleBtn";
 
 interface HomeProps {
   history: any;
@@ -336,6 +337,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
     return(
       <React.Fragment>
         <CustomizeBeverageWrap dataFocus={!slideOpen ? FocusElm.Controller : null}>
+          <CircleBtn onClick={() => this.resetBeverage()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
           <div id="backdrop" onClick={() => this.resetBeverage()}></div>
           <InfoCard className={"right"}>
             <header>

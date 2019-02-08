@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { ButtonGroupWrapper } from "../../components/global/ButtonGroup";
 import posed from "react-pose";
 import { FocusElm } from "../../store/accessibility.store";
+import { CircleBtnContent } from "../../components/global/CircleBtn";
 
 /* ==== ANIMATIONS ==== */
 /* ======================================== */
@@ -269,6 +270,11 @@ export const CustomizeBeverageWrap = styled<CustomizeBeverageWrapProps, "section
     width: 100%;
     height: 100%;
     background: rgba(0, 91, 195, .6);
+  }
+  ${CircleBtnContent} {
+    position: absolute;
+    right: 30px;
+    top: 30px;
   }
 `;
 
