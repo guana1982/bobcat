@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { ButtonGroupWrapper } from "../../components/global/ButtonGroup";
 import posed from "react-pose";
+import { FocusElm } from "../../store/accessibility.store";
 
 /* ==== ANIMATIONS ==== */
 /* ======================================== */
@@ -20,7 +21,7 @@ const _Slide = posed.div({
     }
   }
 });
-const _toggleSlide = posed.img({
+const _toggleSlide = posed.button({
   close: {
     transform: "rotate(0deg)"
   },
@@ -44,7 +45,10 @@ const _toggleSlide = posed.img({
 // `;
 
 const _sizePour = 105;
-export const Pour = styled.button`
+interface PoutProps { dataBtnFocus: FocusElm; "data-btn-focus"?: any; }
+export const Pour = styled<PoutProps, "button">("button").attrs({
+  "data-btn-focus": props => props.dataBtnFocus
+})`
   position: absolute;
   bottom: ${-_sizePour / 5}px;
   right: calc(50% - ${_sizePour}px);
@@ -250,7 +254,10 @@ export const Footer = styled.div`
 /* ==== WRAPPER ==== */
 /* ======================================== */
 
-export const CustomizeBeverageWrap = styled.section`
+interface CustomizeBeverageWrapProps { dataFocus: FocusElm; "data-focus"?: any; }
+export const CustomizeBeverageWrap = styled<CustomizeBeverageWrapProps, "section">("section").attrs({
+  "data-focus": props => props.dataFocus
+})`
   position: absolute;
   top: 0;
   left: 0;
@@ -272,7 +279,9 @@ export const ChoiceBeverageWrap = styled.section`
 /* ==== SLIDE ==== */
 /* ======================================== */
 
-export const Slide = styled(_Slide)`
+export const Slide = styled(_Slide).attrs({
+  "data-focus": props => props.dataFocus
+})`
   position: absolute;
   top: 0;
   width: 98.6vw;

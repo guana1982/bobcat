@@ -11,6 +11,7 @@ import { Alert, AlertTypes, AlertProps } from "../../components/global/Alert";
 import { ConsumerInterface } from "../../store/consumer.store";
 import { IdentificationConsumerTypes } from "../../utils/APIModel";
 import { Pages } from "../../utils/constants";
+import { FocusElm } from "../../store/accessibility.store";
 
 interface PrepayProps {
   history: any;
@@ -95,36 +96,38 @@ export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
   render() {
     const { alert } = this.state;
     return (
-      <PrepayContent>
-        <Header>
-          <CircleBtn onClick={() => this.goToHome()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
-        </Header>
-        <SectionContent>
-          <SectionWrap>
-            <h2>{"Download the Acqua+ App to \n to Create an Account!"}</h2>
-            <Webcam>
-              <QrSquare><span /></QrSquare>
-            </Webcam>
-          </SectionWrap>
-          <SectionWrap>
-            <img id="banner" src={"icons/smartphone_bottle.svg"} />
-            <h1>{"Present your code \n to the camera"}</h1>
-            <img id="icon" src={"icons/arrow.svg"} />
-          </SectionWrap>
-        </SectionContent>
+      <section data-focus={FocusElm.Controller}>
+        <PrepayContent>
+          <Header>
+            <CircleBtn dataBtnFocus={FocusElm.Init} onClick={() => this.goToHome()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
+          </Header>
+          <SectionContent>
+            <SectionWrap>
+              <h2>{"Download the Acqua+ App to \n to Create an Account!"}</h2>
+              <Webcam>
+                <QrSquare><span /></QrSquare>
+              </Webcam>
+            </SectionWrap>
+            <SectionWrap>
+              <img id="banner" src={"icons/smartphone_bottle.svg"} />
+              <h1>{"Present your code \n to the camera"}</h1>
+              <img id="icon" src={"icons/arrow.svg"} />
+            </SectionWrap>
+          </SectionContent>
 
-        {/* <InfoContent>
-          <h2>{this.state.message || "---"}</h2>
-          {this.state.message && <button onClick={() => this.start()}>try again</button>}
-        </InfoContent> */}
+          {/* <InfoContent>
+            <h2>{this.state.message || "---"}</h2>
+            {this.state.message && <button onClick={() => this.start()}>try again</button>}
+          </InfoContent> */}
 
-        {/* <ReplaySubscription source={this.props.timerConsumer.time$}>
-          {time =>
-            <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
-          }
-        </ReplaySubscription> */}
-        {alert && <Alert {...alert} />}
-      </PrepayContent>
+          {/* <ReplaySubscription source={this.props.timerConsumer.time$}>
+            {time =>
+              <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
+            }
+          </ReplaySubscription> */}
+          {alert && <Alert {...alert} />}
+        </PrepayContent>
+      </section>
     );
   }
 }

@@ -16,6 +16,10 @@ export const GlobalStyle = createGlobalStyle`
     height: 100%;
     width: 100%;
   }
+
+  button:focus {
+    border: 2px solid red;
+  }
 `;
 
 export const theme1 = {

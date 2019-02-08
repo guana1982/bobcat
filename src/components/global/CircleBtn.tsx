@@ -1,6 +1,7 @@
 
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
+import { FocusElm } from "../../store/accessibility.store";
 
 const _sizeCircleBtn = 60;
 export const CircleBtnWrapper = styled<CircleBtnProps, "div">("div")`
@@ -27,8 +28,10 @@ export const CircleBtnWrapper = styled<CircleBtnProps, "div">("div")`
   }
 `;
 
-const CircleBtnContent = styled.button`
-
+interface CircleBtnContentProps { dataBtnFocus: FocusElm; "data-btn-focus"?: any; onClick?: any; }
+const CircleBtnContent = styled<CircleBtnContentProps, "button">("button").attrs({
+  "data-btn-focus": props => props.dataBtnFocus
+})`
     background: transparent;
     text-align: center;
     ${CircleBtnWrapper} {
@@ -57,6 +60,7 @@ interface CircleBtnProps {
   color?: string;
   icon: string;
   onClick?: any;
+  dataBtnFocus?: FocusElm;
 }
 
 interface CircleBtnState {
@@ -65,10 +69,11 @@ interface CircleBtnState {
 
 export class CircleBtn extends React.Component<CircleBtnProps, CircleBtnState> {
   render() {
+    const { dataBtnFocus, label, onClick } = this.props;
     return (
-      <CircleBtnContent>
+      <CircleBtnContent onClick={onClick} dataBtnFocus={dataBtnFocus}>
         <CircleBtnWrapper {...this.props} />
-        <small>{this.props.label}</small>
+        <small>{label}</small>
       </CircleBtnContent>
     );
   }

@@ -1,10 +1,36 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
+export enum FocusAttribute {
+  Button = "data-btn-focus",
+  Container =  "data-focus"
+}
+
 export enum FocusElm {
   Controller = "focus-controller",
-  Horizontal = "focus-horizontal"
+  Horizontal = "focus-horizontal",
+  Init = "init-focus",
+  Disable = "no-focus"
 }
+
+enum Actions {
+  ENTER
+}
+
+enum Direction {
+  LEFT,
+  UP,
+  RIGHT,
+  DOWN
+}
+
+const valuesAngle = [135, 45, 225, 315];
+const DirectiontAngle = {
+  LEFT:   [[valuesAngle[0], 180], [180, valuesAngle[2]]],
+  UP:     [[valuesAngle[1], 90], [90, valuesAngle[0]]],
+  RIGHT:  [[valuesAngle[3], 360], [0, valuesAngle[1]]],
+  DOWN:   [[valuesAngle[2], 270], [270, valuesAngle[3]]],
+};
 
 enum KeyMapping {
   LEFT = 37,
@@ -28,7 +54,7 @@ class Point {
   }
 
   angle(point: Point) {
-    return Math.atan2(point.y - this.y, point.x - this.x) * 180 / Math.PI;
+    return Math.atan2(-(this.y - point.y), this.x - point.x) * 180 / Math.PI + 180;
   }
 
 }
@@ -50,7 +76,13 @@ export const AccessibilityConsumer = AccessibilityContext.Consumer;
 
 class AccessibilityStoreComponent extends React.Component<any, any> {
 
+  evt: KeyboardEvent;
+  direction: Direction;
+  action: Actions;
+
+  lastContainer: any[];
   parents: Parent[];
+  activeElement: any;
 
   constructor(props) {
     super(props);
@@ -64,32 +96,86 @@ class AccessibilityStoreComponent extends React.Component<any, any> {
     window.removeEventListener("keydown", this.onKeyDown.bind(this));
   }
 
+  getContainers(): any[] {
+    return Array.from(document.querySelectorAll(`[${FocusAttribute.Container}]`));
+  }
+
+  getButtons(container): any[] {
+    return Array.from(container.getElementsByTagName("button"));
+  }
+
+  getActiveElement(parents: Parent[]): any {
+    const activeElementDomument = document.activeElement;
+    const activeElement = parents.filter(parent => {
+      return parent.element === activeElementDomument;
+    })[0];
+    return activeElement;
+  }
+
+  getInitElement(parents: Parent[]): any {
+    return parents.filter(parent => {
+      return parent.element.getAttribute(FocusAttribute.Button) === FocusElm.Init;
+    })[0];
+  }
+
+  getParents(buttons: any[]): Parent[] {
+    let parents = [];
+    buttons = buttons.filter(element => {
+      return element.getAttribute(FocusAttribute.Button) !== FocusElm.Disable;
+    });
+    buttons.forEach(element => {
+      const rect: any = element.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      const point = new Point(x, y);
+      const parent: Parent = { element, rect, point };
+      parents.push(parent);
+    });
+    return parents;
+  }
+
   onKeyDown(evt: KeyboardEvent) {
-    const direction = KeyMapping[evt.keyCode];
-    if (direction) {
-      console.log(direction);
-      const root = document.getElementById("root");
-      const buttons = root.getElementsByTagName("button");
-      this.setParents(Array.from(buttons));
-      this.compareParents();
+    this.evt = evt;
+    const event = KeyMapping[evt.keyCode];
+    const direction = Direction[event];
+    const action = Actions[event];
+
+    if (direction === undefined && action === undefined)
+      return;
+
+    this.detectComponents();
+
+    if (!this.activeElement) {
+      this.initFocusParent(this.parents);
+      return;
+    }
+
+    if (direction !== undefined) {
+      this.direction = direction;
+      const nextElement = this.getNextElement();
+      this.focusElement(nextElement);
+    }
+
+    if (action !== undefined) {
+      this.action = action;
+      this.initNewFocusContent();
     }
   }
 
-  setParents(elements: HTMLButtonElement[]) {
-    this.parents = [];
-    elements.forEach(element => {
-      const rect: any = element.getBoundingClientRect();
-      const point = new Point(rect.x, rect.y);
-      const parent: Parent = { element, rect, point };
-      this.parents.push(parent);
-    });
-    console.log(this.parents);
+  detectComponents() {
+    const containers = this.getContainers();
+    this.lastContainer = containers[containers.length - 1];
+    const buttons = this.getButtons(this.lastContainer);
+    this.parents = this.getParents(buttons);
+    this.activeElement = this.getActiveElement(this.parents);
   }
 
-  compareParents() {
+  getNextElement() {
     let diffPoints = [];
-    const focusParent = this.parents[5];
+
+    const focusParent = this.activeElement;
     const parentList = this.parents.filter(e => e !== focusParent);
+
     parentList.forEach(parent => {
       const pointFocus = focusParent.point;
       const point = parent.point;
@@ -98,19 +184,64 @@ class AccessibilityStoreComponent extends React.Component<any, any> {
       const distance = pointFocus.distance(point);
       const { element } = parent;
 
-      diffPoints.push({angle, distance, element});
+      diffPoints.push({angle, distance, element, pointFocus, point});
     });
-    console.log(diffPoints);
+
+    if (this.direction === undefined)
+      return undefined;
+
+    const event = Direction[this.direction];
+    const directionAngle = DirectiontAngle[event];
+    console.log("directionAngle", directionAngle);
+
+    const anglePoints = diffPoints.filter((point: any) => {
+      return point.angle >= directionAngle[0][0] && point.angle <= directionAngle[0][1] || point.angle >= directionAngle[1][0] && point.angle < directionAngle[1][1];
+    });
+
+    console.log("anglePoints", anglePoints);
+
+    // anglePoints.sort((a, b) => (a.distance > b.distance) ? 1 : ((b.distance > a.distance) ? -1 : 0));
+    anglePoints.sort((a, b) => a.distance - b.distance);
+
+    const nextElement = anglePoints[0];
+    return nextElement;
+  }
+
+  initNewFocusContent() {
+    if (this.action !== Actions.ENTER)
+      return;
+
+    setTimeout(() => {
+      const containers = this.getContainers();
+      const lastContainer = containers[containers.length - 1];
+      console.log(lastContainer);
+      console.log(this.lastContainer);
+      if (lastContainer !== this.lastContainer) {
+        console.log("New Container");
+        this.detectComponents();
+        this.initFocusParent(this.parents);
+      }
+    }, 100);
+  }
+
+  initFocusParent(parents) {
+    const initElement = this.getInitElement(parents);
+    this.focusElement(initElement);
+    this.evt.stopPropagation();
+    this.evt.preventDefault();
+  }
+
+  focusElement(element) {
+    if (element)
+      element.element.focus({preventScroll: true});
+    else
+      console.log("Focus: ", "Not element available");
   }
 
   render() {
     const { children } = this.props;
     return (
-      <AccessibilityProvider
-        value={{
-
-        }}
-      >
+      <AccessibilityProvider value={{}}>
         {children}
       </AccessibilityProvider>
     );

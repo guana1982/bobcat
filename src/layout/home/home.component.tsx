@@ -1,25 +1,20 @@
 import * as React from "react";
 
 import { ConfigConsumer, ConfigInterface, TimerInterface } from "../../store";
-import LauncherComponent, { Action } from "../../components/global/Launcher";
 import Gesture from "../../components/Menu/Gesture";
 
 import { HomeContent, Footer, Grid, Pour, CustomizeBeverageCard, InfoCard, CustomizeBeverageWrap, ChoiceBeverageWrap, Slide, ToggleSlide, HeaderAnimated } from "./home.style";
-import { ReplaySubscription } from "../../components/global/Subscription";
 import { ButtonGroup } from "../../components/global/ButtonGroup";
-import { CircleBtn } from "../../components/global/CircleBtn";
 import { IBeverageConfig, IBeverage } from "../../models";
 import { __ } from "../../utils/lib/i18n";
-import SlideComponent from "../../components/global/Slide";
 import { Button, ButtonTypes } from "../../components/global/Button";
 import { Beverages, Pages, AlarmsOutOfStock } from "../../utils/constants";
 import { BeveragesAnimated, Beverage, BeverageIndicators, BeverageTypes } from "../../components/global/Beverage";
 import { ConsumerInterface } from "../../store/consumer.store";
 import { IdentificationConsumerTypes, IConsumerBeverage } from "../../utils/APIModel";
-import { BeverageStatus } from "../../models/beverage.model";
 import { Alert, AlertProps, AlertTypes } from "../../components/global/Alert";
-import { mergeMap, first } from "rxjs/operators";
 import { Subscription } from "rxjs";
+import { FocusElm } from "../../store/accessibility.store";
 
 interface HomeProps {
   history: any;
@@ -41,7 +36,6 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   readonly state: HomeState;
 
-  // actionsLauncher: Action[];
   pouring_: Subscription = null;
   levels: any = null;
   types: any = null;
@@ -90,20 +84,6 @@ export class Home extends React.Component<HomeProps, HomeState> {
       {label: "Sparkling", value: true}
     ];
 
-    // this.actionsLauncher = [
-    //   {
-    //     title: "TEST QR CODE",
-    //     event: () => this.props.history.push("/prepay")
-    //   },
-    //   {
-    //     title: "CREW MENU",
-    //     event: () => this.props.history.push("/menu/crew")
-    //   },
-    //   {
-    //     title: "TECH MENU",
-    //     event: () => this.props.history.push("/menu/tech")
-    //   }
-    // ];
   }
 
   componentDidMount() {
@@ -265,9 +245,18 @@ export class Home extends React.Component<HomeProps, HomeState> {
   private Slide = () => {
     const { slideOpen, indexFavoritePouring_ } = this.state;
     const { dataConsumer, consumerBeverages } = this.props.consumerConsumer;
+    const checkBtnFocus = (i) => {
+      if (!slideOpen && i === 2) {
+          return FocusElm.Disable;
+      }
+      if (slideOpen && i === 0) {
+          return FocusElm.Init;
+      }
+      return null;
+    };
     return (
       <React.Fragment>
-        <Slide pose={slideOpen ? "open" : "close"}>
+        <Slide dataFocus={slideOpen ? FocusElm.Controller : null} pose={slideOpen ? "open" : "close"}>
           <HeaderAnimated className={slideOpen && "open"}>
             <h2>Good morning, {dataConsumer.consumer_nick}!</h2>
           </HeaderAnimated>
@@ -285,14 +274,15 @@ export class Home extends React.Component<HomeProps, HomeState> {
                   status_id={b.$status_id}
                   title={b.flavorTitle}
                   type={b.$type}
+                  dataBtnFocus={checkBtnFocus(i)}
                 />
               );
             })}
           </Grid>
           {consumerBeverages[0].$type === BeverageTypes.Info && <h3 id="info">Save favorites from smartphone</h3>}
-          <button onClick={() => this.handleSlide()}> { /* TO IMPROVE */ }
-            <ToggleSlide src={"icons/arrow-circle.svg"} />
-          </button>
+          <ToggleSlide onClick={() => this.handleSlide()}> { /* TO IMPROVE */ }
+            <img src={"icons/arrow-circle.svg"} />
+          </ToggleSlide>
         </Slide>
       </React.Fragment>
     );
@@ -315,21 +305,11 @@ export class Home extends React.Component<HomeProps, HomeState> {
                   status_id={b.status_id}
                   title={b.beverage_label_id}
                   onClick={() => this.selectBeverage(b)}
+                  dataBtnFocus={i === 0 ? FocusElm.Init : null}
                 />
               );
             })}
           </Grid>
-          <Footer>
-            {/* <CircleBtn label={"Nutrition"} color={"primary"} border={true} icon={"icons/info.svg"} />
-            <CircleBtn onClick={() => this.goToPrepay()} label={"Sign In"} color={"primary"} border={true} icon={"icons/qr-code.svg"} /> */}
-            {/* <ReplaySubscription source={this.props.timerConsumer.time$}>
-              {time =>
-                <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
-              }
-            </ReplaySubscription> */}
-            {/* <button type="button" onClick={() => this.goToScreenSaver()}>Screen</button> */}
-          </Footer>
-          {/* <LauncherComponent actions={this.actionsLauncher} /> */}
         </ChoiceBeverageWrap>
         <Footer>
           {!isLogged && <Button data-focus={[3, 0]} type={ButtonTypes.Transparent} onClick={() => this.goToPrepay()} text="SIGN IN" icon="logout" />}
@@ -342,7 +322,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   private CustomizeBeverage = () => {
     return(
       <React.Fragment>
-        <CustomizeBeverageWrap>
+        <CustomizeBeverageWrap dataFocus={FocusElm.Controller}>
           <div id="backdrop" onClick={() => this.resetBeverage()}></div>
           <InfoCard className={"right"}>
             <header>
@@ -384,11 +364,6 @@ export class Home extends React.Component<HomeProps, HomeState> {
                 onChange={(value) => this.handleChange(value, "temperature")}>
               </ButtonGroup>
             </aside>
-
-            {/* <p>flavor_level: {this.state.beverageConfig.flavor_level}</p>
-            <p>carbonation_level: {this.state.beverageConfig.carbonation_level}</p>
-            <p>temperature_level: {this.state.beverageConfig.temperature_level}</p> */}
-
             {/* <div>
               <button type="button">add b-complex</button>
               <button type="button">add antioxidants</button>
@@ -406,7 +381,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
               <h4>Plastic Bottles</h4>
             </footer>
           </InfoCard>
-          <Pour onTouchStart={() => this.startPour()} onTouchEnd={() => this.stopPour()}>Hold to Pour</Pour>
+          <Pour dataBtnFocus={FocusElm.Init} onTouchStart={() => this.startPour()} onTouchEnd={() => this.stopPour()}>Hold to Pour</Pour>
         </CustomizeBeverageWrap>
       </React.Fragment>
     );
@@ -433,7 +408,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
     const presentSlide = consumerBeverages.length > 0;
 
     return (
-      <React.Fragment>
+      <section data-focus={FocusElm.Controller}>
         {presentSlide && <this.Slide />}
         <HomeContent isLogged={presentSlide} beverageIsSelected={Boolean(this.getBeverageSelected())}>
           {beverages.length > 0 && (
@@ -451,7 +426,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
           {this.getBeverageSelected() && <this.CustomizeBeverage />}
         </HomeContent>
         {alert && <Alert {...alert} />}
-      </React.Fragment>
+      </section>
     );
   }
 }
