@@ -6,6 +6,7 @@ import { __ } from "../../utils/lib/i18n";
 import { IBeverage } from "../../models";
 import { forwardRef } from "react";
 import { BeverageStatus } from "../../models/beverage.model";
+import { FocusElm } from "../../store/accessibility.store";
 
 export enum BeverageTypes {
   Info = "info",
@@ -13,8 +14,10 @@ export enum BeverageTypes {
 }
 
 const _sizeBeverage = 11;
-interface BeverageWrapProps { size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; }
-export const BeverageWrap = styled<BeverageWrapProps, "button">("button")`
+interface BeverageWrapProps { size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; dataBtnFocus?: FocusElm; "data-btn-focus"?: any; }
+export const BeverageWrap = styled<BeverageWrapProps, "button">("button").attrs({
+  "data-btn-focus": props => props.dataBtnFocus
+})`
   padding: 1rem .7rem;
   transition: 1s all;
   transition-property: width, height, left, top;
@@ -133,10 +136,11 @@ interface BeverageProps {
   pouring?: boolean;
   status_id?: BeverageStatus;
   title?: string;
+  dataBtnFocus?: FocusElm;
 }
 
 export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
-  const { title, type, indicators, label, pouring, status_id } = props;
+  const { title, type, indicators, label, pouring, status_id, dataBtnFocus } = props;
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
 
@@ -148,7 +152,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   }
 
   return (
-    <BeverageWrap pouring={pouring} ref={innerRef} type={type} onClick={onClick} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+    <BeverageWrap dataBtnFocus={dataBtnFocus} pouring={pouring} ref={innerRef} type={type} onClick={onClick} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
       <div id="element">
         <div id="indicators">
           {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}

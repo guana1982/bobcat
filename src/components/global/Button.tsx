@@ -16,7 +16,6 @@ export const ButtonWrap = styled.button`
   align-items: center;
   height: ${_sizeButton}px;
   width: ${_sizeButton * 2}px;
-  border-radius: 30px;
   font-size: ${_sizeButton / 3.5}px;
   font-weight: 600;
   img {

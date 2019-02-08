@@ -13,7 +13,7 @@ import { GlobalStyle } from "./app.style";
 import AttractorComponent from "../layout/attractor/attractor.component";
 import { Pages } from "../utils/constants";
 import { ConsumerConsumer, ConsumerStore } from "../store/consumer.store";
-import { AccessibilityConsumer } from "../store/accessibility.store";
+import { AccessibilityConsumer, FocusElm } from "../store/accessibility.store";
 
 class AppRouter extends React.Component<any, any> {
 
@@ -51,13 +51,13 @@ class AppRouter extends React.Component<any, any> {
 
   render() {
     return (
-      <section>
+      <React.Fragment>
           <GlobalStyle />
           <Route exact path={Pages.Attractor} component={this.withGlobalConsumer(AttractorComponent)}/>
           <Route path={Pages.Home} component={this.withGlobalConsumer(HomeComponent)}/>
           <Route path={Pages.Prepay} component={this.withGlobalConsumer(PrepayComponent)}/>
           <Route path={Pages.Menu} component={this.withGlobalConsumer(MenuComponent)}/>
-      </section>
+      </React.Fragment>
     );
   }
 
