@@ -34,9 +34,6 @@ export const CircleBtnContent = styled<CircleBtnContentProps, "button">("button"
 })`
     background: transparent;
     text-align: center;
-    ${CircleBtnWrapper} {
-      margin-bottom: .5rem;
-    }
     &:active {
       background: transparent;
       ${CircleBtnWrapper} {
