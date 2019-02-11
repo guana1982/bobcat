@@ -88,7 +88,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   componentDidMount() {
-    // this.props.timerConsumer.startTimer();
+    this.props.timerConsumer.startTimer();
   }
 
   componentWillUnmount() {

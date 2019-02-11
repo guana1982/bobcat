@@ -30,17 +30,12 @@ class AppRouter extends React.Component<any, any> {
           {timer =>
             <ConsumerConsumer>
               {consumer =>
-                <AccessibilityConsumer>
-                  {acccessibility =>
-                    <Comp
-                      {...props}
-                      configConsumer={config}
-                      timerConsumer={timer}
-                      consumerConsumer={consumer}
-                      acccessibilityConsumer={acccessibility}
-                    />
-                  }
-                </AccessibilityConsumer>
+                <Comp
+                  {...props}
+                  configConsumer={config}
+                  timerConsumer={timer}
+                  consumerConsumer={consumer}
+                />
               }
             </ConsumerConsumer>
           }

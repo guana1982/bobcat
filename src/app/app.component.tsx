@@ -32,15 +32,15 @@ export default fullScreen(({
   return (
     <MemoryRouter>
       <ThemeProvider theme={theme1}>
-        <ConfigStore>
-          <ConsumerStore>
-            <TimerStore>
-              <AccessibilityStore>
+        <AccessibilityStore>
+          <ConfigStore>
+            <ConsumerStore>
+              <TimerStore>
                 <AppRouter />
-              </AccessibilityStore>
-            </TimerStore>
-          </ConsumerStore>
-        </ConfigStore>
+              </TimerStore>
+            </ConsumerStore>
+          </ConfigStore>
+        </AccessibilityStore>
       </ThemeProvider>
     </MemoryRouter>
   );

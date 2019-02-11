@@ -78,6 +78,8 @@ export const AccessibilityConsumer = AccessibilityContext.Consumer;
 
 class AccessibilityStoreComponent extends React.Component<any, any> {
 
+  handleKeyDown: any;
+
   evt: KeyboardEvent;
   direction: Direction;
   action: Actions;
@@ -88,14 +90,15 @@ class AccessibilityStoreComponent extends React.Component<any, any> {
 
   constructor(props) {
     super(props);
+    this.handleKeyDown = this.onKeyDown.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener("keydown", this.onKeyDown.bind(this));
+    window.addEventListener("keydown", this.handleKeyDown);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("keydown", this.onKeyDown.bind(this));
+    window.removeEventListener("keydown", this.handleKeyDown);
   }
 
   getContainers(): any[] {
@@ -250,7 +253,7 @@ class AccessibilityStoreComponent extends React.Component<any, any> {
 
   focusElement(element) {
     if (element)
-      element.element.focus({preventScroll: true});
+      element.element.focus();
     else
       console.log("Focus: ", "Not element available");
   }
