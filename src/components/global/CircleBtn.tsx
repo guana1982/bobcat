@@ -28,10 +28,10 @@ export const CircleBtnWrapper = styled<CircleBtnProps, "div">("div")`
   }
 `;
 
-interface CircleBtnContentProps { dataBtnFocus: FocusElm; "data-btn-focus"?: any; onClick?: any; }
-export const CircleBtnContent = styled<CircleBtnContentProps, "button">("button").attrs({
-  "data-btn-focus": props => props.dataBtnFocus
-})`
+interface CircleBtnContentProps { dataBtnFocus: FocusElm; onClick?: any; }
+export const CircleBtnContent = styled<CircleBtnContentProps, "button">("button").attrs(props => ({
+  "data-btn-focus": props.dataBtnFocus
+}))`
     background: transparent;
     text-align: center;
     &:active {

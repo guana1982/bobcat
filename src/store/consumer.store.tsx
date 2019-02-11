@@ -39,10 +39,10 @@ class ConsumerStoreComponent extends React.Component<any, any> {
 
   constructor(props) {
     super(props);
-    this.state = { // TEST QR
-      isLogged: true,
-      dataConsumer: TEST_QR,
-      consumerBeverages: this.getConsumerBeverages(TEST_QR)
+    this.state = {
+      isLogged: false,
+      dataConsumer: null,
+      consumerBeverages: []
     };
   }
 

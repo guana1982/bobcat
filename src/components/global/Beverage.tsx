@@ -14,10 +14,10 @@ export enum BeverageTypes {
 }
 
 const _sizeBeverage = 11;
-interface BeverageWrapProps { size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; dataBtnFocus?: FocusElm; "data-btn-focus"?: any; }
-export const BeverageWrap = styled<BeverageWrapProps, "button">("button").attrs({
-  "data-btn-focus": props => props.dataBtnFocus
-})`
+interface BeverageWrapProps { size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; dataBtnFocus?: FocusElm; }
+export const BeverageWrap = styled<BeverageWrapProps, "button">("button").attrs(props => ({
+  "data-btn-focus": props.dataBtnFocus
+}))`
   padding: 1rem .7rem;
   transition: 1s all;
   transition-property: width, height, left, top;

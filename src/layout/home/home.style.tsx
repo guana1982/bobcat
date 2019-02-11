@@ -46,10 +46,10 @@ const _toggleSlide = posed.button({
 // `;
 
 const _sizePour = 105;
-interface PoutProps { dataBtnFocus: FocusElm; "data-btn-focus"?: any; }
-export const Pour = styled<PoutProps, "button">("button").attrs({
-  "data-btn-focus": props => props.dataBtnFocus
-})`
+interface PoutProps { dataBtnFocus: FocusElm; }
+export const Pour = styled<PoutProps, "button">("button").attrs(props => ({
+  "data-btn-focus": props.dataBtnFocus
+}))`
   position: absolute;
   bottom: ${-_sizePour / 5}px;
   right: calc(50% - ${_sizePour}px);
@@ -256,9 +256,9 @@ export const Footer = styled.div`
 /* ======================================== */
 
 interface CustomizeBeverageWrapProps { dataFocus: FocusElm; "data-focus"?: any; }
-export const CustomizeBeverageWrap = styled<CustomizeBeverageWrapProps, "section">("section").attrs({
-  "data-focus": props => props.dataFocus
-})`
+export const CustomizeBeverageWrap = styled<CustomizeBeverageWrapProps, "section">("section").attrs(props => ({
+  "data-focus": props.dataFocus
+}))`
   position: absolute;
   top: 0;
   left: 0;
@@ -285,9 +285,9 @@ export const ChoiceBeverageWrap = styled.section`
 /* ==== SLIDE ==== */
 /* ======================================== */
 
-export const Slide = styled(_Slide).attrs({
-  "data-focus": props => props.dataFocus
-})`
+export const Slide = styled(_Slide).attrs(props => ({
+  "data-focus": props.dataFocus
+}))`
   position: absolute;
   top: 0;
   width: 98.6vw;
