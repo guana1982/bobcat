@@ -7,6 +7,7 @@ import { IBeverage } from "../../models";
 import { forwardRef } from "react";
 import { BeverageStatus } from "../../models/beverage.model";
 import { FocusElm } from "../../store/accessibility.store";
+import ClickNHold from "./ClickNHold";
 
 export enum BeverageTypes {
   Info = "info",
@@ -128,7 +129,9 @@ export enum BeverageIndicators {
 interface BeverageProps {
   beverage?: IBeverage;
   type: BeverageTypes;
-  onClick?: () => void;
+  onStart?: () => void;
+  onHoldStart?: () => void;
+  onHoldEnd?: () => void;
   onTouchStart?: () => void;
   onTouchEnd?: () => void;
   indicators?: BeverageIndicators[];
@@ -144,26 +147,45 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
 
-  let  onClick, onTouchStart, onTouchEnd  = null;
+  let  onStart, onHoldStart, onHoldEnd, onTouchStart, onTouchEnd  = null;
   if (!$disabledTouch) {
-    onClick = props.onClick;
+    onStart = props.onStart;
+    onHoldStart = props.onHoldStart;
+    onHoldEnd = props.onHoldEnd;
     onTouchStart = props.onTouchStart;
     onTouchEnd = props.onTouchEnd;
   }
 
+  const end = (e, enough) => {
+    if (!enough) { // START
+      onStart();
+    } else {
+      onHoldEnd();
+    }
+  };
+
+  const clickHold = (e) => {
+    onHoldStart();
+  };
+
   return (
-    <BeverageWrap dataBtnFocus={dataBtnFocus} pouring={pouring} ref={innerRef} type={type} onClick={onClick} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-      <div id="element">
-        <div id="indicators">
-          {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
+    <ClickNHold
+      time={0.5}
+      onClickNHold={clickHold}
+      onEnd={end}>
+      <BeverageWrap dataBtnFocus={dataBtnFocus} pouring={pouring} ref={innerRef} type={type} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}> { /* onClick={onClick} */ }
+        <div id="element">
+          <div id="indicators">
+            {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
+          </div>
+          <h3>{__(title)}</h3>
+          <h6>0-CALS</h6>
+          {label && <h5>{__(label)}</h5>}
+          {$outOfStock && <div className="overlay"><h4>{__("Out Of Stock")}</h4></div>}
+          {pouring && <div className="overlay"><h4>{__("Pouring")}</h4></div>}
         </div>
-        <h3>{__(title)}</h3>
-        <h6>0-CALS</h6>
-        {label && <h5>{__(label)}</h5>}
-        {$outOfStock && <div className="overlay"><h4>{__("Out Of Stock")}</h4></div>}
-        {pouring && <div className="overlay"><h4>{__("Pouring")}</h4></div>}
-      </div>
-    </BeverageWrap>
+      </BeverageWrap>
+    </ClickNHold>
   );
 });
 

@@ -26,8 +26,8 @@ interface HomeProps {
 
 interface HomeState {
   isSparkling: boolean;
-  isPouring: boolean;
   beverageSelected: number;
+  idBeveragePouring_: number;
   indexFavoritePouring_: number;
   beverageConfig: IBeverageConfig;
   slideOpen: boolean;
@@ -68,9 +68,9 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
     this.state = {
       isSparkling: false,
-      isPouring: false,
       beverageSelected: null,
       slideOpen: false,
+      idBeveragePouring_: null,
       indexFavoritePouring_: null,
       alert: undefined,
       beverageConfig: {
@@ -88,6 +88,10 @@ export class Home extends React.Component<HomeProps, HomeState> {
     ];
 
   }
+
+  // componentWillUpdate(nextProps, nextState) {
+  //   console.log("nextState", nextState);
+  // }
 
   componentDidMount() {
     this.props.timerConsumer.startTimer();
@@ -122,13 +126,17 @@ export class Home extends React.Component<HomeProps, HomeState> {
   private startPour(beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig) {
 
     let bevSelected, bevConfig = null;
-    this.setState({isPouring: true});
 
-    if (beverageSelected && beverageConfig) {
+    if (beverageSelected) {
       bevSelected = beverageSelected;
-      bevConfig = beverageConfig;
+      this.setState({idBeveragePouring_: beverageSelected.beverage_id});
     } else {
       bevSelected =  this.getBeverageSelected();
+    }
+
+    if (beverageConfig) {
+      bevConfig = beverageConfig;
+    } else {
       bevConfig = {...this.state.beverageConfig};
       if (bevConfig.carbonation_level == null) {
         bevConfig.carbonation_level = 0;
@@ -157,7 +165,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   private stopPour() {
     this.props.timerConsumer.startTimer();
     this.pouring_ && this.pouring_.unsubscribe();
-    this.setState({isPouring: false});
+    this.setState({idBeveragePouring_: null});
     this.props.configConsumer.onStopPour()
     .subscribe(data => console.log(data));
   }
@@ -165,7 +173,8 @@ export class Home extends React.Component<HomeProps, HomeState> {
   private resetBeverage() {
     this.setState({
       beverageSelected: null,
-      indexFavoritePouring_: null
+      indexFavoritePouring_: null,
+      idBeveragePouring_: null
     });
   }
 
@@ -307,7 +316,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   private ChoiceBeverage = () => {
-    const { isPouring } = this.state;
+    const { idBeveragePouring_ } = this.state;
     const { beverages } = this.props.configConsumer;
     const { isLogged, resetConsumer } = this.props.consumerConsumer;
     return (
@@ -319,12 +328,14 @@ export class Home extends React.Component<HomeProps, HomeState> {
               return (
                 <Beverage
                   key={i}
+                  pouring={b.beverage_id === idBeveragePouring_}
                   type={this.state.isSparkling ? BeverageTypes.Sparkling : null}
                   beverage={b}
                   status_id={b.status_id}
                   title={b.beverage_label_id}
-                  onClick={() => this.selectBeverage(b)}
-                  onTouchStart={() => console.log("Start")} onTouchEnd={() => console.log("End")}
+                  onStart={() => this.selectBeverage(b)}
+                  onHoldStart={() => this.startPour(b)}
+                  onHoldEnd={() => this.stopPour()}
                   dataBtnFocus={i === 0 ? FocusElm.Init : null}
                 />
               );
@@ -340,13 +351,13 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   private CustomizeBeverage = () => {
-    const { slideOpen, isPouring } = this.state;
+    const { slideOpen, idBeveragePouring_ } = this.state;
     return(
       <React.Fragment>
         <CustomizeBeverageWrap dataFocus={!slideOpen ? FocusElm.Controller : null}>
           <CircleBtn onClick={() => this.resetBeverage()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
           <div id="backdrop" onClick={() => this.resetBeverage()}></div>
-          {isPouring && <InfoCard className={"right"}>
+          {idBeveragePouring_ && <InfoCard className={"right"}>
             <header>
               <h3>Sign-up to track your hydration</h3>
             </header>
@@ -391,7 +402,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
               <button type="button">add antioxidants</button>
             </div> */}
           </CustomizeBeverageCard>
-          {isPouring && <InfoCard className={"left"}>
+          {idBeveragePouring_ && <InfoCard className={"left"}>
             <header>
               <h3>This office<br/> saved</h3>
             </header>
