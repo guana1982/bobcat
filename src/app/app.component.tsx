@@ -32,7 +32,7 @@ export default fullScreen(({
   return (
     <MemoryRouter>
       <ThemeProvider theme={theme1}>
-        <AccessibilityStore>
+        {/* <AccessibilityStore> */}
           <ConfigStore>
             <ConsumerStore>
               <TimerStore>
@@ -40,7 +40,7 @@ export default fullScreen(({
               </TimerStore>
             </ConsumerStore>
           </ConfigStore>
-        </AccessibilityStore>
+        {/* </AccessibilityStore> */}
       </ThemeProvider>
     </MemoryRouter>
   );

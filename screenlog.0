@@ -43960,3 +43960,4807 @@ return status =  0 ,error value =  False
 POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 09:49:43
 STM32: set display
 return status =  0 ,error value =  False
+('192.168.188.126', 55811) connected to WebSocket
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:24:27
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:24:27
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:24:27
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 10:24:27
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:24:27
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 10:24:27
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 10:24:27
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 10:24:27
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 10:24:27
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:24:30
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.545759 s, 7.5 MB/s
+return status =  0 ,error value =  False
+('192.168.188.126', 55811) disconnected to WebSocket
+OPTIONS  /api/v0/config/start_video
+('192.168.188.126', 55853) connected to WebSocket
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:24:32
+ALS: setting display PWM to 60
+ALS: setting led PWM to 30 80
+STM32: set display
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:24:32
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 10:24:32
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:24:32
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 10:24:32
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 10:24:32
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 10:24:32
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 10:24:32
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:24:33
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.542357 s, 7.6 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 11/Feb/2019 10:24:35
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 11/Feb/2019 10:24:35
+('192.168.188.126', 55853) disconnected to WebSocket
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.606177 s, 6.8 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 11/Feb/2019 10:24:36
+return status =  0 ,error value =  False
+('192.168.188.126', 55893) connected to WebSocket
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:24:36
+PRODUCT: video was already running
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:24:36
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 10:24:36
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:24:36
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 10:24:36
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 10:24:36
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 10:24:36
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 10:24:36
+STM32: set display
+return status =  0 ,error value =  False
+('192.168.188.126', 56528) connected to WebSocket
+OPTIONS  /api/v0/config/stop_video
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:27:00
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.537877 s, 7.6 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:27:01
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:27:01
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 10:27:01
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:27:01
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 10:27:01
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 10:27:01
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 10:27:01
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 10:27:01
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:27:01
+('192.168.188.126', 55893) disconnected to WebSocket
+('192.168.188.126', 56528) disconnected to WebSocket
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.59759 s, 6.9 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+('192.168.188.126', 56565) connected to WebSocket
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:27:03
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:27:03
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 10:27:03
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:27:03
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 10:27:03
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 10:27:03
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 10:27:03
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 10:27:03
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:27:03
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.558181 s, 7.3 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+('192.168.188.126', 56640) connected to WebSocket
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/vendor
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:27:17
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:27:17
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 10:27:17
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:27:17
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 10:27:17
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 10:27:17
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 10:27:17
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 10:27:17
+STM32: set display
+return status =  0 ,error value =  False
+('192.168.188.126', 56565) disconnected to WebSocket
+('192.168.188.126', 56640) disconnected to WebSocket
+OPTIONS  /api/v0/config/start_video
+('192.168.188.126', 56667) connected to WebSocket
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:27:19
+PRODUCT: video was already running
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:27:19
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 10:27:19
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:27:19
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 10:27:19
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 10:27:20
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 10:27:20
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 10:27:20
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:27:20
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.560529 s, 7.3 MB/s
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/start_camera_qr_reading
+POST  /api/v0/config/start_camera_qr_reading IP: 192.168.188.126 Date: 11/Feb/2019 10:27:25
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+OPTIONS  /api/v0/config/stop_camera_qr_reading
+POST  /api/v0/config/stop_camera_qr_reading IP: 192.168.188.126 Date: 11/Feb/2019 10:27:27
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.575286 s, 7.1 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:27:59
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:27:59
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.582894 s, 7.0 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:28:00
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:29:49
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.537967 s, 7.6 MB/s
+return status =  0 ,error value =  False
+('192.168.188.126', 56667) disconnected to WebSocket
+OPTIONS  /api/v0/config/start_video
+('192.168.188.126', 57332) connected to WebSocket
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:29:51
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:29:51
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 10:29:51
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:29:51
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 10:29:51
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 10:29:51
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 10:29:51
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 10:29:51
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:29:52
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.550286 s, 7.4 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:29:55
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:29:56
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.555864 s, 7.4 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:29:56
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:29:57
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.595924 s, 6.9 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:30:00
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:30:00
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.579207 s, 7.1 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:30:01
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:30:01
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.593849 s, 6.9 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:30:05
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:30:05
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.608975 s, 6.7 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:30:06
+return status =  0 ,error value =  False
+Attract loop - Stop video
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:32:50
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.60742 s, 6.7 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 11/Feb/2019 10:32:51
+return status =  0 ,error value =  False
+Attract loop - Start camera
+POST  /api/v0/config/start_camera_qr_reading IP: 127.0.0.1 Date: 11/Feb/2019 10:32:53
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+[693:714:0211/103253:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[693:714:0211/103253:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_camera_qr_reading
+POST  /api/v0/config/start_camera_qr_reading IP: 192.168.188.126 Date: 11/Feb/2019 10:32:53
+Messagge from Websocket undefined
+return status =  1 ,error value =  frame_buffer_busy
+Messagge from Websocket undefined
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+OPTIONS  /api/v0/config/stop_camera_qr_reading
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/stop_camera_qr_reading IP: 192.168.188.126 Date: 11/Feb/2019 10:32:56
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.600089 s, 6.8 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:32:57
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:32:57
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.607277 s, 6.7 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:32:58
+return status =  0 ,error value =  False
+Sending discover...
+Sending discover...
+No lease, forking to background
+UTILS: eth0 pass
+UTILS: ping results {'eth0': 99999, 'wlan0': 63.366999999999997, 'ppp0': 99999}
+POST  /api/v0/config/stop_camera_qr_reading IP: 127.0.0.1 Date: 11/Feb/2019 10:33:23
+return status =  1 ,error value =  wrong_frame_buffer_user
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 11/Feb/2019 10:33:23
+PRODUCT: video was already running
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 11/Feb/2019 10:33:23
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.548034 s, 7.5 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 11/Feb/2019 10:33:24
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:38:18
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.542022 s, 7.6 MB/s
+return status =  0 ,error value =  False
+('192.168.188.126', 57332) disconnected to WebSocket
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+('192.168.188.126', 59514) connected to WebSocket
+OPTIONS  /api/v0/config/vendor
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:38:21
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:38:21
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 10:38:21
+Messagge from Websocket undefined
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:38:21
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 10:38:21
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 10:38:21
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 10:38:21
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 10:38:22
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:38:23
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.558738 s, 7.3 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:38:26
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:38:26
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.555507 s, 7.4 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:38:27
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:38:58
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.539401 s, 7.6 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:39:02
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:39:02
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.647092 s, 6.3 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:39:03
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:39:15
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.539062 s, 7.6 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:39:20
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:39:20
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.602936 s, 6.8 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:39:21
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:41:52
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.540498 s, 7.6 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:41:57
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:41:57
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.604336 s, 6.8 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:41:58
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:41:58
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.580032 s, 7.1 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:02
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:02
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.577025 s, 7.1 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:03
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:15
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.540489 s, 7.6 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:21
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:22
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.580035 s, 7.1 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:22
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:22
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.578256 s, 7.1 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:25
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:25
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.59594 s, 6.9 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:26
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:27
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.61218 s, 6.7 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:38
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:38
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.618568 s, 6.6 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:39
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:46
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.541282 s, 7.6 MB/s
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/start_camera_qr_reading
+POST  /api/v0/config/start_camera_qr_reading IP: 192.168.188.126 Date: 11/Feb/2019 10:42:50
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+OPTIONS  /api/v0/config/stop_camera_qr_reading
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/stop_camera_qr_reading IP: 192.168.188.126 Date: 11/Feb/2019 10:42:53
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.558993 s, 7.3 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:54
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:54
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.60872 s, 6.7 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:55
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:56
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.558506 s, 7.3 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:59
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:42:59
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.556771 s, 7.4 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:43:00
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+return status =  0 ,error value =  False
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+Sending discover...
+Sending discover...
+No lease, forking to background
+UTILS: eth0 pass
+UTILS: ping results {'eth0': 99999, 'wlan0': 42.581000000000003, 'ppp0': 99999}
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:46:50
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.542167 s, 7.6 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:46:55
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:46:55
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.582176 s, 7.0 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:46:56
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:46:59
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.541325 s, 7.6 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:47:02
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:47:02
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.619178 s, 6.6 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:47:03
+return status =  0 ,error value =  False
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+Sending discover...
+Sending discover...
+No lease, forking to background
+UTILS: eth0 pass
+UTILS: ping results {'eth0': 99999, 'wlan0': 52.177, 'ppp0': 99999}
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:54:05
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.55204 s, 7.4 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:55:26
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:55:26
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.629206 s, 6.5 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:55:27
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:55:40
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+('192.168.188.126', 59514) disconnected to WebSocket
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.557282 s, 7.3 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+('192.168.188.126', 63974) connected to WebSocket
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:55:42
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:55:42
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 10:55:42
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:55:42
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 10:55:42
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 10:55:42
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 10:55:42
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 10:55:42
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:55:45
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.570921 s, 7.2 MB/s
+return status =  0 ,error value =  False
+('192.168.188.126', 63974) disconnected to WebSocket
+OPTIONS  /api/v0/config/start_video
+('192.168.188.126', 64014) connected to WebSocket
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:55:47
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:55:47
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 10:55:47
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:55:47
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 10:55:47
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 10:55:47
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 10:55:47
+STM32: set display
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 10:55:47
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:57:33
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.559743 s, 7.3 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:57:36
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:57:36
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.563453 s, 7.3 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:57:37
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:57:37
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.60732 s, 6.7 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:57:40
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:57:40
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.597782 s, 6.9 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:57:41
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:04
+('192.168.188.126', 64639) connected to WebSocket
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+('192.168.188.126', 64014) disconnected to WebSocket
+('192.168.188.126', 64639) disconnected to WebSocket
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.578962 s, 7.1 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/config/start_video
+('192.168.188.126', 64655) connected to WebSocket
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:58:05
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:05
+Messagge from Websocket undefined
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 10:58:05
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:58:05
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 10:58:05
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 10:58:05
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 10:58:05
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 10:58:05
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:06
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.628535 s, 6.5 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:09
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:09
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.61401 s, 6.7 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:10
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:12
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.56115 s, 7.3 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:16
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:16
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.616635 s, 6.6 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:17
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:17
+('192.168.188.126', 64655) disconnected to WebSocket
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.597645 s, 6.9 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+('192.168.188.126', 64748) connected to WebSocket
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:18
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:58:18
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 10:58:18
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:58:18
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 10:58:18
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 10:58:18
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 10:58:18
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 10:58:18
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:20
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.560132 s, 7.3 MB/s
+return status =  0 ,error value =  False
+Attract loop - Start camera
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_camera_qr_reading
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:23
+Messagge from Websocket undefined
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:23
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.582623 s, 7.0 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 11/Feb/2019 10:58:24
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:24
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:24
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.648969 s, 6.3 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_camera_qr_reading IP: 192.168.188.126 Date: 11/Feb/2019 10:58:25
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_camera_qr_reading IP: 127.0.0.1 Date: 11/Feb/2019 10:58:25
+Messagge from Websocket undefined
+return status =  1 ,error value =  frame_buffer_busy
+Messagge from Websocket undefined
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+OPTIONS  /api/v0/config/stop_camera_qr_reading
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/stop_camera_qr_reading IP: 192.168.188.126 Date: 11/Feb/2019 10:58:26
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.587179 s, 7.0 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:27
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:27
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.640006 s, 6.4 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:28
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:28
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.64064 s, 6.4 MB/s
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/start_camera_qr_reading
+POST  /api/v0/config/start_camera_qr_reading IP: 192.168.188.126 Date: 11/Feb/2019 10:58:29
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+OPTIONS  /api/v0/config/stop_camera_qr_reading
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/stop_camera_qr_reading IP: 192.168.188.126 Date: 11/Feb/2019 10:58:32
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.570969 s, 7.2 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:33
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:33
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.629619 s, 6.5 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:34
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:34
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.637556 s, 6.4 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:36
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:36
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.650114 s, 6.3 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:37
+return status =  0 ,error value =  False
+Attract loop - Start camera
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_camera_qr_reading
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:40
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.571836 s, 7.2 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_camera_qr_reading IP: 192.168.188.126 Date: 11/Feb/2019 10:58:41
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+OPTIONS  /api/v0/config/stop_camera_qr_reading
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/stop_camera_qr_reading IP: 192.168.188.126 Date: 11/Feb/2019 10:58:43
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.537924 s, 7.6 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:44
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:44
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.613957 s, 6.7 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:45
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:50
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.562017 s, 7.3 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_camera_qr_reading IP: 127.0.0.1 Date: 11/Feb/2019 10:58:53
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 11/Feb/2019 10:58:53
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 11/Feb/2019 10:58:53
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.56051 s, 7.3 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 11/Feb/2019 10:58:54
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:54
+PRODUCT: video was already running
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:54
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.58684 s, 7.0 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:55
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:58:55
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.595667 s, 6.9 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:59:00
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:59:00
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.592186 s, 6.9 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:59:00
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:59:01
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.565626 s, 7.2 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 10:59:05
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': None, 'topping_id': 0, 'beverage_id': 9, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 10:59:08
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': None, 'topping_id': 0, 'beverage_id': 9, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 10:59:08
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+MQTT client not initialize
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 127.0.0.1 Date: 11/Feb/2019 10:59:10
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 127.0.0.1 Date: 11/Feb/2019 10:59:10
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:59:10
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/beverages
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:59:10
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:59:11
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:59:12
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.629363 s, 6.5 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 10:59:12
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 10:59:13
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.581483 s, 7.0 MB/s
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 10:59:16
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 1, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Digital input found
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 127.0.0.1 Date: 11/Feb/2019 10:59:19
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 127.0.0.1 Date: 11/Feb/2019 10:59:19
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:59:19
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/beverages
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:59:19
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 10:59:22
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 2, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Digital input found
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 10:59:30
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 2, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Digital input found
+Digital input found
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 127.0.0.1 Date: 11/Feb/2019 10:59:34
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 127.0.0.1 Date: 11/Feb/2019 10:59:34
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 10:59:35
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/beverages
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 10:59:35
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+('192.168.188.126', 64748) disconnected to WebSocket
+Digital input found
+OPTIONS  /api/v0/config/start_video
+('192.168.188.126', 65318) connected to WebSocket
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:00:08
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:00:08
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:00:08
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:00:08
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:00:08
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:00:08
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:00:08
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:00:08
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:00:11
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.549186 s, 7.5 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:00:14
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:00:14
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.550048 s, 7.4 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:00:15
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:00:15
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.575759 s, 7.1 MB/s
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:00:20
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:00:20
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.588236 s, 7.0 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:00:21
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 11/Feb/2019 11:00:30
+[693:714:0211/110030:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.61593 s, 6.7 MB/s
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+[693:714:0211/110042:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[693:714:0211/110042:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[693:714:0211/110042:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[693:714:0211/110042:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[693:714:0211/110042:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[693:714:0211/110042:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+[693:714:0211/110042:ERROR:ozone_webui.cc(51)] Not implemented reached in virtual gfx::FontRenderParams views::OzoneWebUI::GetDefaultFontRenderParams() const
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 11/Feb/2019 11:01:00
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 11/Feb/2019 11:01:00
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.60199 s, 6.8 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 11/Feb/2019 11:01:01
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+No lease, forking to background
+UTILS: eth0 pass
+Digital input found
+UTILS: ping results {'eth0': 99999, 'wlan0': 110.101, 'ppp0': 99999}
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+('192.168.188.126', 50105) connected to WebSocket
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:04:31
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.556581 s, 7.4 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:04:32
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:04:32
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:04:32
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:04:32
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:04:32
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:04:32
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:04:32
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:04:32
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+('192.168.188.126', 50245) connected to WebSocket
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:05:00
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.540788 s, 7.6 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:05:00
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:05:01
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:05:01
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:05:01
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:05:01
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:05:01
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:05:01
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:05:01
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+('192.168.188.126', 50372) connected to WebSocket
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:05:26
+Digital input found
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.540206 s, 7.6 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:05:27
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:05:27
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:05:27
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:05:27
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:05:27
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:05:27
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:05:27
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:05:27
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:05:45
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.556972 s, 7.4 MB/s
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:05:48
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:05:48
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.559876 s, 7.3 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:05:49
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:06:47
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.539342 s, 7.6 MB/s
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:06:51
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:06:51
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.595391 s, 6.9 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:06:52
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+('192.168.188.126', 50798) connected to WebSocket
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:07:00
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.552288 s, 7.4 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:07:01
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:07:01
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:07:01
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:07:01
+Messagge from Websocket undefined
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:07:01
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:07:01
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:07:01
+STM32: set display
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:07:01
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+('192.168.188.126', 50833) connected to WebSocket
+OPTIONS  /api/v0/config/start_video
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:07:04
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.538867 s, 7.6 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:07:04
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:07:04
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:07:04
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:07:04
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:07:05
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:07:05
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:07:05
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:07:05
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+('192.168.188.126', 50953) connected to WebSocket
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:07:29
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.54084 s, 7.6 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:07:30
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:07:30
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:07:30
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:07:30
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:07:30
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:07:30
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:07:30
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:07:30
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+('192.168.188.126', 51023) connected to WebSocket
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:07:40
+Digital input found
+('192.168.188.126', 65318) disconnected to WebSocket
+('192.168.188.126', 50105) disconnected to WebSocket
+('192.168.188.126', 50245) disconnected to WebSocket
+('192.168.188.126', 50372) disconnected to WebSocket
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.55463 s, 7.4 MB/s
+return status =  0 ,error value =  False
+('192.168.188.126', 50798) disconnected to WebSocket
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:07:41
+('192.168.188.126', 50833) disconnected to WebSocket
+('192.168.188.126', 50953) disconnected to WebSocket
+('192.168.188.126', 51023) disconnected to WebSocket
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:07:41
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:07:41
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:07:41
+return status =  0 ,error value =  False
+broken pipe error
+Traceback (most recent call last):
+  File "./main.py", line 70, in do_GET
+    self.wfile.write(ret)
+  File "/usr/lib/python3.5/socket.py", line 593, in write
+    return self._sock.send(b)
+BrokenPipeError: [Errno 32] Broken pipe
+
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:07:41
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+('192.168.188.126', 51053) connected to WebSocket
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:07:42
+PRODUCT: video was already running
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:07:42
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:07:42
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:07:42
+Messagge from Websocket undefined
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:07:42
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:07:42
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:07:42
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:07:42
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:07:43
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.538769 s, 7.6 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:07:45
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': None, 'topping_id': 0, 'beverage_id': 9, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Digital input found
+Digital input found
+Digital input found
+('192.168.188.126', 51053) disconnected to WebSocket
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+('192.168.188.126', 51127) connected to WebSocket
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:07:54
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:07:54
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:07:54
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:07:54
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:07:54
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:07:54
+STM32: set display
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:07:54
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:07:54
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:03
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.560793 s, 7.3 MB/s
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:07
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:07
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.596881 s, 6.9 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:08
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:09
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.589145 s, 7.0 MB/s
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:12
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:12
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.556066 s, 7.4 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:13
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:13
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.599435 s, 6.8 MB/s
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:16
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:16
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.628671 s, 6.5 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:17
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:17
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.631477 s, 6.5 MB/s
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:23
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:23
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.629283 s, 6.5 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:24
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+('192.168.188.126', 51310) connected to WebSocket
+OPTIONS  /api/v0/config/start_video
+Messagge from Websocket undefined
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:27
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.556217 s, 7.4 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:28
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:08:28
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:08:28
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:08:28
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:08:28
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:08:28
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:08:28
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:08:28
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:32
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.543683 s, 7.5 MB/s
+return status =  0 ,error value =  False
+Digital input found
+('192.168.188.126', 51127) disconnected to WebSocket
+('192.168.188.126', 51310) disconnected to WebSocket
+OPTIONS  /api/v0/config/start_video
+('192.168.188.126', 51363) connected to WebSocket
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:34
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:08:34
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:08:34
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:08:34
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:08:34
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:08:34
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:08:34
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:08:34
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:36
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.564939 s, 7.3 MB/s
+return status =  0 ,error value =  False
+('192.168.188.126', 51363) disconnected to WebSocket
+OPTIONS  /api/v0/config/start_video
+('192.168.188.126', 51404) connected to WebSocket
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:39
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:08:39
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:08:39
+Messagge from Websocket undefined
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:08:39
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:08:39
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:08:39
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:08:39
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:08:39
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+Attract loop - Stop video
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 11/Feb/2019 11:08:42
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.551703 s, 7.4 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:08:43
+return status =  0 ,error value =  False
+Attract loop - Start camera
+Messagge from Websocket undefined
+POST  /api/v0/config/start_camera_qr_reading IP: 127.0.0.1 Date: 11/Feb/2019 11:08:43
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/start_camera_qr_reading
+POST  /api/v0/config/start_camera_qr_reading IP: 192.168.188.126 Date: 11/Feb/2019 11:08:43
+return status =  1 ,error value =  frame_buffer_busy
+Messagge from Websocket undefined
+ERROR: v4l2 capture: slave not found!
+ERROR: v4l2 capture: slave not found!
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_camera_qr_reading
+POST  /api/v0/config/stop_camera_qr_reading IP: 192.168.188.126 Date: 11/Feb/2019 11:08:50
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.545057 s, 7.5 MB/s
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:09:00
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:09:00
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.608346 s, 6.7 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:09:01
+Digital input found
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+POST  /api/v0/config/stop_camera_qr_reading IP: 127.0.0.1 Date: 11/Feb/2019 11:09:13
+return status =  1 ,error value =  wrong_frame_buffer_user
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 11/Feb/2019 11:09:13
+PRODUCT: video was already running
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 127.0.0.1 Date: 11/Feb/2019 11:09:13
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.551425 s, 7.4 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 127.0.0.1 Date: 11/Feb/2019 11:09:14
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:09:19
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.560855 s, 7.3 MB/s
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:09:29
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:09:29
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.589575 s, 6.9 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:09:30
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:10:52
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.555522 s, 7.4 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:10:55
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': None, 'topping_id': 0, 'beverage_id': 9, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Digital input found
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:00
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:00
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:02
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:02
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:03
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:03
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:03
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:03
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:03
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:03
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:03
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:03
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:04
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:04
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:04
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:04
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:04
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:04
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:04
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:04
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:04
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:04
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:04
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:05
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:05
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:05
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:05
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:05
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:05
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 3, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:05
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 127.0.0.1 Date: 11/Feb/2019 11:11:05
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+GET  /api/v0/config/beverages IP: 127.0.0.1 Date: 11/Feb/2019 11:11:05
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:11:05
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/beverages
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:11:05
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+Digital input found
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:08
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 4, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:08
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:10
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 4, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:10
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:12
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 4, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:11:12
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:11:14
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 4, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Digital input found
+Digital input found
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 127.0.0.1 Date: 11/Feb/2019 11:11:18
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 127.0.0.1 Date: 11/Feb/2019 11:11:18
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:11:18
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/beverages
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:11:18
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+No lease, forking to background
+UTILS: eth0 pass
+Digital input found
+Digital input found
+UTILS: ping results {'eth0': 99999, 'wlan0': 76.825000000000003, 'ppp0': 99999}
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Some error to send
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+Sending discover...
+Mon Feb 11 11:23:26 UTC 2019
+Digital input found
+No lease, forking to background
+UTILS: eth0 pass
+Digital input found
+UTILS: ping results {'eth0': 99999, 'wlan0': 23.248000000000001, 'ppp0': 99999}
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+No lease, forking to background
+UTILS: eth0 pass
+Digital input found
+Digital input found
+UTILS: ping results {'eth0': 99999, 'wlan0': 34.194000000000003, 'ppp0': 99999}
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:39:54
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+Digital input found
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:39:57
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:39:57
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:39:58
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:39:59
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+('192.168.188.126', 51404) disconnected to WebSocket
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+('192.168.188.126', 59189) connected to WebSocket
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:40:00
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:40:00
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:40:00
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:40:00
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:40:00
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:40:00
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:40:01
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:40:01
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:40:01
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.598542 s, 6.8 MB/s
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:40:09
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:40:09
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:40:24
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:40:24
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.580503 s, 7.1 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:40:25
+Digital input found
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:41:29
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.540165 s, 7.6 MB/s
+return status =  0 ,error value =  False
+Digital input found
+('192.168.188.126', 59189) disconnected to WebSocket
+('192.168.188.126', 59631) connected to WebSocket
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:41:32
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:41:32
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:41:32
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:41:32
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:41:32
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:41:32
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:41:32
+STM32: set display
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:41:32
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:41:33
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.563007 s, 7.3 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:35
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:36
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:37
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:37
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:38
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:39
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:39
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:40
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:40
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:41
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:43
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:44
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:45
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:45
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:46
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:46
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:46
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:47
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:47
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:47
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:47
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:47
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:47
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:47
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:48
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:48
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:48
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:48
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 11:41:48
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 6, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 11:41:48
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:41:58
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:41:58
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.624808 s, 6.6 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:41:59
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:42:13
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.544206 s, 7.5 MB/s
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:42:34
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:42:34
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.595114 s, 6.9 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:42:35
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Digital input found
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+No lease, forking to background
+UTILS: eth0 pass
+Digital input found
+UTILS: ping results {'eth0': 99999, 'wlan0': 47.649000000000001, 'ppp0': 99999}
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+No lease, forking to background
+UTILS: eth0 pass
+Digital input found
+Digital input found
+UTILS: ping results {'eth0': 99999, 'wlan0': 36.228999999999999, 'ppp0': 99999}
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+('192.168.188.126', 64264) connected to WebSocket
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/vendor
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 11:59:55
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.570879 s, 7.2 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 11:59:55
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 11:59:55
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 11:59:55
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 11:59:55
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 11:59:55
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 11:59:55
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 11:59:56
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 11:59:56
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+('192.168.188.126', 64350) connected to WebSocket
+OPTIONS  /api/v0/config/start_video
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:00:10
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.583666 s, 7.0 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:00:11
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 12:00:11
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 12:00:11
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 12:00:11
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 12:00:11
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 12:00:11
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 12:00:11
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 12:00:11
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:00:14
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.557835 s, 7.3 MB/s
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:00:29
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:00:29
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.643294 s, 6.4 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:00:30
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:01:25
+('192.168.188.126', 64681) connected to WebSocket
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.538463 s, 7.6 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:01:26
+Digital input found
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 12:01:26
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 12:01:26
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 12:01:26
+Messagge from Websocket undefined
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 12:01:26
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 12:01:26
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 12:01:26
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 12:01:26
+STM32: set display
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:01:26
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.583185 s, 7.0 MB/s
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+('192.168.188.126', 59631) disconnected to WebSocket
+('192.168.188.126', 64264) disconnected to WebSocket
+('192.168.188.126', 64350) disconnected to WebSocket
+('192.168.188.126', 64681) disconnected to WebSocket
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+('192.168.188.126', 64744) connected to WebSocket
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:01:33
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 12:01:34
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 12:01:34
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 12:01:34
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 12:01:34
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 12:01:34
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 12:01:34
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 12:01:34
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+('192.168.188.126', 64788) connected to WebSocket
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:01:41
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.574016 s, 7.1 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:01:42
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 12:01:42
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 12:01:42
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 12:01:42
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 12:01:42
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 12:01:42
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 12:01:42
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 12:01:42
+STM32: set display
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:01:42
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.621998 s, 6.6 MB/s
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+No lease, forking to background
+UTILS: eth0 pass
+Digital input found
+UTILS: ping results {'eth0': 99999, 'wlan0': 43.588999999999999, 'ppp0': 99999}
+Digital input found
+Digital input found
+('192.168.188.126', 64744) disconnected to WebSocket
+('192.168.188.126', 64788) disconnected to WebSocket
+('192.168.188.126', 65361) connected to WebSocket
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:03:54
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 12:03:54
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 12:03:54
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 12:03:54
+Messagge from Websocket undefined
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 12:03:54
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 12:03:54
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 12:03:54
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 12:03:54
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:03:55
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.583723 s, 7.0 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 12:03:57
+STM32: abort erogation
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 12:03:58
+STM32: abort erogation
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 12:03:59
+STM32: abort erogation
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 12:03:59
+STM32: abort erogation
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 12:03:59
+STM32: abort erogation
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 12:03:59
+STM32: abort erogation
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 12:03:59
+STM32: abort erogation
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 12:04:00
+STM32: abort erogation
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 12:04:00
+STM32: abort erogation
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 12:04:00
+STM32: abort erogation
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:04:15
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:04:15
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.600367 s, 6.8 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:04:16
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+('192.168.188.126', 50612) connected to WebSocket
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:10:24
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.552512 s, 7.4 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:10:25
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 12:10:25
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 12:10:25
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 12:10:25
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 12:10:25
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 12:10:25
+STM32: set display
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 12:10:25
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 12:10:25
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+----------------------------------------
+Exception happened during processing of request from ('85.93.20.118', 503)
+Traceback (most recent call last):
+  File "/usr/lib/python3.5/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python3.5/socketserver.py", line 344, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.5/socketserver.py", line 357, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.5/socketserver.py", line 684, in __init__
+    self.handle()
+  File "/usr/lib/python3.5/http/server.py", line 415, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.5/http/server.py", line 383, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+  File "/usr/lib/python3.5/socket.py", line 575, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [Errno 104] Connection reset by peer
+----------------------------------------
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+('192.168.188.126', 50801) connected to WebSocket
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:11:01
+mxc_vpu 2040000.vpu_fsl: VPU interrupt received.
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.576482 s, 7.1 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:11:01
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 12:11:02
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 12:11:02
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 12:11:02
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 12:11:02
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 12:11:02
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 12:11:02
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 12:11:02
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:11:20
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.552549 s, 7.4 MB/s
+return status =  0 ,error value =  False
+('192.168.188.126', 65361) disconnected to WebSocket
+('192.168.188.126', 50612) disconnected to WebSocket
+('192.168.188.126', 50801) disconnected to WebSocket
+OPTIONS  /api/v0/config/start_video
+('192.168.188.126', 50915) connected to WebSocket
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:11:23
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 12:11:23
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 12:11:23
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 12:11:23
+Messagge from Websocket undefined
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 12:11:23
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 12:11:23
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 12:11:23
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 12:11:23
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:11:24
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.542703 s, 7.5 MB/s
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:11:35
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:11:35
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.632372 s, 6.5 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:11:36
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:12:15
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.541672 s, 7.6 MB/s
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/dispense/pour
+POST  /api/v0/dispense/pour IP: 192.168.188.126 Date: 11/Feb/2019 12:12:24
+STM32: loop closed
+raw params  b"{'pour_method': 'free_flow', 'temperature_level': 0, 'topping_perc_id': 0, 'syrup_intensity': 1, 'topping_id': 0, 'beverage_id': 5, 'beverage_size_id': None, 'carbonation_level': 0}"
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 12:12:24
+STM32: loop closed
+STM32: get volumes
+STM32: reset volumes
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/start_video
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:12:35
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:12:35
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.582342 s, 7.0 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:12:36
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+Digital input found
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:12:51
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.540546 s, 7.6 MB/s
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 12:12:52
+STM32: abort erogation
+return status =  0 ,error value =  False
+OPTIONS  /api/v0/dispense/pour
+OPTIONS  /api/v0/dispense/stop
+POST  /api/v0/dispense/stop IP: 192.168.188.126 Date: 11/Feb/2019 12:12:54
+STM32: abort erogation
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:13:04
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:13:04
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:13:05
+PRODUCT: video was already running
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+UTILS: checking best network interface...
+UTILS: eth0 enabled but address not available,restarting...
+fec 2188000.ethernet eth0: Freescale FEC PHY driver [SMSC LAN8710/LAN8720] (mii_bus:phy_addr=2188000.ethernet:00, irq=-1)
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+udhcpc (v1.24.1) started
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+Sending discover...
+Digital input found
+No lease, forking to background
+UTILS: eth0 pass
+Digital input found
+UTILS: ping results {'eth0': 99999, 'wlan0': 102.995, 'ppp0': 99999}
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+('192.168.188.126', 52322) connected to WebSocket
+OPTIONS  /api/v0/config/stop_video
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:16:50
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.55924 s, 7.3 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:16:51
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 12:16:51
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 12:16:51
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 12:16:51
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 12:16:51
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 12:16:51
+return status =  0 ,error value =  False
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 12:16:51
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 12:16:51
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/start_video
+('192.168.188.126', 52363) connected to WebSocket
+OPTIONS  /api/v0/menu/tech_menu/alarms_menu_tech
+OPTIONS  /api/v0/config/vendor
+OPTIONS  /api/v0/config/beverages
+OPTIONS  /api/v0/menu
+OPTIONS  /api/v0/config/beverage/sizes
+Messagge from Websocket undefined
+Messagge from Websocket undefined
+OPTIONS  /api/v0/config/localization
+OPTIONS  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:16:54
+PRODUCT: video was already running
+return status =  0 ,error value =  False
+GET  /api/v0/menu/tech_menu/alarms_menu_tech IP: 192.168.188.126 Date: 11/Feb/2019 12:16:54
+return status =  0 ,error value =  False
+GET  /api/v0/config/vendor IP: 192.168.188.126 Date: 11/Feb/2019 12:16:54
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverages IP: 192.168.188.126 Date: 11/Feb/2019 12:16:54
+return status =  0 ,error value =  False
+GET  /api/v0/menu IP: 192.168.188.126 Date: 11/Feb/2019 12:16:54
+return status =  0 ,error value =  False
+GET  /api/v0/config/beverage/sizes IP: 192.168.188.126 Date: 11/Feb/2019 12:16:54
+return status =  0 ,error value =  False
+Messagge from Websocket undefined
+GET  /api/v0/config/localization IP: 192.168.188.126 Date: 11/Feb/2019 12:16:54
+return status =  0 ,error value =  False
+POST  /api/v0/menu/employee_menu/operation_settings_employee/switch_on_display IP: 192.168.188.126 Date: 11/Feb/2019 12:16:54
+STM32: set display
+return status =  0 ,error value =  False
+Digital input found
+OPTIONS  /api/v0/config/stop_video
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:16:55
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.541419 s, 7.6 MB/s
+return status =  0 ,error value =  False
+('192.168.188.126', 52322) disconnected to WebSocket
+('192.168.188.126', 50915) disconnected to WebSocket
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+OPTIONS  /api/v0/config/start_video
+OPTIONS  /api/v0/config/stop_video
+OPTIONS  /api/v0/config/start_video
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:17:31
+return status =  0 ,error value =  False
+POST  /api/v0/config/stop_video IP: 192.168.188.126 Date: 11/Feb/2019 12:17:31
+Digital input found
+8000+0 records in
+8000+0 records out
+4096000 bytes (4.1 MB, 3.9 MiB) copied, 0.644494 s, 6.4 MB/s
+return status =  0 ,error value =  False
+POST  /api/v0/config/start_video IP: 192.168.188.126 Date: 11/Feb/2019 12:17:32
+return status =  0 ,error value =  False
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found
+Digital input found

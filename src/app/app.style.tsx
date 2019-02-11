@@ -17,9 +17,9 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
   }
 
-  button:focus {
+  /* button:focus {
     border: 2px solid red;
-  }
+  } */
 `;
 
 export const theme1 = {

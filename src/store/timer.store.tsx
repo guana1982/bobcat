@@ -6,6 +6,8 @@ import { withRouter } from "react-router-dom";
 import { Pages } from "../utils/constants";
 import { withConsumer } from "./consumer.store";
 
+const secondsTimer = 10;
+
 export interface TimerInterface {
   time: any;
   time$: Observable<any>;
@@ -58,7 +60,7 @@ class TimerStoreComponent extends React.Component<any, any> {
   clearTimer(enable: boolean) {
     clearInterval(this.timer);
     this.time = {};
-    this.seconds = 30;
+    this.seconds = secondsTimer;
     this.timer = 0;
     if (enable) {
       this.timer = setInterval(this.countDown, 1000);

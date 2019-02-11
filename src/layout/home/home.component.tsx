@@ -26,6 +26,7 @@ interface HomeProps {
 
 interface HomeState {
   isSparkling: boolean;
+  isPouring: boolean;
   beverageSelected: number;
   indexFavoritePouring_: number;
   beverageConfig: IBeverageConfig;
@@ -67,6 +68,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
     this.state = {
       isSparkling: false,
+      isPouring: false,
       beverageSelected: null,
       slideOpen: false,
       indexFavoritePouring_: null,
@@ -120,6 +122,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   private startPour(beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig) {
 
     let bevSelected, bevConfig = null;
+    this.setState({isPouring: true});
 
     if (beverageSelected && beverageConfig) {
       bevSelected = beverageSelected;
@@ -154,6 +157,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   private stopPour() {
     this.props.timerConsumer.startTimer();
     this.pouring_ && this.pouring_.unsubscribe();
+    this.setState({isPouring: false});
     this.props.configConsumer.onStopPour()
     .subscribe(data => console.log(data));
   }
@@ -267,6 +271,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
       }
       return null;
     };
+
     return (
       <React.Fragment>
         <Slide dataFocus={slideFocus()} pose={slideOpen ? "open" : "close"}>
@@ -302,6 +307,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   private ChoiceBeverage = () => {
+    const { isPouring } = this.state;
     const { beverages } = this.props.configConsumer;
     const { isLogged, resetConsumer } = this.props.consumerConsumer;
     return (
@@ -318,6 +324,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
                   status_id={b.status_id}
                   title={b.beverage_label_id}
                   onClick={() => this.selectBeverage(b)}
+                  onTouchStart={() => console.log("Start")} onTouchEnd={() => console.log("End")}
                   dataBtnFocus={i === 0 ? FocusElm.Init : null}
                 />
               );
@@ -333,13 +340,13 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   private CustomizeBeverage = () => {
-    const { slideOpen } = this.state;
+    const { slideOpen, isPouring } = this.state;
     return(
       <React.Fragment>
         <CustomizeBeverageWrap dataFocus={!slideOpen ? FocusElm.Controller : null}>
           <CircleBtn onClick={() => this.resetBeverage()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
           <div id="backdrop" onClick={() => this.resetBeverage()}></div>
-          <InfoCard className={"right"}>
+          {isPouring && <InfoCard className={"right"}>
             <header>
               <h3>Sign-up to track your hydration</h3>
             </header>
@@ -349,7 +356,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
             <footer>
               <h4>Now available in App Stores</h4>
             </footer>
-          </InfoCard>
+          </InfoCard>}
           <CustomizeBeverageCard type={this.state.isSparkling ? "sparkling" : null}>
             <header>
               <h2>{__(this.getBeverageSelected().beverage_label_id)}</h2>
@@ -384,7 +391,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
               <button type="button">add antioxidants</button>
             </div> */}
           </CustomizeBeverageCard>
-          <InfoCard className={"left"}>
+          {isPouring && <InfoCard className={"left"}>
             <header>
               <h3>This office<br/> saved</h3>
             </header>
@@ -395,7 +402,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
               <h2>239</h2>
               <h4>Plastic Bottles</h4>
             </footer>
-          </InfoCard>
+          </InfoCard>}
           <Pour dataBtnFocus={FocusElm.Init} onTouchStart={() => this.startPour()} onTouchEnd={() => this.stopPour()}>Hold to Pour</Pour>
         </CustomizeBeverageWrap>
       </React.Fragment>
