@@ -3,10 +3,10 @@ import { get, post } from "../utils";
 import { map, tap, delay } from "rxjs/operators";
 import { BehaviorSubject, Observable } from "rxjs";
 import { withRouter } from "react-router-dom";
-import { Pages } from "../utils/constants";
+import { Pages, GLOBAL_TIMER } from "../utils/constants";
 import { withConsumer } from "./consumer.store";
 
-const secondsTimer = 10;
+const secondsTimer = GLOBAL_TIMER.LONG;
 
 export interface TimerInterface {
   time: any;

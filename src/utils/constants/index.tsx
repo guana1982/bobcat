@@ -14,6 +14,41 @@ export enum Beverages {
   Bev = "bev"
 }
 
+// -- LEVELS BEVERAGE --
+export const LEVELS = {
+  flavor: [
+    {label: "light", value: 1},
+    {label: "full", value: 2},
+    {label: "bold", value: 3}
+  ],
+  carbonation: [
+    {label: "light", value: 20},
+    {label: "medium", value: 50},
+    {label: "full", value: 100}
+  ],
+  temperature: [
+    {label: "ambient", value: 100},
+    {label: "cool", value: 50},
+    {label: "ice-cold", value: 0},
+  ],
+  carbTemperature: [
+    {label: "ice-cold", value: 0},
+  ]
+};
+
+// -- TIMER --
+
+export enum GLOBAL_TIMER { // Seconds
+  LONG = 30,
+  MIDDLE = 10,
+  SHORT = 3
+}
+
+export enum CONSUMER_TIMER {
+  END_POUR = 5000,
+  END_VIEW = 2000
+}
+
 // -- BEVERAGE --
 export enum AlarmsOutOfStock {
   flux1,

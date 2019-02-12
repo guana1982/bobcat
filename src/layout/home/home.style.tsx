@@ -282,6 +282,23 @@ export const ChoiceBeverageWrap = styled.section`
 
 `;
 
+export const EndWrap = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  background: ${props => props.theme.primary};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  h1 {
+    color: ${props => props.theme.light};
+    font-size: 4rem;
+  }
+`;
+
 /* ==== SLIDE ==== */
 /* ======================================== */
 

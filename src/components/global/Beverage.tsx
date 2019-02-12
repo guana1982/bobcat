@@ -169,23 +169,25 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   };
 
   return (
-    <ClickNHold
-      time={0.5}
-      onClickNHold={clickHold}
-      onEnd={end}>
-      <BeverageWrap dataBtnFocus={dataBtnFocus} pouring={pouring} ref={innerRef} type={type} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}> { /* onClick={onClick} */ }
-        <div id="element">
-          <div id="indicators">
-            {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
+    <div ref={innerRef}>
+      <ClickNHold
+        time={0.5}
+        onClickNHold={clickHold}
+        onEnd={end}>
+        <BeverageWrap dataBtnFocus={dataBtnFocus} pouring={pouring} type={type} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}> { /* onClick={onClick} */ }
+          <div id="element">
+            <div id="indicators">
+              {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
+            </div>
+            <h3>{__(title)}</h3>
+            <h6>0-CALS</h6>
+            {label && <h5>{__(label)}</h5>}
+            {$outOfStock && <div className="overlay"><h4>{__("Out Of Stock")}</h4></div>}
+            {pouring && <div className="overlay"><h4>{__("Pouring")}</h4></div>}
           </div>
-          <h3>{__(title)}</h3>
-          <h6>0-CALS</h6>
-          {label && <h5>{__(label)}</h5>}
-          {$outOfStock && <div className="overlay"><h4>{__("Out Of Stock")}</h4></div>}
-          {pouring && <div className="overlay"><h4>{__("Pouring")}</h4></div>}
-        </div>
-      </BeverageWrap>
-    </ClickNHold>
+        </BeverageWrap>
+      </ClickNHold>
+    </div>
   );
 });
 

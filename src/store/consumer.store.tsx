@@ -110,7 +110,8 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     )
     .pipe(
       first(),
-      map((data: any) => data.value)
+      map((data: any) => data.value),
+      // map(() => TEST_QR) // MOCK
     );
     return socketConsumer$;
   }

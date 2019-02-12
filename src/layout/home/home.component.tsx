@@ -3,12 +3,12 @@ import * as React from "react";
 import { ConfigConsumer, ConfigInterface, TimerInterface } from "../../store";
 import Gesture from "../../components/Menu/Gesture";
 
-import { HomeContent, Footer, Grid, Pour, CustomizeBeverageCard, InfoCard, CustomizeBeverageWrap, ChoiceBeverageWrap, Slide, ToggleSlide, HeaderAnimated } from "./home.style";
+import { HomeContent, Footer, Grid, Pour, CustomizeBeverageCard, InfoCard, CustomizeBeverageWrap, ChoiceBeverageWrap, Slide, ToggleSlide, HeaderAnimated, EndWrap } from "./home.style";
 import { ButtonGroup } from "../../components/global/ButtonGroup";
 import { IBeverageConfig, IBeverage } from "../../models";
 import { __ } from "../../utils/lib/i18n";
 import { Button, ButtonTypes } from "../../components/global/Button";
-import { Beverages, Pages, AlarmsOutOfStock } from "../../utils/constants";
+import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER } from "../../utils/constants";
 import { BeveragesAnimated, Beverage, BeverageIndicators, BeverageTypes } from "../../components/global/Beverage";
 import { ConsumerInterface } from "../../store/consumer.store";
 import { IdentificationConsumerTypes, IConsumerBeverage } from "../../utils/APIModel";
@@ -30,8 +30,12 @@ interface HomeState {
   idBeveragePouring_: number;
   indexFavoritePouring_: number;
   beverageConfig: IBeverageConfig;
+
   slideOpen: boolean;
   alert: AlertProps;
+
+  showCardsInfo: boolean;
+  showEnd: boolean;
 }
 
 export class Home extends React.Component<HomeProps, HomeState> {
@@ -42,29 +46,12 @@ export class Home extends React.Component<HomeProps, HomeState> {
   levels: any = null;
   types: any = null;
 
+  timerEnd_: any = null;
+
   constructor(props) {
     super(props);
 
-    this.levels = {
-      flavor: [
-        {label: "light", value: 1},
-        {label: "full", value: 2},
-        {label: "bold", value: 3}
-      ],
-      carbonation: [
-        {label: "light", value: 20},
-        {label: "medium", value: 50},
-        {label: "full", value: 100}
-      ],
-      temperature: [
-        {label: "ambient", value: 100},
-        {label: "cool", value: 50},
-        {label: "ice-cold", value: 0},
-      ],
-      carbTemperature: [
-        {label: "ice-cold", value: 0},
-      ]
-    };
+    this.levels = LEVELS;
 
     this.state = {
       isSparkling: false,
@@ -73,6 +60,8 @@ export class Home extends React.Component<HomeProps, HomeState> {
       idBeveragePouring_: null,
       indexFavoritePouring_: null,
       alert: undefined,
+      showCardsInfo: false,
+      showEnd: false,
       beverageConfig: {
         flavor_level: null,
         carbonation_level: null,
@@ -88,10 +77,6 @@ export class Home extends React.Component<HomeProps, HomeState> {
     ];
 
   }
-
-  // componentWillUpdate(nextProps, nextState) {
-  //   console.log("nextState", nextState);
-  // }
 
   componentDidMount() {
     this.props.timerConsumer.startTimer();
@@ -129,10 +114,14 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
     if (beverageSelected) {
       bevSelected = beverageSelected;
-      this.setState({idBeveragePouring_: beverageSelected.beverage_id});
     } else {
-      bevSelected =  this.getBeverageSelected();
+      bevSelected = this.getBeverageSelected();
     }
+
+    this.setState({
+      idBeveragePouring_: bevSelected.beverage_id,
+      showCardsInfo: true
+    });
 
     if (beverageConfig) {
       bevConfig = beverageConfig;
@@ -168,13 +157,44 @@ export class Home extends React.Component<HomeProps, HomeState> {
     this.setState({idBeveragePouring_: null});
     this.props.configConsumer.onStopPour()
     .subscribe(data => console.log(data));
+    if (this.getBeverageSelected()) {
+      this.endPour();
+    }
+  }
+
+  private endPour() {
+    if (this.timerEnd_ === null) {
+
+      const endEvent = () => {
+        this.setState({showEnd: true});
+        clearTimer();
+        this.timerEnd_ = null;
+        document.removeEventListener("touchstart", clearTimer);
+        document.removeEventListener("touchend", startTimer);
+      };
+
+      const clearTimer = () => {
+        clearTimeout(this.timerEnd_);
+      };
+
+      const startTimer = () => {
+        clearTimer();
+        this.timerEnd_ = setTimeout(endEvent, CONSUMER_TIMER.END_POUR);
+      };
+      startTimer();
+
+      document.addEventListener("touchstart", clearTimer);
+      document.addEventListener("touchend", startTimer);
+    }
   }
 
   private resetBeverage() {
     this.setState({
       beverageSelected: null,
       indexFavoritePouring_: null,
-      idBeveragePouring_: null
+      idBeveragePouring_: null,
+      showCardsInfo: false,
+      showEnd: false
     });
   }
 
@@ -261,6 +281,20 @@ export class Home extends React.Component<HomeProps, HomeState> {
     const { dataConsumer, consumerBeverages } = this.props.consumerConsumer;
     const beverageSelected = this.getBeverageSelected();
 
+    const timeText = () => {
+      const today = new Date();
+      const curHr = today.getHours();
+      let text = "";
+      if (curHr < 12) {
+        text = "Good morning";
+      } else if (curHr < 18) {
+        text = "Good afternoon";
+      } else {
+        text = "Good evening";
+      }
+      return __(text);
+    };
+
     const slideFocus = () => {
       if (slideOpen) {
         return FocusElm.Controller;
@@ -285,7 +319,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
       <React.Fragment>
         <Slide dataFocus={slideFocus()} pose={slideOpen ? "open" : "close"}>
           <HeaderAnimated className={slideOpen && "open"}>
-            <h2>Good morning, {dataConsumer.consumer_nick}!</h2>
+            <h2>{timeText()}, {dataConsumer.consumer_nick}!</h2>
           </HeaderAnimated>
           <h1 id="title">Your Drinks</h1>
           <Grid numElement={consumerBeverages.length}>
@@ -307,7 +341,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
             })}
           </Grid>
           {consumerBeverages[0].$type === BeverageTypes.Info && <h3 id="info">Save favorites from smartphone</h3>}
-          <ToggleSlide onClick={() => this.handleSlide()}> { /* TO IMPROVE */ }
+          <ToggleSlide onClick={() => this.handleSlide()}>
             <img src={"icons/arrow-circle.svg"} />
           </ToggleSlide>
         </Slide>
@@ -351,13 +385,13 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   private CustomizeBeverage = () => {
-    const { slideOpen, idBeveragePouring_ } = this.state;
+    const { slideOpen, showCardsInfo, showEnd } = this.state;
     return(
       <React.Fragment>
         <CustomizeBeverageWrap dataFocus={!slideOpen ? FocusElm.Controller : null}>
           <CircleBtn onClick={() => this.resetBeverage()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
           <div id="backdrop" onClick={() => this.resetBeverage()}></div>
-          {idBeveragePouring_ && <InfoCard className={"right"}>
+          {showCardsInfo && <InfoCard className={"right"}>
             <header>
               <h3>Sign-up to track your hydration</h3>
             </header>
@@ -402,7 +436,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
               <button type="button">add antioxidants</button>
             </div> */}
           </CustomizeBeverageCard>
-          {idBeveragePouring_ && <InfoCard className={"left"}>
+          {showCardsInfo && <InfoCard className={"left"}>
             <header>
               <h3>This office<br/> saved</h3>
             </header>
@@ -416,6 +450,22 @@ export class Home extends React.Component<HomeProps, HomeState> {
           </InfoCard>}
           <Pour dataBtnFocus={FocusElm.Init} onTouchStart={() => this.startPour()} onTouchEnd={() => this.stopPour()}>Hold to Pour</Pour>
         </CustomizeBeverageWrap>
+        {showEnd && <this.EndBeverage />}
+      </React.Fragment>
+    );
+  }
+
+  private EndBeverage = () => {
+    const endBeverageTimeout = setTimeout(() => this.resetBeverage(), CONSUMER_TIMER.END_VIEW);
+    const closeEndBeverage = () => {
+      clearTimeout(endBeverageTimeout);
+      this.resetBeverage();
+    };
+    return (
+      <React.Fragment>
+        <EndWrap onClick={() => closeEndBeverage()}>
+          <h1>{__("Enjoy!")}</h1>
+        </EndWrap>
       </React.Fragment>
     );
   }
