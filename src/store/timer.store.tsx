@@ -3,10 +3,9 @@ import { get, post } from "../utils";
 import { map, tap, delay } from "rxjs/operators";
 import { BehaviorSubject, Observable } from "rxjs";
 import { withRouter } from "react-router-dom";
-import { Pages, GLOBAL_TIMER } from "../utils/constants";
+import { Pages } from "../utils/constants";
 import { withConsumer } from "./consumer.store";
-
-const secondsTimer = GLOBAL_TIMER.LONG;
+import { withConfig } from "./config.store";
 
 export interface TimerInterface {
   time: any;
@@ -58,9 +57,13 @@ class TimerStoreComponent extends React.Component<any, any> {
   }
 
   clearTimer(enable: boolean) {
+
+    const { vendorConfig } = this.props.configConsumer;
+    const SECONDS_TIMER = vendorConfig.screen_saver_timeout || 10;
+
     clearInterval(this.timer);
     this.time = {};
-    this.seconds = secondsTimer;
+    this.seconds = SECONDS_TIMER;
     this.timer = 0;
     if (enable) {
       this.timer = setInterval(this.countDown, 1000);
@@ -122,4 +125,4 @@ class TimerStoreComponent extends React.Component<any, any> {
 
 }
 
-export const TimerStore = withRouter(withConsumer(TimerStoreComponent));
+export const TimerStore = withRouter(withConfig(withConsumer(TimerStoreComponent)));

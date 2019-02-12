@@ -27,7 +27,6 @@ export const ConfigConsumer = ConfigContext.Consumer;
 
 class ConfigStoreComponent extends React.Component<any, any> {
 
-  vendorConfig: any;
   menuList: any;
   ws: WebSocketSubject<ISocket>;
   socketAlarms$: Observable<any>;
@@ -36,6 +35,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     super(props);
 
     this.state = {
+      vendorConfig: {},
       beverages: [],
       alarms: []
     };
@@ -143,8 +143,16 @@ class ConfigStoreComponent extends React.Component<any, any> {
       })
     );
 
+    const setVendorConfig = mediumLevel.config.getVendor()
+    .pipe(
+      tap(vendorConfig => {
+        console.log("VENDOR CONFIG", vendorConfig);
+        this.setState({vendorConfig: vendorConfig});
+      })
+    );
+
     forkJoin(
-      mediumLevel.config.getVendor(),
+      setVendorConfig,
       setBeverages,
       mediumLevel.menu.getList(),
       mediumLevel.config.getSizes(),
@@ -160,7 +168,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
         langDict
       ] = res;
 
-      this.vendorConfig = vendorConfig;
+      console.log(vendorConfig);
+
       this.menuList = menuList;
 
       console.log(langDict.i18n);
@@ -208,7 +217,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     return (
       <ConfigProvider
         value={{
-          vendorConfig: this.vendorConfig,
+          vendorConfig: this.state.vendorConfig,
           beverages: beverages,
           menuList: this.menuList,
           alarms: this.state.alarms,

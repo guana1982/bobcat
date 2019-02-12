@@ -38,12 +38,6 @@ export const LEVELS = {
 
 // -- TIMER --
 
-export enum GLOBAL_TIMER { // Seconds
-  LONG = 30,
-  MIDDLE = 10,
-  SHORT = 3
-}
-
 export enum CONSUMER_TIMER {
   END_POUR = 5000,
   END_VIEW = 2000
