@@ -112,16 +112,19 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
     let bevSelected, bevConfig = null;
 
-    if (beverageSelected) {
+    if (beverageSelected) { // => TO IMPROVE
       bevSelected = beverageSelected;
+      if (this.state.indexFavoritePouring_ === null) {
+        this.setState({
+          idBeveragePouring_: bevSelected.beverage_id
+        }); // <= Rapid mode
+      }
     } else {
       bevSelected = this.getBeverageSelected();
+      this.setState({
+        showCardsInfo: true
+      }); // <= Slow mode
     }
-
-    this.setState({
-      idBeveragePouring_: bevSelected.beverage_id,
-      showCardsInfo: true
-    });
 
     if (beverageConfig) {
       bevConfig = beverageConfig;
@@ -328,7 +331,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
               return (
                 <BeverageAnimated
                   pouring={i === indexFavoritePouring_}
-                  onTouchStart={() => this.startConsumerPour(b, i)} onTouchEnd={() => this.stopConsumerPour(b)}
+                  onHoldStart={() => this.startConsumerPour(b, i)} onHoldEnd={() => this.stopConsumerPour(b)}
                   key={i}
                   indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
                   label={i === 0 && !slideOpen && b.$type === BeverageTypes.Info ? "Save favorites from smartphone" : null}

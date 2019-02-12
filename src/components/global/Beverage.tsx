@@ -132,8 +132,8 @@ interface BeverageProps {
   onStart?: () => void;
   onHoldStart?: () => void;
   onHoldEnd?: () => void;
-  onTouchStart?: () => void;
-  onTouchEnd?: () => void;
+  // onTouchStart?: () => void;
+  // onTouchEnd?: () => void;
   indicators?: BeverageIndicators[];
   label?: string;
   pouring?: boolean;
@@ -147,13 +147,13 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
 
-  let  onStart, onHoldStart, onHoldEnd, onTouchStart, onTouchEnd  = null;
+  let  onStart, onHoldStart, onHoldEnd  = null; // onTouchStart, onTouchEnd
   if (!$disabledTouch) {
-    onStart = props.onStart;
-    onHoldStart = props.onHoldStart;
-    onHoldEnd = props.onHoldEnd;
-    onTouchStart = props.onTouchStart;
-    onTouchEnd = props.onTouchEnd;
+    onStart = props.onStart || null;
+    onHoldStart = props.onHoldStart || null;
+    onHoldEnd = props.onHoldEnd || null;
+    // onTouchStart = props.onTouchStart;
+    // onTouchEnd = props.onTouchEnd;
   }
 
   const end = (e, enough) => {
@@ -174,7 +174,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         time={0.5}
         onClickNHold={clickHold}
         onEnd={end}>
-        <BeverageWrap dataBtnFocus={dataBtnFocus} pouring={pouring} type={type} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}> { /* onClick={onClick} */ }
+        <BeverageWrap dataBtnFocus={dataBtnFocus} pouring={pouring} type={type}> { /* onClick={onClick} */ } { /* onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} */ }
           <div id="element">
             <div id="indicators">
               {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
