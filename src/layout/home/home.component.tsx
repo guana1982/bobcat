@@ -84,6 +84,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
   componentWillUnmount() {
     this.props.timerConsumer.resetTimer();
+    this.clearTimerEnd();
   }
 
   /* ==== BEVERAGE ==== */
@@ -170,8 +171,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
 
       const endEvent = () => {
         this.setState({showEnd: true});
-        clearTimer();
-        this.timerEnd_ = null;
+        this.clearTimerEnd();
         document.removeEventListener("touchstart", clearTimer);
         document.removeEventListener("touchend", startTimer);
       };
@@ -192,6 +192,7 @@ export class Home extends React.Component<HomeProps, HomeState> {
   }
 
   private resetBeverage() {
+    this.clearTimerEnd();
     this.setState({
       beverageSelected: null,
       indexFavoritePouring_: null,
@@ -199,6 +200,11 @@ export class Home extends React.Component<HomeProps, HomeState> {
       showCardsInfo: false,
       showEnd: false
     });
+  }
+
+  private clearTimerEnd() {
+    clearTimeout(this.timerEnd_);
+    this.timerEnd_ = null;
   }
 
   /* ==== BEVERAGE CONSUMER ==== */
