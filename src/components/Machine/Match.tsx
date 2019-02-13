@@ -19,7 +19,7 @@ export const match = (stateA, stateB) => {
   return stateA === stateB;
 };
 
-const Match = ({ state, show, children, render }) => {
+const Match = (state, show, children, render?) => {
   let matched = match(show, state);
 
   if (typeof render === "function") {
