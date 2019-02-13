@@ -20,7 +20,7 @@ export interface ConfigInterface {
   onStopPour: () => Observable<any>;
 }
 
-const ConfigContext = React.createContext<ConfigInterface | null>(null);
+export const ConfigContext = React.createContext<ConfigInterface | null>(null);
 
 export const ConfigProvider = ConfigContext.Provider;
 export const ConfigConsumer = ConfigContext.Consumer;

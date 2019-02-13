@@ -15,7 +15,7 @@ export interface TimerInterface {
   resetTimer: () => void;
 }
 
-const TimerContext = React.createContext<TimerInterface | null>(null);
+export const TimerContext = React.createContext<TimerInterface | null>(null);
 
 export const TimerProvider = TimerContext.Provider;
 export const TimerConsumer = TimerContext.Consumer;

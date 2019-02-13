@@ -22,7 +22,7 @@ export interface ConsumerInterface {
   updateConsumerBeverages: () => void;
 }
 
-const ConsumerContext = React.createContext<ConsumerInterface | null>(null);
+export const ConsumerContext = React.createContext<ConsumerInterface | null>(null);
 
 export const ConsumerProvider = ConsumerContext.Provider;
 export const ConsumerConsumer = ConsumerContext.Consumer;
@@ -111,7 +111,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     .pipe(
       first(),
       map((data: any) => data.value),
-      // map(() => TEST_QR) // MOCK
+      map(() => TEST_QR) // MOCK
     );
     return socketConsumer$;
   }
