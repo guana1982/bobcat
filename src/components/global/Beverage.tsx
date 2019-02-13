@@ -15,8 +15,8 @@ export enum BeverageTypes {
 }
 
 const _sizeBeverage = 11;
-interface BeverageWrapProps { size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; dataBtnFocus?: FocusElm; }
-export const BeverageWrap = styled<BeverageWrapProps, "button">("button").attrs(props => ({
+/* size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; dataBtnFocus?: FocusElm; */
+export const BeverageWrap = styled.button.attrs(props => ({
   "data-btn-focus": props.dataBtnFocus
 }))`
   padding: 1rem .7rem;

@@ -7,8 +7,8 @@ import { ButtonGroup } from "../global/ButtonGroup";
 import { EndBeverage } from "./EndBeverage";
 
 const _sizePour = 105;
-interface PourProps { dataBtnFocus: FocusElm; }
-export const Pour = styled<PourProps, "button">("button").attrs(props => ({
+
+export const Pour = styled.button.attrs(props => ({
   "data-btn-focus": props.dataBtnFocus
 }))`
   position: absolute;
@@ -87,8 +87,8 @@ export const InfoCard = styled.div`
 `;
 
 const _sizeBeverageCard = 410;
-interface CustomizeBeverageProps { type?: string; }
-export const CustomizeBeverageCard = styled<CustomizeBeverageProps, "div">("div")`
+/* type?: string; */
+export const CustomizeBeverageCard = styled.div`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -153,8 +153,7 @@ export const CustomizeBeverageCard = styled<CustomizeBeverageProps, "div">("div"
 /* ==== WRAPPER ==== */
 /* ======================================== */
 
-interface CustomizeBeverageWrapProps { dataFocus: FocusElm; "data-focus"?: any; }
-export const CustomizeBeverageWrap = styled<CustomizeBeverageWrapProps, "section">("section").attrs(props => ({
+export const CustomizeBeverageWrap = styled.section.attrs(props => ({
   "data-focus": props.dataFocus
 }))`
   position: absolute;

@@ -4,7 +4,7 @@ import styled, { keyframes } from "styled-components";
 import { FocusElm } from "../../store/accessibility.store";
 
 const _sizeCircleBtn = 60;
-export const CircleBtnWrapper = styled<CircleBtnProps, "div">("div")`
+export const CircleBtnWrapper = styled.div`
   position: relative;
   background: ${props => props.theme[props.bgColor]};
   width: ${_sizeCircleBtn}px;
@@ -29,7 +29,8 @@ export const CircleBtnWrapper = styled<CircleBtnProps, "div">("div")`
 `;
 
 interface CircleBtnContentProps { dataBtnFocus: FocusElm; onClick?: any; }
-export const CircleBtnContent = styled<CircleBtnContentProps, "button">("button").attrs(props => ({
+/* dataBtnFocus: FocusElm; onClick?: any; */
+export const CircleBtnContent = styled.button.attrs(props => ({
   "data-btn-focus": props.dataBtnFocus
 }))`
     background: transparent;

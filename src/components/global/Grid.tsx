@@ -1,8 +1,8 @@
 import * as React from "react";
 import styled from "styled-components";
 
-interface GridProps { numElement?: number; }
-export const Grid = styled<GridProps, "div">("div")`
+/* numElement?: number; */
+export const Grid = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

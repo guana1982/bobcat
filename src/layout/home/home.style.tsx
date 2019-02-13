@@ -7,8 +7,8 @@ import { ChoiceBeverageWrap } from "../../components/consumer/ChoiceBeverage";
 /* ==== HOME MAIN ==== */
 /* ======================================== */
 
-interface HomeContentProps { beverageIsSelected?: boolean; isLogged: boolean; }
-export const HomeContent = styled<HomeContentProps, "div">("div")`
+/* beverageIsSelected?: boolean; isLogged: boolean */
+export const HomeContent = styled.div`
   background-color: ${props => props.theme.secondary};
   width: ${props => props.isLogged ? "75vw" : "100vw"};
   height: 100vh;
