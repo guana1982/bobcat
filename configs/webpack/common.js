@@ -28,15 +28,21 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
-          'css-loader'
+          'style-loader', 
+          { 
+            loader: 'typings-for-css-modules-loader', 
+            options: cssOptions
+          }
         ],
       },
       {
         test: /\.scss$/,
         loaders: [
           'style-loader', 
-          'css-loader',
+          { 
+            loader: 'typings-for-css-modules-loader', 
+            options: cssOptions
+          },
           'sass-loader',
         ],
       },
