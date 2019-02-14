@@ -3,8 +3,9 @@ import { MemoryRouter } from "react-router";
 import { ThemeProvider } from "styled-components";
 import { ConfigStore, TimerStore } from "../store";
 import AppRouter from "./app.router";
-import { theme1, theme2 } from "./app.style";
+import { theme1, theme2, GlobalStyle } from "./app.style";
 import { ConsumerStore } from "../store/consumer.store";
+import { AccessibilityStore } from "../store/accessibility.store";
 
 
 {/* <AccessibilityStore> */}
@@ -14,6 +15,7 @@ const App = () => (
       <ConfigStore>
         <ConsumerStore>
           <TimerStore>
+            <GlobalStyle />
             <AppRouter />
           </TimerStore>
         </ConsumerStore>

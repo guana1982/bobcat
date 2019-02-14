@@ -1,135 +1,110 @@
 import * as React from "react";
 
 import { QrSquare, Webcam, PrepayContent, Header, SectionWrap, SectionContent } from "./prepay.style";
-import { ConfigConsumer, ConfigInterface } from "../../store";
 import { CircleBtn } from "../../components/global/CircleBtn";
-import { ReplaySubscription } from "../../components/global/Subscription";
-import { Subscription } from "rxjs";
-import { TimerInterface } from "../../store/timer.store";
-import { tap, mergeMap, first, map } from "rxjs/operators";
+import { TimerContext } from "../../store/timer.store";
+
 import { Alert, AlertTypes, AlertProps } from "../../components/global/Alert";
-import { ConsumerInterface } from "../../store/consumer.store";
-import { IdentificationConsumerTypes } from "../../utils/APIModel";
+import { ConsumerContext } from "../../store/consumer.store";
 import { Pages } from "../../utils/constants";
 import { FocusElm } from "../../store/accessibility.store";
+import { ConfigContext } from "../../store/config.store";
 
 interface PrepayProps {
   history: any;
-  configConsumer: ConfigInterface;
-  timerConsumer: TimerInterface;
-  consumerConsumer: ConsumerInterface;
 }
 
 interface PrepayState {
   alert: AlertProps;
 }
 
-export class PrepayComponent extends React.Component<PrepayProps, PrepayState> {
+export const Prepay = (props: PrepayProps) => {
 
-  readonly state: PrepayState;
+  const [state, setState] = React.useState<PrepayState>({
+    alert: undefined
+  });
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      alert: undefined
+  const configConsumer = React.useContext(ConfigContext);
+  const timerConsumer = React.useContext(TimerContext);
+  const consumerConsumer = React.useContext(ConsumerContext);
+
+  React.useEffect(() => {
+    timerConsumer.startTimer();
+    start();
+    return () => {
+      timerConsumer.resetTimer();
+      stop();
     };
-  }
+  }, []);
 
-  componentDidMount() {
-    this.props.timerConsumer.startTimer();
-    this.start();
-  }
+  const handleAlert = (alert?: AlertProps) => {
+    setState(prevState => ({
+      ...prevState,
+      alert: alert
+    }));
+  };
 
-  private goToHome = () => {
-    this.props.history.push(Pages.Home);
-  }
-
-  start() {
-    const { startScanning } = this.props.consumerConsumer;
+  const start = () => {
+    const { startScanning } = consumerConsumer;
     startScanning()
     .subscribe((status: true | false | null) => { // => true: correct qr / false: error qr / null: data from server <=
-      this.props.timerConsumer.clearTimer();
+      timerConsumer.clearTimer();
       if (status === true) {
-        this.handleAlert({
+        handleAlert({
           type: AlertTypes.Success,
           timeout: true,
           onDismiss: () => {
-            this.goToHome();
+            goToHome();
           }
         });
       } else if (status === false) {
-        this.handleAlert({
+        handleAlert({
           type: AlertTypes.Error,
           timeout: true,
           onDismiss: () => {
-            this.start();
-            this.handleAlert();
+            start();
+            handleAlert();
           }
         });
       }
     });
-  }
+  };
 
-  stop() {
-    const { stopScanning } = this.props.consumerConsumer;
+  const goToHome = () => {
+    props.history.push(Pages.Home);
+  };
+
+  const stop = () => {
+    const { stopScanning } = consumerConsumer;
     stopScanning().subscribe();
-  }
+  };
 
-  componentWillUnmount() {
-    this.props.timerConsumer.resetTimer();
-    this.stop();
-  }
+  const { alert } = state;
 
-  /* ==== HANDLE ==== */
-  /* ======================================== */
+  return (
+    <section data-focus={FocusElm.Controller}>
+      <PrepayContent>
+        <Header>
+          <CircleBtn dataBtnFocus={FocusElm.Init} onClick={() => goToHome()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
+        </Header>
+        <SectionContent>
+          <SectionWrap>
+            <h2>{"Download the Acqua+ App to \n to Create an Account!"}</h2>
+            <Webcam>
+              <QrSquare><span /></QrSquare>
+            </Webcam>
+          </SectionWrap>
+          <SectionWrap>
+            <img id="banner" src={"icons/smartphone_bottle.svg"} />
+            <h1>{"Present your code \n to the camera"}</h1>
+            <img id="icon" src={"icons/arrow.svg"} />
+          </SectionWrap>
+        </SectionContent>
+        {alert && <Alert {...alert} />}
+      </PrepayContent>
+    </section>
+  );
 
-  private handleAlert = (alert?: AlertProps) => {
-    this.setState(prevState => ({
-      ...prevState,
-      alert: alert
-    }));
-  }
+};
 
-  /* ==== MAIN ==== */
-  /* ======================================== */
-
-  render() {
-    const { alert } = this.state;
-    return (
-      <section data-focus={FocusElm.Controller}>
-        <PrepayContent>
-          <Header>
-            <CircleBtn dataBtnFocus={FocusElm.Init} onClick={() => this.goToHome()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
-          </Header>
-          <SectionContent>
-            <SectionWrap>
-              <h2>{"Download the Acqua+ App to \n to Create an Account!"}</h2>
-              <Webcam>
-                <QrSquare><span /></QrSquare>
-              </Webcam>
-            </SectionWrap>
-            <SectionWrap>
-              <img id="banner" src={"icons/smartphone_bottle.svg"} />
-              <h1>{"Present your code \n to the camera"}</h1>
-              <img id="icon" src={"icons/arrow.svg"} />
-            </SectionWrap>
-          </SectionContent>
-
-          {/* <InfoContent>
-            <h2>{this.state.message || "---"}</h2>
-            {this.state.message && <button onClick={() => this.start()}>try again</button>}
-          </InfoContent> */}
-
-          {/* <ReplaySubscription source={this.props.timerConsumer.time$}>
-            {time =>
-              <TimerLabel>Timer: {time ? time.s : "-"}</TimerLabel>
-            }
-          </ReplaySubscription> */}
-          {alert && <Alert {...alert} />}
-        </PrepayContent>
-      </section>
-    );
-  }
-}
-
-export default PrepayComponent;
+export default Prepay;
