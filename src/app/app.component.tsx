@@ -1,11 +1,11 @@
 import * as React from "react";
 import { MemoryRouter } from "react-router";
 import { ThemeProvider } from "styled-components";
-import { ConfigStore, TimerStore } from "../store";
+import { ConfigStore, TimerStore } from "@containers/index";
 import AppRouter from "./app.router";
 import { theme1, theme2, GlobalStyle } from "./app.style";
-import { ConsumerStore } from "../store/consumer.store";
-import { AccessibilityStore } from "../store/accessibility.store";
+import { ConsumerStore } from "@containers/consumer.container";
+import { AccessibilityStore } from "@containers/accessibility.container";
 
 
 {/* <AccessibilityStore> */}

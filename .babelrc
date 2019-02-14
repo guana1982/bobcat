@@ -4,6 +4,22 @@
     "@babel/preset-react"
   ],
   "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["."],
+        "alias": {
+          "@style": "./src/app/app.style",
+          "@core": "./src/app/core",
+          "@components": "./src/app/core/components",
+          "@containers": "./src/app/core/containers",
+          "@models": "./src/app/core/models",
+          "@utils": "./src/app/core/utils",
+          "@modules": "./src/app/modules"
+        },
+        "cwd": "babelrc"
+      }
+    ],
     "react-hot-loader/babel",
     "styled-components",
     "react-loadable/babel"
