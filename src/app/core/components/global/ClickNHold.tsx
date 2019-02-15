@@ -23,6 +23,7 @@ export default class ClickNHold extends React.Component<any, any> {
 
         this.start = this.start.bind(this);
         this.end = this.end.bind(this);
+        this.clear = this.clear.bind(this);
         this.timeout = this.timeout.bind(this);
         this.clickCapture = this.clickCapture.bind(this);
     }
@@ -32,7 +33,6 @@ export default class ClickNHold extends React.Component<any, any> {
         clearTimeout(this._timer);
         this._timer = null;
     }
-
 
     /*Start callback*/
     start(e) {
@@ -74,6 +74,16 @@ export default class ClickNHold extends React.Component<any, any> {
         e.preventDefault();
     }
 
+    clear(e) {
+        clearTimeout(this._timer);
+        this._timer = null;
+
+        const { holding } = this.state;
+        if (holding) {
+            this.setState({holding: false, ended: true, clickEvent: null});
+        }
+    }
+
      clickCapture(e) {
          if (this.state.isEnough)
             e.stopPropagation();
@@ -100,6 +110,7 @@ export default class ClickNHold extends React.Component<any, any> {
                 //  onMouseDown={this.start}
                  onTouchStart={this.start}
                 //  onMouseUp={this.end}
+                 onTouchMove={this.clear}
                  onClickCapture={this.clickCapture}
                  onTouchCancel={this.end}
                  onTouchEnd={this.end}>

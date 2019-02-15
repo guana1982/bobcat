@@ -60,7 +60,6 @@ export const Home = (props: HomeProps) => {
     }
   });
 
-
   const configConsumer = React.useContext(ConfigContext);
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
@@ -70,10 +69,8 @@ export const Home = (props: HomeProps) => {
   let timerEnd_: any = null;
 
   React.useEffect(() => {
-    console.log("Mount");
     timerConsumer.startTimer();
     return () => {
-      console.log("Unmount");
       timerConsumer.resetTimer();
     };
   }, []);
@@ -215,7 +212,7 @@ export const Home = (props: HomeProps) => {
     startPour(beverageSelected, beverageConfig);
   };
 
-  const stopConsumerPour = (consumerBeverage: IConsumerBeverage) => {
+  const stopConsumerPour = (consumerBeverage?: IConsumerBeverage) => {
     resetBeverage();
     stopPour();
   };
