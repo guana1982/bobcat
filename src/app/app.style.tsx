@@ -1,12 +1,12 @@
 import { createGlobalStyle } from "styled-components";
 
 export const themeMain = {
-  primary: "#005BC3",
-  secondary: "#E9F3FC",
+  primary: "#545457",
+  secondary: "#F9F9F9",
   danger: "#f16623",
-  light: "#EEF6FD",
+  light: "#fff",
   dark: "#222",
-  sail: "#B3DAFA",
+  sail: "#E7E7E7",
   spindle: "#b6ceef"
 };
 

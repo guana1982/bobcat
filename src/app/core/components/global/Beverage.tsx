@@ -15,7 +15,7 @@ export enum BeverageTypes {
 }
 
 const _sizeBeverage = 11;
-/* size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; dataBtnFocus?: FocusElm; */
+/* size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; dataBtnFocus?: FocusElm; beverage_logo_id: number; */
 export const BeverageWrap = styled.button.attrs(props => ({
   "data-btn-focus": props.dataBtnFocus
 }))`
@@ -27,10 +27,14 @@ export const BeverageWrap = styled.button.attrs(props => ({
   pointer-events: default;
   height: ${_sizeBeverage * 1.6}rem;
   width: ${_sizeBeverage * 1.4}rem;
+  background-image: url("img/logos/${props => props.beverage_logo_id}.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
   #element {
     position: relative;
-    border: ${props => `2px ${props.type === BeverageTypes.Info ? "dashed" : "solid"} ${props.theme.primary}`};
-    background-color: ${props => props.type === BeverageTypes.Info ? "rgba(255, 255, 255, 0.3)" : props.theme["light"] };
+    /* border: ${props => `2px ${props.type === BeverageTypes.Info ? "dashed" : "solid"} ${props.theme.primary}`};
+    background-color: ${props => props.type === BeverageTypes.Info ? "rgba(255, 255, 255, 0.3)" : props.theme["light"] }; */
     width: 100%;
     border-radius: 1rem;
     color: #0034B0;
@@ -40,7 +44,7 @@ export const BeverageWrap = styled.button.attrs(props => ({
       opacity: ${props => props.type === BeverageTypes.Info ? .6 : 1 };
     }
     &:before {
-      content: " ";
+      /* content: " ";
       opacity: .7;
       position: absolute;
       right: .5rem;
@@ -50,7 +54,7 @@ export const BeverageWrap = styled.button.attrs(props => ({
       height: ${_sizeBeverage / 2.5}rem;
       background-position: right;
       background-repeat: no-repeat;
-      background-image: url("img/${props => props.type}.svg");
+      background-image: url("img/${props => props.type}.svg"); */
     }
     h3 {
       position: relative;
@@ -143,7 +147,7 @@ interface BeverageProps {
 }
 
 export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
-  const { title, type, indicators, label, pouring, status_id, dataBtnFocus } = props;
+  const { title, type, indicators, label, pouring, status_id, dataBtnFocus, beverage } = props;
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
 
@@ -174,7 +178,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         time={0.5}
         onClickNHold={clickHold}
         onEnd={end}>
-        <BeverageWrap dataBtnFocus={dataBtnFocus} pouring={pouring} type={type}> { /* onClick={onClick} */ } { /* onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} */ }
+        <BeverageWrap beverage_logo_id={beverage.beverage_logo_id} dataBtnFocus={dataBtnFocus} pouring={pouring} type={type}> { /* onClick={onClick} */ } { /* onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} */ }
           <div id="element">
             <div id="indicators">
               {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
