@@ -14,12 +14,12 @@ export enum BeverageTypes {
   Sparkling = "sparkling"
 }
 
-const _sizeBeverage = 11;
+const _sizeBeverage = 12;
 /* size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; dataBtnFocus?: FocusElm; beverage_logo_id: number; */
 export const BeverageWrap = styled.button.attrs(props => ({
   "data-btn-focus": props.dataBtnFocus
 }))`
-  padding: 1rem .7rem;
+  padding: 3rem .7rem;
   transition: 1s all;
   transition-property: width, height, left, top;
   will-change: width, height, left, top;
@@ -30,15 +30,28 @@ export const BeverageWrap = styled.button.attrs(props => ({
   background-image: url("img/logos/${props => props.beverage_logo_id}.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
-  #element {
-    position: relative;
-    /* border: ${props => `2px ${props.type === BeverageTypes.Info ? "dashed" : "solid"} ${props.theme.primary}`};
-    background-color: ${props => props.type === BeverageTypes.Info ? "rgba(255, 255, 255, 0.3)" : props.theme["light"] }; */
+  background-size: 87% 100%;
+  position: relative;
+  &:before {
+    content: " ";
+    position: absolute;
+    background: inherit;
+    background-size: 87% 200%;
+    filter: blur(20px);
     width: 100%;
-    border-radius: 1rem;
-    color: #0034B0;
-    height: 100%;
+    height: 50%;
+    top: 25%;
+    left: 0;
+    opacity: .3;
+  }
+  #element {
+    background-color: ${props => props.theme.secondary};
+    width: 100%;
+    border-radius: .3rem;
+    color: ${props => props.theme.dark};
+    height: 50%;
+    top: 25;
+    box-shadow: 0px 0px 13px -1px rgba(0,0,0,0.1);
     text-align: left;
     * {
       opacity: ${props => props.type === BeverageTypes.Info ? .6 : 1 };
@@ -59,12 +72,14 @@ export const BeverageWrap = styled.button.attrs(props => ({
     h3 {
       position: relative;
       word-wrap: break-word;
-      top: ${_sizeBeverage / 2.5}rem;
+      top: 20px;
       left: .7rem;
-      font-size: ${_sizeBeverage / 7}rem;
+      font-size: ${_sizeBeverage / 8}rem;
+      text-transform: uppercase;
       margin: .5rem;
       left: 0;
-      &:before {
+      text-align: center;
+      /* &:before {
         position: absolute;
         top: -20px;
         content: "${props => props.type === BeverageTypes.Sparkling ? props.type : null} ";
@@ -72,11 +87,11 @@ export const BeverageWrap = styled.button.attrs(props => ({
         text-transform: capitalize;
         font-size: 1rem;
         font-weight: 500;
-      }
+      } */
     }
     h6 {
       position: relative;
-      top: ${_sizeBeverage / 2.5}rem;
+      bottom: 0;
       left: .5rem;
       font-size: ${_sizeBeverage / 13.5}rem;
       bottom: 0;

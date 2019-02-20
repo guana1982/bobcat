@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { HomeContent} from "./home.style";
-import { ButtonGroup } from "@components/global/ButtonGroup";
+import { ButtonGroupFull } from "@components/global/ButtonGroup";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
 import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER } from "@utils/constants";
@@ -312,11 +312,11 @@ export const Home = (props: HomeProps) => {
               isSparkling={state.isSparkling}
             />
             <div data-focus={beverageSelected ? FocusElm.Extra : null} id="types-group">
-              <ButtonGroup
+              <ButtonGroupFull
                 options={types}
                 value={isSparkling}
                 onChange={(value) => handleType(value)}>
-              </ButtonGroup>
+              </ButtonGroupFull>
             </div>
           </React.Fragment>
         )}

@@ -3,29 +3,38 @@ import { __ } from "@utils/lib/i18n";
 import { CircleBtnContent, CircleBtn } from "../global/CircleBtn";
 import styled from "styled-components";
 import { FocusElm } from "@containers/index";
-import { ButtonGroup } from "../global/ButtonGroup";
+import { ButtonGroupBorder } from "../global/ButtonGroup";
 import { EndBeverage } from "./EndBeverage";
 
-const _sizePour = 105;
-
+const _sizePour = 280;
+/* title?: string */
 export const Pour = styled.button.attrs(props => ({
   "data-btn-focus": props.dataBtnFocus
 }))`
   position: absolute;
-  bottom: ${-_sizePour / 5}px;
+  bottom: ${-_sizePour / 1.6}px;
   right: calc(50% - ${_sizePour}px);
   height: ${_sizePour}px;
   width: ${_sizePour * 2}px;
   border-top-left-radius: ${_sizePour * 2}px;
   border-top-right-radius: ${_sizePour * 2}px;
-  font-size: ${_sizePour / 5}px;
+  font-size: ${_sizePour / 15}px;
+  box-shadow: 0px 0px 18px -1px rgba(0,0,0,0.2);
   font-weight: 600;
+  text-transform: uppercase;
+  &:before {
+    position: absolute;
+    top: 20%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    content: "${props => props.title}";
+  }
   &, &:active {
-    color: ${props => props.theme.light};
-    background: ${props => props.theme.primary};
+    background: ${props => props.theme.light};
+    color: ${props => props.theme.dark};
   }
   &:active {
-    opacity: .7;
+    opacity: .75;
   }
 `;
 
@@ -152,7 +161,7 @@ export const CustomizeBeverageCard = styled.div`
 
 /* ==== WRAPPER ==== */
 /* ======================================== */
-
+/* beverage_logo_id?: any */
 export const CustomizeBeverageWrap = styled.section.attrs(props => ({
   "data-focus": props.dataFocus
 }))`
@@ -166,7 +175,11 @@ export const CustomizeBeverageWrap = styled.section.attrs(props => ({
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 91, 195, .6);
+    background-image: url("img/logos/2009_large.png"); /* url("img/logos/${props => props.beverage_logo_id}_large.png"); */
+    background-color: rgba(240, 240, 240, .7);
+    background-repeat: no-repeat;
+    background-size: contain;
+    /* background: rgba(0, 91, 195, .6); */
   }
   ${CircleBtnContent} {
     position: absolute;
@@ -194,9 +207,10 @@ interface CustomizeBeverageProps {
 
 export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   const { slideOpen, showCardsInfo, showEnd, beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, getBeverageSelected, handleChange } = props;
+  const beverage = getBeverageSelected();
   return(
     <React.Fragment>
-      <CustomizeBeverageWrap dataFocus={!slideOpen ? FocusElm.Controller : null}>
+      <CustomizeBeverageWrap beverage_logo_id={beverage.beverage_logo_id} dataFocus={!slideOpen ? FocusElm.Controller : null}>
         <CircleBtn onClick={() => resetBeverage()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
         <div id="backdrop" onClick={() => resetBeverage()}></div>
         {showCardsInfo && <InfoCard className={"right"}>
@@ -212,32 +226,32 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
         </InfoCard>}
         <CustomizeBeverageCard type={isSparkling ? "sparkling" : null}>
           <header>
-            <h2>{__(getBeverageSelected().beverage_label_id)}</h2>
+            <h2>{__(beverage.beverage_label_id)}</h2>
             <h6>0-CALS</h6>
           </header>
           <aside>
             {beverageConfig.flavor_level != null &&
-              <ButtonGroup
+              <ButtonGroupBorder
                 label={"Flavor"}
                 options={levels.flavor}
                 value={beverageConfig.flavor_level}
                 onChange={(value) => handleChange(value, "flavor")}
-              ></ButtonGroup>
+              ></ButtonGroupBorder>
             }
             {beverageConfig.carbonation_level != null &&
-              <ButtonGroup
+              <ButtonGroupBorder
                 label={"Sparkling"}
                 options={levels.carbonation}
                 value={beverageConfig.carbonation_level}
                 onChange={(value) => handleChange(value, "carbonation")}>
-              </ButtonGroup>
+              </ButtonGroupBorder>
             }
-            <ButtonGroup
+            <ButtonGroupBorder
               label={"Temp"}
               options={isSparkling ? levels.carbTemperature : levels.temperature}
               value={beverageConfig.temperature_level}
               onChange={(value) => handleChange(value, "temperature")}>
-            </ButtonGroup>
+            </ButtonGroupBorder>
           </aside>
           {/* <div>
             <button type="button">add b-complex</button>
@@ -256,7 +270,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             <h4>Plastic Bottles</h4>
           </footer>
         </InfoCard>}
-        <Pour dataBtnFocus={FocusElm.Init} onTouchStart={() => startPour()} onTouchEnd={() => stopPour()}>Hold to Pour</Pour>
+        <Pour dataBtnFocus={FocusElm.Init} onTouchStart={() => startPour()} title={__("pour")} onTouchEnd={() => stopPour()}></Pour>
       </CustomizeBeverageWrap>
       {showEnd && <EndBeverage resetBeverage={resetBeverage} />}
     </React.Fragment>

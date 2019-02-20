@@ -7,6 +7,8 @@ export const themeMain = {
   light: "#fff",
   dark: "#222",
   sail: "#E7E7E7",
+  lightSail: "#F4F4F4",
+  darkSail: "#B4B4B4",
   spindle: "#b6ceef"
 };
 
