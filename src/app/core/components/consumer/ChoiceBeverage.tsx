@@ -57,8 +57,8 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
         </Grid>
       </ChoiceBeverageWrap>
       <Footer>
-        {!isLogged && <Button data-focus={[3, 0]} type={ButtonTypes.Transparent} onClick={() => goToPrepay()} text="SIGN IN" icon="logout" />}
-        {isLogged && <Button data-focus={[3, 0]} type={ButtonTypes.Transparent} onClick={() => resetConsumer()} text="SIGN OUT" icon="logout" />}
+        {!isLogged && <Button data-focus={[3, 0]} type={ButtonTypes.Transparent} onClick={() => goToPrepay()} text="Sign in" icon="sign_in_icon" />}
+        {isLogged && <Button data-focus={[3, 0]} type={ButtonTypes.Transparent} onClick={() => resetConsumer()} text="Sign out" icon="sign_in_icon" />}
       </Footer>
     </React.Fragment>
   );

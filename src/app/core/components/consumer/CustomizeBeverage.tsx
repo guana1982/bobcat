@@ -1,10 +1,11 @@
 import * as React from "react";
 import { __ } from "@utils/lib/i18n";
-import { CircleBtnContent, CircleBtn } from "../global/CircleBtn";
+import { CircleBtnContent, CircleBtn, CircleBtnWrapper } from "../global/CircleBtn";
 import styled from "styled-components";
 import { FocusElm } from "@containers/index";
 import { ButtonGroupBorder } from "../global/ButtonGroup";
 import { EndBeverage } from "./EndBeverage";
+import { BeverageColor } from "@core/utils/constants";
 
 const _sizePour = 280;
 /* title?: string */
@@ -95,25 +96,26 @@ export const InfoCard = styled.div`
   }
 `;
 
-const _sizeBeverageCard = 410;
+const _sizeBeverageCard = 450;
 /* type?: string; */
 export const CustomizeBeverageCard = styled.div`
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-60%);
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  /* justify-content: space-around; */
   left: calc(50% - ${_sizeBeverageCard / 2}px);
-  background-color: ${props => props.theme.light};
-  border: 1px solid ${props => props.theme.primary};
-  border-radius: 15px;
+  background-color: ${props => props.theme.mediumLight};
+  border-radius: 5px;
   width: ${_sizeBeverageCard}px;
-  padding: 10px;
-  min-height: ${_sizeBeverageCard * 1.2}px;
+  min-height: ${_sizeBeverageCard}px;
+  box-shadow: 0px 0px 15px -1px rgba(0,0,0,0.2);
   header {
     position: relative;
     padding: 1rem;
+    box-shadow: 0px 20px 45px -20px rgba(0,0,0,0.3);
+    background-color: ${props => props.theme.light};
     &:before {
       content: " ";
       opacity: .7;
@@ -124,19 +126,22 @@ export const CustomizeBeverageCard = styled.div`
       max-width: 16rem;
       height: 100%;
       background-repeat: no-repeat;
-      background-image: url("img/${props => props.type}.svg");
+      /* background-image: url("img/${props => props.type}.svg"); */
     }
     h2 {
+      width: 60%;
       position: relative;
-      padding-top: 2rem;
-      font-size: 3rem;
+      padding-top: 1rem;
+      font-size: 1.7rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
       margin: .5rem;
-      color: ${props => props.theme.primary };
+      color: ${props => BeverageColor[`_${props.beverage_logo_id}`]};
       &:before {
         position: absolute;
         content: "${props => props.type} ";
-        font-size: 1.8rem;
-        top: 0;
+        font-size: 1rem;
+        top: -5px;
         display: block;
         text-transform: uppercase;
         font-weight: 400;
@@ -151,11 +156,17 @@ export const CustomizeBeverageCard = styled.div`
     }
   }
   aside {
-    min-height: 246px;
+    ${ButtonGroupBorder} {
+      border-bottom: 1px solid ${props => props.theme.darkLight };
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+    /* min-height: 246px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1rem; */
   }
 `;
 
@@ -185,6 +196,12 @@ export const CustomizeBeverageWrap = styled.section.attrs(props => ({
     position: absolute;
     right: 30px;
     top: 30px;
+    ${CircleBtnWrapper} {
+      background: transparent;
+      &:before {
+        background-color: ${props => props.theme.primary};
+      }
+    }
   }
 `;
 
@@ -224,30 +241,33 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             <h4>Now available in App Stores</h4>
           </footer>
         </InfoCard>}
-        <CustomizeBeverageCard type={isSparkling ? "sparkling" : null}>
+        <CustomizeBeverageCard beverage_logo_id={beverage.beverage_logo_id} type={isSparkling ? "sparkling" : null}>
           <header>
             <h2>{__(beverage.beverage_label_id)}</h2>
             <h6>0-CALS</h6>
           </header>
           <aside>
-            {beverageConfig.flavor_level != null &&
-              <ButtonGroupBorder
-                label={"Flavor"}
-                options={levels.flavor}
-                value={beverageConfig.flavor_level}
-                onChange={(value) => handleChange(value, "flavor")}
-              ></ButtonGroupBorder>
-            }
             {beverageConfig.carbonation_level != null &&
               <ButtonGroupBorder
-                label={"Sparkling"}
+                icon={"sparkling_icon"}
+                label={"sparkling"}
                 options={levels.carbonation}
                 value={beverageConfig.carbonation_level}
                 onChange={(value) => handleChange(value, "carbonation")}>
               </ButtonGroupBorder>
             }
+            {beverageConfig.flavor_level != null &&
+              <ButtonGroupBorder
+                icon={"flavor_icon"}
+                label={"flavor"}
+                options={levels.flavor}
+                value={beverageConfig.flavor_level}
+                onChange={(value) => handleChange(value, "flavor")}
+              ></ButtonGroupBorder>
+            }
             <ButtonGroupBorder
-              label={"Temp"}
+              icon={"temperature_icon"}
+              label={"temperature"}
               options={isSparkling ? levels.carbTemperature : levels.temperature}
               value={beverageConfig.temperature_level}
               onChange={(value) => handleChange(value, "temperature")}>

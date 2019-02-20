@@ -1,4 +1,4 @@
-import { BeverageStatus } from "../models/beverage.model";
+import { BeverageStatus, IBeverage } from "../models/beverage.model";
 import { BeverageTypes } from "../components/global/Beverage";
 
 // === BEVERAGE ===
@@ -66,6 +66,7 @@ export interface IConsumerModel {
 
 export interface IConsumerBeverage {
   flavorTitle: string;
+  beverage?: IBeverage;
   carbLvl: number;
   coldLvl: number;
   flavors: Flavor[];

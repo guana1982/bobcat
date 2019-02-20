@@ -13,13 +13,17 @@ interface ButtonGroupProps {
   label?: string;
   onChange: (value) => void;
   className?: any;
+  icon?: string;
 }
 
 const ButtonGroup = (props: ButtonGroupProps) => {
-  const { className, label, options, onChange, value } = props;
+  const { className, label, options, onChange, value, icon } = props;
   return (
     <div className={className}>
-      {label && <label>{label}</label>}
+      <div id="details">
+        {icon && <img src={`icons/${icon}.svg`} />}
+        {label && <label>{label}</label>}
+      </div>
       <div id="buttons">
         {options ? options.map((e, i) =>
           <button key={i} onClick={() => onChange(e.value)} className={value === e.value ? "selected" : ""} type="button">{e.label}</button>
@@ -71,36 +75,35 @@ export const ButtonGroupFull = styled(ButtonGroup)`
 `;
 
 export const ButtonGroupBorder = styled(ButtonGroup)`
-  margin: 15px;
-  label {
-    display: inline-block;
-    color: ${props => props.theme.primary};
-    text-transform: capitalize;
-    width: 6.5rem;
-    font-size: 1.2rem;
-    text-align: left;
-    font-weight: 600;
+  display: flex;
+  #details {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background: ${props => props.theme.lightSail};
+    padding: 28px 10px;
+    label {
+      color: ${props => props.theme.dark};
+      width: 6.5rem;
+      font-size: .9rem;
+      padding-top: .5rem;
+    }
   }
   #buttons {
     position: relative;
     display: -ms-inline-flexbox;
     display: inline-flex;
     vertical-align: middle;
-    border: 2px solid ${props => props.theme.primary};
-    /* width: 17rem; */
-    border-radius: 12px;
+    padding: 30px;
     button {
-      &:first-child {
-        border-bottom-left-radius: 10px;
-        border-top-left-radius: 10px;
-      }
-      &:last-child {
-        border-bottom-right-radius: 10px;
-        border-top-right-radius: 10px;
-        &:before {
-          border-right: 0;
-        }
-      }
+      position: relative;
+      width: 5.6rem;
+      flex: 1;
+      color: ${props => props.theme.primary};
+      text-transform: capitalize;
+      padding: .5rem;
+      font-size: .9rem;
+      border-radius: 2rem;
       &:before {
         content: '';
         position: absolute;
@@ -108,24 +111,16 @@ export const ButtonGroupBorder = styled(ButtonGroup)`
         width: 100%;
         right: -1px;
         height: calc(100% - 14px);
-        border-right: ${props =>  `2px solid ${props.theme.primary}` };
         z-index: 1;
       }
-      position: relative;
-      width: 5.6rem;
-      flex: 1;
-      color: ${props => props.theme.primary};
-      background: ${props => props.theme.light};
-      padding: 1rem .8rem;
-      font-size: 1rem;
       &.selected {
-        background: ${props => props.theme.sail} !important;
         color: ${props => props.theme.primary} !important;
+        border: 1px solid ${props => props.theme.darkSail};
         font-weight: 600;
       }
       &:active {
         color: ${props => props.theme.primary};
-        background: ${props => props.theme.light};
+        border: 1px solid ${props => props.theme.darkSail};
       }
     }
   }

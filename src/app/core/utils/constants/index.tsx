@@ -44,6 +44,7 @@ export enum CONSUMER_TIMER {
 }
 
 // -- BEVERAGE --
+
 export enum AlarmsOutOfStock {
   flux1,
   flux2,
@@ -53,6 +54,16 @@ export enum AlarmsOutOfStock {
   flux6,
   flux_water,
   flux_soda,
+}
+
+export enum BeverageColor {
+  _2011 = "#1A4A3B",
+  _2009 = "#BA2F06",
+  _2014 = "#AB0C1B",
+  _9 = "#00445D",
+  _2010 = "#2B6212",
+  _2013 = "#B65700",
+  _2012 = "#991D1F"
 }
 
 // -- PAYMENT METHODS --

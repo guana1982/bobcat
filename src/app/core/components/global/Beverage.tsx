@@ -8,6 +8,8 @@ import { forwardRef } from "react";
 import { BeverageStatus } from "@models/beverage.model";
 import { FocusElm } from "@containers/accessibility.container";
 import ClickNHold from "./ClickNHold";
+import { BeverageColor } from "@core/utils/constants";
+import { IConsumerBeverage } from "@core/utils/APIModel";
 
 export enum BeverageTypes {
   Info = "info",
@@ -19,6 +21,7 @@ const _sizeBeverage = 12;
 export const BeverageWrap = styled.button.attrs(props => ({
   "data-btn-focus": props.dataBtnFocus
 }))`
+  margin: .5rem;
   padding: 3rem .7rem;
   transition: 1s all;
   transition-property: width, height, left, top;
@@ -30,13 +33,13 @@ export const BeverageWrap = styled.button.attrs(props => ({
   background-image: url("img/logos/${props => props.beverage_logo_id}.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 87% 100%;
+  background-size: 95% 100%;
   position: relative;
   &:before {
     content: " ";
     position: absolute;
     background: inherit;
-    background-size: 87% 200%;
+    background-size: 95% 200%;
     filter: blur(20px);
     width: 100%;
     height: 50%;
@@ -46,59 +49,41 @@ export const BeverageWrap = styled.button.attrs(props => ({
   }
   #element {
     background-color: ${props => props.theme.secondary};
-    width: 100%;
+    color: ${props => BeverageColor[`_${props.beverage_logo_id}`]};
+    width: 90%;
+    margin: auto;
     border-radius: .3rem;
-    color: ${props => props.theme.dark};
     height: 50%;
-    top: 25;
     box-shadow: 0px 0px 13px -1px rgba(0,0,0,0.1);
     text-align: left;
     * {
       opacity: ${props => props.type === BeverageTypes.Info ? .6 : 1 };
     }
-    &:before {
-      /* content: " ";
-      opacity: .7;
-      position: absolute;
-      right: .5rem;
-      bottom: .1rem;
-      width: 100%;
-      height: 5.4rem !important;
-      height: ${_sizeBeverage / 2.5}rem;
-      background-position: right;
-      background-repeat: no-repeat;
-      background-image: url("img/${props => props.type}.svg"); */
-    }
     h3 {
       position: relative;
       word-wrap: break-word;
-      top: 20px;
+      top: 10px;
       left: .7rem;
-      font-size: ${_sizeBeverage / 8}rem;
+      font-size: 1.2rem;
+      letter-spacing: 4px;
       text-transform: uppercase;
       margin: .5rem;
       left: 0;
       text-align: center;
-      /* &:before {
-        position: absolute;
-        top: -20px;
-        content: "${props => props.type === BeverageTypes.Sparkling ? props.type : null} ";
-        display: block;
-        text-transform: capitalize;
-        font-size: 1rem;
-        font-weight: 500;
-      } */
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     h6 {
-      position: relative;
-      bottom: 0;
-      left: .5rem;
-      font-size: ${_sizeBeverage / 13.5}rem;
-      bottom: 0;
-      color: ${props => props.status === "active" ? "#fff" : props.theme.primary };
+      position: absolute;
+      bottom: 30%;
+      left: 1.5rem;
+      font-size: ${_sizeBeverage / 12}rem;
+      font-weight: 400;
+      /* color: ${props => props.status === "active" ? "#fff" : props.theme.primary }; */
       margin: .7rem;
       text-align: left;
-      left: 0;
     }
     h5 {
       position: absolute;
@@ -108,7 +93,7 @@ export const BeverageWrap = styled.button.attrs(props => ({
       font-weight: 600;
       right: .5rem;
       bottom: .5rem;
-      color: ${props => props.status === "active" ? "#fff" : props.theme.primary };
+      /* color: ${props => props.status === "active" ? "#fff" : props.theme.primary }; */
       margin: .7rem;
     }
   }
@@ -166,6 +151,11 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
 
+  let beverage_logo_id = null;
+  if (beverage && beverage.beverage_logo_id) {
+    beverage_logo_id = beverage.beverage_logo_id;
+  }
+
   let  onStart, onHoldStart, onHoldEnd  = null; // onTouchStart, onTouchEnd
   if (!$disabledTouch) {
     onStart = props.onStart || null;
@@ -193,13 +183,13 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         time={0.5}
         onClickNHold={clickHold}
         onEnd={end}>
-        <BeverageWrap beverage_logo_id={beverage.beverage_logo_id} dataBtnFocus={dataBtnFocus} pouring={pouring} type={type}> { /* onClick={onClick} */ } { /* onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} */ }
+        <BeverageWrap beverage_logo_id={beverage_logo_id} dataBtnFocus={dataBtnFocus} pouring={pouring} type={type}> { /* onClick={onClick} */ } { /* onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} */ }
           <div id="element">
-            <div id="indicators">
+            {/* <div id="indicators">
               {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
-            </div>
+            </div> */}
             <h3>{__(title)}</h3>
-            <h6>0-CALS</h6>
+            <h6>{`${0} ${ __("CAL.")}`}</h6>
             {label && <h5>{__(label)}</h5>}
             {$outOfStock && <div className="overlay"><h4>{__("Out Of Stock")}</h4></div>}
             {pouring && <div className="overlay"><h4>{__("Pouring")}</h4></div>}

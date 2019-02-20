@@ -69,6 +69,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
           consumerBeverage.flavorTitle = beverageFlavor.beverage_label_id;
         }
         consumerBeverage.$status_id = beverageFlavor.status_id;
+        consumerBeverage.beverage = beverageFlavor;
         return consumerBeverage;
       } else {
         const infoBeverage = this.infoBeverages[index];

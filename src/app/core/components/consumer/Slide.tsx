@@ -60,7 +60,7 @@ export const SlideStyled = styled(_Slide).attrs(props => ({
   top: 0;
   width: 98.6vw;
   z-index: 2;
-  background: ${props => props.theme.spindle};
+  background: ${props => props.theme.lightSail};
   height: 100vh;
   #title {
     position: absolute;
@@ -164,8 +164,10 @@ export const Slide = (props: SlideProps) => {
         <Grid numElement={consumerBeverages.length}>
           {consumerBeverages.map((b, i) => {
             const BeverageAnimated = BeveragesAnimated[i];
+            console.log("b", b);
             return (
               <BeverageAnimated
+                beverage={b.beverage}
                 pouring={i === indexFavoritePouring_}
                 onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
                 key={i}
