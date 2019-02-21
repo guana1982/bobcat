@@ -164,7 +164,6 @@ export const Slide = (props: SlideProps) => {
         <Grid numElement={consumerBeverages.length}>
           {consumerBeverages.map((b, i) => {
             const BeverageAnimated = BeveragesAnimated[i];
-            console.log("b", b);
             return (
               <BeverageAnimated
                 beverage={b.beverage}

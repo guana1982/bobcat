@@ -40,7 +40,7 @@ export const BeverageWrap = styled.button.attrs(props => ({
     position: absolute;
     background: inherit;
     background-size: 95% 200%;
-    filter: blur(20px);
+    /* filter: blur(20px); */
     width: 100%;
     height: 50%;
     top: 25%;
