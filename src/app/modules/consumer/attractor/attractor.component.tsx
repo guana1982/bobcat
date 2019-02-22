@@ -10,13 +10,18 @@ interface AttractorProps {
   history: any;
 }
 
+const TIMEOUT_ATTRACTOR = 1000;
+
 export const Attractor = (props: AttractorProps) => {
+
+  const [show, setShow] = React.useState(false);
 
   let video_: Subscription;
 
   const goToHome = () => props.history.push(Pages.Home);
 
   React.useEffect(() => {
+    setTimeout(() => setShow(true), TIMEOUT_ATTRACTOR);
     video_ = mediumLevel.config.startVideo().subscribe();
     return () => {
       mediumLevel.config.stopVideo()
@@ -29,7 +34,7 @@ export const Attractor = (props: AttractorProps) => {
 
   return (
     <React.Fragment>
-      <SreenWrapper onClick={() => goToHome()} />
+      {show && <SreenWrapper onClick={() => goToHome()} />}
       {/* <Warning /> */}
     </React.Fragment>
   );
