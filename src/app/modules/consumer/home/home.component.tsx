@@ -34,6 +34,9 @@ export interface HomeState {
   showEnd: boolean;
 }
 
+let pouring_: Subscription = null;
+let timerEnd_: any = null;
+
 export const Home = (props: HomeProps) => {
 
   const levels = LEVELS;
@@ -64,12 +67,10 @@ export const Home = (props: HomeProps) => {
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 
-  let pouring_: Subscription = null;
-
-  let timerEnd_: any = null;
-
   React.useEffect(() => {
     timerConsumer.startTimer();
+    timerEnd_ = null;
+    pouring_ = null;
     return () => {
       timerConsumer.resetTimer();
     };
@@ -98,6 +99,8 @@ export const Home = (props: HomeProps) => {
   };
 
   const startPour = (beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig) => {
+
+    pouring_ && pouring_.unsubscribe();
 
     let bevSelected, bevConfig = null;
 
@@ -147,7 +150,6 @@ export const Home = (props: HomeProps) => {
 
   const stopPour = () => {
     timerConsumer.startTimer();
-    pouring_ && pouring_.unsubscribe();
     setState(prevState => ({...prevState, idBeveragePouring_: null}));
     configConsumer.onStopPour()
     .subscribe(data => console.log(data));
