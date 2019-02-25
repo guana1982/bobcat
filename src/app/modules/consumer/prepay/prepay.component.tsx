@@ -8,7 +8,6 @@ import { Alert, AlertTypes, AlertProps } from "@components/global/Alert";
 import { ConsumerContext } from "@containers/consumer.container";
 import { Pages } from "@utils/constants";
 import { FocusElm } from "@containers/accessibility.container";
-import { ConfigContext } from "@containers/config.container";
 
 interface PrepayProps {
   history: any;
@@ -24,7 +23,6 @@ export const Prepay = (props: PrepayProps) => {
     alert: undefined
   });
 
-  const configConsumer = React.useContext(ConfigContext);
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 

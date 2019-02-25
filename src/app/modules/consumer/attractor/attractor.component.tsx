@@ -10,7 +10,7 @@ interface AttractorProps {
   history: any;
 }
 
-const TIMEOUT_ATTRACTOR = 1000;
+const TIMEOUT_ATTRACTOR = 1100;
 
 export const Attractor = (props: AttractorProps) => {
 
@@ -21,7 +21,8 @@ export const Attractor = (props: AttractorProps) => {
   const goToHome = () => props.history.push(Pages.Home);
 
   React.useEffect(() => {
-    setTimeout(() => setShow(true), TIMEOUT_ATTRACTOR);
+    const timeout_ = props.history.index === 0 ? 0 : TIMEOUT_ATTRACTOR;
+    setTimeout(() => setShow(true), timeout_);
     video_ = mediumLevel.config.startVideo().subscribe();
     return () => {
       mediumLevel.config.stopVideo()

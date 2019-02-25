@@ -100,8 +100,6 @@ export const Home = (props: HomeProps) => {
 
   const startPour = (beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig) => {
 
-    pouring_ && pouring_.unsubscribe();
-
     let bevSelected, bevConfig = null;
 
     if (beverageSelected) { // => TO IMPROVE
@@ -130,10 +128,11 @@ export const Home = (props: HomeProps) => {
     }
 
     timerConsumer.resetTimer();
+    pouring_ && pouring_.unsubscribe();
     pouring_ = configConsumer.onStartPour(bevSelected, bevConfig)
     .subscribe(data => {
       if (data.value === true && data.name in AlarmsOutOfStock) { // Object.values(AlarmsOutOfStock).includes(data.name)
-        pouring_ && pouring_.unsubscribe();
+        // pouring_ && pouring_.unsubscribe();
         resetBeverage();
         handleAlert({
           type: AlertTypes.OutOfStock,

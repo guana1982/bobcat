@@ -46,6 +46,9 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     };
   }
 
+  /* ==== CONSUMER FAVORITE ==== */
+  /* ======================================== */
+
   resetConsumer = () => {
     this.setState({
       isLogged: false,

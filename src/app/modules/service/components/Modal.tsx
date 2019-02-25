@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
+import { __ } from "@core/utils/lib/i18n";
 
 export enum ModalTheme {
   Dark = "dark",
@@ -115,18 +116,18 @@ const ModalWrapper = styled.div`
 export interface Action {
   title: string;
   icon?: any;
-  event: () => void;
+  event: (props) => void;
 }
 
 export const ACTIONS_CLOSE: Action[] = [{
-  title: "cancel",
-  event: () => console.log("cancel")
+  title: __("cancel"),
+  event: (props) => props.cancel(),
 }];
 
 export const ACTIONS_CONFIRM: Action[] = [
   ...ACTIONS_CLOSE, {
-  title: "finish",
-  event: () => console.log("finish")
+  title: __("finish"),
+  event: (props) => props.finish()
 }];
 
 interface ModalProps {
@@ -135,6 +136,8 @@ interface ModalProps {
   subTitle?: string;
   content: any;
   actions: Action[];
+  show: boolean;
+  cancel: () => void;
 }
 
 interface ModalState {
@@ -142,22 +145,35 @@ interface ModalState {
 }
 
 export const Modal = (props: ModalProps) => {
-    const { title, subTitle, content, actions, themeMode } = props;
+    const { title, subTitle, content, actions, themeMode, show } = props;
+
+    const finish = () => {
+      alert("Finish");
+      props.cancel();
+    };
+
+    const eventActions = {
+      cancel: props.cancel,
+      finish: finish
+    };
+
     return (
-      <ModalWrapper className={themeMode}>
-        <Overlay />
-        <ModalContent>
-          <header>
-            <h2>{title}</h2>
-            {subTitle && <h3>{subTitle}</h3>}
-          </header>
-          <main>
-            {content}
-          </main>
-          <footer>
-            { actions.map((action, index) => <button key={index} onClick={() => action.event()}>{action.title}</button>) }
-          </footer>
-        </ModalContent>
-      </ModalWrapper>
+      <React.Fragment>
+        {show && <ModalWrapper className={themeMode}>
+          <Overlay />
+          <ModalContent>
+            <header>
+              <h2>{title}</h2>
+              {subTitle && <h3>{subTitle}</h3>}
+            </header>
+            <main>
+              {content}
+            </main>
+            <footer>
+              { actions.map((action, index) => <button key={index} onClick={() => action.event(eventActions)}>{action.title}</button>) }
+            </footer>
+          </ModalContent>
+        </ModalWrapper>}
+      </React.Fragment>
     );
 };

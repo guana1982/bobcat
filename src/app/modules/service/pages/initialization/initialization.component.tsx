@@ -74,24 +74,18 @@ class InitializationComponent extends React.Component<InitializationProps, Initi
 
   render() {
     return (
-      <Modal
-        title="INITIALIZATION SETUP"
-        content={
-          <div>
-            <ISteps icons={icons} current={2}>
-              <ISteps.Step title="LANGUAGE" description="SELECT LANGUAGE" />
-              <ISteps.Step title="PAYMENT" description="SELECT PAYMENT" />
-              <ISteps.Step title="COUNTRY" description="SELECT COUNTRY" />
-              <ISteps.Step title="CONNECTION" description="CHECK STATUS CONNECTION" />
-              <ISteps.Step title="INITIALIZATION" description="FILL INITIALIZATION FORM" />
-            </ISteps>
-            <ISection>
-              <ConnectivityComponent />
-            </ISection>
-          </div>
-        }
-        actions={ACTIONS_CONFIRM}
-      ></Modal>
+      <div>
+        <ISteps icons={icons} current={2}>
+          <ISteps.Step title="LANGUAGE" description="SELECT LANGUAGE" />
+          <ISteps.Step title="PAYMENT" description="SELECT PAYMENT" />
+          <ISteps.Step title="COUNTRY" description="SELECT COUNTRY" />
+          <ISteps.Step title="CONNECTION" description="CHECK STATUS CONNECTION" />
+          <ISteps.Step title="INITIALIZATION" description="FILL INITIALIZATION FORM" />
+        </ISteps>
+        <ISection>
+          <ConnectivityComponent />
+        </ISection>
+      </div>
     );
   }
 }

@@ -8,6 +8,58 @@ import { MButtonGroup } from "@modules/service/components/ButtonGroup";
 import ConnectivityComponent from "../connectivity/connectivity.component";
 import InitializationComponent from "../initialization/initialization.component";
 import { __ } from "@core/utils/lib/i18n";
+import { ConfigContext, ConsumerContext, ServiceContext } from "@core/containers";
+
+/* ==== MODALS ==== */
+/* ======================================== */
+
+enum Modals {
+  Beverage,
+  Cleaning,
+  Language,
+  EquipmentStatus,
+  EquipmentConfiguration,
+  Customize,
+  Connectivity,
+  Timeout
+}
+
+interface ActionModals {
+  type: "reset" | "open";
+  modalToOpen?: Modals;
+}
+
+type StateModals = {
+  [modal in Modals]: boolean;
+};
+
+const initialModals = {
+  [Modals.Beverage]: false,
+  [Modals.Cleaning]: false,
+  [Modals.Language]: false,
+  [Modals.EquipmentStatus]: false,
+  [Modals.EquipmentConfiguration]: false,
+  [Modals.Customize]: false,
+  [Modals.Connectivity]: false,
+  [Modals.Timeout]: false
+};
+
+function reducerModals(state: StateModals, action: ActionModals) {
+  switch (action.type) {
+    case "reset":
+      return initialModals;
+    case "open":
+      return {
+        ...state,
+        [action.modalToOpen]: true
+      };
+    default:
+      throw new Error();
+  }
+}
+
+/* ==== MAIN ==== */
+/* ======================================== */
 
 interface MenuProps {}
 
@@ -17,8 +69,6 @@ interface MenuState {
   videoList: any;
   videoSelected: any;
 }
-
-// MenuProps, MenuStat
 
 export const MenuComponent = (props: MenuProps) => {
 
@@ -37,6 +87,17 @@ export const MenuComponent = (props: MenuProps) => {
     videoSelected: null,
   });
 
+  const [modals, dispatchModals] = React.useReducer(reducerModals, initialModals);
+
+  const configConsumer = React.useContext(ConfigContext);
+  const serviceConsumer = React.useContext(ServiceContext);
+
+  React.useEffect(() => {
+    console.log("Menu => Consumer ;", serviceConsumer);
+    return () => {
+      console.log("close menu");
+    };
+  }, []);
 
   /* ==== HANDLE ==== */
   /* ======================================== */
@@ -46,9 +107,17 @@ export const MenuComponent = (props: MenuProps) => {
     setState(prevState => ({ ...prevState, languageSelected: value }));
   };
 
-  const handleVideo = (value) => {
-    console.log(value);
-    setState(prevState => ({ ...prevState, videoSelected: value }));
+  // const handleVideo = (value) => {
+  //   console.log(value);
+  //   setState(prevState => ({ ...prevState, videoSelected: value }));
+  // };
+
+  const openModal = (modal: Modals) => {
+    dispatchModals({ type: "open", modalToOpen: modal });
+  };
+
+  const closeAllModal = () => {
+    dispatchModals({ type: "reset" });
   };
 
   /* ==== MAIN ==== */
@@ -82,8 +151,8 @@ export const MenuComponent = (props: MenuProps) => {
             </Group>
             <Group title={__("SYSTEM")}>
               <MButton>SYSTEM REBOOT</MButton>
-              <MButton>SERVICE LANGUAGE</MButton>
-              <MButton info type={MTypes.INFO_SUCCESS}>CONNECTIVITY</MButton>
+              <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
+              <MButton onClick={() => openModal(Modals.Connectivity)} info type={MTypes.INFO_SUCCESS}>CONNECTIVITY</MButton>
               <MButton>UPDATE</MButton>
             </Group>
             <Group title={__("ALARMS")} size={SIZE_GROUP_ALARM}>
@@ -103,7 +172,9 @@ export const MenuComponent = (props: MenuProps) => {
           </Grid>
         </MenuContent>
 
-        {/* <Modal
+        <Modal
+          show={modals[Modals.EquipmentConfiguration]}
+          cancel={closeAllModal}
           title="update"
           subTitle="select desired action"
           content={
@@ -115,7 +186,7 @@ export const MenuComponent = (props: MenuProps) => {
             </Box>
           }
           actions={ACTIONS_CLOSE}
-        ></Modal> */}
+        ></Modal>
 
         {/* <Modal
           title="initial setup"
@@ -131,7 +202,9 @@ export const MenuComponent = (props: MenuProps) => {
           actions={ACTIONS_CLOSE}
         ></Modal> */}
 
-        {/* <Modal
+        <Modal
+          show={modals[Modals.Timeout]}
+          cancel={closeAllModal}
           title="SELECTION TIMEOUT"
           content={
             <div>
@@ -145,7 +218,7 @@ export const MenuComponent = (props: MenuProps) => {
             </div>
           }
           actions={ACTIONS_CONFIRM}
-        ></Modal> */}
+        ></Modal>
 
         {/* <Modal
           title={`LINE # ${1} - CURRENT ASSIGNMENT`}
@@ -169,7 +242,9 @@ export const MenuComponent = (props: MenuProps) => {
           actions={ACTIONS_CONFIRM}
         ></Modal> */}
 
-        {/* <Modal
+        <Modal
+          show={modals[Modals.EquipmentStatus]}
+          cancel={closeAllModal}
           title="EQUIPMENT STATUS"
           content={
             <div>
@@ -201,9 +276,11 @@ export const MenuComponent = (props: MenuProps) => {
             </div>
           }
           actions={ACTIONS_CONFIRM}
-        ></Modal> */}
+        ></Modal>
 
-        {/* <Modal
+        <Modal
+          show={modals[Modals.Language]}
+          cancel={closeAllModal}
           title="SERVICE LANGUAGE"
           subTitle="SELECT DESIRED LANGUAGE"
           content={
@@ -214,7 +291,7 @@ export const MenuComponent = (props: MenuProps) => {
             />
           }
           actions={ACTIONS_CONFIRM}
-        ></Modal> */}
+        ></Modal>
 
         {/* <Modal
           title="VIDEO SELECTION"
@@ -228,6 +305,16 @@ export const MenuComponent = (props: MenuProps) => {
           }
           actions={ACTIONS_CONFIRM}
         ></Modal> */}
+
+        <Modal
+          show={modals[Modals.Connectivity]}
+          cancel={closeAllModal}
+          title={__("Connectivity")}
+          content={
+            <ConnectivityComponent />
+          }
+          actions={ACTIONS_CONFIRM}
+        ></Modal>
 
         {/* <ConnectivityComponent /> */}
 

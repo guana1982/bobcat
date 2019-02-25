@@ -54,6 +54,7 @@
     "babel-plugin-module-resolver": "^3.2.0",
     "babel-plugin-styled-components": "^1.8.0",
     "classnames": "^2.2.6",
+    "constate": "^1.0.0",
     "create-subscription": "^16.5.2",
     "css-loader": "1.0.0",
     "d3-scale": "^2.1.2",
