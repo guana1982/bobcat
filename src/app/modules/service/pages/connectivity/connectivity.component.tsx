@@ -4,6 +4,7 @@ import { MButton, MTypes } from "@modules/service/components/Button";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { IWifi, INetwork } from "@core/utils/APIModel";
 import styled, { keyframes } from "styled-components";
+import { Subscription } from "rxjs";
 
 /* ==== SECTIONS ==== */
 /* ======================================== */
@@ -64,81 +65,76 @@ interface ConnectivityState {
   networks: INetwork[];
 }
 
-class ConnectivityComponent extends React.Component<ConnectivityProps, ConnectivityState> {
+let getApList_: Subscription = null;
 
-  readonly state: ConnectivityState;
+const ConnectivityComponent = (props: ConnectivityProps) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      connectionList: [{
-        label: "wifi",
-        value: ConnectionTypes.Wifi,
-        status: null
-      }, {
-        label: "mobile_data",
-        value: ConnectionTypes.MobileData,
-        status: MTypes.INFO_SUCCESS
-      }, {
-        label: "ethernet",
-        value: ConnectionTypes.Ethernet,
-        status: MTypes.INFO_WARNING
-      }],
-      connectionSelected: ConnectionTypes.Wifi,
-      networks: []
+  const [state, setState] = React.useState<ConnectivityState>({
+    connectionList: [{
+      label: "wifi",
+      value: ConnectionTypes.Wifi,
+      status: null
+    }, {
+      label: "mobile_data",
+      value: ConnectionTypes.MobileData,
+      status: MTypes.INFO_SUCCESS
+    }, {
+      label: "ethernet",
+      value: ConnectionTypes.Ethernet,
+      status: MTypes.INFO_WARNING
+    }],
+    connectionSelected: ConnectionTypes.Wifi,
+    networks: []
+  });
+
+  React.useEffect(() => {
+    getApList_ = null;
+    setApList();
+    return () => {
+      getApList_.unsubscribe();
     };
-  }
+  }, []);
 
-  componentDidMount() {
-    this.setApList();
-  }
+  const handleConnection = (value) => {
+    setState(prevState => ({
+      ...prevState,
+      connectionSelected: value
+    }));
+  };
 
-  componentWillUnmount() {
-
-  }
-
-  handleConnection = (value) => {
-    this.setState({connectionSelected: value});
-  }
-
-  setApList() {
-    mediumLevel.wifi.getApList().subscribe((data: IWifi) => {
+  const setApList = () => {
+    getApList_ = mediumLevel.wifi.getApList().subscribe((data: IWifi) => {
       const { networks } = data;
-      this.setState({networks: networks});
+      setState(prevState => ({
+        ...prevState,
+        networks: networks
+      }));
     });
-  }
+  };
 
-  render() {
-    const { connectionList, connectionSelected, networks } = this.state;
-    return (
-      // <Modal
-      //   title="Connectivity"
-      //   content={
-          <div>
-            <Box>
-              {connectionList.map((connection, index) => {
-                return (
-                  <MButton
-                    className="small"
-                    key={index}
-                    info light={connectionSelected !== connection.value}
-                    type={connection.status}
-                    onClick={() => this.handleConnection(connection.value)}
-                  >
-                    {connection.label}
-                  </MButton>
-                );
-              })}
-            </Box>
-            {connectionSelected === ConnectionTypes.Wifi && <Wifi networks={networks} />}
-            {connectionSelected === ConnectionTypes.MobileData && <MobileData />}
-            {connectionSelected === ConnectionTypes.Ethernet && <Ethernet />}
-          </div>
-      //   }
-      //   actions={ACTIONS_CONFIRM}
-      // ></Modal>
-    );
-  }
-}
+  const { connectionList, connectionSelected, networks } = state;
+  return (
+    <div>
+      <Box>
+        {connectionList.map((connection, index) => {
+          return (
+            <MButton
+              className="small"
+              key={index}
+              info light={connectionSelected !== connection.value}
+              type={connection.status}
+              onClick={() => handleConnection(connection.value)}
+            >
+              {connection.label}
+            </MButton>
+          );
+        })}
+      </Box>
+      {connectionSelected === ConnectionTypes.Wifi && <Wifi networks={networks} />}
+      {connectionSelected === ConnectionTypes.MobileData && <MobileData />}
+      {connectionSelected === ConnectionTypes.Ethernet && <Ethernet />}
+    </div>
+  );
+};
 
 export default ConnectivityComponent;

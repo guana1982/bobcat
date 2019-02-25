@@ -1,32 +1,31 @@
 import * as React from "react";
+import styled, { keyframes } from "styled-components";
+
+const CleaningContent = styled.div`
+  width: 100vw;
+  height: calc(100vh - 115px);
+`;
 
 interface CleaningProps {}
 
 interface CleaningState {}
 
-class CleaningComponent extends React.Component<CleaningProps, CleaningState> {
+const CleaningComponent = (props: CleaningProps) => {
 
-  readonly state: CleaningState;
+  const [state, setState] = React.useState<CleaningState>({});
 
-  constructor(props) {
-    super(props);
-  }
+  React.useEffect(() => {
+    console.log("open");
+    return () => {
+      console.log("close");
+    };
+  }, []);
 
-  componentDidMount() {
-
-  }
-
-  componentWillUnmount() {
-
-  }
-
-  render() {
-    return (
-      <div>
-        <h1>Cleaning</h1>
-      </div>
-    );
-  }
-}
+  return (
+    <CleaningContent>
+      <h1>Cleaning</h1>
+    </CleaningContent>
+  );
+};
 
 export default CleaningComponent;

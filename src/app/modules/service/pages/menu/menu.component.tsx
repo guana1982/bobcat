@@ -9,6 +9,8 @@ import ConnectivityComponent from "../connectivity/connectivity.component";
 import InitializationComponent from "../initialization/initialization.component";
 import { __ } from "@core/utils/lib/i18n";
 import { ConfigContext, ConsumerContext, ServiceContext } from "@core/containers";
+import CleaningComponent from "../cleaning/cleaning.component";
+import EquipmentStatusComponent from "../equipmentStatus/equipmentStatus.component";
 
 /* ==== MODALS ==== */
 /* ======================================== */
@@ -21,6 +23,7 @@ enum Modals {
   EquipmentConfiguration,
   Customize,
   Connectivity,
+  Update,
   Timeout
 }
 
@@ -41,6 +44,7 @@ const initialModals = {
   [Modals.EquipmentConfiguration]: false,
   [Modals.Customize]: false,
   [Modals.Connectivity]: false,
+  [Modals.Update]: false,
   [Modals.Timeout]: false
 };
 
@@ -142,30 +146,35 @@ export const MenuComponent = (props: MenuProps) => {
               <MButton className="small" info="Line - /">CARB COLD</MButton>
             </Group>
             <Group title={__("ACTIONS")}>
-              <MButton>INITIAL SETUP</MButton>
+              <MButton onClick={() => openModal(Modals.EquipmentConfiguration)}>EQUIPMENT CONFIGURATION</MButton>
               <MButton>PRIMING</MButton>
-              <MButton>SELECTION TIMEOUT</MButton>
-              <MButton>SCREEN CLEANING</MButton>
-              <MButton>VIDEO SELECTION</MButton>
+              <MButton onClick={() => openModal(Modals.Timeout)}>SELECTION TIMEOUT</MButton>
+              <MButton onClick={() => openModal(Modals.Cleaning)}>SCREEN CLEANING</MButton>
+              <MButton onClick={() => openModal(Modals.Customize)}>CUSTOMIZE UI</MButton>
               <MButton>SANITATION</MButton>
+              <MButton>CHANGE PRICE</MButton>
             </Group>
             <Group title={__("SYSTEM")}>
               <MButton>SYSTEM REBOOT</MButton>
+              <MButton>SYSTEM SHUTDOWN</MButton>
               <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
+              <MButton onClick={() => openModal(Modals.Update)}>SOFTWARE UPDATE</MButton>
               <MButton onClick={() => openModal(Modals.Connectivity)} info type={MTypes.INFO_SUCCESS}>CONNECTIVITY</MButton>
-              <MButton>UPDATE</MButton>
+              <MButton>ABOUT</MButton>
             </Group>
             <Group title={__("ALARMS")} size={SIZE_GROUP_ALARM}>
-              <MButton info type={MTypes.INFO_DANGER}>EQUIPMENT STATUS</MButton>
+              <MButton onClick={() => openModal(Modals.EquipmentStatus)} info type={MTypes.INFO_DANGER}>EQUIPMENT STATUS</MButton>
             </Group>
             <Group id="info-group" size={SIZE_GROUP_INFO}>
               <ul>
-                <li>PLATFORM: ———</li>
-                <li>RECIPE VERSION: ———</li>
-                <li>ACCESS LEVEL: ———</li>
+                <li>COUNTRY: ———</li>
+                <li>IMEI: ———</li>
+                <li>MOTHERBOARD SERIAL NUMBER: ———</li>
+                <li>MODEM SERIAL NUMBER: ———</li>
+                <li>SIM CARD DETAILS: ———</li>
+                <li>SERIAL NUMBER: ———</li>
+                <li>FIRMWARE VERSION: ———</li>
                 <li>SOFTWARE VERSION: ———</li>
-                <li>DISK IMAGE VERSION: ———</li>
-                <li>BIOS VERSION: ———</li>
               </ul>
             </Group>
             <MButton id="exit-btn" onClick={() => location.reload()}>EXIT TO COSUMER UI</MButton>
@@ -173,34 +182,32 @@ export const MenuComponent = (props: MenuProps) => {
         </MenuContent>
 
         <Modal
-          show={modals[Modals.EquipmentConfiguration]}
+          show={modals[Modals.Update]}
           cancel={closeAllModal}
           title="update"
           subTitle="select desired action"
           content={
             <Box className="centered">
               <MButton>UPLOAD FROM USB</MButton>
-              <MButton>UPLOAD NEW VIDEO</MButton>
-              <MButton>UPDATE FROM SERVER</MButton>
-              <MButton>UPDATE FIRMWARE</MButton>
+              <MButton>UPDATE FROM REMOTE SERVER</MButton>
             </Box>
           }
           actions={ACTIONS_CLOSE}
         ></Modal>
 
-        {/* <Modal
-          title="initial setup"
-          subTitle="select desired action"
+        <Modal
+          show={modals[Modals.Customize]}
+          cancel={closeAllModal}
+          title="CONSUMER UI"
+          subTitle="SELECT DESIRED ACTION"
           content={
             <Box className="centered">
-              <MButton>FIRST ACTIVATION</MButton>
-              <MButton>MOTHERBOARD SUBSTITUTION</MButton>
-              <MButton>PICK UP</MButton>
-              <MButton>EQUIPMENT SUBSTITUTION</MButton>
+              <MButton>VIDEO SELECTION</MButton>
+              <MButton>PAYMENT SELECTION</MButton>
             </Box>
           }
           actions={ACTIONS_CLOSE}
-        ></Modal> */}
+        ></Modal>
 
         <Modal
           show={modals[Modals.Timeout]}
@@ -246,35 +253,7 @@ export const MenuComponent = (props: MenuProps) => {
           show={modals[Modals.EquipmentStatus]}
           cancel={closeAllModal}
           title="EQUIPMENT STATUS"
-          content={
-            <div>
-              <Box className="elements centered">
-                <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-                <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-                <MButton type={MTypes.INFO_DANGER} className="small" light info>---</MButton>
-                <MButton type={MTypes.INFO_DANGER} className="small" light info>---</MButton>
-                <MButton type={MTypes.INFO_WARNING} className="small" light info>---</MButton>
-                <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-                <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-                <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-                <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-                <MButton type={MTypes.INFO_DANGER} className="small" light info>---</MButton>
-                <MButton type={MTypes.INFO_DANGER} className="small" light info>---</MButton>
-                <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-                <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-                <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-              </Box>
-              <Box className="container">
-                <h2 id="title">info</h2>
-                <h4>
-                  --------------
-                  --------------
-                  --------------
-                  --------------
-                </h4>
-              </Box>
-            </div>
-          }
+          content={<EquipmentStatusComponent />}
           actions={ACTIONS_CONFIRM}
         ></Modal>
 
@@ -294,6 +273,8 @@ export const MenuComponent = (props: MenuProps) => {
         ></Modal>
 
         {/* <Modal
+          show={modals[Modals.EquipmentConfiguration]}
+          cancel={closeAllModal}
           title="VIDEO SELECTION"
           subTitle="SELECT DESIRED VIDEO"
           content={
@@ -316,9 +297,42 @@ export const MenuComponent = (props: MenuProps) => {
           actions={ACTIONS_CONFIRM}
         ></Modal>
 
-        {/* <ConnectivityComponent /> */}
+        {/* <Modal
+          show={modals[Modals.EquipmentConfiguration]}
+          cancel={closeAllModal}
+          title={__("Equipment Configuration")}
+          content={
+            <InitializationComponent />
+          }
+          actions={ACTIONS_CONFIRM}
+        ></Modal> */}
 
-        {/* <InitializationComponent /> */}
+        <Modal
+          show={modals[Modals.EquipmentConfiguration]}
+          cancel={closeAllModal}
+          title="EQUIPMENT CONFIGURATION"
+          subTitle="SELECT DESIRED ACTION"
+          content={
+            <Box className="centered">
+              <MButton>INITIAL SETUP</MButton>
+              <MButton>MOTHERBOARD REPLACEMENT</MButton>
+              <MButton>EQUIPMENT REPLACEMENT</MButton>
+              <MButton>PICK UP</MButton>
+            </Box>
+          }
+          actions={ACTIONS_CLOSE}
+        ></Modal>
+
+        <Modal
+          show={modals[Modals.Cleaning]}
+          cancel={closeAllModal}
+          title={__("Screen Cleaning")}
+          subTitle={__("SCREEN WILL CLOSE IN 30 SECONDS REMEBER TO DRY SCREEN")}
+          content={
+            <CleaningComponent />
+          }
+          actions={[]}
+        ></Modal>
 
       </React.Fragment>
     </ThemeProvider>
