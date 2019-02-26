@@ -141,7 +141,7 @@ interface ModalProps {
 }
 
 export interface ModalContentProps {
-  cancel?: () => void;
+  cancel: () => void;
 }
 
 

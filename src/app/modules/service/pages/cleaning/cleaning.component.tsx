@@ -33,7 +33,7 @@ const CleaningContent = styled.div`
   }
 `;
 
-interface CleaningProps extends ModalContentProps {
+interface CleaningProps extends Partial<ModalContentProps> {
 
 }
 
