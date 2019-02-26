@@ -4,25 +4,22 @@ import { QrSquare, Webcam, PrepayContent, Header, SectionWrap, SectionContent } 
 import { CircleBtn } from "@components/global/CircleBtn";
 import { TimerContext } from "@containers/timer.container";
 
-import { Alert, AlertTypes, AlertProps } from "@components/global/Alert";
+// import { Alert, AlertTypes, AlertProps } from "@components/global/Alert";
 import { ConsumerContext } from "@containers/consumer.container";
 import { Pages } from "@utils/constants";
 import { FocusElm } from "@containers/accessibility.container";
+import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 
 interface PrepayProps {
   history: any;
 }
 
-interface PrepayState {
-  alert: AlertProps;
-}
+// interface PrepayState {}
 
 export const Prepay = (props: PrepayProps) => {
 
-  const [state, setState] = React.useState<PrepayState>({
-    alert: undefined
-  });
-
+  // const [state, setState] = React.useState<PrepayState>({});
+  const alertConsumer = React.useContext(AlertContext);
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 
@@ -35,20 +32,13 @@ export const Prepay = (props: PrepayProps) => {
     };
   }, []);
 
-  const handleAlert = (alert?: AlertProps) => {
-    setState(prevState => ({
-      ...prevState,
-      alert: alert
-    }));
-  };
-
   const start = () => {
     const { startScanning } = consumerConsumer;
     startScanning()
     .subscribe((status: true | false | null) => { // => true: correct qr / false: error qr / null: data from server <=
       timerConsumer.clearTimer();
       if (status === true) {
-        handleAlert({
+        alertConsumer.show({
           type: AlertTypes.Success,
           timeout: true,
           onDismiss: () => {
@@ -56,12 +46,11 @@ export const Prepay = (props: PrepayProps) => {
           }
         });
       } else if (status === false) {
-        handleAlert({
+        alertConsumer.show({
           type: AlertTypes.Error,
           timeout: true,
           onDismiss: () => {
             start();
-            handleAlert();
           }
         });
       }
@@ -76,8 +65,6 @@ export const Prepay = (props: PrepayProps) => {
     const { stopScanning } = consumerConsumer;
     stopScanning().subscribe();
   };
-
-  const { alert } = state;
 
   return (
     <section data-focus={FocusElm.Controller}>
@@ -98,7 +85,6 @@ export const Prepay = (props: PrepayProps) => {
             <img id="icon" src={"icons/arrow.svg"} />
           </SectionWrap>
         </SectionContent>
-        {alert && <Alert {...alert} />}
       </PrepayContent>
     </section>
   );

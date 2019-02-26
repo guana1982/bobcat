@@ -12,7 +12,9 @@ export interface ConfigInterface {
   vendorConfig: any;
   menuList: any;
   ws: WebSocketSubject<ISocket>;
+  socketAlarms$: Observable<any>;
   alarms: IAlarm[];
+  allBeverages: IBeverage[];
   beverages: IBeverage[];
   onStartPour: (beverage: IBeverage, config: IBeverageConfig) => Observable<any>;
   onStopPour: () => Observable<any>;
@@ -137,7 +139,23 @@ class ConfigStoreComponent extends React.Component<any, any> {
     .pipe(
       tap(beverages => {
         console.log("BEVERAGES", beverages);
-        this.setState({beverages: beverages});
+
+        // -- FILTER & ORDER => BEVERAGES --
+        const beverages_ = beverages.filter(beverage => {
+          const { beverage_type, line_id } = beverage;
+          return beverage_type === Beverages.Plain || beverage_type === Beverages.Bev && line_id > 0;
+        });
+        beverages_.sort((a, b) => {
+          if (a.beverage_type === Beverages.Plain || b.beverage_type === Beverages.Plain)
+          return 1;
+
+          return a.line_id - b.line_id;
+        });
+
+        this.setState({
+          allBeverages: beverages,
+          beverages: beverages_
+        });
       })
     );
 
@@ -190,14 +208,11 @@ class ConfigStoreComponent extends React.Component<any, any> {
       temperature_level: config.temperature_level,
       pour_method: "free_flow"
     };
-    return mediumLevel.dispense.pour(recipe)
-    .pipe(
-      mergeMap(() => this.socketAlarms$.pipe(first()))
-    );
+    return mediumLevel.dispense.pour(recipe).pipe(first());
   }
 
   private onStopPour = () => {
-    return mediumLevel.dispense.stop();
+    return mediumLevel.dispense.stop().pipe(first());
   }
 
   /* ==== MAIN ==== */
@@ -205,20 +220,15 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
   render() {
     const { children } = this.props;
-
-    // -- FILTER BEVERAGES --
-    const beverages = this.state.beverages.filter(beverage => {
-      const { beverage_type, line_id } = beverage;
-      return beverage_type === Beverages.Plain || beverage_type === Beverages.Bev && line_id > 0;
-    });
-
     return (
       <ConfigProvider
         value={{
           vendorConfig: this.state.vendorConfig,
-          beverages: beverages,
+          allBeverages: this.state.allBeverages,
+          beverages: this.state.beverages,
           menuList: this.menuList,
           alarms: this.state.alarms,
+          socketAlarms$: this.socketAlarms$,
           ws: this.ws,
           onStartPour: this.onStartPour,
           onStopPour: this.onStopPour

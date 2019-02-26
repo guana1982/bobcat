@@ -24,7 +24,7 @@ const ServiceContainer = createContainer(() => {
   const testEvent = () => {
     setState(prevState => ({
       ...prevState,
-      testù: true
+      test: true
     }));
   };
 

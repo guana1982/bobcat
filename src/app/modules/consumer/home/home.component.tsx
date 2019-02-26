@@ -7,7 +7,6 @@ import { __ } from "@utils/lib/i18n";
 import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER } from "@utils/constants";
 import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
-import { Alert, AlertProps, AlertTypes } from "@components/global/Alert";
 import { Subscription } from "rxjs";
 import { FocusElm } from "@containers/accessibility.container";
 import { ChoiceBeverage } from "@components/consumer/ChoiceBeverage";
@@ -15,6 +14,7 @@ import { CustomizeBeverage } from "@components/consumer/CustomizeBeverage";
 import { Slide } from "@components/consumer/Slide";
 import { ConfigContext } from "@containers/config.container";
 import { TimerContext } from "@containers/timer.container";
+import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 
 interface HomeProps {
   history: any;
@@ -28,14 +28,13 @@ export interface HomeState {
   beverageConfig: IBeverageConfig;
 
   slideOpen: boolean;
-  alert: AlertProps;
 
   showCardsInfo: boolean;
   showEnd: boolean;
 }
 
-let pouring_: Subscription = null;
 let timerEnd_: any = null;
+let socketAlarms_: any = null;
 
 export const Home = (props: HomeProps) => {
 
@@ -47,11 +46,10 @@ export const Home = (props: HomeProps) => {
 
   const [state, setState] = React.useState<HomeState>({
     isSparkling: false,
-    beverageSelected: null,
     slideOpen: false,
+    beverageSelected: null,
     idBeveragePouring_: null,
     indexFavoritePouring_: null,
-    alert: undefined,
     showCardsInfo: false,
     showEnd: false,
     beverageConfig: {
@@ -63,6 +61,7 @@ export const Home = (props: HomeProps) => {
     }
   });
 
+  const alertConsumer = React.useContext(AlertContext);
   const configConsumer = React.useContext(ConfigContext);
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
@@ -70,11 +69,44 @@ export const Home = (props: HomeProps) => {
   React.useEffect(() => {
     timerConsumer.startTimer();
     timerEnd_ = null;
-    pouring_ = null;
     return () => {
       timerConsumer.resetTimer();
     };
   }, []);
+
+  /* ==== ALARMS ==== */
+  /* ======================================== */
+
+  React.useEffect(() => {
+
+      const alarmDetect = (data) => {
+        if (!(data.value === true && data.name in AlarmsOutOfStock)) { // Object.values(AlarmsOutOfStock).includes(data.name)
+          return null;
+        }
+        const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
+        if (beverageSelected || idBeveragePouring_ != null || indexFavoritePouring_ != null) {
+          resetBeverage();
+          alertConsumer.show({
+            type: AlertTypes.OutOfStock,
+            timeout: true,
+            onDismiss: () => {
+              consumerConsumer.updateConsumerBeverages(); // => TO IMPROVE
+            }
+          });
+        }
+      };
+
+      if (socketAlarms_ == null)
+        socketAlarms_ = configConsumer.socketAlarms$.subscribe(data => alarmDetect(data));
+
+      return () => {
+        if (socketAlarms_)
+          socketAlarms_.unsubscribe();
+      };
+
+    },
+    [state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_],
+  );
 
   /* ==== BEVERAGE ==== */
   /* ======================================== */
@@ -128,30 +160,14 @@ export const Home = (props: HomeProps) => {
     }
 
     timerConsumer.resetTimer();
-    pouring_ && pouring_.unsubscribe();
-    pouring_ = configConsumer.onStartPour(bevSelected, bevConfig)
-    .subscribe(data => {
-      if (data.value === true && data.name in AlarmsOutOfStock) { // Object.values(AlarmsOutOfStock).includes(data.name)
-        // pouring_ && pouring_.unsubscribe();
-        resetBeverage();
-        handleAlert({
-          type: AlertTypes.OutOfStock,
-          timeout: true,
-          onDismiss: () => {
-            consumerConsumer.updateConsumerBeverages();  // => TO IMPROVE
-            handleAlert();
-          }
-        });
-      }
-    });
+    configConsumer.onStartPour(bevSelected, bevConfig).subscribe();
 
   };
 
   const stopPour = () => {
     timerConsumer.startTimer();
     setState(prevState => ({...prevState, idBeveragePouring_: null}));
-    configConsumer.onStopPour()
-    .subscribe(data => console.log(data));
+    configConsumer.onStopPour().subscribe();
     if (getBeverageSelected()) {
       endPour();
     }
@@ -258,13 +274,6 @@ export const Home = (props: HomeProps) => {
     }));
   };
 
-  const handleAlert = (alert?: AlertProps) => {
-    setState(prevState => ({
-      ...prevState,
-      alert: alert
-    }));
-  };
-
   /* ==== ROUTING ==== */
   /* ======================================== */
 
@@ -284,7 +293,7 @@ export const Home = (props: HomeProps) => {
 
   const { beverages } = configConsumer;
   const { consumerBeverages } = consumerConsumer;
-  const { isSparkling, alert } = state;
+  const { isSparkling } = state;
   const presentSlide = consumerBeverages.length > 0;
   const beverageSelected = getBeverageSelected();
 
@@ -337,7 +346,6 @@ export const Home = (props: HomeProps) => {
           />
         }
       </HomeContent>
-      {alert && <Alert {...alert} />}
     </section>
   );
 

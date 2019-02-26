@@ -1,14 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import { __ } from "@utils/lib/i18n";
-
-export const DEFAULT_TIMEOUT_ALERT = 6000;
-
-export enum AlertTypes {
-  Success = "success",
-  Error = "error",
-  OutOfStock = "Out Of Stock"
-}
+import { AlertContext, DEFAULT_TIMEOUT_ALERT } from "@core/containers/alert.container";
 
 const AlertWrap = styled.div`
   position: absolute;
@@ -47,20 +40,25 @@ const AlertContent = styled.div`
   height: 100%;
 `;
 
-export interface AlertProps {
-  type: AlertTypes;
-  timeout?: boolean | number;
-  onDismiss?: () => void;
-}
+export interface AlertProps {}
+
+let timeout_ = null;
 
 export const Alert = (props: AlertProps) => {
-  const {type, onDismiss, timeout} = props;
-  let timeout_ = null;
+
+  const alertConsumer = React.useContext(AlertContext);
+  const {show, options} = alertConsumer.state;
+  const {type, onDismiss, timeout} = options;
+
+  const onDismiss_ = () => {
+    onDismiss();
+    alertConsumer.hide();
+  };
+
   if (timeout) {
-    timeout_ = setTimeout(onDismiss, typeof timeout === "boolean" ? DEFAULT_TIMEOUT_ALERT : timeout);
+    timeout_ = setTimeout(onDismiss_, typeof timeout === "boolean" ? DEFAULT_TIMEOUT_ALERT : timeout);
   }
 
-  // console.log(timeout_);
   const stopTimeout = () => {
     if (timeout_) {
       window.clearTimeout(timeout_);
@@ -69,15 +67,17 @@ export const Alert = (props: AlertProps) => {
 
   const dismiss = () => {
     stopTimeout();
-    onDismiss();
+    onDismiss_();
   };
 
   return (
-    <AlertContent>
-      <Overlay onClick={dismiss} />
-      <AlertWrap>
-        {__(type)}
-      </AlertWrap>
-    </AlertContent>
+    <React.Fragment>
+      {show && <AlertContent>
+        <Overlay onClick={dismiss} />
+        <AlertWrap>
+          {__(type)}
+        </AlertWrap>
+      </AlertContent>}
+    </React.Fragment>
   );
 };
