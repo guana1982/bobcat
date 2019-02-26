@@ -33,8 +33,8 @@ const CleaningContent = styled.div`
   }
 `;
 
-interface CleaningProps {
-  modalProps: ModalContentProps;
+interface CleaningProps extends ModalContentProps {
+
 }
 
 const TIMER_MAX = 30;
@@ -55,7 +55,7 @@ const CleaningComponent = (props: CleaningProps) => {
     }
   }, [timer]);
 
-  const endTimer = () => props.modalProps.cancel();
+  const endTimer = () => props.cancel();
 
   return (
     <CleaningContent>

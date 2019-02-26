@@ -166,7 +166,7 @@ export const Modal = (props: ModalProps) => {
       const modalProps: ModalContentProps = { cancel: props.cancel };
       return React.cloneElement(
         content,
-        { modalProps: modalProps }
+        { ...modalProps }
       );
     };
 
