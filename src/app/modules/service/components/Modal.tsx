@@ -140,6 +140,11 @@ interface ModalProps {
   cancel: () => void;
 }
 
+export interface ModalContentProps {
+  cancel: () => void;
+}
+
+
 interface ModalState {
 
 }
@@ -157,6 +162,14 @@ export const Modal = (props: ModalProps) => {
       finish: finish
     };
 
+    const contentWithProps = () => {
+      const modalProps: ModalContentProps = { cancel: props.cancel };
+      return React.cloneElement(
+        content,
+        { modalProps: modalProps }
+      );
+    };
+
     return (
       <React.Fragment>
         {show && <ModalWrapper className={themeMode}>
@@ -167,7 +180,7 @@ export const Modal = (props: ModalProps) => {
               {subTitle && <h3>{subTitle}</h3>}
             </header>
             <main>
-              {content}
+              {contentWithProps()}
             </main>
             <footer>
               { actions.map((action, index) => <button key={index} onClick={() => action.event(eventActions)}>{action.title}</button>) }

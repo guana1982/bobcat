@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/vinurs/.nvm/versions/node/v8.9.4/bin/node /usr/local/Cellar/yarn/1.0.1/libexec/bin/yarn.js add constate
+  /Users/vinurs/.nvm/versions/node/v8.9.4/bin/node /usr/local/Cellar/yarn/1.0.1/libexec/bin/yarn.js add react-circle
 
 PATH: 
   /Users/vinurs/.rbenv/shims:/Applications/MAMP/bin/php/php7.1.1/bin:/Users/vinurs/.nvm/versions/node/v8.9.4/bin:/Users/vinurs/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/vinurs/Library/Android/sdk/platform-tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Wireshark.app/Contents/MacOS:/Users/vinurs/Library/Android/sdk/platform-tools:/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/bin:/Users/vinurs/Library/Android/sdk
@@ -70,6 +70,7 @@ npm manifest:
       "babel-plugin-module-resolver": "^3.2.0",
       "babel-plugin-styled-components": "^1.8.0",
       "classnames": "^2.2.6",
+      "constate": "^1.0.0",
       "create-subscription": "^16.5.2",
       "css-loader": "1.0.0",
       "d3-scale": "^2.1.2",
@@ -2421,6 +2422,10 @@ Lockfile:
   constants-browserify@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/constants-browserify/-/constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75"
+  
+  constate@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/constate/-/constate-1.0.0.tgz#93fa87108e364a05e93b3597e22d53adaf86776d"
   
   contains-path@^0.1.0:
     version "0.1.0"
@@ -8936,4 +8941,4 @@ Lockfile:
       fd-slicer "~1.1.0"
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/vinurs/Projects/celli-display/node_modules/.bin/acorn'
+  Error: EACCES: permission denied, unlink '/Users/vinurs/Projects/celli-display/node_modules/.bin/ansi-html'
