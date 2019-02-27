@@ -7,7 +7,7 @@ import { __ } from "@utils/lib/i18n";
 import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER } from "@utils/constants";
 import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
-import { Subscription } from "rxjs";
+import { Subscription, Subject } from "rxjs";
 import { FocusElm } from "@containers/accessibility.container";
 import { ChoiceBeverage } from "@components/consumer/ChoiceBeverage";
 import { CustomizeBeverage } from "@components/consumer/CustomizeBeverage";
@@ -34,7 +34,7 @@ export interface HomeState {
 }
 
 let timerEnd_: any = null;
-let socketAlarms_: any = null;
+let socketAlarms_: Subscription;
 
 export const Home = (props: HomeProps) => {
 
@@ -77,33 +77,28 @@ export const Home = (props: HomeProps) => {
   /* ==== ALARMS ==== */
   /* ======================================== */
 
+  const alarmDetect = (data) => {
+    if (!(data.value === true && data.name in AlarmsOutOfStock)) { // Object.values(AlarmsOutOfStock).includes(data.name)
+      return null;
+    }
+    const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
+    if (beverageSelected || idBeveragePouring_ != null || indexFavoritePouring_ != null) {
+      resetBeverage();
+      alertConsumer.show({
+        type: AlertTypes.OutOfStock,
+        timeout: true,
+        onDismiss: () => {
+          consumerConsumer.updateConsumerBeverages(); // => TO IMPROVE
+        }
+      });
+    }
+  };
+
   React.useEffect(() => {
-
-      const alarmDetect = (data) => {
-        if (!(data.value === true && data.name in AlarmsOutOfStock)) { // Object.values(AlarmsOutOfStock).includes(data.name)
-          return null;
-        }
-        const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
-        if (beverageSelected || idBeveragePouring_ != null || indexFavoritePouring_ != null) {
-          resetBeverage();
-          alertConsumer.show({
-            type: AlertTypes.OutOfStock,
-            timeout: true,
-            onDismiss: () => {
-              consumerConsumer.updateConsumerBeverages(); // => TO IMPROVE
-            }
-          });
-        }
-      };
-
-      if (socketAlarms_ == null)
-        socketAlarms_ = configConsumer.socketAlarms$.subscribe(data => alarmDetect(data));
-
+    socketAlarms_ = configConsumer.socketAlarms$.subscribe(data => alarmDetect(data));
       return () => {
-        if (socketAlarms_)
-          socketAlarms_.unsubscribe();
+        socketAlarms_.unsubscribe();
       };
-
     },
     [state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_],
   );

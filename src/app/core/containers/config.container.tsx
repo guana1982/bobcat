@@ -146,9 +146,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
           return beverage_type === Beverages.Plain || beverage_type === Beverages.Bev && line_id > 0;
         });
         beverages_.sort((a, b) => {
-          if (a.beverage_type === Beverages.Plain || b.beverage_type === Beverages.Plain)
-          return 1;
-
+          if (a.beverage_type === Beverages.Plain) return -1; else if (b.beverage_type === Beverages.Plain) return 1;
           return a.line_id - b.line_id;
         });
 
