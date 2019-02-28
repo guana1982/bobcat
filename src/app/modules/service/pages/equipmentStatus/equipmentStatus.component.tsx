@@ -1,52 +1,64 @@
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
-import { Box } from "@modules/service/components/Modal";
+import { Box, ModalContentProps } from "@modules/service/components/Modal";
 import { MButton, MTypes } from "@modules/service/components/Button";
+import { ConfigContext } from "@core/containers";
+import { IAlarm } from "@core/models";
+import { __ } from "@core/utils/lib/i18n";
 
 const EquipmentStatusContent = styled.div`
 
 `;
 
-interface EquipmentStatusProps {}
-
-interface EquipmentStatusState {}
+interface EquipmentStatusProps extends Partial<ModalContentProps> {}
 
 const EquipmentStatusComponent = (props: EquipmentStatusProps) => {
 
-  const [state, setState] = React.useState<EquipmentStatusState>({});
+  const configConsumer = React.useContext(ConfigContext);
 
-  React.useEffect(() => {
-    console.log("open");
-    return () => {
-      console.log("close");
-    };
-  }, []);
+  const { alarms } = configConsumer;
+  alarms.sort((a, b) => +new Date(b.alarm_date) - +new Date(a.alarm_date));
+
+  const ALARM_INIT = 0;
+  const [alarmSelected, setAlarmSelected] = React.useState<IAlarm>(alarms[ALARM_INIT]);
+
+  const typeAlarm = React.useCallback(
+    (alarm: IAlarm): MTypes => {
+      if (alarm.alarm_state) {
+        if (alarm.alarm_category === "alarm_category_1") {
+          return MTypes.INFO_DANGER;
+        } else if (alarm.alarm_category === "alarm_category_2") {
+          return MTypes.INFO_WARNING;
+        }
+      } else {
+        return MTypes.INFO_SUCCESS;
+      }
+    }, []
+  );
 
   return (
     <div>
       <Box className="elements centered">
-        <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-        <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-        <MButton type={MTypes.INFO_DANGER} className="small" light info>---</MButton>
-        <MButton type={MTypes.INFO_DANGER} className="small" light info>---</MButton>
-        <MButton type={MTypes.INFO_WARNING} className="small" light info>---</MButton>
-        <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-        <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-        <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-        <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-        <MButton type={MTypes.INFO_DANGER} className="small" light info>---</MButton>
-        <MButton type={MTypes.INFO_DANGER} className="small" light info>---</MButton>
-        <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-        <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
-        <MButton type={MTypes.INFO_SUCCESS} className="small" light info>---</MButton>
+        {alarms.map((alarm, i) => (
+          <MButton
+            className="small" info
+            light={alarm !== alarmSelected}
+            key={i}
+            onClick={() => setAlarmSelected(alarm)}
+            type={typeAlarm(alarm)}
+          >
+            {alarm.alarm_code}
+          </MButton>
+        ))}
       </Box>
       <Box className="container">
         <h2 id="title">info</h2>
         <h4>
-          --------------
-          --------------
-          --------------
-          --------------
+          <p>NAME: {__(alarmSelected.alarm_name)}</p>
+          <p>CODE: {alarmSelected.alarm_code}</p>
+          <p>DATE: {new Date(alarmSelected.alarm_date).toLocaleDateString()}</p>
+          <p>DESCRIPTION: {__(alarmSelected.alarm_description)}</p>
+          <p>SOLUTION: {__(alarmSelected.alarm_solution)}</p>
         </h4>
       </Box>
     </div>

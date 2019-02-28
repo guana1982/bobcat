@@ -254,7 +254,7 @@ export const MenuComponent = (props: MenuProps) => {
           cancel={closeAllModal}
           title="EQUIPMENT STATUS"
           content={<EquipmentStatusComponent />}
-          actions={ACTIONS_CONFIRM}
+          actions={ACTIONS_CLOSE}
         ></Modal>
 
         <Modal

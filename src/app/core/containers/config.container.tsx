@@ -76,7 +76,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     const setAlarms = mediumLevel.alarm.getAlarms()
     .pipe(
       map(data => data && data.elements || []),
-      map((alarms: IAlarm[]) => alarms.filter(alarm => alarm.alarm_state)),
+      // map((alarms: IAlarm[]) => alarms.filter(alarm => alarm.alarm_state)),
       tap((alarms: IAlarm[]) => {
         console.log("ALARMS", alarms);
         this.setState({alarms: alarms});
