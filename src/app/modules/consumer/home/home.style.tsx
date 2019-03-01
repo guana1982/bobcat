@@ -9,7 +9,8 @@ import { ChoiceBeverageWrap } from "@components/consumer/ChoiceBeverage";
 
 /* beverageIsSelected?: boolean; isLogged: boolean */
 export const HomeContent = styled.div`
-  background-color: ${props => props.theme.secondary};
+  /* background-color: ${props => props.theme.secondary}; */
+  background-image: linear-gradient(to bottom, #ffffff, #f9f9f9);
   width: ${props => props.isLogged ? "75vw" : "100vw"};
   height: 100vh;
   position: absolute;
@@ -33,12 +34,13 @@ export const HomeContent = styled.div`
   }
   #types-group {
     position: absolute;
-    top: 2rem;
-    left: calc(50% - 13.5rem);
+    top: 0rem;
+    left: calc(50% - 12rem);
     margin: auto;
     z-index: 1;
     ${ButtonGroupWrapper} {
-      width: 25rem;
+      width: 24rem;
+      height: 4.5rem;
     }
   }
 `;

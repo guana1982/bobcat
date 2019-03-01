@@ -7,60 +7,32 @@ export const ButtonGroupWrapper = styled.div`
   display: -ms-inline-flexbox;
   display: inline-flex;
   vertical-align: middle;
-  border: 2px solid ${props => props.theme.primary};
-  /* width: 17rem; */
-  border-radius: 12px;
+  background: rgba(231, 231, 231, .7);
+  border-radius: 0 0 37px 37px;
   button {
     &:first-child {
-      border-bottom-left-radius: 10px;
-      border-top-left-radius: 10px;
+      border-radius: 0 0 37px 37px;
     }
     &:last-child {
-      border-bottom-right-radius: 10px;
-      border-top-right-radius: 10px;
-      &:before {
-        border-right: 0;
-      }
-    }
-    &:before {
-      content: '';
-      position: absolute;
-      top: 6.5px;
-      width: 100%;
-      right: -1px;
-      height: calc(100% - 14px);
-      border-right: ${props =>  `2px solid ${props.theme.primary}` };
-      z-index: 1;
+      border-radius: 0 0 37px 37px;
     }
     position: relative;
     width: 5.6rem;
     flex: 1;
     color: ${props => props.theme.primary};
-    background: ${props => props.theme.light};
     padding: 1rem .8rem;
     font-size: 1rem;
     &.selected {
-      background: ${props => props.theme.sail} !important;
+      box-shadow: 0px 0px 18px 8px rgba(0,0,0,0.05);
+      background: ${props => props.theme.light} !important;
       color: ${props => props.theme.primary} !important;
       font-weight: 600;
+      text-transform: uppercase;
     }
-    &:active {
+    /* &:active {
       color: ${props => props.theme.primary};
       background: ${props => props.theme.light};
-    }
-  }
-`;
-
-const ButtonGroupContent = styled.div`
-  margin: 15px;
-  label {
-    display: inline-block;
-    color: ${props => props.theme.primary};
-    text-transform: capitalize;
-    width: 6.5rem;
-    font-size: 1.2rem;
-    text-align: left;
-    font-weight: 600;
+    } */
   }
 `;
 
@@ -84,14 +56,11 @@ export class ButtonGroup extends React.Component<ButtonGroupProps, ButtonGroupSt
 
   render() {
     return (
-      <ButtonGroupContent>
-        {this.props.label && <label>{this.props.label}</label>}
-        <ButtonGroupWrapper>
-          {this.props.options ? this.props.options.map((e, i) =>
-            <button key={i} onClick={() => this.props.onChange(e.value)} className={this.props.value === e.value ? "selected" : ""} type="button">{e.label}</button>
-          ) : " --- " }
-        </ButtonGroupWrapper>
-      </ButtonGroupContent>
+      <ButtonGroupWrapper>
+        {this.props.options ? this.props.options.map((e, i) =>
+          <button key={i} onClick={() => this.props.onChange(e.value)} className={this.props.value === e.value ? "selected" : ""} type="button">{e.label}</button>
+        ) : " --- " }
+      </ButtonGroupWrapper>
     );
   }
 }

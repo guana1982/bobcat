@@ -8,14 +8,16 @@ import { forwardRef } from "react";
 import { BeverageStatus } from "@models/beverage.model";
 import { FocusElm } from "@containers/accessibility.container";
 import ClickNHold from "./ClickNHold";
+import { beverageItem } from "@core/Menu/Custom/BeveragesDropdown.scss";
+import { BeverageColor } from "@core/utils/constants";
 
 export enum BeverageTypes {
   Info = "info",
   Sparkling = "sparkling"
 }
 
-const _sizeBeverage = 11;
-/* size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; dataBtnFocus?: FocusElm; */
+const _sizeBeverage = 11.5;
+/* size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; dataBtnFocus?: FocusElm; beverage_logo_id: string; */
 export const BeverageWrap = styled.button.attrs(props => ({
   "data-btn-focus": props.dataBtnFocus
 }))`
@@ -27,19 +29,38 @@ export const BeverageWrap = styled.button.attrs(props => ({
   pointer-events: default;
   height: ${_sizeBeverage * 1.6}rem;
   width: ${_sizeBeverage * 1.4}rem;
+  margin: 2rem .5rem 1.5rem .5rem;
   #element {
     position: relative;
-    border: ${props => `2px ${props.type === BeverageTypes.Info ? "dashed" : "solid"} ${props.theme.primary}`};
-    background-color: ${props => props.type === BeverageTypes.Info ? "rgba(255, 255, 255, 0.3)" : props.theme["light"] };
+    /* border: ${props => `2px ${props.type === BeverageTypes.Info ? "dashed" : "solid"} ${props.theme.primary}`}; */
+    /* background-color: ${props => props.type === BeverageTypes.Info ? "rgba(255, 255, 255, 0.3)" : props.theme["light"] }; */
+    box-shadow: 0px 113px 280px -42px rgba(0,0,0,0.12);
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #ffffff);
+
+    /* #logo {
+      background-image: url("img/logos/${props => props.beverage_logo_id}.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 95% 100%;
+    }  */
+
+    #logo {
+      position: absolute;
+      top: -40px;
+      width: 80%;
+      height: 80%;
+      left: 10%;
+    }
+
     width: 100%;
-    border-radius: 1rem;
+    border-radius: 17px;
     color: #0034B0;
     height: 100%;
     text-align: left;
     * {
       opacity: ${props => props.type === BeverageTypes.Info ? .6 : 1 };
     }
-    &:before {
+    /* &:before {
       content: " ";
       opacity: .7;
       position: absolute;
@@ -51,16 +72,18 @@ export const BeverageWrap = styled.button.attrs(props => ({
       background-position: right;
       background-repeat: no-repeat;
       background-image: url("img/${props => props.type}.svg");
-    }
+    } */
     h3 {
-      position: relative;
+      text-transform: uppercase;
+      /* position: relative; */
       word-wrap: break-word;
       top: ${_sizeBeverage / 2.5}rem;
       left: .7rem;
-      font-size: ${_sizeBeverage / 7}rem;
+      font-size: ${_sizeBeverage / 8}rem;
+      color: ${props => BeverageColor[`_${props.beverage_logo_id}`]};
       margin: .5rem;
       left: 0;
-      &:before {
+      /* &:before {
         position: absolute;
         top: -20px;
         content: "${props => props.type === BeverageTypes.Sparkling ? props.type : null} ";
@@ -68,29 +91,35 @@ export const BeverageWrap = styled.button.attrs(props => ({
         text-transform: capitalize;
         font-size: 1rem;
         font-weight: 500;
-      }
+      } */
     }
-    h6 {
-      position: relative;
-      top: ${_sizeBeverage / 2.5}rem;
-      left: .5rem;
-      font-size: ${_sizeBeverage / 13.5}rem;
-      bottom: 0;
-      color: ${props => props.status === "active" ? "#fff" : props.theme.primary };
-      margin: .7rem;
-      text-align: left;
-      left: 0;
-    }
-    h5 {
+    #text {
       position: absolute;
-      text-align: center;
-      font-size: ${_sizeBeverage / 10}rem;
-      opacity: 1 !important;
-      font-weight: 600;
-      right: .5rem;
-      bottom: .5rem;
-      color: ${props => props.status === "active" ? "#fff" : props.theme.primary };
-      margin: .7rem;
+      bottom: 0;
+      width: 100%;
+      padding: 10px;
+      h6 {
+        /* position: relative; */
+        top: ${_sizeBeverage / 2.5}rem;
+        left: .5rem;
+        font-size: ${_sizeBeverage / 13.5}rem;
+        bottom: 0;
+        color: ${props => props.status === "active" ? "#fff" : props.theme.primary };
+        margin: .7rem;
+        text-align: left;
+        left: 0;
+      }
+      h5 {
+        position: absolute;
+        text-align: center;
+        font-size: ${_sizeBeverage / 10}rem;
+        opacity: 1 !important;
+        font-weight: 600;
+        right: .5rem;
+        bottom: .5rem;
+        color: ${props => props.status === "active" ? "#fff" : props.theme.primary };
+        margin: .7rem;
+      }
     }
   }
   #indicators {
@@ -143,7 +172,7 @@ interface BeverageProps {
 }
 
 export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
-  const { title, type, indicators, label, pouring, status_id, dataBtnFocus } = props;
+  const { title, type, indicators, label, pouring, status_id, dataBtnFocus, beverage } = props;
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
 
@@ -174,13 +203,17 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         time={0.5}
         onClickNHold={clickHold}
         onEnd={end}>
-        <BeverageWrap dataBtnFocus={dataBtnFocus} pouring={pouring} type={type}> { /* onClick={onClick} */ } { /* onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} */ }
+        <BeverageWrap beverage_logo_id={beverage.beverage_logo_id} dataBtnFocus={dataBtnFocus} pouring={pouring} type={type}> { /* onClick={onClick} */ } { /* onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} */ }
           <div id="element">
+            {/* <div id="logo" /> */}
+            <img id="logo" src={`img/logos/${beverage.beverage_logo_id}.png`} />
             <div id="indicators">
               {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
             </div>
-            <h3>{__(title)}</h3>
-            <h6>0-CALS</h6>
+            <div id="text">
+              <h3>{__(title)}</h3>
+              <h6>0-CALS</h6>
+            </div>
             {label && <h5>{__(label)}</h5>}
             {$outOfStock && <div className="overlay"><h4>{__("Out Of Stock")}</h4></div>}
             {pouring && <div className="overlay"><h4>{__("Pouring")}</h4></div>}

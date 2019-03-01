@@ -67,7 +67,7 @@ export const Home = (props: HomeProps) => {
   const consumerConsumer = React.useContext(ConsumerContext);
 
   React.useEffect(() => {
-    timerConsumer.startTimer();
+    // timerConsumer.startTimer();
     timerEnd_ = null;
     return () => {
       timerConsumer.resetTimer();

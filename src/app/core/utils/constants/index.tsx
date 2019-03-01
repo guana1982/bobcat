@@ -36,6 +36,18 @@ export const LEVELS = {
   ]
 };
 
+// -- BEVERAGE COLOR --
+
+export enum BeverageColor {
+  _2011 = "#92a526",
+  _2009 = "#f76024",
+  _2014 = "#da070e",
+  _9 = "#0785a1",
+  _2010 = "#99a804",
+  _2013 = "#f3674f",
+  _2012 = "#e1103a"
+}
+
 // -- TIMER --
 
 export enum CONSUMER_TIMER {
