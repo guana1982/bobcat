@@ -1,4 +1,4 @@
-import { BeverageStatus } from "../models/beverage.model";
+import { BeverageStatus, IBeverage } from "../models/beverage.model";
 import { BeverageTypes } from "../components/global/Beverage";
 
 // === BEVERAGE ===
@@ -70,6 +70,7 @@ export interface IConsumerBeverage {
   coldLvl: number;
   flavors: Flavor[];
   enhancements: Enhancement[];
+  $beverage: IBeverage;
   $type?: BeverageTypes;
   $status_id?: BeverageStatus;
 }

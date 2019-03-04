@@ -31,12 +31,14 @@ export const BeverageWrap = styled.button.attrs(props => ({
   width: ${_sizeBeverage * 1.4}rem;
   margin: 2rem .5rem 1.5rem .5rem;
   #element {
+    box-shadow: 0px 10px 20px -6px rgba(0,0,0,0.17);
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff);
     position: relative;
     /* border: ${props => `2px ${props.type === BeverageTypes.Info ? "dashed" : "solid"} ${props.theme.primary}`}; */
     /* background-color: ${props => props.type === BeverageTypes.Info ? "rgba(255, 255, 255, 0.3)" : props.theme["light"] }; */
-    box-shadow: 0px 113px 280px -42px rgba(0,0,0,0.12);
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #ffffff);
-
+    /* box-shadow: 0px 113px 280px -42px rgba(0,0,0,0.12); */
+    /* background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #ffffff); */
+    background: #fff;
     /* #logo {
       background-image: url("img/logos/${props => props.beverage_logo_id}.png");
       background-repeat: no-repeat;
@@ -47,9 +49,13 @@ export const BeverageWrap = styled.button.attrs(props => ({
     #logo {
       position: absolute;
       top: -40px;
-      width: 80%;
+      width: 90%;
       height: 80%;
-      left: 10%;
+      left: 5%;
+      background-image: url("img/logos/${props => props.beverage_logo_id}${props => props.type ? "@" : null}${props => props.type}.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 95% 100%;
     }
 
     width: 100%;
@@ -138,7 +144,7 @@ export const BeverageWrap = styled.button.attrs(props => ({
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 91, 195, .9);
+    background: rgba(0, 0, 0, .6);
     border-radius: 0.7rem;
     h4 {
       word-wrap: break-word;
@@ -205,11 +211,12 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         onEnd={end}>
         <BeverageWrap beverage_logo_id={beverage.beverage_logo_id} dataBtnFocus={dataBtnFocus} pouring={pouring} type={type}> { /* onClick={onClick} */ } { /* onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} */ }
           <div id="element">
-            {/* <div id="logo" /> */}
-            <img id="logo" src={`img/logos/${beverage.beverage_logo_id}.png`} />
-            <div id="indicators">
+            <div id="logo" />
+            {/* <img id="logo" src={`img/logos/${beverage.beverage_logo_id}.png`} /> */}
+
+            {/* <div id="indicators">
               {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
-            </div>
+            </div> */}
             <div id="text">
               <h3>{__(title)}</h3>
               <h6>0-CALS</h6>
@@ -227,31 +234,31 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 export const BeveragesAnimated = [
   posed(Beverage)({
     close: {
-      transform: "scale(1) translate3d(62.8vw, -7.5rem, 0px)",
+      transform: "translate3d(62.8vw, -7.5rem, 0px)", // scale(1)
       delay: 100
     },
     open: {
-      transform: "scale(1.2) translate3d(0vw, 0rem, 0px)",
+      transform: "translate3d(0vw, 0rem, 0px)", // scale(1.2)
       delay: 50
     }
   }),
   posed(Beverage)({
     close: {
-      transform: "scale(1) translate3d(36.5vw, 10.2rem, 0px)",
+      transform: "translate3d(36.5vw, 10.2rem, 0px)", // scale(1)
       delay: 75
     },
     open: {
-      transform: "scale(1.4) translate3d(0vw, 0rem, 0px)",
+      transform: "translate3d(0vw, 0rem, 0px)", // scale(1.4)
       delay: 75
     }
   }),
   posed(Beverage)({
     close: {
-      transform: "scale(1) translate3d(10vw, 38rem, 0px)",
+      transform: "translate3d(10vw, 38rem, 0px)", // scale(1)
       delay: 50
     },
     open: {
-      transform: "scale(1.2) translate3d(0vw, 0rem, 0px)",
+      transform: "translate3d(0vw, 0rem, 0px)", // scale(1.2)
       delay: 100
     }
   })

@@ -72,6 +72,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
           consumerBeverage.flavorTitle = beverageFlavor.beverage_label_id;
         }
         consumerBeverage.$status_id = beverageFlavor.status_id;
+        consumerBeverage.$beverage = beverageFlavor;
         return consumerBeverage;
       } else {
         const infoBeverage = this.infoBeverages[index];
@@ -114,9 +115,9 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     .pipe(
       first(),
       map((data: any) => data.value),
-      // map(() => TEST_QR) // MOCK
+      map(() => TEST_QR) // MOCK
     );
-    return socketConsumer$;
+    return of(TEST_QR); // socketConsumer$;
   }
 
   /* ==== SCANNING ==== */
@@ -125,7 +126,8 @@ class ConsumerStoreComponent extends React.Component<any, any> {
   startScanning = (): Observable<boolean> => {
 
     const loadDataFromQr: Observable<true | false> =
-      mediumLevel.config.startQrCamera()
+      // mediumLevel.config.startQrCamera()
+      of(null)
       .pipe(
         mergeMap(() => this.getDataFromSocket(SOCKET_CONSUMER.QR)),
         tap(() => this.stopScanning().subscribe()),

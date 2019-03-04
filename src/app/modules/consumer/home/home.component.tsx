@@ -16,6 +16,10 @@ import { ConfigContext } from "@containers/config.container";
 import { TimerContext } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 
+import BackdropFilter from "react-backdrop-filter";
+
+const blurStyle: any = {WebkitFilter: "blur(50px)"};
+
 interface HomeProps {
   history: any;
 }
@@ -307,21 +311,23 @@ export const Home = (props: HomeProps) => {
       <HomeContent isLogged={presentSlide} beverageIsSelected={Boolean(getBeverageSelected())}>
         {beverages.length > 0 && (
           <React.Fragment>
-            <ChoiceBeverage
-              onGesture={onGesture}
-              selectBeverage={selectBeverage}
-              startPour={startPour}
-              stopPour={stopPour}
-              goToPrepay={goToPrepay}
-              idBeveragePouring_={state.idBeveragePouring_}
-              isSparkling={state.isSparkling}
-            />
-            <div data-focus={beverageSelected ? FocusElm.Extra : null} id="types-group">
-              <ButtonGroup
-                options={types}
-                value={isSparkling}
-                onChange={(value) => handleType(value)}>
-              </ButtonGroup>
+            <div style={state.slideOpen ? blurStyle : null}>
+              <ChoiceBeverage
+                onGesture={onGesture}
+                selectBeverage={selectBeverage}
+                startPour={startPour}
+                stopPour={stopPour}
+                goToPrepay={goToPrepay}
+                idBeveragePouring_={state.idBeveragePouring_}
+                isSparkling={state.isSparkling}
+              />
+              <div data-focus={beverageSelected ? FocusElm.Extra : null} id="types-group">
+                <ButtonGroup
+                  options={types}
+                  value={isSparkling}
+                  onChange={(value) => handleType(value)}>
+                </ButtonGroup>
+              </div>
             </div>
           </React.Fragment>
         )}
