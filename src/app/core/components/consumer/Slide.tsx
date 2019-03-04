@@ -5,15 +5,22 @@ import styled from "styled-components";
 import posed from "react-pose";
 import { Footer } from "../global/Footer";
 import { ConsumerContext, FocusElm } from "@containers/index";
-import { BeverageTypes, BeveragesAnimated, BeverageIndicators } from "../global/Beverage";
+import { BeverageTypes, BeveragesAnimated, BeverageIndicators, Beverage } from "../global/Beverage";
 import BackdropFilter from "react-backdrop-filter";
 
 export const _sizeSlide = "25vw";
+export const _sizeSlideFull = "6.5vw";
 
 /* ==== ANIMATIONS ==== */
 /* ======================================== */
 
 const _Slide = posed.div({
+  fullClose: {
+    transform: "translate3d(-93.5vw, 0, 0)",
+    transition: {
+      duration: 300,
+    }
+  },
   close: {
     transform: "translate3d(-73.5vw, 0, 0)",
     transition: {
@@ -21,7 +28,7 @@ const _Slide = posed.div({
     }
   },
   open: {
-    transform: "translate3d(0vw, 0, 0)",
+    transform: "translate3d(-3vw, 0, 0)",
     transition: {
       duration: 300,
     }
@@ -128,10 +135,11 @@ interface SlideProps {
   startConsumerPour: any;
   stopConsumerPour: any;
   handleSlide: any;
+  fullMode: boolean;
 }
 
 export const Slide = (props: SlideProps) => {
-  const { slideOpen, indexFavoritePouring_, beverageSelected, startConsumerPour, stopConsumerPour, handleSlide } = props;
+  const { slideOpen, indexFavoritePouring_, beverageSelected, startConsumerPour, stopConsumerPour, handleSlide, fullMode } = props;
   const { dataConsumer, consumerBeverages } = React.useContext(ConsumerContext);
 
   // const timeText = () => {
@@ -168,9 +176,11 @@ export const Slide = (props: SlideProps) => {
     return null;
   };
 
+  const animationSlide = () => slideOpen ? "open" : fullMode ? "fullClose" : "close";
+
   return (
     <React.Fragment>
-      <SlideStyled dataFocus={slideFocus()} pose={slideOpen ? "open" : "close"}>
+      <SlideStyled dataFocus={slideFocus()} pose={animationSlide()}>
         <HeaderSlide className={slideOpen && "open"}>
           <h2>hi, {dataConsumer.consumer_nick}!</h2>
         </HeaderSlide>
@@ -179,7 +189,19 @@ export const Slide = (props: SlideProps) => {
           {consumerBeverages.map((b, i) => {
             const BeverageAnimated = BeveragesAnimated[i];
             return (
-              <BeverageAnimated
+              // <BeverageAnimated
+              //   pouring={i === indexFavoritePouring_}
+              //   onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
+              //   key={i}
+              //   beverage={b.$beverage}
+              //   indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
+              //   label={i === 0 && !slideOpen && b.$type === BeverageTypes.Info ? "Save favorites from smartphone" : null}
+              //   status_id={b.$status_id}
+              //   title={b.flavorTitle}
+              //   type={b.$type}
+              //   dataBtnFocus={checkBtnFocus(i)}
+              // />
+              <Beverage
                 pouring={i === indexFavoritePouring_}
                 onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
                 key={i}

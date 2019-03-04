@@ -10,7 +10,7 @@ import { IBeverage } from "../models";
 import { BeverageStatus } from "../models/beverage.model";
 import { BeverageTypes } from "../components/global/Beverage";
 import { __ } from "../utils/lib/i18n";
-import { TEST_QR } from "../utils/APIMock";
+import { TEST_QR_0 } from "../utils/APIMock";
 
 export interface ConsumerInterface {
   isLogged: boolean;
@@ -65,7 +65,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
         let beverageFlavor: IBeverage = beverages.filter((b) => Number(b.beverage_id) === Number(consumerBeverage.flavors[0].product.flavorUpc))[0];
 
         if (!beverageFlavor)
-          beverageFlavor = { beverage_label_id: __("Not Available"), status_id: BeverageStatus.EmptyBib };
+          beverageFlavor = { beverage_label_id: __("Not Available"), status_id: BeverageStatus.EmptyBib, beverage_logo_id: 9 };
 
         consumerBeverage.$type = null;
         if (consumerBeverage.flavorTitle === undefined || consumerBeverage.flavorTitle === null || consumerBeverage.flavorTitle === "") {
@@ -115,9 +115,9 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     .pipe(
       first(),
       map((data: any) => data.value),
-      map(() => TEST_QR) // MOCK
+      map(() => TEST_QR_0) // MOCK
     );
-    return of(TEST_QR); // socketConsumer$;
+    return of(TEST_QR_0); // socketConsumer$;
   }
 
   /* ==== SCANNING ==== */
@@ -131,6 +131,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
       .pipe(
         mergeMap(() => this.getDataFromSocket(SOCKET_CONSUMER.QR)),
         tap(() => this.stopScanning().subscribe()),
+        tap((data: IConsumerModel) => console.log("ConsumerBeverages", this.getConsumerBeverages(data))),
         map((data: IConsumerModel) => {
           console.log(data);
           const isLogged = data.identification_type !== IdentificationConsumerTypes.NoAuth;

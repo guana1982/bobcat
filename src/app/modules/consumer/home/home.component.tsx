@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { HomeContent} from "./home.style";
+import { HomeContent, BlurWrap} from "./home.style";
 import { ButtonGroup } from "@components/global/ButtonGroup";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
@@ -15,10 +15,6 @@ import { Slide } from "@components/consumer/Slide";
 import { ConfigContext } from "@containers/config.container";
 import { TimerContext } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
-
-import BackdropFilter from "react-backdrop-filter";
-
-const blurStyle: any = {WebkitFilter: "blur(50px)"};
 
 interface HomeProps {
   history: any;
@@ -217,6 +213,10 @@ export const Home = (props: HomeProps) => {
   /* ==== BEVERAGE CONSUMER ==== */
   /* ======================================== */
 
+  const MAX_CONSUMER_BEVERAGE = 3;
+  const lengthConsumerBeverages = consumerConsumer.consumerBeverages.length;
+  const fullMode = lengthConsumerBeverages === MAX_CONSUMER_BEVERAGE;
+
   const startConsumerPour = (consumerBeverage: IConsumerBeverage, index: number) => {
     setState(prevState => ({...prevState, indexFavoritePouring_: index}));
     const beverageSelected: any = { beverage_id: Number(consumerBeverage.flavors[0].product.flavorUpc) };
@@ -306,12 +306,13 @@ export const Home = (props: HomeProps) => {
           startConsumerPour={startConsumerPour}
           stopConsumerPour={stopConsumerPour}
           handleSlide={handleSlide}
+          fullMode={fullMode}
         />
       }
-      <HomeContent isLogged={presentSlide} beverageIsSelected={Boolean(getBeverageSelected())}>
+      <HomeContent isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={Boolean(getBeverageSelected())}>
         {beverages.length > 0 && (
           <React.Fragment>
-            <div style={state.slideOpen ? blurStyle : null}>
+            <BlurWrap pose={state.slideOpen ? "enable" : "disable"}>
               <ChoiceBeverage
                 onGesture={onGesture}
                 selectBeverage={selectBeverage}
@@ -328,25 +329,25 @@ export const Home = (props: HomeProps) => {
                   onChange={(value) => handleType(value)}>
                 </ButtonGroup>
               </div>
-            </div>
+            </BlurWrap>
           </React.Fragment>
         )}
-        {beverageSelected &&
-          <CustomizeBeverage
-            levels={levels}
-            isSparkling={isSparkling}
-            slideOpen={state.slideOpen}
-            showCardsInfo={state.showCardsInfo}
-            showEnd={state.showEnd}
-            beverageConfig={state.beverageConfig}
-            resetBeverage={resetBeverage}
-            getBeverageSelected={getBeverageSelected}
-            handleChange={handleChange}
-            startPour={startPour}
-            stopPour={stopPour}
-          />
-        }
       </HomeContent>
+      {beverageSelected &&
+        <CustomizeBeverage
+          levels={levels}
+          isSparkling={isSparkling}
+          slideOpen={state.slideOpen}
+          showCardsInfo={state.showCardsInfo}
+          showEnd={state.showEnd}
+          beverageConfig={state.beverageConfig}
+          resetBeverage={resetBeverage}
+          getBeverageSelected={getBeverageSelected}
+          handleChange={handleChange}
+          startPour={startPour}
+          stopPour={stopPour}
+        />
+      }
     </section>
   );
 
