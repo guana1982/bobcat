@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { HomeContent} from "./home.style";
+import { HomeContent, BlurWrap} from "./home.style";
 import { ButtonGroup } from "@components/global/ButtonGroup";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
@@ -213,6 +213,10 @@ export const Home = (props: HomeProps) => {
   /* ==== BEVERAGE CONSUMER ==== */
   /* ======================================== */
 
+  const MAX_CONSUMER_BEVERAGE = 3;
+  const lengthConsumerBeverages = consumerConsumer.consumerBeverages.length;
+  const fullMode = lengthConsumerBeverages === MAX_CONSUMER_BEVERAGE;
+
   const startConsumerPour = (consumerBeverage: IConsumerBeverage, index: number) => {
     setState(prevState => ({...prevState, indexFavoritePouring_: index}));
     const beverageSelected: any = { beverage_id: Number(consumerBeverage.flavors[0].product.flavorUpc) };
@@ -302,9 +306,10 @@ export const Home = (props: HomeProps) => {
           startConsumerPour={startConsumerPour}
           stopConsumerPour={stopConsumerPour}
           handleSlide={handleSlide}
+          fullMode={fullMode}
         />
       }
-      <HomeContent isLogged={presentSlide} beverageIsSelected={Boolean(getBeverageSelected())}>
+      <HomeContent isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={Boolean(getBeverageSelected())}>
         {beverages.length > 0 && (
           <React.Fragment>
             <ChoiceBeverage
@@ -325,22 +330,22 @@ export const Home = (props: HomeProps) => {
             </div>
           </React.Fragment>
         )}
-        {beverageSelected &&
-          <CustomizeBeverage
-            levels={levels}
-            isSparkling={isSparkling}
-            slideOpen={state.slideOpen}
-            showCardsInfo={state.showCardsInfo}
-            showEnd={state.showEnd}
-            beverageConfig={state.beverageConfig}
-            resetBeverage={resetBeverage}
-            getBeverageSelected={getBeverageSelected}
-            handleChange={handleChange}
-            startPour={startPour}
-            stopPour={stopPour}
-          />
-        }
       </HomeContent>
+      {beverageSelected &&
+        <CustomizeBeverage
+          levels={levels}
+          isSparkling={isSparkling}
+          slideOpen={state.slideOpen}
+          showCardsInfo={state.showCardsInfo}
+          showEnd={state.showEnd}
+          beverageConfig={state.beverageConfig}
+          resetBeverage={resetBeverage}
+          getBeverageSelected={getBeverageSelected}
+          handleChange={handleChange}
+          startPour={startPour}
+          stopPour={stopPour}
+        />
+      }
     </section>
   );
 

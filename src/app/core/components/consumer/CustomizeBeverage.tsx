@@ -159,6 +159,7 @@ export const CustomizeBeverageWrap = styled.section.attrs(props => ({
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 3;
   /* height: 100vh;
   width: 75vw; */
   #backdrop {

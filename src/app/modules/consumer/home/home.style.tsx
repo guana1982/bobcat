@@ -1,19 +1,53 @@
 import styled from "styled-components";
 import { ButtonGroupWrapper } from "@components/global/ButtonGroup";
 import { Grid } from "@components/global/Grid";
-import { _sizeSlide } from "@components/consumer/Slide";
+import { _sizeSlide, _sizeSlideFull } from "@components/consumer/Slide";
 import { ChoiceBeverageWrap } from "@components/consumer/ChoiceBeverage";
+import posed from "react-pose";
 
 /* ==== HOME MAIN ==== */
 /* ======================================== */
 
-/* beverageIsSelected?: boolean; isLogged: boolean */
+const sizeHome = (props) => props.isLogged ? props.fullMode ? _sizeSlideFull : _sizeSlide : "0vw";
+
+const _BlurWrap = posed.div({
+  disable: {
+    "-webkit-filter": "blur(0px)",
+    delay: 100,
+    transition: {
+      duration: 5,
+    }
+  },
+  enable: {
+    "-webkit-filter": "blur(40px)",
+    delay: 0,
+    transition: {
+      duration: 0
+    }
+  }
+});
+
+export const BlurWrap = styled(_BlurWrap)`
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -webkit-transform: translate3d(0,0,0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
+  zoom: 1;
+  transform: translate3d(0,0,0);
+  transform: translateZ(0);
+  will-change: transform;
+  /* -webkit-filter: ${props => props.isBlured ? "blur(50px)" : null}; */
+`;
+
+/* beverageIsSelected?: boolean; isLogged: boolean; fullMode: boolean */
 export const HomeContent = styled.div`
   background-color: ${props => props.theme.secondary};
-  width: ${props => props.isLogged ? "75vw" : "100vw"};
+  width: calc( 100vw - ${props => sizeHome(props)});
   height: 100vh;
   position: absolute;
-  left: ${props => props.isLogged ? _sizeSlide : 0};
+  left: ${props => sizeHome(props)};
   top: 0;
   ${Grid} {
     padding-top: 8.1rem;
@@ -36,7 +70,7 @@ export const HomeContent = styled.div`
     top: 2rem;
     left: calc(50% - 13.5rem);
     margin: auto;
-    z-index: 1;
+    z-index: 4;
     ${ButtonGroupWrapper} {
       width: 25rem;
     }
