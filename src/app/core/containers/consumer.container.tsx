@@ -10,7 +10,7 @@ import { IBeverage } from "../models";
 import { BeverageStatus } from "../models/beverage.model";
 import { BeverageTypes } from "../components/global/Beverage";
 import { __ } from "../utils/lib/i18n";
-import { TEST_QR_0 } from "../utils/APIMock";
+import { TEST_QR_0, TEST_QR_1, TEST_QR_2, TEST_QR_3 } from "../utils/APIMock";
 
 export interface ConsumerInterface {
   isLogged: boolean;
@@ -29,6 +29,7 @@ export const ConsumerConsumer = ConsumerContext.Consumer;
 
 class ConsumerStoreComponent extends React.Component<any, any> {
 
+  index_qr;
   readonly infoBeverages: any = [{
     flavorTitle: "Favorite 1"
   }, {
@@ -39,6 +40,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
 
   constructor(props) {
     super(props);
+    this.index_qr = -1;
     this.state = {
       isLogged: false,
       dataConsumer: null,
@@ -114,9 +116,29 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     .pipe(
       first(),
       map((data: any) => data.value),
-      map(() => TEST_QR_0) // MOCK
     );
-    return of(TEST_QR_0); // socketConsumer$;
+
+    // ____ MOCK
+    const mock = () => {
+      switch (this.index_qr) {
+        case 0:
+          return TEST_QR_0;
+          break;
+        case 1:
+          return TEST_QR_1;
+          break;
+        case 2:
+          return TEST_QR_2;
+          break;
+        case 3:
+          return TEST_QR_3;
+          break;
+      }
+    };
+    if (type === SOCKET_CONSUMER.SERVER) {
+      this.index_qr = this.index_qr + 1;
+    }
+    return of(mock()); // socketConsumer$;
   }
 
   /* ==== SCANNING ==== */

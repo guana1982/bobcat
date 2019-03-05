@@ -15,6 +15,7 @@ import { Slide } from "@components/consumer/Slide";
 import { ConfigContext } from "@containers/config.container";
 import { TimerContext } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
+import { BeverageTypes } from "@core/components/global/Beverage";
 
 interface HomeProps {
   history: any;
@@ -213,7 +214,8 @@ export const Home = (props: HomeProps) => {
   /* ==== BEVERAGE CONSUMER ==== */
   /* ======================================== */
   const MAX_CONSUMER_BEVERAGE = 3;
-  const lengthConsumerBeverages = consumerConsumer.consumerBeverages.length;
+  const validConsumerBeverage = consumerConsumer.consumerBeverages.filter(beverage => beverage.$type !== BeverageTypes.Info);
+  const lengthConsumerBeverages = validConsumerBeverage.length;
   const fullMode = lengthConsumerBeverages === MAX_CONSUMER_BEVERAGE;
 
   React.useEffect(() => {
@@ -335,22 +337,22 @@ export const Home = (props: HomeProps) => {
             </div>
           </React.Fragment>
         )}
+        {beverageSelected &&
+          <CustomizeBeverage
+            levels={levels}
+            isSparkling={isSparkling}
+            slideOpen={state.slideOpen}
+            showCardsInfo={state.showCardsInfo}
+            showEnd={state.showEnd}
+            beverageConfig={state.beverageConfig}
+            resetBeverage={resetBeverage}
+            getBeverageSelected={getBeverageSelected}
+            handleChange={handleChange}
+            startPour={startPour}
+            stopPour={stopPour}
+          />
+        }
       </HomeContent>
-      {beverageSelected &&
-        <CustomizeBeverage
-          levels={levels}
-          isSparkling={isSparkling}
-          slideOpen={state.slideOpen}
-          showCardsInfo={state.showCardsInfo}
-          showEnd={state.showEnd}
-          beverageConfig={state.beverageConfig}
-          resetBeverage={resetBeverage}
-          getBeverageSelected={getBeverageSelected}
-          handleChange={handleChange}
-          startPour={startPour}
-          stopPour={stopPour}
-        />
-      }
     </section>
   );
 

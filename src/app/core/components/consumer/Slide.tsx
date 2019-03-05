@@ -8,7 +8,7 @@ import { ConsumerContext, FocusElm } from "@containers/index";
 import { BeverageTypes, BeveragesAnimated, BeverageIndicators, Beverage } from "../global/Beverage";
 
 export const _sizeSlide = "25vw";
-export const _sizeSlideFull = "6.5vw";
+export const _sizeSlideFull = "5vw";
 
 /* ==== ANIMATIONS ==== */
 /* ======================================== */
@@ -27,7 +27,7 @@ const _Slide = posed.div({
     }
   },
   open: {
-    transform: "translate3d(-3vw, 0, 0)",
+    transform: "translate3d(0vw, 0, 0)",
     transition: {
       duration: 300,
     }
@@ -35,6 +35,9 @@ const _Slide = posed.div({
 });
 const _toggleSlide = posed.button({
   close: {
+    transform: "rotate(0deg)"
+  },
+  fullClose: {
     transform: "rotate(0deg)"
   },
   open: {
@@ -66,7 +69,7 @@ export const SlideStyled = styled(_Slide).attrs(props => ({
   position: absolute;
   top: 0;
   width: 98.6vw;
-  z-index: 2;
+  z-index: 5;
   background: ${props => props.theme.spindle};
   height: 100vh;
   #title {
@@ -175,29 +178,29 @@ export const Slide = (props: SlideProps) => {
           {consumerBeverages.map((b, i) => {
             const BeverageAnimated = BeveragesAnimated[i];
             return (
-              // <BeverageAnimated
-              //   pouring={i === indexFavoritePouring_}
-              //   onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
-              //   key={i}
-              //   beverage={b.$beverage}
-              //   indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
-              //   label={i === 0 && !slideOpen && b.$type === BeverageTypes.Info ? "Save favorites from smartphone" : null}
-              //   status_id={b.$status_id}
-              //   title={b.flavorTitle}
-              //   type={b.$type}
-              //   dataBtnFocus={checkBtnFocus(i)}
-              // />
-              <Beverage
-                pouring={i === indexFavoritePouring_}
-                onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
-                key={i}
-                indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
-                label={i === 0 && !slideOpen && b.$type === BeverageTypes.Info ? "Save favorites from smartphone" : null}
-                status_id={b.$status_id}
-                title={b.flavorTitle}
-                type={b.$type}
-                dataBtnFocus={checkBtnFocus(i)}
-              />
+                !props.fullMode ?
+                <BeverageAnimated
+                  pouring={i === indexFavoritePouring_}
+                  onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
+                  key={i}
+                  indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
+                  label={i === 0 && !slideOpen && b.$type === BeverageTypes.Info ? "Save favorites from smartphone" : null}
+                  status_id={b.$status_id}
+                  title={b.flavorTitle}
+                  type={b.$type}
+                  dataBtnFocus={checkBtnFocus(i)}
+                /> :
+                <Beverage
+                  pouring={i === indexFavoritePouring_}
+                  onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
+                  key={i}
+                  indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
+                  label={i === 0 && !slideOpen && b.$type === BeverageTypes.Info ? "Save favorites from smartphone" : null}
+                  status_id={b.$status_id}
+                  title={b.flavorTitle}
+                  type={b.$type}
+                  dataBtnFocus={checkBtnFocus(i)}
+                />
             );
           })}
         </Grid>
