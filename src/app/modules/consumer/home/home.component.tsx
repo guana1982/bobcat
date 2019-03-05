@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { HomeContent, BlurWrap} from "./home.style";
+import { HomeContent } from "./home.style";
 import { ButtonGroup } from "@components/global/ButtonGroup";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
@@ -15,6 +15,40 @@ import { Slide } from "@components/consumer/Slide";
 import { ConfigContext } from "@containers/config.container";
 import { TimerContext } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
+
+import * as html2canvas from "html2canvas";
+import * as StackBlur from "stackblur-canvas";
+
+interface BlurWrapProps {
+  show: boolean;
+  children?: any;
+}
+
+const BlurWrap = (props: BlurWrapProps) => {
+  const {show, children} = props;
+
+  const captureEl = React.useRef(null);
+  const [urlBlur, setUrlBlur] = React.useState<string>(null);
+
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     const capture = captureEl.current;
+  //     html2canvas(capture).then(canvas => {
+  //       // StackBlur.canvasRGB(canvas, 0, 0, canvas.width, canvas.height, 50);
+  //       canvas.style.backgroundColor = "blue";
+  //       const url = canvas.toDataURL();
+  //       setUrlBlur(url);
+  //     });
+  //   }, 100);
+  // }, [captureEl]);
+
+  return (
+    <div>
+      {show && urlBlur && <img src={urlBlur} />}
+      <div ref={captureEl}>{children}</div>
+    </div>
+  );
+};
 
 interface HomeProps {
   history: any;
@@ -212,10 +246,15 @@ export const Home = (props: HomeProps) => {
 
   /* ==== BEVERAGE CONSUMER ==== */
   /* ======================================== */
-
   const MAX_CONSUMER_BEVERAGE = 3;
   const lengthConsumerBeverages = consumerConsumer.consumerBeverages.length;
   const fullMode = lengthConsumerBeverages === MAX_CONSUMER_BEVERAGE;
+
+  React.useEffect(() => {
+    if (fullMode) {
+      handleSlide();
+    }
+  }, [consumerConsumer.consumerBeverages]);
 
   const startConsumerPour = (consumerBeverage: IConsumerBeverage, index: number) => {
     setState(prevState => ({...prevState, indexFavoritePouring_: index}));
@@ -266,12 +305,12 @@ export const Home = (props: HomeProps) => {
     setState(prevState => ({...prevState, beverageConfig}));
   };
 
-  const handleSlide = () => {
+  function handleSlide() {
     setState(prevState => ({
       ...prevState,
       slideOpen: !prevState.slideOpen
     }));
-  };
+  }
 
   /* ==== ROUTING ==== */
   /* ======================================== */
@@ -312,7 +351,7 @@ export const Home = (props: HomeProps) => {
       <HomeContent isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={Boolean(getBeverageSelected())}>
         {beverages.length > 0 && (
           <React.Fragment>
-            <BlurWrap pose={state.slideOpen ? "enable" : "disable"}>
+            <BlurWrap show={state.slideOpen}>
               <ChoiceBeverage
                 onGesture={onGesture}
                 selectBeverage={selectBeverage}

@@ -72,7 +72,7 @@ export const SlideStyled = styled(_Slide).attrs(props => ({
 }))`
   position: relative;
   /* background: rgba(255, 255, 255, .95); */
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, .8), #fff);
   box-shadow: 9px 27px 45px 0 rgba(163, 165, 166, 0.2);
   top: 0;
   width: 98.6vw;
