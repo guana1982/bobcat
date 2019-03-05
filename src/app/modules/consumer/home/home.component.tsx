@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { HomeContent, BlurWrap} from "./home.style";
+import { HomeContent } from "./home.style";
 import { ButtonGroup } from "@components/global/ButtonGroup";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
@@ -212,10 +212,15 @@ export const Home = (props: HomeProps) => {
 
   /* ==== BEVERAGE CONSUMER ==== */
   /* ======================================== */
-
   const MAX_CONSUMER_BEVERAGE = 3;
   const lengthConsumerBeverages = consumerConsumer.consumerBeverages.length;
   const fullMode = lengthConsumerBeverages === MAX_CONSUMER_BEVERAGE;
+
+  React.useEffect(() => {
+    if (fullMode) {
+      handleSlide();
+    }
+  }, [consumerConsumer.consumerBeverages]);
 
   const startConsumerPour = (consumerBeverage: IConsumerBeverage, index: number) => {
     setState(prevState => ({...prevState, indexFavoritePouring_: index}));
@@ -266,12 +271,12 @@ export const Home = (props: HomeProps) => {
     setState(prevState => ({...prevState, beverageConfig}));
   };
 
-  const handleSlide = () => {
+  function handleSlide() {
     setState(prevState => ({
       ...prevState,
       slideOpen: !prevState.slideOpen
     }));
-  };
+  }
 
   /* ==== ROUTING ==== */
   /* ======================================== */
