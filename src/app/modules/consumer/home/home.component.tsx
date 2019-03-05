@@ -28,23 +28,35 @@ const BlurWrap = (props: BlurWrapProps) => {
   const {show, children} = props;
 
   const captureEl = React.useRef(null);
-  const [urlBlur, setUrlBlur] = React.useState<string>(null);
+  const [urlBlur, setUrlBlur] = React.useState<string>(localStorage.getItem('BlurredImage'));
 
-  // React.useEffect(() => {
-  //   setTimeout(() => {
-  //     const capture = captureEl.current;
-  //     html2canvas(capture).then(canvas => {
-  //       // StackBlur.canvasRGB(canvas, 0, 0, canvas.width, canvas.height, 50);
-  //       canvas.style.backgroundColor = "blue";
-  //       const url = canvas.toDataURL();
-  //       setUrlBlur(url);
-  //     });
-  //   }, 100);
-  // }, [captureEl]);
+  const consumerContext = React.useContext(ConsumerContext);
+
+  !consumerContext.isLogged && React.useEffect(() => {
+    // setTimeout(() => {
+      const capture = captureEl.current;
+      html2canvas(capture).then(canvas => {
+        var worker = new Worker('worker.js');
+        const image = new Image()
+        image.src = canvas.toDataURL();
+        worker.postMessage({imageData: image.src, radius: 100, quality: 10})
+        worker.onmessage = function(e) {
+          console.log(e)
+          localStorage.setItem('BlurredImage', e.data)
+        }
+        
+  
+        // setUrlBlur(url);
+        // StackBlur.image(url, canvas, 0);
+        // canvas.style.backgroundColor = "blue";
+      });
+    // }, 130);
+  }, [captureEl]);
+
 
   return (
     <div>
-      {show && urlBlur && <img src={urlBlur} />}
+      {show && <img src={urlBlur} />}
       <div ref={captureEl}>{children}</div>
     </div>
   );

@@ -7,7 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const VENDOR = process.env.INTELLITOWER_VENDOR || 'pepsi';
 const VERSION = process.env.INTELLITOWER_VERSION || 'v.lean2';
-const MEDIUMLEVEL_URL = process.env.INTELLITOWER_MEDIUMLEVEL_URL || 'http://0.0.0.0:5900/api/v0';
+const MEDIUMLEVEL_URL = process.env.INTELLITOWER_MEDIUMLEVEL_URL || 'http:192.168.188.204:5900/api/v0' //'http://0.0.0.0:5900/api/v0';
 
 module.exports = merge(commonConfig, {
   mode: 'production',

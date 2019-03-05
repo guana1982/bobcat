@@ -72,7 +72,7 @@ export const SlideStyled = styled(_Slide).attrs(props => ({
 }))`
   position: relative;
   /* background: rgba(255, 255, 255, .95); */
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, .8), #fff);
+  background-image: ${props => props.pose === 'open' ? 'linear-gradient(to bottom, rgba(255, 255, 255, .0), #fff)' : 'linear-gradient(to bottom, #fff, #fff)'} ;
   box-shadow: 9px 27px 45px 0 rgba(163, 165, 166, 0.2);
   top: 0;
   width: 98.6vw;
@@ -116,6 +116,9 @@ export const SlideStyled = styled(_Slide).attrs(props => ({
     margin: 0% 10%;
     justify-content: space-around;
   }
+  /* #blurred {
+    filter: blur(35px);
+  } */
 `;
 
 export const ToggleSlide = styled(_toggleSlide)`
@@ -181,45 +184,48 @@ export const Slide = (props: SlideProps) => {
   return (
     <React.Fragment>
       <SlideStyled dataFocus={slideFocus()} pose={animationSlide()}>
-        <HeaderSlide className={slideOpen && "open"}>
-          <h2>hi, {dataConsumer.consumer_nick}!</h2>
-        </HeaderSlide>
-        {/* <h1 id="title">Your Drinks</h1> */}
-        <Grid numElement={consumerBeverages.length}>
-          {consumerBeverages.map((b, i) => {
-            const BeverageAnimated = BeveragesAnimated[i];
-            return (
-              // <BeverageAnimated
-              //   pouring={i === indexFavoritePouring_}
-              //   onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
-              //   key={i}
-              //   beverage={b.$beverage}
-              //   indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
-              //   label={i === 0 && !slideOpen && b.$type === BeverageTypes.Info ? "Save favorites from smartphone" : null}
-              //   status_id={b.$status_id}
-              //   title={b.flavorTitle}
-              //   type={b.$type}
-              //   dataBtnFocus={checkBtnFocus(i)}
-              // />
-              <Beverage
-                pouring={i === indexFavoritePouring_}
-                onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
-                key={i}
-                beverage={b.$beverage}
-                indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
-                label={i === 0 && !slideOpen && b.$type === BeverageTypes.Info ? "Save favorites from smartphone" : null}
-                status_id={b.$status_id}
-                title={b.flavorTitle}
-                type={b.$type}
-                dataBtnFocus={checkBtnFocus(i)}
-              />
-            );
-          })}
-        </Grid>
-        {consumerBeverages[0].$type === BeverageTypes.Info && <h3 id="info">Save favorites from smartphone</h3>}
-        <ToggleSlide onClick={() => handleSlide()}>
-          <img src={"icons/arrow-circle.svg"} />
-        </ToggleSlide>
+        {/* <img id="blurred" src={localStorage.getItem('BlurredImage')}/> */}
+        <div id="slide">
+          <HeaderSlide className={slideOpen && "open"}>
+            <h2>hi, {dataConsumer.consumer_nick}!</h2>
+          </HeaderSlide>
+          {/* <h1 id="title">Your Drinks</h1> */}
+          <Grid numElement={consumerBeverages.length}>
+            {consumerBeverages.map((b, i) => {
+              const BeverageAnimated = BeveragesAnimated[i];
+              return (
+                // <BeverageAnimated
+                //   pouring={i === indexFavoritePouring_}
+                //   onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
+                //   key={i}
+                //   beverage={b.$beverage}
+                //   indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
+                //   label={i === 0 && !slideOpen && b.$type === BeverageTypes.Info ? "Save favorites from smartphone" : null}
+                //   status_id={b.$status_id}
+                //   title={b.flavorTitle}
+                //   type={b.$type}
+                //   dataBtnFocus={checkBtnFocus(i)}
+                // />
+                <Beverage
+                  pouring={i === indexFavoritePouring_}
+                  onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
+                  key={i}
+                  beverage={b.$beverage}
+                  indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
+                  label={i === 0 && !slideOpen && b.$type === BeverageTypes.Info ? "Save favorites from smartphone" : null}
+                  status_id={b.$status_id}
+                  title={b.flavorTitle}
+                  type={b.$type}
+                  dataBtnFocus={checkBtnFocus(i)}
+                />
+              );
+            })}
+          </Grid>
+          {consumerBeverages[0].$type === BeverageTypes.Info && <h3 id="info">Save favorites from smartphone</h3>}
+          <ToggleSlide onClick={() => handleSlide()}>
+            <img src={"icons/arrow-circle.svg"} />
+          </ToggleSlide>
+        </div>
       </SlideStyled>
     </React.Fragment>
   );

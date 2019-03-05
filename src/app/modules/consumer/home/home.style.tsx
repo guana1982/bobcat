@@ -77,4 +77,7 @@ export const HomeContent = styled.div`
       height: 4.5rem;
     }
   }
+  div > img {
+    /* filter: blur(35px); */
+  }
 `;
