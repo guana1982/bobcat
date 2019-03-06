@@ -6,6 +6,7 @@ import AppRouter from "./app.router";
 import { themeMain, GlobalStyle } from "./app.style";
 import { ConsumerStore } from "@containers/consumer.container";
 import { AlertProvider } from "@core/containers/alert.container";
+import { Accessibility } from "@core/components/global/Accessibility";
 
 
 {/* <AccessibilityStore> */}
@@ -14,14 +15,15 @@ const App = () => (
     <ThemeProvider theme={themeMain}>
       <AlertProvider>
         <ConfigStore>
-          <ServiceProvider>
-            <ConsumerStore>
-              <TimerStore>
-                <GlobalStyle />
-                <AppRouter />
-              </TimerStore>
-            </ConsumerStore>
-          </ServiceProvider>
+            <ServiceProvider>
+              <ConsumerStore>
+                <TimerStore>
+                  <GlobalStyle />
+                  <Accessibility />
+                  <AppRouter />
+                </TimerStore>
+              </ConsumerStore>
+            </ServiceProvider>
         </ConfigStore>
       </AlertProvider>
     </ThemeProvider>

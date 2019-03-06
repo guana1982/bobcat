@@ -6,7 +6,7 @@ import { Beverage, BeverageTypes } from "../global/Beverage";
 import { Grid } from "../global/Grid";
 import { Footer } from "../global/Footer";
 import { Button, ButtonTypes } from "../global/Button";
-import { ConfigContext, ConsumerContext, FocusElm } from "@containers/index";
+import { ConfigContext, ConsumerContext } from "@containers/index";
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */
@@ -50,15 +50,14 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
                 onStart={() => selectBeverage(b)}
                 onHoldStart={() => startPour(b)}
                 onHoldEnd={() => stopPour()}
-                dataBtnFocus={i === 0 ? FocusElm.Init : null}
               />
             );
           })}
         </Grid>
       </ChoiceBeverageWrap>
       <Footer>
-        {!isLogged && <Button data-focus={[3, 0]} type={ButtonTypes.Transparent} onClick={() => goToPrepay()} text="SIGN IN" icon="logout" />}
-        {isLogged && <Button data-focus={[3, 0]} type={ButtonTypes.Transparent} onClick={() => resetConsumer()} text="SIGN OUT" icon="logout" />}
+        {!isLogged && <Button type={ButtonTypes.Transparent} onClick={() => goToPrepay()} text="SIGN IN" icon="logout" />}
+        {isLogged && <Button type={ButtonTypes.Transparent} onClick={() => resetConsumer()} text="SIGN OUT" icon="logout" />}
       </Footer>
     </React.Fragment>
   );

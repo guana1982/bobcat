@@ -7,7 +7,6 @@ import { TimerContext } from "@containers/timer.container";
 // import { Alert, AlertTypes, AlertProps } from "@components/global/Alert";
 import { ConsumerContext } from "@containers/consumer.container";
 import { Pages } from "@utils/constants";
-import { FocusElm } from "@containers/accessibility.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 
 interface PrepayProps {
@@ -67,10 +66,10 @@ export const Prepay = (props: PrepayProps) => {
   };
 
   return (
-    <section data-focus={FocusElm.Controller}>
+    <section>
       <PrepayContent>
         <Header>
-          <CircleBtn dataBtnFocus={FocusElm.Init} onClick={() => goToHome()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
+          <CircleBtn onClick={() => goToHome()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
         </Header>
         <SectionContent>
           <SectionWrap>

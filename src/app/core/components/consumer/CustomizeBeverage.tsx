@@ -2,15 +2,12 @@ import * as React from "react";
 import { __ } from "@utils/lib/i18n";
 import { CircleBtnContent, CircleBtn } from "../global/CircleBtn";
 import styled from "styled-components";
-import { FocusElm } from "@containers/index";
 import { ButtonGroup } from "../global/ButtonGroup";
 import { EndBeverage } from "./EndBeverage";
 
 const _sizePour = 105;
 
-export const Pour = styled.button.attrs(props => ({
-  "data-btn-focus": props.dataBtnFocus
-}))`
+export const Pour = styled.button`
   position: absolute;
   bottom: ${-_sizePour / 5}px;
   right: calc(50% - ${_sizePour}px);
@@ -153,9 +150,7 @@ export const CustomizeBeverageCard = styled.div`
 /* ==== WRAPPER ==== */
 /* ======================================== */
 
-export const CustomizeBeverageWrap = styled.section.attrs(props => ({
-  "data-focus": props.dataFocus
-}))`
+export const CustomizeBeverageWrap = styled.section`
   position: absolute;
   top: 0;
   left: 0;
@@ -197,7 +192,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   const { slideOpen, showCardsInfo, showEnd, beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, getBeverageSelected, handleChange } = props;
   return(
     <React.Fragment>
-      <CustomizeBeverageWrap dataFocus={!slideOpen ? FocusElm.Controller : null}>
+      <CustomizeBeverageWrap>
         <CircleBtn onClick={() => resetBeverage()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
         <div id="backdrop" onClick={() => resetBeverage()}></div>
         {showCardsInfo && <InfoCard className={"right"}>
@@ -257,7 +252,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             <h4>Plastic Bottles</h4>
           </footer>
         </InfoCard>}
-        <Pour dataBtnFocus={FocusElm.Init} onTouchStart={() => startPour()} onTouchEnd={() => stopPour()}>Hold to Pour</Pour>
+        <Pour onTouchStart={() => startPour()} onTouchEnd={() => stopPour()}>Hold to Pour</Pour>
       </CustomizeBeverageWrap>
       {showEnd && <EndBeverage resetBeverage={resetBeverage} />}
     </React.Fragment>

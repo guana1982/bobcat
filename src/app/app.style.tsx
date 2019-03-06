@@ -107,4 +107,8 @@ export const GlobalStyle = createGlobalStyle`
   input::placeholder {
     color: #999;
   }
+
+  button:focus {
+    border: 2px solid red;
+  }
 `;

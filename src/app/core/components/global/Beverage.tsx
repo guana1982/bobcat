@@ -6,7 +6,6 @@ import { __ } from "@utils/lib/i18n";
 import { IBeverage } from "@models/index";
 import { forwardRef } from "react";
 import { BeverageStatus } from "@models/beverage.model";
-import { FocusElm } from "@containers/accessibility.container";
 import ClickNHold from "./ClickNHold";
 
 export enum BeverageTypes {
@@ -17,7 +16,7 @@ export enum BeverageTypes {
 const _sizeBeverage = 11;
 /* size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; dataBtnFocus?: FocusElm; */
 export const BeverageWrap = styled.button.attrs(props => ({
-  "data-btn-focus": props.dataBtnFocus
+  "data-btn-focus": 0
 }))`
   padding: 1rem .7rem;
   transition: 1s all;
@@ -139,11 +138,10 @@ interface BeverageProps {
   pouring?: boolean;
   status_id?: BeverageStatus;
   title?: string;
-  dataBtnFocus?: FocusElm;
 }
 
 export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
-  const { title, type, indicators, label, pouring, status_id, dataBtnFocus } = props;
+  const { title, type, indicators, label, pouring, status_id } = props;
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
 
@@ -174,7 +172,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         time={0.5}
         onClickNHold={clickHold}
         onEnd={end}>
-        <BeverageWrap dataBtnFocus={dataBtnFocus} pouring={pouring} type={type}> { /* onClick={onClick} */ } { /* onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} */ }
+        <BeverageWrap disabled={type === BeverageTypes.Info} pouring={pouring} type={type}> { /* onClick={onClick} */ } { /* onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} */ }
           <div id="element">
             <div id="indicators">
               {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}

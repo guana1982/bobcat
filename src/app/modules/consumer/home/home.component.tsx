@@ -8,7 +8,6 @@ import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER } from "@uti
 import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
 import { Subscription, Subject } from "rxjs";
-import { FocusElm } from "@containers/accessibility.container";
 import { ChoiceBeverage } from "@components/consumer/ChoiceBeverage";
 import { CustomizeBeverage } from "@components/consumer/CustomizeBeverage";
 import { Slide } from "@components/consumer/Slide";
@@ -304,7 +303,7 @@ export const Home = (props: HomeProps) => {
   const beverageSelected = getBeverageSelected();
 
   return (
-    <section data-focus={FocusElm.Controller}>
+    <section>
       {presentSlide &&
         <Slide
           slideOpen={state.slideOpen}
@@ -328,7 +327,7 @@ export const Home = (props: HomeProps) => {
               idBeveragePouring_={state.idBeveragePouring_}
               isSparkling={state.isSparkling}
             />
-            <div data-focus={beverageSelected ? FocusElm.Extra : null} id="types-group">
+            <div id="types-group">
               <ButtonGroup
                 options={types}
                 value={isSparkling}

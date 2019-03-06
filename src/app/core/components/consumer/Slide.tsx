@@ -4,8 +4,8 @@ import { Grid } from "../global/Grid";
 import styled from "styled-components";
 import posed from "react-pose";
 import { Footer } from "../global/Footer";
-import { ConsumerContext, FocusElm } from "@containers/index";
 import { BeverageTypes, BeveragesAnimated, BeverageIndicators, Beverage } from "../global/Beverage";
+import { ConsumerContext } from "@core/containers";
 
 export const _sizeSlide = "25vw";
 export const _sizeSlideFull = "5vw";
@@ -63,9 +63,7 @@ const HeaderSlide = styled.div`
   }
 `;
 
-export const SlideStyled = styled(_Slide).attrs(props => ({
-  "data-focus": props.dataFocus
-}))`
+export const SlideStyled = styled(_Slide)`
   position: absolute;
   top: 0;
   width: 98.6vw;
@@ -145,31 +143,11 @@ export const Slide = (props: SlideProps) => {
     return __(text);
   };
 
-  const slideFocus = () => {
-    if (slideOpen) {
-      return FocusElm.Controller;
-    }
-    if (beverageSelected) {
-      return FocusElm.Extra;
-    }
-    return null;
-  };
-
-  const checkBtnFocus = (i) => {
-    if (!slideOpen && i === 2) {
-        return FocusElm.Disable;
-    }
-    if (slideOpen && i === 0) {
-        return FocusElm.Init;
-    }
-    return null;
-  };
-
   const animationSlide = () => slideOpen ? "open" : fullMode ? "fullClose" : "close";
 
   return (
     <React.Fragment>
-      <SlideStyled dataFocus={slideFocus()} pose={animationSlide()}>
+      <SlideStyled pose={animationSlide()}>
         <HeaderSlide className={slideOpen && "open"}>
           <h2>{timeText()}, {dataConsumer.consumer_nick}!</h2>
         </HeaderSlide>
@@ -188,7 +166,6 @@ export const Slide = (props: SlideProps) => {
                   status_id={b.$status_id}
                   title={b.flavorTitle}
                   type={b.$type}
-                  dataBtnFocus={checkBtnFocus(i)}
                 /> :
                 <Beverage
                   pouring={i === indexFavoritePouring_}
@@ -199,7 +176,6 @@ export const Slide = (props: SlideProps) => {
                   status_id={b.$status_id}
                   title={b.flavorTitle}
                   type={b.$type}
-                  dataBtnFocus={checkBtnFocus(i)}
                 />
             );
           })}
