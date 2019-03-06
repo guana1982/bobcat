@@ -31,25 +31,19 @@ const BlurWrap = (props: BlurWrapProps) => {
   const [urlBlur, setUrlBlur] = React.useState<string>(localStorage.getItem('BlurredImage'));
 
   const consumerContext = React.useContext(ConsumerContext);
-  // localStorage.setItem('BlurredImage', '')
+
   !consumerContext.isLogged && React.useEffect(() => {
     // setTimeout(() => {
       const capture = captureEl.current;
       html2canvas(capture).then(canvas => {
-        var worker = new Worker('worker.js');
-        // const image = new Image(/* canvas.width, canvas.height */)
-        // image.src = canvas.toDataURL();
-        const ctx = canvas.getContext('2d');
-        const imageData = ctx.getImageData(0, 0, 1280, 800);
-        worker.postMessage(JSON.parse(JSON.stringify({imageData: imageData, radius: 100, quality: 10})))
-        worker.onmessage = function(e) {
-          console.log('e', e)
-          ctx.putImageData(e.data, 0, 0)
-          console.log(canvas.toDataURL())
-          // let base64String = btoa(String.fromCharCode(new Uint8Array(...e.data.data)));
-          // localStorage.setItem('BlurredImage', base64String)
-        }
-        
+        // var worker = new Worker('worker.js');
+        // worker.postMessage({imageData: image.src, radius: 100, quality: 10})
+        // worker.onmessage = function(e) {
+        //   console.log(e)
+        //   localStorage.setItem('BlurredImage', e.data)
+        // }
+  
+        localStorage.setItem('BlurredImage', canvas.toDataURL())
   
         // setUrlBlur(url);
         // StackBlur.image(url, canvas, 0);

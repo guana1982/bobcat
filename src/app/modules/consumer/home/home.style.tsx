@@ -78,6 +78,6 @@ export const HomeContent = styled.div`
     }
   }
   div > img {
-    /* filter: blur(35px); */
+    filter: blur(35px);
   }
 `;
