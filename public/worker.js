@@ -35,7 +35,6 @@
 */
 
 onmessage = function (event) {
-    console.log(event.data)
   blur(event.data.imageData, event.data.radius, event.data.quality);
 }
 
@@ -44,7 +43,6 @@ function blur(imageData, radius, quality) {
   var width = imageData.width;
   var height = imageData.height;
 
-  console.log('pixels', pixels)
   var rsum, gsum, bsum, asum, x, y, i, p, p1, p2, yp, yi, yw;
   var wm = width - 1;
   var hm = height - 1;

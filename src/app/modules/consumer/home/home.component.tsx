@@ -28,40 +28,29 @@ const BlurWrap = (props: BlurWrapProps) => {
   const {show, children} = props;
 
   const captureEl = React.useRef(null);
-  const [urlBlur, setUrlBlur] = React.useState<string>(localStorage.getItem('BlurredImage'));
+  // const [urlBlur, setUrlBlur] = React.useState<string>(localStorage.getItem("BlurredImage"));
 
   const consumerContext = React.useContext(ConsumerContext);
-  // localStorage.setItem('BlurredImage', '')
   !consumerContext.isLogged && React.useEffect(() => {
-    // setTimeout(() => {
       const capture = captureEl.current;
       html2canvas(capture).then(canvas => {
-        var worker = new Worker('worker.js');
-        // const image = new Image(/* canvas.width, canvas.height */)
-        // image.src = canvas.toDataURL();
-        const ctx = canvas.getContext('2d');
-        const imageData = ctx.getImageData(0, 0, 1280, 800);
-        worker.postMessage(JSON.parse(JSON.stringify({imageData: imageData, radius: 100, quality: 10})))
+        const worker = new Worker("worker.js");
+        const ctx = canvas.getContext("2d");
+        const imageData = ctx.getImageData(0, 0, 1280 * 2, 800 * 2);
         worker.onmessage = function(e) {
-          console.log('e', e)
-          ctx.putImageData(e.data, 0, 0)
-          console.log(canvas.toDataURL())
-          // let base64String = btoa(String.fromCharCode(new Uint8Array(...e.data.data)));
-          // localStorage.setItem('BlurredImage', base64String)
-        }
-        
-  
-        // setUrlBlur(url);
-        // StackBlur.image(url, canvas, 0);
-        // canvas.style.backgroundColor = "blue";
+          const imageDataBlur = e.data;
+          ctx.putImageData(imageDataBlur, 0, 0);
+          const imageBlur = canvas.toDataURL();
+          localStorage.setItem("BlurredImage", imageBlur);
+        };
+        worker.postMessage({imageData: imageData, radius: 50, quality: 10});
       });
-    // }, 130);
   }, [captureEl]);
 
 
   return (
     <div>
-      {show && <img src={urlBlur} />}
+      <img src={localStorage.getItem("BlurredImage")} style={{display: show ? "block" : "none"}} />
       <div ref={captureEl}>{children}</div>
     </div>
   );
