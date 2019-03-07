@@ -58,6 +58,7 @@ const ButtonGroupContent = styled.div`
     color: ${props => props.theme.primary};
     text-transform: capitalize;
     width: 6.5rem;
+    padding: .8rem 0;
     font-size: 1.2rem;
     text-align: left;
     font-weight: 600;
@@ -84,11 +85,15 @@ export class ButtonGroup extends React.Component<ButtonGroupProps, ButtonGroupSt
 
   render() {
     return (
-      <ButtonGroupContent>
-        {this.props.label && <label>{this.props.label}</label>}
+      <ButtonGroupContent id="button-group">
+        {this.props.label &&
+          <button id="select">
+            <label>{this.props.label}</label>
+          </button>
+        }
         <ButtonGroupWrapper>
           {this.props.options ? this.props.options.map((e, i) =>
-            <button key={i} onClick={() => this.props.onChange(e.value)} className={this.props.value === e.value ? "selected" : ""} type="button">{e.label}</button>
+            <button id="option" key={i} onClick={() => this.props.onChange(e.value)} className={this.props.value === e.value ? "selected" : ""} type="button">{e.label}</button>
           ) : " --- " }
         </ButtonGroupWrapper>
       </ButtonGroupContent>

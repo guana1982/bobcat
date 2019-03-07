@@ -4,6 +4,7 @@ import { CircleBtnContent, CircleBtn } from "../global/CircleBtn";
 import styled from "styled-components";
 import { ButtonGroup } from "../global/ButtonGroup";
 import { EndBeverage } from "./EndBeverage";
+import { AccessibilityContext } from "@core/containers";
 
 const _sizePour = 105;
 
@@ -190,6 +191,22 @@ interface CustomizeBeverageProps {
 
 export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   const { slideOpen, showCardsInfo, showEnd, beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, getBeverageSelected, handleChange } = props;
+
+  //  ==== ACCESSIBILITY FUNCTION ====>
+
+  const accessibilityConsumer = React.useContext(AccessibilityContext);
+  const { pour } = accessibilityConsumer;
+
+  React.useEffect(() => {
+    if (pour === true) {
+      startPour();
+    } else if (pour === false) {
+      stopPour();
+    }
+  }, [pour]);
+
+  //  <=== ACCESSIBILITY FUNCTION ====
+
   return(
     <React.Fragment>
       <CustomizeBeverageWrap>

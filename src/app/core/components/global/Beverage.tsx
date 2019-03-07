@@ -7,6 +7,8 @@ import { IBeverage } from "@models/index";
 import { forwardRef } from "react";
 import { BeverageStatus } from "@models/beverage.model";
 import ClickNHold from "./ClickNHold";
+import { AccessibilityContext } from "@core/containers";
+import ReactDOM = require("react-dom");
 
 export enum BeverageTypes {
   Info = "info",
@@ -15,7 +17,7 @@ export enum BeverageTypes {
 
 const _sizeBeverage = 11;
 /* size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; dataBtnFocus?: FocusElm; */
-export const BeverageWrap = styled.button.attrs(props => ({
+export const BeverageWrap = styled.div.attrs(props => ({
   "data-btn-focus": 0
 }))`
   padding: 1rem .7rem;
@@ -26,6 +28,11 @@ export const BeverageWrap = styled.button.attrs(props => ({
   pointer-events: default;
   height: ${_sizeBeverage * 1.6}rem;
   width: ${_sizeBeverage * 1.4}rem;
+  button {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+  }
   #element {
     position: relative;
     border: ${props => `2px ${props.type === BeverageTypes.Info ? "dashed" : "solid"} ${props.theme.primary}`};
@@ -154,6 +161,34 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
     // onTouchEnd = props.onTouchEnd;
   }
 
+  //  ==== ACCESSIBILITY FUNCTION ====>
+
+  const buttonEl = React.useRef(null);
+
+  const accessibilityConsumer = React.useContext(AccessibilityContext);
+  const { enter, pour } = accessibilityConsumer;
+
+  React.useEffect(() => {
+    const button = buttonEl.current;
+    const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
+
+    if (!isFocus) return;
+
+    if (enter) {
+      onStart();
+      return;
+    }
+
+    if (pour === true) {
+      onHoldStart();
+    } else if (pour === false) {
+      onHoldEnd();
+    }
+
+  }, [buttonEl, enter, pour]);
+
+  //  <=== ACCESSIBILITY FUNCTION ====
+
   const end = (e, enough) => {
     if (!enough) { // START
       onStart();
@@ -172,17 +207,19 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         time={0.5}
         onClickNHold={clickHold}
         onEnd={end}>
-        <BeverageWrap disabled={type === BeverageTypes.Info} pouring={pouring} type={type}> { /* onClick={onClick} */ } { /* onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} */ }
-          <div id="element">
-            <div id="indicators">
-              {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
+        <BeverageWrap pouring={pouring} type={type}> { /* onClick={onClick} */ } { /* onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} */ }
+          <button ref={buttonEl} disabled={type === BeverageTypes.Info || $outOfStock}>
+            <div id="element">
+              <div id="indicators">
+                {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
+              </div>
+              <h3>{__(title)}</h3>
+              <h6>0-CALS</h6>
+              {label && <h5>{__(label)}</h5>}
+              {$outOfStock && <div className="overlay"><h4>{__("Out Of Stock")}</h4></div>}
+              {pouring && <div className="overlay"><h4>{__("Pouring")}</h4></div>}
             </div>
-            <h3>{__(title)}</h3>
-            <h6>0-CALS</h6>
-            {label && <h5>{__(label)}</h5>}
-            {$outOfStock && <div className="overlay"><h4>{__("Out Of Stock")}</h4></div>}
-            {pouring && <div className="overlay"><h4>{__("Pouring")}</h4></div>}
-          </div>
+          </button>
         </BeverageWrap>
       </ClickNHold>
     </div>
