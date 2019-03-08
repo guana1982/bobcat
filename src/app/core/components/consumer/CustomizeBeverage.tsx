@@ -5,12 +5,14 @@ import styled from "styled-components";
 import { ButtonGroup } from "../global/ButtonGroup";
 import { EndBeverage } from "./EndBeverage";
 import { AccessibilityContext } from "@core/containers";
+import ReactDOM = require("react-dom");
 
 const _sizePour = 105;
 
 export const Pour = styled.button`
   position: absolute;
-  bottom: ${-_sizePour / 5}px;
+  bottom: 0; /* ${-_sizePour / 5}px; */
+  line-height: 6;
   right: calc(50% - ${_sizePour}px);
   height: ${_sizePour}px;
   width: ${_sizePour * 2}px;
@@ -194,8 +196,9 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
 
   //  ==== ACCESSIBILITY FUNCTION ====>
 
+  const buttonPourEl = React.useRef(null);
   const accessibilityConsumer = React.useContext(AccessibilityContext);
-  const { pour } = accessibilityConsumer;
+  const { pour, enter } = accessibilityConsumer;
 
   React.useEffect(() => {
     if (pour === true) {
@@ -205,12 +208,23 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
     }
   }, [pour]);
 
+  React.useEffect(() => {
+    const button = buttonPourEl.current;
+    const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
+    if (!isFocus) return;
+    if (enter === true) {
+      startPour();
+    } else if (enter === false) {
+      stopPour();
+    }
+  }, [buttonPourEl, enter]);
+
   //  <=== ACCESSIBILITY FUNCTION ====
 
   return(
     <React.Fragment>
       <CustomizeBeverageWrap>
-        <CircleBtn onClick={() => resetBeverage()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
+        <CircleBtn detectValue={"beverage_close"} onClick={() => resetBeverage()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
         <div id="backdrop" onClick={() => resetBeverage()}></div>
         {showCardsInfo && <InfoCard className={"right"}>
           <header>
@@ -231,6 +245,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           <aside>
             {beverageConfig.flavor_level != null &&
               <ButtonGroup
+                detectValue={"flavor"}
                 label={"Flavor"}
                 options={levels.flavor}
                 value={beverageConfig.flavor_level}
@@ -239,6 +254,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             }
             {beverageConfig.carbonation_level != null &&
               <ButtonGroup
+                detectValue={"sparkling"}
                 label={"Sparkling"}
                 options={levels.carbonation}
                 value={beverageConfig.carbonation_level}
@@ -246,6 +262,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
               </ButtonGroup>
             }
             <ButtonGroup
+              detectValue={"temp"}
               label={"Temp"}
               options={isSparkling ? levels.carbTemperature : levels.temperature}
               value={beverageConfig.temperature_level}
@@ -269,7 +286,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             <h4>Plastic Bottles</h4>
           </footer>
         </InfoCard>}
-        <Pour onTouchStart={() => startPour()} onTouchEnd={() => stopPour()}>Hold to Pour</Pour>
+        <Pour ref={buttonPourEl} onTouchStart={() => startPour()} onTouchEnd={() => stopPour()}>Hold to Pour</Pour>
       </CustomizeBeverageWrap>
       {showEnd && <EndBeverage resetBeverage={resetBeverage} />}
     </React.Fragment>

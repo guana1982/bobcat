@@ -15,6 +15,7 @@ import { ConfigContext } from "@containers/config.container";
 import { TimerContext } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { BeverageTypes } from "@core/components/global/Beverage";
+import { AccessibilityContext } from "@core/containers";
 
 interface HomeProps {
   history: any;
@@ -73,6 +74,18 @@ export const Home = (props: HomeProps) => {
       timerConsumer.resetTimer();
     };
   }, []);
+
+  //  ==== ACCESSIBILITY FUNCTION ====>
+  const accessibilityConsumer = React.useContext(AccessibilityContext);
+  const { changeStateLayout } = accessibilityConsumer;
+
+  React.useEffect(() => {
+    changeStateLayout({
+      beverageSelected: state.beverageSelected,
+      slideOpen: state.slideOpen
+    });
+  }, [state.beverageSelected, state.slideOpen]);
+  //  <=== ACCESSIBILITY FUNCTION ====
 
   /* ==== ALARMS ==== */
   /* ======================================== */
@@ -318,6 +331,14 @@ export const Home = (props: HomeProps) => {
       <HomeContent isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={Boolean(getBeverageSelected())}>
         {beverages.length > 0 && (
           <React.Fragment>
+            <div id="types-group">
+              <ButtonGroup
+                options={types}
+                value={isSparkling}
+                disabled={presentSlide && state.slideOpen}
+                onChange={(value) => handleType(value)}>
+              </ButtonGroup>
+            </div>
             <ChoiceBeverage
               onGesture={onGesture}
               selectBeverage={selectBeverage}
@@ -326,14 +347,8 @@ export const Home = (props: HomeProps) => {
               goToPrepay={goToPrepay}
               idBeveragePouring_={state.idBeveragePouring_}
               isSparkling={state.isSparkling}
+              disabled={beverageSelected !== undefined || presentSlide && state.slideOpen}
             />
-            <div id="types-group">
-              <ButtonGroup
-                options={types}
-                value={isSparkling}
-                onChange={(value) => handleType(value)}>
-              </ButtonGroup>
-            </div>
           </React.Fragment>
         )}
         {beverageSelected &&

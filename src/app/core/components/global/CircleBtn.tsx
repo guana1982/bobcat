@@ -1,7 +1,6 @@
 
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
-import { FocusElm } from "@containers/accessibility.container";
 
 const _sizeCircleBtn = 60;
 export const CircleBtnWrapper = styled.div`
@@ -28,11 +27,8 @@ export const CircleBtnWrapper = styled.div`
   }
 `;
 
-interface CircleBtnContentProps { dataBtnFocus: FocusElm; onClick?: any; }
-/* dataBtnFocus: FocusElm; onClick?: any; */
-export const CircleBtnContent = styled.button.attrs(props => ({
-  "data-btn-focus": props.dataBtnFocus
-}))`
+/* onClick?: any; */
+export const CircleBtnContent = styled.button`
     background: transparent;
     text-align: center;
     &:active {
@@ -58,7 +54,7 @@ interface CircleBtnProps {
   color?: string;
   icon: string;
   onClick?: any;
-  dataBtnFocus?: FocusElm;
+  detectValue?: string;
 }
 
 interface CircleBtnState {
@@ -67,9 +63,9 @@ interface CircleBtnState {
 
 export class CircleBtn extends React.Component<CircleBtnProps, CircleBtnState> {
   render() {
-    const { dataBtnFocus, label, onClick } = this.props;
+    const { label, onClick, detectValue } = this.props;
     return (
-      <CircleBtnContent onClick={onClick} dataBtnFocus={dataBtnFocus}>
+      <CircleBtnContent id={detectValue} onClick={onClick}>
         <CircleBtnWrapper {...this.props} />
         <small>{label}</small>
       </CircleBtnContent>

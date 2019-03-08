@@ -108,7 +108,12 @@ export const GlobalStyle = createGlobalStyle`
     color: #999;
   }
 
-  button:focus {
-    border: 2px solid red;
+  button[disabled] {
+    opacity: 1;
+  }
+  body.accessibility-enable {
+    button:focus {
+      border: 2px solid red;
+    }
   }
 `;

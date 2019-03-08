@@ -168,6 +168,7 @@ export const Slide = (props: SlideProps) => {
                   type={b.$type}
                 /> :
                 <Beverage
+                  disabled={!slideOpen}
                   pouring={i === indexFavoritePouring_}
                   onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
                   key={i}

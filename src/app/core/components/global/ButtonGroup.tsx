@@ -1,6 +1,7 @@
 
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
+import { AccessibilityContext } from "@core/containers";
 
 export const ButtonGroupWrapper = styled.div`
   position: relative;
@@ -71,32 +72,51 @@ interface IOption {
 }
 
 interface ButtonGroupProps {
+  detectValue?: string;
   options: IOption[];
   value?: any;
   label?: string;
+  disabled?: boolean;
   onChange: (value) => void;
+  children?: any;
 }
 
-interface ButtonGroupState {
+export const ButtonGroup = (props: ButtonGroupProps) => {
 
-}
+  //  ==== ACCESSIBILITY FUNCTION ====>
+  const enableId = props.detectValue !== undefined;
+  const accessibilityConsumer = React.useContext(AccessibilityContext);
+  const { changeStateLayout } = accessibilityConsumer;
 
-export class ButtonGroup extends React.Component<ButtonGroupProps, ButtonGroupState> {
+  const enableAccessibility = () => {
+    changeStateLayout({
+      buttonGroupSelected: props.detectValue
+    });
+  };
+  //  <=== ACCESSIBILITY FUNCTION ====
 
-  render() {
+
     return (
-      <ButtonGroupContent id="button-group">
-        {this.props.label &&
-          <button id="select">
-            <label>{this.props.label}</label>
+      <ButtonGroupContent>
+        {props.label &&
+          <button id={enableId ? `${props.detectValue}-button_group` : null} disabled={props.disabled} onClick={() => enableAccessibility()}>
+            <label>{props.label}</label>
           </button>
         }
         <ButtonGroupWrapper>
-          {this.props.options ? this.props.options.map((e, i) =>
-            <button id="option" key={i} onClick={() => this.props.onChange(e.value)} className={this.props.value === e.value ? "selected" : ""} type="button">{e.label}</button>
+          {props.options ? props.options.map((e, i) =>
+            <button
+              disabled={props.disabled}
+              type="button"
+              id={enableId ? `${props.detectValue}-option` : null} key={i}
+              onClick={() => props.onChange(e.value)}
+              className={props.value === e.value ? "selected" : ""}
+            >
+              {e.label}
+            </button>
           ) : " --- " }
         </ButtonGroupWrapper>
       </ButtonGroupContent>
     );
-  }
-}
+
+};

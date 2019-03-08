@@ -16,10 +16,8 @@ export enum BeverageTypes {
 }
 
 const _sizeBeverage = 11;
-/* size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; dataBtnFocus?: FocusElm; */
-export const BeverageWrap = styled.div.attrs(props => ({
-  "data-btn-focus": 0
-}))`
+/* size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; */
+export const BeverageWrap = styled.div`
   padding: 1rem .7rem;
   transition: 1s all;
   transition-property: width, height, left, top;
@@ -145,10 +143,11 @@ interface BeverageProps {
   pouring?: boolean;
   status_id?: BeverageStatus;
   title?: string;
+  disabled?: boolean;
 }
 
 export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
-  const { title, type, indicators, label, pouring, status_id } = props;
+  const { title, type, indicators, label, pouring, status_id, disabled } = props;
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
 
@@ -162,9 +161,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   }
 
   //  ==== ACCESSIBILITY FUNCTION ====>
-
   const buttonEl = React.useRef(null);
-
   const accessibilityConsumer = React.useContext(AccessibilityContext);
   const { enter, pour } = accessibilityConsumer;
 
@@ -175,18 +172,23 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
     if (!isFocus) return;
 
     if (enter) {
-      onStart();
+      if (onStart) {
+        onStart();
+      }
       return;
     }
 
     if (pour === true) {
-      onHoldStart();
+      if (onHoldStart) {
+        onHoldStart();
+      }
     } else if (pour === false) {
-      onHoldEnd();
+      if (onHoldEnd) {
+        onHoldEnd();
+      }
     }
 
   }, [buttonEl, enter, pour]);
-
   //  <=== ACCESSIBILITY FUNCTION ====
 
   const end = (e, enough) => {
@@ -207,8 +209,8 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         time={0.5}
         onClickNHold={clickHold}
         onEnd={end}>
-        <BeverageWrap pouring={pouring} type={type}> { /* onClick={onClick} */ } { /* onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} */ }
-          <button ref={buttonEl} disabled={type === BeverageTypes.Info || $outOfStock}>
+        <BeverageWrap pouring={pouring} type={type}>
+          <button ref={buttonEl} disabled={type === BeverageTypes.Info || $outOfStock || disabled}>
             <div id="element">
               <div id="indicators">
                 {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
