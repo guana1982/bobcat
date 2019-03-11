@@ -69,7 +69,7 @@ export const Prepay = (props: PrepayProps) => {
     <section>
       <PrepayContent>
         <Header>
-          <CircleBtn onClick={() => goToHome()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
+          <CircleBtn detectValue={"prepay_close"} onClick={() => goToHome()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
         </Header>
         <SectionContent>
           <SectionWrap>

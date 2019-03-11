@@ -10,20 +10,20 @@ import { AlertProvider } from "@core/containers/alert.container";
 const App = () => (
   <MemoryRouter>
     <ThemeProvider theme={themeMain}>
-      <AlertProvider>
-        <ConfigStore>
-          <ServiceProvider>
-            <ConsumerStore>
-              <TimerStore>
-                <GlobalStyle />
-                <AccessibilityProvider>
+      <AccessibilityProvider>
+        <AlertProvider>
+          <ConfigStore>
+            <ServiceProvider>
+              <ConsumerStore>
+                <TimerStore>
+                  <GlobalStyle />
                   <AppRouter />
-                </AccessibilityProvider>
-              </TimerStore>
-            </ConsumerStore>
-          </ServiceProvider>
-        </ConfigStore>
-      </AlertProvider>
+                </TimerStore>
+              </ConsumerStore>
+            </ServiceProvider>
+          </ConfigStore>
+        </AlertProvider>
+      </AccessibilityProvider>
     </ThemeProvider>
   </MemoryRouter>
 );

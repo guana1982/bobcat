@@ -33,17 +33,22 @@ interface StateLayout {
   beverageSelected?: number;
   slideOpen?: boolean;
   buttonGroupSelected?: string;
+  alertShow?: boolean;
+  endBeverageShow?: boolean;
 }
 
 const AccessibilityContainer = createContainer((props: AccessibilityState) => {
 
   const [enable, setEnable] = React.useState<boolean>(false);
+  const [stop, setStop] = React.useState<boolean>(false);
   const [down, setDown] = React.useState<boolean>(false);
 
   const [stateLayout, setStateLayout] = React.useState<StateLayout>({
     beverageSelected: null,
     slideOpen: false,
-    buttonGroupSelected: null
+    buttonGroupSelected: null,
+    alertShow: false,
+    endBeverageShow: false
   });
 
   const [pour, setPour] = React.useState<boolean>(null);
@@ -70,8 +75,7 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
   }
 
   function changeStateLayout(updatedValues: StateLayout) {
-    const prevState = stateLayout;
-    setStateLayout(({
+    setStateLayout(prevState => ({
       ...prevState,
       ...updatedValues
     }));
@@ -102,6 +106,26 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
     }
   }, [stateLayout.buttonGroupSelected]);
 
+  //  ==== ALERT || END BEVERAGE CASE ====
+  const { alertShow, endBeverageShow } = stateLayout;
+  React.useEffect(() => {
+    console.log({alertShow, endBeverageShow});
+    if (alertShow || endBeverageShow) {
+      // focusRemove();
+      setDown(false);
+      setEnable(false);
+      setPour(false);
+      setStop(true);
+    }
+    if (!alertShow && !endBeverageShow) {
+      setStop(false);
+    }
+  }, [alertShow, endBeverageShow]);
+
+  React.useEffect(() => {
+    console.log("stop", stop);
+  }, [stop]);
+
   //  ==== DETECT STATUS FOR STYLE ====
   //  ================================
 
@@ -124,7 +148,7 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
       document.removeEventListener("keydown", onKeyDown);
       document.addEventListener("touchend", onTouchEnd);
     };
-  }, [down, enable, props.location.pathname]);
+  }, [down, enable, stop, props.location.pathname]);
 
   //  ==== EVENTS FUNCTION ====
   //  ================================
@@ -182,6 +206,8 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
   }
 
   function directionEvent(event: Direction) {
+    if (stop) return; // ==> STOP CONDITION
+
     const buttons = detectButtons();
     const indexFocused_ = indexButtonFocused(buttons);
     if (indexFocused_ === -1) {
@@ -199,11 +225,14 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
   }
 
   function actionStartEvent(event: Action) {
+    if (stop && event !== Action.ENTER) return; // ==> STOP CONDITION
+
     if (event === Action.BACK) {
       backAction();
     }
     if (event === Action.ENTER) {
       setEnter(true);
+      if (stop) return; // ==> STOP CONDITION
       const btnFocused = buttonFocused();
       btnFocused.click();
     }
@@ -243,6 +272,14 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
     if (beverageSelected !== null) {
       const buttonToFocus = getSpecificButton(`beverage_close`);
       buttonToFocus.click();
+      return;
+    }
+
+    // === PREPAY PAGE CASE ===
+    const buttonPrepayClose = getSpecificButton(`prepay_close`);
+    if (buttonPrepayClose) {
+      buttonPrepayClose.click();
+      return;
     }
 
     // === SLIDE OPEN CASE ===
@@ -253,10 +290,12 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
       return;
     }
 
+    // === HOME CASE ===
     const { pathname } = props.location;
     if (pathname === Pages.Home) {
       const buttons = detectButtons();
       focusElement(buttons[0]);
+      return;
     }
   }
 
@@ -310,6 +349,11 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
     else
       console.log("Focus: ", "Not element available");
   }
+
+  // function focusRemove() {
+  //   const activeElementDomument: any = buttonFocused();
+  //   if (activeElementDomument !== document.body) activeElementDomument.blur();
+  // }
 
   return { pour, enter, changeStateLayout };
 });

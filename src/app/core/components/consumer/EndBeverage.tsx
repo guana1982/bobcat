@@ -2,6 +2,7 @@ import * as React from "react";
 import { __ } from "@utils/lib/i18n";
 import { CONSUMER_TIMER } from "@utils/constants";
 import styled from "styled-components";
+import { AccessibilityContext } from "@core/containers";
 
 export const EndWrap = styled.div`
   position: absolute;
@@ -36,6 +37,29 @@ export const EndBeverage = (props: EndBeverageProps) => {
     clearTimeout(endBeverageTimeout);
     resetBeverage();
   };
+
+  //  ==== ACCESSIBILITY FUNCTION ====>
+  const accessibilityConsumer = React.useContext(AccessibilityContext);
+  const { changeStateLayout, enter } = accessibilityConsumer;
+
+  React.useEffect(() => {
+    changeStateLayout({
+      endBeverageShow: true
+    });
+    return () => {
+      changeStateLayout({
+        endBeverageShow: false
+      });
+    };
+  }, []);
+
+  React.useEffect(() => {
+    if (enter) {
+      closeEndBeverage();
+    }
+  }, [enter]);
+  //  <=== ACCESSIBILITY FUNCTION ====
+
   return (
     <React.Fragment>
       <EndWrap onClick={() => closeEndBeverage()}>

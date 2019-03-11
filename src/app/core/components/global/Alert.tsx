@@ -2,6 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { __ } from "@utils/lib/i18n";
 import { AlertContext, DEFAULT_TIMEOUT_ALERT } from "@core/containers/alert.container";
+import { AccessibilityContext } from "@core/containers";
 
 const AlertWrap = styled.div`
   position: absolute;
@@ -49,6 +50,23 @@ export const Alert = (props: AlertProps) => {
   const alertConsumer = React.useContext(AlertContext);
   const {show, options} = alertConsumer.state;
   const {type, onDismiss, timeout} = options;
+
+  //  ==== ACCESSIBILITY FUNCTION ====>
+  const accessibilityConsumer = React.useContext(AccessibilityContext);
+  const { changeStateLayout, enter } = accessibilityConsumer;
+
+  React.useEffect(() => {
+    changeStateLayout({
+      alertShow: show
+    });
+  }, [show]);
+
+  React.useEffect(() => {
+    if (enter && show) {
+      onDismiss_();
+    }
+  }, [enter, show]);
+  //  <=== ACCESSIBILITY FUNCTION ====
 
   const onDismiss_ = () => {
     onDismiss();

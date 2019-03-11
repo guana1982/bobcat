@@ -195,7 +195,6 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   const { slideOpen, showCardsInfo, showEnd, beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, getBeverageSelected, handleChange } = props;
 
   //  ==== ACCESSIBILITY FUNCTION ====>
-
   const buttonPourEl = React.useRef(null);
   const accessibilityConsumer = React.useContext(AccessibilityContext);
   const { pour, enter } = accessibilityConsumer;
@@ -218,7 +217,6 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
       stopPour();
     }
   }, [buttonPourEl, enter]);
-
   //  <=== ACCESSIBILITY FUNCTION ====
 
   return(
