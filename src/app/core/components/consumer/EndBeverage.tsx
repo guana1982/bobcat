@@ -3,7 +3,7 @@ import { __ } from "@utils/lib/i18n";
 import { CONSUMER_TIMER } from "@utils/constants";
 import styled from "styled-components";
 
-export const EndWrap = styled.button`
+export const EndWrap = styled.div`
   position: absolute;
   top: 0;
   right: 0;

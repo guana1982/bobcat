@@ -82,7 +82,8 @@ export const Home = (props: HomeProps) => {
   React.useEffect(() => {
     changeStateLayout({
       beverageSelected: state.beverageSelected,
-      slideOpen: state.slideOpen
+      slideOpen: state.slideOpen,
+      buttonGroupSelected: null
     });
   }, [state.beverageSelected, state.slideOpen]);
   //  <=== ACCESSIBILITY FUNCTION ====
@@ -189,6 +190,8 @@ export const Home = (props: HomeProps) => {
         clearTimerEnd();
         document.removeEventListener("touchstart", clearTimer);
         document.removeEventListener("touchend", startTimer);
+        document.removeEventListener("keydown", clearTimer); // => ACCESSIBILITY
+        document.removeEventListener("keyup", startTimer); // => ACCESSIBILITY
       };
 
       const clearTimer = () => {
@@ -203,6 +206,8 @@ export const Home = (props: HomeProps) => {
 
       document.addEventListener("touchstart", clearTimer);
       document.addEventListener("touchend", startTimer);
+      document.addEventListener("keydown", clearTimer); // => ACCESSIBILITY
+      document.addEventListener("keyup", startTimer); // => ACCESSIBILITY
     }
   };
 

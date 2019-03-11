@@ -118,9 +118,11 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
   //  ================================
 
   React.useEffect(() => {
-    window.addEventListener("keydown", onKeyDown);
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("touchend", onTouchEnd);
     return () => {
-      window.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("keydown", onKeyDown);
+      document.addEventListener("touchend", onTouchEnd);
     };
   }, [down, enable, props.location.pathname]);
 
@@ -138,12 +140,16 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
       return;
 
     //  ==== INIT CONDITION ====
-    if (!enable) {
-      setEnable(true);
-    }
     const { pathname } = props.location;
     if (pathname === Pages.Attractor) {
+      setEnable(true);
       props.history.push(Pages.Home);
+      return;
+    }
+
+    //  ==== ENABLE CONDITION ====
+    if (!enable) {
+      setEnable(true);
       return;
     }
 
@@ -162,14 +168,17 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
       const endPour = () => {
         setDown(false);
         actionEndEvent(action);
-        window.removeEventListener("keyup", endPour);
+        document.removeEventListener("keyup", endPour);
       };
 
-      window.addEventListener("keyup", endPour);
+      document.addEventListener("keyup", endPour);
 
       actionStartEvent(action);
     }
+  }
 
+  function onTouchEnd(evt) {
+    setEnable(false);
   }
 
   function directionEvent(event: Direction) {
@@ -253,6 +262,8 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
 
   const detectButtons = () => {
     let buttons = Array.from(document.getElementsByTagName("button"));
+
+    // === FILTER BUTTONS ===
     buttons = buttons.filter(button => {
 
       const idValues = button.id.split("-"); // => GET TYPE BUTTON
@@ -272,6 +283,8 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
 
       return !button.disabled; // => REMOVE DISABLED BUTTON
     });
+
+    // === SORT BUTTONS ===
 
     return buttons;
   };

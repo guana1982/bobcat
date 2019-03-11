@@ -80,12 +80,16 @@ class TimerStoreComponent extends React.Component<any, any> {
       console.info("Timer already start!");
     document.addEventListener("touchstart", this.handlerTouchStart);
     document.addEventListener("touchend", this.handlerTouchEnd);
+    document.addEventListener("keydown", this.handlerTouchStart); // => ACCESSIBILITY
+    document.addEventListener("keyup", this.handlerTouchEnd); // => ACCESSIBILITY
   }
 
   resetTimer() {
     this.clearTimer(false);
     document.removeEventListener("touchstart", this.handlerTouchStart);
     document.removeEventListener("touchend", this.handlerTouchEnd);
+    document.removeEventListener("keydown", this.handlerTouchStart); // => ACCESSIBILITY
+    document.removeEventListener("keyup", this.handlerTouchEnd); // => ACCESSIBILITY
   }
 
   countDown() {
