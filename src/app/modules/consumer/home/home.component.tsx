@@ -70,6 +70,7 @@ export const Home = (props: HomeProps) => {
   React.useEffect(() => {
     timerConsumer.startTimer();
     timerEnd_ = null;
+    clearTimeout(timerEnd_);
     return () => {
       timerConsumer.resetTimer();
     };

@@ -4,7 +4,7 @@ import { CircleBtnContent, CircleBtn } from "../global/CircleBtn";
 import styled from "styled-components";
 import { ButtonGroup } from "../global/ButtonGroup";
 import { EndBeverage } from "./EndBeverage";
-import { AccessibilityContext } from "@core/containers";
+import { AccessibilityContext, ConfigContext } from "@core/containers";
 import ReactDOM = require("react-dom");
 
 const _sizePour = 105;
@@ -20,12 +20,10 @@ export const Pour = styled.button`
   border-top-right-radius: ${_sizePour * 2}px;
   font-size: ${_sizePour / 5}px;
   font-weight: 600;
+  opacity: ${props => props.isPouring ? .7 : 1};
   &, &:active {
     color: ${props => props.theme.light};
     background: ${props => props.theme.primary};
-  }
-  &:active {
-    opacity: .7;
   }
 `;
 
@@ -197,26 +195,24 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   //  ==== ACCESSIBILITY FUNCTION ====>
   const buttonPourEl = React.useRef(null);
   const accessibilityConsumer = React.useContext(AccessibilityContext);
+  const configConsumer = React.useContext(ConfigContext);
   const { pour, enter } = accessibilityConsumer;
 
-  React.useEffect(() => {
-    if (pour === true) {
-      startPour();
-    } else if (pour === false) {
-      stopPour();
-    }
-  }, [pour]);
+  const { isPouring } = configConsumer;
 
   React.useEffect(() => {
     const button = buttonPourEl.current;
     const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
-    if (!isFocus) return;
-    if (enter === true) {
-      startPour();
-    } else if (enter === false) {
-      stopPour();
+    if (!isPouring) {
+      if (pour === true || enter === true && isFocus) {
+        startPour();
+      }
+    } else {
+      if (pour === false || enter === false && isFocus) {
+        stopPour();
+      }
     }
-  }, [buttonPourEl, enter]);
+  }, [pour, buttonPourEl, enter]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
   return(
@@ -284,7 +280,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             <h4>Plastic Bottles</h4>
           </footer>
         </InfoCard>}
-        <Pour ref={buttonPourEl} onTouchStart={() => startPour()} onTouchEnd={() => stopPour()}>Hold to Pour</Pour>
+        <Pour isPouring={isPouring} ref={buttonPourEl} onTouchStart={() => startPour()} onTouchEnd={() => stopPour()}>Hold to Pour</Pour>
       </CustomizeBeverageWrap>
       {showEnd && <EndBeverage resetBeverage={resetBeverage} />}
     </React.Fragment>

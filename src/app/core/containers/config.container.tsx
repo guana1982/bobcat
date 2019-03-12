@@ -16,6 +16,7 @@ export interface ConfigInterface {
   alarms: IAlarm[];
   allBeverages: IBeverage[];
   beverages: IBeverage[];
+  isPouring: boolean;
   onStartPour: (beverage: IBeverage, config: IBeverageConfig) => Observable<any>;
   onStopPour: () => Observable<any>;
 }
@@ -37,7 +38,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
     this.state = {
       vendorConfig: {},
       beverages: [],
-      alarms: []
+      alarms: [],
+      isPouring: false
     };
 
   }
@@ -206,10 +208,12 @@ class ConfigStoreComponent extends React.Component<any, any> {
       temperature_level: config.temperature_level,
       pour_method: "free_flow"
     };
+    this.setState({isPouring: true});
     return mediumLevel.dispense.pour(recipe).pipe(first());
   }
 
   private onStopPour = () => {
+    this.setState({isPouring: false});
     return mediumLevel.dispense.stop().pipe(first());
   }
 
@@ -226,6 +230,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
           beverages: this.state.beverages,
           menuList: this.menuList,
           alarms: this.state.alarms,
+          isPouring: this.state.isPouring,
           socketAlarms$: this.socketAlarms$,
           ws: this.ws,
           onStartPour: this.onStartPour,

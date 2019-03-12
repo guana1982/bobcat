@@ -109,7 +109,6 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
   //  ==== ALERT || END BEVERAGE CASE ====
   const { alertShow, endBeverageShow } = stateLayout;
   React.useEffect(() => {
-    console.log({alertShow, endBeverageShow});
     if (alertShow || endBeverageShow) {
       // focusRemove();
       setDown(false);
@@ -121,10 +120,6 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
       setStop(false);
     }
   }, [alertShow, endBeverageShow]);
-
-  React.useEffect(() => {
-    console.log("stop", stop);
-  }, [stop]);
 
   //  ==== DETECT STATUS FOR STYLE ====
   //  ================================
@@ -325,6 +320,20 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
 
     // === SORT BUTTONS ===
 
+    // === BUTTON GROUP CASE ===
+    if (stateLayout.buttonGroupSelected !== null) {
+      return buttons;
+    }
+
+    // === BEVERAGE SELECTED CASE ===
+    if (stateLayout.beverageSelected !== null) {
+      const lastIndex = buttons.length - 1;
+      const initButtons = buttons.slice(0, 3);
+      const contentButtons = buttons.slice(3, lastIndex);
+      const pourButton = buttons.slice(lastIndex);
+      buttons = [...pourButton, ...contentButtons, ...initButtons];
+    }
+
     return buttons;
   };
 
@@ -367,7 +376,6 @@ export const AccessibilityContext = AccessibilityContainer.Context;
 // const detectButtons = React.useCallback(
 //   () => {
 //     let buttons = Array.from(document.getElementsByTagName("button"));
-//     console.log("buttons", buttons);
 //     buttons = buttons.filter(button => !button.disabled);
 //     return buttons;
 //   },

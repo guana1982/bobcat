@@ -119,26 +119,26 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     );
 
     // ____ MOCK
-    const mock = () => {
-      switch (this.index_qr) {
-        case 0:
-          return TEST_QR_0;
-          break;
-        case 1:
-          return TEST_QR_1;
-          break;
-        case 2:
-          return TEST_QR_2;
-          break;
-        case 3:
-          return TEST_QR_3;
-          break;
-      }
-    };
-    if (type === SOCKET_CONSUMER.SERVER) {
-      this.index_qr = this.index_qr + 1;
-    }
-    return of(mock()); // socketConsumer$;
+    // const mock = () => {
+    //   switch (this.index_qr) {
+    //     case 0:
+    //       return TEST_QR_0;
+    //       break;
+    //     case 1:
+    //       return TEST_QR_1;
+    //       break;
+    //     case 2:
+    //       return TEST_QR_2;
+    //       break;
+    //     case 3:
+    //       return TEST_QR_3;
+    //       break;
+    //   }
+    // };
+    // if (type === SOCKET_CONSUMER.SERVER) {
+    //   this.index_qr = this.index_qr + 1;
+    // }
+    return socketConsumer$; // of(mock()); // MOCK
   }
 
   /* ==== SCANNING ==== */
