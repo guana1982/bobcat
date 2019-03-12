@@ -24,37 +24,37 @@ interface BlurWrapProps {
   children?: any;
 }
 
-const BlurWrap = (props: BlurWrapProps) => {
-  const {show, children} = props;
+// const BlurWrap = (props: BlurWrapProps) => {
+//   const {show, children} = props;
 
-  const captureEl = React.useRef(null);
-  // const [urlBlur, setUrlBlur] = React.useState<string>(localStorage.getItem("BlurredImage"));
+//   const captureEl = React.useRef(null);
+//   // const [urlBlur, setUrlBlur] = React.useState<string>(localStorage.getItem("BlurredImage"));
 
-  const consumerContext = React.useContext(ConsumerContext);
-  !consumerContext.isLogged && React.useEffect(() => {
-      const capture = captureEl.current;
-      html2canvas(capture).then(canvas => {
-        const worker = new Worker("worker.js");
-        const ctx = canvas.getContext("2d");
-        const imageData = ctx.getImageData(0, 0, 1280 * 2, 800 * 2);
-        worker.onmessage = function(e) {
-          const imageDataBlur = e.data;
-          ctx.putImageData(imageDataBlur, 0, 0);
-          const imageBlur = canvas.toDataURL();
-          localStorage.setItem("BlurredImage", imageBlur);
-        };
-        worker.postMessage({imageData: imageData, radius: 50, quality: 10});
-      });
-  }, [captureEl]);
+//   const consumerContext = React.useContext(ConsumerContext);
+//   !consumerContext.isLogged && React.useEffect(() => {
+//       const capture = captureEl.current;
+//       html2canvas(capture).then(canvas => {
+//         const worker = new Worker("worker.js");
+//         const ctx = canvas.getContext("2d");
+//         const imageData = ctx.getImageData(0, 0, 1280 * 2, 800 * 2);
+//         worker.onmessage = function(e) {
+//           const imageDataBlur = e.data;
+//           ctx.putImageData(imageDataBlur, 0, 0);
+//           const imageBlur = canvas.toDataURL();
+//           localStorage.setItem("BlurredImage", imageBlur);
+//         };
+//         worker.postMessage({imageData: imageData, radius: 50, quality: 10});
+//       });
+//   }, [captureEl]);
 
 
-  return (
-    <div>
-      <img src={localStorage.getItem("BlurredImage")} style={{display: show ? "block" : "none"}} />
-      <div ref={captureEl}>{children}</div>
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       <img src={localStorage.getItem("BlurredImage")} style={{display: show ? "block" : "none"}} />
+//       <div ref={captureEl}>{children}</div>
+//     </div>
+//   );
+// };
 
 interface HomeProps {
   history: any;
@@ -357,7 +357,7 @@ export const Home = (props: HomeProps) => {
       <HomeContent isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={Boolean(getBeverageSelected())}>
         {beverages.length > 0 && (
           <React.Fragment>
-            <BlurWrap show={state.slideOpen}>
+            {/* <BlurWrap show={state.slideOpen}> */}
               <ChoiceBeverage
                 onGesture={onGesture}
                 selectBeverage={selectBeverage}
@@ -374,7 +374,7 @@ export const Home = (props: HomeProps) => {
                   onChange={(value) => handleType(value)}>
                 </ButtonGroup>
               </div>
-            </BlurWrap>
+            {/* </BlurWrap> */}
           </React.Fragment>
         )}
       </HomeContent>
