@@ -6,13 +6,10 @@ export const SegmentButtonWrapper = styled.div`
   display: -ms-inline-flexbox;
   display: inline-flex;
   vertical-align: middle;
-  /* background: rgba(231, 231, 231, .7); */
-  /* border-radius: 0 0 37px 37px; */
   width: 384px;
   border-radius: 0 0 30px 30px;
-  /* background-image: url("img/segment.svg"); */
   z-index: -1;
-  background: #f9f9f9;
+  background: rgba(241, 241, 241, .6);
   height: 70px;
   button {
     display: flex;

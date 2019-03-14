@@ -52,7 +52,8 @@ export const HomeContent = styled.div`
     padding-top: 6.5rem;
   }
   ${ChoiceBeverageWrap} {
-    &:after {
+    filter: ${props => props.beverageIsSelected ? "blur(5px)" : null};
+    /* &:after {
       display: ${props => !props.beverageIsSelected ? "none" : null};
       content: '';
       position: absolute;
@@ -62,7 +63,7 @@ export const HomeContent = styled.div`
       height: 100%;
       background-color: ${props => props.theme.primary};
       opacity: 0.3
-    }
+    } */
   }
   #types-group {
     position: absolute;

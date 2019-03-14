@@ -1,11 +1,11 @@
 import * as React from "react";
 import { __ } from "@utils/lib/i18n";
-import { CircleBtnContent, CircleBtn } from "../global/CircleBtn";
 import styled from "styled-components";
 import { ButtonGroup } from "../global/ButtonGroup";
 import { EndBeverage } from "./EndBeverage";
 import { AccessibilityContext, ConfigContext } from "@core/containers";
 import ReactDOM = require("react-dom");
+import { CloseBtn, CloseBtnWrap } from "../global/CloseBtn";
 
 const _sizePour = 105;
 
@@ -84,67 +84,46 @@ export const InfoCard = styled.div`
   }
 `;
 
-const _sizeBeverageCard = 410;
 /* type?: string; */
 export const CustomizeBeverageCard = styled.div`
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  left: calc(50% - ${_sizeBeverageCard / 2}px);
-  background-color: ${props => props.theme.light};
-  border: 1px solid ${props => props.theme.primary};
-  border-radius: 15px;
-  width: ${_sizeBeverageCard}px;
-  padding: 10px;
-  min-height: ${_sizeBeverageCard * 1.2}px;
-  header {
-    position: relative;
-    padding: 1rem;
-    &:before {
-      content: " ";
-      opacity: .7;
-      position: absolute;
-      left: calc(50% - 8rem);
-      top: 20%;
-      width: 100%;
-      max-width: 16rem;
-      height: 100%;
-      background-repeat: no-repeat;
-      background-image: url("img/${props => props.type}.svg");
-    }
-    h2 {
-      position: relative;
-      padding-top: 2rem;
-      font-size: 3rem;
-      margin: .5rem;
-      color: ${props => props.theme.primary };
-      &:before {
-        position: absolute;
-        content: "${props => props.type} ";
-        font-size: 1.8rem;
-        top: 0;
-        display: block;
-        text-transform: uppercase;
-        font-weight: 400;
-      }
-    }
-    h6 {
-      position: relative;
-      font-size: 1rem;
-      left: .7rem;
-      margin: 0;
-      color: ${props => props.theme.primary };
-    }
+  bottom: 132px;
+  width: 550px;
+  height: 598px;
+  border-radius: 0 0 20px 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff);
+  #title {
+    position: absolute;
+    left: 26.5px;
+    bottom: 263px;
+    width: 278px;
+    font-size: 28px;
+    text-transform: uppercase;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.11;
+    letter-spacing: 4.9px;
+    color: ${props => props.theme.slateGrey};
   }
-  aside {
-    min-height: 246px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 1rem;
+  #cal {
+    position: absolute;
+    left: 26.5px;
+    bottom: 234px;
+    width: 84px;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 1.1px;
+    color: ${props => props.theme.slateGrey};
+  }
+  #group {
+    position: absolute;
+    bottom: 20px;
   }
 `;
 
@@ -156,19 +135,20 @@ export const CustomizeBeverageWrap = styled.section`
   top: 0;
   left: 0;
   z-index: 3;
-  /* height: 100vh;
-  width: 75vw; */
   #backdrop {
+    position: absolute;
+    z-index: -1;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 91, 195, .6);
+    background: #f9f9f9;
+    opacity: 0.4;
   }
-  ${CircleBtnContent} {
+  ${CloseBtnWrap} {
     position: absolute;
-    right: 30px;
-    top: 30px;
+    top: 26.5px;
+    right: 27px;
   }
 `;
 
@@ -218,9 +198,11 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   return(
     <React.Fragment>
       <CustomizeBeverageWrap>
-        <CircleBtn detectValue={"beverage_close"} onClick={() => resetBeverage()} bgColor={"primary"} color={"light"} icon={"icons/cancel.svg"} />
-        <div id="backdrop" onClick={() => resetBeverage()}></div>
-        {showCardsInfo && <InfoCard className={"right"}>
+        <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => resetBeverage()} />
+
+        <div id="backdrop"></div> {/* onClick={() => resetBeverage()} */}
+
+        {/* {showCardsInfo && <InfoCard className={"right"}>
           <header>
             <h3>Sign-up to track your hydration</h3>
           </header>
@@ -230,45 +212,41 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           <footer>
             <h4>Now available in App Stores</h4>
           </footer>
-        </InfoCard>}
+        </InfoCard>} */}
+
         <CustomizeBeverageCard type={isSparkling ? "sparkling" : null}>
-          <header>
-            <h2>{__(getBeverageSelected().beverage_label_id)}</h2>
-            <h6>0-CALS</h6>
-          </header>
-          <aside>
-            {beverageConfig.flavor_level != null &&
+            <span id="title">{__(getBeverageSelected().beverage_label_id)}</span>
+            <span id="cal">0 CAL.</span>
+            <div id="group">
+              {beverageConfig.flavor_level != null &&
+                <ButtonGroup
+                  detectValue={"flavor"}
+                  label={"Flavor"}
+                  options={levels.flavor}
+                  value={beverageConfig.flavor_level}
+                  onChange={(value) => handleChange(value, "flavor")}
+                ></ButtonGroup>
+              }
+              {beverageConfig.carbonation_level != null &&
+                <ButtonGroup
+                  detectValue={"sparkling"}
+                  label={"Sparkling"}
+                  options={levels.carbonation}
+                  value={beverageConfig.carbonation_level}
+                  onChange={(value) => handleChange(value, "carbonation")}>
+                </ButtonGroup>
+              }
               <ButtonGroup
-                detectValue={"flavor"}
-                label={"Flavor"}
-                options={levels.flavor}
-                value={beverageConfig.flavor_level}
-                onChange={(value) => handleChange(value, "flavor")}
-              ></ButtonGroup>
-            }
-            {beverageConfig.carbonation_level != null &&
-              <ButtonGroup
-                detectValue={"sparkling"}
-                label={"Sparkling"}
-                options={levels.carbonation}
-                value={beverageConfig.carbonation_level}
-                onChange={(value) => handleChange(value, "carbonation")}>
+                detectValue={"temp"}
+                label={"Temp"}
+                options={isSparkling ? levels.carbTemperature : levels.temperature}
+                value={beverageConfig.temperature_level}
+                onChange={(value) => handleChange(value, "temperature")}>
               </ButtonGroup>
-            }
-            <ButtonGroup
-              detectValue={"temp"}
-              label={"Temp"}
-              options={isSparkling ? levels.carbTemperature : levels.temperature}
-              value={beverageConfig.temperature_level}
-              onChange={(value) => handleChange(value, "temperature")}>
-            </ButtonGroup>
-          </aside>
-          {/* <div>
-            <button type="button">add b-complex</button>
-            <button type="button">add antioxidants</button>
-          </div> */}
+            </div>
         </CustomizeBeverageCard>
-        {showCardsInfo && <InfoCard className={"left"}>
+
+        {/* {showCardsInfo && <InfoCard className={"left"}>
           <header>
             <h3>This office<br/> saved</h3>
           </header>
@@ -279,9 +257,11 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             <h2>239</h2>
             <h4>Plastic Bottles</h4>
           </footer>
-        </InfoCard>}
+        </InfoCard>} */}
+
         <Pour isPouring={isPouring} ref={buttonPourEl} onTouchStart={() => startPour()} onTouchEnd={() => stopPour()}>Hold to Pour</Pour>
       </CustomizeBeverageWrap>
+
       {showEnd && <EndBeverage resetBeverage={resetBeverage} />}
     </React.Fragment>
   );

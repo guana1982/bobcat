@@ -17,7 +17,6 @@ export enum BeverageTypes {
 
 /* size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; */
 export const BeverageWrap = styled.div`
-  padding: 1rem .7rem;
   transition: 1s all;
   transition-property: width, height, left, top;
   will-change: width, height, left, top;
