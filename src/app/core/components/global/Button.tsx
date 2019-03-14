@@ -2,57 +2,47 @@
 import * as React from "react";
 import styled from "styled-components";
 
-const _sizeButton = 60;
-
-export enum ButtonTypes {
-  Primary = "primary",
-  Secondary = "secondary",
-  Transparent = "transparent"
-}
-
 export const ButtonWrap = styled.button`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: ${_sizeButton}px;
-  width: ${_sizeButton * 2}px;
-  font-size: ${_sizeButton / 3.5}px;
-  font-weight: 600;
-  img {
-    width: ${_sizeButton / 2}px;
-    margin-left: .5rem;
-  }
-  &.${ButtonTypes.Primary} {
-    background: ${props => props.theme.primary};
-    color: ${props => props.theme.light};
-  }
-  &.${ButtonTypes.Secondary} {
-    background: ${props => props.theme.secondary};
-    color: ${props => props.theme.primary};
-  }
-  &.${ButtonTypes.Transparent} {
-    background: ${props => props.theme.transparent};
-    color: ${props => props.theme.primary};
-  }
+  border-radius: 12px;
   &:active {
     opacity: .7;
+  }
+  &.small {
+    margin: 10px;
+    width: 44px;
+    height: 48px;
+  }
+  &.large {
+    width: 98px;
+    height: 93px;
+    img {
+      padding-bottom: 18px;
+    }
+  }
+  span {
+    color: ${props => props.theme.slateGrey};
+    text-transform: capitalize;
   }
 `;
 
 interface ButtonProps {
-  type: ButtonTypes;
   text?: string;
   icon?: string;
   onClick?: () => void;
   disabled?: boolean;
+  detectValue?: string;
 }
 
 export const Button = (props: ButtonProps) => {
-  const {type, text, icon, onClick, disabled} = props;
+  const {text, icon, onClick, disabled, detectValue} = props;
   return (
-    <ButtonWrap className={type} disabled={disabled} onClick={onClick}>
-      {text}
+    <ButtonWrap className={text ? "large" : "small"} id={detectValue} disabled={disabled} onClick={onClick}>
       <img src={`icons/${icon}.svg`} />
+      <span>{text}</span>
     </ButtonWrap>
   );
 };

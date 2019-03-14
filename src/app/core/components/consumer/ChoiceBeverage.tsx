@@ -5,13 +5,24 @@ import Gesture from "../Menu/Gesture";
 import { Beverage, BeverageTypes } from "../global/Beverage";
 import { Grid } from "../global/Grid";
 import { Footer } from "../global/Footer";
-import { Button, ButtonTypes } from "../global/Button";
+import { Button } from "../global/Button";
 import { ConfigContext, ConsumerContext } from "@containers/index";
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */
 
-export const ChoiceBeverageWrap = styled.section``;
+export const ChoiceBeverageWrap = styled.section`
+  #nutrition-btn {
+    position: absolute;
+    left: 22px;
+    bottom: 22px;
+  }
+  #signin-btn, #logout-btn {
+    position: absolute;
+    right: 22px;
+    bottom: 22px;
+  }
+`;
 
 /* ==== ELEMENT ==== */
 /* ======================================== */
@@ -56,11 +67,10 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
             );
           })}
         </Grid>
+        <Button detectValue="nutrition-btn" disabled={disabled} onClick={() => console.log("Nutrition")} text={!isLogged ? "Nutrition" : null} icon="nutrition" />
+        {!isLogged && <Button detectValue="signin-btn" disabled={disabled} onClick={() => goToPrepay()} text="Sign In" icon="qr-code" />}
+        {isLogged && <Button detectValue="logout-btn" disabled={disabled} onClick={() => resetConsumer()} icon="log-out" />}
       </ChoiceBeverageWrap>
-      <Footer>
-        {!isLogged && <Button disabled={disabled} type={ButtonTypes.Transparent} onClick={() => goToPrepay()} text="SIGN IN" icon="logout" />}
-        {isLogged && <Button disabled={disabled} type={ButtonTypes.Transparent} onClick={() => resetConsumer()} text="SIGN OUT" icon="logout" />}
-      </Footer>
     </React.Fragment>
   );
 };

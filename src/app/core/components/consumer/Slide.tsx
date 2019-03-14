@@ -68,7 +68,9 @@ export const SlideStyled = styled(_Slide)`
   top: 0;
   width: 98.6vw;
   z-index: 5;
-  background: ${props => props.theme.spindle};
+  box-shadow: 9px 27px 45px 0 rgba(163, 165, 166, 0.2);
+  background: #fff;
+  /* background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff); */
   height: 100vh;
   #title {
     position: absolute;

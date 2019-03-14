@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { ButtonGroupWrapper } from "@components/global/ButtonGroup";
 import { Grid } from "@components/global/Grid";
 import { _sizeSlide, _sizeSlideFull } from "@components/consumer/Slide";
 import { ChoiceBeverageWrap } from "@components/consumer/ChoiceBeverage";
@@ -43,14 +42,14 @@ export const BlurWrap = styled(_BlurWrap)`
 
 /* beverageIsSelected?: boolean; isLogged: boolean; fullMode: boolean */
 export const HomeContent = styled.div`
-  background-color: ${props => props.theme.secondary};
+  background-image: ${props => props.theme.backgroundLight};
   width: calc( 100vw - ${props => sizeHome(props)});
   height: 100vh;
   position: absolute;
   left: ${props => sizeHome(props)};
   top: 0;
   ${Grid} {
-    padding-top: 8.1rem;
+    padding-top: 6.5rem;
   }
   ${ChoiceBeverageWrap} {
     &:after {
@@ -67,12 +66,8 @@ export const HomeContent = styled.div`
   }
   #types-group {
     position: absolute;
-    top: 2rem;
-    left: calc(50% - 13.5rem);
-    margin: auto;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 4;
-    ${ButtonGroupWrapper} {
-      width: 25rem;
-    }
   }
 `;

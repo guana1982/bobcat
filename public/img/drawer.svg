@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="329" height="799" viewBox="0 0 329 799">
+    <defs>
+        <path id="b" d="M0 0h304v369c0 10-30.5 14-30.5 43s30.5 30.784 30.5 43.5V799H0V0z"/>
+        <filter id="a" width="153.3%" height="120.3%" x="-23.7%" y="-6.8%" filterUnits="objectBoundingBox">
+            <feOffset dx="9" dy="27" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="22.5"/>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.639884361 0 0 0 0 0.646707329 0 0 0 0 0.651466259 0 0 0 0.2 0"/>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g opacity=".55">
+            <use fill="#000" filter="url(#a)" xlink:href="#b"/>
+            <use fill="#FFF" fill-opacity=".821" xlink:href="#b"/>
+        </g>
+        <g transform="translate(283 389)">
+            <circle cx="23" cy="23" r="23" fill="#FFF"/>
+            <path stroke="#979797" stroke-linecap="round" stroke-width="2" d="M20.443 15l7 8-7 8"/>
+        </g>
+    </g>
+</svg>

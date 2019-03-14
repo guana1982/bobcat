@@ -7,7 +7,10 @@ export const themeMain = {
   light: "#EEF6FD",
   dark: "#222",
   sail: "#B3DAFA",
-  spindle: "#b6ceef"
+  spindle: "#b6ceef",
+
+  slateGrey: "#565657",
+  backgroundLight: "linear-gradient(to bottom, #fff, #f9f9f9)"
 };
 
 export const themeMenu = {
@@ -113,7 +116,7 @@ export const GlobalStyle = createGlobalStyle`
   }
   body.accessibility-enable {
     button:focus {
-      border: 2px solid red;
+      box-shadow: 0 0 0 6px #2b9cda;
     }
   }
 `;

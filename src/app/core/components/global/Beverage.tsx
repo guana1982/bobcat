@@ -15,7 +15,6 @@ export enum BeverageTypes {
   Sparkling = "sparkling"
 }
 
-const _sizeBeverage = 11;
 /* size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; */
 export const BeverageWrap = styled.div`
   padding: 1rem .7rem;
@@ -24,103 +23,70 @@ export const BeverageWrap = styled.div`
   will-change: width, height, left, top;
   text-align: center;
   pointer-events: default;
-  height: ${_sizeBeverage * 1.6}rem;
-  width: ${_sizeBeverage * 1.4}rem;
+  width: 218px;
+  height: 304px;
+  margin: 10px 23px;
   button {
+    position: relative;
     width: 100%;
     height: 100%;
-    padding: 5px;
+    border-radius: 17px;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff);
+    &:before {
+      content: " ";
+      position: absolute;
+      top: -26%;
+      left: -22.1%;
+      width: 145%;
+      height: 149%;
+      background-image: url("img/flavor-card-bg.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: bottom;
+    }
   }
   #element {
     position: relative;
-    border: ${props => `2px ${props.type === BeverageTypes.Info ? "dashed" : "solid"} ${props.theme.primary}`};
-    background-color: ${props => props.type === BeverageTypes.Info ? "rgba(255, 255, 255, 0.3)" : props.theme["light"] };
     width: 100%;
-    border-radius: 1rem;
-    color: #0034B0;
     height: 100%;
-    text-align: left;
-    * {
-      opacity: ${props => props.type === BeverageTypes.Info ? .6 : 1 };
-    }
-    &:before {
-      content: " ";
-      opacity: .7;
+    color: ${props => props.theme.slateGrey};
+    text-transform: uppercase;
+    #title {
       position: absolute;
-      right: .5rem;
-      bottom: .1rem;
-      width: 100%;
-      height: 5.4rem !important;
-      height: ${_sizeBeverage / 2.5}rem;
-      background-position: right;
-      background-repeat: no-repeat;
-      background-image: url("img/${props => props.type}.svg");
-    }
-    h3 {
-      position: relative;
-      word-wrap: break-word;
-      top: ${_sizeBeverage / 2.5}rem;
-      left: .7rem;
-      font-size: ${_sizeBeverage / 7}rem;
-      margin: .5rem;
-      left: 0;
-      &:before {
-        position: absolute;
-        top: -20px;
-        content: "${props => props.type === BeverageTypes.Sparkling ? props.type : null} ";
-        display: block;
-        text-transform: capitalize;
-        font-size: 1rem;
-        font-weight: 500;
-      }
-    }
-    h6 {
-      position: relative;
-      top: ${_sizeBeverage / 2.5}rem;
-      left: .5rem;
-      font-size: ${_sizeBeverage / 13.5}rem;
-      bottom: 0;
-      color: ${props => props.status === "active" ? "#fff" : props.theme.primary };
-      margin: .7rem;
+      width: calc(100% - 46px);
+      right: 23px;
+      bottom: 43px;
+      font-size: 18px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.1;
+      letter-spacing: 3.2px;
       text-align: left;
-      left: 0;
     }
-    h5 {
+    #cal {
       position: absolute;
-      text-align: center;
-      font-size: ${_sizeBeverage / 10}rem;
-      opacity: 1 !important;
-      font-weight: 600;
-      right: .5rem;
-      bottom: .5rem;
-      color: ${props => props.status === "active" ? "#fff" : props.theme.primary };
-      margin: .7rem;
+      left: 23px;
+      bottom: 14px;
+      font-size: 12.6px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 1px;
+      text-align: left;
     }
-  }
-  #indicators {
-    position: absolute;
-    right: 0;
-    top: 10px;
-    width: 3rem;
-    img {
-      width: 2rem;
-      margin-right: 10px;
-    }
-  }
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 91, 195, .9);
-    border-radius: 0.7rem;
-    h4 {
-      word-wrap: break-word;
-      margin-top: calc(50% - .75rem);
-      color: #fff;
-      text-align: center;
-      font-size: 1.5rem;
+    #price {
+      position: absolute;
+      right: 23px;
+      bottom: 14px;
+      font-size: 12.6px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 1px;
+      text-align: right;
     }
   }
 `;
@@ -136,8 +102,6 @@ interface BeverageProps {
   onStart?: () => void;
   onHoldStart?: () => void;
   onHoldEnd?: () => void;
-  // onTouchStart?: () => void;
-  // onTouchEnd?: () => void;
   indicators?: BeverageIndicators[];
   label?: string;
   pouring?: boolean;
@@ -151,13 +115,11 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
 
-  let  onStart, onHoldStart, onHoldEnd  = null; // onTouchStart, onTouchEnd
+  let  onStart, onHoldStart, onHoldEnd  = null;
   if (!$disabledTouch) {
     onStart = props.onStart || null;
     onHoldStart = props.onHoldStart || null;
     onHoldEnd = props.onHoldEnd || null;
-    // onTouchStart = props.onTouchStart;
-    // onTouchEnd = props.onTouchEnd;
   }
 
   //  ==== ACCESSIBILITY FUNCTION ====>
@@ -212,6 +174,11 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         <BeverageWrap pouring={pouring} type={type}>
           <button ref={buttonEl} disabled={type === BeverageTypes.Info || $outOfStock || disabled}>
             <div id="element">
+              <span id="title">{__(title)}</span>
+              <span id="cal">0 Cal.</span>
+              <span id="price">75¢</span>
+            </div>
+            {/* <div id="element">
               <div id="indicators">
                 {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
               </div>
@@ -220,7 +187,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
               {label && <h5>{__(label)}</h5>}
               {$outOfStock && <div className="overlay"><h4>{__("Out Of Stock")}</h4></div>}
               {pouring && <div className="overlay"><h4>{__("Pouring")}</h4></div>}
-            </div>
+            </div> */}
           </button>
         </BeverageWrap>
       </ClickNHold>

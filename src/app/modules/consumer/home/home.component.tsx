@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { HomeContent } from "./home.style";
-import { ButtonGroup } from "@components/global/ButtonGroup";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
 import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER } from "@utils/constants";
@@ -16,6 +15,7 @@ import { TimerContext } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { BeverageTypes } from "@core/components/global/Beverage";
 import { AccessibilityContext } from "@core/containers";
+import { SegmentButton } from "@core/components/global/SegmentButton";
 
 interface HomeProps {
   history: any;
@@ -41,8 +41,15 @@ export const Home = (props: HomeProps) => {
 
   const levels = LEVELS;
   const types = [
-    {label: "Still", value: false},
-    {label: "Sparkling", value: true}
+    {
+      label: "Still",
+      icon: "still",
+      value: false
+    }, {
+      label: "Sparkling",
+      icon: "sparkling",
+      value: true
+    }
   ];
 
   const [state, setState] = React.useState<HomeState>({
@@ -68,7 +75,7 @@ export const Home = (props: HomeProps) => {
   const consumerConsumer = React.useContext(ConsumerContext);
 
   React.useEffect(() => {
-    timerConsumer.startTimer();
+    // timerConsumer.startTimer();
     timerEnd_ = null;
     clearTimeout(timerEnd_);
     return () => {
@@ -338,12 +345,12 @@ export const Home = (props: HomeProps) => {
         {beverages.length > 0 && (
           <React.Fragment>
             <div id="types-group">
-              <ButtonGroup
+              <SegmentButton
                 options={types}
                 value={isSparkling}
                 disabled={presentSlide && state.slideOpen}
                 onChange={(value) => handleType(value)}>
-              </ButtonGroup>
+              </SegmentButton>
             </div>
             <ChoiceBeverage
               onGesture={onGesture}
@@ -357,22 +364,22 @@ export const Home = (props: HomeProps) => {
             />
           </React.Fragment>
         )}
-        {beverageSelected &&
-          <CustomizeBeverage
-            levels={levels}
-            isSparkling={isSparkling}
-            slideOpen={state.slideOpen}
-            showCardsInfo={state.showCardsInfo}
-            showEnd={state.showEnd}
-            beverageConfig={state.beverageConfig}
-            resetBeverage={resetBeverage}
-            getBeverageSelected={getBeverageSelected}
-            handleChange={handleChange}
-            startPour={startPour}
-            stopPour={stopPour}
-          />
-        }
       </HomeContent>
+      {beverageSelected &&
+        <CustomizeBeverage
+          levels={levels}
+          isSparkling={isSparkling}
+          slideOpen={state.slideOpen}
+          showCardsInfo={state.showCardsInfo}
+          showEnd={state.showEnd}
+          beverageConfig={state.beverageConfig}
+          resetBeverage={resetBeverage}
+          getBeverageSelected={getBeverageSelected}
+          handleChange={handleChange}
+          startPour={startPour}
+          stopPour={stopPour}
+        />
+      }
     </section>
   );
 
