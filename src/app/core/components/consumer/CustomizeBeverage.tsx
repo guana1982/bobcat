@@ -6,6 +6,7 @@ import { EndBeverage } from "./EndBeverage";
 import { AccessibilityContext, ConfigContext } from "@core/containers";
 import ReactDOM = require("react-dom");
 import { CloseBtn, CloseBtnWrap } from "../global/CloseBtn";
+import { BeverageTypes } from "../global/Beverage";
 
 const _sizePour = 105;
 
@@ -84,7 +85,7 @@ export const InfoCard = styled.div`
   }
 `;
 
-/* type?: string; */
+/* CLASS => type?: string; */
 export const CustomizeBeverageCard = styled.div`
   position: absolute;
   bottom: 132px;
@@ -94,6 +95,20 @@ export const CustomizeBeverageCard = styled.div`
   left: 50%;
   transform: translateX(-50%);
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff);
+  &.${BeverageTypes.Sparkling} #logo-sparkling {
+    display: block;
+  }
+  &:not(.${BeverageTypes.Sparkling}) #logo {
+    display: block;
+  }
+  #logo, #logo-sparkling {
+    position: absolute;
+    display: none;
+    top: 5px;
+    left: 122.5px;
+    width: 305px;
+    height: 308px;
+  }
   #title {
     position: absolute;
     left: 26.5px;
@@ -195,6 +210,8 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   }, [pour, buttonPourEl, enter]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
+  const beverageSelected = getBeverageSelected();
+
   return(
     <React.Fragment>
       <CustomizeBeverageWrap>
@@ -214,8 +231,10 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           </footer>
         </InfoCard>} */}
 
-        <CustomizeBeverageCard type={isSparkling ? "sparkling" : null}>
-            <span id="title">{__(getBeverageSelected().beverage_label_id)}</span>
+        <CustomizeBeverageCard className={isSparkling ? BeverageTypes.Sparkling : null}>
+            <img id="logo" src={`img/logos/${beverageSelected.beverage_logo_id}.png`} />
+            <img id="logo-sparkling" src={`img/logos/${beverageSelected.beverage_logo_id}@sparkling.png`} />
+            <span id="title">{__(beverageSelected.beverage_label_id)}</span>
             <span id="cal">0 CAL.</span>
             <div id="group">
               {beverageConfig.carbonation_level != null &&

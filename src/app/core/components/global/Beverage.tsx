@@ -15,7 +15,13 @@ export enum BeverageTypes {
   Sparkling = "sparkling"
 }
 
-/* size?: string; pouring?: boolean; status?: string; type?: BeverageTypes; */
+export enum BeverageSize {
+  Tiny = "tiny",
+  Normal = "normal"
+}
+
+/* size?: string; pouring?: boolean; status?: string; */
+// CLASS => type?: BeverageTypes; size?: BeverageSize;
 export const BeverageWrap = styled.div`
   transition: 1s all;
   transition-property: width, height, left, top;
@@ -25,6 +31,23 @@ export const BeverageWrap = styled.div`
   width: 218px;
   height: 304px;
   margin: 10px 23px;
+  &.${BeverageSize.Tiny} {
+    width: 196px;
+    height: 279px;
+    margin: 10px 18px;
+    #element {
+      #logo, #logo-sparkling {
+        width: 196px;
+        height: 198px;
+      }
+    }
+  }
+  &.${BeverageTypes.Sparkling} #element #logo-sparkling {
+    display: block;
+  }
+  &:not(.${BeverageTypes.Sparkling}) #element #logo {
+    display: block;
+  }
   button {
     position: relative;
     width: 100%;
@@ -50,15 +73,21 @@ export const BeverageWrap = styled.div`
     height: 100%;
     color: ${props => props.theme.slateGrey};
     text-transform: uppercase;
+    #logo, #logo-sparkling {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 218px;
+      height: 220px;
+      object-fit: contain;
+    }
     #title {
       position: absolute;
       width: calc(100% - 46px);
       right: 23px;
       bottom: 43px;
       font-size: 18px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
       line-height: 1.1;
       letter-spacing: 3.2px;
       text-align: left;
@@ -68,10 +97,6 @@ export const BeverageWrap = styled.div`
       left: 23px;
       bottom: 14px;
       font-size: 12.6px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
       letter-spacing: 1px;
       text-align: left;
     }
@@ -80,10 +105,6 @@ export const BeverageWrap = styled.div`
       right: 23px;
       bottom: 14px;
       font-size: 12.6px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: normal;
       letter-spacing: 1px;
       text-align: right;
     }
@@ -98,6 +119,8 @@ export enum BeverageIndicators {
 interface BeverageProps {
   beverage?: IBeverage;
   type: BeverageTypes;
+  size?: BeverageSize;
+  logoId?: number;
   onStart?: () => void;
   onHoldStart?: () => void;
   onHoldEnd?: () => void;
@@ -110,7 +133,7 @@ interface BeverageProps {
 }
 
 export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
-  const { title, type, indicators, label, pouring, status_id, disabled } = props;
+  const { title, type, indicators, label, pouring, status_id, disabled, size, logoId } = props;
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
 
@@ -170,9 +193,11 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         time={0.5}
         onClickNHold={clickHold}
         onEnd={end}>
-        <BeverageWrap pouring={pouring} type={type}>
+        <BeverageWrap pouring={pouring} className={[type, size]}>
           <button ref={buttonEl} disabled={type === BeverageTypes.Info || $outOfStock || disabled}>
             <div id="element">
+              <img id="logo" src={`img/logos/${logoId}.png`} />
+              <img id="logo-sparkling" src={`img/logos/${logoId}@sparkling.png`} />
               <span id="title">{__(title)}</span>
               <span id="cal">0 Cal.</span>
               <span id="price">75¢</span>

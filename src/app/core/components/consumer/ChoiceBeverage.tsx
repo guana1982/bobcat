@@ -2,7 +2,7 @@ import * as React from "react";
 import { __ } from "@utils/lib/i18n";
 import styled from "styled-components";
 import Gesture from "../Menu/Gesture";
-import { Beverage, BeverageTypes } from "../global/Beverage";
+import { Beverage, BeverageTypes, BeverageSize } from "../global/Beverage";
 import { Grid } from "../global/Grid";
 import { Footer } from "../global/Footer";
 import { Button } from "../global/Button";
@@ -56,7 +56,9 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
                 key={i}
                 pouring={b.beverage_id === idBeveragePouring_}
                 type={isSparkling ? BeverageTypes.Sparkling : null}
+                size={isLogged ? BeverageSize.Tiny : BeverageSize.Normal}
                 beverage={b}
+                logoId={b.beverage_logo_id}
                 status_id={b.status_id}
                 title={b.beverage_label_id}
                 onStart={() => selectBeverage(b)}
