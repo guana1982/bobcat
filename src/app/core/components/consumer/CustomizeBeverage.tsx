@@ -7,9 +7,11 @@ import { AccessibilityContext, ConfigContext } from "@core/containers";
 import ReactDOM = require("react-dom");
 import { CloseBtn, CloseBtnWrap } from "../global/CloseBtn";
 import { BeverageTypes } from "../global/Beverage";
+import { IBeverage } from "@core/models";
 
 const _sizePour = 105;
 
+/* color: string; */
 export const Pour = styled.button`
   position: absolute;
   bottom: 0; /* ${-_sizePour / 5}px; */
@@ -24,7 +26,7 @@ export const Pour = styled.button`
   opacity: ${props => props.isPouring ? .7 : 1};
   &, &:active {
     color: ${props => props.theme.light};
-    background: ${props => props.theme.slateGrey};
+    background: ${props => props.color};
   }
 `;
 
@@ -85,6 +87,7 @@ export const InfoCard = styled.div`
   }
 `;
 
+// color: string;
 /* CLASS => type?: string; */
 export const CustomizeBeverageCard = styled.div`
   position: absolute;
@@ -121,7 +124,7 @@ export const CustomizeBeverageCard = styled.div`
     font-stretch: normal;
     line-height: 1.11;
     letter-spacing: 4.9px;
-    color: ${props => props.theme.slateGrey};
+    color: ${props => props.color};
   }
   #cal {
     position: absolute;
@@ -210,7 +213,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   }, [pour, buttonPourEl, enter]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
-  const beverageSelected = getBeverageSelected();
+  const beverageSelected: IBeverage = getBeverageSelected();
 
   return(
     <React.Fragment>
@@ -231,7 +234,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           </footer>
         </InfoCard>} */}
 
-        <CustomizeBeverageCard className={isSparkling ? BeverageTypes.Sparkling : null}>
+        <CustomizeBeverageCard color={beverageSelected.beverage_font_color} className={isSparkling ? BeverageTypes.Sparkling : null}>
             <img id="logo" src={`img/logos/${beverageSelected.beverage_logo_id}.png`} />
             <img id="logo-sparkling" src={`img/logos/${beverageSelected.beverage_logo_id}@sparkling.png`} />
             <span id="title">{__(beverageSelected.beverage_label_id)}</span>
@@ -239,6 +242,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             <div id="group">
               {beverageConfig.carbonation_level != null &&
                 <ButtonGroup
+                  color={beverageSelected.beverage_font_color}
                   detectValue={"sparkling"}
                   icon={"sparkling"}
                   label={"Sparkling"}
@@ -249,6 +253,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
               }
               {beverageConfig.flavor_level != null &&
                 <ButtonGroup
+                  color={beverageSelected.beverage_font_color}
                   detectValue={"flavor"}
                   icon={"flavor"}
                   label={"Flavor"}
@@ -258,6 +263,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                 ></ButtonGroup>
               }
               <ButtonGroup
+                color={beverageSelected.beverage_font_color}
                 detectValue={"temperature"}
                 icon={"temperature"}
                 label={"Coldness"}
@@ -282,7 +288,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           </footer>
         </InfoCard>} */}
 
-        <Pour isPouring={isPouring} ref={buttonPourEl} onTouchStart={() => startPour()} onTouchEnd={() => stopPour()}>Hold to Pour</Pour>
+        <Pour color={beverageSelected.beverage_font_color} isPouring={isPouring} ref={buttonPourEl} onTouchStart={() => startPour()} onTouchEnd={() => stopPour()}>Hold to Pour</Pour>
       </CustomizeBeverageWrap>
 
       {showEnd && <EndBeverage resetBeverage={resetBeverage} />}

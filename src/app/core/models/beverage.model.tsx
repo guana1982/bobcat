@@ -12,6 +12,7 @@ export interface IBeverage {
   line_id?: number;
   toppings?: Topping[];
   density?: number;
+  beverage_font_color?: string;
   calibration_status?: number;
   last_sanification_date?: string;
   carbonation_divider?: number;

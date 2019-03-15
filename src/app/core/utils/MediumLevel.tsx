@@ -9,6 +9,7 @@ export default {
     getVendor: () => get("config/vendor"),
     getLang: () => get("config/localization"),
     getLocalization: () => get("config/localization"),
+    getBrands: () => get("config/beverage/brands_description"),
     // getErrorCodes: () => getFake("config/errorcodes"),
     getSizes: () => get("config/beverage/sizes"),
     // getLinesForCountry: () => getFake("config/beverage/default_lines"),

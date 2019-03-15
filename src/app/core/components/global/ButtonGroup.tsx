@@ -60,8 +60,8 @@ const ButtonGroupContent = styled.div`
         width: 79.4px;
         height: 5px;
       }
-      &.selected:before {
-        background: ${props => props.theme.slateGrey} !important;
+      &.active:before {
+        background: ${props => props.color} !important;
       }
       &:active:before {
         background: rgba(241, 241, 241, .8);
@@ -87,6 +87,7 @@ interface ButtonGroupProps {
   detectValue?: string;
   icon?: string;
   label?: string;
+  color?: string;
   options: IOption[];
   value?: any;
   disabled?: boolean;
@@ -111,7 +112,7 @@ export const ButtonGroup = (props: ButtonGroupProps) => {
   const indexValue = props.options .map(option => option.value).indexOf(props.value);
 
   return (
-    <ButtonGroupContent>
+    <ButtonGroupContent color={props.color}>
       <div id="info">
         {props.label &&
           <button id={enableId ? `${props.detectValue}-button_group` : null} disabled={props.disabled} onClick={() => enableAccessibility()}>
@@ -127,7 +128,7 @@ export const ButtonGroup = (props: ButtonGroupProps) => {
             type="button" key={i}
             id={enableId ? `${props.detectValue}-option` : null}
             onClick={() => props.onChange(e.value)}
-            className={i <= indexValue ? "selected" : ""}
+            className={i <= indexValue ? "active" : ""}
           />
         ) : " --- " }
       </div>

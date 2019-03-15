@@ -20,7 +20,7 @@ export enum BeverageSize {
   Normal = "normal"
 }
 
-/* size?: string; pouring?: boolean; status?: string; */
+/* size?: string; pouring?: boolean; status?: string; color: string; */
 // CLASS => type?: BeverageTypes; size?: BeverageSize;
 export const BeverageWrap = styled.div`
   transition: 1s all;
@@ -84,6 +84,7 @@ export const BeverageWrap = styled.div`
     }
     #title {
       position: absolute;
+      color: ${props => props.color};
       width: calc(100% - 46px);
       right: 23px;
       bottom: 43px;
@@ -121,6 +122,7 @@ interface BeverageProps {
   type: BeverageTypes;
   size?: BeverageSize;
   logoId?: number;
+  color?: string;
   onStart?: () => void;
   onHoldStart?: () => void;
   onHoldEnd?: () => void;
@@ -133,7 +135,7 @@ interface BeverageProps {
 }
 
 export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
-  const { title, type, indicators, label, pouring, status_id, disabled, size, logoId } = props;
+  const { title, type, indicators, label, pouring, status_id, disabled, size, logoId, color } = props;
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
 
@@ -193,7 +195,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         time={0.5}
         onClickNHold={clickHold}
         onEnd={end}>
-        <BeverageWrap pouring={pouring} className={[type, size]}>
+        <BeverageWrap pouring={pouring} className={[type, size]} color={color}>
           <button ref={buttonEl} disabled={type === BeverageTypes.Info || $outOfStock || disabled}>
             <div id="element">
               <img id="logo" src={`img/logos/${logoId}.png`} />

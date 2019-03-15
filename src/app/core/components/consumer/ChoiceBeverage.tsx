@@ -57,6 +57,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
                 pouring={b.beverage_id === idBeveragePouring_}
                 type={isSparkling ? BeverageTypes.Sparkling : null}
                 size={isLogged ? BeverageSize.Tiny : BeverageSize.Normal}
+                color={b.beverage_font_color}
                 beverage={b}
                 logoId={b.beverage_logo_id}
                 status_id={b.status_id}

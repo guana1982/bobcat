@@ -1,12 +1,14 @@
 import * as React from "react";
 import { map, tap, first, mergeMap, debounceTime } from "rxjs/operators";
 import mediumLevel from "../utils/MediumLevel";
-import { forkJoin, of, Observable, Subject } from "rxjs";
+import { forkJoin, of, Observable, Subject, combineLatest } from "rxjs";
 import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { setLangDict } from "../utils/lib/i18n";
 import { withRouter } from "react-router-dom";
 import { IBeverage, ISocket, IBeverageConfig, IAlarm } from "../models";
 import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages } from "../utils/constants";
+
+const mergeById = ([t, s]) => t.map(p => Object.assign({}, p, s.find(q => p.beverage_id === q.beverage_id)));
 
 export interface ConfigInterface {
   vendorConfig: any;
@@ -137,8 +139,9 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ==== GET CONFIG ==== */
     /* ======================================== */
 
-    const setBeverages = mediumLevel.config.getBeverages()
+    const setBeverages = combineLatest(mediumLevel.config.getBeverages(), mediumLevel.config.getBrands())
     .pipe(
+      map(mergeById),
       tap(beverages => {
         console.log("BEVERAGES", beverages);
 
@@ -151,7 +154,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
           if (a.beverage_type === Beverages.Plain) return -1; else if (b.beverage_type === Beverages.Plain) return 1;
           return a.line_id - b.line_id;
         });
-
+        console.log(beverages);
         this.setState({
           allBeverages: beverages,
           beverages: beverages_
