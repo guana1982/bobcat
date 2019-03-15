@@ -31,9 +31,9 @@ export const LEVELS = {
     {label: "cool", value: 50},
     {label: "ice-cold", value: 0},
   ],
-  carbTemperature: [
-    {label: "ice-cold", value: 0},
-  ]
+  // carbTemperature: [
+  //   {label: "ice-cold", value: 0},
+  // ]
 };
 
 // -- TIMER --

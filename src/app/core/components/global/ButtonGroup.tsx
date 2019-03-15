@@ -3,66 +3,78 @@ import * as React from "react";
 import styled from "styled-components";
 import { AccessibilityContext } from "@core/containers";
 
-export const ButtonGroupWrapper = styled.div`
-  position: relative;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  vertical-align: middle;
-  border: 2px solid ${props => props.theme.primary};
-  /* width: 17rem; */
-  border-radius: 12px;
-  button {
-    &:first-child {
-      border-bottom-left-radius: 10px;
-      border-top-left-radius: 10px;
-    }
-    &:last-child {
-      border-bottom-right-radius: 10px;
-      border-top-right-radius: 10px;
-      &:before {
-        border-right: 0;
+const ButtonGroupContent = styled.div`
+  display: flex;
+  align-items: center;
+  width: 550px;
+  height: 37px;
+  margin: 13px 0;
+  #info {
+    width: 182.2px;
+    button {
+      display: flex;
+      align-items: center;
+      margin-left: 20.3px;
+      padding: 5px;
+      border-radius: 8px;
+      img {
+        width: 25px;
+        height: 25px;
+      }
+      span {
+        width: 86.7px;
+        height: 16px;
+        font-size: 16px;
+        margin-left: 20.3px;
+        color: ${props => props.theme.slateGrey};
+        text-transform: capitalize;
+        text-align: left;
       }
     }
-    &:before {
-      content: '';
-      position: absolute;
-      top: 6.5px;
-      width: 100%;
-      right: -1px;
-      height: calc(100% - 14px);
-      border-right: ${props =>  `2px solid ${props.theme.primary}` };
-      z-index: 1;
-    }
+  }
+  #select {
     position: relative;
-    width: 5.6rem;
-    flex: 1;
-    color: ${props => props.theme.primary};
-    background: ${props => props.theme.light};
-    padding: 1rem .8rem;
-    font-size: 1rem;
-    &.selected {
-      background: ${props => props.theme.sail} !important;
-      color: ${props => props.theme.primary} !important;
-      font-weight: 600;
-    }
-    &:active {
-      color: ${props => props.theme.primary};
-      background: ${props => props.theme.light};
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    vertical-align: middle;
+    button {
+      position: relative;
+      width: 5.6rem;
+      flex: 1;
+      width: 79.4px;
+      height: 25px;
+      border-radius: 8px;
+      margin: 0 6px 0 0;
+      &:disabled {
+        opacity: .2;
+      }
+      &:first-child {
+        margin-left: 6px;
+      }
+      &:before {
+        position: absolute;
+        left: 0;
+        top: 10px;
+        content: "";
+        background: rgba(241, 241, 241, .8);
+        width: 79.4px;
+        height: 5px;
+      }
+      &.selected:before {
+        background: ${props => props.theme.slateGrey} !important;
+      }
+      &:active:before {
+        background: rgba(241, 241, 241, .8);
+      }
     }
   }
-`;
-
-const ButtonGroupContent = styled.div`
-  margin: 15px;
-  label {
-    display: inline-block;
-    color: ${props => props.theme.primary};
-    text-transform: capitalize;
-    width: 6.5rem;
-    padding: .8rem 0;
-    font-size: 1.2rem;
-    text-align: left;
-    font-weight: 600;
+  #value {
+    text-align: right;
+    width: 77px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: ${props => props.theme.slateGrey} !important
   }
 `;
 
@@ -73,9 +85,10 @@ interface IOption {
 
 interface ButtonGroupProps {
   detectValue?: string;
+  icon?: string;
+  label?: string;
   options: IOption[];
   value?: any;
-  label?: string;
   disabled?: boolean;
   onChange: (value) => void;
   children?: any;
@@ -95,28 +108,33 @@ export const ButtonGroup = (props: ButtonGroupProps) => {
   };
   //  <=== ACCESSIBILITY FUNCTION ====
 
+  const indexValue = props.options .map(option => option.value).indexOf(props.value);
 
-    return (
-      <ButtonGroupContent>
+  return (
+    <ButtonGroupContent>
+      <div id="info">
         {props.label &&
           <button id={enableId ? `${props.detectValue}-button_group` : null} disabled={props.disabled} onClick={() => enableAccessibility()}>
-            <label>{props.label}</label>
+            <img src={`icons/${props.icon}.svg`} />
+            <span>{props.label}</span>
           </button>
         }
-        <ButtonGroupWrapper>
-          {props.options ? props.options.map((e, i) =>
-            <button
-              disabled={props.disabled}
-              type="button"
-              id={enableId ? `${props.detectValue}-option` : null} key={i}
-              onClick={() => props.onChange(e.value)}
-              className={props.value === e.value ? "selected" : ""}
-            >
-              {e.label}
-            </button>
-          ) : " --- " }
-        </ButtonGroupWrapper>
-      </ButtonGroupContent>
-    );
+      </div>
+      <div id="select">
+        {props.options ? props.options.map((e, i) =>
+          <button
+            disabled={props.disabled}
+            type="button" key={i}
+            id={enableId ? `${props.detectValue}-option` : null}
+            onClick={() => props.onChange(e.value)}
+            className={i <= indexValue ? "selected" : ""}
+          />
+        ) : " --- " }
+      </div>
+      <div id="value">
+        <span>{props.options && props.options[indexValue].label}</span>
+      </div>
+    </ButtonGroupContent>
+  );
 
 };

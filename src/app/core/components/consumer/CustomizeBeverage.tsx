@@ -23,7 +23,7 @@ export const Pour = styled.button`
   opacity: ${props => props.isPouring ? .7 : 1};
   &, &:active {
     color: ${props => props.theme.light};
-    background: ${props => props.theme.primary};
+    background: ${props => props.theme.slateGrey};
   }
 `;
 
@@ -123,7 +123,7 @@ export const CustomizeBeverageCard = styled.div`
   }
   #group {
     position: absolute;
-    bottom: 20px;
+    top: 370px;
   }
 `;
 
@@ -218,28 +218,32 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             <span id="title">{__(getBeverageSelected().beverage_label_id)}</span>
             <span id="cal">0 CAL.</span>
             <div id="group">
-              {beverageConfig.flavor_level != null &&
-                <ButtonGroup
-                  detectValue={"flavor"}
-                  label={"Flavor"}
-                  options={levels.flavor}
-                  value={beverageConfig.flavor_level}
-                  onChange={(value) => handleChange(value, "flavor")}
-                ></ButtonGroup>
-              }
               {beverageConfig.carbonation_level != null &&
                 <ButtonGroup
                   detectValue={"sparkling"}
+                  icon={"sparkling"}
                   label={"Sparkling"}
                   options={levels.carbonation}
                   value={beverageConfig.carbonation_level}
                   onChange={(value) => handleChange(value, "carbonation")}>
                 </ButtonGroup>
               }
+              {beverageConfig.flavor_level != null &&
+                <ButtonGroup
+                  detectValue={"flavor"}
+                  icon={"flavor"}
+                  label={"Flavor"}
+                  options={levels.flavor}
+                  value={beverageConfig.flavor_level}
+                  onChange={(value) => handleChange(value, "flavor")}
+                ></ButtonGroup>
+              }
               <ButtonGroup
-                detectValue={"temp"}
-                label={"Temp"}
-                options={isSparkling ? levels.carbTemperature : levels.temperature}
+                detectValue={"temperature"}
+                icon={"temperature"}
+                label={"Coldness"}
+                disabled={isSparkling}
+                options={levels.temperature}
                 value={beverageConfig.temperature_level}
                 onChange={(value) => handleChange(value, "temperature")}>
               </ButtonGroup>

@@ -275,7 +275,7 @@ export const Home = (props: HomeProps) => {
       beverageConfig: {
         ...prevState.beverageConfig,
         carbonation_level: value ? levels.carbonation[2].value : null,
-        temperature_level: value ? levels.carbTemperature[0].value : levels.temperature[2].value
+        temperature_level:  levels.temperature[2].value // value ? levels.carbTemperature[0].value : levels.temperature[2].value
       }
     }));
   };

@@ -9,6 +9,7 @@ export const themeMain = {
   sail: "#B3DAFA",
   spindle: "#b6ceef",
 
+  grey: "rgba(241, 241, 241, .6)",
   slateGrey: "#565657",
   backgroundLight: "linear-gradient(to bottom, #fff, #f9f9f9)"
 };

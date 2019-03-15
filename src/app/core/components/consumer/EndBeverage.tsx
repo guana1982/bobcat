@@ -9,7 +9,7 @@ export const EndWrap = styled.div`
   top: 0;
   right: 0;
   z-index: 1000;
-  background: ${props => props.theme.primary};
+  background: ${props => props.theme.slateGrey};
   display: flex;
   justify-content: center;
   align-items: center;

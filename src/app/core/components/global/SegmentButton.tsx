@@ -8,18 +8,18 @@ export const SegmentButtonWrapper = styled.div`
   vertical-align: middle;
   width: 384px;
   border-radius: 0 0 30px 30px;
-  z-index: -1;
+  /* z-index: -1; */
   background: rgba(241, 241, 241, .6);
   height: 70px;
   button {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     text-transform: uppercase;
     width: 300px;
     height: 70px;
-    border-radius: 0 0 30px 30px;
-    position: relative;
+    border-radius: 0 0 27px 27px;
     flex: 1;
     color: ${props => props.theme.slateGrey};
     img {
@@ -35,8 +35,12 @@ export const SegmentButtonWrapper = styled.div`
       letter-spacing: 1.3px;
       color: ${props => props.theme.slateGrey}
     }
+    &:not(.selected) {
+      z-index: 1;
+    }
     &.selected {
       color: ${props => props.theme.slateGrey} !important;
+      background: #fff;
       font-weight: 600;
       &:before {
         content: " ";
