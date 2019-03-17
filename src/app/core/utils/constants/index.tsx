@@ -39,8 +39,7 @@ export const LEVELS = {
 // -- TIMER --
 
 export enum CONSUMER_TIMER {
-  END_POUR = 5000,
-  END_VIEW = 2000
+  END_POUR = 8000
 }
 
 // -- BEVERAGE --

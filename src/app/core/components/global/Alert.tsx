@@ -82,7 +82,7 @@ export const Alert = (props: AlertProps) => {
 
   const alertConsumer = React.useContext(AlertContext);
   const {show, options} = alertConsumer.state;
-  const {type, onDismiss, timeout, title, subTitle} = options;
+  const {type, onDismiss, timeout} = options;
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const accessibilityConsumer = React.useContext(AccessibilityContext);
@@ -102,13 +102,16 @@ export const Alert = (props: AlertProps) => {
   //  <=== ACCESSIBILITY FUNCTION ====
 
   const onDismiss_ = () => {
+    alert("ok");
     onDismiss();
     alertConsumer.hide();
   };
 
-  if (timeout) {
-    timeout_ = setTimeout(onDismiss_, typeof timeout === "boolean" ? DEFAULT_TIMEOUT_ALERT : timeout);
-  }
+  React.useEffect(() => {
+    if (timeout) {
+      timeout_ = setTimeout(onDismiss_, typeof timeout === "boolean" ? DEFAULT_TIMEOUT_ALERT : timeout);
+    }
+  }, [timeout]);
 
   const stopTimeout = () => {
     if (timeout_) {
@@ -127,8 +130,8 @@ export const Alert = (props: AlertProps) => {
         <Overlay onClick={dismiss} />
         <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={dismiss} />
         <AlertWrap>
-          <span id="title">{__(title || type)}</span>
-          {subTitle && <span id="sub-title">{__(subTitle)}</span>}
+          <span id="title">{__(type)}</span> {/* {__(`${type}_title`)} */}
+          {/* <span id="sub-title">{__(`${type}_subtitle`)}</span> */}
         </AlertWrap>
       </AlertContent>}
     </React.Fragment>

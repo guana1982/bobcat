@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { Pages } from "../utils/constants";
 import { withConsumer } from "./consumer.container";
 import { withConfig } from "./config.container";
+import { AlertTypes, withAlert } from "./alert.container";
 
 export interface TimerInterface {
   time: any;
@@ -103,8 +104,15 @@ class TimerStoreComponent extends React.Component<any, any> {
     // Check if we're at zero.
     if (seconds === 0) {
       clearInterval(this.timer);
-      this.props.consumerConsumer.resetConsumer();
-      this.props.history.push(Pages.Attractor);
+
+      this.props.alertConsumer.show({
+        type: AlertTypes.TimedOut,
+        timeout: true,
+        onDismiss: () => {
+          this.props.consumerConsumer.resetConsumer();
+          this.props.history.push(Pages.Attractor);
+        }
+      });
     }
   }
 
@@ -127,4 +135,4 @@ class TimerStoreComponent extends React.Component<any, any> {
 
 }
 
-export const TimerStore = withRouter(withConfig(withConsumer(TimerStoreComponent)));
+export const TimerStore = withRouter(withAlert(withConfig(withConsumer(TimerStoreComponent))));

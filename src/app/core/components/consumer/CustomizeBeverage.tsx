@@ -2,7 +2,6 @@ import * as React from "react";
 import { __ } from "@utils/lib/i18n";
 import styled from "styled-components";
 import { ButtonGroup } from "../global/ButtonGroup";
-import { EndBeverage } from "./EndBeverage";
 import { AccessibilityContext, ConfigContext } from "@core/containers";
 import ReactDOM = require("react-dom");
 import { CloseBtn, CloseBtnWrap } from "../global/CloseBtn";
@@ -191,7 +190,7 @@ interface CustomizeBeverageProps {
   isSparkling: boolean;
   slideOpen: boolean;
   showCardsInfo: boolean;
-  showEnd: boolean;
+  alertEndPour: any;
   beverageConfig: any;
   resetBeverage: any;
   getBeverageSelected: any;
@@ -202,7 +201,7 @@ interface CustomizeBeverageProps {
 }
 
 export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
-  const { slideOpen, showCardsInfo, showEnd, beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, getBeverageSelected, handleChange } = props;
+  const { beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, getBeverageSelected, handleChange, alertEndPour } = props;
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const buttonPourEl = React.useRef(null);
@@ -233,7 +232,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
     <React.Fragment>
       <CustomizeBeverageWrap>
         <SegmentButton {...props.segmentButton} />
-        <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => resetBeverage()} />
+        <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => props.showCardsInfo ? alertEndPour() : resetBeverage()} />
 
         <div id="backdrop"></div> {/* onClick={() => resetBeverage()} */}
 
@@ -305,8 +304,6 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
 
         <Pour color={beverageSelected.beverage_font_color} isPouring={isPouring} ref={buttonPourEl} onTouchStart={() => startPour()} onTouchEnd={() => stopPour()}>Hold to Pour</Pour>
       </CustomizeBeverageWrap>
-
-      {showEnd && <EndBeverage resetBeverage={resetBeverage} />}
     </React.Fragment>
   );
 };

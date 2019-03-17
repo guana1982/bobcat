@@ -8,13 +8,13 @@ export const DEFAULT_TIMEOUT_ALERT = 6000;
 export enum AlertTypes {
   Success = "success",
   Error = "error",
-  OutOfStock = "Out Of Stock"
+  OutOfStock = "Out Of Stock",
+  TimedOut = "Timed Out",
+  EndBeverage = "Thank You!"
 }
 
 export interface AlertOptions {
   type?: AlertTypes;
-  title?: string;
-  subTitle?: string;
   timeout?: boolean | number;
   onDismiss?: () => void;
 }
@@ -57,4 +57,12 @@ export const AlertProvider = (props) => {
   </AlertContainer.Provider>
   );
 };
+
+export const withAlert = Comp => props => {
+  const alert = React.useContext(AlertContext);
+  return (
+    <Comp {...props} alertConsumer={alert}></Comp>
+  );
+};
+
 export const AlertContext = AlertContainer.Context;

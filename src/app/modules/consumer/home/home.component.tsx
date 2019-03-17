@@ -32,7 +32,6 @@ export interface HomeState {
   slideOpen: boolean;
 
   showCardsInfo: boolean;
-  showEnd: boolean;
 }
 
 let timerEnd_: any = null;
@@ -60,7 +59,6 @@ export const Home = (props: HomeProps) => {
     idBeveragePouring_: null,
     indexFavoritePouring_: null,
     showCardsInfo: false,
-    showEnd: false,
     beverageConfig: {
       flavor_level: null,
       carbonation_level: null,
@@ -76,7 +74,7 @@ export const Home = (props: HomeProps) => {
   const consumerConsumer = React.useContext(ConsumerContext);
 
   React.useEffect(() => {
-    // timerConsumer.startTimer();
+    timerConsumer.startTimer();
     timerEnd_ = null;
     clearTimeout(timerEnd_);
     return () => {
@@ -191,11 +189,21 @@ export const Home = (props: HomeProps) => {
     }
   };
 
+  const alertEndPour = () => {
+    alertConsumer.show({
+      type: AlertTypes.EndBeverage,
+      timeout: true,
+      onDismiss: () => {
+        resetBeverage();
+      }
+    });
+  };
+
   const endPour = () => {
     if (timerEnd_ === null) {
 
       const endEvent = () => {
-        setState(prevState => ({...prevState, showEnd: true}));
+        alertEndPour();
         clearTimerEnd();
         document.removeEventListener("touchstart", clearTimer);
         document.removeEventListener("touchend", startTimer);
@@ -227,8 +235,7 @@ export const Home = (props: HomeProps) => {
       beverageSelected: null,
       indexFavoritePouring_: null,
       idBeveragePouring_: null,
-      showCardsInfo: false,
-      showEnd: false
+      showCardsInfo: false
     }));
   };
 
@@ -380,7 +387,7 @@ export const Home = (props: HomeProps) => {
           isSparkling={isSparkling}
           slideOpen={state.slideOpen}
           showCardsInfo={state.showCardsInfo}
-          showEnd={state.showEnd}
+          alertEndPour={alertEndPour}
           beverageConfig={state.beverageConfig}
           resetBeverage={resetBeverage}
           getBeverageSelected={getBeverageSelected}
