@@ -7,7 +7,7 @@ import { Footer } from "../global/Footer";
 import { BeverageTypes, BeveragesAnimated, BeverageIndicators, Beverage } from "../global/Beverage";
 import { ConsumerContext } from "@core/containers";
 
-export const _sizeSlide = "25vw";
+export const _sizeSlide = "329px";
 export const _sizeSlideFull = "5vw";
 
 /* ==== ANIMATIONS ==== */
@@ -15,19 +15,19 @@ export const _sizeSlideFull = "5vw";
 
 const _Slide = posed.div({
   fullClose: {
-    transform: "translate3d(-93.5vw, 0, 0)",
+    transform: "translate3d(-1200px, 0, 0)",
     transition: {
       duration: 300,
     }
   },
   close: {
-    transform: "translate3d(-73.5vw, 0, 0)",
+    transform: "translate3d(-951px, 0, 0)",
     transition: {
       duration: 300,
     }
   },
   open: {
-    transform: "translate3d(0vw, 0, 0)",
+    transform: "translate3d(-31px, 0, 0)",
     transition: {
       duration: 300,
     }
@@ -53,25 +53,45 @@ const HeaderSlide = styled.div`
   position: absolute;
   right: 0;
   word-wrap: break-word;
-  width: 25vw;
+  width: ${_sizeSlide};
+  margin-top: .8rem;
   &.open {
     width: 98vw;
   }
   h2 {
     margin: 1rem;
-    color: ${props => props.theme.primary};
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.88;
+    letter-spacing: 1.3px;
+    color: ${props => props.theme.slateGrey};
   }
 `;
 
 export const SlideStyled = styled(_Slide)`
   position: absolute;
   top: 0;
-  width: 98.6vw;
+  width: 100vw;
   z-index: 5;
-  box-shadow: 9px 27px 45px 0 rgba(163, 165, 166, 0.2);
-  background: #fff;
-  /* background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff); */
+  /* box-shadow: 9px 27px 45px 0 rgba(163, 165, 166, 0.2); */
+  /* background: #fff; */
   height: 100vh;
+  &:before {
+      content: " ";
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+      background-image: url("img/slider-bg.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: bottom;
+    }
+
   #title {
     position: absolute;
     top: 7rem;
@@ -83,10 +103,15 @@ export const SlideStyled = styled(_Slide)`
     position: absolute;
     width: 100%;
     text-align: center;
-    bottom: 7rem;
+    bottom: 6rem;
     right: 0;
-    font-size: 1.7rem;
-    color: ${props => props.theme.primary};
+    font-size: 18px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: ${props => props.theme.slateGrey};
   }
   ${Footer} {
     width: ${_sizeSlide};
@@ -109,9 +134,11 @@ export const SlideStyled = styled(_Slide)`
 
 export const ToggleSlide = styled(_toggleSlide)`
     position: absolute;
-    width: 4rem;
-    right: -1.2rem;
-    top: calc(50% - 2rem);
+    top: calc(50% - 9px);
+    border-radius: 50%;
+    height: 46px;
+    width: 46px;
+    right: 0;
 `;
 
 /* ==== ELEMENT ==== */
@@ -131,19 +158,19 @@ export const Slide = (props: SlideProps) => {
   const { slideOpen, indexFavoritePouring_, beverageSelected, startConsumerPour, stopConsumerPour, handleSlide, fullMode } = props;
   const { dataConsumer, consumerBeverages } = React.useContext(ConsumerContext);
 
-  const timeText = () => {
-    const today = new Date();
-    const curHr = today.getHours();
-    let text = "";
-    if (curHr < 12) {
-      text = "Good morning";
-    } else if (curHr < 18) {
-      text = "Good afternoon";
-    } else {
-      text = "Good evening";
-    }
-    return __(text);
-  };
+  // const timeText = () => {
+  //   const today = new Date();
+  //   const curHr = today.getHours();
+  //   let text = "";
+  //   if (curHr < 12) {
+  //     text = "Good morning";
+  //   } else if (curHr < 18) {
+  //     text = "Good afternoon";
+  //   } else {
+  //     text = "Good evening";
+  //   }
+  //   return __(text);
+  // };
 
   const animationSlide = () => slideOpen ? "open" : fullMode ? "fullClose" : "close";
 
@@ -151,9 +178,9 @@ export const Slide = (props: SlideProps) => {
     <React.Fragment>
       <SlideStyled pose={animationSlide()}>
         <HeaderSlide className={slideOpen && "open"}>
-          <h2>{timeText()}, {dataConsumer.consumer_nick}!</h2>
+          <h2>{__("HI")}, {dataConsumer.consumer_nick}!</h2>
         </HeaderSlide>
-        <h1 id="title">Your Drinks</h1>
+        {/* <h1 id="title">Your Drinks</h1> */}
         <Grid numElement={consumerBeverages.length}>
           {consumerBeverages.map((b, i) => {
             const BeverageAnimated = BeveragesAnimated[i];
@@ -185,7 +212,7 @@ export const Slide = (props: SlideProps) => {
         </Grid>
         {consumerBeverages[0].$type === BeverageTypes.Info && <h3 id="info">Save favorites from smartphone</h3>}
         <ToggleSlide onClick={() => handleSlide()}>
-          <img src={"icons/arrow-circle.svg"} />
+          <img src={"icons/arrow-circle.png"} />
         </ToggleSlide>
       </SlideStyled>
     </React.Fragment>

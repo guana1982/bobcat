@@ -48,6 +48,14 @@ export const HomeContent = styled.div`
   position: absolute;
   left: ${props => sizeHome(props)};
   top: 0;
+  &:before {
+    content: " ";
+    position: absolute;
+    left: -55px;
+    width: 55px;
+    height: 100vh;
+    background-image: ${props => props.theme.backgroundLight};
+  }
   ${Grid} {
     padding-top: 6.5rem;
   }
