@@ -15,7 +15,8 @@ import { TimerContext } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { BeverageTypes } from "@core/components/global/Beverage";
 import { AccessibilityContext } from "@core/containers";
-import { SegmentButton } from "@core/components/global/SegmentButton";
+import { SegmentButtonProps } from "@core/components/global/SegmentButton";
+// import { SegmentButton } from "@core/components/global/SegmentButton";
 
 interface HomeProps {
   history: any;
@@ -327,6 +328,13 @@ export const Home = (props: HomeProps) => {
   const { isSparkling } = state;
   const presentSlide = consumerBeverages.length > 0;
   const beverageSelected = getBeverageSelected();
+  const beverageIsSelected = beverageSelected !== undefined && beverageSelected !== null;
+
+  const segmentButton: SegmentButtonProps = { // => _SegmentButton
+    options: types,
+    value: isSparkling,
+    onChange: (value) => handleType(value),
+  };
 
   return (
     <section>
@@ -341,17 +349,17 @@ export const Home = (props: HomeProps) => {
           fullMode={fullMode}
         />
       }
-      <HomeContent isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={Boolean(getBeverageSelected())}>
+      <HomeContent isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={beverageIsSelected}>
         {beverages.length > 0 && (
-          <React.Fragment>
-            <div id="types-group">
-              <SegmentButton
-                options={types}
-                value={isSparkling}
-                disabled={presentSlide && state.slideOpen}
-                onChange={(value) => handleType(value)}>
-              </SegmentButton>
-            </div>
+          // <React.Fragment>
+          //   <div id="types-group">
+          //     <SegmentButton
+          //       options={types}
+          //       value={isSparkling}
+          //       disabled={presentSlide && state.slideOpen}
+          //       onChange={(value) => handleType(value)}>
+          //     </SegmentButton>
+          //   </div>
             <ChoiceBeverage
               onGesture={onGesture}
               selectBeverage={selectBeverage}
@@ -361,8 +369,9 @@ export const Home = (props: HomeProps) => {
               idBeveragePouring_={state.idBeveragePouring_}
               isSparkling={state.isSparkling}
               disabled={beverageSelected !== undefined || presentSlide && state.slideOpen}
+              segmentButton={segmentButton} // => _SegmentButton
             />
-          </React.Fragment>
+          // </React.Fragment>
         )}
       </HomeContent>
       {beverageSelected &&
@@ -378,6 +387,7 @@ export const Home = (props: HomeProps) => {
           handleChange={handleChange}
           startPour={startPour}
           stopPour={stopPour}
+          segmentButton={segmentButton} // => _SegmentButton
         />
       }
     </section>

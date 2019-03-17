@@ -51,8 +51,8 @@ export const HomeContent = styled.div`
   &:before {
     content: " ";
     position: absolute;
-    left: -55px;
-    width: 55px;
+    left: -35px;
+    width: 35px;
     height: 100vh;
     background-image: ${props => props.theme.backgroundLight};
   }
@@ -73,10 +73,10 @@ export const HomeContent = styled.div`
       opacity: 0.3
     } */
   }
-  #types-group {
+  /* #types-group {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     z-index: 4;
-  }
+  } */
 `;

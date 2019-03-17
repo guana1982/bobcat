@@ -8,6 +8,7 @@ import ReactDOM = require("react-dom");
 import { CloseBtn, CloseBtnWrap } from "../global/CloseBtn";
 import { BeverageTypes } from "../global/Beverage";
 import { IBeverage } from "@core/models";
+import { SegmentButton, SegmentButtonProps } from "../global/SegmentButton";
 
 const _sizePour = 105;
 
@@ -164,7 +165,7 @@ export const CustomizeBeverageWrap = styled.section`
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 3;
+  z-index: 5;
   #backdrop {
     position: absolute;
     z-index: -1;
@@ -197,6 +198,7 @@ interface CustomizeBeverageProps {
   handleChange: any;
   startPour: any;
   stopPour: any;
+  segmentButton: SegmentButtonProps; // => _SegmentButton
 }
 
 export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
@@ -230,6 +232,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   return(
     <React.Fragment>
       <CustomizeBeverageWrap>
+        <SegmentButton {...props.segmentButton} />
         <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => resetBeverage()} />
 
         <div id="backdrop"></div> {/* onClick={() => resetBeverage()} */}

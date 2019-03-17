@@ -7,6 +7,7 @@ import { Grid } from "../global/Grid";
 import { Footer } from "../global/Footer";
 import { Button } from "../global/Button";
 import { ConfigContext, ConsumerContext } from "@containers/index";
+import { SegmentButton, SegmentButtonProps } from "../global/SegmentButton";
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */
@@ -36,6 +37,7 @@ interface ChoiceBeverageProps {
   idBeveragePouring_: number;
   isSparkling: boolean;
   disabled: boolean;
+  segmentButton: SegmentButtonProps; // => _SegmentButton
 }
 
 export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
@@ -48,6 +50,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
   return (
     <React.Fragment>
       <ChoiceBeverageWrap>
+        <SegmentButton {...props.segmentButton} disabled={disabled} />
         <Gesture onGesture={onGesture} />
         <Grid numElement={beverages.length}>
           {beverages.map((b, i) => {

@@ -7,7 +7,7 @@ import { Footer } from "../global/Footer";
 import { BeverageTypes, BeveragesAnimated, BeverageIndicators, Beverage } from "../global/Beverage";
 import { ConsumerContext } from "@core/containers";
 
-export const _sizeSlide = "329px";
+export const _sizeSlide = "305px";
 export const _sizeSlideFull = "5vw";
 
 /* ==== ANIMATIONS ==== */
@@ -53,7 +53,7 @@ const HeaderSlide = styled.div`
   position: absolute;
   right: 0;
   word-wrap: break-word;
-  width: ${_sizeSlide};
+  width: 329px;
   margin-top: .8rem;
   &.open {
     width: 98vw;
@@ -79,6 +79,7 @@ export const SlideStyled = styled(_Slide)`
   /* box-shadow: 9px 27px 45px 0 rgba(163, 165, 166, 0.2); */
   /* background: #fff; */
   height: 100vh;
+  filter: ${props => props.beverageIsSelected ? "blur(5px)" : null};
   &:before {
       content: " ";
       position: absolute;
@@ -114,7 +115,7 @@ export const SlideStyled = styled(_Slide)`
     color: ${props => props.theme.slateGrey};
   }
   ${Footer} {
-    width: ${_sizeSlide};
+    width: 329px;
     right: 0;
     padding: 1.5rem;
     button {
@@ -158,29 +159,15 @@ export const Slide = (props: SlideProps) => {
   const { slideOpen, indexFavoritePouring_, beverageSelected, startConsumerPour, stopConsumerPour, handleSlide, fullMode } = props;
   const { dataConsumer, consumerBeverages } = React.useContext(ConsumerContext);
 
-  // const timeText = () => {
-  //   const today = new Date();
-  //   const curHr = today.getHours();
-  //   let text = "";
-  //   if (curHr < 12) {
-  //     text = "Good morning";
-  //   } else if (curHr < 18) {
-  //     text = "Good afternoon";
-  //   } else {
-  //     text = "Good evening";
-  //   }
-  //   return __(text);
-  // };
-
+  const beverageIsSelected = beverageSelected !== undefined && beverageSelected !== null;
   const animationSlide = () => slideOpen ? "open" : fullMode ? "fullClose" : "close";
 
   return (
     <React.Fragment>
-      <SlideStyled pose={animationSlide()}>
+      <SlideStyled beverageIsSelected={beverageIsSelected} pose={animationSlide()}>
         <HeaderSlide className={slideOpen && "open"}>
           <h2>{__("HI")}, {dataConsumer.consumer_nick}!</h2>
         </HeaderSlide>
-        {/* <h1 id="title">Your Drinks</h1> */}
         <Grid numElement={consumerBeverages.length}>
           {consumerBeverages.map((b, i) => {
             const BeverageAnimated = BeveragesAnimated[i];

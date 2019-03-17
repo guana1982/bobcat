@@ -252,31 +252,31 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 export const BeveragesAnimated = [
   posed(Beverage)({
     close: {
-      transform: "scale(1) translate3d(62.8vw, -7.5rem, 0px)",
+      transform: "scaleX(1) translate3d(62.8vw, -7.5rem, 0px)",
       delay: 100
     },
     open: {
-      transform: "scale(1.2) translate3d(0vw, 0rem, 0px)",
+      transform: "scaleX(1.14) translate3d(0vw, 0rem, 0px)",
       delay: 50
     }
   }),
   posed(Beverage)({
     close: {
-      transform: "scale(1) translate3d(36.5vw, 10.2rem, 0px)",
+      transform: "scaleX(1) translate3d(36.5vw, 10.2rem, 0px)",
       delay: 75
     },
     open: {
-      transform: "scale(1.4) translate3d(0vw, 0rem, 0px)",
+      transform: "scaleX(1.14) translate3d(0vw, 0rem, 0px)",
       delay: 75
     }
   }),
   posed(Beverage)({
     close: {
-      transform: "scale(1) translate3d(10vw, 38rem, 0px)",
+      transform: "scaleX(1) translate3d(10vw, 38rem, 0px)",
       delay: 50
     },
     open: {
-      transform: "scale(1.2) translate3d(0vw, 0rem, 0px)",
+      transform: "scaleX(1.14) translate3d(0vw, 0rem, 0px)",
       delay: 100
     }
   })

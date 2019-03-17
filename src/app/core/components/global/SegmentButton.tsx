@@ -60,6 +60,11 @@ export const SegmentButtonWrapper = styled.div`
       background: ${props => props.theme.light};
     } */
   }
+
+  position: absolute; /* => _SegmentButton */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
 `;
 
 interface IOption {
@@ -68,7 +73,7 @@ interface IOption {
   icon: string;
 }
 
-interface SegmentButtonProps {
+export interface SegmentButtonProps {
   options: IOption[];
   value?: any;
   label?: string;
