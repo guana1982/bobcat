@@ -12,7 +12,8 @@ import ReactDOM = require("react-dom");
 
 export enum BeverageTypes {
   Info = "info",
-  Sparkling = "sparkling"
+  Sparkling = "sparkling",
+  OutOfStock = "out-of-stock"
 }
 
 export enum BeverageSize {
@@ -47,6 +48,14 @@ export const BeverageWrap = styled.div`
   }
   &:not(.${BeverageTypes.Sparkling}) #element #logo {
     display: block;
+  }
+  &.${BeverageTypes.OutOfStock} {
+    button:before {
+      content: none;
+    }
+    #element {
+      opacity: .2;
+    }
   }
   button {
     position: relative;
@@ -109,6 +118,22 @@ export const BeverageWrap = styled.div`
       letter-spacing: 1px;
       text-align: right;
     }
+  }
+  #out-of-stock {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.5;
+    letter-spacing: 1.3px;
+    text-align: center;
+    color: ${props => props.theme.slateGrey}
   }
 `;
 
@@ -177,6 +202,8 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   }, [buttonEl, enter, pour]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
+  const classNameBeverage = [type, size, $outOfStock ? BeverageTypes.OutOfStock : null];
+
   const end = (e, enough) => {
     if (!enough) { // START
       onStart();
@@ -195,7 +222,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         time={0.5}
         onClickNHold={clickHold}
         onEnd={end}>
-        <BeverageWrap pouring={pouring} className={[type, size]} color={color}>
+        <BeverageWrap pouring={pouring} className={classNameBeverage} color={color}>
           <button ref={buttonEl} disabled={type === BeverageTypes.Info || $outOfStock || disabled}>
             <div id="element">
               <img id="logo" src={`img/logos/${logoId}.png`} />
@@ -204,6 +231,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
               <span id="cal">0 Cal.</span>
               <span id="price">75¢</span>
             </div>
+            {$outOfStock && <span id="out-of-stock">{__("Sorry, we're out of that flavor at the moment! ")}</span>}
             {/* <div id="element">
               <div id="indicators">
                 {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
