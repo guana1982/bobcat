@@ -13,6 +13,8 @@ export enum AlertTypes {
 
 export interface AlertOptions {
   type?: AlertTypes;
+  title?: string;
+  subTitle?: string;
   timeout?: boolean | number;
   onDismiss?: () => void;
 }
