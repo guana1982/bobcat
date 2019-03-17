@@ -27,7 +27,25 @@ export const PrepayContent = styled.div`
     width: 370px;
     height: 370px;
     border: 40px solid #fff;
-    background-color: #0000ff;
+    &:before {
+      content: " ";
+      position: absolute;
+      top: -19%;
+      left: -20.1%;
+      width: 150%;
+      height: 150%;
+      background-image: url("img/qr-bg.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: bottom;
+    }
+    &:after {
+      content: " ";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: #0000ff;
+    }
   }
   #Bottle-QR {
     position: absolute;
