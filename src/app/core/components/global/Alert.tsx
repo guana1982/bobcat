@@ -102,7 +102,6 @@ export const Alert = (props: AlertProps) => {
   //  <=== ACCESSIBILITY FUNCTION ====
 
   const onDismiss_ = () => {
-    alert("ok");
     onDismiss();
     alertConsumer.hide();
   };
