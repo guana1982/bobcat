@@ -93,6 +93,7 @@ export const SegmentButton = (props: SegmentButtonProps) => {
         {props.options ?
           props.options.map((e, i) =>
           <button
+            disabled={props.disabled}
             key={i}
             onClick={() => props.onChange(e.value)}
             className={props.value === e.value ? "selected" : ""}

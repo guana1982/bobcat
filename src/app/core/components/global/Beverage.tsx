@@ -16,6 +16,7 @@ export enum BeverageTypes {
   OutOfStock = "out-of-stock",
   LastPour = "last-pour",
   Favorite = "favorite",
+  Blur = "blur",
 }
 
 export enum BeverageSize {
@@ -102,6 +103,20 @@ export const BeverageWrap = styled.div`
         width: 203px;
         height: 220px;
       }
+    }
+  }
+  &.${BeverageTypes.Blur} {
+    button {
+      background-image: none;
+      &:before {
+        background-image: none;
+      }
+      #element {
+        display: none;
+      }
+    }
+    #logo-blur {
+      display: block;
     }
   }
   button {
@@ -204,6 +219,15 @@ export const BeverageWrap = styled.div`
     text-align: center;
     color: ${props => props.theme.slateGrey}
   }
+  #logo-blur {
+    position: absolute;
+    display: none;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
 `;
 
 
@@ -273,7 +297,8 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
     type,
     size,
     $outOfStock ? BeverageTypes.OutOfStock : null,
-    specialCard && $sparkling ? BeverageTypes.Sparkling : null
+    specialCard && $sparkling ? BeverageTypes.Sparkling : null,
+    disabled ? BeverageTypes.Blur : null
   ];
 
   const end = (e, enough) => {
@@ -289,6 +314,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   };
 
   const logo = type === BeverageTypes.Info ? `icons/${logoId}.png` : `img/logos/${logoId}.png`;
+  const logoBlur = type === BeverageTypes.Info ? null : `img/logos/${logoId}@blur.png`;
   const logoSparkling = type === BeverageTypes.Info ? null : `img/logos/${logoId}@sparkling.png`;
 
   return (
@@ -308,6 +334,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
               {/* <span id="price">75¢</span> */}
             </div>
             {$outOfStock && <span id="out-of-stock">{__("Sorry, we're out of that flavor at the moment! ")}</span>}
+            {logoBlur && <img id="logo-blur" src={logoBlur} />}
           </button>
         </BeverageWrap>
       </ClickNHold>

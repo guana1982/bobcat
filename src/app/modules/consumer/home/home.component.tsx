@@ -85,7 +85,7 @@ export const Home = (props: HomeProps) => {
   const consumerConsumer = React.useContext(ConsumerContext);
 
   React.useEffect(() => {
-    timerConsumer.startTimer();
+    // timerConsumer.startTimer();
     TimerEnd.clearTimer();
     return () => {
       timerConsumer.resetTimer();
@@ -368,6 +368,7 @@ export const Home = (props: HomeProps) => {
           stopConsumerPour={stopConsumerPour}
           handleSlide={handleSlide}
           fullMode={fullMode}
+          disabled={beverageSelected !== undefined}
         />
       }
       <HomeContent isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={beverageIsSelected}>

@@ -1,18 +1,27 @@
 import * as React from "react";
 import { __ } from "@utils/lib/i18n";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Gesture from "../Menu/Gesture";
 import { Beverage, BeverageTypes, BeverageSize } from "../global/Beverage";
 import { Grid } from "../global/Grid";
 import { Footer } from "../global/Footer";
 import { Button } from "../global/Button";
 import { ConfigContext, ConsumerContext } from "@containers/index";
-import { SegmentButton, SegmentButtonProps } from "../global/SegmentButton";
+import { SegmentButton, SegmentButtonProps, SegmentButtonWrapper } from "../global/SegmentButton";
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */
 
+/* disabled?: boolean */
 export const ChoiceBeverageWrap = styled.section`
+  ${({ disabledWrap }) => disabledWrap && css`
+    ${SegmentButtonWrapper} {
+      display: none;
+    }
+    #nutrition-btn, #signin-btn, #logout-btn {
+      opacity: .2;
+    }
+  `}
   #nutrition-btn {
     position: absolute;
     left: 22px;
@@ -49,7 +58,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
 
   return (
     <React.Fragment>
-      <ChoiceBeverageWrap>
+      <ChoiceBeverageWrap disabledWrap={disabled}>
         <SegmentButton {...props.segmentButton} disabled={disabled} />
         <Gesture onGesture={onGesture} />
         <Grid numElement={beverages.length}>

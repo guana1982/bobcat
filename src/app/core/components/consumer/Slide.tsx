@@ -1,7 +1,7 @@
 import * as React from "react";
 import { __ } from "@utils/lib/i18n";
 import { Grid } from "../global/Grid";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import posed from "react-pose";
 import { Footer } from "../global/Footer";
 import { BeverageTypes, BeveragesAnimated, Beverage } from "../global/Beverage";
@@ -75,27 +75,33 @@ const HeaderSlide = styled.div`
   }
 `;
 
+/* disabled?: boolean */
 export const SlideStyled = styled(_Slide)`
   position: absolute;
   top: 0;
   width: 100vw;
   z-index: 5;
-  /* box-shadow: 9px 27px 45px 0 rgba(163, 165, 166, 0.2); */
-  /* background: #fff; */
   height: 100vh;
-  /* filter: ${props => props.beverageIsSelected ? "blur(5px)" : null}; */
-  &:before {
-      content: " ";
-      position: absolute;
-      top: 0%;
-      left: 0%;
-      width: 100%;
-      height: 100%;
-      background-image: url("img/slider-bg.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: bottom;
+  ${({ disabled }) => disabled && css`
+    ${HeaderSlide} {
+      h2 {
+        opacity: .2;
+      }
     }
+  `}
+  &:before {
+    content: " ";
+    opacity: .8;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-image: url("img/slider-bg.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom;
+  }
   #info {
     position: absolute;
     width: 100%;
@@ -136,6 +142,14 @@ export const ToggleSlide = styled(_toggleSlide)`
     height: 46px;
     width: 46px;
     right: 0;
+    &:before {
+      content: " ";
+      position: absolute;
+      top: -20%;
+      left: -20%;
+      width: 140%;
+      height: 140%;
+    }
 `;
 
 /* ==== ELEMENT ==== */
@@ -150,10 +164,11 @@ interface SlideProps {
   stopConsumerPour: any;
   handleSlide: any;
   fullMode: boolean;
+  disabled?: boolean;
 }
 
 export const Slide = (props: SlideProps) => {
-  const { slideOpen, indexFavoritePouring_, beverageSelected, selectConsumerBeverage, startConsumerPour, stopConsumerPour, handleSlide, fullMode } = props;
+  const { slideOpen, indexFavoritePouring_, beverageSelected, selectConsumerBeverage, startConsumerPour, stopConsumerPour, handleSlide, fullMode, disabled } = props;
   const { dataConsumer, consumerBeverages } = React.useContext(ConsumerContext);
 
   const beverageIsSelected = beverageSelected !== undefined && beverageSelected !== null;
@@ -161,7 +176,7 @@ export const Slide = (props: SlideProps) => {
 
   return (
     <React.Fragment>
-      <SlideStyled beverageIsSelected={beverageIsSelected} pose={animationSlide()}>
+      <SlideStyled disabled={disabled} beverageIsSelected={beverageIsSelected} pose={animationSlide()}>
         <HeaderSlide className={slideOpen && "open"}>
           <h2>{__("HI")}, {dataConsumer.consumer_nick}!</h2>
         </HeaderSlide>
@@ -171,7 +186,6 @@ export const Slide = (props: SlideProps) => {
             return (
                 !props.fullMode ?
                 <BeverageAnimated
-                  disabled={!slideOpen}
                   pouring={i === indexFavoritePouring_}
                   onStart={() => selectConsumerBeverage(b)}
                   onHoldStart={() => startConsumerPour(b, i)}
@@ -183,21 +197,24 @@ export const Slide = (props: SlideProps) => {
                   title={b.flavorTitle}
                   type={b.$type}
                   $sparkling={b.$sparkling}
+                  disabled={disabled}
                 /> :
-                <Beverage
-                  disabled={!slideOpen}
-                  pouring={i === indexFavoritePouring_}
-                  onStart={() => selectConsumerBeverage(b)}
-                  onHoldStart={() => startConsumerPour(b, i)}
-                  onHoldEnd={() => stopConsumerPour(b)}
-                  key={i}
-                  logoId={b.$logo_id || b.$beverage.beverage_logo_id}
-                  color={b.$beverage.beverage_font_color}
-                  status_id={b.$status_id}
-                  title={b.flavorTitle}
-                  type={b.$type}
-                  $sparkling={b.$sparkling}
-                />
+                <div style={{"transform": "scale(1.14)"}}>
+                  <Beverage
+                    pouring={i === indexFavoritePouring_}
+                    onStart={() => selectConsumerBeverage(b)}
+                    onHoldStart={() => startConsumerPour(b, i)}
+                    onHoldEnd={() => stopConsumerPour(b)}
+                    key={i}
+                    logoId={b.$logo_id || b.$beverage.beverage_logo_id}
+                    color={b.$beverage.beverage_font_color}
+                    status_id={b.$status_id}
+                    title={b.flavorTitle}
+                    type={b.$type}
+                    $sparkling={b.$sparkling}
+                    disabled={disabled} // || !slideOpen
+                  />
+                </div>
             );
           })}
         </Grid>

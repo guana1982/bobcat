@@ -97,7 +97,7 @@ export const CustomizeBeverageCard = styled.div`
   border-radius: 0 0 20px 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff);
+  /* background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff); */
   &.${BeverageTypes.Sparkling} #logo-sparkling {
     display: block;
   }
@@ -172,8 +172,8 @@ export const CustomizeBeverageWrap = styled.section`
     left: 0;
     width: 100%;
     height: 100%;
-    background: #f9f9f9;
-    opacity: 0.4;
+    /* background: #f9f9f9;
+    opacity: 0.2; */
   }
   ${CloseBtnWrap} {
     position: absolute;
