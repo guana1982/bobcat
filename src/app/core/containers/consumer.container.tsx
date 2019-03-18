@@ -80,6 +80,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
         }
         consumerBeverage.$status_id = beverageFlavor.status_id;
         consumerBeverage.$beverage = beverageFlavor;
+        consumerBeverage.$sparkling =  consumerBeverage.carbLvl !== 0;
         consumerBeverage.$type = index === 1 ? BeverageTypes.LastPour : BeverageTypes.Favorite;
         return consumerBeverage;
       } else {

@@ -145,6 +145,7 @@ interface SlideProps {
   slideOpen: boolean;
   indexFavoritePouring_: number;
   beverageSelected: any;
+  selectConsumerBeverage: (b) => void;
   startConsumerPour: any;
   stopConsumerPour: any;
   handleSlide: any;
@@ -152,7 +153,7 @@ interface SlideProps {
 }
 
 export const Slide = (props: SlideProps) => {
-  const { slideOpen, indexFavoritePouring_, beverageSelected, startConsumerPour, stopConsumerPour, handleSlide, fullMode } = props;
+  const { slideOpen, indexFavoritePouring_, beverageSelected, selectConsumerBeverage, startConsumerPour, stopConsumerPour, handleSlide, fullMode } = props;
   const { dataConsumer, consumerBeverages } = React.useContext(ConsumerContext);
 
   const beverageIsSelected = beverageSelected !== undefined && beverageSelected !== null;
@@ -170,25 +171,32 @@ export const Slide = (props: SlideProps) => {
             return (
                 !props.fullMode ?
                 <BeverageAnimated
+                  disabled={!slideOpen}
                   pouring={i === indexFavoritePouring_}
-                  onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
+                  onStart={() => selectConsumerBeverage(b)}
+                  onHoldStart={() => startConsumerPour(b, i)}
+                  onHoldEnd={() => stopConsumerPour(b)}
                   key={i}
                   logoId={b.$logo_id || b.$beverage.beverage_logo_id}
                   color={b.$beverage.beverage_font_color}
                   status_id={b.$status_id}
                   title={b.flavorTitle}
                   type={b.$type}
+                  $sparkling={b.$sparkling}
                 /> :
                 <Beverage
                   disabled={!slideOpen}
                   pouring={i === indexFavoritePouring_}
-                  onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
+                  onStart={() => selectConsumerBeverage(b)}
+                  onHoldStart={() => startConsumerPour(b, i)}
+                  onHoldEnd={() => stopConsumerPour(b)}
                   key={i}
                   logoId={b.$logo_id || b.$beverage.beverage_logo_id}
                   color={b.$beverage.beverage_font_color}
                   status_id={b.$status_id}
                   title={b.flavorTitle}
                   type={b.$type}
+                  $sparkling={b.$sparkling}
                 />
             );
           })}

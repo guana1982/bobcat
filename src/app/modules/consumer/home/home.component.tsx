@@ -139,6 +139,7 @@ export const Home = (props: HomeProps) => {
 
   const selectBeverage = (beverage: IBeverage) => {
     const { beverages } = configConsumer;
+    handleType(state.isSparkling);
     setState(prevState => ({
       ...prevState,
       beverageSelected: beverages.indexOf(beverage),
@@ -255,6 +256,20 @@ export const Home = (props: HomeProps) => {
     }
   }, [consumerConsumer.consumerBeverages]);
 
+  const selectConsumerBeverage = (consumerBeverage: IConsumerBeverage) => {
+    const { beverages } = configConsumer;
+    setState(prevState => ({
+      ...prevState,
+      isSparkling: consumerBeverage.$sparkling,
+      beverageSelected: beverages.indexOf(consumerBeverage.$beverage),
+      beverageConfig: {
+        flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),
+        carbonation_level: Number(consumerBeverage.carbLvl),
+        temperature_level: Number(consumerBeverage.coldLvl),
+      }
+    }));
+  };
+
   const startConsumerPour = (consumerBeverage: IConsumerBeverage, index: number) => {
     setState(prevState => ({...prevState, indexFavoritePouring_: index}));
     const beverageSelected: any = { beverage_id: Number(consumerBeverage.flavors[0].product.flavorUpc) };
@@ -348,6 +363,7 @@ export const Home = (props: HomeProps) => {
           slideOpen={state.slideOpen}
           indexFavoritePouring_={state.indexFavoritePouring_}
           beverageSelected={state.beverageSelected}
+          selectConsumerBeverage={selectConsumerBeverage}
           startConsumerPour={startConsumerPour}
           stopConsumerPour={stopConsumerPour}
           handleSlide={handleSlide}

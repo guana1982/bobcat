@@ -221,10 +221,11 @@ interface BeverageProps {
   status_id?: BeverageStatus;
   title?: string;
   disabled?: boolean;
+  $sparkling?: boolean;
 }
 
 export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
-  const { title, type, label, pouring, status_id, disabled, size, logoId, color } = props;
+  const { title, type, label, pouring, status_id, disabled, size, logoId, color, $sparkling } = props;
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
 
@@ -266,7 +267,14 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   }, [buttonEl, enter, pour]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
-  const classNameBeverage = [type, size, $outOfStock ? BeverageTypes.OutOfStock : null];
+  const specialCard: boolean = type === BeverageTypes.LastPour || type === BeverageTypes.Favorite;
+  const disabledButton = type === BeverageTypes.Info || $outOfStock || disabled;
+  const classNameBeverage = [
+    type,
+    size,
+    $outOfStock ? BeverageTypes.OutOfStock : null,
+    specialCard && $sparkling ? BeverageTypes.Sparkling : null
+  ];
 
   const end = (e, enough) => {
     if (!enough) { // START
@@ -290,10 +298,10 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         onClickNHold={clickHold}
         onEnd={end}>
         <BeverageWrap pouring={pouring} className={classNameBeverage} color={color}>
-          <button ref={buttonEl} disabled={type === BeverageTypes.Info || $outOfStock || disabled}>
+          <button ref={buttonEl} disabled={disabledButton}>
             <div id="element">
-              {(type === BeverageTypes.LastPour || type === BeverageTypes.Favorite) && <div id="indicator"><span>{type}</span></div>}
-              {logo && <img id="logo" src={logo} />}
+              {(specialCard) && <div id="indicator"><span>{type}</span></div>}
+              {logoId !== undefined && <img id="logo" src={logo} />}
               {logoSparkling && <img id="logo-sparkling" src={logoSparkling} />}
               <span id="title">{__(title)}</span>
               <span id="cal">0 Cal.</span>

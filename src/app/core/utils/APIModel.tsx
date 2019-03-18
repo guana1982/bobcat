@@ -74,6 +74,7 @@ export interface IConsumerBeverage {
   $status_id?: BeverageStatus;
   $logo_id?: any;
   $beverage?: IBeverage;
+  $sparkling?: boolean;
 }
 
 interface Enhancement {
