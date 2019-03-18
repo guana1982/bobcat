@@ -195,6 +195,7 @@ export const Home = (props: HomeProps) => {
       timeout: true,
       onDismiss: () => {
         resetBeverage();
+        consumerConsumer.resetConsumer(false);
       }
     });
   };

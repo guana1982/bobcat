@@ -16,7 +16,7 @@ export interface ConsumerInterface {
   isLogged: boolean;
   dataConsumer: IConsumerModel;
   consumerBeverages: IConsumerBeverage[];
-  resetConsumer: () => void;
+  resetConsumer: (noPushAttractor?: boolean) => void;
   startScanning: () => Observable<boolean>;
   stopScanning: () => Observable<any>;
   updateConsumerBeverages: () => void;
@@ -31,11 +31,14 @@ class ConsumerStoreComponent extends React.Component<any, any> {
 
   index_qr;
   readonly infoBeverages: any = [{
-    flavorTitle: "Favorite 1"
+    $logo_id: "favorite",
+    flavorTitle: __("Save your favorite drinks using the app!")
   }, {
-    flavorTitle: "Last Pour"
+    $logo_id: "last-pour",
+    flavorTitle: __("After you pour, your most recent drink will appear here!")
   }, {
-    flavorTitle: "Favorite 2"
+    $logo_id: null,
+    flavorTitle: null
   }];
 
   constructor(props) {
@@ -51,13 +54,15 @@ class ConsumerStoreComponent extends React.Component<any, any> {
   /* ==== CONSUMER FAVORITE ==== */
   /* ======================================== */
 
-  resetConsumer = () => {
+  resetConsumer = (noPushAttractor?: boolean) => {
     this.setState({
       isLogged: false,
       dataConsumer: null,
       consumerBeverages: []
     });
-    this.props.history.push(Pages.Attractor);
+    if (noPushAttractor!) {
+      this.props.history.push(Pages.Attractor);
+    }
   }
 
   private compareConsumerBeverage = (consumerBeverages: IConsumerBeverage[]): IConsumerBeverage[] => {
@@ -74,14 +79,18 @@ class ConsumerStoreComponent extends React.Component<any, any> {
           consumerBeverage.flavorTitle = beverageFlavor.beverage_label_id;
         }
         consumerBeverage.$status_id = beverageFlavor.status_id;
+        consumerBeverage.$beverage = beverageFlavor;
+        consumerBeverage.$type = index === 1 ? BeverageTypes.LastPour : BeverageTypes.Favorite;
         return consumerBeverage;
       } else {
         const infoBeverage = this.infoBeverages[index];
         infoBeverage.$type = BeverageTypes.Info;
+        infoBeverage.$beverage = {};
         return infoBeverage;
       }
     });
   }
+
 
   getConsumerBeverages = (dataConsumer: IConsumerModel): IConsumerBeverage[] => {
     if (!dataConsumer.consumer_id)
@@ -138,7 +147,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     if (type === SOCKET_CONSUMER.SERVER) {
       this.index_qr = this.index_qr + 1;
     }
-    return of(mock()); // MOCK // socketConsumer$; //
+    return socketConsumer$; // of(mock()); // MOCK //
   }
 
   /* ==== SCANNING ==== */

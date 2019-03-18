@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import posed from "react-pose";
 import { __ } from "@utils/lib/i18n";
 import { IBeverage } from "@models/index";
@@ -13,7 +13,9 @@ import ReactDOM = require("react-dom");
 export enum BeverageTypes {
   Info = "info",
   Sparkling = "sparkling",
-  OutOfStock = "out-of-stock"
+  OutOfStock = "out-of-stock",
+  LastPour = "last-pour",
+  Favorite = "favorite",
 }
 
 export enum BeverageSize {
@@ -57,12 +59,58 @@ export const BeverageWrap = styled.div`
       opacity: .2;
     }
   }
+  &.${BeverageTypes.Info} {
+    button {
+      background-image: none;
+      border: solid 1px #f1f1f1;
+      &:before {
+        background-image: none;
+      }
+      #element {
+        #logo {
+          width: 141px;
+          height: 141.5px;
+          top: 43.5px;
+          left: 36px;
+        }
+        #title {
+          width: 100%;
+          font-size: 14px;
+          width: 173px;
+          left: 23px;
+          bottom: 23px;
+          height: 70px;
+          display: flex;
+          align-items: center;
+          right: 0;
+          text-transform: none;
+          text-align: center;
+          color: ${props => props.theme.slateGrey};
+        }
+      }
+    }
+    #cal {
+      display: none;
+    }
+  }
+  &.${BeverageTypes.Favorite}, &.${BeverageTypes.LastPour} {
+    #element {
+      #logo, #logo-sparkling {
+        top: 10px;
+        right: -19px;
+        left: auto;
+        width: 203px;
+        height: 220px;
+      }
+    }
+  }
   button {
     position: relative;
     width: 100%;
     height: 100%;
     border-radius: 17px;
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff);
+    box-shadow: ${props => props.pouring ? `0 0 0 6px ${props.color} !important` : null};
     &:before {
       content: " ";
       position: absolute;
@@ -82,6 +130,27 @@ export const BeverageWrap = styled.div`
     height: 100%;
     color: ${props => props.theme.slateGrey};
     text-transform: uppercase;
+    #indicator {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      left: 20px;
+      top: 20px;
+      width: 72px;
+      height: 18.1px;
+      background: ${props => props.color};
+      border-radius: 9px;
+      span {
+        text-transform: lowercase;
+        font-size: 12px;
+        color: #fff;
+      }
+    }
+    /* top: 10px;
+    right: -21px;
+    width: 203px;
+    height: 220px; */
     #logo, #logo-sparkling {
       display: none;
       position: absolute;
@@ -137,21 +206,16 @@ export const BeverageWrap = styled.div`
   }
 `;
 
-export enum BeverageIndicators {
-  Heart = "heart",
-  Rewind = "rewind"
-}
 
 interface BeverageProps {
   beverage?: IBeverage;
   type: BeverageTypes;
   size?: BeverageSize;
-  logoId?: number;
+  logoId?: any;
   color?: string;
   onStart?: () => void;
   onHoldStart?: () => void;
   onHoldEnd?: () => void;
-  indicators?: BeverageIndicators[];
   label?: string;
   pouring?: boolean;
   status_id?: BeverageStatus;
@@ -160,7 +224,7 @@ interface BeverageProps {
 }
 
 export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
-  const { title, type, indicators, label, pouring, status_id, disabled, size, logoId, color } = props;
+  const { title, type, label, pouring, status_id, disabled, size, logoId, color } = props;
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
 
@@ -216,6 +280,9 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
     onHoldStart();
   };
 
+  const logo = type === BeverageTypes.Info ? `icons/${logoId}.png` : `img/logos/${logoId}.png`;
+  const logoSparkling = type === BeverageTypes.Info ? null : `img/logos/${logoId}@sparkling.png`;
+
   return (
     <div ref={innerRef}>
       <ClickNHold
@@ -225,23 +292,14 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         <BeverageWrap pouring={pouring} className={classNameBeverage} color={color}>
           <button ref={buttonEl} disabled={type === BeverageTypes.Info || $outOfStock || disabled}>
             <div id="element">
-              <img id="logo" src={`img/logos/${logoId}.png`} />
-              <img id="logo-sparkling" src={`img/logos/${logoId}@sparkling.png`} />
+              {(type === BeverageTypes.LastPour || type === BeverageTypes.Favorite) && <div id="indicator"><span>{type}</span></div>}
+              {logo && <img id="logo" src={logo} />}
+              {logoSparkling && <img id="logo-sparkling" src={logoSparkling} />}
               <span id="title">{__(title)}</span>
               <span id="cal">0 Cal.</span>
-              <span id="price">75¢</span>
+              {/* <span id="price">75¢</span> */}
             </div>
             {$outOfStock && <span id="out-of-stock">{__("Sorry, we're out of that flavor at the moment! ")}</span>}
-            {/* <div id="element">
-              <div id="indicators">
-                {indicators && indicators.map((indicator, index) => <img key={index} src={`icons/${indicator}.svg`} />)}
-              </div>
-              <h3>{__(title)}</h3>
-              <h6>0-CALS</h6>
-              {label && <h5>{__(label)}</h5>}
-              {$outOfStock && <div className="overlay"><h4>{__("Out Of Stock")}</h4></div>}
-              {pouring && <div className="overlay"><h4>{__("Pouring")}</h4></div>}
-            </div> */}
           </button>
         </BeverageWrap>
       </ClickNHold>
@@ -252,31 +310,31 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 export const BeveragesAnimated = [
   posed(Beverage)({
     close: {
-      transform: "scaleX(1) translate3d(62.8vw, -7.5rem, 0px)",
+      transform: "scale(1) translate3d(62.8vw, -10rem, 0px)",
       delay: 100
     },
     open: {
-      transform: "scaleX(1.14) translate3d(0vw, 0rem, 0px)",
+      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
       delay: 50
     }
   }),
   posed(Beverage)({
     close: {
-      transform: "scaleX(1) translate3d(36.5vw, 10.2rem, 0px)",
+      transform: "scale(1) translate3d(36.5vw, 12rem, 0px)",
       delay: 75
     },
     open: {
-      transform: "scaleX(1.14) translate3d(0vw, 0rem, 0px)",
+      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
       delay: 75
     }
   }),
   posed(Beverage)({
     close: {
-      transform: "scaleX(1) translate3d(10vw, 38rem, 0px)",
+      transform: "scale(1) translate3d(10vw, 38rem, 0px)",
       delay: 50
     },
     open: {
-      transform: "scaleX(1.14) translate3d(0vw, 0rem, 0px)",
+      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
       delay: 100
     }
   })

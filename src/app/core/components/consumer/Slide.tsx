@@ -54,9 +54,13 @@ const HeaderSlide = styled.div`
   right: 0;
   word-wrap: break-word;
   width: 329px;
-  margin-top: .8rem;
+  margin-top: .3rem;
   &.open {
     width: 98vw;
+    h2 {
+      font-size: 20px;
+      padding: 20px;
+    }
   }
   h2 {
     margin: 1rem;
@@ -92,14 +96,6 @@ export const SlideStyled = styled(_Slide)`
       background-repeat: no-repeat;
       background-position: bottom;
     }
-
-  #title {
-    position: absolute;
-    top: 7rem;
-    left: 5rem;
-    font-size: 2rem;
-    color: ${props => props.theme.primary};
-  }
   #info {
     position: absolute;
     width: 100%;
@@ -177,8 +173,8 @@ export const Slide = (props: SlideProps) => {
                   pouring={i === indexFavoritePouring_}
                   onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
                   key={i}
-                  indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
-                  label={i === 0 && !slideOpen && b.$type === BeverageTypes.Info ? "Save favorites from smartphone" : null}
+                  logoId={b.$logo_id || b.$beverage.beverage_logo_id}
+                  color={b.$beverage.beverage_font_color}
                   status_id={b.$status_id}
                   title={b.flavorTitle}
                   type={b.$type}
@@ -188,8 +184,8 @@ export const Slide = (props: SlideProps) => {
                   pouring={i === indexFavoritePouring_}
                   onHoldStart={() => startConsumerPour(b, i)} onHoldEnd={() => stopConsumerPour(b)}
                   key={i}
-                  indicators={i === 0 || i === 2 ? [BeverageIndicators.Heart] : [BeverageIndicators.Rewind]}
-                  label={i === 0 && !slideOpen && b.$type === BeverageTypes.Info ? "Save favorites from smartphone" : null}
+                  logoId={b.$logo_id || b.$beverage.beverage_logo_id}
+                  color={b.$beverage.beverage_font_color}
                   status_id={b.$status_id}
                   title={b.flavorTitle}
                   type={b.$type}

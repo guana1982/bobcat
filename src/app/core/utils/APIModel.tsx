@@ -1,5 +1,5 @@
-import { BeverageStatus } from "../models/beverage.model";
-import { BeverageTypes } from "../components/global/Beverage";
+import { BeverageStatus, IBeverage } from "../models/beverage.model";
+import { BeverageTypes, BeverageIndicator } from "../components/global/Beverage";
 
 // === BEVERAGE ===
 
@@ -72,6 +72,8 @@ export interface IConsumerBeverage {
   enhancements: Enhancement[];
   $type?: BeverageTypes;
   $status_id?: BeverageStatus;
+  $logo_id?: any;
+  $beverage?: IBeverage;
 }
 
 interface Enhancement {
