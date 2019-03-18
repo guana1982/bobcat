@@ -34,7 +34,18 @@ export interface HomeState {
   showCardsInfo: boolean;
 }
 
-let timerEnd_: any = null;
+const TimerEnd = {
+  timer_: null,
+  clearTimer() {
+    clearTimeout(this.timer_);
+    this.timer_ = null;
+  },
+  startTimer(endEvent) {
+    this.clearTimer();
+    this.timer_ = setTimeout(endEvent, CONSUMER_TIMER.END_POUR);
+  }
+};
+
 let socketAlarms_: Subscription;
 
 export const Home = (props: HomeProps) => {
@@ -75,8 +86,7 @@ export const Home = (props: HomeProps) => {
 
   React.useEffect(() => {
     timerConsumer.startTimer();
-    timerEnd_ = null;
-    clearTimeout(timerEnd_);
+    TimerEnd.clearTimer();
     return () => {
       timerConsumer.resetTimer();
     };
@@ -185,11 +195,19 @@ export const Home = (props: HomeProps) => {
     setState(prevState => ({...prevState, idBeveragePouring_: null}));
     configConsumer.onStopPour().subscribe();
     if (getBeverageSelected()) {
-      endPour();
+      startPourEvent();
     }
   };
 
-  const alertEndPour = () => {
+  /* ==== END POUR ==== */
+  /* ======================================== */
+
+  function endPourEvent() {
+    document.removeEventListener("touchstart", TimerEnd.clearTimer);
+    document.removeEventListener("touchend", TimerEnd.startTimer);
+    document.removeEventListener("keydown", TimerEnd.clearTimer); // => ACCESSIBILITY
+    document.removeEventListener("keyup", TimerEnd.startTimer); // => ACCESSIBILITY
+    TimerEnd.clearTimer();
     alertConsumer.show({
       type: AlertTypes.EndBeverage,
       timeout: true,
@@ -198,39 +216,23 @@ export const Home = (props: HomeProps) => {
         consumerConsumer.resetConsumer(false);
       }
     });
-  };
+  }
 
-  const endPour = () => {
-    if (timerEnd_ === null) {
-
-      const endEvent = () => {
-        alertEndPour();
-        clearTimerEnd();
-        document.removeEventListener("touchstart", clearTimer);
-        document.removeEventListener("touchend", startTimer);
-        document.removeEventListener("keydown", clearTimer); // => ACCESSIBILITY
-        document.removeEventListener("keyup", startTimer); // => ACCESSIBILITY
-      };
-
-      const clearTimer = () => {
-        clearTimeout(timerEnd_);
-      };
-
-      const startTimer = () => {
-        clearTimer();
-        timerEnd_ = setTimeout(endEvent, CONSUMER_TIMER.END_POUR);
-      };
-      startTimer();
-
-      document.addEventListener("touchstart", clearTimer);
-      document.addEventListener("touchend", startTimer);
-      document.addEventListener("keydown", clearTimer); // => ACCESSIBILITY
-      document.addEventListener("keyup", startTimer); // => ACCESSIBILITY
+  function startPourEvent() {
+    if (TimerEnd.timer_ === null) {
+      TimerEnd.startTimer(endPourEvent);
+      document.addEventListener("touchstart", TimerEnd.clearTimer);
+      document.addEventListener("touchend", TimerEnd.startTimer);
+      document.addEventListener("keydown", TimerEnd.clearTimer); // => ACCESSIBILITY
+      document.addEventListener("keyup", TimerEnd.startTimer); // => ACCESSIBILITY
     }
-  };
+  }
+
+  /* ==== RESET ==== */
+  /* ======================================== */
 
   const resetBeverage = () => {
-    clearTimerEnd();
+    TimerEnd.clearTimer();
     setState(prevState => ({
       ...prevState,
       beverageSelected: null,
@@ -238,11 +240,6 @@ export const Home = (props: HomeProps) => {
       idBeveragePouring_: null,
       showCardsInfo: false
     }));
-  };
-
-  const clearTimerEnd = () => {
-    clearTimeout(timerEnd_);
-    timerEnd_ = null;
   };
 
   /* ==== BEVERAGE CONSUMER ==== */
@@ -388,7 +385,7 @@ export const Home = (props: HomeProps) => {
           isSparkling={isSparkling}
           slideOpen={state.slideOpen}
           showCardsInfo={state.showCardsInfo}
-          alertEndPour={alertEndPour}
+          endPourEvent={endPourEvent}
           beverageConfig={state.beverageConfig}
           resetBeverage={resetBeverage}
           getBeverageSelected={getBeverageSelected}

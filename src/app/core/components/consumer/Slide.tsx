@@ -4,7 +4,7 @@ import { Grid } from "../global/Grid";
 import styled from "styled-components";
 import posed from "react-pose";
 import { Footer } from "../global/Footer";
-import { BeverageTypes, BeveragesAnimated, BeverageIndicators, Beverage } from "../global/Beverage";
+import { BeverageTypes, BeveragesAnimated, Beverage } from "../global/Beverage";
 import { ConsumerContext } from "@core/containers";
 
 export const _sizeSlide = "305px";
@@ -83,7 +83,7 @@ export const SlideStyled = styled(_Slide)`
   /* box-shadow: 9px 27px 45px 0 rgba(163, 165, 166, 0.2); */
   /* background: #fff; */
   height: 100vh;
-  filter: ${props => props.beverageIsSelected ? "blur(5px)" : null};
+  /* filter: ${props => props.beverageIsSelected ? "blur(5px)" : null}; */
   &:before {
       content: " ";
       position: absolute;

@@ -60,7 +60,7 @@ export const HomeContent = styled.div`
     padding-top: 6.5rem;
   }
   ${ChoiceBeverageWrap} {
-    filter: ${props => props.beverageIsSelected ? "blur(5px)" : null};
+    /* filter: ${props => props.beverageIsSelected ? "blur(5px)" : null}; */
     /* &:after {
       display: ${props => !props.beverageIsSelected ? "none" : null};
       content: '';

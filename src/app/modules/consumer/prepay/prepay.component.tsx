@@ -100,7 +100,7 @@ export const Prepay = (props: PrepayProps) => {
   const consumerConsumer = React.useContext(ConsumerContext);
 
   React.useEffect(() => {
-    timerConsumer.startTimer();
+    // timerConsumer.startTimer();
     start();
     return () => {
       timerConsumer.resetTimer();

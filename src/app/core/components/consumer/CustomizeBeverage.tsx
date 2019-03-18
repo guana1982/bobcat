@@ -190,7 +190,7 @@ interface CustomizeBeverageProps {
   isSparkling: boolean;
   slideOpen: boolean;
   showCardsInfo: boolean;
-  alertEndPour: any;
+  endPourEvent: any;
   beverageConfig: any;
   resetBeverage: any;
   getBeverageSelected: any;
@@ -201,7 +201,7 @@ interface CustomizeBeverageProps {
 }
 
 export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
-  const { beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, getBeverageSelected, handleChange, alertEndPour } = props;
+  const { beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, getBeverageSelected, handleChange, endPourEvent } = props;
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const buttonPourEl = React.useRef(null);
@@ -232,7 +232,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
     <React.Fragment>
       <CustomizeBeverageWrap>
         <SegmentButton {...props.segmentButton} />
-        <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => props.showCardsInfo ? alertEndPour() : resetBeverage()} />
+        <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => props.showCardsInfo ? endPourEvent() : resetBeverage()} />
 
         <div id="backdrop"></div> {/* onClick={() => resetBeverage()} */}
 
