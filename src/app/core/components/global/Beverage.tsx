@@ -46,11 +46,11 @@ export const BeverageWrap = styled.div`
       }
     }
   }
-  &.${BeverageTypes.Sparkling} #element #logo-sparkling {
-    display: block;
+  &:not(.${BeverageTypes.Blur}).${BeverageTypes.Sparkling} #element #logo-sparkling {
+    visibility: visible;
   }
-  &:not(.${BeverageTypes.Sparkling}) #element #logo {
-    display: block;
+  &:not(.${BeverageTypes.Sparkling}):not(.${BeverageTypes.Blur}) #element #logo {
+    visibility: visible;
   }
   &.${BeverageTypes.OutOfStock} {
     button:before {
@@ -91,7 +91,7 @@ export const BeverageWrap = styled.div`
       }
     }
     #cal {
-      display: none;
+      visibility: hidden;
     }
   }
   &.${BeverageTypes.Favorite}, &.${BeverageTypes.LastPour} {
@@ -107,16 +107,10 @@ export const BeverageWrap = styled.div`
   }
   &.${BeverageTypes.Blur} {
     button {
-      background-image: none;
-      &:before {
-        background-image: none;
-      }
-      #element {
-        display: none;
-      }
+      visibility: hidden;
     }
     #logo-blur {
-      display: block;
+      visibility: visible;
     }
   }
   button {
@@ -162,12 +156,8 @@ export const BeverageWrap = styled.div`
         color: #fff;
       }
     }
-    /* top: 10px;
-    right: -21px;
-    width: 203px;
-    height: 220px; */
     #logo, #logo-sparkling {
-      display: none;
+      visibility: hidden;
       position: absolute;
       top: 0;
       left: 0;
@@ -221,7 +211,7 @@ export const BeverageWrap = styled.div`
   }
   #logo-blur {
     position: absolute;
-    display: none;
+    visibility: hidden;
     z-index: 2;
     width: 100%;
     height: 100%;
@@ -314,7 +304,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   };
 
   const logo = type === BeverageTypes.Info ? `icons/${logoId}.png` : `img/logos/${logoId}.png`;
-  const logoBlur = type === BeverageTypes.Info ? null : `img/logos/${logoId}@blur.png`;
+  const logoBlur = type === BeverageTypes.Info ? `icons/${logoId}@blur.png` : `img/logos/${logoId}@blur.png`;
   const logoSparkling = type === BeverageTypes.Info ? null : `img/logos/${logoId}@sparkling.png`;
 
   return (
