@@ -35,6 +35,7 @@ const AlertWrap = styled.div`
     background-image: linear-gradient(to bottom, #eeeeee, #cbcfda);
   }
   &>#title {
+    font-family: NeuzeitGro-Bol;
     width: 433px;
     text-transform: uppercase;
     line-height: 1.5;

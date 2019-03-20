@@ -64,6 +64,7 @@ const HeaderSlide = styled.div`
   }
   h2 {
     margin: 1rem;
+    font-family: NeuzeitGro-Bol;
     text-transform: uppercase;
     font-size: 16px;
     font-weight: normal;

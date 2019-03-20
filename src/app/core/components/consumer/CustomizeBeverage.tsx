@@ -24,6 +24,7 @@ export const Pour = styled.button`
   font-size: ${_sizePour / 5}px;
   font-weight: 600;
   opacity: ${props => props.isPouring ? .7 : 1};
+  font-family: NeuzeitGro-Bol;
   &, &:active {
     color: ${props => props.theme.light};
     background: ${props => props.color};
@@ -130,6 +131,7 @@ export const CustomizeBeverageCard = styled.div`
     bottom: 263px;
     width: 278px;
     font-size: 28px;
+    font-family: NeuzeitGro-Bol;
     text-transform: uppercase;
     font-weight: normal;
     font-style: normal;

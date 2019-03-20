@@ -22,6 +22,7 @@ const ButtonGroupContent = styled.div`
         height: 25px;
       }
       span {
+        font-family: NeuzeitGro-Bol;
         width: 86.7px;
         height: 16px;
         font-size: 16px;

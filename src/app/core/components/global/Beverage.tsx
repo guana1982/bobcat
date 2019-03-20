@@ -76,7 +76,8 @@ export const BeverageWrap = styled.div`
         }
         #title {
           width: 100%;
-          font-size: 14px;
+          font-size: 16px;
+          letter-spacing: 1px;
           width: 173px;
           left: 23px;
           bottom: 23px;
@@ -167,6 +168,7 @@ export const BeverageWrap = styled.div`
     }
     #title {
       position: absolute;
+      font-family: NeuzeitGro-Bol;
       color: ${props => props.color};
       width: calc(100% - 46px);
       right: 23px;
@@ -180,7 +182,7 @@ export const BeverageWrap = styled.div`
       position: absolute;
       left: 23px;
       bottom: 14px;
-      font-size: 12.6px;
+      font-size: 14px;
       letter-spacing: 1px;
       text-align: left;
     }
@@ -195,6 +197,8 @@ export const BeverageWrap = styled.div`
   }
   #out-of-stock {
     position: absolute;
+    font-family: NeuzeitGro-Bol;
+    padding: 20px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

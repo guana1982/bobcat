@@ -27,11 +27,12 @@ export const SegmentButtonWrapper = styled.div`
     }
     span {
       height: 30px;
+      font-family: NeuzeitGro-Bol;
       font-size: 16px;
       font-weight: normal;
       font-style: normal;
       font-stretch: normal;
-      line-height: 1.88;
+      line-height: 2.2;
       letter-spacing: 1.3px;
       color: ${props => props.theme.slateGrey}
     }

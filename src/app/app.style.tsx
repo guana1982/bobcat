@@ -30,18 +30,19 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   @font-face {
-    font-family: 'Karla';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Karla Regular'), local('Karla-Regular'),
-        url('/fonts/Karla-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
+    font-family: NeuzeitGro-Reg;
+    src: url('fonts/URW - NeuzeitGro-Reg.otf')
+  }
+
+  @font-face {
+    font-family: NeuzeitGro-Bol;
+    src: url('fonts/URW - NeuzeitGro-Bol.otf')
   }
 
   html,
   body {
-    font-family: Karla, sans-serif;
-    /* font-family: sans-serif; */
-    font-weight: 300;
+    font-family: NeuzeitGro-Reg;
+    /* font-weight: 300; */
     letter-spacing: 0.025em;
     line-height: 1.4;
     font-size: 15px;

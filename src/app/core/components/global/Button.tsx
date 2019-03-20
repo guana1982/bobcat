@@ -8,6 +8,7 @@ export const ButtonWrap = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 12px;
+  font-family: NeuzeitGro-Bol;
   &:active {
     opacity: .7;
   }
@@ -25,6 +26,7 @@ export const ButtonWrap = styled.button`
   }
   span {
     color: ${props => props.theme.slateGrey};
+    font-size: 16px;
     text-transform: capitalize;
   }
 `;

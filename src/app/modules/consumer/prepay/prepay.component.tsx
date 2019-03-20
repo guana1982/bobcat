@@ -62,6 +62,7 @@ export const PrepayContent = styled.div`
     height: 237px;
   }
   #Text-Info {
+    font-family: NeuzeitGro-Bol;
     position: absolute;
     margin: 0;
     top: 585px;
@@ -74,7 +75,7 @@ export const PrepayContent = styled.div`
     font-stretch: normal;
     line-height: 1.5;
     letter-spacing: normal;
-    color: gray;
+    color: ${props => props.theme.slateGrey}
   }
   #Icon-QR {
     position: absolute;
