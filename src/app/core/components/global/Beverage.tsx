@@ -17,6 +17,7 @@ export enum BeverageTypes {
   LastPour = "last-pour",
   Favorite = "favorite",
   Blur = "blur",
+  NutritionFacts = "nutrition-facts"
 }
 
 export enum BeverageSize {
@@ -46,11 +47,14 @@ export const BeverageWrap = styled.div`
       }
     }
   }
-  &:not(.${BeverageTypes.Blur}).${BeverageTypes.Sparkling} #element #logo-sparkling {
+  &:not(.${BeverageTypes.Blur}):not(.${BeverageTypes.NutritionFacts}).${BeverageTypes.Sparkling} #element #logo-sparkling {
     visibility: visible;
   }
-  &:not(.${BeverageTypes.Sparkling}):not(.${BeverageTypes.Blur}) #element #logo {
+  &:not(.${BeverageTypes.Sparkling}):not(.${BeverageTypes.Blur}):not(.${BeverageTypes.NutritionFacts}) #element #logo {
     visibility: visible;
+  }
+  &.${BeverageTypes.Info} #logo {
+    visibility: visible !important;
   }
   &.${BeverageTypes.OutOfStock} {
     button:before {
@@ -60,12 +64,21 @@ export const BeverageWrap = styled.div`
       opacity: .2;
     }
   }
+  &:not(.${BeverageTypes.Info}).${BeverageTypes.NutritionFacts} #element {
+    visibility: hidden;
+  }
+  &:not(.${BeverageTypes.NutritionFacts}) #nutrition {
+    visibility: hidden;
+  } 
   &.${BeverageTypes.Info} {
     button {
       background-image: none;
       border: solid 1px #f1f1f1;
       &:before {
         background-image: none;
+      }
+      #nutrition {
+        visibility: hidden;
       }
       #element {
         #logo {
@@ -240,10 +253,11 @@ interface BeverageProps {
   title?: string;
   disabled?: boolean;
   $sparkling?: boolean;
+  nutritionFacts: boolean
 }
 
 export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
-  const { title, type, label, pouring, status_id, disabled, size, logoId, color, $sparkling } = props;
+  const { title, type, label, pouring, status_id, disabled, size, logoId, color, $sparkling, nutritionFacts } = props;
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
 
@@ -292,7 +306,8 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
     size,
     $outOfStock ? BeverageTypes.OutOfStock : null,
     specialCard && $sparkling ? BeverageTypes.Sparkling : null,
-    disabled && !pouring ? BeverageTypes.Blur : null
+    disabled && !pouring ? BeverageTypes.Blur : null,
+    nutritionFacts ? BeverageTypes.NutritionFacts : null
   ];
 
   const start = () => {
@@ -335,14 +350,14 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         onEnd={end}>
         <BeverageWrap pouring={pouring} className={classNameBeverage} color={color}>
           <button ref={buttonEl} disabled={disabledButton}>
+          <div id="nutrition"><Nutrition title={title} color={color} /></div>
             <div id="element">
-              {/* <Nutrition title={title} color={color} /> */}
               {(specialCard) && <div id="indicator"><span>{type}</span></div>}
               {logoId !== undefined && <img id="logo" src={logo} />}
               {logoSparkling && <img id="logo-sparkling" src={logoSparkling} />}
               <span id="title">{__(title)}</span>
               <span id="cal">0 Cal.</span>
-              {/* <span id="price">75¢</span> */}
+              <span id="price">75¢</span>
             </div>
             {$outOfStock && <span id="out-of-stock">{__("Sorry, we're out of that flavor at the moment! ")}</span>}
             {logoBlur && <img id="logo-blur" src={logoBlur} />}

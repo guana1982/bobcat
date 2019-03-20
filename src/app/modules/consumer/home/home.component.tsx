@@ -79,6 +79,8 @@ export const Home = (props: HomeProps) => {
     }
   });
 
+  const [nutritionFacts, setNutritionFacts] = React.useState(false);
+
   const alertConsumer = React.useContext(AlertContext);
   const configConsumer = React.useContext(ConfigContext);
   const timerConsumer = React.useContext(TimerContext);
@@ -326,6 +328,8 @@ export const Home = (props: HomeProps) => {
     }));
   }
 
+  const handleNutritionFacts = () => { setNutritionFacts(prevState => !prevState) };
+
   /* ==== ROUTING ==== */
   /* ======================================== */
 
@@ -369,6 +373,7 @@ export const Home = (props: HomeProps) => {
           handleSlide={handleSlide}
           fullMode={fullMode}
           disabled={beverageSelected !== undefined || state.idBeveragePouring_ != null}
+          nutritionFacts={nutritionFacts}
         />
       }
       <HomeContent isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={beverageIsSelected}>
@@ -392,6 +397,8 @@ export const Home = (props: HomeProps) => {
               isSparkling={state.isSparkling}
               disabled={beverageSelected !== undefined || presentSlide && state.slideOpen || state.idBeveragePouring_ != null}
               segmentButton={segmentButton} // => _SegmentButton
+              handleNutritionFacts={() => handleNutritionFacts()}
+              nutritionFacts={nutritionFacts}
             />
           // </React.Fragment>
         )}
@@ -410,6 +417,7 @@ export const Home = (props: HomeProps) => {
           startPour={startPour}
           stopPour={stopPour}
           segmentButton={segmentButton} // => _SegmentButton
+          nutritionFacts={nutritionFacts}
         />
       }
     </section>
