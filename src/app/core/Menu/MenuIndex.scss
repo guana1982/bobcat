@@ -73,9 +73,9 @@
        url('/fonts/Karla-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
 }
 
-html {
-  cursor: none;
-}
+// html {
+//   cursor: none; // => DESKTOP MODE
+// }
 
 html,
 body {

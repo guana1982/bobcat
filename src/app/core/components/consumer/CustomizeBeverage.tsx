@@ -304,7 +304,17 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           </footer>
         </InfoCard>} */}
 
-        <Pour color={beverageSelected.beverage_font_color} isPouring={isPouring} ref={buttonPourEl} onTouchStart={() => startPour()} onTouchEnd={() => stopPour()}>Hold to Pour</Pour>
+        <Pour
+          color={beverageSelected.beverage_font_color}
+          isPouring={isPouring}
+          ref={buttonPourEl}
+          onTouchStart={() => startPour()}
+          onTouchEnd={() => stopPour()}
+          onMouseDown={() => startPour()} // => DESKTOP MODE
+          onMouseUp={() => stopPour()} // => DESKTOP MODE
+        >
+          Hold to Pour
+        </Pour>
       </CustomizeBeverageWrap>
     </React.Fragment>
   );
