@@ -166,10 +166,11 @@ interface SlideProps {
   handleSlide: any;
   fullMode: boolean;
   disabled?: boolean;
+  nutritionFacts: boolean;
 }
 
 export const Slide = (props: SlideProps) => {
-  const { slideOpen, indexFavoritePouring_, beverageSelected, selectConsumerBeverage, startConsumerPour, stopConsumerPour, handleSlide, fullMode, disabled } = props;
+  const { slideOpen, indexFavoritePouring_, beverageSelected, selectConsumerBeverage, startConsumerPour, stopConsumerPour, handleSlide, fullMode, disabled, nutritionFacts } = props;
   const { dataConsumer, consumerBeverages } = React.useContext(ConsumerContext);
 
   const beverageIsSelected = beverageSelected !== undefined && beverageSelected !== null;
@@ -199,6 +200,7 @@ export const Slide = (props: SlideProps) => {
                   type={b.$type}
                   $sparkling={b.$sparkling}
                   disabled={disabled}
+                  nutritionFacts={nutritionFacts}
                 /> :
                 <div style={{"transform": "scale(1.14)"}}>
                   <Beverage
@@ -214,6 +216,7 @@ export const Slide = (props: SlideProps) => {
                     type={b.$type}
                     $sparkling={b.$sparkling}
                     disabled={disabled} // || !slideOpen
+                    nutritionFacts={nutritionFacts}
                   />
                 </div>
             );

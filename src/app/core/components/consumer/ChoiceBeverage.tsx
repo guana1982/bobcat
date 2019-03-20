@@ -43,6 +43,8 @@ interface ChoiceBeverageProps {
   startPour: (b) => void;
   stopPour: () => void;
   goToPrepay: () => void;
+  handleNutritionFacts: () => void,
+  nutritionFacts: boolean,
   idBeveragePouring_: number;
   isSparkling: boolean;
   disabled: boolean;
@@ -54,7 +56,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
   const { beverages } = React.useContext(ConfigContext);
   const { isLogged, resetConsumer } = React.useContext(ConsumerContext);
 
-  const { idBeveragePouring_, onGesture, isSparkling, selectBeverage, startPour, stopPour, goToPrepay, disabled } = props;
+  const { idBeveragePouring_, onGesture, isSparkling, selectBeverage, startPour, stopPour, goToPrepay, disabled, handleNutritionFacts, nutritionFacts } = props;
 
   return (
     <React.Fragment>
@@ -78,11 +80,12 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
                 onHoldStart={() => startPour(b)}
                 onHoldEnd={() => stopPour()}
                 disabled={disabled}
+                nutritionFacts={nutritionFacts}
               />
             );
           })}
         </Grid>
-        <Button detectValue="nutrition-btn" disabled={disabled} onClick={() => console.log("Nutrition")} text={!isLogged ? "Nutrition" : null} icon="nutrition" />
+        <Button detectValue="nutrition-btn" disabled={disabled} onClick={handleNutritionFacts} text={!isLogged ? "Nutrition" : null} icon="nutrition" />
         {!isLogged && <Button detectValue="signin-btn" disabled={disabled} onClick={() => goToPrepay()} text="Sign In" icon="qr-code" />}
         {isLogged && <Button detectValue="logout-btn" disabled={disabled} onClick={() => resetConsumer()} icon="log-out" />}
       </ChoiceBeverageWrap>
