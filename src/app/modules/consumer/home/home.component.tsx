@@ -193,15 +193,25 @@ export const Home = (props: HomeProps) => {
 
   const stopPour = () => {
     timerConsumer.startTimer();
-    setState(prevState => ({...prevState, idBeveragePouring_: null}));
+    // setState(prevState => ({...prevState, idBeveragePouring_: null}));
     configConsumer.onStopPour().subscribe();
-    if (getBeverageSelected()) {
+    if (getBeverageSelected() || state.idBeveragePouring_ !== null) {
       startPourEvent();
     }
   };
 
   /* ==== END POUR ==== */
   /* ======================================== */
+
+  function startPourEvent() {
+    if (TimerEnd.timer_ === null) {
+      TimerEnd.startTimer(endPourEvent);
+      document.addEventListener("touchstart", TimerEnd.clearTimer);
+      document.addEventListener("touchend", TimerEnd.startTimer);
+      document.addEventListener("keydown", TimerEnd.clearTimer); // => ACCESSIBILITY
+      document.addEventListener("keyup", TimerEnd.startTimer); // => ACCESSIBILITY
+    }
+  }
 
   function endPourEvent() {
     document.removeEventListener("touchstart", TimerEnd.clearTimer);
@@ -217,16 +227,6 @@ export const Home = (props: HomeProps) => {
         consumerConsumer.resetConsumer(false);
       }
     });
-  }
-
-  function startPourEvent() {
-    if (TimerEnd.timer_ === null) {
-      TimerEnd.startTimer(endPourEvent);
-      document.addEventListener("touchstart", TimerEnd.clearTimer);
-      document.addEventListener("touchend", TimerEnd.startTimer);
-      document.addEventListener("keydown", TimerEnd.clearTimer); // => ACCESSIBILITY
-      document.addEventListener("keyup", TimerEnd.startTimer); // => ACCESSIBILITY
-    }
   }
 
   /* ==== RESET ==== */
@@ -368,7 +368,7 @@ export const Home = (props: HomeProps) => {
           stopConsumerPour={stopConsumerPour}
           handleSlide={handleSlide}
           fullMode={fullMode}
-          disabled={beverageSelected !== undefined}
+          disabled={beverageSelected !== undefined || state.idBeveragePouring_ != null}
         />
       }
       <HomeContent isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={beverageIsSelected}>
@@ -390,7 +390,7 @@ export const Home = (props: HomeProps) => {
               goToPrepay={goToPrepay}
               idBeveragePouring_={state.idBeveragePouring_}
               isSparkling={state.isSparkling}
-              disabled={beverageSelected !== undefined || presentSlide && state.slideOpen}
+              disabled={beverageSelected !== undefined || presentSlide && state.slideOpen || state.idBeveragePouring_ != null}
               segmentButton={segmentButton} // => _SegmentButton
             />
           // </React.Fragment>

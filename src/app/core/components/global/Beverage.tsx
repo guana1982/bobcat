@@ -120,7 +120,7 @@ export const BeverageWrap = styled.div`
     height: 100%;
     border-radius: 17px;
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff);
-    box-shadow: ${props => props.pouring ? `0 0 0 6px ${props.color} !important` : null};
+    /* box-shadow: ${props => props.pouring ? `0 0 0 6px ${props.color} !important` : null}; */
     &:before {
       content: " ";
       position: absolute;
@@ -286,25 +286,40 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   //  <=== ACCESSIBILITY FUNCTION ====
 
   const specialCard: boolean = type === BeverageTypes.LastPour || type === BeverageTypes.Favorite;
-  const disabledButton = type === BeverageTypes.Info || $outOfStock || disabled;
+  const disabledButton = type === BeverageTypes.Info || $outOfStock || (disabled && !pouring);
   const classNameBeverage = [
     type,
     size,
     $outOfStock ? BeverageTypes.OutOfStock : null,
     specialCard && $sparkling ? BeverageTypes.Sparkling : null,
-    disabled ? BeverageTypes.Blur : null
+    disabled && !pouring ? BeverageTypes.Blur : null
   ];
 
+  const start = () => {
+    if (disabledButton) return;
+
+    if (pouring)
+      onHoldStart();
+  };
+
   const end = (e, enough) => {
+    if (disabledButton) return;
+
     if (!enough) { // START
-      onStart();
+      if (pouring)
+        onHoldEnd();
+      else
+        onStart();
     } else {
       onHoldEnd();
     }
   };
 
   const clickHold = (e) => {
-    onHoldStart();
+    if (disabledButton) return;
+
+    if (!pouring)
+      onHoldStart();
   };
 
   const logo = type === BeverageTypes.Info ? `icons/${logoId}.png` : `img/logos/${logoId}.png`;
@@ -315,6 +330,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
     <div ref={innerRef}>
       <ClickNHold
         time={0.5}
+        onStart={start}
         onClickNHold={clickHold}
         onEnd={end}>
         <BeverageWrap pouring={pouring} className={classNameBeverage} color={color}>
