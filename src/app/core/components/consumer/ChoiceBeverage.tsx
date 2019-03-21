@@ -43,6 +43,7 @@ interface ChoiceBeverageProps {
   stopPour: () => void;
   goToPrepay: () => void;
   handleNutritionFacts: () => void;
+  handleDisabled: (d) => void;
   nutritionFacts: boolean;
   idBeveragePouring_: number;
   isSparkling: boolean;
@@ -55,7 +56,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
   const { beverages } = React.useContext(ConfigContext);
   const { isLogged, resetConsumer } = React.useContext(ConsumerContext);
 
-  const { idBeveragePouring_, onGesture, isSparkling, selectBeverage, startPour, stopPour, goToPrepay, disabled, handleNutritionFacts, nutritionFacts } = props;
+  const { idBeveragePouring_, onGesture, isSparkling, selectBeverage, startPour, stopPour, goToPrepay, disabled, handleNutritionFacts, nutritionFacts, handleDisabled } = props;
 
   return (
     <React.Fragment>
@@ -80,6 +81,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
                 onHoldEnd={() => stopPour()}
                 disabled={disabled}
                 nutritionFacts={nutritionFacts}
+                handleDisabled={handleDisabled}
               />
             );
           })}

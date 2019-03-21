@@ -15,6 +15,7 @@ import { Blur } from "./Blur";
 import { Logo } from "./Logo";
 import { Basic } from "./Basic";
 import { Info } from "./Info";
+import { CloseBtn, CloseBtnWrap } from "../global/CloseBtn";
 
 export enum BeverageTypes {
   Info = "info",
@@ -31,22 +32,13 @@ export enum BeverageSize {
   Normal = "normal"
 }
 
-const BeverageWrap_ = posed.div({
-  close: {
-    position: "relative",
-    transform: "scale(1)"
-  },
-  open: {
-    position: "absolute",
-    transform: "scale(2)"
-  },
-});
+export const BeverageExtra = styled.div`
+  position: relative;
+`;
 
 /* show: boolean; color: string; enableOpacity: boolean; */
-export const BeverageWrap = styled(BeverageWrap_)`
-  /* transition: 1s all; */
-  /* transition-property: width, height, left, top; */
-  /* will-change: transform; */
+export const BeverageWrap = styled.div`
+  will-change: transform;
   text-align: center;
   pointer-events: default;
   opacity: ${props => props.enableOpacity ? .2 : null};
@@ -70,19 +62,27 @@ export const BeverageWrap = styled(BeverageWrap_)`
       background-position: bottom;
     }
   }
+  ${({ zoom }) => zoom && css`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: 0 0;
+    transform: translate(-50%, -60%);
+    z-index: 10;
+    zoom: 200%;
+  `}
 `;
 
 /* size: BeverageSize */
 const BeverageContent = styled.div`
-  position: relative;
   margin: 10px 23px;
-  &, ${BeverageWrap} {
+  &, ${BeverageWrap}, ${BeverageExtra} {
     width: 218px;
     height: 304px;
   }
   ${({ size }) => size === BeverageSize.Tiny && css`
     margin: 10px 18px;
-    &, ${BeverageWrap} {
+    &, ${BeverageWrap}, ${BeverageExtra} {
       width: 196px;
       height: 279px;
     }
@@ -91,6 +91,11 @@ const BeverageContent = styled.div`
       height: 198px;
     }
   `}
+  ${CloseBtnWrap} {
+    position: absolute;
+    top: 26.5px;
+    right: 27px;
+  }
 `;
 
 interface BeverageProps {
@@ -109,11 +114,14 @@ interface BeverageProps {
   disabled?: boolean;
   $sparkling?: boolean;
   nutritionFacts?: boolean;
+  handleDisabled: (d) => void;
 }
 
 export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 
-  const { title, type, pouring, status_id, disabled, color, nutritionFacts, size } = props;
+  const [zoomNutrition, setZoomNutrition] = React.useState(false);
+
+  const { title, type, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled } = props;
 
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $blur: boolean = disabled && !pouring;
@@ -161,15 +169,25 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 
   const disabledButton = type === BeverageTypes.Info || $outOfStock || (disabled && !pouring);
 
+  const handleZoomNutrition = (status: boolean) => {
+    setZoomNutrition(status);
+    handleDisabled(status);
+  };
+
   const start = () => {
     if (disabledButton) return;
+
+    if (nutritionFacts) {
+      handleZoomNutrition(true);
+      return null;
+    }
 
     if (pouring)
       onHoldStart();
   };
 
   const end = (e, enough) => {
-    if (disabledButton) return;
+    if (disabledButton || nutritionFacts) return;
 
     if (!enough) { // START
       if (pouring)
@@ -182,7 +200,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   };
 
   const clickHold = (e) => {
-    if (disabledButton) return;
+    if (disabledButton || nutritionFacts) return;
 
     if (!pouring)
       onHoldStart();
@@ -195,16 +213,21 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         onStart={start}
         onClickNHold={clickHold}
         onEnd={end}>
-        <BeverageWrap posed={"open"} enableOpacity={$outOfStock} show={!($blur || $info)} color={color}>
-          <button ref={buttonEl} disabled={disabledButton}>
-            <Nutrition show={nutritionFacts} title={title} color={color} />
-            <Basic show={!nutritionFacts} specialCard={$specialCard} {...props} />
-          </button>
-        </BeverageWrap>
+        <React.Fragment>
+          {zoomNutrition && <CloseBtn detectValue={"nutrition_close"} icon={"close"} onClick={() => handleZoomNutrition(false)} />}
+          <BeverageWrap zoom={zoomNutrition} enableOpacity={$outOfStock} show={!(($blur && !zoomNutrition) || $info)} color={color}>
+            <button ref={buttonEl} disabled={disabledButton}>
+              <Nutrition show={nutritionFacts} title={title} color={color} />
+              <Basic show={!nutritionFacts} specialCard={$specialCard} {...props} />
+            </button>
+          </BeverageWrap>
+          <BeverageExtra>
+            <OutOfStock show={$outOfStock && !($blur || $info)} {...props} />
+            <Info show={$info && !$blur} {...props} />
+            <Blur show={$blur} {...props} />
+          </BeverageExtra>
+        </React.Fragment>
       </ClickNHold>
-      <OutOfStock show={$outOfStock && !($blur || $info)} {...props} />
-      <Info show={$info && !$blur} {...props} />
-      <Blur show={$blur} {...props} />
     </BeverageContent>
   );
 });

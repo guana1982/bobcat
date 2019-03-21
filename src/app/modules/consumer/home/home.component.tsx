@@ -78,8 +78,8 @@ export const Home = (props: HomeProps) => {
       antioxidants: false
     }
   });
-
   const [nutritionFacts, setNutritionFacts] = React.useState(false);
+  const [disabled, setDisabled] = React.useState(false);
 
   const alertConsumer = React.useContext(AlertContext);
   const configConsumer = React.useContext(ConfigContext);
@@ -329,6 +329,7 @@ export const Home = (props: HomeProps) => {
   }
 
   const handleNutritionFacts = () => setNutritionFacts(prevState => !prevState);
+  const handleDisabled = () => setDisabled(prevState => !prevState);
 
   /* ==== ROUTING ==== */
   /* ======================================== */
@@ -372,7 +373,8 @@ export const Home = (props: HomeProps) => {
           stopConsumerPour={stopConsumerPour}
           handleSlide={handleSlide}
           fullMode={fullMode}
-          disabled={beverageSelected !== undefined || state.idBeveragePouring_ != null}
+          handleDisabled={handleDisabled}
+          disabled={beverageSelected !== undefined || state.idBeveragePouring_ != null || disabled}
           nutritionFacts={nutritionFacts}
         />
       }
@@ -386,9 +388,10 @@ export const Home = (props: HomeProps) => {
             goToPrepay={goToPrepay}
             idBeveragePouring_={state.idBeveragePouring_}
             isSparkling={state.isSparkling}
-            disabled={beverageSelected !== undefined || presentSlide && state.slideOpen || state.idBeveragePouring_ != null}
+            disabled={beverageSelected !== undefined || presentSlide && state.slideOpen || state.idBeveragePouring_ != null || disabled}
             segmentButton={segmentButton} // => _SegmentButton
-            handleNutritionFacts={() => handleNutritionFacts()}
+            handleNutritionFacts={handleNutritionFacts}
+            handleDisabled={handleDisabled}
             nutritionFacts={nutritionFacts}
           />
         )}

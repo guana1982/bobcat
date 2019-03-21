@@ -14,16 +14,18 @@ export const Blur_ = (props: BlurProps) => {
   const { className, logoId, type } = props;
   const logoBlur = type === BeverageTypes.Info ? `icons/${logoId}@blur.png` : `img/logos/${logoId}@blur.png`;
   return (
-    <img className={className} src={logoBlur} />
+    <div className={className}>
+      <img src={logoBlur} />
+    </div>
   );
 };
 
 export const Blur = styled<BlurProps>(Blur_)`
   position: absolute;
-  visibility: ${props => props.show ? "visible" : "hidden"};
-  z-index: 2;
-  width: 100%;
-  height: 100%;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  visibility: ${props => props.show ? "visible" : "hidden"};
+  z-index: 2;
 `;
