@@ -20,6 +20,9 @@ const InfoCard_ = (props: InfoCardProps) => {
 };
 
 export const InfoCard = styled(InfoCard_)`
+  position: absolute !important;
+  top: 100px;
+  left: 550px !important;
   height: 500px;
   width: 200px;
   #illustration-wrap {

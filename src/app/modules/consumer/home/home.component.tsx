@@ -8,7 +8,7 @@ import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
 import { Subscription, Subject } from "rxjs";
 import { ChoiceBeverage } from "@components/consumer/ChoiceBeverage";
-import { CustomizeBeverage } from "@components/consumer/CustomizeBeverage";
+import { CustomizeBeverage, InfoCard } from "@components/consumer/CustomizeBeverage";
 import { Slide } from "@components/consumer/Slide";
 import { ConfigContext } from "@containers/config.container";
 import { TimerContext } from "@containers/timer.container";
@@ -16,6 +16,8 @@ import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { BeverageTypes } from "@core/components/beverage/Beverage";
 import { AccessibilityContext } from "@core/containers";
 import { SegmentButtonProps } from "@core/components/global/SegmentButton";
+import { NumberCard } from "@core/components/cards/NumberCard";
+import { CircleCard } from "@core/components/cards/CircleCard";
 // import { SegmentButton } from "@core/components/global/SegmentButton";
 
 interface HomeProps {
@@ -392,6 +394,9 @@ export const Home = (props: HomeProps) => {
             nutritionFacts={nutritionFacts}
           />
         )}
+        <CircleCard></CircleCard>
+        <InfoCard></InfoCard>
+        <NumberCard></NumberCard>
       </HomeWrap>
       {beverageSelected &&
         <CustomizeBeverage
