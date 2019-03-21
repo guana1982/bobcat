@@ -20,11 +20,18 @@ export const ButtonWrap = styled.button`
   &.large {
     width: 98px;
     height: 93px;
-    img {
-      padding-bottom: 18px;
+    #icon {
+      margin-bottom: 15px;
     }
   }
-  span {
+  #icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+  }
+  #text {
     color: ${props => props.theme.slateGrey};
     font-size: 16px;
     text-transform: capitalize;
@@ -43,8 +50,10 @@ export const Button = (props: ButtonProps) => {
   const {text, icon, onClick, disabled, detectValue} = props;
   return (
     <ButtonWrap className={text ? "large" : "small"} id={detectValue} disabled={disabled} onClick={onClick}>
-      <img src={`icons/${icon}.svg`} />
-      <span>{text}</span>
+      <div id="icon">
+        <img src={`icons/${icon}.svg`} />
+      </div>
+      <span id="text">{text}</span>
     </ButtonWrap>
   );
 };

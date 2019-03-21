@@ -2,9 +2,8 @@ import * as React from "react";
 import { __ } from "@utils/lib/i18n";
 import styled, { css } from "styled-components";
 import Gesture from "../Menu/Gesture";
-import { Beverage, BeverageTypes, BeverageSize } from "../global/Beverage";
+import { Beverage, BeverageTypes, BeverageSize } from "../beverage/Beverage";
 import { Grid } from "../global/Grid";
-import { Footer } from "../global/Footer";
 import { Button } from "../global/Button";
 import { ConfigContext, ConsumerContext } from "@containers/index";
 import { SegmentButton, SegmentButtonProps, SegmentButtonWrapper } from "../global/SegmentButton";
@@ -43,8 +42,8 @@ interface ChoiceBeverageProps {
   startPour: (b) => void;
   stopPour: () => void;
   goToPrepay: () => void;
-  handleNutritionFacts: () => void,
-  nutritionFacts: boolean,
+  handleNutritionFacts: () => void;
+  nutritionFacts: boolean;
   idBeveragePouring_: number;
   isSparkling: boolean;
   disabled: boolean;
@@ -85,7 +84,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
             );
           })}
         </Grid>
-        <Button detectValue="nutrition-btn" disabled={disabled} onClick={handleNutritionFacts} text={!isLogged ? "Nutrition" : null} icon="nutrition" />
+        <Button detectValue="nutrition-btn" disabled={disabled} onClick={() => handleNutritionFacts()} text={!isLogged ? "Nutrition" : null} icon={!nutritionFacts ? "nutrition" : "close"} />
         {!isLogged && <Button detectValue="signin-btn" disabled={disabled} onClick={() => goToPrepay()} text="Sign In" icon="qr-code" />}
         {isLogged && <Button detectValue="logout-btn" disabled={disabled} onClick={() => resetConsumer()} icon="log-out" />}
       </ChoiceBeverageWrap>

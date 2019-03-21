@@ -8,7 +8,7 @@ import { withConfig } from "./config.container";
 import { withRouter } from "react-router-dom";
 import { IBeverage } from "../models";
 import { BeverageStatus } from "../models/beverage.model";
-import { BeverageTypes } from "../components/global/Beverage";
+import { BeverageTypes } from "../components/beverage/Beverage";
 import { __ } from "../utils/lib/i18n";
 import { TEST_QR_0, TEST_QR_1, TEST_QR_2, TEST_QR_3 } from "../utils/APIMock";
 

@@ -5,7 +5,7 @@ import { ButtonGroup } from "../global/ButtonGroup";
 import { AccessibilityContext, ConfigContext } from "@core/containers";
 import ReactDOM = require("react-dom");
 import { CloseBtn, CloseBtnWrap } from "../global/CloseBtn";
-import { BeverageTypes, Nutrition } from "../global/Beverage";
+import { BeverageTypes } from "../beverage/Beverage";
 import { IBeverage } from "@core/models";
 import { SegmentButton, SegmentButtonProps } from "../global/SegmentButton";
 
@@ -234,30 +234,13 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   return(
     <React.Fragment>
       <CustomizeBeverageWrap>
-        {!nutritionFacts && <SegmentButton {...props.segmentButton} />}
+        <SegmentButton {...props.segmentButton} />
         <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => props.showCardsInfo ? endPourEvent() : resetBeverage()} />
 
-        <div id="backdrop"></div> {/* onClick={() => resetBeverage()} */}
-
-        {/* {showCardsInfo && <InfoCard className={"right"}>
-          <header>
-            <h3>Sign-up to track your hydration</h3>
-          </header>
-          <aside>
-            <img src={"icons/smartphone.svg"} />
-          </aside>
-          <footer>
-            <h4>Now available in App Stores</h4>
-          </footer>
-        </InfoCard>} */}
-
+        {/* <div id="backdrop"></div>  */} {/* onClick={() => resetBeverage()} */}
 
         <CustomizeBeverageCard color={beverageSelected.beverage_font_color} className={isSparkling ? BeverageTypes.Sparkling : null}>
-          {nutritionFacts && <Nutrition
-            title={beverageSelected.beverage_label_id}
-            color={beverageSelected.beverage_font_color}
-          ></Nutrition>}
-          {!nutritionFacts && <div id="beverage-card">
+          <div id="beverage-card">
             <img id="logo" src={`img/logos/${beverageSelected.beverage_logo_id}.png`} />
             <img id="logo-sparkling" src={`img/logos/${beverageSelected.beverage_logo_id}@sparkling.png`} />
             <span id="title">{__(beverageSelected.beverage_label_id)}</span>
@@ -296,21 +279,8 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                 onChange={(value) => handleChange(value, "temperature")}>
               </ButtonGroup>
             </div>
-          </div>}
+          </div>
         </CustomizeBeverageCard>
-
-        {/* {showCardsInfo && <InfoCard className={"left"}>
-          <header>
-            <h3>This office<br/> saved</h3>
-          </header>
-          <aside>
-            <img src={"icons/bottle.svg"} />
-          </aside>
-          <footer>
-            <h2>239</h2>
-            <h4>Plastic Bottles</h4>
-          </footer>
-        </InfoCard>} */}
         {!nutritionFacts &&
           <Pour
             color={beverageSelected.beverage_font_color}

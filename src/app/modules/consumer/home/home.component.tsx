@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { HomeContent } from "./home.style";
+import { HomeContent, HomeWrap } from "./home.style";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
 import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER } from "@utils/constants";
@@ -13,7 +13,7 @@ import { Slide } from "@components/consumer/Slide";
 import { ConfigContext } from "@containers/config.container";
 import { TimerContext } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
-import { BeverageTypes } from "@core/components/global/Beverage";
+import { BeverageTypes } from "@core/components/beverage/Beverage";
 import { AccessibilityContext } from "@core/containers";
 import { SegmentButtonProps } from "@core/components/global/SegmentButton";
 // import { SegmentButton } from "@core/components/global/SegmentButton";
@@ -328,7 +328,7 @@ export const Home = (props: HomeProps) => {
     }));
   }
 
-  const handleNutritionFacts = () => { setNutritionFacts(prevState => !prevState) };
+  const handleNutritionFacts = () => setNutritionFacts(prevState => !prevState);
 
   /* ==== ROUTING ==== */
   /* ======================================== */
@@ -361,7 +361,7 @@ export const Home = (props: HomeProps) => {
   };
 
   return (
-    <section>
+    <HomeContent>
       {presentSlide &&
         <Slide
           slideOpen={state.slideOpen}
@@ -376,33 +376,23 @@ export const Home = (props: HomeProps) => {
           nutritionFacts={nutritionFacts}
         />
       }
-      <HomeContent isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={beverageIsSelected}>
+      <HomeWrap isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={beverageIsSelected}>
         {beverages.length > 0 && (
-          // <React.Fragment>
-          //   <div id="types-group">
-          //     <SegmentButton
-          //       options={types}
-          //       value={isSparkling}
-          //       disabled={presentSlide && state.slideOpen}
-          //       onChange={(value) => handleType(value)}>
-          //     </SegmentButton>
-          //   </div>
-            <ChoiceBeverage
-              onGesture={onGesture}
-              selectBeverage={selectBeverage}
-              startPour={startPour}
-              stopPour={stopPour}
-              goToPrepay={goToPrepay}
-              idBeveragePouring_={state.idBeveragePouring_}
-              isSparkling={state.isSparkling}
-              disabled={beverageSelected !== undefined || presentSlide && state.slideOpen || state.idBeveragePouring_ != null}
-              segmentButton={segmentButton} // => _SegmentButton
-              handleNutritionFacts={() => handleNutritionFacts()}
-              nutritionFacts={nutritionFacts}
-            />
-          // </React.Fragment>
+          <ChoiceBeverage
+            onGesture={onGesture}
+            selectBeverage={selectBeverage}
+            startPour={startPour}
+            stopPour={stopPour}
+            goToPrepay={goToPrepay}
+            idBeveragePouring_={state.idBeveragePouring_}
+            isSparkling={state.isSparkling}
+            disabled={beverageSelected !== undefined || presentSlide && state.slideOpen || state.idBeveragePouring_ != null}
+            segmentButton={segmentButton} // => _SegmentButton
+            handleNutritionFacts={() => handleNutritionFacts()}
+            nutritionFacts={nutritionFacts}
+          />
         )}
-      </HomeContent>
+      </HomeWrap>
       {beverageSelected &&
         <CustomizeBeverage
           levels={levels}
@@ -420,7 +410,7 @@ export const Home = (props: HomeProps) => {
           nutritionFacts={nutritionFacts}
         />
       }
-    </section>
+    </HomeContent>
   );
 
 };

@@ -4,7 +4,7 @@ import { Grid } from "../global/Grid";
 import styled, { css } from "styled-components";
 import posed from "react-pose";
 import { Footer } from "../global/Footer";
-import { BeverageTypes, BeveragesAnimated, Beverage } from "../global/Beverage";
+import { BeverageTypes, BeveragesAnimated, Beverage } from "../beverage/Beverage";
 import { ConsumerContext } from "@core/containers";
 
 export const _sizeSlide = "305px";
@@ -83,6 +83,7 @@ export const SlideStyled = styled(_Slide)`
   width: 100vw;
   z-index: 5;
   height: 100vh;
+  will-change: transform;
   ${({ disabled }) => disabled && css`
     ${HeaderSlide} {
       h2 {
@@ -95,7 +96,7 @@ export const SlideStyled = styled(_Slide)`
     opacity: .8;
     position: absolute;
     top: 0%;
-    left: 0%;
+    left: 35px;
     width: 100%;
     height: 100%;
     background-image: url("img/slider-bg.png");
@@ -138,7 +139,7 @@ export const SlideStyled = styled(_Slide)`
 
 export const ToggleSlide = styled(_toggleSlide)`
     position: absolute;
-    top: calc(50% - 9px);
+    top: calc(50% - 11px);
     border-radius: 50%;
     height: 46px;
     width: 46px;
