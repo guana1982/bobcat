@@ -91,13 +91,13 @@ export const Home = (props: HomeProps) => {
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 
-  // React.useEffect(() => {
-  //   // timerConsumer.startTimer();
-  //   TimerEnd.clearTimer();
-  //   return () => {
-  //     timerConsumer.resetTimer();
-  //   };
-  // }, []);
+  React.useEffect(() => {
+    timerConsumer.startTimer();
+    TimerEnd.clearTimer();
+    return () => {
+      timerConsumer.resetTimer();
+    };
+  }, []);
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const accessibilityConsumer = React.useContext(AccessibilityContext);
@@ -168,7 +168,7 @@ export const Home = (props: HomeProps) => {
   const getBeverageColorOnLongPressPour = () => {
     const { beverages } = configConsumer;
     return beverages[state.indexBeverageForLongPressPour].beverage_font_color;
-  }
+  };
 
   const startPour = (beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig) => {
 
@@ -206,11 +206,11 @@ export const Home = (props: HomeProps) => {
   };
 
   const stopPour = () => {
-    // timerConsumer.startTimer();
-    // configConsumer.onStopPour().subscribe();
-    // if (getBeverageSelected() || state.idBeveragePouring_ !== null) {
-    //   startPourEvent();
-    // }
+    timerConsumer.startTimer();
+    configConsumer.onStopPour().subscribe();
+    if (getBeverageSelected() || state.idBeveragePouring_ !== null) {
+      startPourEvent();
+    }
   };
 
   /* ==== END POUR ==== */
