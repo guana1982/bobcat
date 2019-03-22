@@ -249,10 +249,10 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
         {props.showCardsInfo &&
           <div>
             {props.isLogged ?
-              <CircleCard left={'115px'} top={'200px'} color={beverageSelected.beverage_font_color} /> : 
-              <PhoneCard left={'105px'} top={'200px'} color={beverageSelected.beverage_font_color} />
+              <CircleCard color={beverageSelected.beverage_font_color} /> : 
+              <PhoneCard color={beverageSelected.beverage_font_color} />
             }
-            <NumberCard right={'174.6px'} top={'221px'} color={beverageSelected.beverage_font_color} />
+            <NumberCard color={beverageSelected.beverage_font_color} />
           </div>
         }
 
@@ -300,7 +300,6 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             </div>}
           </div>
         </CustomizeBeverageCard>
-        <NumberCard />
         {!nutritionFacts &&
           <Pour
             color={beverageSelected.beverage_font_color}

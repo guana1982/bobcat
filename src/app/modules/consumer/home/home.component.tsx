@@ -3,7 +3,7 @@ import * as React from "react";
 import { HomeContent, HomeWrap } from "./home.style";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
-import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER } from "@utils/constants";
+import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER, coords } from "@utils/constants";
 import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
 import { Subscription, Subject } from "rxjs";
@@ -28,6 +28,7 @@ interface HomeProps {
 export interface HomeState {
   isSparkling: boolean;
   beverageSelected: number;
+  indexBeverageForLongPressPour: number;
   idBeveragePouring_: number;
   indexFavoritePouring_: number;
   beverageConfig: IBeverageConfig;
@@ -70,6 +71,7 @@ export const Home = (props: HomeProps) => {
     isSparkling: false,
     slideOpen: false,
     beverageSelected: null,
+    indexBeverageForLongPressPour: null,
     idBeveragePouring_: null,
     indexFavoritePouring_: null,
     showCardsInfo: false,
@@ -159,8 +161,14 @@ export const Home = (props: HomeProps) => {
 
   const getBeverageSelected = (): IBeverage => {
     const { beverages } = configConsumer;
+    console.log(beverages);
     return beverages ? beverages[state.beverageSelected] : null;
   };
+
+  const getBeverageColorOnLongPressPour = () => {
+    const { beverages } = configConsumer;
+    return beverages[state.indexBeverageForLongPressPour].beverage_font_color;
+  }
 
   const startPour = (beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig) => {
 
@@ -171,6 +179,7 @@ export const Home = (props: HomeProps) => {
       if (state.indexFavoritePouring_ === null) {
         setState(prevState => ({
           ...prevState,
+          indexBeverageForLongPressPour: beverages.indexOf(beverageSelected),
           idBeveragePouring_: bevSelected.beverage_id
         })); // <= Rapid mode
       }
@@ -198,7 +207,6 @@ export const Home = (props: HomeProps) => {
 
   const stopPour = () => {
     // timerConsumer.startTimer();
-    // // setState(prevState => ({...prevState, idBeveragePouring_: null}));
     // configConsumer.onStopPour().subscribe();
     // if (getBeverageSelected() || state.idBeveragePouring_ !== null) {
     //   startPourEvent();
@@ -238,10 +246,12 @@ export const Home = (props: HomeProps) => {
   /* ======================================== */
 
   const resetBeverage = () => {
+
     TimerEnd.clearTimer();
     setState(prevState => ({
       ...prevState,
       beverageSelected: null,
+      indexBeverageForLongPressPour: null,
       indexFavoritePouring_: null,
       idBeveragePouring_: null,
       showCardsInfo: false
@@ -364,6 +374,9 @@ export const Home = (props: HomeProps) => {
     onChange: (value) => handleType(value),
   };
 
+  console.log(state);
+
+  
   return (
     <HomeContent>
       {presentSlide &&
@@ -399,6 +412,27 @@ export const Home = (props: HomeProps) => {
           />
         )}
       </HomeWrap>
+      {state.indexBeverageForLongPressPour !== null && state.indexBeverageForLongPressPour >= 0 &&
+        <div>
+          {presentSlide ?
+            <CircleCard
+              top={coords[state.indexBeverageForLongPressPour].card1.top}
+              left={coords[state.indexBeverageForLongPressPour].card1.left}
+              color={getBeverageColorOnLongPressPour()}
+            /> :
+            <PhoneCard
+              top={coords[state.indexBeverageForLongPressPour].card1.top}
+              left={coords[state.indexBeverageForLongPressPour].card1.left}
+              color={getBeverageColorOnLongPressPour()}
+            />
+          }
+          <NumberCard
+            top={coords[state.indexBeverageForLongPressPour].card2.top}
+            right={coords[state.indexBeverageForLongPressPour].card2.right}
+            color={getBeverageColorOnLongPressPour()}
+          />
+        </div>
+      }
       {beverageSelected &&
         <CustomizeBeverage
           levels={levels}
