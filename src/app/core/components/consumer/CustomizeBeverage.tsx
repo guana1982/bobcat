@@ -8,6 +8,9 @@ import { CloseBtn, CloseBtnWrap } from "../global/CloseBtn";
 import { BeverageTypes } from "../beverage/Beverage";
 import { IBeverage } from "@core/models";
 import { SegmentButton, SegmentButtonProps } from "../global/SegmentButton";
+import { PhoneCard } from "../cards/PhoneCard";
+import { NumberCard } from "../cards/NumberCard";
+import { CircleCard } from "../cards/CircleCard";
 
 const _sizePour = 105;
 
@@ -108,6 +111,7 @@ export const CustomizeBeverageCard = styled.div`
   &:before {
     content: " ";
     position: absolute;
+    display: ${props => !props.scale ? 'block' : 'none'};
     top: -10%;
     left: -8%;
     width: 118%;
@@ -124,6 +128,8 @@ export const CustomizeBeverageCard = styled.div`
     left: 122.5px;
     width: 305px;
     height: 308px;
+    transform: ${props => props.scale ? 'scale(1.8)' : null};
+    transform-origin: 50% 15%;
   }
   #title {
     position: absolute;
@@ -201,6 +207,7 @@ interface CustomizeBeverageProps {
   stopPour: any;
   segmentButton: SegmentButtonProps; // => _SegmentButton
   nutritionFacts: boolean;
+  isLogged?: boolean;
 }
 
 export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
@@ -234,51 +241,63 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   return(
     <React.Fragment>
       <CustomizeBeverageWrap>
-        <SegmentButton {...props.segmentButton} />
+        {!props.showCardsInfo && <SegmentButton {...props.segmentButton} />}
         <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => props.showCardsInfo ? endPourEvent() : resetBeverage()} />
 
         {/* <div id="backdrop"></div>  */} {/* onClick={() => resetBeverage()} */}
 
-        <CustomizeBeverageCard color={beverageSelected.beverage_font_color} className={isSparkling ? BeverageTypes.Sparkling : null}>
+        {props.showCardsInfo &&
+          <div>
+            {props.isLogged ?
+              <CircleCard left={'115px'} top={'200px'} color={beverageSelected.beverage_font_color} /> : 
+              <PhoneCard left={'105px'} top={'200px'} color={beverageSelected.beverage_font_color} />
+            }
+            <NumberCard right={'174.6px'} top={'221px'} color={beverageSelected.beverage_font_color} />
+          </div>
+        }
+
+        <CustomizeBeverageCard scale={props.showCardsInfo} color={beverageSelected.beverage_font_color} className={isSparkling ? BeverageTypes.Sparkling : null}>
           <div id="beverage-card">
             <img id="logo" src={`img/logos/${beverageSelected.beverage_logo_id}.png`} />
             <img id="logo-sparkling" src={`img/logos/${beverageSelected.beverage_logo_id}@sparkling.png`} />
-            <span id="title">{__(beverageSelected.beverage_label_id)}</span>
-            <span id="cal">0 CAL.</span>
-            <div id="group">
-              {beverageConfig.carbonation_level != null &&
+            {!props.showCardsInfo && <div>
+              <span id="title">{__(beverageSelected.beverage_label_id)}</span>
+              <span id="cal">0 CAL.</span>
+              <div id="group">
+                {beverageConfig.carbonation_level != null &&
+                  <ButtonGroup
+                    color={beverageSelected.beverage_font_color}
+                    detectValue={"sparkling"}
+                    icon={"sparkling"}
+                    label={"Sparkling"}
+                    options={levels.carbonation}
+                    value={beverageConfig.carbonation_level}
+                    onChange={(value) => handleChange(value, "carbonation")}>
+                  </ButtonGroup>
+                }
+                {beverageConfig.flavor_level != null &&
+                  <ButtonGroup
+                    color={beverageSelected.beverage_font_color}
+                    detectValue={"flavor"}
+                    icon={"flavor"}
+                    label={"Flavor"}
+                    options={levels.flavor}
+                    value={beverageConfig.flavor_level}
+                    onChange={(value) => handleChange(value, "flavor")}
+                  ></ButtonGroup>
+                }
                 <ButtonGroup
                   color={beverageSelected.beverage_font_color}
-                  detectValue={"sparkling"}
-                  icon={"sparkling"}
-                  label={"Sparkling"}
-                  options={levels.carbonation}
-                  value={beverageConfig.carbonation_level}
-                  onChange={(value) => handleChange(value, "carbonation")}>
+                  detectValue={"temperature"}
+                  icon={"temperature"}
+                  label={"Coldness"}
+                  disabled={isSparkling}
+                  options={levels.temperature}
+                  value={beverageConfig.temperature_level}
+                  onChange={(value) => handleChange(value, "temperature")}>
                 </ButtonGroup>
-              }
-              {beverageConfig.flavor_level != null &&
-                <ButtonGroup
-                  color={beverageSelected.beverage_font_color}
-                  detectValue={"flavor"}
-                  icon={"flavor"}
-                  label={"Flavor"}
-                  options={levels.flavor}
-                  value={beverageConfig.flavor_level}
-                  onChange={(value) => handleChange(value, "flavor")}
-                ></ButtonGroup>
-              }
-              <ButtonGroup
-                color={beverageSelected.beverage_font_color}
-                detectValue={"temperature"}
-                icon={"temperature"}
-                label={"Coldness"}
-                disabled={isSparkling}
-                options={levels.temperature}
-                value={beverageConfig.temperature_level}
-                onChange={(value) => handleChange(value, "temperature")}>
-              </ButtonGroup>
-            </div>
+              </div>
+            </div>}
           </div>
         </CustomizeBeverageCard>
         {!nutritionFacts &&
