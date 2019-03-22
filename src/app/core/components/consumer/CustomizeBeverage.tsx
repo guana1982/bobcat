@@ -11,6 +11,7 @@ import { SegmentButton, SegmentButtonProps } from "../global/SegmentButton";
 import { NumberCard } from "../cards/NumberCard";
 import { CircleCard } from "../cards/CircleCard";
 import { PhoneCard } from "../cards/PhoneCard";
+import posed from "react-pose";
 
 const _sizePour = 105;
 
@@ -34,6 +35,32 @@ export const Pour = styled.button`
   }
 `;
 
+/* ==== LOGO ==== */
+/* ======================================== */
+
+const _logoBeverage = posed.img({
+  normal: {
+    zoom: "100%",
+    transform: "translate(-50%, -105%)"
+  },
+  zoom: {
+    zoom: "180%",
+    transform: "translate(-50%, -62%)",
+    transition: {
+      duration: 500
+    }
+  }
+});
+
+export const LogoBeverage = styled(_logoBeverage)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 305px;
+  height: 308px;
+  z-index: 99;
+`;
+
 /* ==== CARDS ==== */
 /* ======================================== */
 
@@ -48,16 +75,15 @@ export const CustomizeBeverageCard = styled.div`
   left: 50%;
   transform: translateX(-50%);
   /* background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff); */
-  &.${BeverageTypes.Sparkling} #logo-sparkling {
+  /* &.${BeverageTypes.Sparkling} #logo-sparkling {
     display: block;
   }
   &:not(.${BeverageTypes.Sparkling}) #logo {
     display: block;
-  }
+  } */
   &:before {
     content: " ";
     position: absolute;
-    display: ${props => !props.scale ? "block" : "none"};
     top: -10%;
     left: -8%;
     width: 118%;
@@ -67,16 +93,15 @@ export const CustomizeBeverageCard = styled.div`
     background-repeat: no-repeat;
     background-position: bottom;
   }
-  #logo, #logo-sparkling {
+  /* #logo, #logo-sparkling {
     position: absolute;
     display: none;
     top: 5px;
     left: 122.5px;
     width: 305px;
     height: 308px;
-    /* transform: ${props => props.scale ? "scale(1.8)" : ""}; */
     transform-origin: 50% 15%;
-  }
+  } */
   #title {
     position: absolute;
     left: 26.5px;
@@ -195,18 +220,17 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
         {props.showCardsInfo &&
           <React.Fragment>
             {props.isLogged ?
-              <CircleCard color={beverageSelected.beverage_font_color} /> : 
+              <CircleCard color={beverageSelected.beverage_font_color} /> :
               <PhoneCard color={beverageSelected.beverage_font_color} />
             }
             <NumberCard color={beverageSelected.beverage_font_color} />
           </React.Fragment>
         }
 
-        <CustomizeBeverageCard scale={props.showCardsInfo} color={beverageSelected.beverage_font_color} className={isSparkling ? BeverageTypes.Sparkling : null}>
-          <div id="beverage-card">
-            <img id="logo" src={`img/logos/${beverageSelected.beverage_logo_id}.png`} />
-            <img id="logo-sparkling" src={`img/logos/${beverageSelected.beverage_logo_id}@sparkling.png`} />
-            {!props.showCardsInfo &&
+        <LogoBeverage pose={props.showCardsInfo ? "zoom" : "normal"} src={`img/logos/${beverageSelected.beverage_logo_id}${isSparkling ? "@sparkling" : ""}.png`} />
+        {!props.showCardsInfo &&
+          <CustomizeBeverageCard color={beverageSelected.beverage_font_color}>
+            <div id="beverage-card">
               <div>
                 <span id="title">{__(beverageSelected.beverage_label_id)}</span>
                 <span id="cal">0 CAL.</span>
@@ -245,9 +269,9 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                   </ButtonGroup>
                 </div>
               </div>
-            }
-          </div>
-        </CustomizeBeverageCard>
+            </div>
+          </CustomizeBeverageCard>
+        }
         <Pour
           color={beverageSelected.beverage_font_color}
           isPouring={isPouring}

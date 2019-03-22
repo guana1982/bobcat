@@ -12,7 +12,7 @@ const NumberCard_ = (props: NumberCardProps) => {
       <div id="illustration-wrap">
         <div id="circle"></div>
         <img src="icons/plastic-bottle.svg"/>
-        <h2>120</h2>
+        <span>120</span>
       </div>
       <div id="text-wrap">
         <h2>PLASTIC FREE!</h2>
@@ -46,7 +46,7 @@ export const NumberCard = styled(NumberCard_)`
       left: 50%;
       transform: translate(-50%, 0);
     }
-    h2 {
+    span {
       font-family: NeuzeitGro-Reg;
       text-transform: uppercase;
       height: 45px;
