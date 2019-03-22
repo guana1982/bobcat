@@ -1,47 +1,31 @@
 import * as React from "react";
 import styled from "styled-components";
-import Circle from "react-circle";
 
-interface CircleCardProps {
+interface PhoneCardProps {
   className: any;
-  color: string;
 }
 
-const CircleCard_ = (props: CircleCardProps) => {
+const PhoneCard_ = (props: PhoneCardProps) => {
   const { className } = props;
   return (
     <div className={className}>
       <div id="illustration-wrap">
-        {/* <img src="icons/red.svg"/> */}
-        <Circle
-          size={'159.6px'}
-          progress={35}
-          progressColor={props.color}
-          // textColor={}
-          lineWidth={'10px'}
-          showPercentage={false}
-
-        />
-        <span id="percentage">
-          <span>56</span>
-          <span>%</span>
-        </span>
+        <img src="icons/red.svg"/>
       </div>
       <div id="text-wrap">
-        <h2>Keep going!</h2>
-        <h4>56 more oz to reach <br/> your daily goal.</h4>
-        <h3><span>72</span> / 128 OZ</h3>
+        <h2>Download the App</h2>
+        <h4>Create an account to <br/> track hydration, save <br/> your drinks, and more.</h4>
       </div>
     </div>
   );
 };
 
-export const CircleCard = styled(CircleCard_)`
+export const PhoneCard = styled(PhoneCard_)`
   position: absolute;
-  top: ${props => props.top};
-  left: ${props => props.left};
+  top: ${props => props.top ? props.top : '200px'};
+  left: ${props => props.left ? props.left : '105px'};
   height: 350px;
-  width: 200px;
+  width: 220px;
   /* background: #bcbcbf; */
   #illustration-wrap {
     width: 159.6px;
@@ -49,7 +33,6 @@ export const CircleCard = styled(CircleCard_)`
     margin: auto;
     position: relative;
     #percentage {
-      color: ${props => props.color};
       position: absolute;
       top: 57%;
       left: 52%;
@@ -64,10 +47,10 @@ export const CircleCard = styled(CircleCard_)`
         font-size: 20px;
       }
     }
-    /* img {
+    img {
       display: block;
       margin: auto;
-    } */
+    }
   }
   #text-wrap {
     text-align: center;
@@ -76,12 +59,12 @@ export const CircleCard = styled(CircleCard_)`
     h2 {
       font-family: NeuzeitGro-Bol;
       text-transform: uppercase;
-      padding: 10px;
+      padding: 10px 0;
       font-size: 18px;
       line-height: 1.17;
       letter-spacing: 2.3px;
       color: #595959;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
     h4 {
       font-family: NeuzeitGro-Reg;

@@ -18,6 +18,7 @@ import { AccessibilityContext } from "@core/containers";
 import { SegmentButtonProps } from "@core/components/global/SegmentButton";
 import { NumberCard } from "@core/components/cards/NumberCard";
 import { CircleCard } from "@core/components/cards/CircleCard";
+import { PhoneCard } from "@core/components/cards/PhoneCard";
 // import { SegmentButton } from "@core/components/global/SegmentButton";
 
 interface HomeProps {
@@ -88,13 +89,13 @@ export const Home = (props: HomeProps) => {
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 
-  React.useEffect(() => {
-    // timerConsumer.startTimer();
-    TimerEnd.clearTimer();
-    return () => {
-      timerConsumer.resetTimer();
-    };
-  }, []);
+  // React.useEffect(() => {
+  //   // timerConsumer.startTimer();
+  //   TimerEnd.clearTimer();
+  //   return () => {
+  //     timerConsumer.resetTimer();
+  //   };
+  // }, []);
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const accessibilityConsumer = React.useContext(AccessibilityContext);
@@ -196,12 +197,12 @@ export const Home = (props: HomeProps) => {
   };
 
   const stopPour = () => {
-    timerConsumer.startTimer();
-    // setState(prevState => ({...prevState, idBeveragePouring_: null}));
-    configConsumer.onStopPour().subscribe();
-    if (getBeverageSelected() || state.idBeveragePouring_ !== null) {
-      startPourEvent();
-    }
+    // timerConsumer.startTimer();
+    // // setState(prevState => ({...prevState, idBeveragePouring_: null}));
+    // configConsumer.onStopPour().subscribe();
+    // if (getBeverageSelected() || state.idBeveragePouring_ !== null) {
+    //   startPourEvent();
+    // }
   };
 
   /* ==== END POUR ==== */
@@ -397,9 +398,6 @@ export const Home = (props: HomeProps) => {
             nutritionFacts={nutritionFacts}
           />
         )}
-        {/* <CircleCard></CircleCard>
-        <InfoCard></InfoCard>
-        <NumberCard></NumberCard> */}
       </HomeWrap>
       {beverageSelected &&
         <CustomizeBeverage
@@ -416,6 +414,7 @@ export const Home = (props: HomeProps) => {
           stopPour={stopPour}
           segmentButton={segmentButton} // => _SegmentButton
           nutritionFacts={nutritionFacts}
+          isLogged={presentSlide}
         />
       }
     </HomeContent>
