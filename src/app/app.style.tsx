@@ -100,9 +100,9 @@ export const GlobalStyle = createGlobalStyle`
     background: #fff;
   }
 
-  *[disabled] {
+  /* *[disabled] {
     opacity: .5;
-  }
+  } */
 
   input {
     border: none;

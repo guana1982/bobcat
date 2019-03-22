@@ -77,7 +77,7 @@ const HeaderSlide = styled.div`
 `;
 
 /* disabled?: boolean */
-export const SlideStyled = styled(_Slide)`
+export const SlideStyled = styled(_Slide)` // styled.div
   position: absolute;
   top: 0;
   width: 100vw;
@@ -135,9 +135,22 @@ export const SlideStyled = styled(_Slide)`
     margin: 0% 10%;
     justify-content: space-around;
   }
+
+  transition: transform .5s;
+  will-change: transform;
+  &.fullClose {
+    transform: translate3d(-1200px, 0, 0);
+  }
+  &.close {
+    transform: translate3d(-951px, 0, 0);
+  }
+  &.open {
+    transform: translate3d(-31px, 0, 0);
+  }
+
 `;
 
-export const ToggleSlide = styled(_toggleSlide)`
+export const ToggleSlide = styled.div`
     position: absolute;
     top: calc(50% - 11px);
     border-radius: 50%;
@@ -227,7 +240,7 @@ export const Slide = (props: SlideProps) => {
           })}
         </Grid>
         {consumerBeverages[0].$type === BeverageTypes.Info && <h3 id="info">Save favorites from smartphone</h3>}
-        <ToggleSlide onClick={() => handleSlide()}>
+        <ToggleSlide className={animationSlide()} onTouchStart={() => handleSlide()}>
           <img src={"icons/arrow-circle.png"} />
         </ToggleSlide>
       </SlideStyled>

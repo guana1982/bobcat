@@ -397,9 +397,9 @@ export const Home = (props: HomeProps) => {
             nutritionFacts={nutritionFacts}
           />
         )}
-        <CircleCard></CircleCard>
+        {/* <CircleCard></CircleCard>
         <InfoCard></InfoCard>
-        <NumberCard></NumberCard>
+        <NumberCard></NumberCard> */}
       </HomeWrap>
       {beverageSelected &&
         <CustomizeBeverage

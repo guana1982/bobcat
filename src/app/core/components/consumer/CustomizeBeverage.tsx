@@ -8,6 +8,8 @@ import { CloseBtn, CloseBtnWrap } from "../global/CloseBtn";
 import { BeverageTypes } from "../beverage/Beverage";
 import { IBeverage } from "@core/models";
 import { SegmentButton, SegmentButtonProps } from "../global/SegmentButton";
+import { NumberCard } from "../cards/NumberCard";
+import { CircleCard } from "../cards/CircleCard";
 
 const _sizePour = 105;
 
@@ -238,7 +240,8 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
         <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => props.showCardsInfo ? endPourEvent() : resetBeverage()} />
 
         {/* <div id="backdrop"></div>  */} {/* onClick={() => resetBeverage()} */}
-
+        <CircleCard />
+        {/* <InfoCard /> */}
         <CustomizeBeverageCard color={beverageSelected.beverage_font_color} className={isSparkling ? BeverageTypes.Sparkling : null}>
           <div id="beverage-card">
             <img id="logo" src={`img/logos/${beverageSelected.beverage_logo_id}.png`} />
@@ -281,6 +284,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             </div>
           </div>
         </CustomizeBeverageCard>
+        <NumberCard />
         {!nutritionFacts &&
           <Pour
             color={beverageSelected.beverage_font_color}
