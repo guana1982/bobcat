@@ -65,27 +65,26 @@ export const BeverageWrap = styled.div`
   }
 `;
 
-// const BeverageFull = styled.div`
-//   ${({ zoom }) => zoom && css`
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     width: 100vw;
-//     height: 100vh;
-//     ${BeverageWrap} {
-//       position: absolute;
-//       left: 50%;
-//       top: 50%;
-//       transform: translate(-50%, -60%);
-//       margin: auto;
-//       z-index: 10;
-//       zoom: 200%;
-//     }
-//   `}
-// `;
+const BeverageFull = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  ${BeverageWrap} {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -60%);
+    margin: auto;
+    z-index: 10;
+    zoom: 200%;
+  }
+`;
 
 /* size: BeverageSize */
 const BeverageContent = styled.div`
+  position: relative;
   margin: 10px 23px;
   &, ${BeverageWrap}, ${BeverageExtra} {
     width: 218px;
@@ -220,19 +219,15 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   return (
     <BeverageContent size={size} ref={innerRef}>
         <React.Fragment>
-          {/* <BeverageFull zoom={zoomNutrition}>
-            {zoomNutrition && <CloseBtn detectValue={"nutrition_close"} icon={"close"} onClick={() => handleZoomNutrition(false)} />}
-            {!(($blur && !zoomNutrition) || $info) &&
-              <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
-                <button ref={buttonEl} disabled={disabledButton}>
-                  <Nutrition show={nutritionFacts} title={title} color={color} />
-                  <Basic show={!nutritionFacts} specialCard={$specialCard} {...props} />
-                </button>
+          {zoomNutrition &&
+            <BeverageFull>
+              <CloseBtn detectValue={"nutrition_close"} icon={"close"} onClick={() => handleZoomNutrition(false)} />
+              <BeverageWrap show={true} color={color}>
+                <Nutrition show={nutritionFacts} title={title} color={color} />
               </BeverageWrap>
-            }
-          </BeverageFull> */}
-          {zoomNutrition && <CloseBtn detectValue={"nutrition_close"} icon={"close"} onClick={() => handleZoomNutrition(false)} />}
-          {!(($blur && !zoomNutrition) || $info) &&
+            </BeverageFull>
+          }
+          {(!($blur || $info) && !zoomNutrition) &&
             <ClickNHold
               time={0.5}
               onStart={start}
