@@ -15,6 +15,10 @@ interface BasicProps {
 
 export const Basic_ = (props: BasicProps) => {
   const { className, type, specialCard, title } = props;
+
+  if (!props.show)
+    return null;
+
   return (
     <div className={className}>
         {(specialCard) && <div id="indicator"><span>{type}</span></div>}
@@ -31,7 +35,6 @@ export const Basic = styled<BasicProps>(Basic_)`
   width: 100%;
   height: 100%;
   color: ${props => props.theme.slateGrey};
-  visibility: ${props => props.show ? "visible" : "hidden"};
   text-transform: uppercase;
   &>#indicator {
     position: absolute;

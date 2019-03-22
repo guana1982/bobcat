@@ -43,45 +43,46 @@ export const BeverageWrap = styled.div`
   pointer-events: default;
   opacity: ${props => props.enableOpacity ? .2 : null};
   display: ${props => props.show ? "block" : "none"};
+  z-index: -1;
+  &:before {
+    content: " ";
+    position: absolute;
+    top: -26%;
+    left: -22.1%;
+    width: 145%;
+    height: 149%;
+    background-image: url("img/flavor-card-bg.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom;
+  }
   button {
     position: relative;
     width: 100%;
     height: 100%;
     border-radius: 17px;
     /* background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff); */
-    &:before {
-      content: " ";
-      position: absolute;
-      top: -26%;
-      left: -22.1%;
-      width: 145%;
-      height: 149%;
-      background-image: url("img/flavor-card-bg.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: bottom;
-    }
   }
 `;
 
-const BeverageFull = styled.div`
-  ${({ zoom }) => zoom && css`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    ${BeverageWrap} {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -60%);
-      margin: auto;
-      z-index: 10;
-      zoom: 200%;
-    }
-  `}
-`;
+// const BeverageFull = styled.div`
+//   ${({ zoom }) => zoom && css`
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     width: 100vw;
+//     height: 100vh;
+//     ${BeverageWrap} {
+//       position: absolute;
+//       left: 50%;
+//       top: 50%;
+//       transform: translate(-50%, -60%);
+//       margin: auto;
+//       z-index: 10;
+//       zoom: 200%;
+//     }
+//   `}
+// `;
 
 /* size: BeverageSize */
 const BeverageContent = styled.div`
@@ -218,36 +219,52 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 
   return (
     <BeverageContent size={size} ref={innerRef}>
-      <ClickNHold
-        time={0.5}
-        onStart={start}
-        onClickNHold={clickHold}
-        onEnd={end}>
         <React.Fragment>
-          <BeverageFull zoom={zoomNutrition}>
+          {/* <BeverageFull zoom={zoomNutrition}>
             {zoomNutrition && <CloseBtn detectValue={"nutrition_close"} icon={"close"} onClick={() => handleZoomNutrition(false)} />}
-            <BeverageWrap enableOpacity={$outOfStock} show={!(($blur && !zoomNutrition) || $info)} color={color}>
-              <button ref={buttonEl} disabled={disabledButton}>
-                <Nutrition show={nutritionFacts} title={title} color={color} />
-                <Basic show={!nutritionFacts} specialCard={$specialCard} {...props} />
-              </button>
-            </BeverageWrap>
-          </BeverageFull>
+            {!(($blur && !zoomNutrition) || $info) &&
+              <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
+                <button ref={buttonEl} disabled={disabledButton}>
+                  <Nutrition show={nutritionFacts} title={title} color={color} />
+                  <Basic show={!nutritionFacts} specialCard={$specialCard} {...props} />
+                </button>
+              </BeverageWrap>
+            }
+          </BeverageFull> */}
+          {zoomNutrition && <CloseBtn detectValue={"nutrition_close"} icon={"close"} onClick={() => handleZoomNutrition(false)} />}
+          {!(($blur && !zoomNutrition) || $info) &&
+            <ClickNHold
+              time={0.5}
+              onStart={start}
+              onClickNHold={clickHold}
+              onEnd={end}
+            >
+              <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
+                <button ref={buttonEl} disabled={disabledButton}>
+                  <Nutrition show={nutritionFacts} title={title} color={color} />
+                  <Basic show={!nutritionFacts} specialCard={$specialCard} {...props} />
+                </button>
+              </BeverageWrap>
+            </ClickNHold>
+          }
           <BeverageExtra>
             <OutOfStock show={$outOfStock && !($blur || $info)} {...props} />
             <Info show={$info && !$blur} {...props} />
             <Blur show={$blur} {...props} />
           </BeverageExtra>
         </React.Fragment>
-      </ClickNHold>
     </BeverageContent>
   );
 });
 
 export const BeveragesAnimated = [
   posed(Beverage)({
+    fullClose: {
+      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
+      delay: 75
+    },
     close: {
-      transform: "scale(1) translate3d(62.8vw, -10rem, 0px)",
+      transform: "scale(1) translate3d(62.8vw, 12rem, 0px)",
       delay: 100
     },
     open: {
@@ -256,8 +273,12 @@ export const BeveragesAnimated = [
     }
   }),
   posed(Beverage)({
+    fullClose: {
+      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
+      delay: 75
+    },
     close: {
-      transform: "scale(1) translate3d(36.5vw, 12rem, 0px)",
+      transform: "scale(1) translate3d(36.5vw, -10rem, 0px)",
       delay: 75
     },
     open: {
@@ -266,6 +287,10 @@ export const BeveragesAnimated = [
     }
   }),
   posed(Beverage)({
+    fullClose: {
+      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
+      delay: 75
+    },
     close: {
       transform: "scale(1) translate3d(10vw, 38rem, 0px)",
       delay: 50

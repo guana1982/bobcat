@@ -31,11 +31,11 @@ class ConsumerStoreComponent extends React.Component<any, any> {
 
   index_qr;
   readonly infoBeverages: any = [{
-    $logo_id: "favorite",
-    flavorTitle: __("Save your favorite drinks using the app!")
-  }, {
     $logo_id: "last-pour",
     flavorTitle: __("After you pour, your most recent drink will appear here!")
+  }, {
+    $logo_id: "favorite",
+    flavorTitle: __("Save your favorite drinks using the app!")
   }, {
     $logo_id: null,
     flavorTitle: null
@@ -97,7 +97,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     if (!dataConsumer.consumer_id)
       return [];
 
-    let consumerBeverages: IConsumerBeverage[] = [dataConsumer.favorites[0], dataConsumer.lastPour, dataConsumer.favorites[1]];
+    let consumerBeverages: IConsumerBeverage[] = [dataConsumer.lastPour, dataConsumer.favorites[0], dataConsumer.favorites[1]];
 
     const finalConsumerBeverages = this.compareConsumerBeverage(consumerBeverages);
 

@@ -33,6 +33,7 @@ const _Slide = posed.div({
     }
   }
 });
+
 const _toggleSlide = posed.button({
   close: {
     transform: "rotate(0deg)"
@@ -77,13 +78,13 @@ const HeaderSlide = styled.div`
 `;
 
 /* disabled?: boolean */
-export const SlideStyled = styled(_Slide)` // styled.div
+export const SlideStyled = styled(_Slide)`
   position: absolute;
   top: 0;
   width: 100vw;
   z-index: 5;
   height: 100vh;
-  will-change: transform;
+  background: #fff;
   ${({ disabled }) => disabled && css`
     ${HeaderSlide} {
       h2 {
@@ -92,7 +93,7 @@ export const SlideStyled = styled(_Slide)` // styled.div
     }
   `}
   &:before {
-    content: " ";
+    /* content: " "; */
     opacity: .8;
     position: absolute;
     top: 0%;
@@ -128,29 +129,16 @@ export const SlideStyled = styled(_Slide)` // styled.div
   }
   ${Grid} {
     position: absolute;
-    top: 15.7rem;
+    top: 15.4rem;
     right: 0;
     width: 100%;
     max-width: 80%;
     margin: 0% 10%;
     justify-content: space-around;
   }
-
-  transition: transform .5s;
-  will-change: transform;
-  &.fullClose {
-    transform: translate3d(-1200px, 0, 0);
-  }
-  &.close {
-    transform: translate3d(-951px, 0, 0);
-  }
-  &.open {
-    transform: translate3d(-31px, 0, 0);
-  }
-
 `;
 
-export const ToggleSlide = styled.div`
+export const ToggleSlide = styled(_toggleSlide)`
     position: absolute;
     top: calc(50% - 11px);
     border-radius: 50%;
@@ -201,46 +189,27 @@ export const Slide = (props: SlideProps) => {
           {consumerBeverages.map((b, i) => {
             const BeverageAnimated = BeveragesAnimated[i];
             return (
-                !props.fullMode ?
-                <BeverageAnimated
-                  pouring={i === indexFavoritePouring_}
-                  onStart={() => selectConsumerBeverage(b)}
-                  onHoldStart={() => startConsumerPour(b, i)}
-                  onHoldEnd={() => stopConsumerPour(b)}
-                  key={i}
-                  logoId={b.$logo_id || b.$beverage.beverage_logo_id}
-                  color={b.$beverage.beverage_font_color}
-                  status_id={b.$status_id}
-                  title={b.flavorTitle}
-                  type={b.$type}
-                  $sparkling={b.$sparkling}
-                  disabled={disabled}
-                  nutritionFacts={nutritionFacts}
-                  handleDisabled={handleDisabled}
-                /> :
-                <div style={{"transform": "scale(1.14)"}}>
-                  <Beverage
-                    pouring={i === indexFavoritePouring_}
-                    onStart={() => selectConsumerBeverage(b)}
-                    onHoldStart={() => startConsumerPour(b, i)}
-                    onHoldEnd={() => stopConsumerPour(b)}
-                    key={i}
-                    logoId={b.$logo_id || b.$beverage.beverage_logo_id}
-                    color={b.$beverage.beverage_font_color}
-                    status_id={b.$status_id}
-                    title={b.flavorTitle}
-                    type={b.$type}
-                    $sparkling={b.$sparkling}
-                    disabled={disabled} // || !slideOpen
-                    nutritionFacts={nutritionFacts}
-                    handleDisabled={handleDisabled}
-                  />
-                </div>
+              <BeverageAnimated
+                pouring={i === indexFavoritePouring_}
+                onStart={() => selectConsumerBeverage(b)}
+                onHoldStart={() => startConsumerPour(b, i)}
+                onHoldEnd={() => stopConsumerPour(b)}
+                key={i}
+                logoId={b.$logo_id || b.$beverage.beverage_logo_id}
+                color={b.$beverage.beverage_font_color}
+                status_id={b.$status_id}
+                title={b.flavorTitle}
+                type={b.$type}
+                $sparkling={b.$sparkling}
+                disabled={disabled}
+                nutritionFacts={nutritionFacts}
+                handleDisabled={handleDisabled}
+              />
             );
           })}
         </Grid>
         {consumerBeverages[0].$type === BeverageTypes.Info && <h3 id="info">Save favorites from smartphone</h3>}
-        <ToggleSlide className={animationSlide()} onTouchStart={() => handleSlide()}>
+        <ToggleSlide onClick={() => handleSlide()}>
           <img src={"icons/arrow-circle.png"} />
         </ToggleSlide>
       </SlideStyled>

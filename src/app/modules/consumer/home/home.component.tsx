@@ -390,7 +390,7 @@ export const Home = (props: HomeProps) => {
             goToPrepay={goToPrepay}
             idBeveragePouring_={state.idBeveragePouring_}
             isSparkling={state.isSparkling}
-            disabled={beverageSelected !== undefined || presentSlide && state.slideOpen || state.idBeveragePouring_ != null || disabled}
+            disabled={beverageSelected !== undefined || state.idBeveragePouring_ != null || disabled} // || presentSlide && state.slideOpen
             segmentButton={segmentButton} // => _SegmentButton
             handleNutritionFacts={handleNutritionFacts}
             handleDisabled={handleDisabled}

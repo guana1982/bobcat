@@ -10,7 +10,11 @@ interface NutritionProps {
 }
 
 export const Nutrition_ = (props: NutritionProps) => {
-  const { title, color, className } = props;
+  const { title, show, className } = props;
+
+  if (!show)
+    return null;
+
   return (
     <div className={className}>
       <h2 id="title">{__(title)}</h2>
@@ -64,7 +68,6 @@ export const Nutrition = styled(Nutrition_)`
   width: calc(100% - 20px);
   margin: 10px;
   font-size: 10px;
-  display: ${props => props.show ? "block" : "none"};
   #title {
     color: ${props => props.color};
     text-transform: uppercase;

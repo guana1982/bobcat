@@ -8,7 +8,11 @@ interface OutOfStockProps {
 }
 
 export const OutOfStock_ = (props: OutOfStockProps) => {
-  const { className } = props;
+  const { className, show } = props;
+
+  if (!show)
+    return null;
+
   return (
     <div className={className}>
       <span>{__("Sorry, we're out of that flavor at the moment! ")}</span>
@@ -33,5 +37,4 @@ export const OutOfStock = styled(OutOfStock_)`
   letter-spacing: 1.3px;
   text-align: center;
   color: ${props => props.theme.slateGrey};
-  visibility: ${props => props.show ? "visible" : "hidden"};
 `;
