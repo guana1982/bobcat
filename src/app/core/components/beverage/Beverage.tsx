@@ -111,7 +111,7 @@ const BeverageContent = styled.div`
 
 interface BeverageProps {
   beverage?: IBeverage;
-  type: BeverageTypes;
+  types: BeverageTypes[];
   size?: BeverageSize;
   logoId?: any;
   color?: string;
@@ -132,13 +132,13 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 
   const [zoomNutrition, setZoomNutrition] = React.useState(false);
 
-  const { title, type, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled } = props;
+  const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled } = props;
 
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
   const $blur: boolean = disabled && !pouring;
-  const $disabledTouch: boolean = type === BeverageTypes.Info || $outOfStock;
-  const $specialCard: boolean = type === BeverageTypes.LastPour || type === BeverageTypes.Favorite;
-  const $info: boolean = type === BeverageTypes.Info;
+  const $disabledTouch: boolean = types && types[0] === BeverageTypes.Info || $outOfStock;
+  const $specialCard: boolean = types && types[0] === BeverageTypes.LastPour || types && types[0] === BeverageTypes.Favorite;
+  const $info: boolean = types && types[0] === BeverageTypes.Info;
 
   let  onStart, onHoldStart, onHoldEnd  = null;
   if (!$disabledTouch) {
@@ -178,7 +178,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   }, [buttonEl, enter, pour]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
-  const disabledButton = type === BeverageTypes.Info || $outOfStock || (disabled && !pouring);
+  const disabledButton = types && types[0] === BeverageTypes.Info || $outOfStock || (disabled && !pouring);
 
   const handleZoomNutrition = (status: boolean) => {
     setZoomNutrition(status);

@@ -8,20 +8,20 @@ interface BasicProps {
   className: any;
   show: boolean;
   logoId?: any;
-  type: BeverageTypes;
+  types: BeverageTypes[];
   specialCard: any;
   title: any;
 }
 
 export const Basic_ = (props: BasicProps) => {
-  const { className, type, specialCard, title } = props;
+  const { className, types, specialCard, title } = props;
 
   if (!props.show)
     return null;
 
   return (
     <div className={className}>
-        {(specialCard) && <div id="indicator"><span>{type}</span></div>}
+        {(specialCard) && types.map(type => <div className="indicator"><span>{type}</span></div>)}
         <Logo {...props} />
         <span id="title">{__(title)}</span>
         <span id="cal">0 Cal.</span>
@@ -36,7 +36,7 @@ export const Basic = styled<BasicProps>(Basic_)`
   height: 100%;
   color: ${props => props.theme.slateGrey};
   text-transform: uppercase;
-  &>#indicator {
+  .indicator {
     position: absolute;
     display: flex;
     align-items: center;
@@ -51,6 +51,9 @@ export const Basic = styled<BasicProps>(Basic_)`
       text-transform: lowercase;
       font-size: 12px;
       color: #fff;
+    }
+    &:nth-child(2) {
+      top: 40px !important;
     }
   }
   &>#title {

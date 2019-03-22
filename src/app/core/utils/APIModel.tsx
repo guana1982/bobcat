@@ -70,7 +70,7 @@ export interface IConsumerBeverage {
   coldLvl: number;
   flavors: Flavor[];
   enhancements: Enhancement[];
-  $type?: BeverageTypes;
+  $types?: BeverageTypes[];
   $status_id?: BeverageStatus;
   $logo_id?: any;
   $beverage?: IBeverage;

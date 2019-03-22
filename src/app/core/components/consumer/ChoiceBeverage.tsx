@@ -61,7 +61,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
   return (
     <React.Fragment>
       <ChoiceBeverageWrap disabledWrap={disabled}>
-        <SegmentButton {...props.segmentButton} disabled={disabled} />
+        {!nutritionFacts && <SegmentButton {...props.segmentButton} disabled={disabled} />}
         <Gesture onGesture={onGesture} />
         <Grid numElement={beverages.length}>
           {beverages.map((b, i) => {
@@ -69,7 +69,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
               <Beverage
                 key={i}
                 pouring={b.beverage_id === idBeveragePouring_}
-                type={isSparkling ? BeverageTypes.Sparkling : null}
+                types={isSparkling ? [BeverageTypes.Sparkling] : null}
                 size={isLogged ? BeverageSize.Tiny : BeverageSize.Normal}
                 color={b.beverage_font_color}
                 beverage={b}

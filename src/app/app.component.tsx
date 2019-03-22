@@ -20,6 +20,7 @@ const App = () => (
                   <GlobalStyle />
                   <PreCacheImg
                     images={[
+                      "img/slider-bg.svg",
                       "img/slider-bg.png",
                       "img/detail-card-bg.png",
                       "img/bottle-qr.svg",

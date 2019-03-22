@@ -37,60 +37,6 @@ export const Pour = styled.button`
 /* ==== CARDS ==== */
 /* ======================================== */
 
-export const InfoCard = styled.div`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgb(166, 202, 237);
-  color: rgb(37, 107, 192);
-  text-align: center;
-  width: 14rem;
-  height: 27rem;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-  border: 1px solid ${props => props.theme.primary};
-  &.right {
-    left: calc(15% - 6.5rem);
-  }
-  &.left {
-    right: calc(15% - 6.5rem);
-    footer {
-      padding-top: 0rem;
-    }
-  }
-  header {
-    min-height: 9rem;
-  }
-  aside {
-    display: flex;
-    justify-content: center;
-    min-height: 10rem;
-    img {
-      height: 10rem;
-    }
-  }
-  footer {
-    padding-top: 1rem;
-    min-height: 8rem
-  }
-  h3 {
-    font-size: 1.6rem;
-    font-weight: 600;
-  }
-  h2 {
-    font-size: 1.9rem;
-    font-weight: 600;
-    margin: 0;
-  }
-  h4 {
-    font-size: 1.3rem;
-    font-weight: 500;
-    margin: 0;
-  }
-`;
-
 // color: string;
 /* CLASS => type?: string; */
 export const CustomizeBeverageCard = styled.div`
@@ -111,7 +57,7 @@ export const CustomizeBeverageCard = styled.div`
   &:before {
     content: " ";
     position: absolute;
-    display: ${props => !props.scale ? 'block' : 'none'};
+    display: ${props => !props.scale ? "block" : "none"};
     top: -10%;
     left: -8%;
     width: 118%;
@@ -128,7 +74,7 @@ export const CustomizeBeverageCard = styled.div`
     left: 122.5px;
     width: 305px;
     height: 308px;
-    transform: ${props => props.scale ? 'scale(1.8)' : null};
+    /* transform: ${props => props.scale ? "scale(1.8)" : ""}; */
     transform-origin: 50% 15%;
   }
   #title {
@@ -247,73 +193,73 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
         {/* <div id="backdrop"></div>  */} {/* onClick={() => resetBeverage()} */}
 
         {props.showCardsInfo &&
-          <div>
+          <React.Fragment>
             {props.isLogged ?
-              <CircleCard left={'115px'} top={'200px'} color={beverageSelected.beverage_font_color} /> : 
-              <PhoneCard left={'105px'} top={'200px'} color={beverageSelected.beverage_font_color} />
+              <CircleCard left={"115px"} top={"200px"} color={beverageSelected.beverage_font_color} /> :
+              <PhoneCard left={"105px"} top={"200px"} color={beverageSelected.beverage_font_color} />
             }
-            <NumberCard right={'174.6px'} top={'221px'} color={beverageSelected.beverage_font_color} />
-          </div>
+            <NumberCard right={"174.6px"} top={"221px"} color={beverageSelected.beverage_font_color} />
+          </React.Fragment>
         }
 
         <CustomizeBeverageCard scale={props.showCardsInfo} color={beverageSelected.beverage_font_color} className={isSparkling ? BeverageTypes.Sparkling : null}>
           <div id="beverage-card">
             <img id="logo" src={`img/logos/${beverageSelected.beverage_logo_id}.png`} />
             <img id="logo-sparkling" src={`img/logos/${beverageSelected.beverage_logo_id}@sparkling.png`} />
-            {!props.showCardsInfo && <div>
-              <span id="title">{__(beverageSelected.beverage_label_id)}</span>
-              <span id="cal">0 CAL.</span>
-              <div id="group">
-                {beverageConfig.carbonation_level != null &&
+            {!props.showCardsInfo &&
+              <div>
+                <span id="title">{__(beverageSelected.beverage_label_id)}</span>
+                <span id="cal">0 CAL.</span>
+                <div id="group">
+                  {beverageConfig.carbonation_level != null &&
+                    <ButtonGroup
+                      color={beverageSelected.beverage_font_color}
+                      detectValue={"sparkling"}
+                      icon={"sparkling"}
+                      label={"Sparkling"}
+                      options={levels.carbonation}
+                      value={beverageConfig.carbonation_level}
+                      onChange={(value) => handleChange(value, "carbonation")}>
+                    </ButtonGroup>
+                  }
+                  {beverageConfig.flavor_level != null &&
+                    <ButtonGroup
+                      color={beverageSelected.beverage_font_color}
+                      detectValue={"flavor"}
+                      icon={"flavor"}
+                      label={"Flavor"}
+                      options={levels.flavor}
+                      value={beverageConfig.flavor_level}
+                      onChange={(value) => handleChange(value, "flavor")}
+                    ></ButtonGroup>
+                  }
                   <ButtonGroup
                     color={beverageSelected.beverage_font_color}
-                    detectValue={"sparkling"}
-                    icon={"sparkling"}
-                    label={"Sparkling"}
-                    options={levels.carbonation}
-                    value={beverageConfig.carbonation_level}
-                    onChange={(value) => handleChange(value, "carbonation")}>
+                    detectValue={"temperature"}
+                    icon={"temperature"}
+                    label={"Coldness"}
+                    disabled={isSparkling}
+                    options={levels.temperature}
+                    value={beverageConfig.temperature_level}
+                    onChange={(value) => handleChange(value, "temperature")}>
                   </ButtonGroup>
-                }
-                {beverageConfig.flavor_level != null &&
-                  <ButtonGroup
-                    color={beverageSelected.beverage_font_color}
-                    detectValue={"flavor"}
-                    icon={"flavor"}
-                    label={"Flavor"}
-                    options={levels.flavor}
-                    value={beverageConfig.flavor_level}
-                    onChange={(value) => handleChange(value, "flavor")}
-                  ></ButtonGroup>
-                }
-                <ButtonGroup
-                  color={beverageSelected.beverage_font_color}
-                  detectValue={"temperature"}
-                  icon={"temperature"}
-                  label={"Coldness"}
-                  disabled={isSparkling}
-                  options={levels.temperature}
-                  value={beverageConfig.temperature_level}
-                  onChange={(value) => handleChange(value, "temperature")}>
-                </ButtonGroup>
+                </div>
               </div>
-            </div>}
+            }
           </div>
         </CustomizeBeverageCard>
-        <NumberCard />
-        {!nutritionFacts &&
-          <Pour
-            color={beverageSelected.beverage_font_color}
-            isPouring={isPouring}
-            ref={buttonPourEl}
-            onTouchStart={() => startPour()}
-            onTouchEnd={() => stopPour()}
-            onMouseDown={() => startPour()} // => DESKTOP MODE
-            onMouseUp={() => stopPour()} // => DESKTOP MODE
-          >
-            Hold to Pour
-          </Pour>
-        }
+
+        <Pour
+          color={beverageSelected.beverage_font_color}
+          isPouring={isPouring}
+          ref={buttonPourEl}
+          onTouchStart={() => startPour()}
+          onTouchEnd={() => stopPour()}
+          onMouseDown={() => startPour()} // => DESKTOP MODE
+          onMouseUp={() => stopPour()} // => DESKTOP MODE
+        >
+          Hold to Pour
+        </Pour>
       </CustomizeBeverageWrap>
     </React.Fragment>
   );

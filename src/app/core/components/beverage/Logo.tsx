@@ -7,17 +7,17 @@ interface LogoProps {
   className: any;
   show: boolean;
   logoId?: any;
-  type: BeverageTypes;
+  types: BeverageTypes[];
   $sparkling: boolean;
 }
 
 export const Logo_ = (props: LogoProps) => {
-  const { className, logoId, type, $sparkling } = props;
+  const { className, logoId, types, $sparkling } = props;
 
-  const logo = type === BeverageTypes.Info ? `icons/${logoId}.png` : `img/logos/${logoId}.png`;
-  const logoSparkling = type === BeverageTypes.Info ? null : `img/logos/${logoId}@sparkling.png`;
+  const logo = (types && types[0] === BeverageTypes.Info) ? `icons/${logoId}.png` : `img/logos/${logoId}.png`;
+  const logoSparkling = (types && types[0] === BeverageTypes.Info) ? null : `img/logos/${logoId}@sparkling.png`;
 
-  const sparkling_ = type === BeverageTypes.Sparkling || $sparkling; // <= CONDITION
+  const sparkling_ = (types && types[0] === BeverageTypes.Sparkling) || $sparkling; // <= CONDITION
 
   if (logoId === undefined) return null;
 

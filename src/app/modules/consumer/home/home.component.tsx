@@ -8,7 +8,7 @@ import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
 import { Subscription, Subject } from "rxjs";
 import { ChoiceBeverage } from "@components/consumer/ChoiceBeverage";
-import { CustomizeBeverage, InfoCard } from "@components/consumer/CustomizeBeverage";
+import { CustomizeBeverage } from "@components/consumer/CustomizeBeverage";
 import { Slide } from "@components/consumer/Slide";
 import { ConfigContext } from "@containers/config.container";
 import { TimerContext } from "@containers/timer.container";
@@ -251,7 +251,7 @@ export const Home = (props: HomeProps) => {
   /* ==== BEVERAGE CONSUMER ==== */
   /* ======================================== */
   const MAX_CONSUMER_BEVERAGE = 3;
-  const validConsumerBeverage = consumerConsumer.consumerBeverages.filter(beverage => beverage.$type !== BeverageTypes.Info);
+  const validConsumerBeverage = consumerConsumer.consumerBeverages.filter(beverage => beverage.$types[0] !== BeverageTypes.Info);
   const lengthConsumerBeverages = validConsumerBeverage.length;
   const fullMode = lengthConsumerBeverages === MAX_CONSUMER_BEVERAGE;
 

@@ -84,7 +84,6 @@ export const SlideStyled = styled(_Slide)`
   width: 100vw;
   z-index: 5;
   height: 100vh;
-  background: #fff;
   ${({ disabled }) => disabled && css`
     ${HeaderSlide} {
       h2 {
@@ -92,8 +91,10 @@ export const SlideStyled = styled(_Slide)`
       }
     }
   `}
-  &:before {
-    /* content: " "; */
+  background: #fff;
+  /* background-image: url("img/slider-bg.svg"); */
+  /* &:before {
+    content: " ";
     opacity: .8;
     position: absolute;
     top: 0%;
@@ -104,7 +105,7 @@ export const SlideStyled = styled(_Slide)`
     background-size: contain;
     background-repeat: no-repeat;
     background-position: bottom;
-  }
+  } */
   #info {
     position: absolute;
     width: 100%;
@@ -199,7 +200,7 @@ export const Slide = (props: SlideProps) => {
                 color={b.$beverage.beverage_font_color}
                 status_id={b.$status_id}
                 title={b.flavorTitle}
-                type={b.$type}
+                types={b.$types}
                 $sparkling={b.$sparkling}
                 disabled={disabled}
                 nutritionFacts={nutritionFacts}
@@ -208,7 +209,7 @@ export const Slide = (props: SlideProps) => {
             );
           })}
         </Grid>
-        {consumerBeverages[0].$type === BeverageTypes.Info && <h3 id="info">Save favorites from smartphone</h3>}
+        {consumerBeverages[0].$types[0] === BeverageTypes.Info && <h3 id="info">Save favorites from smartphone</h3>}
         <ToggleSlide onClick={() => handleSlide()}>
           <img src={"icons/arrow-circle.png"} />
         </ToggleSlide>

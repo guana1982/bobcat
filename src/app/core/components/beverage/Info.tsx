@@ -8,7 +8,7 @@ interface InfoProps {
   className: any;
   show: boolean;
   logoId?: any;
-  type: BeverageTypes;
+  types: BeverageTypes[];
   specialCard: any;
   title: any;
 }

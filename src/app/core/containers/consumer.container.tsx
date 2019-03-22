@@ -10,7 +10,7 @@ import { IBeverage } from "../models";
 import { BeverageStatus } from "../models/beverage.model";
 import { BeverageTypes } from "../components/beverage/Beverage";
 import { __ } from "../utils/lib/i18n";
-import { TEST_QR_0, TEST_QR_1, TEST_QR_2, TEST_QR_3 } from "../utils/APIMock";
+import { TEST_QR_0, TEST_QR_1, TEST_QR_2, TEST_QR_3, TEST_QR_4, TEST_QR_5, TEST_QR_6, TEST_QR_7 } from "../utils/APIMock";
 
 export interface ConsumerInterface {
   isLogged: boolean;
@@ -32,12 +32,18 @@ class ConsumerStoreComponent extends React.Component<any, any> {
   index_qr;
   readonly infoBeverages: any = [{
     $logo_id: "last-pour",
+    $types: [BeverageTypes.Info],
+    $beverage: { beverage_font_color: "#000" },
     flavorTitle: __("After you pour, your most recent drink will appear here!")
   }, {
     $logo_id: "favorite",
+    $types: [BeverageTypes.Info],
+    $beverage: { beverage_font_color: "#000" },
     flavorTitle: __("Save your favorite drinks using the app!")
   }, {
     $logo_id: null,
+    $types: [BeverageTypes.Info],
+    $beverage: { beverage_font_color: "#000" },
     flavorTitle: null
   }];
 
@@ -67,28 +73,23 @@ class ConsumerStoreComponent extends React.Component<any, any> {
 
   private compareConsumerBeverage = (consumerBeverages: IConsumerBeverage[]): IConsumerBeverage[] => {
     const { beverages } = this.props.configConsumer;
-    return consumerBeverages.map((consumerBeverage, index) => {
-      if (consumerBeverage && consumerBeverage.flavors && consumerBeverage.flavors.length > 0) {
+    return consumerBeverages.map((consumerBeverage) => {
+        console.log("consumerBeverage", consumerBeverage);
+        if (consumerBeverage && consumerBeverage.$types[0] === BeverageTypes.Info)
+          return consumerBeverage;
+
         let beverageFlavor: IBeverage = beverages.filter((b) => Number(b.beverage_id) === Number(consumerBeverage.flavors[0].product.flavorUpc))[0];
 
         if (!beverageFlavor)
           beverageFlavor = { beverage_label_id: __("Not Available"), status_id: BeverageStatus.EmptyBib, beverage_logo_id: 9 };
 
-        consumerBeverage.$type = null;
-        if (consumerBeverage.flavorTitle === undefined || consumerBeverage.flavorTitle === null || consumerBeverage.flavorTitle === "") {
+        if (consumerBeverage.flavorTitle === undefined || consumerBeverage.flavorTitle === null || consumerBeverage.flavorTitle === "")
           consumerBeverage.flavorTitle = beverageFlavor.beverage_label_id;
-        }
+
         consumerBeverage.$status_id = beverageFlavor.status_id;
         consumerBeverage.$beverage = beverageFlavor;
         consumerBeverage.$sparkling =  consumerBeverage.carbLvl !== 0;
-        consumerBeverage.$type = index === 1 ? BeverageTypes.LastPour : BeverageTypes.Favorite;
         return consumerBeverage;
-      } else {
-        const infoBeverage = this.infoBeverages[index];
-        infoBeverage.$type = BeverageTypes.Info;
-        infoBeverage.$beverage = {};
-        return infoBeverage;
-      }
     });
   }
 
@@ -97,7 +98,71 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     if (!dataConsumer.consumer_id)
       return [];
 
-    let consumerBeverages: IConsumerBeverage[] = [dataConsumer.lastPour, dataConsumer.favorites[0], dataConsumer.favorites[1]];
+    const { lastPour } = dataConsumer;
+    const favorites = [
+      dataConsumer.favorites[1],
+      dataConsumer.favorites[0],
+      dataConsumer.favorites[2]
+    ];
+
+    console.log("dataConsumer.favorites", dataConsumer.favorites);
+
+    console.log("favorites", favorites);
+    console.log("lastPour", lastPour);
+
+    let lastPourSame: boolean = false;
+    favorites.forEach(favorite => {
+      if (favorite === undefined) return;
+        favorite.$types = [BeverageTypes.Favorite];
+
+      if (!lastPour.flavors[0]) return;
+      if (favorite.flavors[0].product.flavorUpc === lastPour.flavors[0].product.flavorUpc) {
+        lastPourSame = true;
+        favorite.$types.push(BeverageTypes.LastPour);
+      }
+    });
+
+    console.log("lastPourSame", lastPourSame);
+    let consumerBeverages: IConsumerBeverage[] = [];
+
+    const validFavorites = favorites.filter(filter => filter);
+    const lengthValidFavorites = validFavorites.length;
+
+    console.log("validFavorites", validFavorites);
+    console.log("lengthValidFavorites", lengthValidFavorites);
+
+    if (lastPourSame) {
+      if (lengthValidFavorites === 0) {
+        consumerBeverages = this.infoBeverages;
+      } else if (lengthValidFavorites === 1) {
+        consumerBeverages = [this.infoBeverages[1], favorites[1], this.infoBeverages[2]];
+      } else if (lengthValidFavorites === 2) {
+        consumerBeverages = [favorites[0], favorites[1], this.infoBeverages[2]];
+      } else if (lengthValidFavorites === 3) {
+        consumerBeverages = favorites;
+      }
+    } else {
+      const lastPourElement = lastPour.flavors[0] ? {...lastPour, $types: [BeverageTypes.LastPour]} : this.infoBeverages[0];
+
+      if (lengthValidFavorites === 0) {
+        consumerBeverages = [lastPourElement, this.infoBeverages[1], this.infoBeverages[2]];
+      } else if (lengthValidFavorites === 1) {
+        consumerBeverages = [lastPourElement, favorites[1], this.infoBeverages[2]];
+      } else if (lengthValidFavorites === 2) {
+        consumerBeverages = [favorites[0], favorites[1], lastPourElement];
+      } else if (lengthValidFavorites === 3) {
+        consumerBeverages = favorites;
+      }
+    }
+
+    // } else {
+    //   const infoBeverage = this.infoBeverages[index];
+    //   infoBeverage.$type = BeverageTypes.Info;
+    //   infoBeverage.$beverage = {};
+    //   return infoBeverage;
+    // }
+
+    console.log("consumerBeverages", consumerBeverages);
 
     const finalConsumerBeverages = this.compareConsumerBeverage(consumerBeverages);
 
@@ -142,6 +207,18 @@ class ConsumerStoreComponent extends React.Component<any, any> {
           break;
         case 3:
           return TEST_QR_3;
+          break;
+        case 4:
+          return TEST_QR_4;
+          break;
+        case 5:
+          return TEST_QR_5;
+          break;
+        case 6:
+          return TEST_QR_6;
+          break;
+        case 7:
+          return TEST_QR_7;
           break;
       }
     };

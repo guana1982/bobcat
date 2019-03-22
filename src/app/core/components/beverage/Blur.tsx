@@ -7,12 +7,12 @@ interface BlurProps {
   className: any;
   show: boolean;
   logoId?: any;
-  type: BeverageTypes;
+  types: BeverageTypes[];
 }
 
 export const Blur_ = (props: BlurProps) => {
-  const { className, logoId, type } = props;
-  const logoBlur = type === BeverageTypes.Info ? `icons/${logoId}@blur.png` : `img/logos/${logoId}@blur.png`;
+  const { className, logoId, types } = props;
+  const logoBlur = (types && types[0]) === BeverageTypes.Info ? `icons/${logoId}@blur.png` : `img/logos/${logoId}@blur.png`;
   return (
     <div className={className}>
       <img src={logoBlur} />
