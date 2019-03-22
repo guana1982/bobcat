@@ -62,14 +62,24 @@ export const BeverageWrap = styled.div`
       background-position: bottom;
     }
   }
+`;
+
+const BeverageFull = styled.div`
   ${({ zoom }) => zoom && css`
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform-origin: 0 0;
-    transform: translate(-50%, -60%);
-    z-index: 10;
-    zoom: 200%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    ${BeverageWrap} {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -60%);
+      margin: auto;
+      z-index: 10;
+      zoom: 200%;
+    }
   `}
 `;
 
@@ -214,13 +224,15 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         onClickNHold={clickHold}
         onEnd={end}>
         <React.Fragment>
-          {zoomNutrition && <CloseBtn detectValue={"nutrition_close"} icon={"close"} onClick={() => handleZoomNutrition(false)} />}
-          <BeverageWrap zoom={zoomNutrition} enableOpacity={$outOfStock} show={!(($blur && !zoomNutrition) || $info)} color={color}>
-            <button ref={buttonEl} disabled={disabledButton}>
-              <Nutrition show={nutritionFacts} title={title} color={color} />
-              <Basic show={!nutritionFacts} specialCard={$specialCard} {...props} />
-            </button>
-          </BeverageWrap>
+          <BeverageFull zoom={zoomNutrition}>
+            {zoomNutrition && <CloseBtn detectValue={"nutrition_close"} icon={"close"} onClick={() => handleZoomNutrition(false)} />}
+            <BeverageWrap enableOpacity={$outOfStock} show={!(($blur && !zoomNutrition) || $info)} color={color}>
+              <button ref={buttonEl} disabled={disabledButton}>
+                <Nutrition show={nutritionFacts} title={title} color={color} />
+                <Basic show={!nutritionFacts} specialCard={$specialCard} {...props} />
+              </button>
+            </BeverageWrap>
+          </BeverageFull>
           <BeverageExtra>
             <OutOfStock show={$outOfStock && !($blur || $info)} {...props} />
             <Info show={$info && !$blur} {...props} />

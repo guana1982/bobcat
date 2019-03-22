@@ -8,9 +8,9 @@ import { CloseBtn, CloseBtnWrap } from "../global/CloseBtn";
 import { BeverageTypes } from "../beverage/Beverage";
 import { IBeverage } from "@core/models";
 import { SegmentButton, SegmentButtonProps } from "../global/SegmentButton";
-import { PhoneCard } from "../cards/PhoneCard";
 import { NumberCard } from "../cards/NumberCard";
 import { CircleCard } from "../cards/CircleCard";
+import { PhoneCard } from "../cards/PhoneCard";
 
 const _sizePour = 105;
 
@@ -300,6 +300,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             </div>}
           </div>
         </CustomizeBeverageCard>
+        <NumberCard />
         {!nutritionFacts &&
           <Pour
             color={beverageSelected.beverage_font_color}
