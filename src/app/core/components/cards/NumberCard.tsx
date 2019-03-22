@@ -24,8 +24,8 @@ const NumberCard_ = (props: NumberCardProps) => {
 
 export const NumberCard = styled(NumberCard_)`
   position: absolute;
-  top: ${props => props.top ? props.top : '221px'};
-  right: ${props => props.right ? props.right : '174.6px'};
+  top: ${props => props.top ? props.top : 221}px;
+  right: ${props => props.right ? props.right : 174.6}px;
   height: 350px;
   width: 200px;
   /* background: #bcbcbf; */

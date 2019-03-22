@@ -195,10 +195,10 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
         {props.showCardsInfo &&
           <React.Fragment>
             {props.isLogged ?
-              <CircleCard left={"115px"} top={"200px"} color={beverageSelected.beverage_font_color} /> :
-              <PhoneCard left={"105px"} top={"200px"} color={beverageSelected.beverage_font_color} />
+              <CircleCard color={beverageSelected.beverage_font_color} /> : 
+              <PhoneCard color={beverageSelected.beverage_font_color} />
             }
-            <NumberCard right={"174.6px"} top={"221px"} color={beverageSelected.beverage_font_color} />
+            <NumberCard color={beverageSelected.beverage_font_color} />
           </React.Fragment>
         }
 
@@ -248,7 +248,6 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             }
           </div>
         </CustomizeBeverageCard>
-
         <Pour
           color={beverageSelected.beverage_font_color}
           isPouring={isPouring}

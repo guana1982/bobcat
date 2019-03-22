@@ -22,8 +22,8 @@ const PhoneCard_ = (props: PhoneCardProps) => {
 
 export const PhoneCard = styled(PhoneCard_)`
   position: absolute;
-  top: ${props => props.top ? props.top : '200px'};
-  left: ${props => props.left ? props.left : '105px'};
+  top: ${props => props.top ? props.top : 200}px;
+  left: ${props => props.left ? props.left - 10 : 105}px;
   height: 350px;
   width: 220px;
   /* background: #bcbcbf; */

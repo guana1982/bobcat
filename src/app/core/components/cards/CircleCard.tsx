@@ -38,8 +38,8 @@ const CircleCard_ = (props: CircleCardProps) => {
 
 export const CircleCard = styled(CircleCard_)`
   position: absolute;
-  top: ${props => props.top};
-  left: ${props => props.left};
+  top: ${props => props.top ? props.top : 200}px;
+  left: ${props => props.left ? props.left : 115}px;
   height: 350px;
   width: 200px;
   /* background: #bcbcbf; */
