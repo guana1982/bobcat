@@ -16,6 +16,7 @@ import { Logo } from "./Logo";
 import { Basic } from "./Basic";
 import { Info } from "./Info";
 import { CloseBtn, CloseBtnWrap } from "../global/CloseBtn";
+import { componentWillAppendToBody } from "react-append-to-body";
 
 export enum BeverageTypes {
   Info = "info",
@@ -220,12 +221,14 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
     <BeverageContent size={size} ref={innerRef}>
         <React.Fragment>
           {zoomNutrition &&
-            <BeverageFull>
-              <CloseBtn detectValue={"nutrition_close"} icon={"close"} onClick={() => handleZoomNutrition(false)} />
-              <BeverageWrap show={true} color={color}>
-                <Nutrition show={nutritionFacts} title={title} color={color} />
-              </BeverageWrap>
-            </BeverageFull>
+            <AppendedFullBeverage {...props}>
+              <BeverageFull>
+                <CloseBtn detectValue={"nutrition_close"} icon={"close"} onClick={() => handleZoomNutrition(false)} />
+                <BeverageWrap show={true} color={color}>
+                  <Nutrition show={nutritionFacts} title={title} color={color} />
+                </BeverageWrap>
+              </BeverageFull>
+            </AppendedFullBeverage>
           }
           {(!($blur || $info) && !zoomNutrition) &&
             <ClickNHold
@@ -251,6 +254,20 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
     </BeverageContent>
   );
 });
+
+/* ==== FULL MODE ==== */
+/* ======================================== */
+
+const FullBeverage = ({children}) => (
+  <BeverageContent style={{zIndex: 100}}>
+    {children}
+  </BeverageContent>
+);
+
+const AppendedFullBeverage = componentWillAppendToBody(FullBeverage);
+
+/* ==== ANIMATIONS ==== */
+/* ======================================== */
 
 export const BeveragesAnimated = [
   posed(Beverage)({
