@@ -9,7 +9,7 @@ export const TEST_QR_0 = {
     "coldLvl": "100"
   },
   "consumer_nick": "John William Doe",
-  "saveBottles": "201500",
+  "saveBottles": "0",
   "identification_type": "3",
   "favorites": [],
   "hydraGoal": "5"
@@ -33,7 +33,7 @@ export const TEST_QR_1 = {
     "coldLvl": "100"
   },
   "consumer_nick": "John William Doe",
-  "saveBottles": "201500",
+  "saveBottles": "0",
   "identification_type": "3",
   "favorites": [],
   "hydraGoal": "5"
@@ -57,7 +57,7 @@ export const TEST_QR_2 = {
     "coldLvl": "100"
   },
   "consumer_nick": "John William Doe",
-  "saveBottles": "201500",
+  "saveBottles": "0",
   "identification_type": "3",
   "favorites": [
     {
@@ -96,7 +96,7 @@ export const TEST_QR_3 = {
     "coldLvl": "100"
   },
   "consumer_nick": "John William Doe",
-  "saveBottles": "201500",
+  "saveBottles": "0",
   "identification_type": "3",
   "favorites": [
     {
@@ -135,7 +135,7 @@ export const TEST_QR_4 = {
     "coldLvl": "100"
   },
   "consumer_nick": "John William Doe",
-  "saveBottles": "201500",
+  "saveBottles": "0",
   "identification_type": "3",
   "favorites": [
     {
@@ -188,7 +188,7 @@ export const TEST_QR_5 = {
     "coldLvl": "100"
   },
   "consumer_nick": "John William Doe",
-  "saveBottles": "201500",
+  "saveBottles": "0",
   "identification_type": "3",
   "favorites": [
     {
@@ -241,7 +241,7 @@ export const TEST_QR_6 = {
     "coldLvl": "100"
   },
   "consumer_nick": "John William Doe",
-  "saveBottles": "201500",
+  "saveBottles": "0",
   "identification_type": "3",
   "favorites": [
     {
@@ -308,7 +308,7 @@ export const TEST_QR_7 = {
     "coldLvl": "100"
   },
   "consumer_nick": "John William Doe",
-  "saveBottles": "201500",
+  "saveBottles": "0",
   "identification_type": "3",
   "favorites": [
     {

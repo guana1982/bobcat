@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-import { ConfigContext } from "@core/containers";
+import { ConfigContext, ConsumerContext } from "@core/containers";
 
 interface NumberCardProps {
   className: any;
@@ -11,20 +11,32 @@ interface NumberCardProps {
 
 const NumberCard_ = (props: NumberCardProps) => {
   const { className, color } = props;
-  const configConsumer = React.useContext(ConfigContext);
 
-  const savedBottleYear = configConsumer.sustainabilityData.saved_bottle_year;
+  const configConsumer = React.useContext(ConfigContext);
+  const consumerConsumer = React.useContext(ConsumerContext);
+
+  const { isLogged } = consumerConsumer;
+  const savedBottleMachine = configConsumer.sustainabilityData.saved_bottle_year;
+  let savedBottleConsumer = null;
+  if (consumerConsumer.dataConsumer && consumerConsumer.dataConsumer.saveBottles) {
+    savedBottleConsumer = consumerConsumer.dataConsumer.saveBottles;
+  }
+
+  const savedBottle = !isLogged ? savedBottleMachine : savedBottleConsumer;
 
   return (
     <div className={className}>
       <div id="illustration-wrap">
         <div id="circle"></div>
         <BottleIcon id="icon" color={color} />
-        <span>{savedBottleYear}</span>
+        <span>{savedBottle}</span>
       </div>
       <div id="text-wrap">
         <h2>PLASTIC FREE!</h2>
-        <h4>You’re making an <br/> impact. This machine <br/> has saved 120 bottles.</h4>
+        {!isLogged ?
+          <h4>You’re making an <br/> impact. This machine <br/> has saved {savedBottle} bottles.</h4> :
+          <h4>You’re making an <br/> impact by having saved <br/> {savedBottle} plastic bottles.</h4>
+        }
       </div>
     </div>
   );
