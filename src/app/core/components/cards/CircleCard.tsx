@@ -4,6 +4,8 @@ import Circle from "react-circle";
 
 interface CircleCardProps {
   className: any;
+  top: string;
+  left: string;
   color: string;
 }
 
@@ -12,15 +14,13 @@ const CircleCard_ = (props: CircleCardProps) => {
   return (
     <div className={className}>
       <div id="illustration-wrap">
-        {/* <img src="icons/red.svg"/> */}
         <Circle
-          size={'159.6px'}
+          size={"159.6px"}
           progress={35}
           progressColor={props.color}
           // textColor={}
-          lineWidth={'10px'}
+          lineWidth={"10px"}
           showPercentage={false}
-
         />
         <span id="percentage">
           <span>56</span>

@@ -12,6 +12,7 @@ import { NumberCard } from "../cards/NumberCard";
 import { CircleCard } from "../cards/CircleCard";
 import { PhoneCard } from "../cards/PhoneCard";
 import posed from "react-pose";
+import { Button } from "../global/Button";
 
 const _sizePour = 105;
 
@@ -159,6 +160,11 @@ export const CustomizeBeverageWrap = styled.section`
     top: 26.5px;
     right: 27px;
   }
+  #exit-btn {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
 `;
 
 /* ==== ELEMENT ==== */
@@ -213,7 +219,11 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
     <React.Fragment>
       <CustomizeBeverageWrap>
         {!props.showCardsInfo && <SegmentButton {...props.segmentButton} />}
-        <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => props.showCardsInfo ? endPourEvent() : resetBeverage()} />
+
+        {!props.showCardsInfo ?
+          <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => resetBeverage()} /> :
+          <Button detectValue="exit-btn" onClick={() => endPourEvent()} text="Done" icon="log-out" />
+        }
 
         {/* <div id="backdrop"></div>  */} {/* onClick={() => resetBeverage()} */}
 

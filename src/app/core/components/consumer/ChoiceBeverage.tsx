@@ -18,7 +18,7 @@ export const ChoiceBeverageWrap = styled.section`
       display: none;
     }
     #nutrition-btn, #signin-btn, #logout-btn {
-      opacity: .2;
+      opacity: 0;
     }
   `}
   #nutrition-btn {

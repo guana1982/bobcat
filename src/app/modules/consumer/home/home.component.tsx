@@ -3,7 +3,7 @@ import * as React from "react";
 import { HomeContent, HomeWrap } from "./home.style";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
-import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER, coords } from "@utils/constants";
+import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER } from "@utils/constants";
 import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
 import { Subscription, Subject } from "rxjs";
@@ -16,9 +16,7 @@ import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { BeverageTypes } from "@core/components/beverage/Beverage";
 import { AccessibilityContext } from "@core/containers";
 import { SegmentButtonProps } from "@core/components/global/SegmentButton";
-import { NumberCard } from "@core/components/cards/NumberCard";
-import { CircleCard } from "@core/components/cards/CircleCard";
-import { PhoneCard } from "@core/components/cards/PhoneCard";
+import { CardsWrap } from "@core/components/consumer/CardsWrap";
 // import { SegmentButton } from "@core/components/global/SegmentButton";
 
 interface HomeProps {
@@ -28,7 +26,7 @@ interface HomeProps {
 export interface HomeState {
   isSparkling: boolean;
   beverageSelected: number;
-  indexBeverageForLongPressPour: number;
+  indexBeverageForLongPressPour_: number;
   idBeveragePouring_: number;
   indexFavoritePouring_: number;
   beverageConfig: IBeverageConfig;
@@ -71,7 +69,7 @@ export const Home = (props: HomeProps) => {
     isSparkling: false,
     slideOpen: false,
     beverageSelected: null,
-    indexBeverageForLongPressPour: null,
+    indexBeverageForLongPressPour_: null,
     idBeveragePouring_: null,
     indexFavoritePouring_: null,
     showCardsInfo: false,
@@ -91,13 +89,13 @@ export const Home = (props: HomeProps) => {
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 
-  React.useEffect(() => {
-    timerConsumer.startTimer();
-    TimerEnd.clearTimer();
-    return () => {
-      timerConsumer.resetTimer();
-    };
-  }, []);
+  // React.useEffect(() => {
+  //   timerConsumer.startTimer();
+  //   TimerEnd.clearTimer();
+  //   return () => {
+  //     timerConsumer.resetTimer();
+  //   };
+  // }, []);
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const accessibilityConsumer = React.useContext(AccessibilityContext);
@@ -161,28 +159,40 @@ export const Home = (props: HomeProps) => {
 
   const getBeverageSelected = (): IBeverage => {
     const { beverages } = configConsumer;
-    console.log(beverages);
+    // console.log(beverages);
     return beverages ? beverages[state.beverageSelected] : null;
   };
 
-  const getBeverageColorOnLongPressPour = () => {
+  const getBeverageColorOnLongPressPour = (): string => {
     const { beverages } = configConsumer;
-    return beverages[state.indexBeverageForLongPressPour].beverage_font_color;
+
+    let color: string;
+
+    if (state.indexBeverageForLongPressPour_ !== null && state.indexBeverageForLongPressPour_ >= 0) {
+      color = beverages[state.indexBeverageForLongPressPour_].beverage_font_color;
+    }
+
+    if (state.indexFavoritePouring_ !== null && state.indexFavoritePouring_ >= 0) {
+      color = consumerBeverages[state.indexFavoritePouring_].$beverage.beverage_font_color;
+    }
+
+    return color;
   };
 
-  const startPour = (beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig) => {
+  const startPour = (beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig, indexFavorite?: number) => {
 
     let bevSelected, bevConfig = null;
 
+    const validFavorite = Boolean(indexFavorite !== null && indexFavorite >= 0);
+
     if (beverageSelected) { // => TO IMPROVE
       bevSelected = beverageSelected;
-      if (state.indexFavoritePouring_ === null) {
-        setState(prevState => ({
-          ...prevState,
-          indexBeverageForLongPressPour: beverages.indexOf(beverageSelected),
-          idBeveragePouring_: bevSelected.beverage_id
-        })); // <= Rapid mode
-      }
+      setState(prevState => ({
+        ...prevState,
+        indexBeverageForLongPressPour_: !validFavorite ? beverages.indexOf(beverageSelected) : null,
+        idBeveragePouring_: !validFavorite ? bevSelected.beverage_id : null,
+        indexFavoritePouring_: !validFavorite ? null : indexFavorite
+      })); // <= Rapid mode
     } else {
       bevSelected = getBeverageSelected();
       setState({
@@ -201,16 +211,16 @@ export const Home = (props: HomeProps) => {
     }
 
     timerConsumer.resetTimer();
-    configConsumer.onStartPour(bevSelected, bevConfig).subscribe();
+    // configConsumer.onStartPour(bevSelected, bevConfig).subscribe(); // TEST MODE
 
   };
 
   const stopPour = () => {
     timerConsumer.startTimer();
-    configConsumer.onStopPour().subscribe();
-    if (getBeverageSelected() || state.idBeveragePouring_ !== null) {
-      startPourEvent();
-    }
+    // configConsumer.onStopPour().subscribe(); // TEST MODE
+    // if (getBeverageSelected() || state.idBeveragePouring_ !== null) {
+    //   startPourEvent();
+    // }
   };
 
   /* ==== END POUR ==== */
@@ -246,12 +256,11 @@ export const Home = (props: HomeProps) => {
   /* ======================================== */
 
   const resetBeverage = () => {
-
     TimerEnd.clearTimer();
     setState(prevState => ({
       ...prevState,
       beverageSelected: null,
-      indexBeverageForLongPressPour: null,
+      indexBeverageForLongPressPour_: null,
       indexFavoritePouring_: null,
       idBeveragePouring_: null,
       showCardsInfo: false
@@ -286,18 +295,18 @@ export const Home = (props: HomeProps) => {
   };
 
   const startConsumerPour = (consumerBeverage: IConsumerBeverage, index: number) => {
-    setState(prevState => ({...prevState, indexFavoritePouring_: index}));
+    // setState(prevState => ({...prevState, indexFavoritePouring_: index}));
     const beverageSelected: any = { beverage_id: Number(consumerBeverage.flavors[0].product.flavorUpc) };
     const beverageConfig: IBeverageConfig = {
       flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),
       carbonation_level: Number(consumerBeverage.carbLvl),
       temperature_level: Number(consumerBeverage.coldLvl),
     };
-    startPour(beverageSelected, beverageConfig);
+    startPour(beverageSelected, beverageConfig, index);
   };
 
   const stopConsumerPour = (consumerBeverage?: IConsumerBeverage) => {
-    resetBeverage();
+    // resetBeverage();
     stopPour();
   };
 
@@ -374,9 +383,8 @@ export const Home = (props: HomeProps) => {
     onChange: (value) => handleType(value),
   };
 
-  console.log(state);
+  const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
-  
   return (
     <HomeContent>
       {presentSlide &&
@@ -390,7 +398,7 @@ export const Home = (props: HomeProps) => {
           handleSlide={handleSlide}
           fullMode={fullMode}
           handleDisabled={handleDisabled}
-          disabled={beverageSelected !== undefined || state.idBeveragePouring_ != null || disabled}
+          disabled={disabledMode}
           nutritionFacts={nutritionFacts}
         />
       }
@@ -404,7 +412,7 @@ export const Home = (props: HomeProps) => {
             goToPrepay={goToPrepay}
             idBeveragePouring_={state.idBeveragePouring_}
             isSparkling={state.isSparkling}
-            disabled={beverageSelected !== undefined || state.idBeveragePouring_ != null || disabled} // || presentSlide && state.slideOpen
+            disabled={disabledMode} // || presentSlide && state.slideOpen
             segmentButton={segmentButton} // => _SegmentButton
             handleNutritionFacts={handleNutritionFacts}
             handleDisabled={handleDisabled}
@@ -412,27 +420,14 @@ export const Home = (props: HomeProps) => {
           />
         )}
       </HomeWrap>
-      {state.indexBeverageForLongPressPour !== null && state.indexBeverageForLongPressPour >= 0 &&
-        <div>
-          {presentSlide ?
-            <CircleCard
-              top={coords[state.indexBeverageForLongPressPour].card1.top}
-              left={coords[state.indexBeverageForLongPressPour].card1.left}
-              color={getBeverageColorOnLongPressPour()}
-            /> :
-            <PhoneCard
-              top={coords[state.indexBeverageForLongPressPour].card1.top}
-              left={coords[state.indexBeverageForLongPressPour].card1.left}
-              color={getBeverageColorOnLongPressPour()}
-            />
-          }
-          <NumberCard
-            top={coords[state.indexBeverageForLongPressPour].card2.top}
-            right={coords[state.indexBeverageForLongPressPour].card2.right}
-            color={getBeverageColorOnLongPressPour()}
-          />
-        </div>
-      }
+      <CardsWrap
+        presentSlide={presentSlide}
+        slideOpen={state.slideOpen}
+        indexBeverageForLongPressPour_={state.indexBeverageForLongPressPour_}
+        indexFavoritePouring_={state.indexFavoritePouring_}
+        color={getBeverageColorOnLongPressPour()}
+        endPourEvent={endPourEvent}
+      />
       {beverageSelected &&
         <CustomizeBeverage
           levels={levels}

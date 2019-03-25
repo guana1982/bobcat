@@ -154,6 +154,9 @@ export const ToggleSlide = styled(_toggleSlide)`
       width: 140%;
       height: 140%;
     }
+    &:disabled {
+      opacity: .2;
+    }
 `;
 
 /* ==== ELEMENT ==== */
@@ -210,7 +213,7 @@ export const Slide = (props: SlideProps) => {
           })}
         </Grid>
         {consumerBeverages[0].$types[0] === BeverageTypes.Info && <h3 id="info">Save favorites from smartphone</h3>}
-        <ToggleSlide onClick={() => handleSlide()}>
+        <ToggleSlide disabled={disabled} onClick={() => handleSlide()}>
           <img src={"icons/arrow-circle.png"} />
         </ToggleSlide>
       </SlideStyled>

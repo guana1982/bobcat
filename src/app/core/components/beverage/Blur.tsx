@@ -13,6 +13,9 @@ interface BlurProps {
 export const Blur_ = (props: BlurProps) => {
   const { className, logoId, types } = props;
   const logoBlur = (types && types[0]) === BeverageTypes.Info ? `icons/${logoId}@blur.png` : `img/logos/${logoId}@blur.png`;
+
+  if (logoId === undefined) return null;
+
   return (
     <div className={className}>
       <img src={logoBlur} />

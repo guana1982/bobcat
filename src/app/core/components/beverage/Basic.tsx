@@ -14,18 +14,18 @@ interface BasicProps {
 }
 
 export const Basic_ = (props: BasicProps) => {
-  const { className, types, specialCard, title } = props;
+  const { className, types, specialCard, title, logoId } = props;
 
   if (!props.show)
     return null;
 
   return (
     <div className={className}>
-        {(specialCard) && types.map(type => <div className="indicator"><span>{type}</span></div>)}
+        {(specialCard) && types.map((type, i) => <div key={i} className="indicator"><span>{type}</span></div>)}
         <Logo {...props} />
         <span id="title">{__(title)}</span>
         <span id="cal">0 Cal.</span>
-        <span id="price">75¢</span>
+        {/* <span id="price">75¢</span> */}
     </div>
   );
 };

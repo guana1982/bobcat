@@ -29,6 +29,9 @@ export default {
     startQrCamera: () => post("config/start_camera_qr_reading"),
     stopQrCamera: () => post("config/stop_camera_qr_reading")
   },
+  sustainability: {
+    getData: () => get("config/get_sustainability_data")
+  },
   payment: {
     // getAvailableMethods: () => getFake("payment/methods"),
     // getBeverageFromQr: data => getFake(`payment/prepay/qr/lean/beverages_from_qr/${data}`),
