@@ -7,7 +7,7 @@ import { Footer } from "../global/Footer";
 import { BeverageTypes, BeveragesAnimated, Beverage } from "../beverage/Beverage";
 import { ConsumerContext } from "@core/containers";
 
-export const _sizeSlide = "305px";
+export const _sizeSlide = "325px";
 export const _sizeSlideFull = "5vw";
 
 /* ==== ANIMATIONS ==== */

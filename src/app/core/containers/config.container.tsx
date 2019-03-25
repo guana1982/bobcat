@@ -1,7 +1,7 @@
 import * as React from "react";
-import { map, tap, first, mergeMap, debounceTime } from "rxjs/operators";
+import { map, tap, first, mergeMap, debounceTime, switchMap } from "rxjs/operators";
 import mediumLevel from "../utils/MediumLevel";
-import { forkJoin, of, Observable, Subject, combineLatest } from "rxjs";
+import { forkJoin, of, Observable, Subject, combineLatest, interval, timer } from "rxjs";
 import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { setLangDict } from "../utils/lib/i18n";
 import { withRouter } from "react-router-dom";
@@ -19,6 +19,7 @@ export interface ConfigInterface {
   allBeverages: IBeverage[];
   beverages: IBeverage[];
   isPouring: boolean;
+  sustainabilityData: { saved_bottle_year?: string, saved_bottle_day?: string };
   onStartPour: (beverage: IBeverage, config: IBeverageConfig) => Observable<any>;
   onStopPour: () => Observable<any>;
 }
@@ -41,7 +42,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
       vendorConfig: {},
       beverages: [],
       alarms: [],
-      isPouring: false
+      isPouring: false,
+      sustainabilityData: { saved_bottle_year: "", saved_bottle_day: "" }
     };
 
   }
@@ -73,6 +75,17 @@ class ConfigStoreComponent extends React.Component<any, any> {
     );
 
     socketTest$.subscribe(data => console.log("SOCKET", data));
+
+    /* ==== POLLING SUSTAINABILITY DATA ==== */
+    /* ======================================== */
+
+    const pollIntervalSustainability = 6000 * 60;
+    timer(0, pollIntervalSustainability)
+      .pipe(
+        switchMap(() => mediumLevel.sustainability.getData())
+      ).subscribe(data => {
+        this.setState({sustainabilityData: data});
+      });
 
     /* ==== ALARM SOCKET ==== */
     /* ======================================== */
@@ -237,7 +250,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
           socketAlarms$: this.socketAlarms$,
           ws: this.ws,
           onStartPour: this.onStartPour,
-          onStopPour: this.onStopPour
+          onStopPour: this.onStopPour,
+          sustainabilityData: this.state.sustainabilityData
         }}
       >
         {children}

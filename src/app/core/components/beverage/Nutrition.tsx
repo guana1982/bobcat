@@ -77,7 +77,9 @@ export const Nutrition = styled(Nutrition_)`
     letter-spacing: 2.5px;
     margin: 0;
     padding: 0 5px;
-    height: 20px;
+    height: 40px;
+    display: flex;
+    align-items: center;
   }
   .row {
     display: block;

@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+import { ConfigContext } from "@core/containers";
 
 interface NumberCardProps {
   className: any;
@@ -10,12 +11,16 @@ interface NumberCardProps {
 
 const NumberCard_ = (props: NumberCardProps) => {
   const { className, color } = props;
+  const configConsumer = React.useContext(ConfigContext);
+
+  const savedBottleYear = configConsumer.sustainabilityData.saved_bottle_year;
+
   return (
     <div className={className}>
       <div id="illustration-wrap">
         <div id="circle"></div>
         <BottleIcon id="icon" color={color} />
-        <span>120</span>
+        <span>{savedBottleYear}</span>
       </div>
       <div id="text-wrap">
         <h2>PLASTIC FREE!</h2>
