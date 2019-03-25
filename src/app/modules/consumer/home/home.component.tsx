@@ -39,12 +39,12 @@ export interface HomeState {
 const TimerEnd = {
   timer_: null,
   clearTimer() {
-    clearTimeout(this.timer_);
-    this.timer_ = null;
+    clearInterval(TimerEnd.timer_);
+    TimerEnd.timer_ = null;
   },
   startTimer(endEvent) {
-    this.clearTimer();
-    this.timer_ = setTimeout(endEvent, CONSUMER_TIMER.END_POUR);
+    TimerEnd.clearTimer();
+    TimerEnd.timer_ = setInterval(endEvent, CONSUMER_TIMER.END_POUR);
   }
 };
 
@@ -89,13 +89,13 @@ export const Home = (props: HomeProps) => {
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 
-  // React.useEffect(() => {
-  //   timerConsumer.startTimer();
-  //   TimerEnd.clearTimer();
-  //   return () => {
-  //     timerConsumer.resetTimer();
-  //   };
-  // }, []);
+  React.useEffect(() => {
+    timerConsumer.startTimer();
+    TimerEnd.clearTimer();
+    return () => {
+      timerConsumer.resetTimer();
+    };
+  }, []);
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const accessibilityConsumer = React.useContext(AccessibilityContext);
@@ -211,36 +211,42 @@ export const Home = (props: HomeProps) => {
     }
 
     timerConsumer.resetTimer();
-    // configConsumer.onStartPour(bevSelected, bevConfig).subscribe(); // TEST MODE
+    configConsumer.onStartPour(bevSelected, bevConfig).subscribe(); // => TEST MODE
 
   };
 
   const stopPour = () => {
     timerConsumer.startTimer();
-    // configConsumer.onStopPour().subscribe(); // TEST MODE
-    // if (getBeverageSelected() || state.idBeveragePouring_ !== null) {
-    //   startPourEvent();
-    // }
+    configConsumer.onStopPour().subscribe(); // => TEST MODE
+    if (getBeverageSelected() || state.idBeveragePouring_ !== null) {
+      startPourEvent();
+    }
   };
 
   /* ==== END POUR ==== */
   /* ======================================== */
 
+  const startTimerEnd = () => TimerEnd.startTimer(endPourEvent);
+
   function startPourEvent() {
     if (TimerEnd.timer_ === null) {
       TimerEnd.startTimer(endPourEvent);
       document.addEventListener("touchstart", TimerEnd.clearTimer);
-      document.addEventListener("touchend", TimerEnd.startTimer);
+      document.addEventListener("touchend", startTimerEnd);
+      document.addEventListener("mousedown", TimerEnd.clearTimer); // => DESKTOP MODE
+      document.addEventListener("mouseup", startTimerEnd); // => DESKTOP MODE
       document.addEventListener("keydown", TimerEnd.clearTimer); // => ACCESSIBILITY
-      document.addEventListener("keyup", TimerEnd.startTimer); // => ACCESSIBILITY
+      document.addEventListener("keyup", startTimerEnd); // => ACCESSIBILITY
     }
   }
 
   function endPourEvent() {
     document.removeEventListener("touchstart", TimerEnd.clearTimer);
-    document.removeEventListener("touchend", TimerEnd.startTimer);
+    document.removeEventListener("touchend", startTimerEnd);
+    document.removeEventListener("mousedown", TimerEnd.clearTimer); // => DESKTOP MODE
+    document.removeEventListener("mouseup", startTimerEnd); // => DESKTOP MODE
     document.removeEventListener("keydown", TimerEnd.clearTimer); // => ACCESSIBILITY
-    document.removeEventListener("keyup", TimerEnd.startTimer); // => ACCESSIBILITY
+    document.removeEventListener("keyup", startTimerEnd); // => ACCESSIBILITY
     TimerEnd.clearTimer();
     alertConsumer.show({
       type: AlertTypes.EndBeverage,
@@ -295,7 +301,6 @@ export const Home = (props: HomeProps) => {
   };
 
   const startConsumerPour = (consumerBeverage: IConsumerBeverage, index: number) => {
-    // setState(prevState => ({...prevState, indexFavoritePouring_: index}));
     const beverageSelected: any = { beverage_id: Number(consumerBeverage.flavors[0].product.flavorUpc) };
     const beverageConfig: IBeverageConfig = {
       flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),

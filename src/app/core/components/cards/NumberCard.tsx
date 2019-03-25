@@ -134,7 +134,7 @@ const BottleIcon = props => (
       </filter> */}
     </defs>
     <g fill="none">
-      <use fill="#000" xlinkHref="#prefix__bb" />
+      {/* <use fill="#000" xlinkHref="#prefix__bb" /> */}
       <use fill="url(#prefix__cc)" xlinkHref="#prefix__bb" />
     </g>
   </svg>
