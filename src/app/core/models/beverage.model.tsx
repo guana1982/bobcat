@@ -13,6 +13,7 @@ export interface IBeverage {
   toppings?: Topping[];
   density?: number;
   beverage_font_color?: string;
+  calories?: string;
   calibration_status?: number;
   last_sanification_date?: string;
   carbonation_divider?: number;

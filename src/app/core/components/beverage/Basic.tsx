@@ -3,6 +3,7 @@ import { __ } from "@utils/lib/i18n";
 import styled, { css } from "styled-components";
 import { BeverageTypes } from "./Beverage";
 import { Logo } from "./Logo";
+import { IBeverage } from "@core/models";
 
 interface BasicProps {
   className: any;
@@ -11,10 +12,12 @@ interface BasicProps {
   types: BeverageTypes[];
   specialCard: any;
   title: any;
+  calories: string;
+  beverage: IBeverage;
 }
 
 export const Basic_ = (props: BasicProps) => {
-  const { className, types, specialCard, title, logoId } = props;
+  const { className, types, specialCard, title, beverage } = props;
 
   if (!props.show)
     return null;
@@ -24,7 +27,7 @@ export const Basic_ = (props: BasicProps) => {
         {(specialCard) && types.map((type, i) => <div key={i} className="indicator"><span>{type}</span></div>)}
         <Logo {...props} />
         <span id="title">{__(title)}</span>
-        <span id="cal">0 Cal.</span>
+        <span id="cal">{beverage.calories} Cal.</span>
         {/* <span id="price">75¢</span> */}
     </div>
   );
