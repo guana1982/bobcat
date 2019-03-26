@@ -107,9 +107,9 @@ export default class ClickNHold extends React.Component<any, any> {
         return (
             <div style={this.props.style}
                  className={classList}
-                 onMouseDown={this.start} // => DESKTOP MODE
                  onTouchStart={this.start}
-                 onMouseUp={this.end} // => DESKTOP MODE
+                //  onMouseDown={this.start} // => DESKTOP MODE
+                //  onMouseUp={this.end} // => DESKTOP MODE
                  onTouchMove={this.clear}
                  onClickCapture={this.clickCapture}
                  onTouchCancel={this.end}

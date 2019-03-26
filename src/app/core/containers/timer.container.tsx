@@ -81,8 +81,8 @@ class TimerStoreComponent extends React.Component<any, any> {
       console.info("Timer already start!");
     document.addEventListener("touchstart", this.handlerTouchStart);
     document.addEventListener("touchend", this.handlerTouchEnd);
-    document.addEventListener("mousedown", this.handlerTouchStart); // => DESKTOP MODE
-    document.addEventListener("mouseup", this.handlerTouchEnd); // => DESKTOP MODE
+    // document.addEventListener("mousedown", this.handlerTouchStart); // => DESKTOP MODE
+    // document.addEventListener("mouseup", this.handlerTouchEnd); // => DESKTOP MODE
     document.addEventListener("keydown", this.handlerTouchStart); // => ACCESSIBILITY
     document.addEventListener("keyup", this.handlerTouchEnd); // => ACCESSIBILITY
   }
@@ -91,8 +91,8 @@ class TimerStoreComponent extends React.Component<any, any> {
     this.clearTimer(false);
     document.removeEventListener("touchstart", this.handlerTouchStart);
     document.removeEventListener("touchend", this.handlerTouchEnd);
-    document.addEventListener("mousedown", this.handlerTouchStart); // => DESKTOP MODE
-    document.addEventListener("mouseup", this.handlerTouchEnd); // => DESKTOP MODE
+    // document.addEventListener("mousedown", this.handlerTouchStart); // => DESKTOP MODE
+    // document.addEventListener("mouseup", this.handlerTouchEnd); // => DESKTOP MODE
     document.removeEventListener("keydown", this.handlerTouchStart); // => ACCESSIBILITY
     document.removeEventListener("keyup", this.handlerTouchEnd); // => ACCESSIBILITY
   }

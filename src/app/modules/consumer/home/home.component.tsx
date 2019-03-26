@@ -233,8 +233,8 @@ export const Home = (props: HomeProps) => {
       TimerEnd.startTimer(endPourEvent);
       document.addEventListener("touchstart", TimerEnd.clearTimer);
       document.addEventListener("touchend", startTimerEnd);
-      document.addEventListener("mousedown", TimerEnd.clearTimer); // => DESKTOP MODE
-      document.addEventListener("mouseup", startTimerEnd); // => DESKTOP MODE
+      // document.addEventListener("mousedown", TimerEnd.clearTimer); // => DESKTOP MODE
+      // document.addEventListener("mouseup", startTimerEnd); // => DESKTOP MODE
       document.addEventListener("keydown", TimerEnd.clearTimer); // => ACCESSIBILITY
       document.addEventListener("keyup", startTimerEnd); // => ACCESSIBILITY
     }
@@ -243,8 +243,8 @@ export const Home = (props: HomeProps) => {
   function endPourEvent() {
     document.removeEventListener("touchstart", TimerEnd.clearTimer);
     document.removeEventListener("touchend", startTimerEnd);
-    document.removeEventListener("mousedown", TimerEnd.clearTimer); // => DESKTOP MODE
-    document.removeEventListener("mouseup", startTimerEnd); // => DESKTOP MODE
+    // document.removeEventListener("mousedown", TimerEnd.clearTimer); // => DESKTOP MODE
+    // document.removeEventListener("mouseup", startTimerEnd); // => DESKTOP MODE
     document.removeEventListener("keydown", TimerEnd.clearTimer); // => ACCESSIBILITY
     document.removeEventListener("keyup", startTimerEnd); // => ACCESSIBILITY
     TimerEnd.clearTimer();

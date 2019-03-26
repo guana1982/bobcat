@@ -25,9 +25,10 @@ export const themeMenu = {
 };
 
 export const GlobalStyle = createGlobalStyle`
-  /* html {
-    cursor: none; // => DESKTOP MODE
-  } */
+  html {
+    cursor: none;
+  }
+  /* // => DESKTOP MODE */
 
   @font-face {
     font-family: NeuzeitGro-Reg;
