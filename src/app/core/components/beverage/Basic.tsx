@@ -27,7 +27,7 @@ export const Basic_ = (props: BasicProps) => {
         {(specialCard) && types.map((type, i) => <div key={i} className="indicator"><span>{type}</span></div>)}
         <Logo {...props} />
         <span id="title">{__(title)}</span>
-        <span id="cal">{beverage.calories} Cal.</span>
+        <span id="cal">0 Cal.</span> {/* {beverage.calories} */}
         {/* <span id="price">75¢</span> */}
     </div>
   );

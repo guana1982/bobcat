@@ -294,7 +294,7 @@ export const Home = (props: HomeProps) => {
       beverageSelected: beverages.indexOf(consumerBeverage.$beverage),
       beverageConfig: {
         flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),
-        carbonation_level: Number(consumerBeverage.carbLvl),
+        carbonation_level: consumerBeverage.$sparkling ? Number(consumerBeverage.carbLvl) : null,
         temperature_level: Number(consumerBeverage.coldLvl),
       }
     }));

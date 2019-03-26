@@ -88,7 +88,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
 
         consumerBeverage.$status_id = beverageFlavor.status_id;
         consumerBeverage.$beverage = beverageFlavor;
-        consumerBeverage.$sparkling =  consumerBeverage.carbLvl !== 0;
+        consumerBeverage.$sparkling =  Number(consumerBeverage.carbLvl) !== 0;
         return consumerBeverage;
     });
   }
@@ -142,7 +142,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
         consumerBeverages = favorites;
       }
     } else {
-      const lastPourElement = lastPour.flavors[0] ? {...lastPour, $types: [BeverageTypes.LastPour]} : this.infoBeverages[0];
+      const lastPourElement = lastPour && lastPour.flavors && lastPour.flavors[0] ? {...lastPour, $types: [BeverageTypes.LastPour]} : this.infoBeverages[0];
 
       if (lengthValidFavorites === 0) {
         consumerBeverages = [lastPourElement, this.infoBeverages[1], this.infoBeverages[2]];
@@ -225,7 +225,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     if (type === SOCKET_CONSUMER.SERVER) {
       this.index_qr = this.index_qr + 1;
     }
-    return socketConsumer$; // of(mock()); // MOCK //
+    return of(mock()); // MOCK // socketConsumer$; //
   }
 
   /* ==== SCANNING ==== */
