@@ -15,6 +15,7 @@ export interface ConfigInterface {
   menuList: any;
   ws: WebSocketSubject<ISocket>;
   socketAlarms$: Observable<any>;
+  socketAttractor$: Observable<any>;
   alarms: IAlarm[];
   allBeverages: IBeverage[];
   beverages: IBeverage[];
@@ -32,14 +33,58 @@ export const ConfigConsumer = ConfigContext.Consumer;
 class ConfigStoreComponent extends React.Component<any, any> {
 
   menuList: any;
-  ws: WebSocketSubject<ISocket>;
   socketAlarms$: Observable<any>;
+  socketAttractor$: Observable<any>;
 
   constructor(props) {
     super(props);
 
+    /* ==== CONFIG SOCKET ==== */
+    /* ======================================== */
+
+    const ws = webSocket({
+      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://172.20.10.2:5901", // "ws://93.55.118.44:5901",
+      deserializer: data => {
+        try {
+          return JSON.parse(data.data);
+        } catch (error) {
+          return data.data;
+        }
+      }
+    });
+
+    /* ==== ATTRACTOR SOCKET ==== */
+    /* ======================================== */
+
+    const socketAttractor$ = ws
+    .multiplex(
+      () => console.info(`Start => ${SOCKET_ATTRACTOR}`),
+      () => console.info(`End => ${SOCKET_ATTRACTOR}`),
+      (data) => data && data.message_type === SOCKET_ATTRACTOR
+    ).pipe(map((data: any) => data.value));
+
+    // socketAttractor$
+    // .subscribe(value => {
+    //   const { pathname } = this.props.location;
+    //   if (pathname !== Pages.Attractor && pathname !== Pages.Home)
+    //     return;
+
+    //   let page = "";
+    //   if (value === MESSAGE_STOP_VIDEO)
+    //     page = Pages.Home;
+    //   else if (value === MESSAGE_START_CAMERA)
+    //     page = Pages.Prepay;
+
+    //   this.props.history.push(page);
+    // });
+
+    /* ==== STATE ==== */
+    /* ======================================== */
+
     this.state = {
       vendorConfig: {},
+      ws: ws,
+      socketAttractor$: socketAttractor$,
       beverages: [],
       alarms: [],
       isPouring: false,
@@ -50,24 +95,10 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
   componentDidMount() {
 
-    /* ==== CONFIG SOCKET ==== */
-    /* ======================================== */
-
-    this.ws = webSocket({
-      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://93.55.118.44:5901", // "ws://93.55.118.44:5901",
-      deserializer: data => {
-        try {
-          return JSON.parse(data.data);
-        } catch (error) {
-          return data.data;
-        }
-      }
-    });
-
     /* ==== TEST SOCKET ==== */
     /* ======================================== */
 
-    const socketTest$ = this.ws
+    const socketTest$ = this.state.ws
     .multiplex(
       () => console.info(`Start => ${"Socket test"}`),
       () => console.info(`End => ${"Socket test"}`),
@@ -100,7 +131,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       })
     );
 
-    this.socketAlarms$ = this.ws
+    this.socketAlarms$ = this.state.ws
     .multiplex(
       () => console.info(`Start => ${SOCKET_ALARM}`),
       () => console.info(`End => ${SOCKET_ALARM}`),
@@ -123,31 +154,6 @@ class ConfigStoreComponent extends React.Component<any, any> {
     //   }));
     //   console.log(this.state.alarms);
     // }, 30000);
-
-    /* ==== ATTRACTOR SOCKET ==== */
-    /* ======================================== */
-
-    const socketAttractor$ = this.ws
-    .multiplex(
-      () => console.info(`Start => ${SOCKET_ATTRACTOR}`),
-      () => console.info(`End => ${SOCKET_ATTRACTOR}`),
-      (data) => data && data.message_type === SOCKET_ATTRACTOR
-    ).pipe(map(data => data.value));
-
-    socketAttractor$
-    .subscribe(value => {
-      const { pathname } = this.props.location;
-      if (pathname !== Pages.Attractor && pathname !== Pages.Home)
-        return;
-
-      let page = "";
-      if (value === MESSAGE_STOP_VIDEO)
-        page = Pages.Home;
-      else if (value === MESSAGE_START_CAMERA)
-        page = Pages.Prepay;
-
-      this.props.history.push(page);
-    });
 
     /* ==== GET CONFIG ==== */
     /* ======================================== */
@@ -248,7 +254,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
           alarms: this.state.alarms,
           isPouring: this.state.isPouring,
           socketAlarms$: this.socketAlarms$,
-          ws: this.ws,
+          socketAttractor$: this.state.socketAttractor$,
+          ws: this.state.ws,
           onStartPour: this.onStartPour,
           onStopPour: this.onStopPour,
           sustainabilityData: this.state.sustainabilityData

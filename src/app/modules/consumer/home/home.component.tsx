@@ -3,7 +3,7 @@ import * as React from "react";
 import { HomeContent, HomeWrap } from "./home.style";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
-import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER } from "@utils/constants";
+import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER, MESSAGE_START_CAMERA } from "@utils/constants";
 import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
 import { Subscription, Subject } from "rxjs";
@@ -114,6 +114,26 @@ export const Home = (props: HomeProps) => {
   }, [state.beverageSelected, slideOpen]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
+  /* ==== PROXIMITY SENSOR ==== */
+  /* ======================================== */
+
+  const { socketAttractor$ } = configConsumer;
+  React.useEffect(() => {
+    const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
+    if (socketAttractor$ === undefined || consumerConsumer.isLogged || (beverageSelected != null || idBeveragePouring_ != null || indexFavoritePouring_ != null)) {
+      return () => null;
+    }
+    const socketAttractor_ = socketAttractor$
+    .subscribe(value => {
+      if (value === MESSAGE_START_CAMERA) {
+        goToPrepay();
+      }
+    });
+    return () => {
+      socketAttractor_.unsubscribe();
+    };
+  }, [socketAttractor$, state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_, consumerConsumer.isLogged]); // => TO IMPROVE
+
   /* ==== ALARMS ==== */
   /* ======================================== */
 
@@ -122,7 +142,7 @@ export const Home = (props: HomeProps) => {
       return null;
     }
     const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
-    if (beverageSelected || idBeveragePouring_ != null || indexFavoritePouring_ != null) {
+    if (beverageSelected != null || idBeveragePouring_ != null || indexFavoritePouring_ != null) {
       resetBeverage();
       setEndSession(StatusEndSession.OutOfStock);
       alertConsumer.show({
@@ -141,7 +161,7 @@ export const Home = (props: HomeProps) => {
         socketAlarms_.unsubscribe();
       };
     },
-    [state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_],
+    [state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_] // => TO IMPROVE
   );
 
   /* ==== BEVERAGE ==== */
