@@ -18,7 +18,7 @@ const App = () => (
               <ConsumerStore>
                 <TimerStore>
                   <GlobalStyle />
-                  <PreCacheImg
+                  {/* <PreCacheImg
                     images={[
                       "img/slider-bg.svg",
                       "img/slider-bg.png",
@@ -67,7 +67,7 @@ const App = () => (
                       "icons/last-pour.png",
                       "icons/last-pour@blur.png",
                     ]}
-                  />
+                  /> */}
                   <AppRouter />
                 </TimerStore>
               </ConsumerStore>

@@ -75,7 +75,7 @@ export const CustomizeBeverageCard = styled.div`
   border-radius: 0 0 20px 20px;
   left: 50%;
   transform: translateX(-50%);
-  /* background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff); */
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff);
   /* &.${BeverageTypes.Sparkling} #logo-sparkling {
     display: block;
   }
@@ -85,6 +85,14 @@ export const CustomizeBeverageCard = styled.div`
   &:before {
     content: " ";
     position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    border-radius: 0 0 17px 17px;
+    box-shadow: 0px 19px 31px -4px rgba(0,0,0,0.1);
+    /* content: " ";
+    position: absolute;
     top: -10%;
     left: -8%;
     width: 118%;
@@ -92,7 +100,7 @@ export const CustomizeBeverageCard = styled.div`
     background-image: url("img/detail-card-bg.png");
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: bottom;
+    background-position: bottom; */
   }
   /* #logo, #logo-sparkling {
     position: absolute;

@@ -31,8 +31,6 @@ export interface HomeState {
   indexFavoritePouring_: number;
   beverageConfig: IBeverageConfig;
 
-  slideOpen: boolean;
-
   showCardsInfo: boolean;
 }
 
@@ -67,7 +65,6 @@ export const Home = (props: HomeProps) => {
 
   const [state, setState] = React.useState<HomeState>({
     isSparkling: false,
-    slideOpen: false,
     beverageSelected: null,
     indexBeverageForLongPressPour_: null,
     idBeveragePouring_: null,
@@ -82,6 +79,7 @@ export const Home = (props: HomeProps) => {
     }
   });
   const [nutritionFacts, setNutritionFacts] = React.useState(false);
+  const [slideOpen, setSlideOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
 
   const alertConsumer = React.useContext(AlertContext);
@@ -104,10 +102,10 @@ export const Home = (props: HomeProps) => {
   React.useEffect(() => {
     changeStateLayout({
       beverageSelected: state.beverageSelected,
-      slideOpen: state.slideOpen,
+      slideOpen: slideOpen,
       buttonGroupSelected: null
     });
-  }, [state.beverageSelected, state.slideOpen]);
+  }, [state.beverageSelected, slideOpen]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
   /* ==== ALARMS ==== */
@@ -349,10 +347,7 @@ export const Home = (props: HomeProps) => {
   };
 
   function handleSlide() {
-    setState(prevState => ({
-      ...prevState,
-      slideOpen: !prevState.slideOpen
-    }));
+    setSlideOpen(prevState => !prevState);
   }
 
   const handleNutritionFacts = () => setNutritionFacts(prevState => !prevState);
@@ -394,7 +389,7 @@ export const Home = (props: HomeProps) => {
     <HomeContent>
       {presentSlide &&
         <Slide
-          slideOpen={state.slideOpen}
+          slideOpen={slideOpen}
           indexFavoritePouring_={state.indexFavoritePouring_}
           beverageSelected={state.beverageSelected}
           selectConsumerBeverage={selectConsumerBeverage}
@@ -427,7 +422,7 @@ export const Home = (props: HomeProps) => {
       </HomeWrap>
       <CardsWrap
         presentSlide={presentSlide}
-        slideOpen={state.slideOpen}
+        slideOpen={slideOpen}
         indexBeverageForLongPressPour_={state.indexBeverageForLongPressPour_}
         indexFavoritePouring_={state.indexFavoritePouring_}
         color={getBeverageColorOnLongPressPour()}
@@ -437,7 +432,7 @@ export const Home = (props: HomeProps) => {
         <CustomizeBeverage
           levels={levels}
           isSparkling={isSparkling}
-          slideOpen={state.slideOpen}
+          slideOpen={slideOpen}
           showCardsInfo={state.showCardsInfo}
           endPourEvent={endPourEvent}
           beverageConfig={state.beverageConfig}

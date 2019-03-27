@@ -48,6 +48,16 @@ export const BeverageWrap = styled.div`
   &:before {
     content: " ";
     position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    border-radius: 0 0 17px 17px;
+    box-shadow: 0px 19px 31px -4px rgba(0,0,0,0.1);
+  }
+  /* &:before {
+    content: " ";
+    position: absolute;
     top: -26%;
     left: -22.1%;
     width: 145%;
@@ -56,13 +66,13 @@ export const BeverageWrap = styled.div`
     background-size: contain;
     background-repeat: no-repeat;
     background-position: bottom;
-  }
+  } */
   button {
     position: relative;
     width: 100%;
     height: 100%;
     border-radius: 17px;
-    /* background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff); */
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff);
   }
 `;
 
@@ -252,6 +262,21 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
           </BeverageExtra>
         </React.Fragment>
     </BeverageContent>
+    // <BeverageContent size={size} ref={innerRef}>
+    //   <ClickNHold
+    //     time={0.5}
+    //     onStart={start}
+    //     onClickNHold={clickHold}
+    //     onEnd={end}
+    //   >
+    //     <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
+    //       <button ref={buttonEl} disabled={disabledButton}>
+    //         <Nutrition show={nutritionFacts} title={title} color={color} />
+    //         <Basic show={!nutritionFacts} specialCard={$specialCard} {...props} />
+    //       </button>
+    //     </BeverageWrap>
+    //   </ClickNHold>
+    // </BeverageContent>
   );
 });
 
