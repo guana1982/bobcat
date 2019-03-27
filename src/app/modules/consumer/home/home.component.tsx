@@ -45,6 +45,11 @@ const TimerEnd = {
     TimerEnd.timer_ = setInterval(endEvent, CONSUMER_TIMER.END_POUR);
   }
 };
+enum StatusEndSession {
+  Start = "start",
+  Finish = "finish",
+  OutOfStock = "outOfStock"
+}
 
 let socketAlarms_: Subscription;
 
@@ -81,6 +86,7 @@ export const Home = (props: HomeProps) => {
   const [nutritionFacts, setNutritionFacts] = React.useState(false);
   const [slideOpen, setSlideOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
+  const [endSession, setEndSession] = React.useState<"start" | "finish" | "outOfStock">(null);
 
   const alertConsumer = React.useContext(AlertContext);
   const configConsumer = React.useContext(ConfigContext);
@@ -118,6 +124,7 @@ export const Home = (props: HomeProps) => {
     const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
     if (beverageSelected || idBeveragePouring_ != null || indexFavoritePouring_ != null) {
       resetBeverage();
+      setEndSession(StatusEndSession.OutOfStock);
       alertConsumer.show({
         type: AlertTypes.OutOfStock,
         timeout: true,
@@ -208,6 +215,7 @@ export const Home = (props: HomeProps) => {
       }
     }
 
+    setEndSession(StatusEndSession.Start);
     timerConsumer.resetTimer();
     configConsumer.onStartPour(bevSelected, bevConfig).subscribe(); // => TEST MODE
 
@@ -216,45 +224,63 @@ export const Home = (props: HomeProps) => {
   const stopPour = () => {
     timerConsumer.startTimer();
     configConsumer.onStopPour().subscribe(); // => TEST MODE
-    if (getBeverageSelected() || state.idBeveragePouring_ !== null) {
-      startPourEvent();
-    }
+    // if (getBeverageSelected() || state.idBeveragePouring_ !== null) {
+    //   setEndSession(true);
+    // }
   };
 
   /* ==== END POUR ==== */
   /* ======================================== */
 
-  const startTimerEnd = () => TimerEnd.startTimer(endPourEvent);
-
-  function startPourEvent() {
-    if (TimerEnd.timer_ === null) {
-      TimerEnd.startTimer(endPourEvent);
-      document.addEventListener("touchstart", TimerEnd.clearTimer);
-      document.addEventListener("touchend", startTimerEnd);
-      // document.addEventListener("mousedown", TimerEnd.clearTimer); // => DESKTOP MODE
-      // document.addEventListener("mouseup", startTimerEnd); // => DESKTOP MODE
-      document.addEventListener("keydown", TimerEnd.clearTimer); // => ACCESSIBILITY
-      document.addEventListener("keyup", startTimerEnd); // => ACCESSIBILITY
-    }
-  }
-
-  function endPourEvent() {
-    document.removeEventListener("touchstart", TimerEnd.clearTimer);
-    document.removeEventListener("touchend", startTimerEnd);
-    // document.removeEventListener("mousedown", TimerEnd.clearTimer); // => DESKTOP MODE
-    // document.removeEventListener("mouseup", startTimerEnd); // => DESKTOP MODE
-    document.removeEventListener("keydown", TimerEnd.clearTimer); // => ACCESSIBILITY
-    document.removeEventListener("keyup", startTimerEnd); // => ACCESSIBILITY
-    TimerEnd.clearTimer();
-    alertConsumer.show({
-      type: AlertTypes.EndBeverage,
-      timeout: true,
-      onDismiss: () => {
-        resetBeverage();
-        consumerConsumer.resetConsumer(false);
+  React.useEffect(
+    () => {
+      const startTimerEnd = () => TimerEnd.startTimer(() => setEndSession(StatusEndSession.Finish));
+      if (endSession !== null) {
+        console.log(`${endSession} | End Session`);
       }
-    });
-  }
+
+      if (endSession === StatusEndSession.Start) {
+
+        startTimerEnd();
+
+        document.addEventListener("touchstart", TimerEnd.clearTimer);
+        document.addEventListener("touchend", startTimerEnd);
+        // document.addEventListener("mousedown", TimerEnd.clearTimer); // => DESKTOP MODE
+        // document.addEventListener("mouseup", startTimerEnd); // => DESKTOP MODE
+        document.addEventListener("keydown", TimerEnd.clearTimer); // => ACCESSIBILITY
+        document.addEventListener("keyup", startTimerEnd); // => ACCESSIBILITY
+
+      } else if (endSession === StatusEndSession.Finish) {
+
+        TimerEnd.clearTimer();
+
+        if (StatusEndSession.Finish) {
+          alertConsumer.show({
+            type: AlertTypes.EndBeverage,
+            timeout: true,
+            onDismiss: () => {
+              resetBeverage();
+              consumerConsumer.resetConsumer(false);
+            }
+          });
+        }
+
+      } else if (endSession === StatusEndSession.OutOfStock) {
+        TimerEnd.clearTimer();
+      }
+
+      return () => {
+        if (endSession === StatusEndSession.Start) {
+          document.removeEventListener("touchstart", TimerEnd.clearTimer);
+          document.removeEventListener("touchend", startTimerEnd);
+          // document.removeEventListener("mousedown", TimerEnd.clearTimer); // => DESKTOP MODE
+          // document.removeEventListener("mouseup", startTimerEnd); // => DESKTOP MODE
+          document.removeEventListener("keydown", TimerEnd.clearTimer); // => ACCESSIBILITY
+          document.removeEventListener("keyup", startTimerEnd); // => ACCESSIBILITY
+        }
+      };
+
+    }, [endSession]);
 
   /* ==== RESET ==== */
   /* ======================================== */
@@ -426,7 +452,7 @@ export const Home = (props: HomeProps) => {
         indexBeverageForLongPressPour_={state.indexBeverageForLongPressPour_}
         indexFavoritePouring_={state.indexFavoritePouring_}
         color={getBeverageColorOnLongPressPour()}
-        endPourEvent={endPourEvent}
+        endPourEvent={() => setEndSession(StatusEndSession.Finish)}
       />
       {beverageSelected &&
         <CustomizeBeverage
@@ -434,7 +460,7 @@ export const Home = (props: HomeProps) => {
           isSparkling={isSparkling}
           slideOpen={slideOpen}
           showCardsInfo={state.showCardsInfo}
-          endPourEvent={endPourEvent}
+          endPourEvent={() => setEndSession(StatusEndSession.Finish)}
           beverageConfig={state.beverageConfig}
           resetBeverage={resetBeverage}
           getBeverageSelected={getBeverageSelected}

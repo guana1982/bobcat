@@ -242,9 +242,8 @@ class ConsumerStoreComponent extends React.Component<any, any> {
       .pipe(
         mergeMap(() => this.getDataFromSocket(SOCKET_CONSUMER.QR)),
         tap(() => this.stopScanning().subscribe()),
-        tap((data: IConsumerModel) => console.log("ConsumerBeverages", this.getConsumerBeverages(data))),
         map((data: IConsumerModel) => {
-          console.log(data);
+          console.log("ConsumerBeverages", data);
           const isLogged = data.identification_type !== IdentificationConsumerTypes.NoAuth;
           this.setState({
             isLogged: isLogged,
