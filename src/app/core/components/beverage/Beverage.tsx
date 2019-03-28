@@ -255,11 +255,13 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
               </BeverageWrap>
             </ClickNHold>
           }
-          <BeverageExtra>
-            <OutOfStock show={$outOfStock && !($blur || $info)} {...props} />
-            <Info show={$info && !$blur} {...props} />
-            <Blur show={$blur} {...props} />
-          </BeverageExtra>
+          {($outOfStock || $blur || $info) &&
+            <BeverageExtra>
+              <OutOfStock show={$outOfStock && !($blur || $info)} {...props} />
+              <Info show={$info && !$blur} {...props} />
+              <Blur show={$blur} {...props} />
+            </BeverageExtra>
+          }
         </React.Fragment>
     </BeverageContent>
     // <BeverageContent size={size} ref={innerRef}>

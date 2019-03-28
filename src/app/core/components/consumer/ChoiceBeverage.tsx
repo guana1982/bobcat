@@ -86,9 +86,9 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
             );
           })}
         </Grid>
-        <Button detectValue="nutrition-btn" disabled={disabled} onClick={() => handleNutritionFacts()} text={!isLogged ? "Nutrition" : null} icon={!nutritionFacts ? "nutrition" : "close"} />
+        <Button detectValue="nutrition-btn" disabled={disabled} onClick={() => handleNutritionFacts()} text={"Nutrition"} icon={!nutritionFacts ? "nutrition" : "close"} />
         {!isLogged && <Button detectValue="signin-btn" disabled={disabled} onClick={() => goToPrepay()} text="Sign In" icon="qr-code" />}
-        {isLogged && <Button detectValue="logout-btn" disabled={disabled} onClick={() => resetConsumer()} icon="log-out" />}
+        {isLogged && <Button detectValue="logout-btn" disabled={disabled} onClick={() => resetConsumer()} text="Sign Out" icon="log-out" />}
       </ChoiceBeverageWrap>
     </React.Fragment>
   );
