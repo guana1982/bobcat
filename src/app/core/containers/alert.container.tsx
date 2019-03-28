@@ -3,7 +3,7 @@ import createContainer from "constate";
 import { ConfigContext } from "./config.container";
 import { Alert } from "@core/components/global/Alert";
 
-export const DEFAULT_TIMEOUT_ALERT = 6000;
+export const DEFAULT_TIMEOUT_ALERT = 1500;
 
 export enum AlertTypes {
   Success = "success",

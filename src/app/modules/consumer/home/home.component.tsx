@@ -17,6 +17,7 @@ import { BeverageTypes } from "@core/components/beverage/Beverage";
 import { AccessibilityContext } from "@core/containers";
 import { SegmentButtonProps } from "@core/components/global/SegmentButton";
 import { CardsWrap } from "@core/components/consumer/CardsWrap";
+import mediumLevel from "@core/utils/lib/mediumLevel";
 // import { SegmentButton } from "@core/components/global/SegmentButton";
 
 interface HomeProps {
@@ -273,6 +274,7 @@ export const Home = (props: HomeProps) => {
       } else if (endSession === StatusEndSession.Finish) {
 
         TimerEnd.clearTimer();
+        mediumLevel.product.sessionEnded().subscribe();
 
         if (StatusEndSession.Finish) {
           alertConsumer.show({
@@ -287,6 +289,8 @@ export const Home = (props: HomeProps) => {
 
       } else if (endSession === StatusEndSession.OutOfStock) {
         TimerEnd.clearTimer();
+        mediumLevel.product.sessionEnded().subscribe();
+        consumerConsumer.resetConsumer(false);
       }
 
       return () => {

@@ -61,9 +61,6 @@ class ConsumerStoreComponent extends React.Component<any, any> {
   /* ======================================== */
 
   resetConsumer = (noPushAttractor?: boolean) => {
-    if (noPushAttractor === false) {
-      mediumLevel.product.sessionEnded().subscribe();
-    }
     console.log("noPushAttractor", noPushAttractor);
     this.setState({
       isLogged: false,
