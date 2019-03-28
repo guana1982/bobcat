@@ -236,18 +236,14 @@ export const Home = (props: HomeProps) => {
       }
     }
 
-    setEndSession(StatusEndSession.Start);
     timerConsumer.resetTimer();
     configConsumer.onStartPour(bevSelected, bevConfig).subscribe(); // => TEST MODE
-
   };
 
   const stopPour = () => {
     timerConsumer.startTimer();
     configConsumer.onStopPour().subscribe(); // => TEST MODE
-    // if (getBeverageSelected() || state.idBeveragePouring_ !== null) {
-    //   setEndSession(true);
-    // }
+    setEndSession(StatusEndSession.Start);
   };
 
   /* ==== END POUR ==== */

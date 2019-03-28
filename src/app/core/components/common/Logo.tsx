@@ -11,15 +11,13 @@ const SIZES = {
   }
 };
 
-const BeverageLogo = (beverage, size? ) => {
+const BeverageLogo = ({ beverage }, size? ) => {
+
   return (
-    // <img
-    //   src={`pepsi/imgs/logos/${beverage.beverage_logo_id}_big.png`}
-    //   {...SIZES[size ? "default" : size]}
-    // />
     <img
-      src={`img/drink.png`}
-      {...SIZES[size ? "default" : size]}
+      src={`img/logos/${beverage.beverage_logo_id}.png`}
+      width={"160px"} height={"160px"}
+      // {...SIZES[size ? "default" : size]}
     />
   );
 };
