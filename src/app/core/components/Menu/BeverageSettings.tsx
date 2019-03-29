@@ -29,21 +29,21 @@ const enhance = compose(
   setDisplayName("Lines"),
   onlyUpdateForKeys(["page", "totalPages", "saving"]),
   withState("linesConfig", "setLinesConfig", props => {
-    // const linesConfig = [...Array(props.valvesCount - 2).keys()].map((lineIndex, index) => {
-    //   const lineId = lineIndex + 1;
-    //   const line = props.initialLines.find(l => l.line_id === lineId) || {};
-    //   return {
-    //     line_id: lineId,
-    //     beverage_id: line.beverage_id || -1,
-    //     beverage_menu_index: line.beverage_menu_index || -1,
-    //     beverage_label_id: line.beverage_label_id || -1,
-    //     image: line.image || null,
-    //     name: line.shortname || null
-    //   };
-    // });
+    let linesConfig = [...Array(props.valvesCount - 2).keys()].map((lineIndex, index) => {
+      const lineId = lineIndex + 1;
+      const line = props.initialLines.find(l => l.line_id === lineId) || {};
+      return {
+        line_id: lineId,
+        beverage_id: line.beverage_id || -1,
+        beverage_menu_index: line.beverage_menu_index || -1,
+        beverage_type: line.beverage_type || -1,
+        beverage_label_id: line.beverage_label_id || -1,
+        image: line.image || null,
+        name: line.shortname || null
+      };
+    });
     console.log("initialLines", props.initialLines);
-    const linesConfig = props.initialLines
-      .filter(l => l.line_id > 0 && l.beverage_type !== SODA && l.beverage_type !== WATER && l.beverage_type !== AMB);
+    linesConfig = linesConfig.filter(l => l.beverage_type === BEV || l.beverage_type === NOT_USED);
     return linesConfig;
   }),
   withHandlers({
@@ -101,27 +101,23 @@ const PaginatedLines = enhance(
       updateLines(line, index);
     };
     const sodaLine = initialLines.find(l => l.beverage_type === SODA);
-    const sodaLineIndex = initialLines.indexOf(sodaLine) + 1;
     const waterLine = initialLines.find(l => l.beverage_type === WATER);
-    console.log(waterLine);
-    const waterLineIndex = initialLines.indexOf(waterLine) + 1;
     const ambLine = initialLines.find(l => l.beverage_type === AMB);
-    const ambLineIndex = initialLines.indexOf(ambLine) + 1;
     return (
       <React.Fragment>
         <Pagination page={page} totalPages={totalPages} onNext={nextPage} onPrev={prevPage} />
         <div className={styles.lines}>
           {linesConfig.slice(start, end).map((line, index) => {
             const actualIndex = line.line_id; // index + elementsPerPage * (page - 1) + 1;
-            const filterBeverages = availableBeverages.filter(beverage => beverage.beverage_type && beverage.beverage_type === BEV);
             const lineBeverage = availableBeverages.find(l => l.beverage_id === line.beverage_id) || {};
             return (
               <div key={actualIndex} className={styles.line}>
                 <div className={styles.lineNo}>
                   <BeveragesDropdown
                     onSelect={onSelectBeverage(line, actualIndex)}
+                    line={line}
                     linesConfig={linesConfig}
-                    beverages={filterBeverages}
+                    beverages={availableBeverages}
                     countries={countries}
                     initialCountry={country}
                     title={__("line") + "#" + line.line_id}
@@ -186,11 +182,11 @@ const PaginatedLines = enhance(
           <button onClick={onBack} className={"button-bar__button"}>
             {__("back")}
           </button>
-          <button className={"button-bar__button"} onClick={onCalibrate(waterLine)}>
-            {__("cal_water")}
-          </button>
           <button className={"button-bar__button"} onClick={onCalibrate(sodaLine)}>
             {__("cal_soda")}
+          </button>
+          <button className={"button-bar__button"} onClick={onCalibrate(waterLine)}>
+            {__("cal_water")}
           </button>
           <button className={"button-bar__button"} onClick={onCalibrate(ambLine)}>
             {__("cal_amb")}
@@ -237,18 +233,20 @@ const Lines = enhanceLines(
       });
     };
     const onCalibrateStep = (line) => e => {
-      const i = lines.indexOf(line);
+      const i = sortedLines.indexOf(line);
       goToStep({ step: 2, lineIndex: i + 1 });
     };
     const onLinesStep = () => {
       goToStep({ step: 1 });
     };
-    const sortedLines = lines.filter(l => l.line_id > -1); // .sort((a, b) => a.line_id - b.line_id);
-    const availableBeverages = lines.filter(l => l.line_id !== WATER && l.line_id !== SODA && l.line_id !== AMB).slice();
+    const sortedLines = lines.filter(l => l.line_id > -1).sort((a, b) => a.line_id - b.line_id);
+    console.log("sortedLines", sortedLines);
+    const availableBeverages = lines.filter(b => b.beverage_type === BEV).slice();
     availableBeverages.unshift({
       beverage_id: -1,
       beverage_logo_id: "0",
-      beverage_menu_index: -1
+      beverage_menu_index: -1,
+      beverage_type: -1,
     });
     return (
       <React.Fragment>

@@ -74,6 +74,7 @@ const Dropdown = enhance(
     page,
     totalPages,
     beverages,
+    line,
     title,
     toggle,
     nextPage,
@@ -121,11 +122,11 @@ const Dropdown = enhance(
             </div>
             <div className={styles.beveragesList}>
               {beveragesList.map((beverage, i) => {
-                const isAvailable = beverage.beverage_id === -1 ? true : linesConfig.findIndex(l => l.beverage_id === beverage.beverage_id) < 0;
+                const isAvailable = beverage.beverage_id === -1 ? line.beverage_id !== -1 : linesConfig.findIndex(l => l.beverage_id === beverage.beverage_id) < 0;
                 return (
                   <div
                     className={styles.beverageItem}
-                    onClick={selectBeverage(beverage)}
+                    onClick={isAvailable ? selectBeverage(beverage) : null}
                     style={{
                       opacity: !isAvailable ? 0.5 : 1
                     }}
