@@ -1,7 +1,7 @@
 import * as React from "react";
 import mediumLevel from "../utils/lib/mediumLevel";
 import { mergeMap, first, map, tap, delay } from "rxjs/operators";
-import { SOCKET_CONSUMER, Pages } from "../utils/constants";
+import { SOCKET_CONSUMER, Pages, Beverages } from "../utils/constants";
 import { IConsumerModel, IdentificationConsumerTypes, IConsumerBeverage } from "../utils/APIModel";
 import { Observable, of, merge } from "rxjs";
 import { withConfig } from "./config.container";
@@ -67,22 +67,24 @@ class ConsumerStoreComponent extends React.Component<any, any> {
       dataConsumer: null,
       consumerBeverages: []
     });
-    if (noPushAttractor!) {
+    if (!noPushAttractor) {
       this.props.history.push(Pages.Attractor);
     }
   }
 
   private compareConsumerBeverage = (consumerBeverages: IConsumerBeverage[]): IConsumerBeverage[] => {
-    const { beverages } = this.props.configConsumer;
+    const { allBeverages } = this.props.configConsumer;
     return consumerBeverages.map((consumerBeverage) => {
-        console.log("consumerBeverage", consumerBeverage);
+
         if (consumerBeverage && consumerBeverage.$types[0] === BeverageTypes.Info)
           return consumerBeverage;
 
-        let beverageFlavor: IBeverage = beverages.filter((b) => Number(b.beverage_id) === Number(consumerBeverage.flavors[0].product.flavorUpc))[0];
+        const flavor_id = Number(consumerBeverage.flavors[0].product.flavorUpc);
+
+        let beverageFlavor: IBeverage = allBeverages.filter((b) => Number(b.beverage_id) === flavor_id)[0];
 
         if (!beverageFlavor)
-          beverageFlavor = { beverage_label_id: __("Not Available"), status_id: BeverageStatus.EmptyBib, beverage_logo_id: 9 };
+          beverageFlavor = { beverage_label_id: __("Not Available"), status_id: BeverageStatus.EmptyBib, beverage_logo_id: undefined };
 
         if (consumerBeverage.flavorTitle === undefined || consumerBeverage.flavorTitle === null || consumerBeverage.flavorTitle === "")
           consumerBeverage.flavorTitle = beverageFlavor.beverage_label_id;
@@ -226,7 +228,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     if (type === SOCKET_CONSUMER.SERVER) {
       this.index_qr = this.index_qr + 1;
     }
-    return socketConsumer$; // of(mock()); // MOCK //
+    return of(mock()); // MOCK // socketConsumer$; //
   }
 
   /* ==== SCANNING ==== */

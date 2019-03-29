@@ -278,7 +278,7 @@ export const Home = (props: HomeProps) => {
             timeout: true,
             onDismiss: () => {
               resetBeverage();
-              consumerConsumer.resetConsumer(false);
+              consumerConsumer.resetConsumer();
             }
           });
         }
@@ -286,7 +286,7 @@ export const Home = (props: HomeProps) => {
       } else if (endSession === StatusEndSession.OutOfStock) {
         TimerEnd.clearTimer();
         mediumLevel.product.sessionEnded().subscribe();
-        consumerConsumer.resetConsumer(false);
+        consumerConsumer.resetConsumer();
       }
 
       return () => {

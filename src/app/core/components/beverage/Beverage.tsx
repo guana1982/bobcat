@@ -120,7 +120,7 @@ const BeverageContent = styled.div`
 `;
 
 interface BeverageProps {
-  beverage?: IBeverage;
+  beverage: IBeverage;
   types: BeverageTypes[];
   size?: BeverageSize;
   logoId?: any;
@@ -142,9 +142,9 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 
   const [zoomNutrition, setZoomNutrition] = React.useState(false);
 
-  const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled } = props;
+  const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled, beverage } = props;
 
-  const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib;
+  const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib || beverage.line_id <= 0;
   const $blur: boolean = disabled && !pouring;
   const $disabledTouch: boolean = types && types[0] === BeverageTypes.Info || $outOfStock;
   const $specialCard: boolean = types && types[0] === BeverageTypes.LastPour || types && types[0] === BeverageTypes.Favorite;

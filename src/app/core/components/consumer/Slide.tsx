@@ -206,6 +206,7 @@ export const Slide = (props: SlideProps) => {
                 types={b.$types}
                 $sparkling={b.$sparkling}
                 disabled={disabled}
+                beverage={b.$beverage}
                 // nutritionFacts={nutritionFacts}
                 handleDisabled={handleDisabled}
               />
