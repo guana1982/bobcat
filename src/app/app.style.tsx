@@ -1,5 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 
+const NeuzeitGroReg = require("../fonts/NeuzeitGroReg.otf");
+const NeuzeitGroBol = require("../fonts/NeuzeitGroBol.otf");
+
 export const themeMain = {
   primary: "#005BC3",
   secondary: "#E9F3FC",
@@ -32,12 +35,12 @@ export const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: NeuzeitGro-Reg;
-    src: url('fonts/URW - NeuzeitGro-Reg.otf')
+    src: url(${NeuzeitGroReg})
   }
 
   @font-face {
     font-family: NeuzeitGro-Bol;
-    src: url('fonts/URW - NeuzeitGro-Bol.otf')
+    src: url(${NeuzeitGroBol})
   }
 
   html,

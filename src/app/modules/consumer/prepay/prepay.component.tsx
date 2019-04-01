@@ -22,29 +22,19 @@ export const PrepayContent = styled.div`
   }
   #Webcam {
     position: absolute;
-    top: 225px;
-    left: 173.5px;
-    width: 370px;
-    height: 370px;
-    border: 40px solid #fff;
+    top: 261px;
+    left: 209px;
+    width: 257px;
+    height: 259px;
+    background-color: #0000ff;
     &:before {
       content: " ";
       position: absolute;
-      top: -19%;
-      left: -20.1%;
-      width: 150%;
-      height: 150%;
-      background-image: url("img/qr-bg.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: bottom;
-    }
-    &:after {
-      content: " ";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-color: #0000ff;
+      top: -15%;
+      left: -15%;
+      width: 130%;
+      height: 130%;
+      box-shadow: 0px 19px 31px -4px rgba(0,0,0,0.1);
     }
   }
   #Bottle-QR {
