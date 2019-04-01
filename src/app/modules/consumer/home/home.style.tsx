@@ -27,7 +27,7 @@ export const HomeWrap = styled.div`
     background-image: ${props => props.theme.backgroundLight};
   } */
   ${Grid} {
-    padding-top: 6.5rem;
+    padding-top: 5.5rem;
   }
   ${ChoiceBeverageWrap} {
     /* filter: ${props => props.beverageIsSelected ? "blur(5px)" : null}; */

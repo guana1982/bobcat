@@ -7,6 +7,7 @@ import { ConsumerContext } from "@containers/consumer.container";
 import { Pages } from "@utils/constants";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { CloseBtn, CloseBtnWrap } from "@core/components/global/CloseBtn";
+import mediumLevel from "@core/utils/lib/mediumLevel";
 
 export const PrepayContent = styled.div`
   background-image: ${props => props.theme.backgroundLight};
@@ -91,6 +92,7 @@ export const Prepay = (props: PrepayProps) => {
   const consumerConsumer = React.useContext(ConsumerContext);
 
   React.useEffect(() => {
+    mediumLevel.config.stopVideo().subscribe(); // <= STOP ATTRACTOR
     timerConsumer.startTimer();
     start();
     return () => {

@@ -18,6 +18,7 @@ import { AccessibilityContext } from "@core/containers";
 import { SegmentButtonProps } from "@core/components/global/SegmentButton";
 import { CardsWrap } from "@core/components/consumer/CardsWrap";
 import mediumLevel from "@core/utils/lib/mediumLevel";
+import { TIMEOUT_ATTRACTOR } from "../attractor/attractor.component";
 // import { SegmentButton } from "@core/components/global/SegmentButton";
 
 interface HomeProps {
@@ -95,9 +96,13 @@ export const Home = (props: HomeProps) => {
   const consumerConsumer = React.useContext(ConsumerContext);
 
   React.useEffect(() => {
+    const stopVideo_ = setTimeout(() => {
+      mediumLevel.config.stopVideo().subscribe();
+    }, TIMEOUT_ATTRACTOR); // <= STOP ATTRACTOR
     timerConsumer.startTimer();
     TimerEnd.clearTimer();
     return () => {
+      clearTimeout(stopVideo_); // <= STOP ATTRACTOR
       timerConsumer.resetTimer();
     };
   }, []);

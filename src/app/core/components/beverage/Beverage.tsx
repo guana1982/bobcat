@@ -55,18 +55,6 @@ export const BeverageWrap = styled.div`
     border-radius: 0 0 17px 17px;
     box-shadow: 0px 19px 31px -4px rgba(0,0,0,0.1);
   }
-  /* &:before {
-    content: " ";
-    position: absolute;
-    top: -26%;
-    left: -22.1%;
-    width: 145%;
-    height: 149%;
-    background-image: url("img/flavor-card-bg.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: bottom;
-  } */
   button {
     position: relative;
     width: 100%;

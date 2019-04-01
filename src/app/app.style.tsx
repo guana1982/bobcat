@@ -14,6 +14,7 @@ export const themeMain = {
 
   grey: "rgba(241, 241, 241, .6)",
   slateGrey: "#565657",
+  arcticGrey: "#f5f5f5",
   backgroundLight: "linear-gradient(to bottom, #fff, #f9f9f9)"
 };
 

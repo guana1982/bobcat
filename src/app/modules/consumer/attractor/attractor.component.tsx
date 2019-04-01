@@ -11,7 +11,7 @@ interface AttractorProps {
   history: any;
 }
 
-const TIMEOUT_ATTRACTOR = 1100;
+export const TIMEOUT_ATTRACTOR = 1100;
 let eventTimeout_ = null;
 
 export const Attractor = (props: AttractorProps) => {
@@ -28,12 +28,11 @@ export const Attractor = (props: AttractorProps) => {
     eventTimeout_ = setTimeout(() => setShow(true), timeout_);
     const video_ = mediumLevel.config.startVideo().subscribe();
     return () => {
-      mediumLevel.config.stopVideo()
-      .pipe(
-        tap(() => video_.unsubscribe())
-      )
-      .subscribe();
       clearTimeout(eventTimeout_);
+      video_.unsubscribe();
+      // setTimeout(() => {
+      //   mediumLevel.config.stopVideo().subscribe();
+      // }, TIMEOUT_ATTRACTOR);
     };
   }, []);
 

@@ -91,16 +91,6 @@ export const CustomizeBeverageCard = styled.div`
     height: 50%;
     border-radius: 0 0 17px 17px;
     box-shadow: 0px 19px 31px -4px rgba(0,0,0,0.1);
-    /* content: " ";
-    position: absolute;
-    top: -10%;
-    left: -8%;
-    width: 118%;
-    height: 125%;
-    background-image: url("img/detail-card-bg.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: bottom; */
   }
   /* #logo, #logo-sparkling {
     position: absolute;

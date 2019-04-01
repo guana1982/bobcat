@@ -9,7 +9,8 @@ export const SegmentButtonWrapper = styled.div`
   width: 384px;
   border-radius: 0 0 30px 30px;
   /* z-index: -1; */
-  background: rgba(241, 241, 241, .6);
+  background: ${props => props.theme.arcticGrey};
+  box-shadow: inset 0 1px 5px 0 rgba(212, 212, 212, 0.7);
   height: 70px;
   button {
     position: relative;
@@ -46,14 +47,12 @@ export const SegmentButtonWrapper = styled.div`
       &:before {
         content: " ";
         position: absolute;
-        width: 180%;
-        height: 180%;
-        top: -21%;
-        left: -11%;
-        z-index: -1;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-image: url("img/rectangle.png");
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0 0 27px 27px;
+        box-shadow: 0px 19px 31px -4px rgba(0,0,0,0.1);
       }
     }
     /* &:active {

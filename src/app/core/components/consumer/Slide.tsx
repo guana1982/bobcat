@@ -130,7 +130,7 @@ export const SlideStyled = styled(_Slide)`
   }
   ${Grid} {
     position: absolute;
-    top: 15.4rem;
+    top: 5.4rem;
     right: 0;
     width: 100%;
     max-width: 80%;
