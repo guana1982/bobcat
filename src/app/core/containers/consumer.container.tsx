@@ -61,7 +61,6 @@ class ConsumerStoreComponent extends React.Component<any, any> {
   /* ======================================== */
 
   resetConsumer = (noPushAttractor?: boolean) => {
-    console.log("noPushAttractor", noPushAttractor);
     this.setState({
       isLogged: false,
       dataConsumer: null,
@@ -228,7 +227,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     if (type === SOCKET_CONSUMER.SERVER) {
       this.index_qr = this.index_qr + 1;
     }
-    return socketConsumer$; // of(mock()); // MOCK //
+    return of(mock()); // MOCK // socketConsumer$; //
   }
 
   /* ==== SCANNING ==== */

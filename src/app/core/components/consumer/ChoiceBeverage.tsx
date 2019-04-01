@@ -48,6 +48,7 @@ interface ChoiceBeverageProps {
   idBeveragePouring_: number;
   isSparkling: boolean;
   disabled: boolean;
+  fullMode: boolean;
   segmentButton: SegmentButtonProps; // => _SegmentButton
 }
 
@@ -56,7 +57,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
   const { beverages } = React.useContext(ConfigContext);
   const { isLogged, resetConsumer } = React.useContext(ConsumerContext);
 
-  const { idBeveragePouring_, onGesture, isSparkling, selectBeverage, startPour, stopPour, goToPrepay, disabled, handleNutritionFacts, nutritionFacts, handleDisabled } = props;
+  const { idBeveragePouring_, onGesture, isSparkling, selectBeverage, startPour, stopPour, goToPrepay, disabled, handleNutritionFacts, nutritionFacts, handleDisabled, fullMode } = props;
 
   return (
     <React.Fragment>
@@ -70,7 +71,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
                 key={i}
                 pouring={b.beverage_id === idBeveragePouring_}
                 types={isSparkling ? [BeverageTypes.Sparkling] : null}
-                size={isLogged ? BeverageSize.Tiny : BeverageSize.Normal}
+                size={(isLogged && !fullMode) ? BeverageSize.Tiny : BeverageSize.Normal}
                 color={b.beverage_font_color}
                 beverage={b}
                 logoId={b.beverage_logo_id}

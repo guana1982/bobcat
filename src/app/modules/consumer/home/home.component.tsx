@@ -459,6 +459,7 @@ export const Home = (props: HomeProps) => {
             onGesture={onGesture}
             selectBeverage={selectBeverage}
             startPour={startPour}
+            fullMode={fullMode}
             stopPour={stopPour}
             goToPrepay={goToPrepay}
             idBeveragePouring_={state.idBeveragePouring_}
@@ -472,8 +473,10 @@ export const Home = (props: HomeProps) => {
         )}
       </HomeWrap>
       <CardsWrap
+        lengthBeverages={beverages.length}
         presentSlide={presentSlide}
         slideOpen={slideOpen}
+        fullMode={fullMode}
         indexBeverageForLongPressPour_={state.indexBeverageForLongPressPour_}
         indexFavoritePouring_={state.indexFavoritePouring_}
         color={getBeverageColorOnLongPressPour()}

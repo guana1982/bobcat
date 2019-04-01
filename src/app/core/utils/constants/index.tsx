@@ -76,23 +76,93 @@ export const MESSAGE_START_CAMERA = "start_camera";
 
 //  INFO-CARDS POSITIONS ON LONG-PRESS POUR
 export const coordsCards = [
-  { card1: { top: 226, left: 525 }, card2: { top: 247, right: 226 } },
-  { card1: { top: 226, left: 715 }, card2: { top: 247, right: 94  } },
-  { card1: { top: 226, left: 75  }, card2: { top: 247, right: 727 } },
-  { card1: { top: 226, left: 200 }, card2: { top: 247, right: 570 } },
-  { card1: { top: 229, left: 591 }, card2: { top: 249, right: 199 } },
-  { card1: { top: 229, left: 216 }, card2: { top: 249, right: 239 } },
-  { card1: { top: 229, left: 205 }, card2: { top: 249, right: 597 } },
+  [
+    { card1: { top: 229, left: 216 }, card2: { top: 249, right: 239 } },
+  ],
+  [
+    { card1: { top: 226, left: 715 }, card2: { top: 247, right: 94  } },
+    { card1: { top: 226, left: 75  }, card2: { top: 247, right: 727 } },
+  ],
+  [
+    { card1: { top: 226, left: 525 }, card2: { top: 247, right: 226 } },
+    { card1: { top: 229, left: 216 }, card2: { top: 249, right: 239 } },
+    { card1: { top: 226, left: 216 }, card2: { top: 247, right: 570 } },
+  ],
+  [
+    { card1: { top: 226, left: 525 }, card2: { top: 247, right: 226 } },
+    { card1: { top: 226, left: 715 }, card2: { top: 247, right: 94  } },
+    { card1: { top: 226, left: 75  }, card2: { top: 247, right: 727 } },
+    { card1: { top: 226, left: 200 }, card2: { top: 247, right: 570 } }
+  ],
+  [
+    { card1: { top: 226, left: 525 }, card2: { top: 247, right: 226 } },
+    { card1: { top: 229, left: 216 }, card2: { top: 249, right: 239 } },
+    { card1: { top: 226, left: 216 }, card2: { top: 247, right: 570 } },
+    { card1: { top: 229, left: 715 }, card2: { top: 249, right: 94  } },
+    { card1: { top: 226, left: 75  }, card2: { top: 247, right: 727 } },
+  ],
+  [
+    { card1: { top: 226, left: 525 }, card2: { top: 247, right: 226 } },
+    { card1: { top: 229, left: 216 }, card2: { top: 249, right: 239 } },
+    { card1: { top: 226, left: 216 }, card2: { top: 247, right: 570 } },
+    { card1: { top: 226, left: 525 }, card2: { top: 247, right: 226 } },
+    { card1: { top: 229, left: 216 }, card2: { top: 249, right: 239 } },
+    { card1: { top: 226, left: 216 }, card2: { top: 247, right: 570 } },
+  ],
+  [
+    { card1: { top: 226, left: 525 }, card2: { top: 247, right: 226 } },
+    { card1: { top: 226, left: 715 }, card2: { top: 247, right: 94  } },
+    { card1: { top: 226, left: 75  }, card2: { top: 247, right: 727 } },
+    { card1: { top: 226, left: 200 }, card2: { top: 247, right: 570 } },
+    { card1: { top: 229, left: 591 }, card2: { top: 249, right: 199 } },
+    { card1: { top: 229, left: 216 }, card2: { top: 249, right: 239 } },
+    { card1: { top: 229, left: 205 }, card2: { top: 249, right: 597 } }
+  ]
 ];
 
 export const coordsCardsWithSlider = [
-  { card1: { top: 226, left: 625 }, card2: { top: 247, right: 186 } },
-  { card1: { top: 226, left: 306 }, card2: { top: 247, right: 186  } },
-  { card1: { top: 226, left: 175  }, card2: { top: 247, right: 627 } },
-  { card1: { top: 226, left: 175  }, card2: { top: 247, right: 627 } },
-  { card1: { top: 229, left: 216 }, card2: { top: 249, right: 239 } },
-  { card1: { top: 229, left: 205 }, card2: { top: 249, right: 597 } },
-  { card1: { top: 229, left: 205 }, card2: { top: 249, right: 597 } },
+  [
+    { card1: { top: 226, left: 75  }, card2: { top: 247, right: 727 } },
+  ],
+  [
+    { card1: { top: 226, left: 75  }, card2: { top: 247, right: 727 } },
+    { card1: { top: 226, left: 75  }, card2: { top: 247, right: 727 } },
+  ],
+  [
+    { card1: { top: 226, left: 124 }, card2: { top: 247, right: 226 } },
+    { card1: { top: 226, left: 75  }, card2: { top: 247, right: 727 } },
+    { card1: { top: 229, left: 205 }, card2: { top: 249, right: 597 } },
+  ],
+  [
+    { card1: { top: 226, left: 594 }, card2: { top: 247, right: 226 } },
+    { card1: { top: 226, left: 75  }, card2: { top: 247, right: 727 } },
+    { card1: { top: 229, left: 205 }, card2: { top: 249, right: 597 } },
+    { card1: { top: 226, left: 494 }, card2: { top: 247, right: 300 } },
+  ],
+  [
+    { card1: { top: 226, left: 124 }, card2: { top: 247, right: 226 } },
+    { card1: { top: 226, left: 75  }, card2: { top: 247, right: 727 } },
+    { card1: { top: 229, left: 205 }, card2: { top: 249, right: 597 } },
+    { card1: { top: 226, left: 124 }, card2: { top: 247, right: 226 } },
+    { card1: { top: 226, left: 75  }, card2: { top: 247, right: 727 } },
+  ],
+  [
+    { card1: { top: 226, left: 124 }, card2: { top: 247, right: 226 } },
+    { card1: { top: 226, left: 75  }, card2: { top: 247, right: 727 } },
+    { card1: { top: 229, left: 205 }, card2: { top: 249, right: 597 } },
+    { card1: { top: 226, left: 124 }, card2: { top: 247, right: 226 } },
+    { card1: { top: 226, left: 75  }, card2: { top: 247, right: 727 } },
+    { card1: { top: 229, left: 205 }, card2: { top: 249, right: 597 } },
+  ],
+  [
+    { card1: { top: 226, left: 625 }, card2: { top: 247, right: 186 } },
+    { card1: { top: 226, left: 306 }, card2: { top: 247, right: 186  } },
+    { card1: { top: 226, left: 175  }, card2: { top: 247, right: 627 } },
+    { card1: { top: 226, left: 175  }, card2: { top: 247, right: 627 } },
+    { card1: { top: 229, left: 216 }, card2: { top: 249, right: 239 } },
+    { card1: { top: 229, left: 205 }, card2: { top: 249, right: 597 } },
+    { card1: { top: 229, left: 205 }, card2: { top: 249, right: 597 } }
+  ]
 ];
 
 export const coordsSliderClose = [

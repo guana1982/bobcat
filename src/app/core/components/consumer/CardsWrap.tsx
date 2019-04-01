@@ -12,15 +12,17 @@ interface CardsWrapProps {
   indexBeverageForLongPressPour_: number;
   indexFavoritePouring_: number;
   slideOpen: boolean;
+  lengthBeverages?: number;
+  fullMode: boolean;
   color: string;
   endPourEvent: () => void;
 }
 
 const CardsWrap_ = (props: CardsWrapProps) => {
 
-  const { className, presentSlide, indexBeverageForLongPressPour_, indexFavoritePouring_, color, slideOpen, endPourEvent } = props;
+  const { className, presentSlide, indexBeverageForLongPressPour_, indexFavoritePouring_, color, slideOpen, endPourEvent, lengthBeverages, fullMode } = props;
 
-  const coordsInfoCard = !presentSlide ? coordsCards : coordsCardsWithSlider;
+  let coordsInfoCard = ((presentSlide && !fullMode) ? coordsCardsWithSlider : coordsCards)[lengthBeverages - 1];
 
   const validBeverage = indexBeverageForLongPressPour_ !== null && indexBeverageForLongPressPour_ >= 0;
   const validFavorite = indexFavoritePouring_ !== null && indexFavoritePouring_ >= 0;
@@ -30,16 +32,23 @@ const CardsWrap_ = (props: CardsWrapProps) => {
 
   let coords = null;
   if (validBeverage)
-    if (presentSlide)
-      coords = coordsCardsWithSlider[indexBeverageForLongPressPour_];
-    else
-      coords = coordsInfoCard[indexBeverageForLongPressPour_];
+    coords = coordsInfoCard[indexBeverageForLongPressPour_];
   else if (validFavorite) {
     if (slideOpen)
       coords = coordsSliderOpen[indexFavoritePouring_];
     else
       coords = coordsSliderClose[indexFavoritePouring_];
   }
+
+  // React.useEffect(() => {
+  //   if (presentSlide && fullMode) {
+  //     coordsInfoCard = coordsInfoCard.map(coords => {
+  //       coords.card1.left += 30;
+  //       coords.card2.right -= 30;
+  //       return coords;
+  //     });
+  //   }
+  // }, [presentSlide, fullMode]);
 
   return (
     <div className={className}>
