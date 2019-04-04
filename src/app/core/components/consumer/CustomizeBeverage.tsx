@@ -286,6 +286,8 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           ref={buttonPourEl}
           onTouchStart={() => startPour()}
           onTouchEnd={() => stopPour()}
+          onTouchMove={() => stopPour()}
+          onTouchCancel={() => stopPour()}
           // onMouseDown={() => startPour()} // => DESKTOP MODE
           // onMouseUp={() => stopPour()} // => DESKTOP MODE
         >

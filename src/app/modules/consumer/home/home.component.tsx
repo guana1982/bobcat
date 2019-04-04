@@ -123,22 +123,22 @@ export const Home = (props: HomeProps) => {
   /* ==== PROXIMITY SENSOR ==== */
   /* ======================================== */
 
-  const { socketAttractor$ } = configConsumer;
-  React.useEffect(() => {
-    const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
-    if (socketAttractor$ === undefined || consumerConsumer.isLogged || (beverageSelected != null || idBeveragePouring_ != null || indexFavoritePouring_ != null)) {
-      return () => null;
-    }
-    const socketAttractor_ = socketAttractor$
-    .subscribe(value => {
-      if (value === MESSAGE_START_CAMERA) {
-        goToPrepay();
-      }
-    });
-    return () => {
-      socketAttractor_.unsubscribe();
-    };
-  }, [socketAttractor$, state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_, consumerConsumer.isLogged]); // => TO IMPROVE
+  // const { socketAttractor$ } = configConsumer;
+  // React.useEffect(() => {
+  //   const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
+  //   if (socketAttractor$ === undefined || consumerConsumer.isLogged || (beverageSelected != null || idBeveragePouring_ != null || indexFavoritePouring_ != null)) {
+  //     return () => null;
+  //   }
+  //   const socketAttractor_ = socketAttractor$
+  //   .subscribe(value => {
+  //     if (value === MESSAGE_START_CAMERA) {
+  //       goToPrepay();
+  //     }
+  //   });
+  //   return () => {
+  //     socketAttractor_.unsubscribe();
+  //   };
+  // }, [socketAttractor$, state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_, consumerConsumer.isLogged]); // => TO IMPROVE
 
   /* ==== ALARMS ==== */
   /* ======================================== */

@@ -146,14 +146,14 @@ class ConfigStoreComponent extends React.Component<any, any> {
     )
     .subscribe();
 
-    // setTimeout(() => {
-    //   const half_length = Math.ceil(this.state.alarms.length / 2);
-    //   this.setState(prevState => ({
-    //     ...prevState,
-    //     alarms: prevState.alarms.splice(0, half_length)
-    //   }));
-    //   console.log(this.state.alarms);
-    // }, 30000);
+    setTimeout(() => {
+      const half_length = Math.ceil(this.state.alarms.length / 2);
+      this.setState(prevState => ({
+        ...prevState,
+        alarms: prevState.alarms.splice(0, half_length)
+      }));
+      console.log(this.state.alarms);
+    }, 30000);
 
     /* ==== GET CONFIG ==== */
     /* ======================================== */

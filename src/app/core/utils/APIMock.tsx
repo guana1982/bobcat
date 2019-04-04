@@ -2,8 +2,8 @@ export const TEST_QR_0 = {
   "identification_type": "3",
   "saveBottles": "18",
   "consumer_nick": "Cesare          ",
-  "currHydraLvl": "1893",
-  "hydraGoal": "6444",
+  "currHydraLvl": "30",
+  "hydraGoal": "64",
   "consumer_id": "7ac2a5f5-8072-4c8a-b7d9-6590ecaed75f",
   "lastPour": {
     "carbLvl": "0",

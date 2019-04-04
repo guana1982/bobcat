@@ -20,6 +20,18 @@ const CircleCard_ = (props: CircleCardProps) => {
   let perc = calcolaPerc(hydraGoal, currHydraLvl);
   perc = perc > 100 ? 100 : perc;
 
+  const diffHydra = hydraGoal - currHydraLvl;
+  let messageHydra = "";
+  if (perc > 0 && perc <= 25) {
+    messageHydra = "GREAT START!";
+  } else if (perc > 25 && perc <= 60) {
+    messageHydra = "KEEP GOING!";
+  } else if (perc > 60 && perc <= 99) {
+    messageHydra = "ALMOST THERE!";
+  } else if (perc === 100) {
+    messageHydra = "CONGRATULATION!";
+  }
+
   return (
     <div className={className}>
       <div id="illustration-wrap">
@@ -37,9 +49,12 @@ const CircleCard_ = (props: CircleCardProps) => {
         </span>
       </div>
       <div id="text-wrap">
-        <h2>Keep going!</h2>
-        <h4>{currHydraLvl} more oz to reach <br/> your daily goal.</h4>
-        <h3><span>{currHydraLvl}</span> / {hydraGoal} OZ</h3>
+        <h2>{messageHydra}</h2>
+        {diffHydra !== 0 ?
+          <h4>{diffHydra} more oz to reach <br/> your daily goal.</h4> :
+          <h4>You've reached your daily <br/> hydration goal of {hydraGoal} oz</h4>
+        }
+        {/* <h3><span>{currHydraLvl}</span> / {hydraGoal} OZ</h3> */}
       </div>
     </div>
   );
