@@ -1,7 +1,7 @@
 import * as React from "react";
 import mediumLevel from "../utils/lib/mediumLevel";
 import { mergeMap, first, map, tap, delay } from "rxjs/operators";
-import { SOCKET_CONSUMER, Pages, Beverages } from "../utils/constants";
+import { SOCKET_CONSUMER, Pages, Beverages, LEVELS } from "../utils/constants";
 import { IConsumerModel, IdentificationConsumerTypes, IConsumerBeverage } from "../utils/APIModel";
 import { Observable, of, merge } from "rxjs";
 import { withConfig } from "./config.container";
@@ -91,6 +91,23 @@ class ConsumerStoreComponent extends React.Component<any, any> {
         consumerBeverage.$status_id = beverageFlavor.status_id;
         consumerBeverage.$beverage = beverageFlavor;
         consumerBeverage.$sparkling =  Number(consumerBeverage.carbLvl) !== 0;
+
+        const getLevel = (levelType: string, value: number) => {
+          const level: { label: string; value: number; }[] = LEVELS[levelType];
+          const index = level.findIndex(l => l.value === value);
+          let valuePerc = 33;
+          if (index === 1) {
+            valuePerc = 66;
+          } else if (index === 2) {
+            valuePerc = 100;
+          }
+          return valuePerc;
+        };
+        consumerBeverage.$levels = {
+          flavor_perc: getLevel("flavor", Number(consumerBeverage.flavors[0].flavorStrength)),
+          carbonation_perc: consumerBeverage.$sparkling ? getLevel("carbonation", Number(consumerBeverage.carbLvl)) : null,
+          temperature_perc: getLevel("temperature", Number(consumerBeverage.coldLvl))
+        };
         return consumerBeverage;
     });
   }
@@ -227,7 +244,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     if (type === SOCKET_CONSUMER.SERVER) {
       this.index_qr = this.index_qr + 1;
     }
-    return socketConsumer$; // of(mock()); // MOCK //
+    return of(mock()); // MOCK // socketConsumer$; //
   }
 
   /* ==== SCANNING ==== */

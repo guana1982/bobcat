@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 import { BeverageTypes } from "./Beverage";
 import { Logo } from "./Logo";
 import { IBeverage } from "@core/models";
+import { ILevelsModel } from "@core/utils/APIModel";
 
 interface BasicProps {
   className: any;
@@ -12,19 +13,42 @@ interface BasicProps {
   types: BeverageTypes[];
   specialCard: any;
   title: any;
+  levels: ILevelsModel;
   calories: string;
   beverage: IBeverage;
 }
 
 export const Basic_ = (props: BasicProps) => {
-  const { className, types, specialCard, title, beverage } = props;
+  const { className, types, specialCard, title, levels } = props;
 
   if (!props.show)
     return null;
 
   return (
     <div className={className}>
-        {(specialCard) && types.map((type, i) => <div key={i} className="indicator"><span>{type}</span></div>)}
+        {(specialCard) &&
+          <SpecialSection>
+            <div id="types">
+              {types.map((type, i) => <LabelIndicator key={i}><span>{type}</span></LabelIndicator>)}
+            </div>
+            <div id="levels">
+              {levels.carbonation_perc != null &&
+                <LevelIndicator level={levels.carbonation_perc}>
+                  <img src={`icons/${"sparkling"}.svg`} />
+                  <div className="value" />
+                </LevelIndicator>
+              }
+              <LevelIndicator level={levels.flavor_perc}>
+                <img src={`icons/${"flavor"}.svg`} />
+                <div className="value" />
+              </LevelIndicator>
+              <LevelIndicator level={levels.temperature_perc}>
+                <img src={`icons/${"temperature"}.svg`} />
+                <div className="value" />
+              </LevelIndicator>
+            </div>
+          </SpecialSection>
+        }
         <Logo {...props} />
         <span id="title">{__(title)}</span>
         <span id="cal">0 Cal.</span> {/* {beverage.calories} */}
@@ -33,13 +57,8 @@ export const Basic_ = (props: BasicProps) => {
   );
 };
 
-export const Basic = styled<BasicProps>(Basic_)`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  color: ${props => props.theme.slateGrey};
-  text-transform: uppercase;
-  .indicator {
+
+export const LabelIndicator = styled.div`
     position: absolute;
     display: flex;
     align-items: center;
@@ -48,16 +67,68 @@ export const Basic = styled<BasicProps>(Basic_)`
     top: 20px;
     width: 72px;
     height: 18.1px;
-    background: ${props => props.color};
+
     border-radius: 9px;
     span {
       text-transform: lowercase;
       font-size: 12px;
+      height: 12px;
       color: #fff;
     }
     &:nth-child(2) {
       top: 40px !important;
     }
+`;
+
+export const LevelIndicator = styled.div`
+  width: 34px;
+  height: 35px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+  img {
+    width: 20px;
+    height: 20px;
+  }
+  .value {
+    position: relative;
+    width: 30px;
+    height: 3px;
+    border-radius: 1.5px;
+    background-color: rgba(84, 84, 87, 0.21);
+    &:before {
+      content: "";
+      height: 3px;
+      border-radius: 1.5px;
+      width: ${props => props.level}%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: red;
+    }
+  }
+`;
+
+export const SpecialSection = styled.div`
+  #types {
+
+  }
+  #levels {
+    position: absolute;
+    top: 53px;
+    left: 18px;
+  }
+`;
+
+export const Basic = styled<BasicProps>(Basic_)`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: ${props => props.theme.slateGrey};
+  text-transform: uppercase;
+  ${LabelIndicator}, ${LevelIndicator} .value:before {
+    background: ${props => props.color};
   }
   &>#title {
     position: absolute;

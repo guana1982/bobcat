@@ -8,7 +8,7 @@ const ButtonGroupContent = styled.div`
   align-items: center;
   width: 550px;
   height: 37px;
-  margin: 13px 0;
+  margin: 20px 0;
   #info {
     width: 182.2px;
     button {
@@ -38,45 +38,59 @@ const ButtonGroupContent = styled.div`
     display: -ms-inline-flexbox;
     display: inline-flex;
     vertical-align: middle;
+    margin-right: 16px;
+    width: 375px;
+    border-radius: 22px;
+    height: 33px;
+    box-shadow: inset 0 1px 4px 0 rgba(212, 212, 212, 0.5);
+    background-color: #f3f3f3;
     button {
       position: relative;
-      width: 5.6rem;
       flex: 1;
-      width: 79.4px;
-      height: 25px;
-      border-radius: 8px;
-      margin: 0 6px 0 0;
-      &:disabled {
-        opacity: .2;
+      width: 125px;
+      height: 33px;
+      width: 125px;
+      height: 33px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &.active:disabled {
+        span {
+          display: none;
+        }
       }
-      &:first-child {
-        margin-left: 6px;
+      &:first-child{
+        border-top-left-radius: 17px;
+        border-bottom-left-radius: 17px;
       }
-      &:before {
-        position: absolute;
-        left: 0;
-        top: 10px;
-        content: "";
-        background: rgba(241, 241, 241, .8);
-        width: 79.4px;
-        height: 5px;
+      &.selected {
+        border-top-right-radius: 17px;
+        border-bottom-right-radius: 17px;
+        text-transform: uppercase;
       }
-      &.active:before {
-        background: ${props => props.color} !important;
+      &.active, &.selected {
+        background: ${props => props.color};
+        /* box-shadow: 20px -25px 34px -14px rgba(51, 56, 73, 0.08), 5px 2px 10px 0 rgba(190, 190, 190, 0.22), 0 3px 6px 0 ${props => props.color}; */
+        span {
+          color: #fff;
+        }
       }
-      &:active:before {
-        background: rgba(241, 241, 241, .8);
+      span {
+        font-family: NeuzeitGro-Bol;
+        font-size: 16px;
+        height: 13px;
+        color: ${props => props.theme.slateGrey};
       }
     }
   }
-  #value {
+  /* #value {
     text-align: right;
     width: 77px;
     font-size: 12px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: ${props => props.theme.slateGrey} !important
-  }
+  } */
 `;
 
 interface IOption {
@@ -129,13 +143,15 @@ export const ButtonGroup = (props: ButtonGroupProps) => {
             type="button" key={i}
             id={enableId ? `${props.detectValue}-option` : null}
             onClick={() => props.onChange(e.value)}
-            className={i <= indexValue ? "active" : ""}
-          />
+            className={`${i < indexValue && "active"} ${i === indexValue && "selected"}`}
+          >
+            <span>{props.options && props.options[i].label}</span>
+          </button>
         ) : " --- " }
       </div>
-      <div id="value">
+      {/* <div id="value">
         <span>{props.options && props.options[indexValue].label}</span>
-      </div>
+      </div> */}
     </ButtonGroupContent>
   );
 

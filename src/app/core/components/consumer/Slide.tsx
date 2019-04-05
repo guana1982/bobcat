@@ -177,7 +177,7 @@ interface SlideProps {
 }
 
 export const Slide = (props: SlideProps) => {
-  const { slideOpen, indexFavoritePouring_, beverageSelected, selectConsumerBeverage, startConsumerPour, stopConsumerPour, handleSlide, fullMode, disabled, nutritionFacts, handleDisabled } = props;
+  const { slideOpen, indexFavoritePouring_, beverageSelected, selectConsumerBeverage, startConsumerPour, stopConsumerPour, handleSlide, fullMode, disabled, handleDisabled } = props;
   const { dataConsumer, consumerBeverages } = React.useContext(ConsumerContext);
 
   const beverageIsSelected = beverageSelected !== undefined && beverageSelected !== null;
@@ -207,6 +207,7 @@ export const Slide = (props: SlideProps) => {
                 $sparkling={b.$sparkling}
                 disabled={disabled}
                 beverage={b.$beverage}
+                levels={b.$levels}
                 // nutritionFacts={nutritionFacts}
                 handleDisabled={handleDisabled}
               />

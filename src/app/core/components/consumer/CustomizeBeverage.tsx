@@ -18,6 +18,34 @@ const _sizePour = 105;
 
 /* color: string; */
 export const Pour = styled.button`
+  @keyframes shadow-pulse
+  {
+      0% {
+        zoom: 500%;
+        box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1);
+      }
+      100% {
+        zoom: 500%;
+        box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
+      }
+  }
+  &.pulse {
+    &:before, &:after {
+      content: " ";
+      height: ${_sizePour}px;
+      width: ${_sizePour * 2}px;
+      border-top-left-radius: ${_sizePour * 2}px;
+      border-top-right-radius: ${_sizePour * 2}px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      animation: "shadow-pulse 1.5s linear infinite";
+    }
+  }
+  &:after {
+    animation-delay: .5s;
+  }
   position: absolute;
   bottom: 0; /* ${-_sizePour / 5}px; */
   line-height: 6;

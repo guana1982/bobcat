@@ -17,6 +17,7 @@ import { Basic } from "./Basic";
 import { Info } from "./Info";
 import { CloseBtn, CloseBtnWrap } from "../global/CloseBtn";
 import { componentWillAppendToBody } from "react-append-to-body";
+import { ILevelsModel } from "@core/utils/APIModel";
 
 export enum BeverageTypes {
   Info = "info",
@@ -123,6 +124,7 @@ interface BeverageProps {
   disabled?: boolean;
   $sparkling?: boolean;
   nutritionFacts?: boolean;
+  levels?: ILevelsModel;
   handleDisabled: (d) => void;
 }
 
@@ -130,7 +132,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 
   const [zoomNutrition, setZoomNutrition] = React.useState(false);
 
-  const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled, beverage } = props;
+  const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled, beverage, levels } = props;
 
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib || beverage.line_id <= 0;
   const $blur: boolean = disabled && !pouring;
@@ -215,6 +217,8 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
       onHoldStart();
   };
 
+  console.log("levels", levels);
+
   return (
     <BeverageContent size={size} ref={innerRef}>
         <React.Fragment>
@@ -238,7 +242,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
               <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
                 <button ref={buttonEl} disabled={disabledButton}>
                   <Nutrition show={nutritionFacts} title={title} color={color} />
-                  <Basic show={!nutritionFacts} specialCard={$specialCard} {...props} />
+                  <Basic levels={levels} show={!nutritionFacts} specialCard={$specialCard} {...props} />
                 </button>
               </BeverageWrap>
             </ClickNHold>
@@ -252,21 +256,6 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
           }
         </React.Fragment>
     </BeverageContent>
-    // <BeverageContent size={size} ref={innerRef}>
-    //   <ClickNHold
-    //     time={0.5}
-    //     onStart={start}
-    //     onClickNHold={clickHold}
-    //     onEnd={end}
-    //   >
-    //     <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
-    //       <button ref={buttonEl} disabled={disabledButton}>
-    //         <Nutrition show={nutritionFacts} title={title} color={color} />
-    //         <Basic show={!nutritionFacts} specialCard={$specialCard} {...props} />
-    //       </button>
-    //     </BeverageWrap>
-    //   </ClickNHold>
-    // </BeverageContent>
   );
 });
 

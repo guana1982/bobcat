@@ -1,5 +1,5 @@
 import { BeverageStatus, IBeverage } from "../models/beverage.model";
-import { BeverageTypes } from "../components/beverage/Beverage";
+import { BeverageTypes, Levels } from "../components/beverage/Beverage";
 
 // === BEVERAGE ===
 
@@ -64,6 +64,12 @@ export interface IConsumerModel {
   lastPour: IConsumerBeverage;
 }
 
+export interface ILevelsModel {
+  flavor_perc: number;
+  carbonation_perc: number;
+  temperature_perc: number;
+}
+
 export interface IConsumerBeverage {
   flavorTitle: string;
   carbLvl: number;
@@ -75,6 +81,7 @@ export interface IConsumerBeverage {
   $logo_id?: any;
   $beverage?: IBeverage;
   $sparkling?: boolean;
+  $levels?: ILevelsModel;
 }
 
 interface Enhancement {
