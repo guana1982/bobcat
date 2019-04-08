@@ -125,6 +125,7 @@ interface BeverageProps {
   $sparkling?: boolean;
   nutritionFacts?: boolean;
   levels?: ILevelsModel;
+  slideOpen?: boolean;
   handleDisabled: (d) => void;
 }
 
@@ -132,7 +133,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 
   const [zoomNutrition, setZoomNutrition] = React.useState(false);
 
-  const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled, beverage, levels } = props;
+  const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled, beverage, levels, slideOpen } = props;
 
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib || beverage.line_id <= 0;
   const $blur: boolean = disabled && !pouring;
@@ -216,8 +217,6 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
     if (!pouring)
       onHoldStart();
   };
-
-  console.log("levels", levels);
 
   return (
     <BeverageContent size={size} ref={innerRef}>

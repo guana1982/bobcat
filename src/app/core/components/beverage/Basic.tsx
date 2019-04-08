@@ -16,10 +16,11 @@ interface BasicProps {
   levels: ILevelsModel;
   calories: string;
   beverage: IBeverage;
+  slideOpen?: boolean;
 }
 
 export const Basic_ = (props: BasicProps) => {
-  const { className, types, specialCard, title, levels } = props;
+  const { className, types, specialCard, title, levels, slideOpen } = props;
 
   if (!props.show)
     return null;
@@ -29,7 +30,7 @@ export const Basic_ = (props: BasicProps) => {
         {(specialCard) &&
           <SpecialSection>
             <div id="types">
-              {types.map((type, i) => <LabelIndicator key={i}><span>{type}</span></LabelIndicator>)}
+              {types.map((type, i) => <LabelIndicator tiny={types.length > 1 || !slideOpen} key={i}><img src={`icons/${type}.svg`} /><span>{__(type)}</span></LabelIndicator>)}
             </div>
             <div id="levels">
               {levels.carbonation_perc != null &&
@@ -59,20 +60,32 @@ export const Basic_ = (props: BasicProps) => {
 
 
 export const LabelIndicator = styled.div`
-    position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
-    left: 20px;
-    top: 20px;
     width: 72px;
     height: 18.1px;
-
     border-radius: 9px;
+    ${({ tiny }) => tiny && css`
+      width: 20px;
+      height: 20px;
+      border-radius: 11.4px;
+      img {
+        margin-right: 0 !important;
+      }
+      span {
+        display: none;
+      }
+    `}
+    img {
+      width: 10px;
+      height: 10px;
+      margin-right: 3px;
+    }
     span {
       text-transform: lowercase;
       font-size: 12px;
-      height: 12px;
+      height: 11px;
       color: #fff;
     }
     &:nth-child(2) {
@@ -112,11 +125,17 @@ export const LevelIndicator = styled.div`
 
 export const SpecialSection = styled.div`
   #types {
-
+    position: absolute;
+    display: flex;
+    left: 18px;
+    top: 20px;
+    ${LabelIndicator} {
+      margin-right: 5px;
+    }
   }
   #levels {
     position: absolute;
-    top: 53px;
+    top: 48px;
     left: 18px;
   }
 `;
