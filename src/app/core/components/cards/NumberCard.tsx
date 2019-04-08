@@ -32,10 +32,13 @@ const NumberCard_ = (props: NumberCardProps) => {
         <span>{savedBottle}</span>
       </div>
       <div id="text-wrap">
-        <h2>PLASTIC FREE!</h2>
         {!isLogged ?
-          <h4>You’re making an <br/> impact. This machine <br/> has saved {savedBottle} bottles.</h4> :
-          <h4>You’re making an <br/> impact by having saved <br/> {savedBottle} plastic bottles.</h4>
+          <h2>MAKE AN IMPACT</h2> :
+          <h4>YOU'RE MAKING AN IMPACT</h4>
+        }
+        {!isLogged ?
+          <h4>{savedBottle} bottles saved at this station</h4> :
+          <h4>You've helped eliminate {savedBottle} <br/> 16-ounce bottles</h4>
         }
       </div>
     </div>

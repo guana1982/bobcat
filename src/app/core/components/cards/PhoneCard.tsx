@@ -16,8 +16,8 @@ const PhoneCard_ = (props: PhoneCardProps) => {
         <PhoneIcon id="icon" color={props.color} />
       </div>
       <div id="text-wrap">
-        <h2>Download the App</h2>
-        <h4>Create an account to <br/> track hydration, save <br/> your drinks, and more.</h4>
+        <h2>Get the app</h2>
+        <h4>Track your hydration and save <br/> your customized drinks.</h4>
       </div>
     </div>
   );
