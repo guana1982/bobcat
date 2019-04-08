@@ -17,13 +17,16 @@ interface BasicProps {
   calories: string;
   beverage: IBeverage;
   slideOpen?: boolean;
+  $sparkling?: boolean;
 }
 
 export const Basic_ = (props: BasicProps) => {
-  const { className, types, specialCard, title, levels, slideOpen } = props;
+  const { className, types, specialCard, title, levels, slideOpen, $sparkling, logoId } = props;
 
   if (!props.show)
     return null;
+
+  const sparkling_ = (types && types[0] === BeverageTypes.Sparkling) || $sparkling; // <= CONDITION
 
   return (
     <div className={className}>
@@ -51,7 +54,7 @@ export const Basic_ = (props: BasicProps) => {
           </SpecialSection>
         }
         <Logo {...props} />
-        <span id="title">{__(title)}</span>
+        <span id="title">{__(logoId === 9 && (sparkling_ ? "sparkling" : "pure"))} {__(title)}</span>
         <span id="cal">0 Cal.</span> {/* {beverage.calories} */}
         {/* <span id="price">75¢</span> */}
     </div>
