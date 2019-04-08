@@ -244,7 +244,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     if (type === SOCKET_CONSUMER.SERVER) {
       this.index_qr = this.index_qr + 1;
     }
-    return of(mock()); // MOCK // socketConsumer$; //
+    return socketConsumer$; // of(mock()); // MOCK //
   }
 
   /* ==== SCANNING ==== */

@@ -1,5 +1,5 @@
 import { BeverageStatus, IBeverage } from "../models/beverage.model";
-import { BeverageTypes, Levels } from "../components/beverage/Beverage";
+import { BeverageTypes } from "../components/beverage/Beverage";
 
 // === BEVERAGE ===
 
