@@ -17,7 +17,7 @@ export default {
     saveLinesConfig: config => post("config/beverage/lines", config),
     saveLineCalibration: calibration => post("config/beverage/line_config", calibration),
     testPour: recipe => post("menu/tech_menu/beverage_settings_tech/test_line", recipe),
-    lineTest: recipe => post("dispense/test_beverage", recipe),
+    lineTest: recipe => post("menu/tech_menu/beverage_settings_tech/prime_line", recipe),
     startClean: line => post("menu/tech_menu/clean_sanitation/start_clean", line),
     stopClean: line => post("menu/tech_menu/clean_sanitation/stop_clean", line),
     sanitationCompleted: lines => post("menu/tech_menu/clean_sanitation/save_values", lines),

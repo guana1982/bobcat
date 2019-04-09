@@ -303,10 +303,10 @@ const PaginatedLineCalibration = enhance(
               {__("back")}
             </button>
             <button className={"button-bar__button button-bar__button--light"} onClick={onTestPour}>
-              {lineTestLoading ? __("line_testing") : __("test_beverage")}
+              {lineTestLoading ? __("prime_testing") : __("prime")}
             </button>
             <button className={"button-bar__button button-bar__button--light"} onClick={onPour}>
-              {pouringLoading ? __("beverage_testing") : __("test_line")}
+              {pouringLoading ? __("pour_testing") : __("test_line")}
             </button>
             <button className={"button-bar__button"} onClick={saveCalibration}>
               {savingCalibration ? __("saving_calibration") : __("save")}
