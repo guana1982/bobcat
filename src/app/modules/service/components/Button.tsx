@@ -21,7 +21,7 @@ export const MButton = styled<MButtonProps, "button">("button")`
   border-radius: 1rem;
   border: 1px solid ${props => props.theme.dark};
   text-transform: uppercase;
-  padding: .5rem;
+  padding: .3rem;
   white-space: pre-wrap;
   &:active {
     background: ${props => props.theme.secondary};

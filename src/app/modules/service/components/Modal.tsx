@@ -62,6 +62,9 @@ export const ModalContent = styled.div`
   min-width: 700px;
   min-height: 200px;
   background: ${props => props.theme.primary};
+  * {
+    font-family: 'Karla' !important;
+  }
   header {
     padding: 1rem;
     h2, h3 {

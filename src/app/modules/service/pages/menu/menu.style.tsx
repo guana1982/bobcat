@@ -80,6 +80,19 @@ export const Group = styled<GroupProps, "div">("div")`
 
 interface HomeContentProps { beverageIsSelected?: boolean; }
 export const MenuContent = styled<HomeContentProps, "div">("div")`
+
+  @font-face {
+    font-family: 'Karla';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Karla Regular'), local('Karla-Regular'),
+        url('/fonts/Karla-Regular.ttf') format('truetype')
+  }
+
+  * {
+    font-family: 'Karla' !important;
+  }
+
   background: ${props => props.theme.dark};
   width: 100vw;
   height: 100vh;

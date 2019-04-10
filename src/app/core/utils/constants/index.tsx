@@ -11,6 +11,8 @@ export enum Pages {
 // -- BEVERAGE --
 export enum Beverages {
   Plain = "plain",
+  Soda = "soda",
+  Amb = "amb",
   Bev = "bev"
 }
 

@@ -8,16 +8,20 @@ import { MButtonGroup } from "@modules/service/components/ButtonGroup";
 import ConnectivityComponent from "../connectivity/connectivity.component";
 import InitializationComponent from "../initialization/initialization.component";
 import { __ } from "@core/utils/lib/i18n";
-import { ConfigContext, ConsumerContext, ServiceContext } from "@core/containers";
+import { ServiceContext } from "@core/containers";
 import CleaningComponent from "../cleaning/cleaning.component";
 import EquipmentStatusComponent from "../equipmentStatus/equipmentStatus.component";
+import BeverageLogo from "@core/components/common/Logo";
+import LineComponent from "../line/line.component";
+import ChangePriceComponent from "../changePrice/changePrice.component";
 
 /* ==== MODALS ==== */
 /* ======================================== */
 
 enum Modals {
-  Beverage,
+  Line,
   Cleaning,
+  ChangePrice,
   Language,
   EquipmentStatus,
   EquipmentConfiguration,
@@ -30,22 +34,25 @@ enum Modals {
 interface ActionModals {
   type: "reset" | "open";
   modalToOpen?: Modals;
+  params?: any;
 }
 
 type StateModals = {
-  [modal in Modals]: boolean;
+  [modal in Modals]: { show: boolean; params?: any };
 };
 
+const initModal = { show: false , params: null };
 const initialModals = {
-  [Modals.Beverage]: false,
-  [Modals.Cleaning]: false,
-  [Modals.Language]: false,
-  [Modals.EquipmentStatus]: false,
-  [Modals.EquipmentConfiguration]: false,
-  [Modals.Customize]: false,
-  [Modals.Connectivity]: false,
-  [Modals.Update]: false,
-  [Modals.Timeout]: false
+  [Modals.Line]: initModal,
+  [Modals.Cleaning]: initModal,
+  [Modals.ChangePrice]: initModal,
+  [Modals.Language]: initModal,
+  [Modals.EquipmentStatus]: initModal,
+  [Modals.EquipmentConfiguration]: initModal,
+  [Modals.Customize]: initModal,
+  [Modals.Connectivity]: initModal,
+  [Modals.Update]: initModal,
+  [Modals.Timeout]: initModal
 };
 
 function reducerModals(state: StateModals, action: ActionModals) {
@@ -53,9 +60,10 @@ function reducerModals(state: StateModals, action: ActionModals) {
     case "reset":
       return initialModals;
     case "open":
+    console.log("action", action);
       return {
         ...state,
-        [action.modalToOpen]: true
+        [action.modalToOpen]: { show: true, params: action.params}
       };
     default:
       throw new Error();
@@ -93,7 +101,6 @@ export const MenuComponent = (props: MenuProps) => {
 
   const [modals, dispatchModals] = React.useReducer(reducerModals, initialModals);
 
-  const configConsumer = React.useContext(ConfigContext);
   const serviceConsumer = React.useContext(ServiceContext);
 
   React.useEffect(() => {
@@ -116,8 +123,8 @@ export const MenuComponent = (props: MenuProps) => {
   //   setState(prevState => ({ ...prevState, videoSelected: value }));
   // };
 
-  const openModal = (modal: Modals) => {
-    dispatchModals({ type: "open", modalToOpen: modal });
+  const openModal = (modal: Modals, params?: any) => {
+    dispatchModals({ type: "open", modalToOpen: modal, params: params });
   };
 
   const closeAllModal = () => {
@@ -127,23 +134,30 @@ export const MenuComponent = (props: MenuProps) => {
   /* ==== MAIN ==== */
   /* ======================================== */
 
+  const { lines } = serviceConsumer;
+
   return (
     <ThemeProvider theme={themeMenu}>
       <React.Fragment>
         <MenuContent>
           <Grid>
             <Group title={__("LINES ASSIGNMENT")} size={SIZE_GROUP_LINES}>
-              <MButton className="small" light info="Line - /">UNASSIGNED</MButton>
-              <MButton className="small" light info="Line - /">UNASSIGNED</MButton>
-              <MButton className="small" light info="Line - /">UNASSIGNED</MButton>
-              <MButton className="small" light info="Line - /">UNASSIGNED</MButton>
-              <MButton className="small" light info="Line - /">UNASSIGNED</MButton>
-              <MButton className="small" light info="Line - /">UNASSIGNED</MButton>
+              {lines.pumps.map((line, i) => {
+                return (
+                  <MButton onClick={() => openModal(Modals.Line, { line })} key={i} className="small" light info={`Line - ${line.line_id}`}>
+                    {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
+                  </MButton>
+                );
+              })}
             </Group>
             <Group title={__("WATERS")} size={SIZE_GROUP_WATERS}>
-              <MButton className="small" info="Line - /">STILL AMBIENT</MButton>
-              <MButton className="small" info="Line - /">STILL COLD</MButton>
-              <MButton className="small" info="Line - /">CARB COLD</MButton>
+              {lines.waters.map((line, i) => {
+                return (
+                  <MButton onClick={() => openModal(Modals.Line, { line })} key={i} className="small" light info={`${line.$beverage.beverage_type} - ${line.line_id}`}>
+                    {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
+                  </MButton>
+                );
+              })}
             </Group>
             <Group title={__("ACTIONS")}>
               <MButton onClick={() => openModal(Modals.EquipmentConfiguration)}>EQUIPMENT CONFIGURATION</MButton>
@@ -152,7 +166,7 @@ export const MenuComponent = (props: MenuProps) => {
               <MButton onClick={() => openModal(Modals.Cleaning)}>SCREEN CLEANING</MButton>
               <MButton onClick={() => openModal(Modals.Customize)}>CUSTOMIZE UI</MButton>
               <MButton>SANITATION</MButton>
-              <MButton>CHANGE PRICE</MButton>
+              <MButton onClick={() => openModal(Modals.ChangePrice)}>CHANGE PRICE</MButton>
             </Group>
             <Group title={__("SYSTEM")}>
               <MButton>SYSTEM REBOOT</MButton>
@@ -171,7 +185,7 @@ export const MenuComponent = (props: MenuProps) => {
                 <li>IMEI: ———</li>
                 <li>MOTHERBOARD SERIAL NUMBER: ———</li>
                 <li>MODEM SERIAL NUMBER: ———</li>
-                <li>SIM CARD DETAILS: ———</li>
+                <li>SIM CARD NUMBER: ———</li>
                 <li>SERIAL NUMBER: ———</li>
                 <li>FIRMWARE VERSION: ———</li>
                 <li>SOFTWARE VERSION: ———</li>
@@ -181,8 +195,11 @@ export const MenuComponent = (props: MenuProps) => {
           </Grid>
         </MenuContent>
 
+        {modals[Modals.Line].show && <LineComponent {...modals[Modals.Line].params} closeAllModal={closeAllModal} />}
+        {modals[Modals.ChangePrice].show && <ChangePriceComponent closeAllModal={closeAllModal} />}
+
         <Modal
-          show={modals[Modals.Update]}
+          show={modals[Modals.Update].show}
           cancel={closeAllModal}
           title="update"
           subTitle="select desired action"
@@ -196,7 +213,7 @@ export const MenuComponent = (props: MenuProps) => {
         ></Modal>
 
         <Modal
-          show={modals[Modals.Customize]}
+          show={modals[Modals.Customize].show}
           cancel={closeAllModal}
           title="CONSUMER UI"
           subTitle="SELECT DESIRED ACTION"
@@ -210,7 +227,7 @@ export const MenuComponent = (props: MenuProps) => {
         ></Modal>
 
         <Modal
-          show={modals[Modals.Timeout]}
+          show={modals[Modals.Timeout].show}
           cancel={closeAllModal}
           title="SELECTION TIMEOUT"
           content={
@@ -227,30 +244,8 @@ export const MenuComponent = (props: MenuProps) => {
           actions={ACTIONS_CONFIRM}
         ></Modal>
 
-        {/* <Modal
-          title={`LINE # ${1} - CURRENT ASSIGNMENT`}
-          content={
-            <div>
-              <Box>
-                <MButton disabled visibled light info="LINE - /">PEPSI</MButton>
-                <div id="info-box">
-                  <h3>PEPSI</h3>
-                  <h3>SKU NO. -------------- V -</h3>
-                </div>
-              </Box>
-              <Box className="centered">
-                <MButton>LOCK DISPENSE</MButton>
-                <MButton>CHANGE LINE ASSIGNMENT</MButton>
-                <MButton>CALIBRATION</MButton>
-                <MButton>PRIMING</MButton>
-              </Box>
-            </div>
-          }
-          actions={ACTIONS_CONFIRM}
-        ></Modal> */}
-
         <Modal
-          show={modals[Modals.EquipmentStatus]}
+          show={modals[Modals.EquipmentStatus].show}
           cancel={closeAllModal}
           title="EQUIPMENT STATUS"
           content={<EquipmentStatusComponent />}
@@ -258,7 +253,7 @@ export const MenuComponent = (props: MenuProps) => {
         ></Modal>
 
         <Modal
-          show={modals[Modals.Language]}
+          show={modals[Modals.Language].show}
           cancel={closeAllModal}
           title="SERVICE LANGUAGE"
           subTitle="SELECT DESIRED LANGUAGE"
@@ -288,7 +283,7 @@ export const MenuComponent = (props: MenuProps) => {
         ></Modal> */}
 
         <Modal
-          show={modals[Modals.Connectivity]}
+          show={modals[Modals.Connectivity].show}
           cancel={closeAllModal}
           title={__("Connectivity")}
           content={
@@ -308,7 +303,7 @@ export const MenuComponent = (props: MenuProps) => {
         ></Modal> */}
 
         <Modal
-          show={modals[Modals.EquipmentConfiguration]}
+          show={modals[Modals.EquipmentConfiguration].show}
           cancel={closeAllModal}
           title="EQUIPMENT CONFIGURATION"
           subTitle="SELECT DESIRED ACTION"
@@ -324,7 +319,7 @@ export const MenuComponent = (props: MenuProps) => {
         ></Modal>
 
         <Modal
-          show={modals[Modals.Cleaning]}
+          show={modals[Modals.Cleaning].show}
           cancel={closeAllModal}
           title={__("Screen Cleaning")}
           subTitle={__("SCREEN WILL CLOSE IN 30 SECONDS REMEBER TO DRY SCREEN")}
