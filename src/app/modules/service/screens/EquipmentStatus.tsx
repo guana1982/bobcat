@@ -1,5 +1,5 @@
 import * as React from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { Box, ModalContentProps, Modal, ACTIONS_CLOSE } from "@modules/service/components/Modal";
 import { MButton, MTypes } from "@modules/service/components/Button";
 import { ConfigContext } from "@core/containers";
@@ -12,7 +12,7 @@ const EquipmentStatusContent = styled.div`
 
 interface EquipmentStatusProps extends Partial<ModalContentProps> {}
 
-const EquipmentStatusComponent = (props: EquipmentStatusProps) => {
+export const EquipmentStatus = (props: EquipmentStatusProps) => {
 
   const { cancel } = props;
 
@@ -73,5 +73,3 @@ const EquipmentStatusComponent = (props: EquipmentStatusProps) => {
     </Modal>
   );
 };
-
-export default EquipmentStatusComponent;

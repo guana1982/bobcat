@@ -1,7 +1,6 @@
 import * as React from "react";
-import styled, { keyframes } from "styled-components";
-import Circle from "react-circle";
-import { ModalContentProps, Box, Modal, ACTIONS_CONFIRM, ACTIONS_CLOSE } from "@modules/service/components/Modal";
+import styled from "styled-components";
+import { ModalContentProps, Box, Modal, ACTIONS_CLOSE } from "@modules/service/components/Modal";
 import { MButton } from "@modules/service/components/Button";
 import { __ } from "@core/utils/lib/i18n";
 import BeverageLogo from "@core/components/common/Logo";
@@ -15,7 +14,7 @@ interface ChangePriceProps extends Partial<ModalContentProps> {
 
 }
 
-const ChangePriceComponent = (props: ChangePriceProps) => {
+export const ChangePrice = (props: ChangePriceProps) => {
 
   const { cancel } = props;
 
@@ -64,5 +63,3 @@ const ChangePriceComponent = (props: ChangePriceProps) => {
     </Modal>
   );
 };
-
-export default ChangePriceComponent;

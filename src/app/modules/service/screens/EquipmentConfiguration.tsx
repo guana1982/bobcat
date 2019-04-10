@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Modal, ACTIONS_CONFIRM, ModalContent, ModalContentProps, Box, ACTIONS_CLOSE } from "@modules/service/components/Modal";
-import Steps, { Step } from "rc-steps";
+import { Modal, ModalContentProps, Box, ACTIONS_CLOSE } from "@modules/service/components/Modal";
+import Steps from "rc-steps";
 import styled from "styled-components";
 import "rc-steps/assets/index.css";
-import ConnectivityComponent from "../connectivity/connectivity.component";
+import ConnectivityComponent from "../components/Connectivity";
 import { ServiceContext } from "@core/containers";
 import { MButton } from "@modules/service/components/Button";
 
@@ -58,7 +58,7 @@ interface EquipmentConfigurationProps extends Partial<ModalContentProps> {}
 
 interface EquipmentConfigurationState {}
 
-const EquipmentConfigurationComponent = (props: EquipmentConfigurationProps) => {
+export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
 
   const { cancel } = props;
 
@@ -104,5 +104,3 @@ const EquipmentConfigurationComponent = (props: EquipmentConfigurationProps) => 
   );
 
 };
-
-export default EquipmentConfigurationComponent;

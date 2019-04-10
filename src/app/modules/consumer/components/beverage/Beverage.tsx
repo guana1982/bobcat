@@ -6,7 +6,6 @@ import { __ } from "@utils/lib/i18n";
 import { IBeverage } from "@models/index";
 import { forwardRef } from "react";
 import { BeverageStatus } from "@models/beverage.model";
-import ClickNHold from "../global/ClickNHold";
 import { AccessibilityContext } from "@core/containers";
 import ReactDOM = require("react-dom");
 import { Nutrition } from "./Nutrition";
@@ -15,9 +14,10 @@ import { Blur } from "./Blur";
 import { Logo } from "./Logo";
 import { Basic } from "./Basic";
 import { Info } from "./Info";
-import { CloseBtn, CloseBtnWrap } from "../global/CloseBtn";
 import { componentWillAppendToBody } from "react-append-to-body";
 import { ILevelsModel } from "@core/utils/APIModel";
+import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
+import ClickNHold from "../common/ClickNHold";
 
 export enum BeverageTypes {
   Info = "info",

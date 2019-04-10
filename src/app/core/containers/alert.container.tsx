@@ -1,7 +1,6 @@
 import * as React from "react";
 import createContainer from "constate";
-import { ConfigContext } from "./config.container";
-import { Alert } from "@core/components/global/Alert";
+import { Alert } from "@modules/consumer/components/common/Alert"; // => TO IMPORVE
 
 export const DEFAULT_TIMEOUT_ALERT = 1500;
 

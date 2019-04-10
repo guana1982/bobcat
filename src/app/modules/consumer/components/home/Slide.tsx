@@ -1,11 +1,11 @@
 import * as React from "react";
 import { __ } from "@utils/lib/i18n";
-import { Grid } from "../global/Grid";
 import styled, { css } from "styled-components";
 import posed from "react-pose";
-import { Footer } from "../global/Footer";
-import { BeverageTypes, BeveragesAnimated, Beverage } from "../beverage/Beverage";
 import { ConsumerContext } from "@core/containers";
+import { Grid } from "@modules/service/service.style";
+import { BeveragesAnimated, BeverageTypes } from "../beverage/Beverage";
+import { Footer } from "../common/Footer";
 
 export const _sizeSlide = "325px";
 export const _sizeSlideFull = "5vw";

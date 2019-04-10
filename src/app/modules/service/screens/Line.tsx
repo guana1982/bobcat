@@ -1,6 +1,5 @@
 import * as React from "react";
-import styled, { keyframes } from "styled-components";
-import Circle from "react-circle";
+import styled from "styled-components";
 import { ModalContentProps, Box, Modal, ACTIONS_CONFIRM, ACTIONS_CLOSE } from "@modules/service/components/Modal";
 import { MButton } from "@modules/service/components/Button";
 import { ILine, ServiceContext } from "@core/containers";
@@ -15,7 +14,7 @@ interface LineProps extends Partial<ModalContentProps> {
   line: ILine;
 }
 
-const LineComponent = (props: LineProps) => {
+export const Line = (props: LineProps) => {
 
   const { cancel, line } = props;
 
@@ -125,5 +124,3 @@ const LineComponent = (props: LineProps) => {
     </Modal>
   );
 };
-
-export default LineComponent;

@@ -2,12 +2,11 @@ import * as React from "react";
 
 import styled from "styled-components";
 import { TimerContext } from "@containers/timer.container";
-
 import { ConsumerContext } from "@containers/consumer.container";
 import { Pages } from "@utils/constants";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
-import { CloseBtn, CloseBtnWrap } from "@core/components/global/CloseBtn";
 import mediumLevel from "@core/utils/lib/mediumLevel";
+import { CloseBtnWrap, CloseBtn } from "../components/common/CloseBtn";
 
 export const PrepayContent = styled.div`
   background-image: ${props => props.theme.backgroundLight};
@@ -149,5 +148,3 @@ export const Prepay = (props: PrepayProps) => {
   );
 
 };
-
-export default Prepay;

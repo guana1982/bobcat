@@ -118,33 +118,26 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
   const { connectionList, connectionSelected, networks } = state;
 
   return (
-    <Modal
-      show={true}
-      cancel={cancel}
-      title={__("Connectivity")}
-      actions={ACTIONS_CONFIRM}
-      >
-      <div>
-        <Box>
-          {connectionList.map((connection, index) => {
-            return (
-              <MButton
-                className="small"
-                key={index}
-                info light={connectionSelected !== connection.value}
-                type={connection.status}
-                onClick={() => handleConnection(connection.value)}
-              >
-                {connection.label}
-              </MButton>
-            );
-          })}
-        </Box>
-        {connectionSelected === ConnectionTypes.Wifi && <Wifi networks={networks} />}
-        {connectionSelected === ConnectionTypes.MobileData && <MobileData />}
-        {connectionSelected === ConnectionTypes.Ethernet && <Ethernet />}
-      </div>
-    </Modal>
+    <div>
+      <Box>
+        {connectionList.map((connection, index) => {
+          return (
+            <MButton
+              className="small"
+              key={index}
+              info light={connectionSelected !== connection.value}
+              type={connection.status}
+              onClick={() => handleConnection(connection.value)}
+            >
+              {connection.label}
+            </MButton>
+          );
+        })}
+      </Box>
+      {connectionSelected === ConnectionTypes.Wifi && <Wifi networks={networks} />}
+      {connectionSelected === ConnectionTypes.MobileData && <MobileData />}
+      {connectionSelected === ConnectionTypes.Ethernet && <Ethernet />}
+    </div>
   );
 };
 

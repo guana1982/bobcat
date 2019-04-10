@@ -1,18 +1,17 @@
 import * as React from "react";
-import { __ } from "@utils/lib/i18n";
 import styled from "styled-components";
-import { ButtonGroup } from "../global/ButtonGroup";
-import { AccessibilityContext, ConfigContext } from "@core/containers";
 import ReactDOM = require("react-dom");
-import { CloseBtn, CloseBtnWrap } from "../global/CloseBtn";
-import { BeverageTypes } from "../beverage/Beverage";
 import { IBeverage } from "@core/models";
-import { SegmentButton, SegmentButtonProps } from "../global/SegmentButton";
 import { NumberCard } from "../cards/NumberCard";
 import { CircleCard } from "../cards/CircleCard";
 import { PhoneCard } from "../cards/PhoneCard";
 import posed from "react-pose";
-import { Button } from "../global/Button";
+import { AccessibilityContext, ConfigContext } from "@core/containers";
+import { __ } from "@core/utils/lib/i18n";
+import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
+import { SegmentButtonProps, SegmentButton } from "../common/SegmentButton";
+import { Button } from "../common/Button";
+import { ButtonGroup } from "../common/ButtonGroup";
 
 const _sizePour = 105;
 
@@ -104,12 +103,6 @@ export const CustomizeBeverageCard = styled.div`
   left: 50%;
   transform: translateX(-50%);
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.96) 50%, #fff);
-  /* &.${BeverageTypes.Sparkling} #logo-sparkling {
-    display: block;
-  }
-  &:not(.${BeverageTypes.Sparkling}) #logo {
-    display: block;
-  } */
   &:before {
     content: " ";
     position: absolute;
@@ -120,15 +113,6 @@ export const CustomizeBeverageCard = styled.div`
     border-radius: 0 0 17px 17px;
     box-shadow: 0px 19px 31px -4px rgba(0,0,0,0.1);
   }
-  /* #logo, #logo-sparkling {
-    position: absolute;
-    display: none;
-    top: 5px;
-    left: 122.5px;
-    width: 305px;
-    height: 308px;
-    transform-origin: 50% 15%;
-  } */
   #title {
     position: absolute;
     left: 26.5px;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import posed from "react-pose";
-import { MButton } from "../../components/Button";
+import { MButton } from "./components/Button";
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */

@@ -8,7 +8,7 @@ interface MenuProps {
   match: any;
 }
 
-const MenuComponent = (props: MenuProps) => {
+export const OldMenu = (props: MenuProps) => {
   const configConsumer = React.useContext(ConfigContext);
   const { history } = props;
   const { typeMenu } = props.match.params;
@@ -23,5 +23,3 @@ const MenuComponent = (props: MenuProps) => {
     />
   );
 };
-
-export default MenuComponent;

@@ -1,11 +1,11 @@
 import * as React from "react";
-import { SreenWrapper, Warning } from "@components/global/ScreenWrapper";
 import mediumLevel from "@utils/MediumLevel";
 
 import { tap } from "rxjs/operators";
 import { Subscription } from "rxjs";
 import { Pages, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA } from "@utils/constants";
 import { ConfigContext } from "@core/containers";
+import { SreenWrapper } from "../components/common/ScreenWrapper";
 
 interface AttractorProps {
   history: any;
@@ -64,5 +64,3 @@ export const Attractor = (props: AttractorProps) => {
   );
 
 };
-
-export default Attractor;

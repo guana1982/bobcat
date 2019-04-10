@@ -41,7 +41,7 @@ interface CleaningProps extends Partial<ModalContentProps> {
 const TIMER_MAX = 30;
 let intervalTimer_ = null;
 
-const CleaningComponent = (props: CleaningProps) => {
+export const Cleaning = (props: CleaningProps) => {
 
   const { cancel } = props;
 
@@ -88,5 +88,3 @@ const CleaningComponent = (props: CleaningProps) => {
     </Modal>
   );
 };
-
-export default CleaningComponent;

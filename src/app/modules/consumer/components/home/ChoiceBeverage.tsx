@@ -1,12 +1,11 @@
 import * as React from "react";
-import { __ } from "@utils/lib/i18n";
 import styled, { css } from "styled-components";
-import Gesture from "../Menu/Gesture";
-import { Beverage, BeverageTypes, BeverageSize } from "../beverage/Beverage";
-import { Grid } from "../global/Grid";
-import { Button } from "../global/Button";
 import { ConfigContext, ConsumerContext } from "@containers/index";
-import { SegmentButton, SegmentButtonProps, SegmentButtonWrapper } from "../global/SegmentButton";
+import Gesture from "@core/components/Menu/Gesture";
+import { Beverage, BeverageTypes, BeverageSize } from "../beverage/Beverage";
+import { SegmentButtonWrapper, SegmentButtonProps, SegmentButton } from "../common/SegmentButton";
+import { Grid } from "@modules/service/service.style";
+import { Button } from "../common/Button";
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */

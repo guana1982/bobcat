@@ -1,25 +1,47 @@
 import * as React from "react";
-
-import { HomeContent, HomeWrap } from "./home.style";
+import styled from "styled-components";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
-import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER, MESSAGE_START_CAMERA } from "@utils/constants";
+import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER } from "@utils/constants";
 import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
-import { Subscription, Subject } from "rxjs";
-import { ChoiceBeverage } from "@components/consumer/ChoiceBeverage";
-import { CustomizeBeverage } from "@components/consumer/CustomizeBeverage";
-import { Slide } from "@components/consumer/Slide";
+import { Subscription } from "rxjs";
 import { ConfigContext } from "@containers/config.container";
 import { TimerContext } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
-import { BeverageTypes } from "@core/components/beverage/Beverage";
+import { BeverageTypes } from "@modules/consumer/components/beverage/Beverage";
 import { AccessibilityContext } from "@core/containers";
-import { SegmentButtonProps } from "@core/components/global/SegmentButton";
-import { CardsWrap } from "@core/components/consumer/CardsWrap";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { TIMEOUT_ATTRACTOR } from "../attractor/attractor.component";
-// import { SegmentButton } from "@core/components/global/SegmentButton";
+import { TIMEOUT_ATTRACTOR } from "./Attractor";
+import { Slide, _sizeSlideFull, _sizeSlide } from "../components/home/Slide";
+import { ChoiceBeverage } from "../components/home/ChoiceBeverage";
+import { CardsWrap } from "../components/home/CardsWrap";
+import { CustomizeBeverage } from "../components/home/CustomizeBeverage";
+import { Grid } from "@modules/service/service.style";
+import { SegmentButtonProps } from "../components/common/SegmentButton";
+
+/* ==== STYLE ==== */
+/* ======================================== */
+
+const sizeHome = (props) => props.isLogged ? props.fullMode ? _sizeSlideFull : _sizeSlide : "0vw";
+
+export const HomeWrap = styled.div`
+  width: calc( 100vw - ${props => sizeHome(props)});
+  height: 100vh;
+  position: absolute;
+  left: ${props => sizeHome(props)};
+  top: 0;
+  ${Grid} {
+    padding-top: 5.5rem;
+  }
+`;
+
+export const HomeContent = styled.section`
+  background-image: ${props => props.theme.backgroundLight};
+`;
+
+/* ==== PAGE ==== */
+/* ======================================== */
 
 interface HomeProps {
   history: any;
@@ -504,5 +526,3 @@ export const Home = (props: HomeProps) => {
   );
 
 };
-
-export default Home;

@@ -4,7 +4,7 @@ import { PhoneCard } from "../cards/PhoneCard";
 import { NumberCard } from "../cards/NumberCard";
 import { coordsCards, coordsCardsWithSlider, coordsSliderOpen, coordsSliderClose } from "@core/utils/constants";
 import styled from "styled-components";
-import { Button } from "../global/Button";
+import { Button } from "../common/Button";
 
 interface CardsWrapProps {
   className?: any;
