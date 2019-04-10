@@ -1,11 +1,11 @@
 import * as React from "react";
-import { Modal, ModalContentProps, Box, ACTIONS_CLOSE } from "@modules/service/components/Modal";
+import { Modal, ModalContentProps, Box, ACTIONS_CLOSE } from "@modules/service/components/common/Modal";
 import Steps from "rc-steps";
 import styled from "styled-components";
 import "rc-steps/assets/index.css";
-import ConnectivityComponent from "../components/Connectivity";
+import ConnectivityComponent from "../sections/Connectivity";
 import { ServiceContext } from "@core/containers";
-import { MButton } from "@modules/service/components/Button";
+import { MButton } from "@modules/service/components/common/Button";
 
 const IconCheck = props => (
   <svg viewBox="0 0 26 26" width={10} height={10} {...props}>

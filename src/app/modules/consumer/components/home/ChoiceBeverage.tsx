@@ -4,8 +4,8 @@ import { ConfigContext, ConsumerContext } from "@containers/index";
 import Gesture from "@core/components/Menu/Gesture";
 import { Beverage, BeverageTypes, BeverageSize } from "../beverage/Beverage";
 import { SegmentButtonWrapper, SegmentButtonProps, SegmentButton } from "../common/SegmentButton";
-import { Grid } from "@modules/service/service.style";
 import { Button } from "../common/Button";
+import { Grid } from "../common/Grid";
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */

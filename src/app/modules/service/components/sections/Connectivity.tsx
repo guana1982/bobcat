@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Modal, Box, ACTIONS_CLOSE, ACTIONS_CONFIRM, ModalContentProps } from "@modules/service/components/Modal";
-import { MButton, MTypes } from "@modules/service/components/Button";
+import { Modal, Box, ACTIONS_CLOSE, ACTIONS_CONFIRM, ModalContentProps } from "@modules/service/components/common/Modal";
+import { MButton, MTypes } from "@modules/service/components/common/Button";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { IWifi, INetwork } from "@core/utils/APIModel";
 import styled, { keyframes } from "styled-components";

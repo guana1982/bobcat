@@ -1,12 +1,6 @@
 import styled from "styled-components";
-import posed from "react-pose";
-import { MButton } from "./components/Button";
+import { MButton } from "../common/Button";
 
-/* ==== COMPONENTS ==== */
-/* ======================================== */
-
-/* ==== GRID ==== */
-/* ======================================== */
 export const SIZE_GROUP_LINES = 61;
 export const SIZE_GROUP_WATERS = 32;
 
@@ -70,33 +64,4 @@ export const Group = styled<GroupProps, "div">("div")`
       }
     }
   }
-`;
-
-/* ==== LAYOUT ==== */
-/* ======================================== */
-
-/* ==== MENU MAIN ==== */
-/* ======================================== */
-
-interface HomeContentProps { beverageIsSelected?: boolean; }
-export const MenuContent = styled<HomeContentProps, "div">("div")`
-
-  @font-face {
-    font-family: 'Karla';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Karla Regular'), local('Karla-Regular'),
-        url('/fonts/Karla-Regular.ttf') format('truetype')
-  }
-
-  * {
-    font-family: 'Karla' !important;
-  }
-
-  background: ${props => props.theme.dark};
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
 `;

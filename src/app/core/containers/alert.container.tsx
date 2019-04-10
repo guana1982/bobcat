@@ -47,12 +47,17 @@ const AlertContainer = createContainer(() => {
   return { state, show, hide };
 });
 
-export const AlertProvider = (props) => {
-  const { children } = props;
+interface AlertProviderProps {
+  children?: any;
+  alertComponent: any;
+}
+
+export const AlertProvider = (props: AlertProviderProps) => {
+  const { children, alertComponent } = props;
   return(
   <AlertContainer.Provider>
     {children}
-    <Alert />
+    {alertComponent}
   </AlertContainer.Provider>
   );
 };

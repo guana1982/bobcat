@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
-import { ModalContentProps, Box, Modal, ACTIONS_CLOSE } from "@modules/service/components/Modal";
-import { MButton } from "@modules/service/components/Button";
+import { ModalContentProps, Box, Modal, ACTIONS_CLOSE } from "@modules/service/components/common/Modal";
+import { MButton } from "@modules/service/components/common/Button";
 import { __ } from "@core/utils/lib/i18n";
 import BeverageLogo from "@core/components/common/Logo";
 import { ServiceContext } from "@core/containers";

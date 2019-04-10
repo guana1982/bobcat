@@ -1,12 +1,12 @@
 import * as React from "react";
 import { MemoryRouter } from "react-router";
 import { ThemeProvider } from "styled-components";
-import { ConfigStore, TimerStore, ServiceProvider, AccessibilityProvider } from "@containers/index";
-import AppRouter from "./app.router";
-import { themeMain, GlobalStyle } from "./app.style";
-import { ConsumerStore } from "@containers/consumer.container";
+import { ConfigStore, TimerStore } from "@containers/index";
+import { themeMain, GlobalStyle } from "./GlobalStyle";
 import { AlertProvider } from "@core/containers/alert.container";
 import PreCacheImg from "react-precache-img";
+import { Consumer } from "@modules/consumer/Consumer";
+import { Service } from "@modules/service/Service";
 
 const images = [
   // "img/slider-bg.svg",
@@ -58,27 +58,16 @@ const images = [
 ];
 
 const App = () => (
-  <ThemeProvider theme={themeMain}>
-    <React.Fragment>
-      <GlobalStyle />
-      <PreCacheImg images={images} />
-      <MemoryRouter>
-        <AccessibilityProvider>
-          <AlertProvider>
-            <ConfigStore>
-              <ServiceProvider>
-                <ConsumerStore>
-                  <TimerStore>
-                    <AppRouter />
-                  </TimerStore>
-                </ConsumerStore>
-              </ServiceProvider>
-            </ConfigStore>
-          </AlertProvider>
-        </AccessibilityProvider>
-      </MemoryRouter>
-    </React.Fragment>
-  </ThemeProvider>
+  <React.Fragment>
+    <GlobalStyle />
+    <PreCacheImg images={images} />
+    <MemoryRouter>
+      <ConfigStore>
+        <Consumer />
+        <Service />
+      </ConfigStore>
+    </MemoryRouter>
+  </React.Fragment>
 );
 
 export default App;

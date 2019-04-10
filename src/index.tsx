@@ -1,7 +1,5 @@
 import * as React from "react";
-import { Provider } from "mobx-react";
-import { Machine } from "xstate";
-import App from "./app/app.component";
+import App from "./app/App";
 declare var process: any;
 
 import { AppContainer } from "react-hot-loader";
@@ -20,8 +18,8 @@ render(
 declare let module: { hot: any };
 
 if (module.hot) {
-  module.hot.accept("./app/app.component", () => {
-      const NewApp = require("./app/app.component").default;
+  module.hot.accept("./app/App", () => {
+      const NewApp = require("./app/App").default;
 
       render(
         <AppContainer>

@@ -17,7 +17,7 @@ import { Slide, _sizeSlideFull, _sizeSlide } from "../components/home/Slide";
 import { ChoiceBeverage } from "../components/home/ChoiceBeverage";
 import { CardsWrap } from "../components/home/CardsWrap";
 import { CustomizeBeverage } from "../components/home/CustomizeBeverage";
-import { Grid } from "@modules/service/service.style";
+import { Grid } from "../components/common/Grid";
 import { SegmentButtonProps } from "../components/common/SegmentButton";
 
 /* ==== STYLE ==== */

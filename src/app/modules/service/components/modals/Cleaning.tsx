@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
 import Circle from "react-circle";
-import { ModalContentProps, Modal } from "@modules/service/components/Modal";
+import { ModalContentProps, Modal } from "@modules/service/components/common/Modal";
 import { __ } from "@core/utils/lib/i18n";
 
 const CleaningContent = styled.div`

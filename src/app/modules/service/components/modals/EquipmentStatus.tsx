@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
-import { Box, ModalContentProps, Modal, ACTIONS_CLOSE } from "@modules/service/components/Modal";
-import { MButton, MTypes } from "@modules/service/components/Button";
+import { Box, ModalContentProps, Modal, ACTIONS_CLOSE } from "@modules/service/components/common/Modal";
+import { MButton, MTypes } from "@modules/service/components/common/Button";
 import { ConfigContext } from "@core/containers";
 import { IAlarm } from "@core/models";
 import { __ } from "@core/utils/lib/i18n";
