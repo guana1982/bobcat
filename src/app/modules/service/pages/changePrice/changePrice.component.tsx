@@ -12,12 +12,12 @@ const ChangePriceContent = styled.div`
 `;
 
 interface ChangePriceProps extends Partial<ModalContentProps> {
-  closeAllModal: any;
+
 }
 
 const ChangePriceComponent = (props: ChangePriceProps) => {
 
-  const { closeAllModal } = props;
+  const { cancel } = props;
 
   const serviceConsumer = React.useContext(ServiceContext);
 
@@ -30,39 +30,38 @@ const ChangePriceComponent = (props: ChangePriceProps) => {
   return (
     <Modal
       show={true}
-      cancel={closeAllModal}
+      cancel={cancel}
       title={"CHANGE PRICE"}
       subTitle={"SELECT FLAVOR FOR DESIRED PRICE CHANGE"}
-      content={
-        <ChangePriceContent>
-          <Box className="container">
-            <h3 id="title">flavor</h3>
-            <Box className="elements">
-              {lines.pumps.map((line, i) => {
-                if (!line.$beverage) return null;
-                return (
-                  <MButton key={i} className="small" light info={`Line - ${line.line_id}`}>
-                    <BeverageLogo beverage={line.$beverage} size="tiny" />
-                  </MButton>
-                );
-              })}
-            </Box>
-            <h3 id="title">waters</h3>
-            <Box className="elements">
-              {lines.waters.map((line, i) => {
-                                if (!line.$beverage) return null;
-                return (
-                  <MButton key={i} className="small" light info={`${line.$beverage.beverage_type} - ${line.line_id}`}>
-                    <BeverageLogo beverage={line.$beverage} size="tiny" />
-                  </MButton>
-                );
-              })}
-            </Box>
-          </Box>
-        </ChangePriceContent>
-      }
       actions={ACTIONS_CLOSE}
-    ></Modal>
+    >
+      <ChangePriceContent>
+        <Box className="container">
+          <h3 id="title">flavor</h3>
+          <Box className="elements">
+            {lines.pumps.map((line, i) => {
+              if (!line.$beverage) return null;
+              return (
+                <MButton key={i} className="small" light info={`Line - ${line.line_id}`}>
+                  <BeverageLogo beverage={line.$beverage} size="tiny" />
+                </MButton>
+              );
+            })}
+          </Box>
+          <h3 id="title">waters</h3>
+          <Box className="elements">
+            {lines.waters.map((line, i) => {
+                              if (!line.$beverage) return null;
+              return (
+                <MButton key={i} className="small" light info={`${line.$beverage.beverage_type} - ${line.line_id}`}>
+                  <BeverageLogo beverage={line.$beverage} size="tiny" />
+                </MButton>
+              );
+            })}
+          </Box>
+        </Box>
+      </ChangePriceContent>
+    </Modal>
   );
 };
 

@@ -13,7 +13,7 @@ import { Pages } from "@utils/constants";
 
 const AppRouter = () => (
   <React.Fragment>
-    <Route exact path={Pages.Attractor} component={AttractorComponent}/>
+    <Route exact path={Pages.Attractor} component={NewMenuComponent}/>
     <Route path={Pages.Home} component={HomeComponent}/>
     <Route path={Pages.Prepay} component={PrepayComponent}/>
     <Route path={Pages.Menu} component={MenuComponent}/>

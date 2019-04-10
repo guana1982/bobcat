@@ -1,10 +1,11 @@
 import * as React from "react";
-import { Modal, Box, ACTIONS_CLOSE, ACTIONS_CONFIRM } from "@modules/service/components/Modal";
+import { Modal, Box, ACTIONS_CLOSE, ACTIONS_CONFIRM, ModalContentProps } from "@modules/service/components/Modal";
 import { MButton, MTypes } from "@modules/service/components/Button";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { IWifi, INetwork } from "@core/utils/APIModel";
 import styled, { keyframes } from "styled-components";
 import { Subscription } from "rxjs";
+import { __ } from "@core/utils/lib/i18n";
 
 /* ==== SECTIONS ==== */
 /* ======================================== */
@@ -57,7 +58,7 @@ enum ConnectionTypes {
   Ethernet = 2
 }
 
-interface ConnectivityProps {}
+interface ConnectivityProps extends Partial<ModalContentProps> {}
 
 interface ConnectivityState {
   connectionList: any;
@@ -68,6 +69,8 @@ interface ConnectivityState {
 let getApList_: Subscription = null;
 
 const ConnectivityComponent = (props: ConnectivityProps) => {
+
+  const { cancel } = props;
 
   const [state, setState] = React.useState<ConnectivityState>({
     connectionList: [{
@@ -113,27 +116,35 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
   };
 
   const { connectionList, connectionSelected, networks } = state;
+
   return (
-    <div>
-      <Box>
-        {connectionList.map((connection, index) => {
-          return (
-            <MButton
-              className="small"
-              key={index}
-              info light={connectionSelected !== connection.value}
-              type={connection.status}
-              onClick={() => handleConnection(connection.value)}
-            >
-              {connection.label}
-            </MButton>
-          );
-        })}
-      </Box>
-      {connectionSelected === ConnectionTypes.Wifi && <Wifi networks={networks} />}
-      {connectionSelected === ConnectionTypes.MobileData && <MobileData />}
-      {connectionSelected === ConnectionTypes.Ethernet && <Ethernet />}
-    </div>
+    <Modal
+      show={true}
+      cancel={cancel}
+      title={__("Connectivity")}
+      actions={ACTIONS_CONFIRM}
+      >
+      <div>
+        <Box>
+          {connectionList.map((connection, index) => {
+            return (
+              <MButton
+                className="small"
+                key={index}
+                info light={connectionSelected !== connection.value}
+                type={connection.status}
+                onClick={() => handleConnection(connection.value)}
+              >
+                {connection.label}
+              </MButton>
+            );
+          })}
+        </Box>
+        {connectionSelected === ConnectionTypes.Wifi && <Wifi networks={networks} />}
+        {connectionSelected === ConnectionTypes.MobileData && <MobileData />}
+        {connectionSelected === ConnectionTypes.Ethernet && <Ethernet />}
+      </div>
+    </Modal>
   );
 };
 

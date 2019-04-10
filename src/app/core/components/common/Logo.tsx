@@ -23,7 +23,7 @@ const BeverageLogo = ({ beverage, size }) => {
   } else if (logo_id === 11) {
     logo_id = "9";
   }
-  console.log("size", size);
+
   return (
     <img
       src={logo_id === "0" ? `img/still_water_big 2.png` : `img/logos/${logo_id}.png`}

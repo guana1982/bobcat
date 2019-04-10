@@ -1,7 +1,8 @@
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
 import Circle from "react-circle";
-import { ModalContentProps } from "@modules/service/components/Modal";
+import { ModalContentProps, Modal } from "@modules/service/components/Modal";
+import { __ } from "@core/utils/lib/i18n";
 
 const CleaningContent = styled.div`
   display: flex;
@@ -42,6 +43,8 @@ let intervalTimer_ = null;
 
 const CleaningComponent = (props: CleaningProps) => {
 
+  const { cancel } = props;
+
   const [timer, setTimer] = React.useState<number>(TIMER_MAX);
 
   React.useEffect(() => {
@@ -58,23 +61,31 @@ const CleaningComponent = (props: CleaningProps) => {
   const endTimer = () => props.cancel();
 
   return (
-    <CleaningContent>
-      <div id="circle-wrap">
-        <Circle
-          animate={true}
-          animationDuration={`${TIMER_MAX}s`}
-          responsive={true}
-          progress={timer === TIMER_MAX ? 100 : 0}
-          progressColor="#222"
-          bgColor="#fff"
-          textColor="#222"
-          percentSpacing={10}
-          showPercentage={false}
-          onAnimationEnd={endTimer}
-        />
-        <span>{timer}</span>
-      </div>
-    </CleaningContent>
+    <Modal
+      show={true}
+      cancel={cancel}
+      title={__("Screen Cleaning")}
+      subTitle={__("SCREEN WILL CLOSE IN 30 SECONDS REMEBER TO DRY SCREEN")}
+      actions={[]}
+    >
+      <CleaningContent>
+        <div id="circle-wrap">
+          <Circle
+            animate={true}
+            animationDuration={`${TIMER_MAX}s`}
+            responsive={true}
+            progress={timer === TIMER_MAX ? 100 : 0}
+            progressColor="#222"
+            bgColor="#fff"
+            textColor="#222"
+            percentSpacing={10}
+            showPercentage={false}
+            onAnimationEnd={endTimer}
+          />
+          <span>{timer}</span>
+        </div>
+      </CleaningContent>
+    </Modal>
   );
 };
 

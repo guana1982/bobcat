@@ -138,13 +138,14 @@ interface ModalProps {
   themeMode?: ModalTheme;
   title: string;
   subTitle?: string;
-  content: any;
   actions: Action[];
   show: boolean;
+  children: any;
   cancel: () => void;
 }
 
 export interface ModalContentProps {
+  show: boolean;
   cancel: () => void;
 }
 
@@ -154,7 +155,7 @@ interface ModalState {
 }
 
 export const Modal = (props: ModalProps) => {
-    const { title, subTitle, content, actions, themeMode, show } = props;
+    const { title, subTitle, children, actions, themeMode, show } = props;
 
     const finish = () => {
       alert("Finish");
@@ -169,7 +170,7 @@ export const Modal = (props: ModalProps) => {
     const contentWithProps = () => {
       const modalProps: ModalContentProps = { cancel: props.cancel };
       return React.cloneElement(
-        content,
+        children,
         { ...modalProps }
       );
     };
