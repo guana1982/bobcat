@@ -161,6 +161,14 @@ export const NewMenu = (props: MenuProps) => {
 
   const { lines } = serviceConsumer;
 
+  if (!serviceConsumer.authLevel)
+  return (
+    <>
+      <h2>No Auth!</h2>
+      <button onClick={() => location.reload()}><h3>EXIT</h3></button>
+    </>
+  );
+
   return (
     <React.Fragment>
       <MenuContent>

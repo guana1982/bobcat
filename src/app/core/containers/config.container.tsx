@@ -11,6 +11,8 @@ import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMER
 const mergeById = ([t, s]) => t.map(p => Object.assign({}, p, s.find(q => p.beverage_id === q.beverage_id)));
 
 export interface ConfigInterface {
+  authService: boolean;
+  setAuthService: (v: boolean) => void;
   vendorConfig: any;
   menuList: any;
   ws: WebSocketSubject<ISocket>;
@@ -82,6 +84,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ======================================== */
 
     this.state = {
+      authService: false,
       vendorConfig: {},
       ws: ws,
       socketAttractor$: socketAttractor$,
@@ -90,6 +93,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
       isPouring: false,
       sustainabilityData: { saved_bottle_year: "", saved_bottle_day: "" }
     };
+
+    this.setAuthService = this.setAuthService.bind(this);
 
   }
 
@@ -216,6 +221,13 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
   }
 
+  /* ==== AUTH SERVICE ==== */
+  /* ======================================== */
+
+  setAuthService(status: boolean) {
+    this.setState({authService: status});
+  }
+
   /* ==== BEVERAGE ==== */
   /* ======================================== */
 
@@ -247,6 +259,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
     return (
       <ConfigProvider
         value={{
+          authService: this.state.authService,
+          setAuthService: this.setAuthService,
           vendorConfig: this.state.vendorConfig,
           allBeverages: this.state.allBeverages,
           beverages: this.state.beverages,

@@ -30,8 +30,9 @@ module.exports = {
         use: [
           'style-loader', 
           { 
-            loader: 'typings-for-css-modules-loader', 
-            options: cssOptions
+            loader: 'css-loader'
+            // loader: 'typings-for-css-modules-loader', 
+            // options: cssOptions
           }
         ],
       },

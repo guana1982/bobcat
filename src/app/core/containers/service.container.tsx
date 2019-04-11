@@ -14,6 +14,12 @@ export class ILine {
   }
 }
 
+export enum AuthLevels {
+  Crew = "crew",
+  Tech = "tech",
+  Super = "super"
+}
+
 interface ILines {
   pumps: ILine[];
   waters: ILine[];
@@ -25,6 +31,7 @@ interface ServiceState {
 
 const ServiceContainer = createContainer(() => {
 
+  const [authLevel, setAuthLevel] = React.useState<AuthLevels>(null);
   const [lines, setLines] = React.useState<ILines>({
     pumps: [],
     waters: []
@@ -109,7 +116,7 @@ const ServiceContainer = createContainer(() => {
     }));
   };
 
-  return { state, lines, syrups, testEvent };
+  return { state, lines, authLevel, setAuthLevel, syrups, testEvent };
 });
 
 export const ServiceProvider = ServiceContainer.Provider;

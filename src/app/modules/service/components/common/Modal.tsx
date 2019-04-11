@@ -142,6 +142,7 @@ interface ModalProps {
   show: boolean;
   children: any;
   cancel: () => void;
+  finish?: () => void;
 }
 
 export interface ModalContentProps {
@@ -157,7 +158,9 @@ export const Modal = (props: ModalProps) => {
     const { title, subTitle, children, actions, themeMode, show } = props;
 
     const finish = () => {
-      alert("Finish");
+      if (props.finish) {
+        props.finish(); // => TO IMPROVE
+      }
       props.cancel();
     };
 

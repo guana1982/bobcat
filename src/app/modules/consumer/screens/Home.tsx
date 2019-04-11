@@ -125,6 +125,7 @@ export const Home = (props: HomeProps) => {
     TimerEnd.clearTimer();
     return () => {
       clearTimeout(stopVideo_); // <= STOP ATTRACTOR
+      configConsumer.setAuthService(false);
       timerConsumer.resetTimer();
     };
   }, []);
@@ -431,9 +432,11 @@ export const Home = (props: HomeProps) => {
 
   const onGesture = (gestureType) => {
     if (gestureType === "p")
-      props.history.push(Pages.MenuTech);
-    else if (gestureType === "v")
-      props.history.push(Pages.MenuCrew);
+      configConsumer.setAuthService(true);
+    // if (gestureType === "p")
+    //   props.history.push(Pages.MenuTech);
+    // else if (gestureType === "v")
+    //   props.history.push(Pages.MenuCrew);
   };
 
   const goToPrepay = () => {

@@ -3,9 +3,10 @@ import { __ } from "@utils/lib/i18n";
 import styled, { css } from "styled-components";
 import posed from "react-pose";
 import { ConsumerContext } from "@core/containers";
-import { Grid } from "@modules/service/Service";
+
 import { BeveragesAnimated, BeverageTypes } from "../beverage/Beverage";
 import { Footer } from "../common/Footer";
+import { Grid } from "../common/Grid";
 
 export const _sizeSlide = "325px";
 export const _sizeSlideFull = "5vw";

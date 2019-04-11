@@ -1,9 +1,7 @@
 import * as React from "react";
 import { MemoryRouter } from "react-router";
-import { ThemeProvider } from "styled-components";
-import { ConfigStore, TimerStore } from "@containers/index";
-import { themeMain, GlobalStyle } from "./GlobalStyle";
-import { AlertProvider } from "@core/containers/alert.container";
+import { ConfigStore } from "@containers/index";
+import { GlobalStyle } from "./GlobalStyle";
 import PreCacheImg from "react-precache-img";
 import { Consumer } from "@modules/consumer/Consumer";
 import { Service } from "@modules/service/Service";
