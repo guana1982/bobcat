@@ -23,6 +23,9 @@ export const MButton = styled<MButtonProps, "button">("button")`
   text-transform: uppercase;
   padding: .3rem;
   white-space: pre-wrap;
+  &:disabled &:active  {
+    background: ${props => props.theme[props.light ? "light" : "secondary"]};
+  }
   &:active {
     background: ${props => props.theme.secondary};
     color: ${props => props.theme.dark};

@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { MButton } from "../common/Button";
 
 export const SIZE_GROUP_LINES = 61;
+export const SIZE_FULL_GROUP_LINES = 94;
 export const SIZE_GROUP_WATERS = 32;
 
 export const SIZE_GROUP_ALARM = 50;
+export const SIZE_FULL_GROUP_ALARM = 84;
 export const SIZE_GROUP_INFO = 33;
 
 export const Grid = styled.div`

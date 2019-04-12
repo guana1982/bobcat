@@ -6,14 +6,14 @@ import { MButton, MTypes } from "@modules/service/components/common/Button";
 import { Modal,  Box, ACTIONS_CONFIRM, ACTIONS_CLOSE } from "@modules/service/components/common/Modal";
 import { MButtonGroup } from "@modules/service/components/common/ButtonGroup";
 import ConnectivityComponent from "../components/sections/Connectivity";
-import { ServiceContext } from "@core/containers";
+import { ServiceContext, AuthLevels } from "@core/containers";
 import BeverageLogo from "@core/components/common/Logo";
 import { Line } from "../components/modals/Line";
 import { ChangePrice } from "../components/modals/ChangePrice";
 import { EquipmentConfiguration } from "../components/modals/EquipmentConfiguration";
 import { Cleaning } from "../components/modals/Cleaning";
 import { EquipmentStatus } from "../components/modals/EquipmentStatus";
-import { Grid, Group, SIZE_GROUP_LINES, SIZE_GROUP_WATERS, SIZE_GROUP_ALARM, SIZE_GROUP_INFO } from "../components/main/Grid";
+import { Grid, Group, SIZE_GROUP_LINES, SIZE_GROUP_WATERS, SIZE_GROUP_ALARM, SIZE_GROUP_INFO, SIZE_FULL_GROUP_ALARM, SIZE_FULL_GROUP_LINES } from "../components/main/Grid";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -159,9 +159,9 @@ export const NewMenu = (props: MenuProps) => {
   /* ==== MAIN ==== */
   /* ======================================== */
 
-  const { lines } = serviceConsumer;
+  const { lines, authLevel } = serviceConsumer;
 
-  if (!serviceConsumer.authLevel)
+  if (!authLevel)
   return (
     <>
       <h2>No Auth!</h2>
@@ -173,56 +173,98 @@ export const NewMenu = (props: MenuProps) => {
     <React.Fragment>
       <MenuContent>
         <Grid>
-          <Group title={__("LINES ASSIGNMENT")} size={SIZE_GROUP_LINES}>
+          <Group title={__("LINES ASSIGNMENT")} size={authLevel !== AuthLevels.Crew ? SIZE_GROUP_LINES : SIZE_FULL_GROUP_LINES}>
             {lines.pumps.map((line, i) => {
               return (
-                <MButton onClick={() => openModal(Modals.Line, { line })} key={i} className="small" light info={`Line - ${line.line_id}`}>
+                <MButton disabled={authLevel === AuthLevels.Super} onClick={() => openModal(Modals.Line, { line })} key={i} className="small" light info={`Line - ${line.line_id}`}>
                   {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
                 </MButton>
               );
             })}
           </Group>
-          <Group title={__("WATERS")} size={SIZE_GROUP_WATERS}>
-            {lines.waters.map((line, i) => {
-              return (
-                <MButton onClick={() => openModal(Modals.Line, { line })} key={i} className="small" light info={`${line.$beverage.beverage_type} - ${line.line_id}`}>
-                  {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
-                </MButton>
-              );
-            })}
-          </Group>
+          {authLevel !== AuthLevels.Crew &&
+            <Group title={__("WATERS")} size={SIZE_GROUP_WATERS}>
+              {lines.waters.map((line, i) => {
+                return (
+                  <MButton disabled={authLevel === AuthLevels.Super} onClick={() => openModal(Modals.Line, { line })} key={i} className="small" light info={`${line.$beverage.beverage_type} - ${line.line_id}`}>
+                    {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
+                  </MButton>
+                );
+              })}
+            </Group>
+          }
           <Group title={__("ACTIONS")}>
-            <MButton onClick={() => openModal(Modals.EquipmentConfiguration)}>EQUIPMENT CONFIGURATION</MButton>
-            <MButton>PRIMING</MButton>
-            <MButton onClick={() => openModal(Modals.Timeout)}>SELECTION TIMEOUT</MButton>
-            <MButton onClick={() => openModal(Modals.Cleaning)}>SCREEN CLEANING</MButton>
-            <MButton onClick={() => openModal(Modals.Customize)}>CUSTOMIZE UI</MButton>
-            <MButton>SANITATION</MButton>
-            <MButton onClick={() => openModal(Modals.ChangePrice)}>CHANGE PRICE</MButton>
+            {
+              authLevel === AuthLevels.Crew &&
+              <>
+                <MButton onClick={() => openModal(Modals.Cleaning)}>SCREEN CLEANING</MButton>
+              </>
+            }
+            {
+              authLevel === AuthLevels.Tech &&
+              <>
+                <MButton>PRIMING</MButton>
+                <MButton onClick={() => openModal(Modals.Timeout)}>SELECTION TIMEOUT</MButton>
+                <MButton onClick={() => openModal(Modals.Cleaning)}>SCREEN CLEANING</MButton>
+                <MButton onClick={() => openModal(Modals.Customize)}>CUSTOMIZE UI</MButton>
+                <MButton>SANITATION</MButton>
+                <MButton onClick={() => openModal(Modals.ChangePrice)}>CHANGE PRICE</MButton>
+              </>
+            }
+            {
+              authLevel === AuthLevels.Super &&
+              <>
+                <MButton onClick={() => openModal(Modals.EquipmentConfiguration)}>EQUIPMENT CONFIGURATION</MButton>
+                <MButton>FREE / PAID</MButton>
+              </>
+            }
           </Group>
           <Group title={__("SYSTEM")}>
-            <MButton>SYSTEM REBOOT</MButton>
-            <MButton>SYSTEM SHUTDOWN</MButton>
-            <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
-            <MButton onClick={() => openModal(Modals.Update)}>SOFTWARE UPDATE</MButton>
-            <MButton onClick={() => openModal(Modals.Connectivity)} info type={MTypes.INFO_SUCCESS}>CONNECTIVITY</MButton>
-            <MButton>ABOUT</MButton>
+            {
+              authLevel === AuthLevels.Crew &&
+              <>
+                <MButton>SYSTEM REBOOT</MButton>
+                <MButton>SYSTEM SHUTDOWN</MButton>
+                <MButton>ABOUT</MButton>
+              </>
+            }
+            {
+              authLevel === AuthLevels.Tech &&
+              <>
+                <MButton>SYSTEM REBOOT</MButton>
+                <MButton>SYSTEM SHUTDOWN</MButton>
+                <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
+                <MButton onClick={() => openModal(Modals.Update)}>SOFTWARE UPDATE</MButton>
+                <MButton onClick={() => openModal(Modals.Connectivity)} info type={MTypes.INFO_SUCCESS}>CONNECTIVITY</MButton>
+              </>
+            }
+            {
+              authLevel === AuthLevels.Super &&
+              <>
+                <MButton>SYSTEM REBOOT</MButton>
+                <MButton>SYSTEM SHUTDOWN</MButton>
+                <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
+                <MButton onClick={() => openModal(Modals.Connectivity)} info type={MTypes.INFO_SUCCESS}>CONNECTIVITY</MButton>
+              </>
+            }
           </Group>
-          <Group title={__("ALARMS")} size={SIZE_GROUP_ALARM}>
+          <Group title={__("ALARMS")} size={authLevel !== AuthLevels.Crew ? SIZE_GROUP_ALARM : SIZE_FULL_GROUP_ALARM}>
             <MButton onClick={() => openModal(Modals.EquipmentStatus)} info type={MTypes.INFO_DANGER}>EQUIPMENT STATUS</MButton>
           </Group>
-          <Group id="info-group" size={SIZE_GROUP_INFO}>
-            <ul>
-              <li>COUNTRY: ———</li>
-              <li>IMEI: ———</li>
-              <li>MOTHERBOARD SERIAL NUMBER: ———</li>
-              <li>MODEM SERIAL NUMBER: ———</li>
-              <li>SIM CARD NUMBER: ———</li>
-              <li>SERIAL NUMBER: ———</li>
-              <li>FIRMWARE VERSION: ———</li>
-              <li>SOFTWARE VERSION: ———</li>
-            </ul>
-          </Group>
+          {authLevel !== AuthLevels.Crew &&
+            <Group id="info-group" size={SIZE_GROUP_INFO}>
+              <ul>
+                <li>COUNTRY: ———</li>
+                <li>IMEI: ———</li>
+                <li>MOTHERBOARD SERIAL NUMBER: ———</li>
+                <li>MODEM SERIAL NUMBER: ———</li>
+                <li>SIM CARD NUMBER: ———</li>
+                <li>SERIAL NUMBER: ———</li>
+                <li>FIRMWARE VERSION: ———</li>
+                <li>SOFTWARE VERSION: ———</li>
+              </ul>
+            </Group>
+          }
           <MButton id="exit-btn" onClick={() => location.reload()}>EXIT TO COSUMER UI</MButton>
         </Grid>
       </MenuContent>

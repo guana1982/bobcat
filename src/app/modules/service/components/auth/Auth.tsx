@@ -23,9 +23,9 @@ const AuthComponent = (props: AuthProps) => {
   const finish = (output: string) => {
     if (output === "12345") {
       setAuthLevel(AuthLevels.Tech);
-    } else if (output === "54321") {
-      setAuthLevel(AuthLevels.Crew);
     } else if (output === "98765") {
+      setAuthLevel(AuthLevels.Crew);
+    } else if (output === "23456") {
       setAuthLevel(AuthLevels.Super);
     } else {
       return null;
