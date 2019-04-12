@@ -23,7 +23,7 @@ export const Consumer = () => (
             <Route exact path={Pages.Attractor} component={Attractor}/>
             <Route path={Pages.Home} component={Home}/>
             <Route path={Pages.Prepay} component={Prepay}/>
-            {/* <Route path={Pages.Menu} component={OldMenu}/> */}
+            <Route path={Pages.Menu} component={OldMenu}/>
           </TimerStore>
         </ConsumerStore>
       </AlertProvider>

@@ -62,7 +62,7 @@ const App = () => (
     <MemoryRouter>
       <ConfigStore>
         <Consumer />
-        <Service />
+        {/* <Service /> */}
       </ConfigStore>
     </MemoryRouter>
   </React.Fragment>
