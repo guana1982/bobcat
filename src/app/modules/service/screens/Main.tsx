@@ -176,7 +176,7 @@ export const NewMenu = (props: MenuProps) => {
           <Group title={__("LINES ASSIGNMENT")} size={authLevel !== AuthLevels.Crew ? SIZE_GROUP_LINES : SIZE_FULL_GROUP_LINES}>
             {lines.pumps.map((line, i) => {
               return (
-                <MButton disabled={authLevel === AuthLevels.Super} onClick={() => openModal(Modals.Line, { line })} key={i} className="small" light info={`Line - ${line.line_id}`}>
+                <MButton disabled={authLevel === AuthLevels.Super} onClick={() => openModal(Modals.Line, { lineId: line.line_id })} key={i} className="small" light info={`Line - ${line.line_id}`}>
                   {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
                 </MButton>
               );
@@ -186,7 +186,7 @@ export const NewMenu = (props: MenuProps) => {
             <Group title={__("WATERS")} size={SIZE_GROUP_WATERS}>
               {lines.waters.map((line, i) => {
                 return (
-                  <MButton disabled={authLevel === AuthLevels.Super} onClick={() => openModal(Modals.Line, { line })} key={i} className="small" light info={`${line.$beverage.beverage_type} - ${line.line_id}`}>
+                  <MButton disabled={authLevel === AuthLevels.Super} onClick={() => openModal(Modals.Line, { lineId: line.line_id })} key={i} className="small" light info={`${line.$beverage.beverage_type} - ${line.line_id}`}>
                     {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
                   </MButton>
                 );
@@ -203,7 +203,7 @@ export const NewMenu = (props: MenuProps) => {
             {
               authLevel === AuthLevels.Tech &&
               <>
-                <MButton>PRIMING</MButton>
+                {/* <MButton>PRIMING</MButton> */}
                 <MButton onClick={() => openModal(Modals.Timeout)}>SELECTION TIMEOUT</MButton>
                 <MButton onClick={() => openModal(Modals.Cleaning)}>SCREEN CLEANING</MButton>
                 <MButton onClick={() => openModal(Modals.Customize)}>CUSTOMIZE UI</MButton>

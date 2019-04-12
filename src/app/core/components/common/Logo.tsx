@@ -15,7 +15,9 @@ const SIZES = {
   }
 };
 
-const BeverageLogo = ({ beverage, size }) => {
+const BeverageLogo = (props) => {
+
+  const { beverage, size } = props;
 
   let logo_id = beverage.beverage_logo_id;
   if (logo_id === 10) {

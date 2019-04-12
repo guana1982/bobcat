@@ -3,6 +3,14 @@ import createContainer from "constate";
 import { ConfigContext } from "./config.container";
 import { IBeverage } from "@core/models";
 import { Beverages } from "@core/utils/constants";
+import mediumLevel from "@core/utils/lib/mediumLevel";
+import { flatMap } from "rxjs/operators";
+
+export interface ILineSave {
+  line_id: number;
+  beverage_id:  number;
+  beverage_menu_index: number;
+}
 
 export class ILine {
   line_id: number;
@@ -11,6 +19,15 @@ export class ILine {
   constructor({ line_id, $beverage }) {
     this.line_id = line_id;
     this.$beverage = $beverage;
+  }
+
+  getLineSave(): ILineSave {
+    console.log(this);
+    return {
+      line_id: this.line_id,
+      beverage_id: this.$beverage ? this.$beverage.beverage_id : -1,
+      beverage_menu_index: -1
+    };
   }
 }
 
@@ -26,7 +43,7 @@ interface ILines {
 }
 
 interface ServiceState {
-  test: boolean;
+
 }
 
 const ServiceContainer = createContainer(() => {
@@ -37,10 +54,6 @@ const ServiceContainer = createContainer(() => {
     waters: []
   });
   const [syrups, setSyrups] = React.useState<IBeverage[]>([]);
-
-  const [state, setState] = React.useState<ServiceState>({
-    test: false
-  });
 
   const configConsumer = React.useContext(ConfigContext);
 
@@ -108,15 +121,22 @@ const ServiceContainer = createContainer(() => {
     };
   }, [allBeverages, vendorConfig]);
 
+  function saveLines(editLine: ILineSave) {
+    if (!editLine)
+      return;
 
-  const testEvent = () => {
-    setState(prevState => ({
-      ...prevState,
-      test: true
-    }));
-  };
+    const { pumps } = lines;
 
-  return { state, lines, authLevel, setAuthLevel, syrups, testEvent };
+    const linesSave = pumps.map(pump => pump.line_id === editLine.line_id ? editLine : pump.getLineSave());
+
+    mediumLevel.config.saveLinesConfig(linesSave)
+    .pipe(
+      flatMap(() => configConsumer.setBeverages)
+    )
+    .subscribe();
+  }
+
+  return { lines, authLevel, setAuthLevel, syrups, saveLines };
 });
 
 export const ServiceProvider = ServiceContainer.Provider;

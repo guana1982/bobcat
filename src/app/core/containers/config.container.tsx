@@ -13,6 +13,7 @@ const mergeById = ([t, s]) => t.map(p => Object.assign({}, p, s.find(q => p.beve
 export interface ConfigInterface {
   authService: boolean;
   setAuthService: (v: boolean) => void;
+  setBeverages: Observable<any>;
   vendorConfig: any;
   menuList: any;
   ws: WebSocketSubject<ISocket>;
@@ -36,6 +37,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
   menuList: any;
   socketAlarms$: Observable<any>;
+  setBeverages: Observable<any>;
   socketAttractor$: Observable<any>;
 
   constructor(props) {
@@ -147,7 +149,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     .pipe(
       mergeMap(() => this.socketAlarms$),
       mergeMap(() => setAlarms),
-      mergeMap(() => setBeverages)
+      mergeMap(() => this.setBeverages)
     )
     .subscribe();
 
@@ -163,7 +165,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ==== GET CONFIG ==== */
     /* ======================================== */
 
-    const setBeverages = combineLatest(mediumLevel.config.getBeverages(), mediumLevel.config.getBrands())
+    this.setBeverages = combineLatest(mediumLevel.config.getBeverages(), mediumLevel.config.getBrands())
     .pipe(
       map(mergeById),
       tap(beverages => {
@@ -196,7 +198,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
     forkJoin(
       setVendorConfig,
-      setBeverages,
+      this.setBeverages,
       mediumLevel.menu.getList(),
       mediumLevel.config.getSizes(),
       mediumLevel.config.getLang(),
@@ -261,6 +263,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
         value={{
           authService: this.state.authService,
           setAuthService: this.setAuthService,
+          setBeverages: this.setBeverages,
           vendorConfig: this.state.vendorConfig,
           allBeverages: this.state.allBeverages,
           beverages: this.state.beverages,

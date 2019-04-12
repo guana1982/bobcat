@@ -52,5 +52,11 @@ export const MButton = styled<MButtonProps, "button">("button")`
     font-size: 0.9rem;
     font-weight: 500;
   }
+  p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
   padding-bottom: ${props => props.info ? "2.5rem" : null};
 `;

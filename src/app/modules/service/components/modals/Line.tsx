@@ -1,22 +1,26 @@
 import * as React from "react";
 import styled from "styled-components";
 import { ModalContentProps, Box, Modal, ACTIONS_CONFIRM, ACTIONS_CLOSE } from "@modules/service/components/common/Modal";
-import { MButton } from "@modules/service/components/common/Button";
-import { ILine, ServiceContext } from "@core/containers";
+import { MButton, MTypes } from "@modules/service/components/common/Button";
+import { ILine, ServiceContext, ILineSave } from "@core/containers";
 import { __ } from "@core/utils/lib/i18n";
 import BeverageLogo from "@core/components/common/Logo";
+import { MButtonGroup } from "../common/ButtonGroup";
+import mediumLevel from "@core/utils/lib/mediumLevel";
 
 const LineContent = styled.div`
 
 `;
 
 interface LineProps extends Partial<ModalContentProps> {
-  line: ILine;
+  lineId: number;
 }
 
 export const Line = (props: LineProps) => {
 
-  const { cancel, line } = props;
+  const { cancel, lineId } = props;
+
+  const [syrupSelected, setSyrupSelected] = React.useState<number>(null);
 
   const serviceConsumer = React.useContext(ServiceContext);
 
@@ -24,10 +28,23 @@ export const Line = (props: LineProps) => {
 
   }, []);
 
+  const { lines } = serviceConsumer;
+  const line = [...lines.pumps, ...lines.waters].filter(line => line.line_id === lineId)[0];
+
   const { $beverage } = line;
 
+  function saveLine() {
+    if (syrupSelected === null || syrupSelected === undefined)
+      return;
 
-  const { lines } = serviceConsumer;
+    const editLine: ILineSave = {
+      line_id: line.line_id,
+      beverage_id: syrupSelected,
+      beverage_menu_index: -1
+    };
+
+    serviceConsumer.saveLines(editLine);
+  }
 
   /* ==== WATER LINE ==== */
   /* ======================================== */
@@ -62,11 +79,31 @@ export const Line = (props: LineProps) => {
 
   const { syrups } = serviceConsumer;
 
-  if (!$beverage) {
+  const [lineAssignment, setLineAssignment] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (lineAssignment === false) {
+      setSyrupSelected(null);
+    }
+  }, [lineAssignment]);
+
+  if (!$beverage || lineAssignment) {
+
+    const cancelLineAssignment = () => {
+      const disableCancel = syrupSelected !== -1 && lineAssignment;
+
+      if (lineAssignment)
+        setLineAssignment(false);
+
+      if (!disableCancel)
+        cancel();
+    };
+
     return (
       <Modal
         show={true}
-        cancel={cancel}
+        cancel={cancelLineAssignment}
+        finish={() => saveLine()}
         title={"FLAVOR LINE ASSIGNMENT"}
         subTitle={"SELECT FLAVOR TYPE (SYRUP) FOR DESIRED ASSIGNMENT"}
         actions={ACTIONS_CONFIRM}
@@ -74,18 +111,36 @@ export const Line = (props: LineProps) => {
         <LineContent>
           <Box className="elements">
             <MButton className="small" light info={`Line - ${line.line_id}`}>
-              UNASSIGNED
+              {!$beverage ?
+                "UNASSIGNED" :
+                <BeverageLogo beverage={$beverage} size="tiny" />
+              }
             </MButton>
           </Box>
           <Box className="container">
             <h3 id="title">syrups</h3>
-            {syrups.map((syrup, i) => {
-              return (
-                <MButton className="small" key={i} disabled visibled light info={syrup.beverage_id}>
-                  <BeverageLogo beverage={syrup} size="tiny" />
-                </MButton>
-              );
-            })}
+            <Box>
+              {syrups.map((syrup, i) => {
+                if (!$beverage && syrup.beverage_id === -1) // REMOVE UNASSIGNED (CASE FIRST ASSIGNMENT)
+                  return;
+
+                return (
+                  <MButton
+                    className="small"
+                    key={i}
+                    visibled light
+                    info={syrup.beverage_id === -1 ? "-" : syrup.beverage_id}
+                    type={syrupSelected === syrup.beverage_id ? MTypes.INFO_SUCCESS : null}
+                    onClick={() => setSyrupSelected(syrup.beverage_id)}
+                  >
+                    {syrup.beverage_id === -1 ?
+                      "UNASSIGNED" :
+                      <BeverageLogo beverage={syrup} size="tiny" />
+                    }
+                  </MButton>
+                );
+              })}
+            </Box>
           </Box>
         </LineContent>
       </Modal>
@@ -114,7 +169,7 @@ export const Line = (props: LineProps) => {
           </Box>
           <Box className="centered">
             <MButton className="small">LOCK DISPENSE</MButton>
-            <MButton className="small">CHANGE LINE ASSIGNMENT</MButton>
+            <MButton onClick={() => setLineAssignment(true)} className="small">CHANGE LINE ASSIGNMENT</MButton>
             <MButton className="small">CALIBRATION</MButton>
             <MButton className="small">PRIMING</MButton>
             <MButton className="small">BIB RESET</MButton>
