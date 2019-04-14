@@ -2,6 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import Circle from "react-circle";
 import { ConsumerContext } from "@core/containers";
+import { calcolaPerc } from "@core/utils/constants";
 
 interface CircleCardProps {
   className: any;
@@ -12,8 +13,6 @@ interface CircleCardProps {
 
 const CircleCard_ = (props: CircleCardProps) => {
   const { className } = props;
-
-  const calcolaPerc = (tot, num): number => Number(((num / tot) * 100).toFixed(0));
 
   const consumerConsumer = React.useContext(ConsumerContext);
   const { currHydraLvl, hydraGoal } = consumerConsumer.dataConsumer;

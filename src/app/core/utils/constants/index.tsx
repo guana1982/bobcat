@@ -9,6 +9,8 @@ export enum Pages {
   // MenuTech = "/menu/tech"
 }
 
+export const calcolaPerc = (tot, num): number => Number(((num / tot) * 100).toFixed(0));
+
 // -- BEVERAGE --
 export enum Beverages {
   Plain = "plain",
@@ -71,6 +73,7 @@ export enum SOCKET_CONSUMER {
   QR = "consumer_qr_data",
   SERVER = "consumer_server_data"
 }
+export const SOCKET_CONNECTIVITY = "connectivity_status";
 // export const SOCKET_QR = "qr_found";
 // -- MESSAGES SOCKET --
 export const MESSAGE_STOP_VIDEO = "stop_video";

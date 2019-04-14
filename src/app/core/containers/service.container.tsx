@@ -2,7 +2,7 @@ import * as React from "react";
 import createContainer from "constate";
 import { ConfigContext } from "./config.container";
 import { IBeverage } from "@core/models";
-import { Beverages } from "@core/utils/constants";
+import { Beverages, SOCKET_CONNECTIVITY } from "@core/utils/constants";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { flatMap, map, tap } from "rxjs/operators";
 import { of } from "rxjs";
@@ -23,7 +23,6 @@ export class ILine {
   }
 
   getLineSave(): ILineSave {
-    console.log(this);
     return {
       line_id: this.line_id,
       beverage_id: this.$beverage ? this.$beverage.beverage_id : -1,
@@ -35,7 +34,7 @@ export class ILine {
 export enum AuthLevels {
   Crew = "crew_menu",
   Tech = "tech_menu",
-  Super = "super_menu"
+  Super = "superuser_menu"
 }
 
 interface ILines {
@@ -55,6 +54,31 @@ const ServiceContainer = createContainer(() => {
     console.log("ServiceContainer => Config ;", configConsumer);
     return () => {
       console.log("close");
+    };
+  }, []);
+
+  /* ==== CONNECTIVITY ==== */
+  /* ======================================== */
+
+  const [connectivity, setConnectivity] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    const socketConnectivity$ = configConsumer.ws
+    .multiplex(
+      () => console.info(`Start => ${SOCKET_CONNECTIVITY}`),
+      () => console.info(`End => ${SOCKET_CONNECTIVITY}`),
+      (data) => data && data.message_type === SOCKET_CONNECTIVITY
+    );
+
+    const socketConnectivity_ = socketConnectivity$
+    .subscribe(
+      data => {
+        console.log("connectivity", data);
+        setConnectivity(data);
+      }
+    );
+    return () => {
+      socketConnectivity_.unsubscribe();
     };
   }, []);
 

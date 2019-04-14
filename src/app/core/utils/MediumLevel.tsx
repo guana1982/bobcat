@@ -56,6 +56,45 @@ export default {
 
     authentication: pin => post("auth", { pin }),
   },
+  connectivity: {
+    signalStrength: () => get("menu/signal_strength")
+  },
+  line: {
+    startPriming: line_id => post("menu/start_priming", { line_id }),
+    stopPriming: () => post("menu/stop_priming"),
+    bibReset: () => post("menu/bib_reset")
+  },
+  price: {
+    setPaymentType: type => post("menu/payment_type", { type }),
+    getPrices: () => get("menu/prices"),
+    setPrice: data => post("menu/price", data)
+  },
+  timeout: {
+    setTimeout: screen_saver_timeout => post("menu/screen_saver_timeou", { screen_saver_timeout })
+  },
+  language: {
+    getLanguageList: () => get("menu/language_list"),
+    setLanguage: language => post("menu/language", { language })
+  },
+  country: {
+    getCountryList: () => get("menu/country"),
+    setCountry: country => post("menu/country", { country }),
+  },
+  video: {
+    getVideoList: () => get("menu/video_list"),
+    setVideo: filename => post("menu/video", { filename })
+  },
+  updates: {
+    updateUsb: update_type => post("menu/usb_update", { update_type }),
+    updateRemoteServer: update_type => post("menu/server_update", { update_type })
+  },
+  equipmentConfiguration: {
+    getFirstActivation: () => get("menu/first_activation"),
+    setFirstActivation: data => get("menu/first_activation", data),
+    motherboardSubstitution: serial_number => post("menu/motherboard_substitution", { serial_number }),
+    equipmentSubstitution: serial_number => post("menu/equipment_substitution", { serial_number }),
+    pickUp: () => post("menu/pickup")
+  },
   alarm: {
     getAlarms: (menuId = "tech_menu", submenuId = "alarms_menu_tech") => get(`menu/${menuId}/${submenuId}`)
   },

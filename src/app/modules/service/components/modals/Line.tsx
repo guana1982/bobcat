@@ -7,9 +7,35 @@ import { __ } from "@core/utils/lib/i18n";
 import BeverageLogo from "@core/components/common/Logo";
 import { MButtonGroup } from "../common/ButtonGroup";
 import mediumLevel from "@core/utils/lib/mediumLevel";
+import { calcolaPerc } from "@core/utils/constants";
+
+const LevelBeverage = styled.div`
+  position: relative;
+  width: 210px;
+  height: 23px;
+  display: flex;
+  border-radius: 8px;
+  background: ${props => props.theme.light};
+  border: 2px solid ${props => props.theme.dark};
+  &:before {
+    content: "";
+    height: 100%;
+    border-radius: 5px;
+    width: ${props => props.level}%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: ${props => props.theme.dark};
+  }
+`;
 
 const LineContent = styled.div`
-
+  #level {
+    display: flex;
+    ${LevelBeverage} {
+      margin-left: 10px;
+    }
+  }
 `;
 
 interface LineProps extends Partial<ModalContentProps> {
@@ -150,6 +176,8 @@ export const Line = (props: LineProps) => {
 
   /* ==== FLAVOR LINE ==== */
   /* ======================================== */
+  const { bib_size, remaining_bib } = $beverage;
+  const percLevel = calcolaPerc(bib_size, remaining_bib);
 
   return (
     <Modal
@@ -166,6 +194,9 @@ export const Line = (props: LineProps) => {
             </MButton>
             <div id="info-box">
               <h3>SKU NO. {$beverage.beverage_id} - V1</h3>
+              <h3 id="level">LEVEL: <LevelBeverage level={percLevel} /></h3>
+              <h3>VOLUME (GAL): </h3>
+              <h3>EXPIRATION DATE: </h3>
             </div>
           </Box>
           <Box className="centered">
