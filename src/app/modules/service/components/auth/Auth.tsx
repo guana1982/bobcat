@@ -13,7 +13,7 @@ const AuthComponent = (props: AuthProps) => {
   const configConsumer = React.useContext(ConfigContext);
   const serviceConsumer = React.useContext(ServiceContext);
 
-  const { authLevel, setAuthLevel } = serviceConsumer;
+  const { authLogin, setAuthLevel } = serviceConsumer;
   const { authService, setAuthService } = configConsumer;
 
   const cancel = () => {
@@ -21,16 +21,10 @@ const AuthComponent = (props: AuthProps) => {
   };
 
   const finish = (output: string) => {
-    if (output === "12345") {
-      setAuthLevel(AuthLevels.Tech);
-    } else if (output === "98765") {
-      setAuthLevel(AuthLevels.Crew);
-    } else if (output === "23456") {
-      setAuthLevel(AuthLevels.Super);
-    } else {
-      return null;
-    }
-    props.history.push(Pages.Menu);
+    authLogin(output)
+    .subscribe(
+      authLevel => props.history.push(Pages.Menu)
+    );
   };
 
   return (

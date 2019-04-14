@@ -4,7 +4,8 @@ import { ConfigContext } from "./config.container";
 import { IBeverage } from "@core/models";
 import { Beverages } from "@core/utils/constants";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { flatMap } from "rxjs/operators";
+import { flatMap, map, tap } from "rxjs/operators";
+import { of } from "rxjs";
 
 export interface ILineSave {
   line_id: number;
@@ -32,9 +33,9 @@ export class ILine {
 }
 
 export enum AuthLevels {
-  Crew = "crew",
-  Tech = "tech",
-  Super = "super"
+  Crew = "crew_menu",
+  Tech = "tech_menu",
+  Super = "super_menu"
 }
 
 interface ILines {
@@ -48,13 +49,6 @@ interface ServiceState {
 
 const ServiceContainer = createContainer(() => {
 
-  const [authLevel, setAuthLevel] = React.useState<AuthLevels>(null);
-  const [lines, setLines] = React.useState<ILines>({
-    pumps: [],
-    waters: []
-  });
-  const [syrups, setSyrups] = React.useState<IBeverage[]>([]);
-
   const configConsumer = React.useContext(ConfigContext);
 
   React.useEffect(() => {
@@ -64,8 +58,41 @@ const ServiceContainer = createContainer(() => {
     };
   }, []);
 
+  /* ==== AUTH ==== */
+  /* ======================================== */
+
+  const [authLevel, setAuthLevel] = React.useState<AuthLevels>(null);
+
+  function authLogin(pincode: string) {
+    if (pincode === "23456") { // MOCK => AUTH LEVEL SUPER
+      const authLevel: AuthLevels = AuthLevels.Super;
+      setAuthLevel(authLevel);
+      return of(authLevel);
+    }
+
+    return mediumLevel.menu.authentication(pincode)
+    .pipe(
+      map(data => {
+        if (data.error) {
+          throw data.error;
+        }
+        const authLevel: AuthLevels = data.menu_id;
+        return authLevel;
+      }),
+      tap(authLevel => {
+        setAuthLevel(authLevel);
+      })
+    );
+  }
+
   /* ==== BEVERAGES / LINES ==== */
   /* ======================================== */
+
+  const [lines, setLines] = React.useState<ILines>({
+    pumps: [],
+    waters: []
+  });
+  const [syrups, setSyrups] = React.useState<IBeverage[]>([]);
 
   const { allBeverages, vendorConfig } = configConsumer;
   React.useEffect(() => {
@@ -129,14 +156,13 @@ const ServiceContainer = createContainer(() => {
 
     const linesSave = pumps.map(pump => pump.line_id === editLine.line_id ? editLine : pump.getLineSave());
 
-    mediumLevel.config.saveLinesConfig(linesSave)
+    return mediumLevel.config.saveLinesConfig(linesSave)
     .pipe(
       flatMap(() => configConsumer.setBeverages)
-    )
-    .subscribe();
+    );
   }
 
-  return { lines, authLevel, setAuthLevel, syrups, saveLines };
+  return { authLevel, setAuthLevel, authLogin, lines, syrups, saveLines };
 });
 
 export const ServiceProvider = ServiceContainer.Provider;

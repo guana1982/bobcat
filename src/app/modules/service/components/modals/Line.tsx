@@ -43,7 +43,8 @@ export const Line = (props: LineProps) => {
       beverage_menu_index: -1
     };
 
-    serviceConsumer.saveLines(editLine);
+    serviceConsumer.saveLines(editLine)
+    .subscribe();
   }
 
   /* ==== WATER LINE ==== */

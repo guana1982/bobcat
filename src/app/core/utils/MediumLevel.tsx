@@ -53,6 +53,8 @@ export default {
     saveMenuConfig: (menuId, submenuId, data) => post(`menu/${menuId}/${submenuId}/save_values`, data),
     runAction: menudata => post("menu/run_action"),
     action: (menuId, submenuId, actionId, payload) => post(`menu/${menuId}/${submenuId}/${actionId}`, payload),
+
+    authentication: pin => post("auth", { pin }),
   },
   alarm: {
     getAlarms: (menuId = "tech_menu", submenuId = "alarms_menu_tech") => get(`menu/${menuId}/${submenuId}`)
