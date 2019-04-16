@@ -1,18 +1,17 @@
 import * as React from "react";
 import styled from "styled-components";
-import { ModalContentProps, Box, Modal, ACTIONS_CONFIRM, ACTIONS_CLOSE } from "@modules/service/components/common/Modal";
+import { ModalContentProps, Box, Modal, ACTIONS_CONFIRM, ACTIONS_CLOSE, ModalContent } from "@modules/service/components/common/Modal";
 import { MButton, MTypes } from "@modules/service/components/common/Button";
 import { ILine, ServiceContext, ILineSave } from "@core/containers";
 import { __ } from "@core/utils/lib/i18n";
 import BeverageLogo from "@core/components/common/Logo";
-import { MButtonGroup } from "../common/ButtonGroup";
-import mediumLevel from "@core/utils/lib/mediumLevel";
 import { calcolaPerc } from "@core/utils/constants";
+import { MInput } from "../common/Input";
 
 const LevelBeverage = styled.div`
   position: relative;
   width: 210px;
-  height: 23px;
+  height: 28px;
   display: flex;
   border-radius: 8px;
   background: ${props => props.theme.light};
@@ -30,10 +29,19 @@ const LevelBeverage = styled.div`
 `;
 
 const LineContent = styled.div`
-  #level {
+  &.large {
+    width: 850px;
+  }
+  ${Box}#beverage-box {
+    justify-content: center;
+    align-items: center;
+  }
+  h3 {
+    margin: 5px 0 !important;
     display: flex;
-    ${LevelBeverage} {
-      margin-left: 10px;
+    align-items: center;
+    span {
+      margin-right: 10px;
     }
   }
 `;
@@ -156,7 +164,7 @@ export const Line = (props: LineProps) => {
                     className="small"
                     key={i}
                     visibled light
-                    info={syrup.beverage_id === -1 ? "-" : syrup.beverage_id}
+                    info={syrup.beverage_id === -1 ? "-" : `ID - ${syrup.beverage_id}`}
                     type={syrupSelected === syrup.beverage_id ? MTypes.INFO_SUCCESS : null}
                     onClick={() => setSyrupSelected(syrup.beverage_id)}
                   >
@@ -176,6 +184,7 @@ export const Line = (props: LineProps) => {
 
   /* ==== FLAVOR LINE ==== */
   /* ======================================== */
+
   const { bib_size, remaining_bib } = $beverage;
   const percLevel = calcolaPerc(bib_size, remaining_bib);
 
@@ -186,25 +195,25 @@ export const Line = (props: LineProps) => {
       title={`FLAVOR LINE #${line.line_id} - ${__($beverage.beverage_label_id)}`}
       actions={ACTIONS_CLOSE}
     >
-      <LineContent>
+      <LineContent className={"large"}>
         <div>
-          <Box>
-            <MButton disabled visibled light info={`LINE - ${line.line_id}`}>
+          <Box id={"beverage-box"}>
+            <MButton disabled visibled light info={`ID - ${$beverage.beverage_id}`}>
               <BeverageLogo beverage={$beverage} size="tiny" />
             </MButton>
             <div id="info-box">
               <h3>SKU NO. {$beverage.beverage_id} - V1</h3>
-              <h3 id="level">LEVEL: <LevelBeverage level={percLevel} /></h3>
-              <h3>VOLUME (GAL): </h3>
-              <h3>EXPIRATION DATE: </h3>
+              <h3><span>LEVEL:</span> <LevelBeverage level={percLevel} /></h3>
+              <h3><span>VOLUME (GAL):</span> <MInput className="small" value={$beverage.bib_size} disabled /></h3>
+              <h3><span>EXPIRATION DATE:</span> <MInput className="small" value={$beverage.bib_expiring_date} disabled /></h3>
             </div>
           </Box>
           <Box className="centered">
-            <MButton className="small">LOCK DISPENSE</MButton>
-            <MButton onClick={() => setLineAssignment(true)} className="small">CHANGE LINE ASSIGNMENT</MButton>
-            <MButton className="small">CALIBRATION</MButton>
-            <MButton className="small">PRIMING</MButton>
-            <MButton className="small">BIB RESET</MButton>
+            <MButton>LOCK DISPENSE</MButton>
+            <MButton onClick={() => setLineAssignment(true)}>CHANGE LINE ASSIGNMENT</MButton>
+            <MButton>CALIBRATION</MButton>
+            <MButton>PRIMING</MButton>
+            <MButton>BIB RESET</MButton>
           </Box>
         </div>
       </LineContent>

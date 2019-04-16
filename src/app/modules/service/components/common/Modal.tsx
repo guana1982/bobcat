@@ -37,7 +37,7 @@ export const Box = styled.div`
   div#info-box {
     align-self: center;
     padding: 1rem;
-    width: 100%;
+    /* width: 100%; */
     h3 {
       color: ${props => props.theme.dark};
       font-weight: 400;
@@ -112,6 +112,9 @@ const ModalWrapper = styled.div`
         h2, h3, button {
           color: ${props => props.theme.light};
         }
+      }
+      li {
+        color: ${props => props.theme.light};
       }
     }
   }

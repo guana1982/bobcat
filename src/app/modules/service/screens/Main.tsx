@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { __ } from "@core/utils/lib/i18n";
 
 import { MButton, MTypes } from "@modules/service/components/common/Button";
-import { Modal,  Box, ACTIONS_CONFIRM, ACTIONS_CLOSE } from "@modules/service/components/common/Modal";
+import { Modal,  Box, ACTIONS_CONFIRM, ACTIONS_CLOSE, ModalTheme } from "@modules/service/components/common/Modal";
 import { MButtonGroup } from "@modules/service/components/common/ButtonGroup";
 import ConnectivityComponent from "../components/sections/Connectivity";
+import { About } from "../components/sections/About";
 import { ServiceContext, AuthLevels } from "@core/containers";
 import BeverageLogo from "@core/components/common/Logo";
 import { Line } from "../components/modals/Line";
@@ -14,6 +15,10 @@ import { EquipmentConfiguration } from "../components/modals/EquipmentConfigurat
 import { Cleaning } from "../components/modals/Cleaning";
 import { EquipmentStatus } from "../components/modals/EquipmentStatus";
 import { Grid, Group, SIZE_GROUP_LINES, SIZE_GROUP_WATERS, SIZE_GROUP_ALARM, SIZE_GROUP_INFO, SIZE_FULL_GROUP_ALARM, SIZE_FULL_GROUP_LINES } from "../components/main/Grid";
+import { Customize } from "../components/modals/Customize";
+import { Update } from "../components/modals/Update";
+import { Timeout } from "../components/modals/Timeout";
+import { LanguageSelection } from "../components/sections/Selections";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -53,7 +58,8 @@ enum Modals {
   Customize,
   Connectivity,
   Update,
-  Timeout
+  Timeout,
+  About
 }
 
 interface ActionModals {
@@ -77,7 +83,8 @@ const initialModals = {
   [Modals.Customize]: initModal,
   [Modals.Connectivity]: initModal,
   [Modals.Update]: initModal,
-  [Modals.Timeout]: initModal
+  [Modals.Timeout]: initModal,
+  [Modals.About]: initModal,
 };
 
 function reducerModals(state: StateModals, action: ActionModals) {
@@ -170,7 +177,7 @@ export const NewMenu = (props: MenuProps) => {
   );
 
   return (
-    <React.Fragment>
+    <>
       <MenuContent>
         <Grid>
           <Group title={__("LINES ASSIGNMENT")} size={authLevel !== AuthLevels.Crew ? SIZE_GROUP_LINES : SIZE_FULL_GROUP_LINES}>
@@ -225,7 +232,7 @@ export const NewMenu = (props: MenuProps) => {
               <>
                 <MButton>SYSTEM REBOOT</MButton>
                 <MButton>SYSTEM SHUTDOWN</MButton>
-                <MButton>ABOUT</MButton>
+                <MButton onClick={() => openModal(Modals.About)}>ABOUT</MButton>
               </>
             }
             {
@@ -253,16 +260,7 @@ export const NewMenu = (props: MenuProps) => {
           </Group>
           {authLevel !== AuthLevels.Crew &&
             <Group id="info-group" size={SIZE_GROUP_INFO}>
-              <ul>
-                <li>COUNTRY: ———</li>
-                <li>IMEI: ———</li>
-                <li>MOTHERBOARD SERIAL NUMBER: ———</li>
-                <li>MODEM SERIAL NUMBER: ———</li>
-                <li>SIM CARD NUMBER: ———</li>
-                <li>SERIAL NUMBER: ———</li>
-                <li>FIRMWARE VERSION: ———</li>
-                <li>SOFTWARE VERSION: ———</li>
-              </ul>
+              <About />
             </Group>
           }
           <MButton id="exit-btn" onClick={() => location.reload()}>EXIT TO COSUMER UI</MButton>
@@ -275,62 +273,9 @@ export const NewMenu = (props: MenuProps) => {
       {modals[Modals.Cleaning].show && <Cleaning cancel={closeAllModal} />}
       {modals[Modals.EquipmentStatus].show && <EquipmentStatus cancel={closeAllModal} />}
 
-      <Modal
-        show={modals[Modals.Update].show}
-        cancel={closeAllModal}
-        title="update"
-        subTitle="select desired action"
-        actions={ACTIONS_CLOSE}
-      >
-        <Box className="centered">
-          <MButton>UPLOAD FROM USB</MButton>
-          <MButton>UPDATE FROM REMOTE SERVER</MButton>
-        </Box>
-      </Modal>
-
-      <Modal
-        show={modals[Modals.Customize].show}
-        cancel={closeAllModal}
-        title="CONSUMER UI"
-        subTitle="SELECT DESIRED ACTION"
-        actions={ACTIONS_CLOSE}
-      >
-        <Box className="centered">
-          <MButton>VIDEO SELECTION</MButton>
-          <MButton>PAYMENT SELECTION</MButton>
-        </Box>
-      </Modal>
-
-      <Modal
-        show={modals[Modals.Timeout].show}
-        cancel={closeAllModal}
-        title="SELECTION TIMEOUT"
-        actions={ACTIONS_CONFIRM}
-      >
-        <div>
-          <Box className="centered">
-            <MButton disabled visibled light info="TIMEOUT">5 SECONDS</MButton>
-          </Box>
-          <Box className="centered">
-            <MButton>DECREASE TIMEOUT</MButton>
-            <MButton>INCREASE TIMEOUT</MButton>
-          </Box>
-        </div>
-      </Modal>
-
-      <Modal
-        show={modals[Modals.Language].show}
-        cancel={closeAllModal}
-        title="SERVICE LANGUAGE"
-        subTitle="SELECT DESIRED LANGUAGE"
-        actions={ACTIONS_CONFIRM}
-      >
-        <MButtonGroup
-          options={state.languageList}
-          value={state.languageSelected}
-          onChange={(value) => handleLanguage(value)}
-        />
-      </Modal>
+      {modals[Modals.Update].show && <Update cancel={closeAllModal} />}
+      {modals[Modals.Timeout].show && <Timeout cancel={closeAllModal} />}
+      {modals[Modals.Customize].show && <Customize cancel={closeAllModal} />}
 
       <Modal
         show={modals[Modals.Connectivity].show}
@@ -341,21 +286,25 @@ export const NewMenu = (props: MenuProps) => {
         <ConnectivityComponent />
       </Modal>
 
-      {/* <Modal
-        show={modals[Modals.EquipmentConfiguration]}
+      <Modal
+        show={modals[Modals.Language].show}
         cancel={closeAllModal}
-        title="VIDEO SELECTION"
-        subTitle="SELECT DESIRED VIDEO"
-        content={
-          <MButtonGroup
-            options={state.videoList}
-            value={state.videoSelected}
-            onChange={(value) => handleVideo(value)}
-          />
-        }
+        title="SERVICE LANGUAGE"
+        subTitle="SELECT DESIRED LANGUAGE"
         actions={ACTIONS_CONFIRM}
-      ></Modal> */}
+      >
+        <LanguageSelection />
+      </Modal>
 
-    </React.Fragment>
+      <Modal
+        themeMode={ModalTheme.Dark}
+        show={modals[Modals.About].show}
+        cancel={closeAllModal}
+        title={__("About")}
+        actions={ACTIONS_CLOSE}
+      >
+        <About />
+      </Modal>
+    </>
   );
 };

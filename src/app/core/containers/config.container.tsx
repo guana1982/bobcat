@@ -7,6 +7,7 @@ import { setLangDict } from "../utils/lib/i18n";
 import { withRouter } from "react-router-dom";
 import { IBeverage, ISocket, IBeverageConfig, IAlarm } from "../models";
 import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages } from "../utils/constants";
+import { VendorConfig } from "@core/models/vendor.model";
 
 const mergeById = ([t, s]) => t.map(p => Object.assign({}, p, s.find(q => p.beverage_id === q.beverage_id)));
 
@@ -14,7 +15,8 @@ export interface ConfigInterface {
   authService: boolean;
   setAuthService: (v: boolean) => void;
   setBeverages: Observable<any>;
-  vendorConfig: any;
+  setVendorConfig: Observable<any>;
+  vendorConfig: VendorConfig;
   menuList: any;
   ws: WebSocketSubject<ISocket>;
   socketAlarms$: Observable<any>;
@@ -36,9 +38,10 @@ export const ConfigConsumer = ConfigContext.Consumer;
 class ConfigStoreComponent extends React.Component<any, any> {
 
   menuList: any;
-  socketAlarms$: Observable<any>;
   setBeverages: Observable<any>;
+  setVendorConfig: Observable<any>;
   socketAttractor$: Observable<any>;
+  socketAlarms$: Observable<any>;
 
   constructor(props) {
     super(props);
@@ -188,7 +191,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       })
     );
 
-    const setVendorConfig = mediumLevel.config.getVendor()
+    this.setVendorConfig = mediumLevel.config.getVendor()
     .pipe(
       tap(vendorConfig => {
         console.log("VENDOR CONFIG", vendorConfig);
@@ -197,7 +200,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     );
 
     forkJoin(
-      setVendorConfig,
+      this.setVendorConfig,
       this.setBeverages,
       mediumLevel.menu.getList(),
       mediumLevel.config.getSizes(),
@@ -264,6 +267,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
           authService: this.state.authService,
           setAuthService: this.setAuthService,
           setBeverages: this.setBeverages,
+          setVendorConfig: this.setVendorConfig,
           vendorConfig: this.state.vendorConfig,
           allBeverages: this.state.allBeverages,
           beverages: this.state.beverages,

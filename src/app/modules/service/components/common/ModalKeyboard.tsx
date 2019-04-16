@@ -13,24 +13,22 @@ const NumberPadWrapper = styled.div`
   left: 0px;
   width: 100vw;
   height: 100vh;
-
+  input {
+    margin: 30px;
+  }
   ${ModalContent} {
     min-width: 380px;
   }
-
   .numeric-theme {
     max-width: 320px;
     margin: 0 auto;
   }
-
   .numeric-theme + .simple-keyboard-preview {
     max-width: 320px;
   }
-
   .simple-keyboard.hg-theme-default {
     background: transparent;
   }
-
   .simple-keyboard.hg-theme-default.numeric-theme
     .hg-button.hg-standardBtn.hg-button-at {
     max-width: none;
@@ -63,12 +61,12 @@ interface NumberPadState {
 
 let keyboard: any;
 const layout = {
-  [TypeLayout.Default]: ["1 2 3", "4 5 6", "7 8 9", "{enter} 0 {bksp}"],
+  [TypeLayout.Default]: ["1 2 3", "4 5 6", "7 8 9", " 0 {bksp}"],
   [TypeLayout.Shift]: ["! / #", "$ % ^", "& * (", "{bksp} ) +"],
 };
 const display = {
   "{bksp}": "Del",
-  "{enter}": "Go"
+  // "{enter}": "Go"
 };
 
 export const ModalKeyboard = (props: NumberPadProps) => {

@@ -8,13 +8,14 @@ export const InputWrapper = styled.div`
   display: inline-flex;
   vertical-align: middle;
   input {
+    text-align: center;
+    border: 1px solid  ${props => props.theme.dark};
     /* width: 100%;
     height: 100px; */
     border-radius: 15px;
     padding: 10px;
-    margin: 30px;
+    /* margin: 30px; */
     font-size: 20px;
-    border: none;
     box-sizing: border-box;
   }
 `;
@@ -30,13 +31,24 @@ const InputContent = styled.div`
     text-align: left;
     font-weight: 600;
   }
+  &.small {
+    ${InputWrapper} {
+      height: 30px;
+      input {
+        width: 200px;
+        border-radius: 10px;
+      }
+    }
+  }
 `;
 
 interface MInputProps {
   value?: any;
   label?: string;
   type?: string;
-  onChange: (value) => void;
+  disabled?: boolean;
+  className?: string;
+  onChange?: (value) => void;
 }
 
 interface MInputState {
@@ -44,12 +56,13 @@ interface MInputState {
 }
 
 export const MInput = (props: MInputProps) => {
-    const { label, value, type, onChange } = props;
+    const { label, value, type, onChange, disabled, className } = props;
     return (
-      <InputContent>
+      <InputContent className={className}>
         {label && <label>{label}</label>}
         <InputWrapper>
           <input
+            disabled={disabled}
             value={value}
             type={type}
             onChange={onChange}

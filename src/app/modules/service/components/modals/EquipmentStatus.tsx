@@ -45,31 +45,33 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
       title="EQUIPMENT STATUS"
       actions={ACTIONS_CLOSE}
     >
-      <div>
-        <Box className="elements centered">
-          {alarms.map((alarm, i) => (
-            <MButton
-              className="small" info
-              light={alarm !== alarmSelected}
-              key={i}
-              onClick={() => setAlarmSelected(alarm)}
-              type={typeAlarm(alarm)}
-            >
-              {alarm.alarm_code}
-            </MButton>
-          ))}
-        </Box>
-        <Box className="container">
-          <h2 id="title">info</h2>
-          <h4>
-            <p>NAME: {__(alarmSelected.alarm_name)}</p>
-            <p>CODE: {alarmSelected.alarm_code}</p>
-            <p>DATE: {new Date(alarmSelected.alarm_date).toLocaleDateString()}</p>
-            <p>DESCRIPTION: {__(alarmSelected.alarm_description)}</p>
-            <p>SOLUTION: {__(alarmSelected.alarm_solution)}</p>
-          </h4>
-        </Box>
-      </div>
+      <>
+        <div>
+          <Box className="elements centered">
+            {alarms.map((alarm, i) => (
+              <MButton
+                className="small" info
+                light={alarm !== alarmSelected}
+                key={i}
+                onClick={() => setAlarmSelected(alarm)}
+                type={typeAlarm(alarm)}
+              >
+                {alarm.alarm_code}
+              </MButton>
+            ))}
+          </Box>
+          <Box className="container">
+            <h2 id="title">info</h2>
+            <h4>
+              <p>NAME: {__(alarmSelected.alarm_name)}</p>
+              <p>CODE: {alarmSelected.alarm_code}</p>
+              <p>DATE: {new Date(alarmSelected.alarm_date).toLocaleDateString()}</p>
+              <p>DESCRIPTION: {__(alarmSelected.alarm_description)}</p>
+              <p>SOLUTION: {__(alarmSelected.alarm_solution)}</p>
+            </h4>
+          </Box>
+        </div>
+      </>
     </Modal>
   );
 };

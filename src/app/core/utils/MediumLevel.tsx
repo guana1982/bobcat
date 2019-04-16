@@ -70,7 +70,7 @@ export default {
     setPrice: data => post("menu/price", data)
   },
   timeout: {
-    setTimeout: screen_saver_timeout => post("menu/screen_saver_timeou", { screen_saver_timeout })
+    setTimeout: screen_saver_timeout => post("menu/screen_saver_timeout", { screen_saver_timeout })
   },
   language: {
     getLanguageList: () => get("menu/language_list"),
