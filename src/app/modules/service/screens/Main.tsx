@@ -210,11 +210,10 @@ export const NewMenu = (props: MenuProps) => {
             {
               authLevel === AuthLevels.Tech &&
               <>
-                {/* <MButton>PRIMING</MButton> */}
                 <MButton onClick={() => openModal(Modals.Timeout)}>SELECTION TIMEOUT</MButton>
                 <MButton onClick={() => openModal(Modals.Cleaning)}>SCREEN CLEANING</MButton>
                 <MButton onClick={() => openModal(Modals.Customize)}>CUSTOMIZE UI</MButton>
-                <MButton>SANITATION</MButton>
+                {/* <MButton>SANITATION</MButton> */}
                 <MButton onClick={() => openModal(Modals.ChangePrice)}>CHANGE PRICE</MButton>
               </>
             }
@@ -230,16 +229,16 @@ export const NewMenu = (props: MenuProps) => {
             {
               authLevel === AuthLevels.Crew &&
               <>
-                <MButton>SYSTEM REBOOT</MButton>
-                <MButton>SYSTEM SHUTDOWN</MButton>
+                <MButton onClick={serviceConsumer.reboot}>SYSTEM REBOOT</MButton>
+                {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 <MButton onClick={() => openModal(Modals.About)}>ABOUT</MButton>
               </>
             }
             {
               authLevel === AuthLevels.Tech &&
               <>
-                <MButton>SYSTEM REBOOT</MButton>
-                <MButton>SYSTEM SHUTDOWN</MButton>
+                <MButton onClick={serviceConsumer.reboot}>SYSTEM REBOOT</MButton>
+                {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
                 <MButton onClick={() => openModal(Modals.Update)}>SOFTWARE UPDATE</MButton>
                 <MButton onClick={() => openModal(Modals.Connectivity)} info type={MTypes.INFO_SUCCESS}>CONNECTIVITY</MButton>
@@ -248,8 +247,8 @@ export const NewMenu = (props: MenuProps) => {
             {
               authLevel === AuthLevels.Super &&
               <>
-                <MButton>SYSTEM REBOOT</MButton>
-                <MButton>SYSTEM SHUTDOWN</MButton>
+                <MButton onClick={serviceConsumer.reboot}>SYSTEM REBOOT</MButton>
+                {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
                 <MButton onClick={() => openModal(Modals.Connectivity)} info type={MTypes.INFO_SUCCESS}>CONNECTIVITY</MButton>
               </>
@@ -281,7 +280,7 @@ export const NewMenu = (props: MenuProps) => {
         show={modals[Modals.Connectivity].show}
         cancel={closeAllModal}
         title={__("Connectivity")}
-        actions={ACTIONS_CONFIRM}
+        actions={ACTIONS_CLOSE}
       >
         <ConnectivityComponent />
       </Modal>

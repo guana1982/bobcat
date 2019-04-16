@@ -57,6 +57,14 @@ const ServiceContainer = createContainer(() => {
     };
   }, []);
 
+  /* ==== GENERAL ==== */
+  /* ======================================== */
+
+  const reboot = () => {
+    mediumLevel.menu.reboot()
+    .subscribe();
+  };
+
   /* ==== CONNECTIVITY ==== */
   /* ======================================== */
 
@@ -186,7 +194,7 @@ const ServiceContainer = createContainer(() => {
     );
   }
 
-  return { authLevel, setAuthLevel, authLogin, lines, syrups, saveLines };
+  return { authLevel, setAuthLevel, authLogin, lines, syrups, saveLines, reboot };
 });
 
 export const ServiceProvider = ServiceContainer.Provider;

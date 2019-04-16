@@ -102,11 +102,11 @@ interface Product {
 
 export interface IWifi {
   actions: Action[];
-  networks: INetwork[];
+  networks: IAccessPoint[];
   wifi_enable: boolean;
 }
 
-export interface INetwork {
+export interface IAccessPoint {
   encryption: string;
   power: string;
   locked: boolean;

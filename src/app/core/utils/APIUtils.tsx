@@ -4,7 +4,7 @@ import { map } from "rxjs/operators";
 const VENDOR = process.env.INTELLITOWER_VENDOR;
 const VERSION = process.env.INTELLITOWER_VERSION;
 // const BASE_URL = process.env.INTELLITOWER_MEDIUMLEVEL_URL;
-const BASE_URL = process.env.NODE_ENV === "production" ? /* "http://2.34.152.134:5900/api/v0" 93.55.118.44 */ "http://0.0.0.0:5900/api/v0" : "http://93.55.118.44:5900/api/v0";
+const BASE_URL = process.env.NODE_ENV === "production" ? /* "http://2.34.152.134:5900/api/v0" 93.55.118.44 */ "http://0.0.0.0:5900/api/v0" : "http://192.168.188.204:5900/api/v0";
 // const TIMEOUT = 1000 * 30;
 
 export const get = (part = "/", params = {}) => {

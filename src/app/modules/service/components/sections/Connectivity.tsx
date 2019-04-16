@@ -1,37 +1,146 @@
 import * as React from "react";
-import { Modal, Box, ACTIONS_CLOSE, ACTIONS_CONFIRM, ModalContentProps } from "@modules/service/components/common/Modal";
+import { Modal, Box, ACTIONS_CLOSE, ACTIONS_CONFIRM, ModalContentProps, ModalTheme } from "@modules/service/components/common/Modal";
 import { MButton, MTypes } from "@modules/service/components/common/Button";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { IWifi, INetwork } from "@core/utils/APIModel";
+import { IWifi, IAccessPoint } from "@core/utils/APIModel";
 import styled, { keyframes } from "styled-components";
 import { Subscription } from "rxjs";
 import { __ } from "@core/utils/lib/i18n";
+import { SignalIcon, CheckmarkIcon, LockIcon } from "../common/Icons";
+import { tap, flatMap } from "rxjs/operators";
 
 /* ==== SECTIONS ==== */
 /* ======================================== */
 
 const WifiContent = styled.div`
   .list {
-    max-height: 250px;
+    max-height: 280px;
+    width: 550px;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     -webkit-transform: translate3d(0, 0, 0);
+    border: 2px solid ${props => props.theme.dark};
+    margin-bottom: 1rem;
+    .item {
+      background: ${props => props.theme.light};
+      display: flex;
+      padding: 5px 10px;
+      height: 50px;
+      align-items: center;
+      justify-content: space-between;
+      &:not(:last-child) {
+        border-bottom: 2px solid ${props => props.theme.dark};
+      }
+      #bssid {
+        width: 300px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      &.selected {
+        background: ${props => props.theme.dark};
+        #bssid {
+          color: ${props => props.theme.light};
+        }
+        svg {
+          fill: ${props => props.theme.light};
+        }
+      }
+    }
   }
 `;
 
 const Wifi = (props) => {
-  const { networks } = props;
+  const { accessPoints, setApList, wifiEnable } = props;
+
+  const [modalInfo, setModalInfo] = React.useState<boolean>(false);
+  const [accessPointSelected, setAccessPointSelected] = React.useState<IAccessPoint>(null);
+
+  const disconnect = () => {
+    mediumLevel.wifi.disconnect()
+    .pipe(
+      flatMap(() => setApList)
+    )
+    .subscribe();
+  };
+
+  const connect = () => {
+    const { bssid } = accessPointSelected;
+    const password = "12345"; // TO IMPLEMENT => MODAL KEYBOARD
+    mediumLevel.wifi.connect(bssid , password)
+    .pipe(
+      flatMap(() => setApList)
+    )
+    .subscribe();
+  };
+
   return (
-    <WifiContent>
-      <h1>Wifi</h1>
-      <div className="list">
-        {networks.map((network, index) => {
-          return (
-            <p key={index}>{network.bssid}</p>
-          );
-        })}
-      </div>
-    </WifiContent>
+    <>
+      <WifiContent>
+        <h1>Wifi</h1>
+        <div className="list">
+          {accessPoints.map((ap, index) => {
+            const selected = ap === accessPointSelected;
+            return (
+              <div key={index} className={`item ${selected && "selected"}`} onClick={() => setAccessPointSelected(ap)}>
+                <div>
+                  {ap.status === 1 && <CheckmarkIcon />}
+                  <span id="bssid"> {ap.bssid}</span>
+                </div>
+                <div>
+                  {ap.locked && <LockIcon />}{" "}
+                  <SignalIcon active={selected} power={ap.power} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <Box className="centered">
+          <MButton
+            className="tiny"
+            onClick={() => setApList().subscribe()}
+          >
+            SCAN
+          </MButton>
+          <MButton
+            className="tiny"
+            disabled={!accessPointSelected}
+            onClick={() => setModalInfo(true)}
+          >
+            WIFI INFO
+          </MButton>
+          {
+            accessPointSelected && accessPointSelected.status === 1 ?
+              <MButton
+                className="tiny"
+                onClick={() => disconnect()}
+              >
+                WIFI DISCONNECT
+              </MButton> :
+              <MButton
+                disabled={!accessPointSelected}
+                className="tiny"
+                onClick={() => connect()}
+              >
+                WIFI CONNECTION
+              </MButton>
+          }
+        </Box>
+      </WifiContent>
+      <Modal
+        themeMode={ModalTheme.Dark}
+        show={modalInfo}
+        cancel={() => setModalInfo(false)}
+        title={__("About")}
+        actions={ACTIONS_CLOSE}
+      >
+        <>
+          <div>
+            <h3>ciao</h3>
+          </div>
+        </>
+      </Modal>
+    </>
   );
 };
 
@@ -63,7 +172,8 @@ interface ConnectivityProps extends Partial<ModalContentProps> {}
 interface ConnectivityState {
   connectionList: any;
   connectionSelected: any;
-  networks: INetwork[];
+  accessPoints: IAccessPoint[];
+  wifiEnable: boolean;
 }
 
 let getApList_: Subscription = null;
@@ -87,12 +197,12 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
       status: MTypes.INFO_WARNING
     }],
     connectionSelected: ConnectionTypes.Wifi,
-    networks: []
+    accessPoints: [],
+    wifiEnable: null
   });
 
   React.useEffect(() => {
-    getApList_ = null;
-    setApList();
+    getApList_  = setApList().subscribe();
     return () => {
       getApList_.unsubscribe();
     };
@@ -106,20 +216,31 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
   };
 
   const setApList = () => {
-    getApList_ = mediumLevel.wifi.getApList().subscribe((data: IWifi) => {
-      const { networks } = data;
+    if (accessPoints !== []) {
       setState(prevState => ({
         ...prevState,
-        networks: networks
+        accessPoints: []
       }));
-    });
+    }
+    return mediumLevel.wifi.getApList()
+    .pipe(
+      tap((data: IWifi) => {
+        const { networks, wifi_enable } = data;
+        const networksSort = networks.sort((a, b) => b.status - a.status);
+        setState(prevState => ({
+          ...prevState,
+          accessPoints: networksSort,
+          wifiEnable: wifi_enable
+        }));
+      })
+    );
   };
 
-  const { connectionList, connectionSelected, networks } = state;
+  const { connectionList, connectionSelected, accessPoints, wifiEnable } = state;
 
   return (
     <div>
-      <Box>
+      <Box className="centered">
         {connectionList.map((connection, index) => {
           return (
             <MButton
@@ -134,7 +255,7 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
           );
         })}
       </Box>
-      {connectionSelected === ConnectionTypes.Wifi && <Wifi networks={networks} />}
+      {connectionSelected === ConnectionTypes.Wifi && <Wifi accessPoints={accessPoints} wifiEnable={wifiEnable} setApList={setApList} />}
       {connectionSelected === ConnectionTypes.MobileData && <MobileData />}
       {connectionSelected === ConnectionTypes.Ethernet && <Ethernet />}
     </div>

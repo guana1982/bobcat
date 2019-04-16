@@ -55,6 +55,7 @@ export default {
     action: (menuId, submenuId, actionId, payload) => post(`menu/${menuId}/${submenuId}/${actionId}`, payload),
 
     authentication: pin => post("auth", { pin }),
+    reboot: () => post("menu/tech_menu/operation_settings_tech/reboot_tower")
   },
   connectivity: {
     signalStrength: () => get("menu/signal_strength")
