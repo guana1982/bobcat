@@ -6,6 +6,8 @@ import "rc-steps/assets/index.css";
 import ConnectivityComponent from "../sections/Connectivity";
 import { ServiceContext } from "@core/containers";
 import { MButton } from "@modules/service/components/common/Button";
+import { MInput, InputContent } from "../common/Input";
+import { MKeyboard } from "../common/Keyboard";
 
 const IconCheck = props => (
   <svg viewBox="0 0 26 26" width={10} height={10} {...props}>
@@ -21,8 +23,9 @@ const icons = {
 };
 
 export const ISteps = styled(Steps)`
-  min-width: 1100px;
+  min-width: 400px;
   padding: 20px;
+  font-size: auto;
   .rc-steps-item-finish .rc-steps-item-icon,
   .rc-steps-item-process .rc-steps-item-icon {
     background-color: ${props => props.theme.dark};
@@ -50,9 +53,30 @@ export const ISteps = styled(Steps)`
 `;
 
 export const ISection = styled(Steps)`
+  display: flex;
+  flex-direction: column;
   padding: 20px;
-  height: 400px;
+  height: 550px;
+  min-width: 1100px;
+  .form-section {
+    .form-group {
+      width: 470px;
+      ${InputContent} {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+    }
+  }
 `;
+
+enum SetupTypes {
+  None = "none",
+  Inizialization = "inizialization",
+  MotherboardReplacement = "motherboard-replacement",
+  EquipmentReplacement = "equipment-replacement"
+}
 
 interface EquipmentConfigurationProps extends Partial<ModalContentProps> {}
 
@@ -62,6 +86,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
 
   const { cancel } = props;
 
+  const [setup, setSetup] = React.useState<SetupTypes>(SetupTypes.None);
   const [state, setState] = React.useState<EquipmentConfigurationState>({});
 
   const serviceConsumer = React.useContext(ServiceContext);
@@ -70,6 +95,11 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
 
   }, []);
 
+  const PickUp = () => {
+    alert("Pick Up");
+  };
+
+  if (setup === SetupTypes.None)
   return (
     <Modal
       show={true}
@@ -79,28 +109,112 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
       actions={ACTIONS_CLOSE}
     >
       <Box className="centered">
-        <MButton>INITIAL SETUP</MButton>
-        <MButton>MOTHERBOARD REPLACEMENT</MButton>
-        <MButton>EQUIPMENT REPLACEMENT</MButton>
-        <MButton>PICK UP</MButton>
+        <MButton onClick={() => setSetup(SetupTypes.Inizialization)}>INITIAL SETUP</MButton>
+        <MButton onClick={() => setSetup(SetupTypes.MotherboardReplacement)}>MOTHERBOARD REPLACEMENT</MButton>
+        <MButton onClick={() => setSetup(SetupTypes.EquipmentReplacement)}>EQUIPMENT REPLACEMENT</MButton>
+        <MButton onClick={() => PickUp()}>PICK UP</MButton>
       </Box>
     </Modal>
   );
 
+  if (setup === SetupTypes.Inizialization)
   return (
-    <div>
-      <ISteps icons={icons} current={2}>
-        <ISteps.Step title="OPERATIONS" description="SELECT OPERATIONS" />
-        <ISteps.Step title="LANGUAGE" description="SELECT LANGUAGE" />
-        <ISteps.Step title="PAYMENT" description="SELECT PAYMENT" />
-        <ISteps.Step title="COUNTRY" description="SELECT COUNTRY" />
-        <ISteps.Step title="CONNECTION" description="CHECK STATUS CONNECTION" />
-        <ISteps.Step title="EquipmentConfiguration" description="FILL EquipmentConfiguration FORM" />
-      </ISteps>
-      <ISection>
-        <ConnectivityComponent />
-      </ISection>
-    </div>
+    <Modal
+      show={true}
+      cancel={() => setSetup(SetupTypes.None)}
+      title="EQUIPMENT CONFIGURATION"
+      subTitle="SELECT DESIRED ACTION"
+      actions={ACTIONS_CLOSE}
+    >
+      <>
+        <div>
+          <ISteps icons={icons} current={2}>
+            <ISteps.Step title="OPERATIONS" description="SELECT OPERATIONS" />
+            <ISteps.Step title="LANGUAGE" description="SELECT LANGUAGE" />
+            <ISteps.Step title="PAYMENT" description="SELECT PAYMENT" />
+            <ISteps.Step title="COUNTRY" description="SELECT COUNTRY" />
+            <ISteps.Step title="CONNECTION" description="CHECK CONNECTION" />
+            <ISteps.Step title="INITIALIZATION" description="FILL FORM" />
+          </ISteps>
+          <ISection>
+            {/* <ConnectivityComponent /> */}
+            <h2>CUSTOMER - 2/3</h2>
+            <Box className="form-section">
+              <div className="form-group">
+                <MInput
+                  label={"Country"}
+                  value={"ciao1"}
+                  type=""
+                  onChange={e => console.log(e)}
+                />
+                <MInput
+                  label={"Customer Name"}
+                  value={"ciao2"}
+                  type=""
+                  onChange={e => console.log(e)}
+                />
+                <MInput
+                  label={"City"}
+                  value={"ciao3"}
+                  type=""
+                  onChange={e => console.log(e)}
+                />
+                <MInput
+                  label={"Postal Code"}
+                  value={"ciao3"}
+                  type=""
+                  onChange={e => console.log(e)}
+                />
+              </div>
+              <div className="form-group">
+                <MInput
+                  label={"Customer number (COF)"}
+                  value={"ciao3"}
+                  type=""
+                  onChange={e => console.log(e)}
+                />
+                <MInput
+                  label={"Street Address"}
+                  value={"ciao3"}
+                  type=""
+                  onChange={e => console.log(e)}
+                />
+                <MInput
+                  label={"State/Prov"}
+                  value={"ciao3"}
+                  type=""
+                  onChange={e => console.log(e)}
+                />
+              </div>
+            </Box>
+            <MKeyboard onChange={(input) => console.log("input", input)} />
+          </ISection>
+        </div>
+      </>
+    </Modal>
+  );
+
+  if (setup === SetupTypes.MotherboardReplacement || setup === SetupTypes.EquipmentReplacement)
+  return (
+    <Modal
+      show={true}
+      cancel={() => setSetup(SetupTypes.None)}
+      title="EQUIPMENT CONFIGURATION"
+      subTitle="SELECT DESIRED ACTION"
+      actions={ACTIONS_CLOSE}
+    >
+      <>
+        <div>
+          <ISteps icons={icons} current={2}>
+            <ISteps.Step title="OPERATIONS" description="SELECT OPERATIONS" />
+            <ISteps.Step title="LANGUAGE" description="SELECT LANGUAGE" />
+          </ISteps>
+          <ISection>
+            <ConnectivityComponent />
+          </ISection>
+        </div>
+      </>
+    </Modal>
   );
 
 };

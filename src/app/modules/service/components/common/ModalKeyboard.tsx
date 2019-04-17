@@ -7,18 +7,12 @@ import { ConfigContext, ServiceContext } from "@core/containers";
 import "react-simple-keyboard/build/css/index.css";
 
 const NumberPadWrapper = styled.div`
-  position: absolute;
-  z-index: 10000;
-  top: 0px;
-  left: 0px;
-  width: 100vw;
-  height: 100vh;
   input {
     margin: 30px;
   }
-  ${ModalContent} {
+  /* ${ModalContent} {
     min-width: 380px;
-  }
+  } */
   .numeric-theme {
     max-width: 320px;
     margin: 0 auto;
@@ -100,7 +94,6 @@ export const ModalKeyboard = (props: NumberPadProps) => {
   };
 
   return (
-    <NumberPadWrapper>
       <Modal
         show={true}
         title={title}
@@ -109,7 +102,7 @@ export const ModalKeyboard = (props: NumberPadProps) => {
         cancel={() => cancel()}
         finish={() => finish(state.input)}
       >
-        <React.Fragment>
+        <NumberPadWrapper>
           <div>
             <MInput
               value={state.input}
@@ -127,8 +120,7 @@ export const ModalKeyboard = (props: NumberPadProps) => {
               onKeyPress={button => onKeyPress(button)}
             />
           </div>
-        </React.Fragment>
+        </NumberPadWrapper>
       </Modal>
-    </NumberPadWrapper>
   );
 };

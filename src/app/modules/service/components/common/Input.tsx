@@ -12,24 +12,25 @@ export const InputWrapper = styled.div`
     border: 1px solid  ${props => props.theme.dark};
     /* width: 100%;
     height: 100px; */
-    border-radius: 15px;
-    padding: 10px;
+    border-radius: 12px;
+    padding: 7px;
     /* margin: 30px; */
     font-size: 20px;
     box-sizing: border-box;
   }
 `;
 
-const InputContent = styled.div`
+export const InputContent = styled.div`
   /* margin: 15px; */
   label {
     display: inline-block;
-    color: ${props => props.theme.primary};
+    color: ${props => props.theme.dark};
     text-transform: capitalize;
-    width: 6.5rem;
+    /* width: 6.5rem; */
     font-size: 1.2rem;
     text-align: left;
     font-weight: 600;
+    margin-right: 10px;
   }
   &.small {
     ${InputWrapper} {

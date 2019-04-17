@@ -210,6 +210,7 @@ export const NewMenu = (props: MenuProps) => {
             {
               authLevel === AuthLevels.Tech &&
               <>
+                <MButton onClick={() => openModal(Modals.EquipmentConfiguration)}>EQUIPMENT CONFIGURATION</MButton>
                 <MButton onClick={() => openModal(Modals.Timeout)}>SELECTION TIMEOUT</MButton>
                 <MButton onClick={() => openModal(Modals.Cleaning)}>SCREEN CLEANING</MButton>
                 <MButton onClick={() => openModal(Modals.Customize)}>CUSTOMIZE UI</MButton>
@@ -220,7 +221,7 @@ export const NewMenu = (props: MenuProps) => {
             {
               authLevel === AuthLevels.Super &&
               <>
-                <MButton onClick={() => openModal(Modals.EquipmentConfiguration)}>EQUIPMENT CONFIGURATION</MButton>
+                <MButton onClick={() => openModal(Modals.EquipmentConfiguration)}>INITIAL SETUP</MButton>
                 <MButton>FREE / PAID</MButton>
               </>
             }

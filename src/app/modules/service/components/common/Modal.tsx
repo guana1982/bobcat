@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
+import { componentWillAppendToBody } from "react-append-to-body";
 import { __ } from "@core/utils/lib/i18n";
 
 export enum ModalTheme {
@@ -120,6 +121,15 @@ const ModalWrapper = styled.div`
   }
 `;
 
+const FullWrap = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+`;
+
 export interface Action {
   title: string;
   icon?: any;
@@ -181,22 +191,37 @@ export const Modal = (props: ModalProps) => {
     };
 
     return (
-      <React.Fragment>
-        {show && <ModalWrapper className={themeMode}>
-          <Overlay />
-          <ModalContent>
-            <header>
-              <h2>{title}</h2>
-              {subTitle && <h3>{subTitle}</h3>}
-            </header>
-            <main>
-              {contentWithProps()}
-            </main>
-            <footer>
-              { actions.map((action, index) => <button key={index} onClick={() => action.event(eventActions)}>{action.title}</button>) }
-            </footer>
-          </ModalContent>
-        </ModalWrapper>}
-      </React.Fragment>
+      <>
+        {show &&
+          <AppendedFullModal {...props}>
+            <ModalWrapper className={themeMode}>
+              <Overlay />
+              <ModalContent>
+                <header>
+                  <h2>{title}</h2>
+                  {subTitle && <h3>{subTitle}</h3>}
+                </header>
+                <main>
+                  {contentWithProps()}
+                </main>
+                <footer>
+                  { actions.map((action, index) => <button key={index} onClick={() => action.event(eventActions)}>{action.title}</button>) }
+                </footer>
+              </ModalContent>
+            </ModalWrapper>
+          </AppendedFullModal>
+        }
+      </>
     );
 };
+
+/* ==== FULL MODE ==== */
+/* ======================================== */
+
+const FullModal = ({children}) => (
+  <FullWrap>
+    {children}
+  </FullWrap>
+);
+
+const AppendedFullModal = componentWillAppendToBody(FullModal);

@@ -6,8 +6,9 @@ import { IWifi, IAccessPoint } from "@core/utils/APIModel";
 import styled, { keyframes } from "styled-components";
 import { Subscription } from "rxjs";
 import { __ } from "@core/utils/lib/i18n";
-import { SignalIcon, CheckmarkIcon, LockIcon } from "../common/Icons";
+import { SignalIcon, CheckmarkIcon, LockIcon, WifiDisabledIcon, LoadingIcon } from "../common/Icons";
 import { tap, flatMap } from "rxjs/operators";
+import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
 
 /* ==== SECTIONS ==== */
 /* ======================================== */
@@ -48,6 +49,13 @@ const WifiContent = styled.div`
       }
     }
   }
+  .icon-content {
+    width: 550px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const Wifi = (props) => {
@@ -74,6 +82,27 @@ const Wifi = (props) => {
     .subscribe();
   };
 
+  if (wifiEnable === null)
+  return (
+    <WifiContent>
+      <h1>Wifi</h1>
+      <div className="icon-content">
+        <LoadingIcon items={[0, 1, 2]} itemsAccessor={props => props.items} shouldBlink={true} />
+      </div>
+    </WifiContent>
+  );
+
+  if (wifiEnable === false)
+  return (
+    <WifiContent>
+      <h1>Wifi</h1>
+      <div className="icon-content">
+        <WifiDisabledIcon />
+      </div>
+    </WifiContent>
+  );
+
+  if (wifiEnable === true)
   return (
     <>
       <WifiContent>
@@ -140,6 +169,7 @@ const Wifi = (props) => {
           </div>
         </>
       </Modal>
+      {/* <ModalKeyboard title={"ENTER PASSWORD"} type={ModalKeyboardTypes.Full} cancel={() => console.log("cancel")} finish={() => console.log("finish")} /> */}
     </>
   );
 };
@@ -160,6 +190,10 @@ const Ethernet = () => (
 
 /* ==== CONNECTIVITY ==== */
 /* ======================================== */
+
+const ConnectivityContent = styled.div`
+  margin: auto;
+`;
 
 enum ConnectionTypes {
   Wifi = 0,
@@ -219,7 +253,8 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
     if (accessPoints !== []) {
       setState(prevState => ({
         ...prevState,
-        accessPoints: []
+        accessPoints: [],
+        wifiEnable: null
       }));
     }
     return mediumLevel.wifi.getApList()
@@ -230,7 +265,7 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
         setState(prevState => ({
           ...prevState,
           accessPoints: networksSort,
-          wifiEnable: wifi_enable
+          wifiEnable: wifi_enable // false
         }));
       })
     );
@@ -239,7 +274,7 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
   const { connectionList, connectionSelected, accessPoints, wifiEnable } = state;
 
   return (
-    <div>
+    <ConnectivityContent>
       <Box className="centered">
         {connectionList.map((connection, index) => {
           return (
@@ -258,7 +293,7 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
       {connectionSelected === ConnectionTypes.Wifi && <Wifi accessPoints={accessPoints} wifiEnable={wifiEnable} setApList={setApList} />}
       {connectionSelected === ConnectionTypes.MobileData && <MobileData />}
       {connectionSelected === ConnectionTypes.Ethernet && <Ethernet />}
-    </div>
+    </ConnectivityContent>
   );
 };
 
