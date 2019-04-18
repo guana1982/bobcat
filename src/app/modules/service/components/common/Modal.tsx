@@ -189,6 +189,7 @@ export const Modal = (props: ModalProps) => {
         { ...modalProps }
       );
     };
+    
 
     return (
       <>

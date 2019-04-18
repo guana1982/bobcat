@@ -6,6 +6,7 @@ import { Beverages, SOCKET_CONNECTIVITY } from "@core/utils/constants";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { flatMap, map, tap } from "rxjs/operators";
 import { of } from "rxjs";
+import { FindValueSubscriber } from "rxjs/internal/operators/find";
 
 export interface ILineSave {
   line_id: number;
@@ -194,7 +195,13 @@ const ServiceContainer = createContainer(() => {
     );
   }
 
-  return { authLevel, setAuthLevel, authLogin, lines, syrups, saveLines, reboot };
+  function bibReset(payload) {
+    mediumLevel.line.bibReset(payload).pipe(
+      flatMap(() => configConsumer.setBeverages)
+    ).subscribe();
+  }
+
+  return { authLevel, setAuthLevel, authLogin, lines, syrups, saveLines, reboot, bibReset };
 });
 
 export const ServiceProvider = ServiceContainer.Provider;

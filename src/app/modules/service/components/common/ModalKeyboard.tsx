@@ -1,12 +1,14 @@
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
 import Keyboard from "react-simple-keyboard";
-import { ModalContent, Modal, ACTIONS_CONFIRM, ModalTheme } from "./Modal";
+import { ModalContent, Modal, ACTIONS_CONFIRM, ModalTheme, Box } from "./Modal";
 import { MInput, InputTheme, InputContent } from "./Input";
 import { ConfigContext, ServiceContext } from "@core/containers";
 import "react-simple-keyboard/build/css/index.css";
+import { MButton } from "./Button";
 
 const dateFormat = (input: string) => {
+  console.log('format', input);
   const lenght_ = input.length;
   if (lenght_ === 0) {
     return "MM/DD/YYYY";
@@ -55,6 +57,7 @@ export enum ModalKeyboardTypes {
 }
 
 interface NumberPadProps {
+  beverage: any;
   title: string;
   type: ModalKeyboardTypes;
   cancel: () => void;
@@ -62,8 +65,11 @@ interface NumberPadProps {
 }
 
 interface NumberPadState {
+  showKeyboard: boolean;
+  showSelect: boolean;
   layoutName: TypeLayout;
   input: string;
+  input2: string;
 }
 
 let keyboard: any;
@@ -78,34 +84,69 @@ const display = {
 
 export const ModalKeyboard = (props: NumberPadProps) => {
 
-  const { title, type, cancel, finish } = props;
+  const { beverage, title, type, cancel, finish } = props;
 
   const [state, setState] = React.useState<NumberPadState>({
+    showKeyboard: type === ModalKeyboardTypes.Multiple ? false : true,
+    showSelect: false,
     layoutName: TypeLayout.Default,
-    input: ""
+    input: "",
+    input2: ""
   });
 
-  const onChange = input => {
+  const onChangeInput = input => {
     setState(prevState => ({
       ...prevState,
-      input: input,
+      input: input
     }));
-    console.log("Input changed", input);
+    // console.log("Input changed", input);
+  };
+
+  const onChangeInput2 = input => {
+    setState(prevState => ({
+      ...prevState,
+      input2: input,
+    }));
+    // console.log("Input changed", input);
   };
 
   const onKeyPress = button => {
-    console.log("Button pressed", button);
+    // console.log("Button pressed", button);
   };
 
-  const onChangeInput = event => {
-    let input = event.target.value;
+  // const onChangeInput = event => {
+  //   let input = event.target.value;
+  //   setState(prevState => ({
+  //     ...prevState,
+  //     input: input,
+  //   }));
+  //   keyboard.setInput(input);
+  // };
+
+  const toggleKeyboard = () => {
     setState(prevState => ({
       ...prevState,
-      input: input,
-    }));
-    keyboard.setInput(input);
-  };
+      showKeyboard: true,
+      showSelect: false
+    }))
+  }
 
+  const toggleSelect = () => {
+    setState(prevState => ({
+      ...prevState,
+      showSelect: true,
+      showKeyboard: false
+    }))
+  }
+  
+  const resetBibPayload = {
+    "exp_date": dateFormat(state.input),
+    "volume": state.input2,
+    "uom": beverage.uom[0],
+    "line_id": beverage.line_id
+  }
+
+  
   if (type === ModalKeyboardTypes.Auth)
   return (
       <Modal
@@ -130,7 +171,7 @@ export const ModalKeyboard = (props: NumberPadProps) => {
               display={display}
               theme="hg-theme-default hg-layout-numeric numeric-theme"
               preventMouseDownDefault={true}
-              onChange={input => onChange(input)}
+              onChange={input => onChangeInput(input)}
               onKeyPress={button => onKeyPress(button)}
             />
           </div>
@@ -138,6 +179,7 @@ export const ModalKeyboard = (props: NumberPadProps) => {
       </Modal>
   );
 
+  
   if (type === ModalKeyboardTypes.Multiple)
   return (
       <Modal
@@ -146,7 +188,7 @@ export const ModalKeyboard = (props: NumberPadProps) => {
         themeMode={ModalTheme.Dark}
         actions={ACTIONS_CONFIRM}
         cancel={() => cancel()}
-        finish={() => finish(state.input)}
+        finish={() => finish(resetBibPayload)}
       >
         <NumberPadWrapper>
           <div>
@@ -156,25 +198,37 @@ export const ModalKeyboard = (props: NumberPadProps) => {
               disabled
               value={dateFormat(state.input)}
               onChange={e => console.log(e)}
+              click={() => toggleKeyboard()}
             />
             <MInput
               label="VOLUME (GAL):"
               themeMode={InputTheme.Light}
               disabled
-              value={state.input}
+              value={state.input2}
               type="number"
               onChange={e => console.log(e)}
+              click={() => toggleSelect()}
             />
-            <Keyboard
-              ref={r => (keyboard = r)}
-              layoutName={state.layoutName}
-              layout={layout}
-              display={display}
-              theme="hg-theme-default hg-layout-numeric numeric-theme"
-              preventMouseDownDefault={true}
-              onChange={input => onChange(input)}
-              onKeyPress={button => onKeyPress(button)}
-            />
+            { state.showKeyboard &&
+                <Keyboard
+                  ref={r => (keyboard = r)}
+                  layoutName={state.layoutName}
+                  layout={layout}
+                  display={display}
+                  theme="hg-theme-default hg-layout-numeric numeric-theme"
+                  preventMouseDownDefault={true}
+                  onChange={input => onChangeInput(input)}
+                  onKeyPress={button => onKeyPress(button)}
+                  maxLength={8}
+                />
+            }
+            { state.showSelect &&
+              <Box className="centered">
+                { beverage.sizes.map(size =>
+                    <MButton onClick={() => onChangeInput2(size)}>{size}</MButton>)
+                }
+              </Box>
+            }
           </div>
         </NumberPadWrapper>
       </Modal>

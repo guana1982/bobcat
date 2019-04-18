@@ -63,7 +63,7 @@ export default {
   line: {
     startPriming: line_id => post("menu/start_priming", { line_id }),
     stopPriming: () => post("menu/stop_priming"),
-    bibReset: () => post("menu/bib_reset")
+    bibReset: (line) => post("menu/bib_reset", line)
   },
   price: {
     setPaymentType: type => post("menu/payment_type", { type }),
