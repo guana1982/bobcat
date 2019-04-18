@@ -58,6 +58,10 @@ export const Line = (props: LineProps) => {
 
   const [syrupSelected, setSyrupSelected] = React.useState<number>(null);
 
+  const [bibReset, setBibReset] = React.useState<boolean>(false);
+  const [priming, setPriming] = React.useState<boolean>(false);
+  const [lineAssignment, setLineAssignment] = React.useState<boolean>(false);
+
   const serviceConsumer = React.useContext(ServiceContext);
 
   React.useEffect(() => {
@@ -115,8 +119,6 @@ export const Line = (props: LineProps) => {
   /* ======================================== */
 
   const { syrups } = serviceConsumer;
-
-  const [lineAssignment, setLineAssignment] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (lineAssignment === false) {
@@ -190,9 +192,6 @@ export const Line = (props: LineProps) => {
   const { bib_size, remaining_bib } = $beverage;
   const percLevel = calcolaPerc(bib_size, remaining_bib);
 
-  const [bibReset, setBibReset] = React.useState<boolean>(false);
-  const [priming, setPriming] = React.useState<boolean>(false);
-
   return (
     <>
     <Modal
@@ -225,7 +224,6 @@ export const Line = (props: LineProps) => {
       </LineContent>
     </Modal>
     {bibReset && <ModalKeyboard title={"BIB RESET"} type={ModalKeyboardTypes.Multiple} cancel={() => setBibReset(false)} finish={() => console.log("finish")} />}
-    
     {priming && <Priming lineId={line.line_id} unMount={() => setPriming(false)} />}
     </>
   );
@@ -234,14 +232,17 @@ export const Line = (props: LineProps) => {
 
 const Priming = props => {
   const [isPriming, setIsPriming] = React.useState(false);
-  const set = () => { setIsPriming(true); mediumLevel.line.startPriming(props.lineId).subscribe(); };
+  const set = () => {
+    setIsPriming(true);
+    mediumLevel.line.startPriming(props.lineId).subscribe();
+  };
   const unset = () => {
     setIsPriming(false);
     mediumLevel.line.stopPriming().subscribe();
-    clearTimeout(timeout);
+    clearTimeout(timeout_);
     // props.close();
   };
-  var timeout = isPriming && setTimeout(() => unset(), 30000);
+  const timeout_ = isPriming && setTimeout(() => unset(), 30000);
   return (
     <Modal
       show={true}
@@ -254,5 +255,5 @@ const Priming = props => {
         {isPriming && <MButton onClick={() => unset()}>STOP PRIMING</MButton>}
       </Box>
     </Modal>
-  )
-}
+  );
+};
