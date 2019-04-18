@@ -111,3 +111,27 @@ export const PaymentSelection = () => {
     />
   );
 };
+
+export const OperationSelection = () => {
+
+  let languageList = [];
+
+  React.useEffect(() => {
+    mediumLevel.language.getLanguageList()
+    .subscribe(
+      data => languageList = data.languages
+    );
+  }, []);
+
+  const [languageSelected, setLanguageSelected] = React.useState<any>(null);
+
+  const finish = () => mediumLevel.language.setLanguage(languageSelected.language).subscribe();
+
+  return (
+    <MButtonGroup
+      options={languageList}
+      value={languageSelected}
+      onChange={(value) => setLanguageSelected(value)}
+    />
+  );
+};
