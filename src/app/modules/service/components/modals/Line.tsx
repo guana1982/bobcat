@@ -223,18 +223,31 @@ export const Line = (props: LineProps) => {
         </div>
       </LineContent>
     </Modal>
-    {bibReset && <ModalKeyboard title={"BIB RESET"} type={ModalKeyboardTypes.Multiple} cancel={() => setBibReset(false)} finish={() => console.log("finish")} />}
-    {priming && <Priming lineId={line.line_id} unMount={() => setPriming(false)} />}
+    {bibReset && <BibReset line={line} unMount={() => setBibReset(false)} />}
+    {priming && <Priming line={line} unMount={() => setPriming(false)} />}
     </>
   );
 };
 
+const BibReset = props => {
+  console.log(props)
+  const serviceConsumer = React.useContext(ServiceContext);
+  return (
+    <ModalKeyboard
+      beverage={props.line.$beverage}
+      title={"BIB RESET"}
+      type={ModalKeyboardTypes.Multiple}
+      cancel={() => props.unMount()}
+      finish={(line) => serviceConsumer.bibReset(line)}
+    />
+  )
+}
 
 const Priming = props => {
   const [isPriming, setIsPriming] = React.useState(false);
   const set = () => {
     setIsPriming(true);
-    mediumLevel.line.startPriming(props.lineId).subscribe();
+    mediumLevel.line.startPriming(props.line.line_id).subscribe();
   };
   const unset = () => {
     setIsPriming(false);

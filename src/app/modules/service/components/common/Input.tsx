@@ -64,6 +64,7 @@ interface MInputProps {
   className?: string;
   themeMode?: InputTheme;
   onChange?: (value) => void;
+  click?: () => void;
 }
 
 interface MInputState {
@@ -75,7 +76,7 @@ export const MInput = (props: MInputProps) => {
     return (
       <InputContent className={`${themeMode} ${className}`}>
         {label && <label>{label}</label>}
-        <InputWrapper>
+        <InputWrapper onClick={props.click}>
           <input
             disabled={disabled}
             value={value}
