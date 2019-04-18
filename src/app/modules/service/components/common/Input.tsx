@@ -2,6 +2,11 @@
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
 
+export enum InputTheme {
+  Dark = "dark",
+  Light = "light"
+}
+
 export const InputWrapper = styled.div`
   position: relative;
   display: -ms-inline-flexbox;
@@ -22,6 +27,14 @@ export const InputWrapper = styled.div`
 
 export const InputContent = styled.div`
   /* margin: 15px; */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  &.${InputTheme.Light} {
+    label {
+      color: ${props => props.theme.light} !important;
+    }
+  }
   label {
     display: inline-block;
     color: ${props => props.theme.dark};
@@ -49,6 +62,7 @@ interface MInputProps {
   type?: string;
   disabled?: boolean;
   className?: string;
+  themeMode?: InputTheme;
   onChange?: (value) => void;
 }
 
@@ -57,9 +71,9 @@ interface MInputState {
 }
 
 export const MInput = (props: MInputProps) => {
-    const { label, value, type, onChange, disabled, className } = props;
+    const { label, value, type, onChange, disabled, className, themeMode } = props;
     return (
-      <InputContent className={className}>
+      <InputContent className={`${themeMode} ${className}`}>
         {label && <label>{label}</label>}
         <InputWrapper>
           <input

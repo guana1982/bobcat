@@ -2,13 +2,26 @@ import * as React from "react";
 import styled, { keyframes } from "styled-components";
 import Keyboard from "react-simple-keyboard";
 import { ModalContent, Modal, ACTIONS_CONFIRM, ModalTheme } from "./Modal";
-import { MInput } from "./Input";
+import { MInput, InputTheme, InputContent } from "./Input";
 import { ConfigContext, ServiceContext } from "@core/containers";
 import "react-simple-keyboard/build/css/index.css";
 
+const dateFormat = (input: string) => {
+  const lenght_ = input.length;
+  if (lenght_ === 0) {
+    return "MM/DD/YYYY";
+  } else if (lenght_ > 0) {
+    const _ = (i) => input.charAt(i) || "_";
+    return `${_(0)}${_(1)}/${_(2)}${_(3)}/${_(4)}${_(5)}${_(6)}${_(7)}`;
+  }
+};
+
 const NumberPadWrapper = styled.div`
   input {
-    margin: 30px;
+    margin: 10px;
+  }
+  .react-simple-keyboard {
+    margin-top: 15px !important;
   }
   /* ${ModalContent} {
     min-width: 380px;
@@ -93,6 +106,7 @@ export const ModalKeyboard = (props: NumberPadProps) => {
     keyboard.setInput(input);
   };
 
+  if (type === ModalKeyboardTypes.Auth)
   return (
       <Modal
         show={true}
@@ -107,6 +121,48 @@ export const ModalKeyboard = (props: NumberPadProps) => {
             <MInput
               value={state.input}
               type="password"
+              onChange={e => console.log(e)}
+            />
+            <Keyboard
+              ref={r => (keyboard = r)}
+              layoutName={state.layoutName}
+              layout={layout}
+              display={display}
+              theme="hg-theme-default hg-layout-numeric numeric-theme"
+              preventMouseDownDefault={true}
+              onChange={input => onChange(input)}
+              onKeyPress={button => onKeyPress(button)}
+            />
+          </div>
+        </NumberPadWrapper>
+      </Modal>
+  );
+
+  if (type === ModalKeyboardTypes.Multiple)
+  return (
+      <Modal
+        show={true}
+        title={title}
+        themeMode={ModalTheme.Dark}
+        actions={ACTIONS_CONFIRM}
+        cancel={() => cancel()}
+        finish={() => finish(state.input)}
+      >
+        <NumberPadWrapper>
+          <div>
+            <MInput
+              label="EXPIRATION DATE:"
+              themeMode={InputTheme.Light}
+              disabled
+              value={dateFormat(state.input)}
+              onChange={e => console.log(e)}
+            />
+            <MInput
+              label="VOLUME (GAL):"
+              themeMode={InputTheme.Light}
+              disabled
+              value={state.input}
+              type="number"
               onChange={e => console.log(e)}
             />
             <Keyboard

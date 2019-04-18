@@ -26,6 +26,10 @@ export const ISteps = styled(Steps)`
   min-width: 400px;
   padding: 20px;
   font-size: auto;
+  &.small {
+    max-width: 400px;
+    margin: auto;
+  }
   .rc-steps-item-finish .rc-steps-item-icon,
   .rc-steps-item-process .rc-steps-item-icon {
     background-color: ${props => props.theme.dark};
@@ -62,9 +66,6 @@ export const ISection = styled(Steps)`
     .form-group {
       width: 470px;
       ${InputContent} {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
         margin-bottom: 8px;
       }
     }
@@ -87,6 +88,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   const { cancel } = props;
 
   const [setup, setSetup] = React.useState<SetupTypes>(SetupTypes.None);
+  const [step, setStep] = React.useState<number>(0);
   const [state, setState] = React.useState<EquipmentConfigurationState>({});
 
   const serviceConsumer = React.useContext(ServiceContext);
@@ -94,6 +96,10 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   React.useEffect(() => {
 
   }, []);
+
+  React.useEffect(() => {
+    setStep(0);
+  }, [setup]);
 
   const PickUp = () => {
     alert("Pick Up");
@@ -128,7 +134,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     >
       <>
         <div>
-          <ISteps icons={icons} current={2}>
+          <ISteps icons={icons} current={step}>
             <ISteps.Step title="OPERATIONS" description="SELECT OPERATIONS" />
             <ISteps.Step title="LANGUAGE" description="SELECT LANGUAGE" />
             <ISteps.Step title="PAYMENT" description="SELECT PAYMENT" />
@@ -137,56 +143,58 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
             <ISteps.Step title="INITIALIZATION" description="FILL FORM" />
           </ISteps>
           <ISection>
+            <>
+              <h2>CUSTOMER - 2/3</h2>
+              <Box className="form-section">
+                <div className="form-group">
+                  <MInput
+                    label={"Country"}
+                    value={"ciao1"}
+                    type=""
+                    onChange={e => console.log(e)}
+                  />
+                  <MInput
+                    label={"Customer Name"}
+                    value={"ciao2"}
+                    type=""
+                    onChange={e => console.log(e)}
+                  />
+                  <MInput
+                    label={"City"}
+                    value={"ciao3"}
+                    type=""
+                    onChange={e => console.log(e)}
+                  />
+                  <MInput
+                    label={"Postal Code"}
+                    value={"ciao3"}
+                    type=""
+                    onChange={e => console.log(e)}
+                  />
+                </div>
+                <div className="form-group">
+                  <MInput
+                    label={"Customer number (COF)"}
+                    value={"ciao3"}
+                    type=""
+                    onChange={e => console.log(e)}
+                  />
+                  <MInput
+                    label={"Street Address"}
+                    value={"ciao3"}
+                    type=""
+                    onChange={e => console.log(e)}
+                  />
+                  <MInput
+                    label={"State/Prov"}
+                    value={"ciao3"}
+                    type=""
+                    onChange={e => console.log(e)}
+                  />
+                </div>
+              </Box>
+            </>
             {/* <ConnectivityComponent /> */}
-            <h2>CUSTOMER - 2/3</h2>
-            <Box className="form-section">
-              <div className="form-group">
-                <MInput
-                  label={"Country"}
-                  value={"ciao1"}
-                  type=""
-                  onChange={e => console.log(e)}
-                />
-                <MInput
-                  label={"Customer Name"}
-                  value={"ciao2"}
-                  type=""
-                  onChange={e => console.log(e)}
-                />
-                <MInput
-                  label={"City"}
-                  value={"ciao3"}
-                  type=""
-                  onChange={e => console.log(e)}
-                />
-                <MInput
-                  label={"Postal Code"}
-                  value={"ciao3"}
-                  type=""
-                  onChange={e => console.log(e)}
-                />
-              </div>
-              <div className="form-group">
-                <MInput
-                  label={"Customer number (COF)"}
-                  value={"ciao3"}
-                  type=""
-                  onChange={e => console.log(e)}
-                />
-                <MInput
-                  label={"Street Address"}
-                  value={"ciao3"}
-                  type=""
-                  onChange={e => console.log(e)}
-                />
-                <MInput
-                  label={"State/Prov"}
-                  value={"ciao3"}
-                  type=""
-                  onChange={e => console.log(e)}
-                />
-              </div>
-            </Box>
             <MKeyboard onChange={(input) => console.log("input", input)} />
           </ISection>
         </div>
@@ -205,12 +213,28 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     >
       <>
         <div>
-          <ISteps icons={icons} current={2}>
-            <ISteps.Step title="OPERATIONS" description="SELECT OPERATIONS" />
-            <ISteps.Step title="LANGUAGE" description="SELECT LANGUAGE" />
+          <ISteps className="small" icons={icons} current={step}>
+            <ISteps.Step title="CONNECTION" description="CHECK CONNECTION" />
+            <ISteps.Step title="SERIAL NUMBER" description="ENTER SERIAL NUMBER" />
           </ISteps>
           <ISection>
-            <ConnectivityComponent />
+            <>
+            {step === 0 && (
+              <ConnectivityComponent />
+            )}
+            {step === 1 && (
+              <>
+                <div>
+                  <MInput
+                    value={"ciao3"}
+                    type=""
+                    onChange={e => console.log(e)}
+                  />
+                </div>
+                <MKeyboard onChange={(input) => console.log("input", input)} />
+              </>
+            )}
+            </>
           </ISection>
         </div>
       </>

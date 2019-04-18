@@ -7,6 +7,7 @@ import { __ } from "@core/utils/lib/i18n";
 import BeverageLogo from "@core/components/common/Logo";
 import { calcolaPerc } from "@core/utils/constants";
 import { MInput } from "../common/Input";
+import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
 
 const LevelBeverage = styled.div`
   position: relative;
@@ -188,7 +189,10 @@ export const Line = (props: LineProps) => {
   const { bib_size, remaining_bib } = $beverage;
   const percLevel = calcolaPerc(bib_size, remaining_bib);
 
+  const [bibReset, setBibReset] = React.useState<boolean>(false);
+
   return (
+    <>
     <Modal
       show={true}
       cancel={cancel}
@@ -213,10 +217,12 @@ export const Line = (props: LineProps) => {
             <MButton onClick={() => setLineAssignment(true)}>CHANGE LINE ASSIGNMENT</MButton>
             <MButton>CALIBRATION</MButton>
             <MButton>PRIMING</MButton>
-            <MButton>BIB RESET</MButton>
+            <MButton onClick={() => setBibReset(true)}>BIB RESET</MButton>
           </Box>
         </div>
       </LineContent>
     </Modal>
+    {bibReset && <ModalKeyboard title={"BIB RESET"} type={ModalKeyboardTypes.Multiple} cancel={() => setBibReset(false)} finish={() => console.log("finish")} />}
+    </>
   );
 };
