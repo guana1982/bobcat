@@ -153,7 +153,7 @@ interface ModalProps {
   subTitle?: string;
   actions: Action[];
   show: boolean;
-  children: any;
+  children?: any;
   cancel: () => void;
   finish?: () => void;
 }

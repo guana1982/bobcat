@@ -8,6 +8,7 @@ import BeverageLogo from "@core/components/common/Logo";
 import { calcolaPerc } from "@core/utils/constants";
 import { MInput } from "../common/Input";
 import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
+import mediumLevel from "@core/utils/lib/mediumLevel";
 
 const LevelBeverage = styled.div`
   position: relative;
@@ -190,6 +191,7 @@ export const Line = (props: LineProps) => {
   const percLevel = calcolaPerc(bib_size, remaining_bib);
 
   const [bibReset, setBibReset] = React.useState<boolean>(false);
+  const [priming, setPriming] = React.useState<boolean>(false);
 
   return (
     <>
@@ -216,13 +218,41 @@ export const Line = (props: LineProps) => {
             <MButton>LOCK DISPENSE</MButton>
             <MButton onClick={() => setLineAssignment(true)}>CHANGE LINE ASSIGNMENT</MButton>
             <MButton>CALIBRATION</MButton>
-            <MButton>PRIMING</MButton>
+            <MButton onClick={() => setPriming(true)}>PRIMING</MButton>
             <MButton onClick={() => setBibReset(true)}>BIB RESET</MButton>
           </Box>
         </div>
       </LineContent>
     </Modal>
     {bibReset && <ModalKeyboard title={"BIB RESET"} type={ModalKeyboardTypes.Multiple} cancel={() => setBibReset(false)} finish={() => console.log("finish")} />}
+    
+    {priming && <Priming lineId={line.line_id} unMount={() => setPriming(false)} />}
     </>
   );
 };
+
+
+const Priming = props => {
+  const [isPriming, setIsPriming] = React.useState(false);
+  const set = () => { setIsPriming(true); mediumLevel.line.startPriming(props.lineId).subscribe(); };
+  const unset = () => {
+    setIsPriming(false);
+    mediumLevel.line.stopPriming().subscribe();
+    clearTimeout(timeout);
+    // props.close();
+  };
+  var timeout = isPriming && setTimeout(() => unset(), 30000);
+  return (
+    <Modal
+      show={true}
+      cancel={() => props.unMount()}
+      title="PRIMING"
+      actions={isPriming ? [] : ACTIONS_CLOSE}
+    >
+      <Box className="centered">
+        {!isPriming && <MButton onClick={() => set()}>START PRIMING</MButton>}
+        {isPriming && <MButton onClick={() => unset()}>STOP PRIMING</MButton>}
+      </Box>
+    </Modal>
+  )
+}
