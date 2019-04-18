@@ -22,9 +22,6 @@ export const VideoSelection = () => {
           options.push(option);
         });
         return options;
-      }),
-      tap(data => {
-        console.log("data", data);
       })
     )
     .subscribe(
@@ -45,16 +42,29 @@ export const VideoSelection = () => {
 
 export const LanguageSelection = () => {
 
-  let languageList = [];
+  const [languageList, setLanguageList] = React.useState<any[]>([]);
+  const [languageSelected, setLanguageSelected] = React.useState<any>(null);
 
   React.useEffect(() => {
     mediumLevel.language.getLanguageList()
+    .pipe(
+      map((data: any) => {
+        const { languages } = data;
+        let options = [];
+        languages.forEach((language, index) => {
+          let option = {
+            value: index,
+            label: language.language
+          };
+          options.push(option);
+        });
+        return options;
+      })
+    )
     .subscribe(
-      data => languageList = data.languages
+      data => setLanguageList(data)
     );
   }, []);
-
-  const [languageSelected, setLanguageSelected] = React.useState<any>(null);
 
   const finish = () => mediumLevel.language.setLanguage(languageSelected.language).subscribe();
 
@@ -69,16 +79,29 @@ export const LanguageSelection = () => {
 
 export const CountrySelection = () => {
 
-  let countryList = [];
+  const [countryList, setCountryList] = React.useState<any[]>([]);
+  const [countrySelected, setCountrySelected] = React.useState<any>(null);
 
   React.useEffect(() => {
     mediumLevel.country.getCountryList()
+    .pipe(
+      map((data: any) => {
+        const { countries } = data;
+        let options = [];
+        countries.forEach((country, index) => {
+          let option = {
+            value: index,
+            label: country.country
+          };
+          options.push(option);
+        });
+        return options;
+      })
+    )
     .subscribe(
-      data => countryList = data.countries
+      data => setCountryList(data)
     );
   }, []);
-
-  const [countrySelected, setCountrySelected] = React.useState<any>(null);
 
   const finish = () => mediumLevel.country.setCountry(countrySelected.country).subscribe();
 
@@ -93,7 +116,13 @@ export const CountrySelection = () => {
 
 export const PaymentSelection = () => {
 
-  let paymentList = [];
+  let paymentList = [{
+    value: 0,
+    label: "FREE"
+  }, {
+    value: 1,
+    label: "PAID"
+  }];
 
   React.useEffect(() => {
     // NEED => API GET PAYMENT MODE
@@ -114,24 +143,28 @@ export const PaymentSelection = () => {
 
 export const OperationSelection = () => {
 
-  let languageList = [];
+  let operationList = [{
+    value: 0,
+    label: "PBC"
+  }, {
+    value: 1,
+    label: "FOBO"
+  }, {
+    value: 2,
+    label: "3PO"
+  }];
 
   React.useEffect(() => {
-    mediumLevel.language.getLanguageList()
-    .subscribe(
-      data => languageList = data.languages
-    );
+    // NEED => API GET OPERATIONS
   }, []);
 
-  const [languageSelected, setLanguageSelected] = React.useState<any>(null);
-
-  const finish = () => mediumLevel.language.setLanguage(languageSelected.language).subscribe();
+  const [operationSelected, setOperationSelected] = React.useState<any>(null);
 
   return (
     <MButtonGroup
-      options={languageList}
-      value={languageSelected}
-      onChange={(value) => setLanguageSelected(value)}
+      options={operationList}
+      value={operationSelected}
+      onChange={(value) => setOperationSelected(value)}
     />
   );
 };

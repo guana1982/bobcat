@@ -6,7 +6,7 @@ import { MInput } from "./Input";
 import { ConfigContext, ServiceContext } from "@core/containers";
 import "react-simple-keyboard/build/css/index.css";
 
-const KeyboardWrapper = styled.div`
+export const KeyboardWrapper = styled.div`
   .simple-keyboard.hg-theme-ios {
     width: 750px;
     margin: auto;

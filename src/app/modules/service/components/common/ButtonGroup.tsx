@@ -4,7 +4,10 @@ import styled, { keyframes } from "styled-components";
 import { MButton, MTypes } from "./Button";
 
 const ButtonGroupContent = styled.div`
-  margin: 15px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  /* margin: 15px;
   label {
     display: inline-block;
     color: ${props => props.theme.primary};
@@ -13,7 +16,7 @@ const ButtonGroupContent = styled.div`
     font-size: 1.2rem;
     text-align: left;
     font-weight: 600;
-  }
+  } */
 `;
 
 interface IOption {
@@ -33,7 +36,7 @@ interface MButtonGroupState {
 }
 
 export const MButtonGroup = (props: MButtonGroupProps) => (
-  <div>
+  <ButtonGroupContent>
       {props.options ? props.options.map((e, i) =>
         <MButton
           key={i} light
@@ -42,5 +45,5 @@ export const MButtonGroup = (props: MButtonGroupProps) => (
           {e.label}
         </MButton>
       ) : " --- " }
-  </div>
+  </ButtonGroupContent>
 );
