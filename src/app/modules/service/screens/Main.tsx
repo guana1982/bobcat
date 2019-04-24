@@ -133,11 +133,6 @@ export const NewMenu = (props: MenuProps) => {
   const [modals, dispatchModals] = React.useReducer(reducerModals, initialModals);
 
   const serviceConsumer = React.useContext(ServiceContext);
-  // console.log(serviceConsumer);
-  const CONNECTIVITY = []
-    // serviceConsumer.connectivity.filter(c => c.status === 'ACTIVE').length > 0
-    // ? MTypes.INFO_SUCCESS
-    // : null;
 
   React.useEffect(() => {
     console.log("Menu => Consumer ;", serviceConsumer);
@@ -246,7 +241,7 @@ export const NewMenu = (props: MenuProps) => {
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
                 <MButton onClick={() => openModal(Modals.Update)}>SOFTWARE UPDATE</MButton>
-                <MButton onClick={() => openModal(Modals.Connectivity)} info type={CONNECTIVITY}>CONNECTIVITY</MButton>
+                <MButton onClick={() => openModal(Modals.Connectivity)} info type={MTypes.INFO_SUCCESS}>CONNECTIVITY</MButton>
               </>
             }
             {
@@ -255,12 +250,12 @@ export const NewMenu = (props: MenuProps) => {
                 <MButton onClick={serviceConsumer.reboot}>SYSTEM REBOOT</MButton>
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
-                <MButton onClick={() => openModal(Modals.Connectivity)} info type={CONNECTIVITY}>CONNECTIVITY</MButton>
+                <MButton onClick={() => openModal(Modals.Connectivity)} info type={MTypes.INFO_SUCCESS}>CONNECTIVITY</MButton>
               </>
             }
           </Group>
           <Group title={__("ALARMS")} size={authLevel !== AuthLevels.Crew ? SIZE_GROUP_ALARM : SIZE_FULL_GROUP_ALARM}>
-            <MButton onClick={() => openModal(Modals.EquipmentStatus)} info type={CONNECTIVITY}>EQUIPMENT STATUS</MButton>
+            <MButton onClick={() => openModal(Modals.EquipmentStatus)} info type={MTypes.INFO_SUCCESS}>EQUIPMENT STATUS</MButton>
           </Group>
           {authLevel !== AuthLevels.Crew &&
             <Group id="info-group" size={SIZE_GROUP_INFO}>

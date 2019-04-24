@@ -202,15 +202,15 @@ const ServiceContainer = createContainer(() => {
   const loadConnectivity = mediumLevel.connectivity.connectivityInfo()
     .pipe(
       map(data => {
-        var d = [];
-        for (var dd in data) {
+        const d = [];
+        for (const dd in data) {
           data[dd].label = dd;
-          data[dd].status = data[dd].status === 'ACTIVE'
+          data[dd].status = data[dd].status === "ACTIVE"
             ? MTypes.INFO_SUCCESS
-            : data[dd].status === 'DISABLED'
-              ? MTypes.INFO_WARNING
-              : null;
-          data[dd].value = dd === 'eth' ? 0 : dd === 'wifi' ? 1 : dd === 'mobile' ? 2 : null;
+            : data[dd].status === "DISABLED" //  INACTIVE
+              ? null
+              : MTypes.INFO_WARNING;
+          data[dd].value = dd === "eth" ? 0 : dd === "wifi" ? 1 : dd === "mobile" ? 2 : null;
           d.push(data[dd]);
         }
         return d;
@@ -228,14 +228,6 @@ const ServiceContainer = createContainer(() => {
       (data) => data && data.message_type === SOCKET_CONNECTIVITY
     );
 
-    // const socketConnectivity_ = socketConnectivity$
-    // .subscribe(
-    //   data => {
-    //     console.log("connectivity", data);
-    //     setConnectivity(data);
-    //   }
-    // );
-
     const socketConnectivity_ = loadConnectivity
     .pipe(
       mergeMap(() => socketConnectivity$),
@@ -247,6 +239,10 @@ const ServiceContainer = createContainer(() => {
       socketConnectivity_.unsubscribe();
     };
   }, []);
+
+  React.useEffect(() => {
+    console.log("connectivity =>", connectivity);
+  }, [connectivity]);
 
   /* ==== AUTH ==== */
   /* ======================================== */
@@ -366,7 +362,7 @@ const ServiceContainer = createContainer(() => {
     operation: { ...operationList, update: (v) => updateOperationList(v).subscribe() }
   };
 
-  return { authLevel, setAuthLevel, authLogin, lines, syrups, saveLines, reboot, bibReset, allList };
+  return { authLevel, setAuthLevel, authLogin, lines, syrups, saveLines, reboot, bibReset, allList, connectivity };
 });
 
 export const ServiceProvider = ServiceContainer.Provider;

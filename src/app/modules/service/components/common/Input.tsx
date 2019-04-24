@@ -78,7 +78,7 @@ export const MInput = (props: MInputProps) => {
         {label && <label>{label}</label>}
         <InputWrapper onClick={props.click}>
           <input
-            disabled={disabled}
+            // disabled={disabled} // <= TO FIX
             value={value}
             type={type}
             onChange={onChange}
