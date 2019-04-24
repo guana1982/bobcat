@@ -66,6 +66,7 @@ export default {
     bibReset: (line) => post("menu/bib_reset", line)
   },
   price: {
+    getPaymentType: () =>  get("menu/payment_type"),
     setPaymentType: type => post("menu/payment_type", { type }),
     getPrices: () => get("menu/prices"),
     setPrice: data => post("menu/price", data)

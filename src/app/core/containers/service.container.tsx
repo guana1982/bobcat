@@ -5,9 +5,11 @@ import { IBeverage } from "@core/models";
 import { Beverages, SOCKET_CONNECTIVITY } from "@core/utils/constants";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { flatMap, map, tap } from "rxjs/operators";
-import { of } from "rxjs";
+import { of, Observable, forkJoin } from "rxjs";
 import { FindValueSubscriber } from "rxjs/internal/operators/find";
+import { IOption } from "@modules/service/components/common/ButtonGroup";
 
+//  ==== LINE ====>
 export interface ILineSave {
   line_id: number;
   beverage_id:  number;
@@ -31,6 +33,100 @@ export class ILine {
     };
   }
 }
+//  <=== LINE ====
+
+//  ==== LIST ====>
+interface IList {
+  list: any[];
+  valueSelected: any;
+}
+
+const operationMock = () => of({
+  operation_selected: null,
+  operations: [{
+    value: 0,
+    label: "PBC"
+  }, {
+    value: 1,
+    label: "FOBO"
+  }, {
+    value: 2,
+    label: "3PO"
+  }]
+});
+
+const ListConfig = {
+  video: {
+    getObservable$: mediumLevel.video.getVideoList,
+    setObservable$: mediumLevel.video.setVideo,
+    indexValue: { list_: "video" , value_: "filename", selected_ : "video_selected" }
+  },
+  language : {
+    getObservable$: mediumLevel.language.getLanguageList,
+    setObservable$: mediumLevel.language.setLanguage,
+    indexValue: { list_: "languages" , value_: "language", selected_ : "language_selected" },
+  },
+  country: {
+    getObservable$: mediumLevel.country.getCountryList,
+    setObservable$: mediumLevel.country.setCountry,
+    indexValue: { list_: "countries" , value_: "country", selected_ : "country_selected" }
+  },
+  payment: {
+    getObservable$: mediumLevel.price.getPaymentType,
+    setObservable$: mediumLevel.price.setPaymentType,
+    indexValue: { list_: "payment_type_list" , value_: null, selected_ : "payment_type" },
+  },
+  operation: {
+    getObservable$: operationMock,
+    setObservable$: null,
+    indexValue: { list_: "operations" , value_: "operation", selected_ : "operation_selected" },
+  }
+};
+
+const initList: IList = {
+  list: [],
+  valueSelected: null
+};
+
+const getList_ = ({ getObservable$, indexValue }): Observable<IList> => {
+  return getObservable$()
+  .pipe(
+    map((data: any) => {
+      let list = data[indexValue.list_] || [];
+      const elementSelected = data[indexValue.selected_] || null;
+
+      let valueSelected: number = null;
+      list = list.map((item, index) => {
+        const valueItem = indexValue.value_ ? item[indexValue.value_] : item;
+        if (valueItem === elementSelected) {
+          valueSelected = index;
+        }
+        let option = {
+          value: index,
+          label: valueItem
+        };
+        return option;
+      });
+
+      return { list, valueSelected };
+    })
+  );
+};
+
+const setList_ = ({ list, valueSelected, setObservable$ }): Observable<any> => {
+  if (list === null || list === [])
+    return;
+
+  const element = list.find(element => element.value === valueSelected );
+
+  if (element === null)
+    return;
+
+  const { label } = element;
+
+  return setObservable$(label);
+};
+//  <=== LIST ====
 
 export enum AuthLevels {
   Crew = "crew_menu",
@@ -56,6 +152,40 @@ const ServiceContainer = createContainer(() => {
     return () => {
       console.log("close");
     };
+  }, []);
+
+  /* ==== SERVICE LIST ==== */
+  /* ======================================== */
+
+  const [videoList, setVideoList] = React.useState<IList>(initList);
+  const loadVideoList = () => getList_(ListConfig.video).pipe(tap(data => setVideoList(data)));
+  const updateVideoList = (valueSelected) => setList_({ ...videoList, valueSelected, ...ListConfig.video }).pipe(flatMap(() => loadVideoList()));
+
+  const [languageList, setLanguageList] = React.useState(initList);
+  const loadLanguageList = () => getList_(ListConfig.language).pipe(tap(data => setLanguageList(data)));
+  const updateLanguageList = (valueSelected) => setList_({ ...languageList, valueSelected, ...ListConfig.language }).pipe(flatMap(() => loadLanguageList()));
+
+  const [countryList, setCountryList] = React.useState(initList);
+  const loadCountryList = () => getList_(ListConfig.country).pipe(tap(data => setCountryList(data)));
+  const updateCountryList = (valueSelected) =>  setList_({ ...countryList, valueSelected, ...ListConfig.country }).pipe(flatMap(() => loadCountryList()));
+
+  const [paymentList, setPaymentList] = React.useState(initList);
+  const loadPaymentList = () => getList_(ListConfig.payment).pipe(tap(data => setPaymentList(data)));
+  const updatePaymentList = (valueSelected) => setList_({ ...paymentList, valueSelected, ...ListConfig.payment }).pipe(flatMap(() => loadPaymentList()));
+
+  const [operationList, setOperationList] = React.useState(initList);
+  const loadOperationList = () => getList_(ListConfig.operation).pipe(tap(data => setOperationList(data)));
+  const updateOperationList = (valueSelected) =>  setList_({ ...operationList, valueSelected, ...ListConfig.operation }).pipe(flatMap(() => loadOperationList()));
+
+  React.useEffect(() => {
+    forkJoin(
+      loadVideoList(),
+      loadLanguageList(),
+      loadCountryList(),
+      loadPaymentList(),
+      loadOperationList()
+    )
+    .subscribe(data => console.log("dataList", data));
   }, []);
 
   /* ==== GENERAL ==== */
@@ -201,7 +331,15 @@ const ServiceContainer = createContainer(() => {
     ).subscribe();
   }
 
-  return { authLevel, setAuthLevel, authLogin, lines, syrups, saveLines, reboot, bibReset };
+  const allList = {
+    video: { ...videoList, update: (v) => updateVideoList(v).subscribe() },
+    language: { ...languageList, update: (v) => updateLanguageList(v).subscribe() },
+    country: { ...countryList, update: (v) => updateCountryList(v).subscribe() },
+    payment: { ...paymentList, update: (v) => updatePaymentList(v).subscribe() },
+    operation: { ...operationList, update: (v) => updateOperationList(v).subscribe() }
+  };
+
+  return { authLevel, setAuthLevel, authLogin, lines, syrups, saveLines, reboot, bibReset, allList };
 });
 
 export const ServiceProvider = ServiceContainer.Provider;

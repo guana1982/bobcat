@@ -15,10 +15,9 @@ import { EquipmentConfiguration } from "../components/modals/EquipmentConfigurat
 import { Cleaning } from "../components/modals/Cleaning";
 import { EquipmentStatus } from "../components/modals/EquipmentStatus";
 import { Grid, Group, SIZE_GROUP_LINES, SIZE_GROUP_WATERS, SIZE_GROUP_ALARM, SIZE_GROUP_INFO, SIZE_FULL_GROUP_ALARM, SIZE_FULL_GROUP_LINES } from "../components/main/Grid";
-import { Customize } from "../components/modals/Customize";
+import { Customize, SelectionTypes } from "../components/modals/Customize";
 import { Update } from "../components/modals/Update";
 import { Timeout } from "../components/modals/Timeout";
-import { LanguageSelection } from "../components/sections/Selections";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -275,7 +274,9 @@ export const NewMenu = (props: MenuProps) => {
 
       {modals[Modals.Update].show && <Update cancel={closeAllModal} />}
       {modals[Modals.Timeout].show && <Timeout cancel={closeAllModal} />}
+
       {modals[Modals.Customize].show && <Customize cancel={closeAllModal} />}
+      {modals[Modals.Language].show && <Customize selection={SelectionTypes.Language} cancel={closeAllModal} />}
 
       <Modal
         show={modals[Modals.Connectivity].show}
@@ -284,16 +285,6 @@ export const NewMenu = (props: MenuProps) => {
         actions={ACTIONS_CLOSE}
       >
         <ConnectivityComponent />
-      </Modal>
-
-      <Modal
-        show={modals[Modals.Language].show}
-        cancel={closeAllModal}
-        title="SERVICE LANGUAGE"
-        subTitle="SELECT DESIRED LANGUAGE"
-        actions={ACTIONS_CONFIRM}
-      >
-        <LanguageSelection />
       </Modal>
 
       <Modal

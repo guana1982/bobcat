@@ -1,19 +1,40 @@
 import * as React from "react";
 import { Box, Modal, ModalContentProps, ACTIONS_CLOSE, ACTIONS_CONFIRM } from "../common/Modal";
 import { MButton } from "../common/Button";
-import { VideoSelection, PaymentSelection } from "../sections/Selections";
+import { MButtonGroup } from "../common/ButtonGroup";
+import { ServiceContext } from "@core/containers";
+// import { VideoSelection, PaymentSelection } from "../sections/Selections";
 
-enum SelectionTypes {
+export enum SelectionTypes {
   None = "none",
   Video = "video",
-  Payment = "payment"
+  Payment = "payment",
+  Language = "language"
 }
 
-interface CustomizeProps extends Partial<ModalContentProps> {}
+interface CustomizeProps extends Partial<ModalContentProps> {
+  selection?: SelectionTypes;
+}
 
 export const Customize = (props: CustomizeProps) => {
   const { cancel } = props;
-  const [selection, setSelection] = React.useState<SelectionTypes>(SelectionTypes.None);
+  const [selection, setSelection] = React.useState<SelectionTypes>(props.selection || SelectionTypes.None);
+  const [valueSelected, setValueSelected] = React.useState(null);
+
+  const serviceConsumer = React.useContext(ServiceContext);
+  const { video, payment, language } = serviceConsumer.allList;
+
+  React.useEffect(() => {
+    let value = null;
+    if (selection === SelectionTypes.Video) {
+      value = video.valueSelected;
+    } else if (selection === SelectionTypes.Payment) {
+      value = payment.valueSelected;
+    } else if (selection === SelectionTypes.Language) {
+      value = language.valueSelected;
+    }
+    setValueSelected(value);
+  }, [selection]);
 
   if (selection === SelectionTypes.None)
   return (
@@ -36,11 +57,16 @@ export const Customize = (props: CustomizeProps) => {
     <Modal
       show={true}
       cancel={() => setSelection(SelectionTypes.None)}
+      finish={() => video.update(valueSelected)}
       title="VIDEO SELECTION"
       subTitle="SELECT DESIRED VIDEO"
       actions={ACTIONS_CONFIRM}
     >
-      <VideoSelection />
+      <MButtonGroup
+        options={video.list}
+        value={valueSelected}
+        onChange={(value) => setValueSelected(value)}
+      />
     </Modal>
   );
 
@@ -49,11 +75,34 @@ export const Customize = (props: CustomizeProps) => {
     <Modal
       show={true}
       cancel={() => setSelection(SelectionTypes.None)}
+      finish={() => payment.update(valueSelected)}
       title="PAYMENT SELECTION"
       subTitle="SELECT FREE / PAID"
       actions={ACTIONS_CONFIRM}
     >
-      <PaymentSelection />
+      <MButtonGroup
+        options={payment.list}
+        value={valueSelected}
+        onChange={(value) => setValueSelected(value)}
+      />
+    </Modal>
+  );
+
+  if (selection === SelectionTypes.Language)
+  return (
+    <Modal
+      show={true}
+      cancel={cancel}
+      finish={() => language.update(valueSelected)}
+      title="SERVICE LANGUAGE"
+      subTitle="SELECT DESIRED LANGUAGE"
+      actions={ACTIONS_CONFIRM}
+    >
+      <MButtonGroup
+        options={language.list}
+        value={valueSelected}
+        onChange={(value) => setValueSelected(value)}
+      />
     </Modal>
   );
 };

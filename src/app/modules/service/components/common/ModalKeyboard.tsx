@@ -8,7 +8,6 @@ import "react-simple-keyboard/build/css/index.css";
 import { MButton } from "./Button";
 
 const dateFormat = (input: string) => {
-  console.log('format', input);
   const lenght_ = input.length;
   if (lenght_ === 0) {
     return "MM/DD/YYYY";
@@ -21,6 +20,10 @@ const dateFormat = (input: string) => {
 const NumberPadWrapper = styled.div`
   input {
     margin: 10px;
+  }
+  h3 {
+    color: ${props => props.theme.light};
+    margin-bottom: 5px;
   }
   .react-simple-keyboard {
     margin-top: 15px !important;
@@ -128,25 +131,24 @@ export const ModalKeyboard = (props: NumberPadProps) => {
       ...prevState,
       showKeyboard: true,
       showSelect: false
-    }))
-  }
+    }));
+  };
 
   const toggleSelect = () => {
     setState(prevState => ({
       ...prevState,
       showSelect: true,
       showKeyboard: false
-    }))
-  }
-  
+    }));
+  };
+
   const resetBibPayload = {
     "exp_date": dateFormat(state.input),
     "volume": state.input2,
     "uom": beverage.uom[0],
     "line_id": beverage.line_id
-  }
+  };
 
-  
   if (type === ModalKeyboardTypes.Auth)
   return (
       <Modal
@@ -179,7 +181,7 @@ export const ModalKeyboard = (props: NumberPadProps) => {
       </Modal>
   );
 
-  
+
   if (type === ModalKeyboardTypes.Multiple)
   return (
       <Modal
@@ -223,11 +225,14 @@ export const ModalKeyboard = (props: NumberPadProps) => {
                 />
             }
             { state.showSelect &&
-              <Box className="centered">
-                { beverage.sizes.map(size =>
-                    <MButton onClick={() => onChangeInput2(size)}>{size}</MButton>)
-                }
-              </Box>
+              <>
+                <h3>SELECT VOLUME</h3>
+                <Box className="centered">
+                  { beverage.sizes.map((size, i) =>
+                      <MButton key={i} onClick={() => onChangeInput2(size)}>{size}</MButton>)
+                  }
+                </Box>
+              </>
             }
           </div>
         </NumberPadWrapper>

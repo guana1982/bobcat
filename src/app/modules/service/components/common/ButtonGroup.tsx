@@ -19,7 +19,7 @@ const ButtonGroupContent = styled.div`
   } */
 `;
 
-interface IOption {
+export interface IOption {
   label: string;
   value: any;
 }
