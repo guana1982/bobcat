@@ -9,6 +9,7 @@ import { __ } from "@core/utils/lib/i18n";
 import { SignalIcon, CheckmarkIcon, LockIcon, WifiDisabledIcon, LoadingIcon } from "../common/Icons";
 import { tap, flatMap } from "rxjs/operators";
 import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
+import { ServiceProvider, ServiceContext } from "@core/containers";
 
 /* ==== SECTIONS ==== */
 /* ======================================== */
@@ -196,9 +197,9 @@ const ConnectivityContent = styled.div`
 `;
 
 enum ConnectionTypes {
-  Wifi = 0,
-  MobileData = 1,
-  Ethernet = 2
+  Ethernet = 0,
+  Wifi = 1,
+  MobileData = 2
 }
 
 interface ConnectivityProps extends Partial<ModalContentProps> {}
@@ -215,21 +216,10 @@ let getApList_: Subscription = null;
 const ConnectivityComponent = (props: ConnectivityProps) => {
 
   const { cancel } = props;
+  const { connectivity } = React.useContext(ServiceContext);
 
   const [state, setState] = React.useState<ConnectivityState>({
-    connectionList: [{
-      label: "wifi",
-      value: ConnectionTypes.Wifi,
-      status: null
-    }, {
-      label: "mobile_data",
-      value: ConnectionTypes.MobileData,
-      status: MTypes.INFO_SUCCESS
-    }, {
-      label: "ethernet",
-      value: ConnectionTypes.Ethernet,
-      status: MTypes.INFO_WARNING
-    }],
+    connectionList: connectivity,
     connectionSelected: ConnectionTypes.Wifi,
     accessPoints: [],
     wifiEnable: null

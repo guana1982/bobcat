@@ -58,6 +58,7 @@ export default {
     reboot: () => post("menu/tech_menu/operation_settings_tech/reboot_tower")
   },
   connectivity: {
+    connectivityInfo: () => get("menu/connectivity_status"),
     signalStrength: () => get("menu/signal_strength")
   },
   line: {
