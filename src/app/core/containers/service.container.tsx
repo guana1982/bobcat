@@ -4,10 +4,11 @@ import { ConfigContext } from "./config.container";
 import { IBeverage } from "@core/models";
 import { Beverages, SOCKET_CONNECTIVITY } from "@core/utils/constants";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { flatMap, map, tap } from "rxjs/operators";
+import { flatMap, map, tap, mergeMap } from "rxjs/operators";
 import { of, Observable, forkJoin } from "rxjs";
 import { FindValueSubscriber } from "rxjs/internal/operators/find";
 import { IOption } from "@modules/service/components/common/ButtonGroup";
+import { MTypes } from "@modules/service/components/common/Button";
 
 //  ==== LINE ====>
 export interface ILineSave {
@@ -201,6 +202,27 @@ const ServiceContainer = createContainer(() => {
 
   const [connectivity, setConnectivity] = React.useState<any>(null);
 
+  const loadConnectivity = mediumLevel.connectivity.connectivityInfo()
+    .pipe(
+      map(data => {
+        var d = [];
+        for (var dd in data) {
+          data[dd].label = dd;
+          data[dd].status = data[dd].status === 'ACTIVE'
+            ? MTypes.INFO_SUCCESS
+            : data[dd].status === 'DISABLED'
+              ? MTypes.INFO_WARNING
+              : null;
+          data[dd].value = dd === 'eth' ? 0 : dd === 'wifi' ? 1 : dd === 'mobile' ? 2 : null;
+          d.push(data[dd]);
+        }
+        return d;
+      }),
+      tap((data) => {
+        setConnectivity(data);
+      })
+    );
+
   React.useEffect(() => {
     const socketConnectivity$ = configConsumer.ws
     .multiplex(
@@ -209,13 +231,21 @@ const ServiceContainer = createContainer(() => {
       (data) => data && data.message_type === SOCKET_CONNECTIVITY
     );
 
-    const socketConnectivity_ = socketConnectivity$
-    .subscribe(
-      data => {
-        console.log("connectivity", data);
-        setConnectivity(data);
-      }
-    );
+    // const socketConnectivity_ = socketConnectivity$
+    // .subscribe(
+    //   data => {
+    //     console.log("connectivity", data);
+    //     setConnectivity(data);
+    //   }
+    // );
+
+    const socketConnectivity_ = loadConnectivity
+    .pipe(
+      mergeMap(() => socketConnectivity$),
+      mergeMap(() => loadConnectivity)
+    )
+    .subscribe();
+
     return () => {
       socketConnectivity_.unsubscribe();
     };
