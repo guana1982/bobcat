@@ -44,14 +44,11 @@ interface IList {
 const operationMock = () => of({
   operation_selected: null,
   operations: [{
-    value: 0,
-    label: "PBC"
+    operation: "PBC"
   }, {
-    value: 1,
-    label: "FOBO"
+    operation: "FOBO"
   }, {
-    value: 2,
-    label: "3PO"
+    operation: "3PO"
   }]
 });
 
@@ -161,19 +158,19 @@ const ServiceContainer = createContainer(() => {
   const loadVideoList = () => getList_(ListConfig.video).pipe(tap(data => setVideoList(data)));
   const updateVideoList = (valueSelected) => setList_({ ...videoList, valueSelected, ...ListConfig.video }).pipe(flatMap(() => loadVideoList()));
 
-  const [languageList, setLanguageList] = React.useState(initList);
+  const [languageList, setLanguageList] = React.useState<IList>(initList);
   const loadLanguageList = () => getList_(ListConfig.language).pipe(tap(data => setLanguageList(data)));
   const updateLanguageList = (valueSelected) => setList_({ ...languageList, valueSelected, ...ListConfig.language }).pipe(flatMap(() => loadLanguageList()));
 
-  const [countryList, setCountryList] = React.useState(initList);
+  const [countryList, setCountryList] = React.useState<IList>(initList);
   const loadCountryList = () => getList_(ListConfig.country).pipe(tap(data => setCountryList(data)));
   const updateCountryList = (valueSelected) =>  setList_({ ...countryList, valueSelected, ...ListConfig.country }).pipe(flatMap(() => loadCountryList()));
 
-  const [paymentList, setPaymentList] = React.useState(initList);
+  const [paymentList, setPaymentList] = React.useState<IList>(initList);
   const loadPaymentList = () => getList_(ListConfig.payment).pipe(tap(data => setPaymentList(data)));
   const updatePaymentList = (valueSelected) => setList_({ ...paymentList, valueSelected, ...ListConfig.payment }).pipe(flatMap(() => loadPaymentList()));
 
-  const [operationList, setOperationList] = React.useState(initList);
+  const [operationList, setOperationList] = React.useState<IList>(initList);
   const loadOperationList = () => getList_(ListConfig.operation).pipe(tap(data => setOperationList(data)));
   const updateOperationList = (valueSelected) =>  setList_({ ...operationList, valueSelected, ...ListConfig.operation }).pipe(flatMap(() => loadOperationList()));
 

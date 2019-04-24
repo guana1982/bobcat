@@ -8,8 +8,8 @@ import { ServiceContext } from "@core/containers";
 import { MButton } from "@modules/service/components/common/Button";
 import { MInput, InputContent } from "../common/Input";
 import { MKeyboard, KeyboardWrapper } from "../common/Keyboard";
-import { LanguageSelection, PaymentSelection, CountrySelection, OperationSelection } from "../sections/Selections";
 import { __ } from "@core/utils/lib/i18n";
+import { MButtonGroup } from "../common/ButtonGroup";
 
 const ACTIONS_START = (cancel, next): Action[] => [{
   title: __("cancel"),
@@ -132,6 +132,12 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
 
   const serviceConsumer = React.useContext(ServiceContext);
 
+  const { operation, language, payment, country } = serviceConsumer.allList;
+  const [operationSelected, setOperationSelected] = React.useState(null);
+  const [languageSelected, setLanguageSelected] = React.useState(null);
+  const [paymentSelected, setPaymentSelected] = React.useState(null);
+  const [countrySelected, setCountrySelected] = React.useState(null);
+
   React.useEffect(() => {
 
   }, []);
@@ -201,16 +207,36 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
             <ISection>
               <>
               {step === 0 && (
-                <OperationSelection />
+                // <OperationSelection />
+                <MButtonGroup
+                  options={operation.list}
+                  value={operationSelected}
+                  onChange={(value) => setOperationSelected(value)}
+                />
               )}
               {step === 1 && (
-                <LanguageSelection />
+                // <LanguageSelection />
+                <MButtonGroup
+                  options={language.list}
+                  value={languageSelected}
+                  onChange={(value) => setLanguageSelected(value)}
+                />
               )}
               {step === 2 && (
-                <PaymentSelection />
+                // <PaymentSelection />
+                <MButtonGroup
+                  options={payment.list}
+                  value={paymentSelected}
+                  onChange={(value) => setPaymentSelected(value)}
+                />
               )}
               {step === 3 && (
-                <CountrySelection />
+                // <CountrySelection />
+                <MButtonGroup
+                  options={country.list}
+                  value={countrySelected}
+                  onChange={(value) => setCountrySelected(value)}
+                />
               )}
               {step === 4 && (
                 <ConnectivityComponent />
@@ -222,25 +248,25 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
                     <div className="form-group">
                       <MInput
                         label={"Country"}
-                        value={"ciao1"}
+                        value={"---"}
                         type=""
                         onChange={e => console.log(e)}
                       />
                       <MInput
                         label={"Customer Name"}
-                        value={"ciao2"}
+                        value={"---"}
                         type=""
                         onChange={e => console.log(e)}
                       />
                       <MInput
                         label={"City"}
-                        value={"ciao3"}
+                        value={"---"}
                         type=""
                         onChange={e => console.log(e)}
                       />
                       <MInput
                         label={"Postal Code"}
-                        value={"ciao3"}
+                        value={"---"}
                         type=""
                         onChange={e => console.log(e)}
                       />
@@ -248,19 +274,19 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
                     <div className="form-group">
                       <MInput
                         label={"Customer number (COF)"}
-                        value={"ciao3"}
+                        value={"---"}
                         type=""
                         onChange={e => console.log(e)}
                       />
                       <MInput
                         label={"Street Address"}
-                        value={"ciao3"}
+                        value={"---"}
                         type=""
                         onChange={e => console.log(e)}
                       />
                       <MInput
                         label={"State/Prov"}
-                        value={"ciao3"}
+                        value={"---"}
                         type=""
                         onChange={e => console.log(e)}
                       />
@@ -304,7 +330,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
                   <h3>ENTER SERIAL NUMBER</h3>
                   <Box className="centered">
                     <MInput
-                      value={"ciao3"}
+                      value={"---"}
                       type=""
                       onChange={e => console.log(e)}
                     />
