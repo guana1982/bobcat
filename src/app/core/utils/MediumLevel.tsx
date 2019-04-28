@@ -59,11 +59,17 @@ export default {
   },
   connectivity: {
     connectivityInfo: () => get("menu/connectivity_status"),
-    signalStrength: () => get("menu/signal_strength")
+    signalStrength: () => get("menu/signal_strength"),
+    enableMobileData: () => post("menu/enable_mobile_data"),
+    disableMobileData: () => post("menu/disable_mobile_data"),
+    getApn: () => get("menu/apn")
   },
   line: {
     startPriming: line_id => post("menu/start_priming", { line_id }),
     stopPriming: () => post("menu/stop_priming"),
+    getLockLines: () => get("menu/lock_lines"),
+    setLockLine: line_id => post("menu/start_priming", { line_id }),
+    setUnlockLine: line_id => post("menu/start_priming", { line_id }),
     bibReset: (line) => post("menu/bib_reset", line)
   },
   price: {
@@ -93,10 +99,10 @@ export default {
   },
   equipmentConfiguration: {
     getFirstActivation: () => get("menu/first_activation"),
-    setFirstActivation: data => get("menu/first_activation", data),
-    motherboardSubstitution: serial_number => post("menu/motherboard_substitution", { serial_number }),
-    equipmentSubstitution: serial_number => post("menu/equipment_substitution", { serial_number }),
-    pickUp: () => post("menu/pickup")
+    setFirstActivation: data => get("_menu/first_activation", data),
+    motherboardSubstitution: serial_number => post("_menu/motherboard_substitution", { serial_number }),
+    equipmentSubstitution: serial_number => post("_menu/equipment_substitution", { serial_number }),
+    pickUp: () => post("_menu/pickup")
   },
   alarm: {
     getAlarms: (menuId = "tech_menu", submenuId = "alarms_menu_tech") => get(`menu/${menuId}/${submenuId}`)

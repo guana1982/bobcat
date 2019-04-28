@@ -60,7 +60,7 @@ export enum ModalKeyboardTypes {
 }
 
 interface NumberPadProps {
-  beverage: any;
+  beverage?: any;
   title: string;
   type: ModalKeyboardTypes;
   cancel: () => void;
@@ -142,13 +142,6 @@ export const ModalKeyboard = (props: NumberPadProps) => {
     }));
   };
 
-  const resetBibPayload = {
-    "exp_date": dateFormat(state.input),
-    "volume": state.input2,
-    "uom": beverage.uom[0],
-    "line_id": beverage.line_id
-  };
-
   if (type === ModalKeyboardTypes.Auth)
   return (
       <Modal
@@ -181,6 +174,12 @@ export const ModalKeyboard = (props: NumberPadProps) => {
       </Modal>
   );
 
+  const resetBibPayload = {
+    "exp_date": dateFormat(state.input),
+    "volume": state.input2,
+    "uom": beverage.uom[0],
+    "line_id": beverage.line_id
+  };
 
   if (type === ModalKeyboardTypes.Multiple)
   return (

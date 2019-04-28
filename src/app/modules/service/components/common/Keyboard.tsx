@@ -90,7 +90,10 @@ enum TypeLayout {
 }
 
 interface MKeyboardProps {
-  onChange: (input: any) => void;
+  onChange?: (input: any) => void;
+  onChangeAll?: (inputObj) => any;
+  onEnter?: () => void;
+  inputName?: any;
 }
 
 interface MKeyboardState {
@@ -123,7 +126,7 @@ const display = {
   "{alt}": ".?123",
   "{shift}": "⇧",
   "{shiftactivated}": "⇧",
-  "{enter}": "return",
+  "{enter}": "next", // "return",
   "{bksp}": "⌫",
   "{altright}": ".?123",
   "{downkeyboard}": "🞃",
@@ -134,7 +137,7 @@ const display = {
 
 export const MKeyboard = (props: MKeyboardProps) => {
 
-  const { onChange } = props;
+  const { onChange, onChangeAll, inputName, onEnter } = props;
 
   const [layoutName, setLayoutName] = React.useState<TypeLayout>(TypeLayout.Default);
 
@@ -163,6 +166,10 @@ export const MKeyboard = (props: MKeyboardProps) => {
         layoutName_ = currentLayout === "default" ? "shift" : "default";
         break;
 
+      case "{enter}":
+        onEnter();
+      break;
+
       case "{alt}":
       case "{altright}":
         layoutName_ = currentLayout === "alt" ? "default" : "alt";
@@ -172,7 +179,7 @@ export const MKeyboard = (props: MKeyboardProps) => {
         break;
     }
 
-    if (layoutName) {
+    if (layoutName_) {
       setLayoutName(layoutName_);
     }
   }
@@ -186,17 +193,20 @@ export const MKeyboard = (props: MKeyboardProps) => {
   //   keyboard.setInput(input);
   // };
 
+  console.log("propsKeyboard", props);
+
   return (
     <KeyboardWrapper>
       <Keyboard
-        ref={r => (keyboard = r)}
         layoutName={layoutName}
         layout={layout}
         display={display}
         theme="hg-theme-default hg-theme-ios"
         preventMouseDownDefault={true}
-        onChange={input => onChange(input)}
+        // onChange={input => onChange(input)}
         onKeyPress={button => onKeyPress(button)}
+        onChangeAll={inputObj => onChangeAll(inputObj)}
+        inputName={inputName}
       />
     </KeyboardWrapper>
   );

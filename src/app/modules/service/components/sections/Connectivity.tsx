@@ -175,19 +175,31 @@ const Wifi = (props) => {
   );
 };
 
-const MobileData = () => {
+const MobileData = (props) => {
+  const { apn, status, ip, signalStrength } = props;
+  // console.log("MobileData => props", props);
   return (
     <div>
       <h1>MobileData</h1>
+      <h3>STATUS: {status}</h3>
+      <h3>APN: {apn}</h3>
+      {ip && <h3>IP: {ip}</h3>}
+      <h3>SIGNAL STRENGTH: {signalStrength} dbm <SignalIcon power={signalStrength} /></h3>
     </div>
   );
 };
 
-const Ethernet = () => (
-  <div>
-    <h1>Ethernet</h1>
-  </div>
-);
+const Ethernet = (props) => {
+  const { ip, status } = props;
+  // console.log("Ethernet => props", props);
+  return (
+    <div>
+      <h1>Ethernet</h1>
+      <h3>STATUS: {status}</h3>
+      {ip && <h3>IP: {ip}</h3>}
+    </div>
+  );
+};
 
 /* ==== CONNECTIVITY ==== */
 /* ======================================== */
@@ -219,7 +231,7 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
   const { connectivity } = React.useContext(ServiceContext);
 
   const [state, setState] = React.useState<ConnectivityState>({
-    connectionList: connectivity,
+    connectionList: connectivity.list,
     connectionSelected: ConnectionTypes.Wifi,
     accessPoints: [],
     wifiEnable: null
@@ -272,7 +284,7 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
               className="small"
               key={index}
               info light={connectionSelected !== connection.value}
-              type={connection.status}
+              type={connection.info}
               onClick={() => handleConnection(connection.value)}
             >
               {connection.label}
@@ -280,9 +292,9 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
           );
         })}
       </Box>
-      {connectionSelected === ConnectionTypes.Wifi && <Wifi accessPoints={accessPoints} wifiEnable={wifiEnable} setApList={setApList} />}
-      {connectionSelected === ConnectionTypes.MobileData && <MobileData />}
-      {connectionSelected === ConnectionTypes.Ethernet && <Ethernet />}
+      {connectionSelected === ConnectionTypes.Wifi && <Wifi {...connectionList[0]} accessPoints={accessPoints} wifiEnable={wifiEnable} setApList={setApList} />}
+      {connectionSelected === ConnectionTypes.Ethernet && <Ethernet {...connectionList[1]} {...connectivity} />}
+      {connectionSelected === ConnectionTypes.MobileData && <MobileData {...connectionList[2]} {...connectivity} />}
     </ConnectivityContent>
   );
 };

@@ -102,12 +102,18 @@ export const ISection = styled.div`
   }
   .form-section {
     margin-top: 10px;
-    .form-group {
+    max-width: 975px;
+    flex-wrap: wrap;
+    ${InputContent} {
+      flex: 50%;
+      margin-bottom: 8px;
+    }
+    /* .form-group {
       width: 470px;
       ${InputContent} {
         margin-bottom: 8px;
       }
-    }
+    } */
   }
 `;
 
@@ -132,7 +138,11 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
 
   const serviceConsumer = React.useContext(ServiceContext);
 
+  const { firstActivation } = serviceConsumer;
+  const maxStepForm = firstActivation.structure_.length;
+
   const { operation, language, payment, country } = serviceConsumer.allList;
+
   const [operationSelected, setOperationSelected] = React.useState(null);
   const [languageSelected, setLanguageSelected] = React.useState(null);
   const [paymentSelected, setPaymentSelected] = React.useState(null);
@@ -191,7 +201,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
       cancel={() => setSetup(SetupTypes.None)}
       title="EQUIPMENT CONFIGURATION"
       subTitle="SELECT DESIRED ACTION"
-      actions={actionsModal(6)}
+      actions={actionsModal(5 + maxStepForm)}
     >
       <>
         <div>
@@ -241,59 +251,8 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
               {step === 4 && (
                 <ConnectivityComponent />
               )}
-              {step === 5 && (
-                <>
-                  <h2>CUSTOMER - 2/3</h2>
-                  <Box className="form-section">
-                    <div className="form-group">
-                      <MInput
-                        label={"Country"}
-                        value={"---"}
-                        type=""
-                        onChange={e => console.log(e)}
-                      />
-                      <MInput
-                        label={"Customer Name"}
-                        value={"---"}
-                        type=""
-                        onChange={e => console.log(e)}
-                      />
-                      <MInput
-                        label={"City"}
-                        value={"---"}
-                        type=""
-                        onChange={e => console.log(e)}
-                      />
-                      <MInput
-                        label={"Postal Code"}
-                        value={"---"}
-                        type=""
-                        onChange={e => console.log(e)}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <MInput
-                        label={"Customer number (COF)"}
-                        value={"---"}
-                        type=""
-                        onChange={e => console.log(e)}
-                      />
-                      <MInput
-                        label={"Street Address"}
-                        value={"---"}
-                        type=""
-                        onChange={e => console.log(e)}
-                      />
-                      <MInput
-                        label={"State/Prov"}
-                        value={"---"}
-                        type=""
-                        onChange={e => console.log(e)}
-                      />
-                    </div>
-                  </Box>
-                  <MKeyboard onChange={(input) => console.log("input", input)} />
-                </>
+              {step >= 5 && (
+                <FormInitialization maxStep={maxStepForm} firstActivation={firstActivation} indexStep={step - 5} />
               )}
               </>
             </ISection>
@@ -346,4 +305,74 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     </Modal>
   );
 
+};
+
+interface FormInitializationProps {
+  firstActivation: any;
+  maxStep: number;
+  indexStep: number;
+}
+
+const FormInitialization = (props: FormInitializationProps) => {
+
+  const { firstActivation, indexStep, maxStep } = props;
+
+  const { form_, structure_ } = firstActivation;
+
+  const stepActivation = structure_[indexStep];
+
+  const { title, fields } = stepActivation;
+
+  const [form, setForm] = React.useState(form_);
+
+  const [fieldSelected, setFieldSelected] = React.useState(null);
+
+  const onChangeAll = inputObj => {
+    setForm(prevState => ({
+      ...prevState,
+      ...inputObj
+    }));
+  };
+
+  React.useEffect(() => {
+    const firstField = fields[0];
+    setFieldSelected(firstField.$index);
+  }, [fields]);
+
+  const onEnter = () => {
+    fields.forEach((element, index) => {
+      if (element.$index === fieldSelected) {
+        const nextIndex = index + 1 < fields.length ? index + 1  : 0;
+        const firstField = fields[nextIndex];
+        setFieldSelected(firstField.$index);
+        return;
+      }
+    });
+  };
+
+  return (
+    <>
+      <h2>{title} - {indexStep + 1}/{maxStep}</h2>
+      <Box className="form-section">
+        {
+          fields.map((field, index) => (
+            <MInput
+              selected={field.$index === fieldSelected}
+              key={index}
+              label={field.$index}
+              value={form[field.$index]}
+              type={field.type}
+              click={() => setFieldSelected(field.$index)}
+              onChange={e => console.log(e)}
+            />
+          ))
+        }
+      </Box>
+      <MKeyboard
+        inputName={fieldSelected}
+        onChangeAll={(all) => onChangeAll(all) }
+        onEnter={() => onEnter()}
+      />
+    </>
+  );
 };

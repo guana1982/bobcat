@@ -5,16 +5,42 @@ import { IBeverage } from "@core/models";
 import { Beverages, SOCKET_CONNECTIVITY } from "@core/utils/constants";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { flatMap, map, tap, mergeMap } from "rxjs/operators";
-import { of, Observable, forkJoin } from "rxjs";
-import { FindValueSubscriber } from "rxjs/internal/operators/find";
-import { IOption } from "@modules/service/components/common/ButtonGroup";
+import { of, Observable, forkJoin, merge } from "rxjs";
 import { MTypes } from "@modules/service/components/common/Button";
+
+//  ==== AUTH ====>
+export enum AuthLevels {
+  Crew = "crew_menu",
+  Tech = "tech_menu",
+  Super = "superuser_menu"
+}
+//  <=== AUTH ====
+
+//  ==== CONNECTIVITY ====>
+export enum ConnectivityTypes {
+  Eth = "eth",
+  Wifi = "wifi",
+  Mobile = "mobile"
+}
+
+export enum ConnectivityStatus {
+  Off = "OFF", // it's off
+  NotConnected = "NOT_CONNECTED", // it's on but not connected to the internet
+  Inactive = "INACTIVE", // it's on and connected but is not the main one
+  Active = "ACTIVE" // it's on and connected and is the main one
+}
+//  <=== CONNECTIVITY ====
 
 //  ==== LINE ====>
 export interface ILineSave {
   line_id: number;
   beverage_id:  number;
   beverage_menu_index: number;
+}
+
+interface ILines {
+  pumps: ILine[];
+  waters: ILine[];
 }
 
 export class ILine {
@@ -126,29 +152,18 @@ const setList_ = ({ list, valueSelected, setObservable$ }): Observable<any> => {
 };
 //  <=== LIST ====
 
-export enum AuthLevels {
-  Crew = "crew_menu",
-  Tech = "tech_menu",
-  Super = "superuser_menu"
-}
 
-interface ILines {
-  pumps: ILine[];
-  waters: ILine[];
-}
-
-interface ServiceState {
-
-}
+/* ==== MAIN ==== */
+/* ======================================== */
 
 const ServiceContainer = createContainer(() => {
 
   const configConsumer = React.useContext(ConfigContext);
 
   React.useEffect(() => {
-    console.log("ServiceContainer => Config ;", configConsumer);
+    console.log("ServiceContainer => INIT");
     return () => {
-      console.log("close");
+      console.log("ServiceContainer => END");
     };
   }, []);
 
@@ -186,6 +201,14 @@ const ServiceContainer = createContainer(() => {
     .subscribe(data => console.log("dataList", data));
   }, []);
 
+  const allList = {
+    video: { ...videoList, update: (v) => updateVideoList(v).subscribe() },
+    language: { ...languageList, update: (v) => updateLanguageList(v).subscribe() },
+    country: { ...countryList, update: (v) => updateCountryList(v).subscribe() },
+    payment: { ...paymentList, update: (v) => updatePaymentList(v).subscribe() },
+    operation: { ...operationList, update: (v) => updateOperationList(v).subscribe() }
+  };
+
   /* ==== GENERAL ==== */
   /* ======================================== */
 
@@ -194,26 +217,51 @@ const ServiceContainer = createContainer(() => {
     .subscribe();
   };
 
+  /* ==== ALARMS ==== */
+  /* ======================================== */
+
+  const { alarms } = configConsumer;
+  const [statusAlarms, setStatusAlarms] = React.useState<MTypes>(null);
+
+  React.useEffect(() => {
+    setStatusAlarms(null);
+  }, [alarms]);
+
   /* ==== CONNECTIVITY ==== */
   /* ======================================== */
 
   const [connectivity, setConnectivity] = React.useState<any>(null);
+  const [statusConnectivity, setStatusConnectivity] = React.useState<MTypes>(null);
 
-  const loadConnectivity = mediumLevel.connectivity.connectivityInfo()
+  React.useEffect(() => {
+    setStatusConnectivity(null);
+  }, [connectivity]);
+
+  const loadConnectivity =
+    forkJoin(
+      mediumLevel.connectivity.connectivityInfo(),
+      mediumLevel.connectivity.getApn(),
+      mediumLevel.connectivity.signalStrength()
+    )
     .pipe(
       map(data => {
+        const list = data[0];
+        const { apn } = data[1];
+        const signalStrength = data[2].signal_strength;
         const d = [];
-        for (const dd in data) {
-          data[dd].label = dd;
-          data[dd].status = data[dd].status === "ACTIVE"
-            ? MTypes.INFO_SUCCESS
-            : data[dd].status === "DISABLED" //  INACTIVE
-              ? null
-              : MTypes.INFO_WARNING;
-          data[dd].value = dd === "eth" ? 0 : dd === "wifi" ? 1 : dd === "mobile" ? 2 : null;
-          d.push(data[dd]);
+        for (const dd in list) {
+          list[dd].label = dd;
+          if (list[dd].status === ConnectivityStatus.Active || list[dd].status === ConnectivityStatus.Inactive) {
+            list[dd].info = MTypes.INFO_SUCCESS;
+          } else if (list[dd].status === ConnectivityStatus.NotConnected) {
+            list[dd].info = MTypes.INFO_WARNING;
+          } else if (list[dd].status === ConnectivityStatus.Off) {
+            list[dd].info = null;
+          }
+          list[dd].value = dd === ConnectivityTypes.Eth ? 0 : dd === ConnectivityTypes.Wifi ? 1 : dd === ConnectivityTypes.Mobile ? 2 : null;
+          d.push(list[dd]);
         }
-        return d;
+        return { ...{ list: d }, apn, signalStrength };
       }),
       tap((data) => {
         setConnectivity(data);
@@ -250,12 +298,6 @@ const ServiceContainer = createContainer(() => {
   const [authLevel, setAuthLevel] = React.useState<AuthLevels>(null);
 
   function authLogin(pincode: string) {
-    if (pincode === "23456") { // MOCK => AUTH LEVEL SUPER
-      const authLevel: AuthLevels = AuthLevels.Super;
-      setAuthLevel(authLevel);
-      return of(authLevel);
-    }
-
     return mediumLevel.menu.authentication(pincode)
     .pipe(
       map(data => {
@@ -354,15 +396,47 @@ const ServiceContainer = createContainer(() => {
     ).subscribe();
   }
 
-  const allList = {
-    video: { ...videoList, update: (v) => updateVideoList(v).subscribe() },
-    language: { ...languageList, update: (v) => updateLanguageList(v).subscribe() },
-    country: { ...countryList, update: (v) => updateCountryList(v).subscribe() },
-    payment: { ...paymentList, update: (v) => updatePaymentList(v).subscribe() },
-    operation: { ...operationList, update: (v) => updateOperationList(v).subscribe() }
-  };
+  /* ==== EQUIPMENT CONFIGURATION ==== */
+  /* ======================================== */
 
-  return { authLevel, setAuthLevel, authLogin, lines, syrups, saveLines, reboot, bibReset, allList, connectivity };
+  const [firstActivation, setFirstActivation] = React.useState(null);
+
+  React.useEffect(() => {
+    mediumLevel.equipmentConfiguration.getFirstActivation()
+    .pipe(
+      map(data => {
+        const data_ = Object.keys(data).map((key) => {
+          return {...data[key], ...{$index: key}};
+        });
+
+        const form_ = {};
+        Object.keys(data).map((key) => form_[key] = "");
+
+        const structure_ = [
+          {
+            title: "INFO",
+            fields: data_.splice(0, 6)
+          }, {
+            title: "CUSTOMER",
+            fields: data_.splice(0, 6)
+          }, {
+            title: "EQUIPMENT",
+            fields: data_.splice(0, 6)
+          }
+        ];
+
+        return { form_, structure_ };
+      })
+    )
+    .subscribe(
+      data => {
+        console.log("firstActivation", data);
+        setFirstActivation(data);
+      }
+    );
+  }, []);
+
+  return { authLevel, setAuthLevel, authLogin, lines, syrups, saveLines, reboot, bibReset, allList, connectivity, statusAlarms, statusConnectivity, firstActivation };
 });
 
 export const ServiceProvider = ServiceContainer.Provider;

@@ -22,6 +22,7 @@ export const InputWrapper = styled.div`
     /* margin: 30px; */
     font-size: 20px;
     box-sizing: border-box;
+
   }
 `;
 
@@ -45,6 +46,11 @@ export const InputContent = styled.div`
     font-weight: 600;
     margin-right: 10px;
   }
+  &.selected {
+    input {
+      border: 3px solid  ${props => props.theme.dark};
+    }
+  }
   &.small {
     ${InputWrapper} {
       height: 30px;
@@ -63,6 +69,7 @@ interface MInputProps {
   disabled?: boolean;
   className?: string;
   themeMode?: InputTheme;
+  selected?: boolean;
   onChange?: (value) => void;
   click?: () => void;
 }
@@ -72,9 +79,9 @@ interface MInputState {
 }
 
 export const MInput = (props: MInputProps) => {
-    const { label, value, type, onChange, disabled, className, themeMode } = props;
+    const { label, value, type, onChange, disabled, className, themeMode, selected } = props;
     return (
-      <InputContent className={`${themeMode} ${className}`}>
+      <InputContent className={`${themeMode} ${className} ${selected ? "selected" : null}`}>
         {label && <label>{label}</label>}
         <InputWrapper onClick={props.click}>
           <input

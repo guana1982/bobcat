@@ -165,7 +165,7 @@ export const NewMenu = (props: MenuProps) => {
   /* ==== MAIN ==== */
   /* ======================================== */
 
-  const { lines, authLevel } = serviceConsumer;
+  const { lines, authLevel, statusAlarms, statusConnectivity } = serviceConsumer;
 
   if (!authLevel)
   return (
@@ -241,7 +241,7 @@ export const NewMenu = (props: MenuProps) => {
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
                 <MButton onClick={() => openModal(Modals.Update)}>SOFTWARE UPDATE</MButton>
-                <MButton onClick={() => openModal(Modals.Connectivity)} info type={MTypes.INFO_SUCCESS}>CONNECTIVITY</MButton>
+                <MButton onClick={() => openModal(Modals.Connectivity)} info type={statusConnectivity}>CONNECTIVITY</MButton>
               </>
             }
             {
@@ -255,7 +255,7 @@ export const NewMenu = (props: MenuProps) => {
             }
           </Group>
           <Group title={__("ALARMS")} size={authLevel !== AuthLevels.Crew ? SIZE_GROUP_ALARM : SIZE_FULL_GROUP_ALARM}>
-            <MButton onClick={() => openModal(Modals.EquipmentStatus)} info type={MTypes.INFO_SUCCESS}>EQUIPMENT STATUS</MButton>
+            <MButton onClick={() => openModal(Modals.EquipmentStatus)} info type={statusAlarms}>EQUIPMENT STATUS</MButton>
           </Group>
           {authLevel !== AuthLevels.Crew &&
             <Group id="info-group" size={SIZE_GROUP_INFO}>
