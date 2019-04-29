@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { __ } from "@core/utils/lib/i18n";
 
 import { MButton, MTypes } from "@modules/service/components/common/Button";
-import { Modal,  Box, ACTIONS_CONFIRM, ACTIONS_CLOSE, ModalTheme } from "@modules/service/components/common/Modal";
+import { Modal,  Box, ACTIONS_CONFIRM, ACTIONS_CLOSE, ModalTheme, Action } from "@modules/service/components/common/Modal";
 import ConnectivityComponent from "../components/sections/Connectivity";
 import { About } from "../components/sections/About";
 import { ServiceContext, AuthLevels } from "@core/containers";
@@ -174,6 +174,14 @@ export const NewMenu = (props: MenuProps) => {
     </>
   );
 
+  const [actionsConnectivity, setActionsConnectivity] = React.useState<Action[]>(ACTIONS_CLOSE);
+  const handleActionsConnectivity = (actions): void => {
+    setActionsConnectivity([
+      ...actions,
+      ...ACTIONS_CLOSE
+    ]);
+  };
+
   return (
     <>
       <MenuContent>
@@ -277,14 +285,16 @@ export const NewMenu = (props: MenuProps) => {
       {modals[Modals.Customize].show && <Customize {...modals[Modals.Customize].params} cancel={closeAllModal} />}
       {modals[Modals.Language].show && <Customize selection={SelectionTypes.Language} cancel={closeAllModal} />}
 
-      <Modal
-        show={modals[Modals.Connectivity].show}
-        cancel={closeAllModal}
-        title={__("Connectivity")}
-        actions={ACTIONS_CLOSE}
-      >
-        <ConnectivityComponent />
-      </Modal>
+      {modals[Modals.Connectivity].show &&
+        <Modal
+          show={modals[Modals.Connectivity].show}
+          cancel={closeAllModal}
+          title={__("Connectivity")}
+          actions={actionsConnectivity}
+        >
+          <ConnectivityComponent handleActions={handleActionsConnectivity} />
+        </Modal>
+      }
 
       <Modal
         themeMode={ModalTheme.Dark}

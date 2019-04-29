@@ -160,6 +160,7 @@ interface ModalProps {
 
 export interface ModalContentProps {
   cancel: () => void;
+  handleActions?: (actions: Action[]) => void;
 }
 
 

@@ -246,23 +246,25 @@ const ServiceContainer = createContainer(() => {
     )
     .pipe(
       map(data => {
-        const list = data[0];
+        const listConnectivity = data[0];
         const { apn } = data[1];
         const signalStrength = data[2].signal_strength;
-        const d = [];
-        for (const dd in list) {
-          list[dd].label = dd;
-          if (list[dd].status === ConnectivityStatus.Active || list[dd].status === ConnectivityStatus.Inactive) {
-            list[dd].info = MTypes.INFO_SUCCESS;
-          } else if (list[dd].status === ConnectivityStatus.NotConnected) {
-            list[dd].info = MTypes.INFO_WARNING;
-          } else if (list[dd].status === ConnectivityStatus.Off) {
-            list[dd].info = null;
+
+        const list =
+        [ConnectivityTypes.Mobile, ConnectivityTypes.Wifi, ConnectivityTypes.Eth] // Object.keys(listConnectivity)
+        .map((key, i) => {
+          const elmConnectivity_ = { $index: key, info: null, ...listConnectivity[key] };
+
+          if (listConnectivity[key].status === ConnectivityStatus.Active || listConnectivity[key].status === ConnectivityStatus.Inactive) {
+           elmConnectivity_.info = MTypes.INFO_SUCCESS;
+          } else if (listConnectivity[key].status === ConnectivityStatus.NotConnected) {
+           elmConnectivity_.info = MTypes.INFO_WARNING;
           }
-          list[dd].value = dd === ConnectivityTypes.Eth ? 0 : dd === ConnectivityTypes.Wifi ? 1 : dd === ConnectivityTypes.Mobile ? 2 : null;
-          d.push(list[dd]);
-        }
-        return { ...{ list: d }, apn, signalStrength };
+
+          return elmConnectivity_ ;
+        });
+
+        return { list, apn, signalStrength };
       }),
       tap((data) => {
         setConnectivity(data);
@@ -292,6 +294,33 @@ const ServiceContainer = createContainer(() => {
   React.useEffect(() => {
     console.log("connectivity =>", connectivity);
   }, [connectivity]);
+
+  const enableConnection = (type: ConnectivityTypes) => {
+    let call_ = null;
+    if (type === ConnectivityTypes.Mobile) {
+      call_ = mediumLevel.connectivity.enableMobileData();
+    } else if (type === ConnectivityTypes.Wifi) {
+      call_ = mediumLevel.wifi.enable()
+      .pipe(
+        flatMap(() => loadConnectivity)
+      );
+    }
+    if (call_) {
+      call_.subscribe();
+    }
+  };
+
+  const disableConnection = (type: ConnectivityTypes) => {
+    let call_ = null;
+    if (type === ConnectivityTypes.Mobile) {
+      call_ = mediumLevel.connectivity.disableMobileData();
+    } else if (type === ConnectivityTypes.Wifi) {
+      call_ = mediumLevel.wifi.disable();
+    }
+    if (call_) {
+      call_.subscribe();
+    }
+  };
 
   /* ==== AUTH ==== */
   /* ======================================== */
@@ -483,6 +512,8 @@ const ServiceContainer = createContainer(() => {
     bibReset,
     allList,
     connectivity,
+    enableConnection,
+    disableConnection,
     statusAlarms,
     statusConnectivity,
     firstActivation,
