@@ -108,23 +108,19 @@ export const ISection = styled.div`
       flex: 50%;
       margin-bottom: 8px;
     }
-    /* .form-group {
-      width: 470px;
-      ${InputContent} {
-        margin-bottom: 8px;
-      }
-    } */
   }
 `;
 
-enum SetupTypes {
+export enum SetupTypes {
   None = "none",
   Inizialization = "inizialization",
   MotherboardReplacement = "motherboard-replacement",
   EquipmentReplacement = "equipment-replacement"
 }
 
-interface EquipmentConfigurationProps extends Partial<ModalContentProps> {}
+interface EquipmentConfigurationProps extends Partial<ModalContentProps> {
+  setup?: SetupTypes;
+}
 
 interface EquipmentConfigurationState {}
 
@@ -132,14 +128,35 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
 
   const { cancel } = props;
 
-  const [setup, setSetup] = React.useState<SetupTypes>(SetupTypes.None);
+  const [setup, setSetup] = React.useState<SetupTypes>(props.setup || SetupTypes.None);
   const [step, setStep] = React.useState<number>(0);
-  const [state, setState] = React.useState<EquipmentConfigurationState>({});
+  // const [state, setState] = React.useState<EquipmentConfigurationState>({});
 
   const serviceConsumer = React.useContext(ServiceContext);
 
-  const { firstActivation } = serviceConsumer;
+  //  ==== FIRST ACTIVATION ====>
+  const { firstActivation, endInizialization, endReplacement } = serviceConsumer;
   const maxStepForm = firstActivation.structure_.length;
+  const { form_ } = firstActivation;
+  const [form, setForm] = React.useState(form_);
+
+  React.useEffect(() => { // => CLEAN FORM ON BACK
+    if (step === 4)
+      setForm(form_);
+  }, [step]);
+
+  const finishInizialization = () => {
+    endInizialization(form);
+  };
+  //  <=== FIRST ACTIVATION ====
+
+  //  ==== REPLACEMENT ====>
+  const [serialNumber, setSerialNumber] = React.useState("");
+
+  const finishReplacement = () => {
+    endReplacement(setup, serialNumber);
+  };
+    //  <=== REPLACEMENT ====
 
   const { operation, language, payment, country } = serviceConsumer.allList;
 
@@ -162,9 +179,15 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
 
   const actionsModal = (maxSteps: number, finish?: () => void) => {
     if (!finish) {
-      finish = () => alert("finish");
+      finish = () => console.log("Pls add => Finish");
     }
-    const cancel_ = () => setSetup(SetupTypes.None);
+    const cancel_ = () => {
+      if (props.setup) {
+        cancel();
+        return;
+      }
+      setSetup(SetupTypes.None);
+    };
     const nextStep = () => setStep(prev => prev + 1);
     const prevStep = () => setStep(prev => prev - 1);
     if (step === 0) {
@@ -198,10 +221,8 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   return (
     <Modal
       show={true}
-      cancel={() => setSetup(SetupTypes.None)}
-      title="EQUIPMENT CONFIGURATION"
-      subTitle="SELECT DESIRED ACTION"
-      actions={actionsModal(5 + maxStepForm)}
+      title="INITIAL SETUP"
+      actions={actionsModal(5 + maxStepForm, finishInizialization)}
     >
       <>
         <div>
@@ -252,7 +273,13 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
                 <ConnectivityComponent />
               )}
               {step >= 5 && (
-                <FormInitialization maxStep={maxStepForm} firstActivation={firstActivation} indexStep={step - 5} />
+                <FormInitialization
+                  form={form}
+                  setForm={setForm}
+                  maxStep={maxStepForm}
+                  firstActivation={firstActivation}
+                  indexStep={step - 5}
+                />
               )}
               </>
             </ISection>
@@ -266,10 +293,8 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   return (
     <Modal
       show={true}
-      cancel={() => setSetup(SetupTypes.None)}
-      title="EQUIPMENT CONFIGURATION"
-      subTitle="SELECT DESIRED ACTION"
-      actions={actionsModal(2)}
+      title={`${__(setup === SetupTypes.MotherboardReplacement ? "MOTHERBOARD" : "EQUIPMENT" )} REPLACEMENT`}
+      actions={actionsModal(2, finishReplacement)}
     >
       <>
         <div>
@@ -289,12 +314,13 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
                   <h3>ENTER SERIAL NUMBER</h3>
                   <Box className="centered">
                     <MInput
-                      value={"---"}
-                      type=""
+                      value={serialNumber}
                       onChange={e => console.log(e)}
                     />
                   </Box>
-                  <MKeyboard onChange={(input) => console.log("input", input)} />
+                  <MKeyboard
+                    inputName={"serial_number"}
+                    onChangeAll={({ serial_number }) => setSerialNumber(serial_number)} />
                 </>
               )}
               </>
@@ -307,27 +333,28 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
 
 };
 
+/* ==== FORM INITIALIZATION ==== */
+/* ======================================== */
+
 interface FormInitializationProps {
   firstActivation: any;
   maxStep: number;
   indexStep: number;
+  form: any;
+  setForm: any;
 }
 
 const FormInitialization = (props: FormInitializationProps) => {
 
-  const { firstActivation, indexStep, maxStep } = props;
-
-  const { form_, structure_ } = firstActivation;
-
+  const { firstActivation, indexStep, maxStep, form, setForm } = props;
+  const { structure_ } = firstActivation;
   const stepActivation = structure_[indexStep];
-
   const { title, fields } = stepActivation;
-
-  const [form, setForm] = React.useState(form_);
 
   const [fieldSelected, setFieldSelected] = React.useState(null);
 
   const onChangeAll = inputObj => {
+    delete inputObj.default;
     setForm(prevState => ({
       ...prevState,
       ...inputObj
@@ -359,7 +386,7 @@ const FormInitialization = (props: FormInitializationProps) => {
             <MInput
               selected={field.$index === fieldSelected}
               key={index}
-              label={field.$index}
+              label={__(field.$index)}
               value={form[field.$index]}
               type={field.type}
               click={() => setFieldSelected(field.$index)}

@@ -154,7 +154,7 @@ interface ModalProps {
   actions: Action[];
   show: boolean;
   children?: any;
-  cancel: () => void;
+  cancel?: () => void;
   finish?: () => void;
 }
 

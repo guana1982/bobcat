@@ -99,10 +99,10 @@ export default {
   },
   equipmentConfiguration: {
     getFirstActivation: () => get("menu/first_activation"),
-    setFirstActivation: data => get("_menu/first_activation", data),
-    motherboardSubstitution: serial_number => post("_menu/motherboard_substitution", { serial_number }),
-    equipmentSubstitution: serial_number => post("_menu/equipment_substitution", { serial_number }),
-    pickUp: () => post("_menu/pickup")
+    setFirstActivation: data => post("menu/first_activation", data),
+    motherboardSubstitution: serial_number => post("menu/motherboard_substitution", { serial_number }),
+    equipmentSubstitution: serial_number => post("menu/equipment_substitution", { serial_number }),
+    pickUp: () => post("menu/pickup")
   },
   alarm: {
     getAlarms: (menuId = "tech_menu", submenuId = "alarms_menu_tech") => get(`menu/${menuId}/${submenuId}`)

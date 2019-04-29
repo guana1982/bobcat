@@ -48,7 +48,7 @@ export const InputContent = styled.div`
   }
   &.selected {
     input {
-      border: 3px solid  ${props => props.theme.dark};
+      border: 3px solid  darkblue;
     }
   }
   &.small {

@@ -7,12 +7,13 @@ import mediumLevel from "@core/utils/lib/mediumLevel";
 import { flatMap, map, tap, mergeMap } from "rxjs/operators";
 import { of, Observable, forkJoin, merge } from "rxjs";
 import { MTypes } from "@modules/service/components/common/Button";
+import { SetupTypes } from "@modules/service/components/modals/EquipmentConfiguration";
 
 //  ==== AUTH ====>
 export enum AuthLevels {
   Crew = "crew_menu",
   Tech = "tech_menu",
-  Super = "superuser_menu"
+  Super = "super_menu"
 }
 //  <=== AUTH ====
 
@@ -436,7 +437,58 @@ const ServiceContainer = createContainer(() => {
     );
   }, []);
 
-  return { authLevel, setAuthLevel, authLogin, lines, syrups, saveLines, reboot, bibReset, allList, connectivity, statusAlarms, statusConnectivity, firstActivation };
+  function endInizialization(form) {
+    mediumLevel.equipmentConfiguration.setFirstActivation(form)
+    .subscribe(
+      data => {
+        if (data.error === false) {
+          window.location.reload();
+          return;
+        }
+        // => ERROR
+        alert(data.error);
+      }
+    );
+  }
+
+  function endReplacement(setup: SetupTypes, serialNumber: string) {
+    let callReplacement_ = null;
+    if (setup === SetupTypes.MotherboardReplacement) {
+      callReplacement_ = mediumLevel.equipmentConfiguration.motherboardSubstitution;
+    } else if (setup === SetupTypes.EquipmentReplacement) {
+      callReplacement_ = mediumLevel.equipmentConfiguration.equipmentSubstitution;
+    }
+
+    callReplacement_(serialNumber)
+    .subscribe(
+      data => {
+        if (data.error === false) {
+          window.location.reload();
+          return;
+        }
+        // => ERROR
+        alert(data.error);
+      }
+    );
+  }
+
+  return {
+    authLevel,
+    setAuthLevel,
+    authLogin,
+    lines,
+    syrups,
+    saveLines,
+    reboot,
+    bibReset,
+    allList,
+    connectivity,
+    statusAlarms,
+    statusConnectivity,
+    firstActivation,
+    endInizialization,
+    endReplacement
+  };
 });
 
 export const ServiceProvider = ServiceContainer.Provider;

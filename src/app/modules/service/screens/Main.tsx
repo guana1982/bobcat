@@ -4,14 +4,13 @@ import { __ } from "@core/utils/lib/i18n";
 
 import { MButton, MTypes } from "@modules/service/components/common/Button";
 import { Modal,  Box, ACTIONS_CONFIRM, ACTIONS_CLOSE, ModalTheme } from "@modules/service/components/common/Modal";
-import { MButtonGroup } from "@modules/service/components/common/ButtonGroup";
 import ConnectivityComponent from "../components/sections/Connectivity";
 import { About } from "../components/sections/About";
 import { ServiceContext, AuthLevels } from "@core/containers";
 import BeverageLogo from "@core/components/common/Logo";
 import { Line } from "../components/modals/Line";
 import { ChangePrice } from "../components/modals/ChangePrice";
-import { EquipmentConfiguration } from "../components/modals/EquipmentConfiguration";
+import { EquipmentConfiguration, SetupTypes } from "../components/modals/EquipmentConfiguration";
 import { Cleaning } from "../components/modals/Cleaning";
 import { EquipmentStatus } from "../components/modals/EquipmentStatus";
 import { Grid, Group, SIZE_GROUP_LINES, SIZE_GROUP_WATERS, SIZE_GROUP_ALARM, SIZE_GROUP_INFO, SIZE_FULL_GROUP_ALARM, SIZE_FULL_GROUP_LINES } from "../components/main/Grid";
@@ -220,8 +219,8 @@ export const NewMenu = (props: MenuProps) => {
             {
               authLevel === AuthLevels.Super &&
               <>
-                <MButton onClick={() => openModal(Modals.EquipmentConfiguration)}>INITIAL SETUP</MButton>
-                <MButton>FREE / PAID</MButton>
+                <MButton onClick={() => openModal(Modals.EquipmentConfiguration, { setup: SetupTypes.Inizialization })}>INITIAL SETUP</MButton>
+                <MButton onClick={() => openModal(Modals.Customize, { selection: SelectionTypes.Payment })}>FREE / PAID</MButton>
               </>
             }
           </Group>
@@ -250,7 +249,7 @@ export const NewMenu = (props: MenuProps) => {
                 <MButton onClick={serviceConsumer.reboot}>SYSTEM REBOOT</MButton>
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
-                <MButton onClick={() => openModal(Modals.Connectivity)} info type={MTypes.INFO_SUCCESS}>CONNECTIVITY</MButton>
+                <MButton onClick={() => openModal(Modals.Connectivity)} info type={statusConnectivity}>CONNECTIVITY</MButton>
               </>
             }
           </Group>
@@ -268,14 +267,14 @@ export const NewMenu = (props: MenuProps) => {
 
       {modals[Modals.Line].show && <Line {...modals[Modals.Line].params} cancel={closeAllModal} />}
       {modals[Modals.ChangePrice].show && <ChangePrice cancel={closeAllModal} />}
-      {modals[Modals.EquipmentConfiguration].show && <EquipmentConfiguration cancel={closeAllModal} />}
+      {modals[Modals.EquipmentConfiguration].show && <EquipmentConfiguration {...modals[Modals.EquipmentConfiguration].params} cancel={closeAllModal} />}
       {modals[Modals.Cleaning].show && <Cleaning cancel={closeAllModal} />}
       {modals[Modals.EquipmentStatus].show && <EquipmentStatus cancel={closeAllModal} />}
 
       {modals[Modals.Update].show && <Update cancel={closeAllModal} />}
       {modals[Modals.Timeout].show && <Timeout cancel={closeAllModal} />}
 
-      {modals[Modals.Customize].show && <Customize cancel={closeAllModal} />}
+      {modals[Modals.Customize].show && <Customize {...modals[Modals.Customize].params} cancel={closeAllModal} />}
       {modals[Modals.Language].show && <Customize selection={SelectionTypes.Language} cancel={closeAllModal} />}
 
       <Modal

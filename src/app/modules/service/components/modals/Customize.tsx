@@ -24,6 +24,14 @@ export const Customize = (props: CustomizeProps) => {
   const serviceConsumer = React.useContext(ServiceContext);
   const { video, payment, language } = serviceConsumer.allList;
 
+  const cleanSelection = () => {
+    if (props.selection) {
+      cancel();
+      return;
+    }
+    setSelection(SelectionTypes.None);
+  };
+
   React.useEffect(() => {
     let value = null;
     if (selection === SelectionTypes.Video) {
@@ -56,7 +64,7 @@ export const Customize = (props: CustomizeProps) => {
   return (
     <Modal
       show={true}
-      cancel={() => setSelection(SelectionTypes.None)}
+      cancel={cleanSelection}
       finish={() => video.update(valueSelected)}
       title="VIDEO SELECTION"
       subTitle="SELECT DESIRED VIDEO"
@@ -74,7 +82,7 @@ export const Customize = (props: CustomizeProps) => {
   return (
     <Modal
       show={true}
-      cancel={() => setSelection(SelectionTypes.None)}
+      cancel={cleanSelection}
       finish={() => payment.update(valueSelected)}
       title="PAYMENT SELECTION"
       subTitle="SELECT FREE / PAID"
@@ -92,7 +100,7 @@ export const Customize = (props: CustomizeProps) => {
   return (
     <Modal
       show={true}
-      cancel={cancel}
+      cancel={cleanSelection}
       finish={() => language.update(valueSelected)}
       title="SERVICE LANGUAGE"
       subTitle="SELECT DESIRED LANGUAGE"
