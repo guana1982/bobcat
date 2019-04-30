@@ -434,10 +434,26 @@ const ServiceContainer = createContainer(() => {
   }
 
   function bibReset(payload) {
-    mediumLevel.line.bibReset(payload).pipe(
+    mediumLevel.line.bibReset(payload)
+    .pipe(
       flatMap(() => configConsumer.setBeverages)
-    ).subscribe();
+    )
+    .subscribe();
   }
+
+  const lockLine = (line_id) => {
+    return mediumLevel.line.setLockLine(line_id)
+    .pipe(
+      flatMap(() => configConsumer.setBeverages)
+    );
+  };
+
+  const unlockLine = (line_id) => {
+    return mediumLevel.line.setUnlockLine(line_id)
+    .pipe(
+      flatMap(() => configConsumer.setBeverages)
+    );
+  };
 
   /* ==== EQUIPMENT CONFIGURATION ==== */
   /* ======================================== */
@@ -523,6 +539,8 @@ const ServiceContainer = createContainer(() => {
     saveLines,
     reboot,
     bibReset,
+    lockLine, 
+    unlockLine,
     allList,
     connectivity,
     enableConnection,
