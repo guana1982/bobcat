@@ -8,6 +8,7 @@ import { withRouter } from "react-router-dom";
 import { IBeverage, ISocket, IBeverageConfig, IAlarm } from "../models";
 import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages } from "../utils/constants";
 import { VendorConfig } from "@core/models/vendor.model";
+import { MTypes } from "@modules/service/components/common/Button";
 
 const mergeById = ([t, s, l]) => {
   return t.map((p, i) => {
@@ -139,6 +140,20 @@ class ConfigStoreComponent extends React.Component<any, any> {
     .pipe(
       map(data => data && data.elements || []),
       map((alarms: IAlarm[]) => alarms.filter(alarm => alarm.alarm_state)),
+      map(alarms => {
+        return alarms.map(alarm => {
+          if (alarm.alarm_state) {
+            if (alarm.alarm_category === "alarm_category_1") {
+              alarm.$info = MTypes.INFO_DANGER;
+            } else if (alarm.alarm_category === "alarm_category_2") {
+              alarm.$info = MTypes.INFO_WARNING;
+            }
+          } else {
+            alarm.$info = MTypes.INFO_SUCCESS;
+          }
+          return alarm;
+        })
+      }),
       tap((alarms: IAlarm[]) => {
         console.log("ALARMS", alarms);
         this.setState({alarms: alarms});

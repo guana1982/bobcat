@@ -24,19 +24,6 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
   const ALARM_INIT = 0;
   const [alarmSelected, setAlarmSelected] = React.useState<IAlarm>(alarms[ALARM_INIT]);
 
-  const typeAlarm = React.useCallback(
-    (alarm: IAlarm): MTypes => {
-      if (alarm.alarm_state) {
-        if (alarm.alarm_category === "alarm_category_1") {
-          return MTypes.INFO_DANGER;
-        } else if (alarm.alarm_category === "alarm_category_2") {
-          return MTypes.INFO_WARNING;
-        }
-      } else {
-        return MTypes.INFO_SUCCESS;
-      }
-    }, []
-  );
 
   return (
     <Modal
@@ -54,7 +41,7 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
                 light={alarm !== alarmSelected}
                 key={i}
                 onClick={() => setAlarmSelected(alarm)}
-                type={typeAlarm(alarm)}
+                type={alarm.$info}
               >
                 {alarm.alarm_code}
               </MButton>

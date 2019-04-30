@@ -225,17 +225,23 @@ const ServiceContainer = createContainer(() => {
   const [statusAlarms, setStatusAlarms] = React.useState<MTypes>(null);
 
   React.useEffect(() => {
-    setStatusAlarms(null);
+    setStatusAlarms(alarms[0].$info);
   }, [alarms]);
-
   /* ==== CONNECTIVITY ==== */
   /* ======================================== */
 
   const [connectivity, setConnectivity] = React.useState<any>(null);
   const [statusConnectivity, setStatusConnectivity] = React.useState<MTypes>(null);
+  
 
   React.useEffect(() => {
-    setStatusConnectivity(null);
+    var c;
+    if (connectivity) {
+      if (connectivity.list.find(c => c.status === 'ACTIVE')) c = MTypes.INFO_SUCCESS;
+      else if (connectivity.list.find(c => c.status === 'NOT_CONNECTED')) c = MTypes.INFO_WARNING;
+      else c = MTypes.INFO_DANGER;
+    }
+    setStatusConnectivity(c);
   }, [connectivity]);
 
   const loadConnectivity =

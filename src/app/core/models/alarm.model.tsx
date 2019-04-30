@@ -1,3 +1,4 @@
+import { MTypes } from "@modules/service/components/common/Button";
 
 export interface IAlarm {
   alarm_code: string;
@@ -8,4 +9,5 @@ export interface IAlarm {
   alarm_description: string;
   alarm_type: string;
   alarm_solution: string;
+  $info?: MTypes;
 }

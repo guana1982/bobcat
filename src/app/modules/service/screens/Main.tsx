@@ -174,6 +174,8 @@ export const NewMenu = (props: MenuProps) => {
     </>
   );
 
+  console.log(statusAlarms);
+
   return (
     <>
       <MenuContent>
