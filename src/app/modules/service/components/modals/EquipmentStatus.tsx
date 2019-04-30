@@ -22,8 +22,7 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
   alarms.sort((a, b) => +new Date(b.alarm_date) - +new Date(a.alarm_date));
 
   const ALARM_INIT = 0;
-  const [alarmSelected, setAlarmSelected] = React.useState<IAlarm>(alarms[ALARM_INIT]);
-
+  const [alarmSelected, setAlarmSelected] = React.useState<IAlarm>(alarms[ALARM_INIT] || null);
 
   return (
     <Modal
@@ -34,29 +33,43 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
     >
       <>
         <div>
-          <Box className="elements centered">
-            {alarms.map((alarm, i) => (
-              <MButton
-                className="small" info
-                light={alarm !== alarmSelected}
-                key={i}
-                onClick={() => setAlarmSelected(alarm)}
-                type={alarm.$info}
-              >
-                {alarm.alarm_code}
-              </MButton>
-            ))}
-          </Box>
-          <Box className="container">
-            <h2 id="title">info</h2>
-            <h4>
-              <p>NAME: {__(alarmSelected.alarm_name)}</p>
-              <p>CODE: {alarmSelected.alarm_code}</p>
-              <p>DATE: {new Date(alarmSelected.alarm_date).toLocaleDateString()}</p>
-              <p>DESCRIPTION: {__(alarmSelected.alarm_description)}</p>
-              <p>SOLUTION: {__(alarmSelected.alarm_solution)}</p>
-            </h4>
-          </Box>
+          {
+            alarms.length === 0 &&
+             <Box className="elements centered">
+                <h1>No Alarms</h1>
+             </Box>
+          }
+          {
+            alarms.length > 0 &&
+             <Box className="elements centered">
+              {
+                alarms.map((alarm, i) => (
+                  <MButton
+                    className="small" info
+                    light={alarm !== alarmSelected}
+                    key={i}
+                    onClick={() => setAlarmSelected(alarm)}
+                    type={alarm.$info}
+                  >
+                    {alarm.alarm_code}
+                  </MButton>
+                ))
+              }
+             </Box>
+          }
+          {
+            alarmSelected &&
+            <Box className="container">
+              <h2 id="title">info</h2>
+              <h4>
+                <p>NAME: {__(alarmSelected.alarm_name)}</p>
+                <p>CODE: {alarmSelected.alarm_code}</p>
+                <p>DATE: {new Date(alarmSelected.alarm_date).toLocaleDateString()}</p>
+                <p>DESCRIPTION: {__(alarmSelected.alarm_description)}</p>
+                <p>SOLUTION: {__(alarmSelected.alarm_solution)}</p>
+              </h4>
+            </Box>
+          }
         </div>
       </>
     </Modal>

@@ -152,7 +152,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
             alarm.$info = MTypes.INFO_SUCCESS;
           }
           return alarm;
-        })
+        });
       }),
       tap((alarms: IAlarm[]) => {
         console.log("ALARMS", alarms);
