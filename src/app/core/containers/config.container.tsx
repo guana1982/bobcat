@@ -9,7 +9,11 @@ import { IBeverage, ISocket, IBeverageConfig, IAlarm } from "../models";
 import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages } from "../utils/constants";
 import { VendorConfig } from "@core/models/vendor.model";
 
-const mergeById = ([t, s]) => t.map(p => Object.assign({}, p, s.find(q => p.beverage_id === q.beverage_id)));
+const mergeById = ([t, s, l]) => {
+  return t.map((p, i) => {
+    return Object.assign({}, p, s.find(q => p.beverage_id === q.beverage_id), {$lock: l[p.line_id - 1]});
+  })
+};
 
 export interface ConfigInterface {
   authService: boolean;
@@ -168,7 +172,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ==== GET CONFIG ==== */
     /* ======================================== */
 
-    this.setBeverages = combineLatest(mediumLevel.config.getBeverages(), mediumLevel.config.getBrands())
+    this.setBeverages = combineLatest(mediumLevel.config.getBeverages(), mediumLevel.config.getBrands(), mediumLevel.line.getLockLines())
     .pipe(
       map(mergeById),
       tap(beverages => {

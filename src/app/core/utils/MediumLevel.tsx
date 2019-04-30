@@ -68,8 +68,8 @@ export default {
     startPriming: line_id => post("menu/start_priming", { line_id }),
     stopPriming: () => post("menu/stop_priming"),
     getLockLines: () => get("menu/lock_lines"),
-    setLockLine: line_id => post("menu/start_priming", { line_id }),
-    setUnlockLine: line_id => post("menu/start_priming", { line_id }),
+    setLockLine: line_id => post("menu/lock_line", { line_id }),
+    setUnlockLine: line_id => post("menu/unlock_line", { line_id }),
     bibReset: (line) => post("menu/bib_reset", line)
   },
   price: {

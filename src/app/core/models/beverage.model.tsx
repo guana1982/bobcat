@@ -8,6 +8,7 @@ export interface IBeverageConfig {
 }
 
 export interface IBeverage {
+  $lock: boolean;
   beverage_type?: string;
   line_id?: number;
   toppings?: Topping[];
