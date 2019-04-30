@@ -228,7 +228,7 @@ const ServiceContainer = createContainer(() => {
   const [statusAlarms, setStatusAlarms] = React.useState<MTypes>(null);
 
   React.useEffect(() => {
-    setStatusAlarms(alarms[0].$info);
+    alarms.length > 0 && setStatusAlarms(alarms[0].$info);
   }, [alarms]);
   /* ==== CONNECTIVITY ==== */
   /* ======================================== */
