@@ -4,10 +4,11 @@ import { ConfigContext } from "./config.container";
 import { IBeverage } from "@core/models";
 import { Beverages, SOCKET_CONNECTIVITY } from "@core/utils/constants";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { flatMap, map, tap, mergeMap } from "rxjs/operators";
+import { flatMap, map, tap, mergeMap, finalize } from "rxjs/operators";
 import { of, Observable, forkJoin, merge } from "rxjs";
 import { MTypes } from "@modules/service/components/common/Button";
 import { SetupTypes } from "@modules/service/components/modals/EquipmentConfiguration";
+import { LoaderContext } from "./loader.container";
 
 //  ==== AUTH ====>
 export enum AuthLevels {
@@ -213,6 +214,8 @@ const ServiceContainer = createContainer(() => {
   /* ==== GENERAL ==== */
   /* ======================================== */
 
+  const loaderConsumer = React.useContext(LoaderContext);
+
   const reboot = () => {
     mediumLevel.menu.reboot()
     .subscribe();
@@ -252,23 +255,25 @@ const ServiceContainer = createContainer(() => {
     )
     .pipe(
       map(data => {
-        const list = data[0];
+        const listConnectivity = data[0];
         const { apn } = data[1];
         const signalStrength = data[2].signal_strength;
-        const d = [];
-        for (const dd in list) {
-          list[dd].label = dd;
-          if (list[dd].status === ConnectivityStatus.Active || list[dd].status === ConnectivityStatus.Inactive) {
-            list[dd].info = MTypes.INFO_SUCCESS;
-          } else if (list[dd].status === ConnectivityStatus.NotConnected) {
-            list[dd].info = MTypes.INFO_WARNING;
-          } else if (list[dd].status === ConnectivityStatus.Off) {
-            list[dd].info = null;
+
+        const list =
+        [ConnectivityTypes.Mobile, ConnectivityTypes.Wifi, ConnectivityTypes.Eth] // Object.keys(listConnectivity)
+        .map((key, i) => {
+          const elmConnectivity_ = { $index: key, info: null, ...listConnectivity[key] };
+
+          if (listConnectivity[key].status === ConnectivityStatus.Active || listConnectivity[key].status === ConnectivityStatus.Inactive) {
+           elmConnectivity_.info = MTypes.INFO_SUCCESS;
+          } else if (listConnectivity[key].status === ConnectivityStatus.NotConnected) {
+           elmConnectivity_.info = MTypes.INFO_WARNING;
           }
-          list[dd].value = dd === ConnectivityTypes.Eth ? 0 : dd === ConnectivityTypes.Wifi ? 1 : dd === ConnectivityTypes.Mobile ? 2 : null;
-          d.push(list[dd]);
-        }
-        return { ...{ list: d }, apn, signalStrength };
+
+          return elmConnectivity_ ;
+        });
+
+        return { list, apn, signalStrength };
       }),
       tap((data) => {
         setConnectivity(data);
@@ -298,6 +303,43 @@ const ServiceContainer = createContainer(() => {
   React.useEffect(() => {
     console.log("connectivity =>", connectivity);
   }, [connectivity]);
+
+  const enableConnection = (type: ConnectivityTypes) => {
+    let call_ = null;
+    loaderConsumer.show();
+    if (type === ConnectivityTypes.Mobile) {
+      call_ = mediumLevel.connectivity.enableMobileData();
+    } else if (type === ConnectivityTypes.Wifi) {
+      call_ = mediumLevel.wifi.enable()
+      .pipe(
+        flatMap(() => loadConnectivity)
+      );
+    }
+    if (call_) {
+      call_
+      .pipe(
+        finalize(() => loaderConsumer.hide())
+      )
+      .subscribe();
+    }
+  };
+
+  const disableConnection = (type: ConnectivityTypes) => {
+    let call_ = null;
+    loaderConsumer.show();
+    if (type === ConnectivityTypes.Mobile) {
+      call_ = mediumLevel.connectivity.disableMobileData();
+    } else if (type === ConnectivityTypes.Wifi) {
+      call_ = mediumLevel.wifi.disable();
+    }
+    if (call_) {
+      call_
+      .pipe(
+        finalize(() => loaderConsumer.hide())
+      )
+      .subscribe();
+    }
+  };
 
   /* ==== AUTH ==== */
   /* ======================================== */
@@ -398,10 +440,26 @@ const ServiceContainer = createContainer(() => {
   }
 
   function bibReset(payload) {
-    mediumLevel.line.bibReset(payload).pipe(
+    mediumLevel.line.bibReset(payload)
+    .pipe(
       flatMap(() => configConsumer.setBeverages)
-    ).subscribe();
+    )
+    .subscribe();
   }
+
+  const lockLine = (line_id) => {
+    return mediumLevel.line.setLockLine(line_id)
+    .pipe(
+      flatMap(() => configConsumer.setBeverages)
+    );
+  };
+
+  const unlockLine = (line_id) => {
+    return mediumLevel.line.setUnlockLine(line_id)
+    .pipe(
+      flatMap(() => configConsumer.setBeverages)
+    );
+  };
 
   /* ==== EQUIPMENT CONFIGURATION ==== */
   /* ======================================== */
@@ -487,8 +545,12 @@ const ServiceContainer = createContainer(() => {
     saveLines,
     reboot,
     bibReset,
+    lockLine, 
+    unlockLine,
     allList,
     connectivity,
+    enableConnection,
+    disableConnection,
     statusAlarms,
     statusConnectivity,
     firstActivation,

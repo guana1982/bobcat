@@ -2,6 +2,8 @@ import * as React from "react";
 import { Box, ModalContentProps, Modal, ACTIONS_CLOSE } from "../common/Modal";
 import { MButton } from "../common/Button";
 import mediumLevel from "@core/utils/lib/mediumLevel";
+import { LoaderContext } from "@core/containers/loader.container";
+import { finalize } from "rxjs/operators";
 
 enum UpdateFroms {
   None = "none",
@@ -20,11 +22,16 @@ interface UpdateProps extends Partial<ModalContentProps> {}
 
 export const Update = (props: UpdateProps) => {
   const { cancel } = props;
+  const loaderConsumer = React.useContext(LoaderContext);
   const [updateFrom, setUpdateFrom] = React.useState<UpdateFroms>(UpdateFroms.None);
 
   const update = (type: UpdateTypes) => {
+    loaderConsumer.show();
     const mediumLevelUpdate = mediumLevel.updates[updateFrom === UpdateFroms.Server ? "updateRemoteServer" : "updateUsb"];
     mediumLevelUpdate(type)
+    .pipe(
+      finalize(() => loaderConsumer.hide())
+    )
     .subscribe();
   };
 

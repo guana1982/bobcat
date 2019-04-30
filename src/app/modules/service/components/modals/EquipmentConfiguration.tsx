@@ -92,7 +92,7 @@ export const ISection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 515px;
+  height: 540px;
   min-width: 1100px;
   h2, h3 {
     margin: 0;
@@ -156,7 +156,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   const finishReplacement = () => {
     endReplacement(setup, serialNumber);
   };
-    //  <=== REPLACEMENT ====
+  //  <=== REPLACEMENT ====
 
   const { operation, language, payment, country } = serviceConsumer.allList;
 
@@ -164,6 +164,11 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   const [languageSelected, setLanguageSelected] = React.useState(null);
   const [paymentSelected, setPaymentSelected] = React.useState(null);
   const [countrySelected, setCountrySelected] = React.useState(null);
+
+  //  ==== ACTIONS CONNECTIVITY ====>
+  const [actionsConnectivity, setActionsConnectivity] = React.useState<Action[]>([]);
+  const handleActionsConnectivity = (actions): void => setActionsConnectivity(actions);
+  //  <=== ACTIONS CONNECTIVITY ====
 
   React.useEffect(() => {
 
@@ -222,7 +227,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     <Modal
       show={true}
       title="INITIAL SETUP"
-      actions={actionsModal(5 + maxStepForm, finishInizialization)}
+      actions={[...actionsConnectivity, ...actionsModal(5 + maxStepForm, finishInizialization)]}
     >
       <>
         <div>
@@ -270,7 +275,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
                 />
               )}
               {step === 4 && (
-                <ConnectivityComponent />
+                <ConnectivityComponent handleActions={handleActionsConnectivity} />
               )}
               {step >= 5 && (
                 <FormInitialization
@@ -294,19 +299,19 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     <Modal
       show={true}
       title={`${__(setup === SetupTypes.MotherboardReplacement ? "MOTHERBOARD" : "EQUIPMENT" )} REPLACEMENT`}
-      actions={actionsModal(2, finishReplacement)}
+      actions={[...actionsConnectivity, ...actionsModal(2, finishReplacement)]}
     >
       <>
         <div>
           <ISteps className="small" icons={icons} current={step}>
             <ISteps.Step title="CONNECTION" description="CHECK CONNECTION" />
-            <ISteps.Step title="SERIAL NUMBER" description="ENTER SERIAL NUMBER" />
+            <ISteps.Step title="SERIAL NUMBER" description="ENTER SERIAL" />
           </ISteps>
           <Box className="container">
             <ISection>
               <>
               {step === 0 && (
-                <ConnectivityComponent />
+                <ConnectivityComponent handleActions={handleActionsConnectivity} />
               )}
               {step === 1 && (
                 <>

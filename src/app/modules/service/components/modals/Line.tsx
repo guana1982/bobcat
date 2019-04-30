@@ -68,7 +68,7 @@ export const Line = (props: LineProps) => {
 
   }, []);
 
-  const { lines } = serviceConsumer;
+  const { lines, lockLine, unlockLine } = serviceConsumer;
   const line = [...lines.pumps, ...lines.waters].filter(line => line.line_id === lineId)[0];
 
   const { $beverage } = line;
@@ -191,8 +191,6 @@ export const Line = (props: LineProps) => {
 
   const { bib_size, remaining_bib } = $beverage;
   const percLevel = calcolaPerc(bib_size, remaining_bib);
-  const lockLine = () => mediumLevel.line.setLockLine($beverage.line_id).subscribe();
-  const unlockLine = () => mediumLevel.line.setUnlockLine($beverage.line_id).subscribe();
 
   return (
     <>
@@ -211,13 +209,13 @@ export const Line = (props: LineProps) => {
             <div id="info-box">
               <h3>SKU NO. {$beverage.beverage_id} - V1</h3>
               <h3><span>LEVEL:</span> <LevelBeverage level={percLevel} /></h3>
-              <h3><span>VOLUME (GAL):</span> <MInput className="small" value={$beverage.bib_size} disabled /></h3>
-              <h3><span>EXPIRATION DATE:</span> <MInput className="small" value={$beverage.bib_expiring_date} disabled /></h3>
+              <h3><span>VOLUME (GAL):</span> <MInput className="small" value={$beverage.bib_size} onChange={() => null} disabled /></h3>
+              <h3><span>EXPIRATION DATE:</span> <MInput className="small" value={$beverage.bib_expiring_date} onChange={() => null} disabled /></h3>
             </div>
           </Box>
           <Box className="centered">
-            {!$beverage.$lock && <MButton onClick={() => lockLine()}>LOCK DISPENSE</MButton>}
-            {$beverage.$lock && <MButton onClick={() => unlockLine()}>UNLOCK DISPENSE</MButton>}
+            {!$beverage.$lock && <MButton onClick={() => lockLine($beverage.line_id).subscribe()}>LOCK DISPENSE</MButton>}
+            {$beverage.$lock && <MButton onClick={() => unlockLine($beverage.line_id).subscribe()}>UNLOCK DISPENSE</MButton>}
             <MButton onClick={() => setLineAssignment(true)}>CHANGE LINE ASSIGNMENT</MButton>
             <MButton>CALIBRATION</MButton>
             <MButton onClick={() => setPriming(true)}>PRIMING</MButton>
@@ -233,7 +231,6 @@ export const Line = (props: LineProps) => {
 };
 
 const BibReset = props => {
-  console.log(props)
   const serviceConsumer = React.useContext(ServiceContext);
   return (
     <ModalKeyboard
@@ -243,8 +240,8 @@ const BibReset = props => {
       cancel={() => props.unMount()}
       finish={(line) => serviceConsumer.bibReset(line)}
     />
-  )
-}
+  );
+};
 
 const Priming = props => {
   const [isPriming, setIsPriming] = React.useState(false);
