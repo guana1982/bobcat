@@ -191,6 +191,8 @@ export const Line = (props: LineProps) => {
 
   const { bib_size, remaining_bib } = $beverage;
   const percLevel = calcolaPerc(bib_size, remaining_bib);
+  const lockLine = () => mediumLevel.line.setLockLine($beverage.line_id).subscribe();
+  const unlockLine = () => mediumLevel.line.setUnlockLine($beverage.line_id).subscribe();
 
   return (
     <>
@@ -214,7 +216,8 @@ export const Line = (props: LineProps) => {
             </div>
           </Box>
           <Box className="centered">
-            <MButton>LOCK DISPENSE</MButton>
+            {!$beverage.$lock && <MButton onClick={() => lockLine()}>LOCK DISPENSE</MButton>}
+            {$beverage.$lock && <MButton onClick={() => unlockLine()}>UNLOCK DISPENSE</MButton>}
             <MButton onClick={() => setLineAssignment(true)}>CHANGE LINE ASSIGNMENT</MButton>
             <MButton>CALIBRATION</MButton>
             <MButton onClick={() => setPriming(true)}>PRIMING</MButton>
