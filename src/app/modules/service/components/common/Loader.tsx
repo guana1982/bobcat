@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-import Loader from 'react-loader-spinner'
+import Loader from "react-loader-spinner";
 import { LoaderContext } from "@core/containers/loader.container";
 
 const StyledLoader = styled.div`
@@ -13,11 +13,12 @@ const StyledLoader = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  z-index: 100000;
   & > div {
     width: 108px;
     margin: auto;
   }
-`
+`;
 
 export const LoaderComponent = props => {
   const alertConsumer = React.useContext(LoaderContext);
@@ -30,11 +31,11 @@ export const LoaderComponent = props => {
           <Loader
             type="Oval"
             color="#BCBCBC"
-            height="100"	
+            height="100"
             width="100"
           />
         </StyledLoader>
     }
     </React.Fragment>
-  )
-}
+  );
+};

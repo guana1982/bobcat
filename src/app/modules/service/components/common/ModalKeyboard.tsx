@@ -2,10 +2,11 @@ import * as React from "react";
 import styled, { keyframes } from "styled-components";
 import Keyboard from "react-simple-keyboard";
 import { ModalContent, Modal, ACTIONS_CONFIRM, ModalTheme, Box } from "./Modal";
-import { MInput, InputTheme, InputContent } from "./Input";
+import { MInput, InputTheme, InputContent, InputWrapper } from "./Input";
 import { ConfigContext, ServiceContext } from "@core/containers";
 import "react-simple-keyboard/build/css/index.css";
 import { MButton } from "./Button";
+import { MKeyboard, KeyboardWrapper } from "./Keyboard";
 
 const dateFormat = (input: string) => {
   const lenght_ = input.length;
@@ -16,6 +17,15 @@ const dateFormat = (input: string) => {
     return `${_(0)}${_(1)}/${_(2)}${_(3)}/${_(4)}${_(5)}${_(6)}${_(7)}`;
   }
 };
+
+const FullKeyboardWrapper = styled.div`
+  ${InputWrapper} {
+    margin: 20px auto;
+  }
+  ${KeyboardWrapper} {
+    margin: 20px 60px 0
+  }
+`;
 
 const NumberPadWrapper = styled.div`
   input {
@@ -171,6 +181,31 @@ export const ModalKeyboard = (props: NumberPadProps) => {
             />
           </div>
         </NumberPadWrapper>
+      </Modal>
+  );
+
+  if (type === ModalKeyboardTypes.Full)
+  return (
+      <Modal
+        show={true}
+        title={title}
+        themeMode={ModalTheme.Dark}
+        actions={ACTIONS_CONFIRM}
+        cancel={() => cancel()}
+        finish={() => finish(state.input)}
+      >
+        <FullKeyboardWrapper>
+          <div>
+            <MInput
+              value={state.input}
+              onChange={e => console.log(e)}
+            />
+            <MKeyboard
+              inputName="field"
+              onChangeAll={inputObj => onChangeInput(inputObj.field)}
+            />
+          </div>
+        </FullKeyboardWrapper>
       </Modal>
   );
 

@@ -7,9 +7,10 @@ import styled, { keyframes } from "styled-components";
 import { Subscription } from "rxjs";
 import { __ } from "@core/utils/lib/i18n";
 import { SignalIcon, CheckmarkIcon, LockIcon, WifiDisabledIcon, LoadingIcon } from "../common/Icons";
-import { tap, flatMap } from "rxjs/operators";
+import { tap, flatMap, finalize } from "rxjs/operators";
 import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
 import { ServiceProvider, ServiceContext, ConnectivityTypes, ConnectivityStatus } from "@core/containers";
+import { LoaderContext } from "@core/containers/loader.container";
 
 /* ==== ACTIONS CONNECTIVITY => MODAL ==== */
 /* ======================================== */
@@ -90,25 +91,37 @@ const WifiContent = styled.div`
 const Wifi = (props) => {
   const { accessPoints, setApList, wifiEnable } = props;
 
+  const loaderConsumer = React.useContext(LoaderContext);
+
+  const [modalConnection, setModalConnection] = React.useState<boolean>(false);
+
   const [modalInfo, setModalInfo] = React.useState<boolean>(false);
   const [accessPointSelected, setAccessPointSelected] = React.useState<IAccessPoint>(null);
 
   const disconnect = () => {
     mediumLevel.wifi.disconnect()
-    .pipe(
-      flatMap(() => setApList)
-    )
+    // .pipe(
+    //   flatMap(() => setApList)
+    // )
     .subscribe();
   };
 
-  const connect = () => {
+  const connect = (password?) => {
     const { bssid } = accessPointSelected;
-    const password = "12345"; // TO IMPLEMENT => MODAL KEYBOARD
-    mediumLevel.wifi.connect(bssid , password)
+    loaderConsumer.show();
+    mediumLevel.wifi.connect(bssid, password)
     .pipe(
-      flatMap(() => setApList)
+      // flatMap(() => setApList),
+      finalize(() => loaderConsumer.hide())
     )
-    .subscribe();
+    .subscribe(
+      data => {
+        if (data.error !== false) {
+          alert(data.error);
+          return;
+        }
+      }
+    );
   };
 
   if (wifiEnable === null)
@@ -178,7 +191,7 @@ const Wifi = (props) => {
               <MButton
                 disabled={!accessPointSelected}
                 className="tiny"
-                onClick={() => connect()}
+                onClick={() => accessPointSelected.locked ? setModalConnection(true) : connect()}
               >
                 WIFI CONNECTION
               </MButton>
@@ -194,11 +207,22 @@ const Wifi = (props) => {
       >
         <>
           <div>
-            <h3>ciao</h3>
+            <h3>Wifi Info</h3>
           </div>
         </>
       </Modal>
-      {/* <ModalKeyboard title={"ENTER PASSWORD"} type={ModalKeyboardTypes.Full} cancel={() => console.log("cancel")} finish={() => console.log("finish")} /> */}
+      {
+        modalConnection &&
+        <ModalKeyboard
+          title={"ENTER PASSWORD"}
+          type={ModalKeyboardTypes.Full}
+          cancel={() => setModalConnection(false)}
+          finish={(value) => {
+            connect(value);
+            setModalConnection(false);
+          }}
+        />
+      }
     </>
   );
 };
@@ -234,6 +258,9 @@ const Ethernet = (props) => {
 
 const ConnectivityContent = styled.div`
   margin: auto;
+  /* .container-connection {
+    min-height: 460px;
+  } */
 `;
 
 interface ConnectivityProps extends Partial<ModalContentProps> {}
@@ -331,9 +358,11 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
           );
         })}
       </Box>
-      {connectionSelected === ConnectivityTypes.Mobile && <MobileData {...getItemConnectivity(ConnectivityTypes.Mobile)} {...connectivity} />}
-      {connectionSelected === ConnectivityTypes.Wifi && <Wifi {...getItemConnectivity(ConnectivityTypes.Wifi)} accessPoints={accessPoints} wifiEnable={wifiEnable} setApList={setApList} />}
-      {connectionSelected === ConnectivityTypes.Eth && <Ethernet {...getItemConnectivity(ConnectivityTypes.Eth)} {...connectivity} />}
+      <Box className="container-connection">
+        {connectionSelected === ConnectivityTypes.Mobile && <MobileData {...getItemConnectivity(ConnectivityTypes.Mobile)} {...connectivity} />}
+        {connectionSelected === ConnectivityTypes.Wifi && <Wifi {...getItemConnectivity(ConnectivityTypes.Wifi)} accessPoints={accessPoints} wifiEnable={wifiEnable} setApList={setApList} />}
+        {connectionSelected === ConnectivityTypes.Eth && <Ethernet {...getItemConnectivity(ConnectivityTypes.Eth)} {...connectivity} />}
+      </Box>
     </ConnectivityContent>
   );
 };

@@ -174,13 +174,10 @@ export const NewMenu = (props: MenuProps) => {
     </>
   );
 
-  const [actionsConnectivity, setActionsConnectivity] = React.useState<Action[]>(ACTIONS_CLOSE);
-  const handleActionsConnectivity = (actions): void => {
-    setActionsConnectivity([
-      ...actions,
-      ...ACTIONS_CLOSE
-    ]);
-  };
+  //  ==== ACTIONS CONNECTIVITY ====>
+  const [actionsConnectivity, setActionsConnectivity] = React.useState<Action[]>([]);
+  const handleActionsConnectivity = (actions): void => setActionsConnectivity(actions);
+  //  <=== ACTIONS CONNECTIVITY ====
 
   return (
     <>
@@ -290,7 +287,7 @@ export const NewMenu = (props: MenuProps) => {
           show={modals[Modals.Connectivity].show}
           cancel={closeAllModal}
           title={__("Connectivity")}
-          actions={actionsConnectivity}
+          actions={[...actionsConnectivity, ...ACTIONS_CLOSE]}
         >
           <ConnectivityComponent handleActions={handleActionsConnectivity} />
         </Modal>

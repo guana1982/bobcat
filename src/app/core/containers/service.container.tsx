@@ -4,10 +4,11 @@ import { ConfigContext } from "./config.container";
 import { IBeverage } from "@core/models";
 import { Beverages, SOCKET_CONNECTIVITY } from "@core/utils/constants";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { flatMap, map, tap, mergeMap } from "rxjs/operators";
+import { flatMap, map, tap, mergeMap, finalize } from "rxjs/operators";
 import { of, Observable, forkJoin, merge } from "rxjs";
 import { MTypes } from "@modules/service/components/common/Button";
 import { SetupTypes } from "@modules/service/components/modals/EquipmentConfiguration";
+import { LoaderContext } from "./loader.container";
 
 //  ==== AUTH ====>
 export enum AuthLevels {
@@ -213,6 +214,8 @@ const ServiceContainer = createContainer(() => {
   /* ==== GENERAL ==== */
   /* ======================================== */
 
+  const loaderConsumer = React.useContext(LoaderContext);
+
   const reboot = () => {
     mediumLevel.menu.reboot()
     .subscribe();
@@ -297,6 +300,7 @@ const ServiceContainer = createContainer(() => {
 
   const enableConnection = (type: ConnectivityTypes) => {
     let call_ = null;
+    loaderConsumer.show();
     if (type === ConnectivityTypes.Mobile) {
       call_ = mediumLevel.connectivity.enableMobileData();
     } else if (type === ConnectivityTypes.Wifi) {
@@ -306,19 +310,28 @@ const ServiceContainer = createContainer(() => {
       );
     }
     if (call_) {
-      call_.subscribe();
+      call_
+      .pipe(
+        finalize(() => loaderConsumer.hide())
+      )
+      .subscribe();
     }
   };
 
   const disableConnection = (type: ConnectivityTypes) => {
     let call_ = null;
+    loaderConsumer.show();
     if (type === ConnectivityTypes.Mobile) {
       call_ = mediumLevel.connectivity.disableMobileData();
     } else if (type === ConnectivityTypes.Wifi) {
       call_ = mediumLevel.wifi.disable();
     }
     if (call_) {
-      call_.subscribe();
+      call_
+      .pipe(
+        finalize(() => loaderConsumer.hide())
+      )
+      .subscribe();
     }
   };
 
