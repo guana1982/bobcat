@@ -23,16 +23,8 @@ import { Timeout } from "../components/modals/Timeout";
 
 interface HomeContentProps { beverageIsSelected?: boolean; }
 export const MenuContent = styled<HomeContentProps, "div">("div")`
-  @font-face {
-    font-family: 'Karla';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Karla Regular'), local('Karla-Regular'),
-        url('/fonts/Karla-Regular.ttf') format('truetype')
-  }
-
   * {
-    font-family: 'Karla' !important;
+    font-family: Karla-Reg !important;
   }
 
   background: ${props => props.theme.dark};
@@ -214,18 +206,18 @@ export const NewMenu = (props: MenuProps) => {
               authLevel === AuthLevels.Tech &&
               <>
                 <MButton onClick={() => openModal(Modals.EquipmentConfiguration)}>EQUIPMENT CONFIGURATION</MButton>
-                <MButton onClick={() => openModal(Modals.Timeout)}>SELECTION TIMEOUT</MButton>
+                <MButton onClick={() => openModal(Modals.Timeout)}>VIDEO TIMEOUT</MButton>
                 <MButton onClick={() => openModal(Modals.Cleaning)}>SCREEN CLEANING</MButton>
                 <MButton onClick={() => openModal(Modals.Customize)}>CUSTOMIZE UI</MButton>
                 {/* <MButton>SANITATION</MButton> */}
-                <MButton onClick={() => openModal(Modals.ChangePrice)}>CHANGE PRICE</MButton>
+                {/* <MButton onClick={() => openModal(Modals.ChangePrice)}>CHANGE PRICE</MButton> */}
               </>
             }
             {
               authLevel === AuthLevels.Super &&
               <>
                 <MButton onClick={() => openModal(Modals.EquipmentConfiguration, { setup: SetupTypes.Inizialization })}>INITIAL SETUP</MButton>
-                <MButton onClick={() => openModal(Modals.Customize, { selection: SelectionTypes.Payment })}>FREE / PAID</MButton>
+                {/* <MButton onClick={() => openModal(Modals.Customize, { selection: SelectionTypes.Payment })}>FREE / PAID</MButton> */}
               </>
             }
           </Group>
@@ -253,8 +245,8 @@ export const NewMenu = (props: MenuProps) => {
               <>
                 <MButton onClick={serviceConsumer.reboot}>SYSTEM REBOOT</MButton>
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
-                <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
-                <MButton onClick={() => openModal(Modals.Connectivity)} info type={statusConnectivity}>CONNECTIVITY</MButton>
+                {/* <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
+                <MButton onClick={() => openModal(Modals.Connectivity)} info type={statusConnectivity}>CONNECTIVITY</MButton> */}
               </>
             }
           </Group>
@@ -266,7 +258,7 @@ export const NewMenu = (props: MenuProps) => {
               <About />
             </Group>
           }
-          <MButton id="exit-btn" onClick={() => location.reload()}>EXIT TO COSUMER UI</MButton>
+          <MButton id="exit-btn" onClick={() => location.reload()}>EXIT TO CONSUMER UI</MButton>
         </Grid>
       </MenuContent>
 

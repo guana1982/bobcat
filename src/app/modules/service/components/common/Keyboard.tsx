@@ -81,6 +81,14 @@ export const KeyboardWrapper = styled.div`
     min-width: 80px;
     max-width: 80px;
   }
+  .hg-button-shift, .hg-button-shiftactivated {
+    &:before {
+      content: " ";
+      background: url("icons/up.svg");
+      width: 18px;
+      height: 18px;
+    }
+  }
 `;
 
 enum TypeLayout {
@@ -122,17 +130,19 @@ const layout = {
     "{default} {space}"
   ]
 };
-const display = {
-  "{alt}": ".?123",
-  "{shift}": "⇧",
-  "{shiftactivated}": "⇧",
-  "{enter}": "next", // "return",
-  "{bksp}": "⌫",
-  "{altright}": ".?123",
-  "{downkeyboard}": "🞃",
-  "{space}": " ",
-  "{default}": "ABC",
-  "{back}": "⇦"
+const display = (onEnter: () => void) => {
+  return {
+    "{alt}": ".?123",
+    "{shift}": " ",
+    "{shiftactivated}": " ",
+    "{enter}": onEnter ? "next" : " ", // "return",
+    "{bksp}": "⌫",
+    "{altright}": ".?123",
+    "{downkeyboard}": "🞃",
+    "{space}": " ",
+    "{default}": "ABC",
+    "{back}": "⇦"
+  };
 };
 
 export const MKeyboard = (props: MKeyboardProps) => {
@@ -200,7 +210,7 @@ export const MKeyboard = (props: MKeyboardProps) => {
       <Keyboard
         layoutName={layoutName}
         layout={layout}
-        display={display}
+        display={display(onEnter)}
         theme="hg-theme-default hg-theme-ios"
         preventMouseDownDefault={true}
         // onChange={input => onChange(input)}

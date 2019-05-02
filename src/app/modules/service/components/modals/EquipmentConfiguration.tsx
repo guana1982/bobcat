@@ -149,7 +149,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   }, [step]);
 
   const finishInizialization = () => {
-    endInizialization(form);
+    endInizialization(operationSelected, languageSelected, paymentSelected, countrySelected, form);
   };
   //  <=== FIRST ACTIVATION ====
 
@@ -202,6 +202,10 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
           const stepFields_: any[] = firstActivation.structure_[step - 5].fields;
           let formValid_ = true;
           stepFields_.forEach(field => {
+            if (!field.mandatory) {
+              return;
+            }
+
             if (field.type === "alphanumeric") {
               if (form[field.$index] === "") {
                 formValid_ = false;
@@ -235,6 +239,11 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   //  ==== ACTIONS CONNECTIVITY ====>
   const [actionsConnectivity, setActionsConnectivity] = React.useState<Action[]>([]);
   const handleActionsConnectivity = (actions): void => setActionsConnectivity(actions);
+  React.useEffect(() => {
+    if (!((setup === SetupTypes.Inizialization && step === 4) || ((setup === SetupTypes.MotherboardReplacement || setup === SetupTypes.EquipmentReplacement) && step === 0))) {
+      setActionsConnectivity([]);
+    }
+  }, [setup, step]);
   //  <=== ACTIONS CONNECTIVITY ====
 
   React.useEffect(() => {
@@ -243,6 +252,13 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
 
   React.useEffect(() => {
     setStep(0);
+
+    setOperationSelected(null);
+    setLanguageSelected(null);
+    setPaymentSelected(null);
+    setCountrySelected(null);
+    setForm(form_);
+    setSerialNumber("");
   }, [setup]);
 
   const pickUp = () => {
@@ -281,7 +297,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
       actions={ACTIONS_CLOSE}
     >
       <Box className="centered">
-        <MButton onClick={() => setSetup(SetupTypes.Inizialization)}>INITIAL SETUP</MButton>
+        {/* <MButton onClick={() => setSetup(SetupTypes.Inizialization)}>INITIAL SETUP</MButton> */}
         <MButton onClick={() => setSetup(SetupTypes.MotherboardReplacement)}>MOTHERBOARD REPLACEMENT</MButton>
         <MButton onClick={() => setSetup(SetupTypes.EquipmentReplacement)}>EQUIPMENT REPLACEMENT</MButton>
         <MButton onClick={() => pickUp()}>PICK UP</MButton>
@@ -451,13 +467,14 @@ const FormInitialization = (props: FormInitializationProps) => {
 
   return (
     <>
-      <h2>{title} - {indexStep + 1}/{maxStep}</h2>
+      <h2>INITIALIZATION DATA - {indexStep + 1}/{maxStep}</h2>
       <Box className="form-section">
         {
           fields.map((field, index) => (
             <MInput
               selected={field.$index === fieldSelected}
               key={index}
+              required={field.mandatory}
               label={__(field.$index)}
               value={form[field.$index]}
               type={field.type}

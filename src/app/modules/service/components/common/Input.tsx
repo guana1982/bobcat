@@ -22,7 +22,9 @@ export const InputWrapper = styled.div`
     /* margin: 30px; */
     font-size: 20px;
     box-sizing: border-box;
-
+    &:disabled {
+      background: #fff;
+    }
   }
 `;
 
@@ -40,9 +42,10 @@ export const InputContent = styled.div`
     display: inline-block;
     color: ${props => props.theme.dark};
     text-transform: capitalize;
+    text-align: right;
     /* width: 6.5rem; */
     font-size: 1.2rem;
-    text-align: left;
+    /* text-align: left; */
     font-weight: 600;
     margin-right: 10px;
   }
@@ -68,6 +71,7 @@ interface MInputProps {
   type?: string;
   disabled?: boolean;
   className?: string;
+  required?: boolean;
   themeMode?: InputTheme;
   selected?: boolean;
   onChange?: (value) => void;
@@ -79,13 +83,14 @@ interface MInputState {
 }
 
 export const MInput = (props: MInputProps) => {
-    const { label, value, type, onChange, disabled, className, themeMode, selected } = props;
+    const { label, value, type, onChange, disabled, className, themeMode, selected, required } = props;
     return (
       <InputContent className={`${themeMode} ${className} ${selected ? "selected" : null}`}>
-        {label && <label>{label}</label>}
+        {label && <label>{label}{required && "*"}</label>}
         <InputWrapper onClick={props.click}>
           <input
             // disabled={disabled} // <= TO FIX
+            disabled
             value={value}
             type={type}
             onChange={onChange}

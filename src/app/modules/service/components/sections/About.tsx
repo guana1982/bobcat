@@ -10,12 +10,12 @@ export const About = () => {
   return (
     <>
       <ul>
-        <li>COUNTRY: <b>{country}</b></li>
-        <li>IMEI: <b>{imei}</b></li>
-        <li>MQTT SERIAL NUMBER: <b>{serial_number_mqtt}</b></li>
-        <li>MEDIABOARD SERIAL NUMBER: <b>{serial_number_mediaboard}</b></li>
-        <li>POWERBOARD SERIAL NUMBER: <b>{serial_number_powerboard}</b></li>
-        <li>SOFTWARE VERSIONE: <b>{software_version}</b></li>
+        <li>COUNTRY: <b>{country || "---"}</b></li>
+        <li>IMEI: <b>{imei || "---"}</b></li>
+        <li>MQTT SERIAL NUMBER: <b>{serial_number_mqtt || "---"}</b></li>
+        <li>MEDIABOARD SERIAL NUMBER: <b>{serial_number_mediaboard || "---"}</b></li>
+        <li>POWERBOARD SERIAL NUMBER: <b>{serial_number_powerboard || "---"}</b></li>
+        <li>SOFTWARE VERSIONE: <b>{software_version || "---"}</b></li>
       </ul>
     </>
   );

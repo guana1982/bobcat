@@ -204,11 +204,11 @@ const ServiceContainer = createContainer(() => {
   }, []);
 
   const allList = {
-    video: { ...videoList, update: (v) => updateVideoList(v).subscribe() },
-    language: { ...languageList, update: (v) => updateLanguageList(v).subscribe() },
-    country: { ...countryList, update: (v) => updateCountryList(v).subscribe() },
-    payment: { ...paymentList, update: (v) => updatePaymentList(v).subscribe() },
-    operation: { ...operationList, update: (v) => updateOperationList(v).subscribe() }
+    video: { ...videoList, update: (v) => updateVideoList(v) },
+    language: { ...languageList, update: (v) => updateLanguageList(v) },
+    country: { ...countryList, update: (v) => updateCountryList(v) },
+    payment: { ...paymentList, update: (v) => updatePaymentList(v) },
+    operation: { ...operationList, update: (v) => updateOperationList(v) }
   };
 
   /* ==== GENERAL ==== */
@@ -228,9 +228,9 @@ const ServiceContainer = createContainer(() => {
   const [statusAlarms, setStatusAlarms] = React.useState<MTypes>(null);
 
   React.useEffect(() => {
-    var a;
+    let a;
     if (alarms.find(a => a.$info === MTypes.INFO_DANGER)) a = MTypes.INFO_DANGER;
-    if (alarms.find(a => a.$info === MTypes.INFO_WARNING)) a = MTypes.INFO_WARNING;
+    else if (alarms.find(a => a.$info === MTypes.INFO_WARNING)) a = MTypes.INFO_WARNING;
     else a = MTypes.INFO_SUCCESS;
     setStatusAlarms(a);
   }, [alarms]);
@@ -239,13 +239,12 @@ const ServiceContainer = createContainer(() => {
 
   const [connectivity, setConnectivity] = React.useState<any>(null);
   const [statusConnectivity, setStatusConnectivity] = React.useState<MTypes>(null);
-  
 
   React.useEffect(() => {
-    var c;
+    let c;
     if (connectivity) {
-      if (connectivity.list.find(c => c.status === 'ACTIVE')) c = MTypes.INFO_SUCCESS;
-      else if (connectivity.list.find(c => c.status === 'NOT_CONNECTED')) c = MTypes.INFO_WARNING;
+      if (connectivity.list.find(c => c.status === ConnectivityStatus.Active)) c = MTypes.INFO_SUCCESS;
+      else if (connectivity.list.find(c => c.status === ConnectivityStatus.Inactive)) c = MTypes.INFO_WARNING;
       else c = MTypes.INFO_DANGER;
     }
     setStatusConnectivity(c);
@@ -268,10 +267,12 @@ const ServiceContainer = createContainer(() => {
         .map((key, i) => {
           const elmConnectivity_ = { $index: key, info: null, ...listConnectivity[key] };
 
-          if (listConnectivity[key].status === ConnectivityStatus.Active || listConnectivity[key].status === ConnectivityStatus.Inactive) {
+          if (listConnectivity[key].status === ConnectivityStatus.Active) {
            elmConnectivity_.info = MTypes.INFO_SUCCESS;
+          } else if (listConnectivity[key].status === ConnectivityStatus.Inactive) {
+            elmConnectivity_.info = MTypes.INFO_WARNING;
           } else if (listConnectivity[key].status === ConnectivityStatus.NotConnected) {
-           elmConnectivity_.info = MTypes.INFO_WARNING;
+            elmConnectivity_.info = MTypes.INFO_DANGER;
           }
 
           return elmConnectivity_ ;
@@ -483,13 +484,10 @@ const ServiceContainer = createContainer(() => {
 
         const structure_ = [
           {
-            title: "INFO",
             fields: data_.splice(0, 6)
           }, {
-            title: "CUSTOMER",
             fields: data_.splice(0, 6)
           }, {
-            title: "EQUIPMENT",
             fields: data_.splice(0, 6)
           }
         ];
@@ -505,8 +503,16 @@ const ServiceContainer = createContainer(() => {
     );
   }, []);
 
-  function endInizialization(form) {
-    mediumLevel.equipmentConfiguration.setFirstActivation(form)
+  function endInizialization(operationSelected, languageSelected, paymentSelected, countrySelected, form) {
+    const { video, payment, language, country } = allList;
+    loaderConsumer.show();
+    language.update(languageSelected)
+    .pipe(
+      flatMap(() => payment.update(paymentSelected)),
+      flatMap(() => country.update(countrySelected)),
+      flatMap(() => mediumLevel.equipmentConfiguration.setFirstActivation(form)),
+      finalize(() => loaderConsumer.hide())
+    )
     .subscribe(
       data => {
         if (data.error === false) {
@@ -549,7 +555,7 @@ const ServiceContainer = createContainer(() => {
     saveLines,
     reboot,
     bibReset,
-    lockLine, 
+    lockLine,
     unlockLine,
     allList,
     connectivity,

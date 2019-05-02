@@ -1,5 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 
+const KarlaReg = require("../fonts/KarlaReg.ttf");
+const KarlaBol = require("../fonts/KarlaBol.ttf");
+
 const NeuzeitGroReg = require("../fonts/NeuzeitGroReg.otf");
 const NeuzeitGroBol = require("../fonts/NeuzeitGroBol.otf");
 
@@ -33,6 +36,16 @@ export const GlobalStyle = createGlobalStyle`
     cursor: none;
   }
   /* // => DESKTOP MODE */
+
+  @font-face {
+    font-family: Karla-Reg;
+    src: url(${KarlaReg})
+  }
+
+  @font-face {
+    font-family: Karla-Bol;
+    src: url(${KarlaBol})
+  }
 
   @font-face {
     font-family: NeuzeitGro-Reg;

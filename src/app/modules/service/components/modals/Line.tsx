@@ -26,7 +26,7 @@ const LevelBeverage = styled.div`
     position: absolute;
     top: 0px;
     left: 0px;
-    background: ${props => props.theme.dark};
+    background: ${props => props.theme.success};
   }
 `;
 
@@ -190,6 +190,7 @@ export const Line = (props: LineProps) => {
   /* ======================================== */
 
   const { bib_size, remaining_bib } = $beverage;
+  console.log({ bib_size, remaining_bib });
   const percLevel = calcolaPerc(bib_size, remaining_bib);
 
   return (
@@ -209,7 +210,7 @@ export const Line = (props: LineProps) => {
             <div id="info-box">
               <h3>SKU NO. {$beverage.beverage_id} - V1</h3>
               <h3><span>LEVEL:</span> <LevelBeverage level={percLevel} /></h3>
-              <h3><span>VOLUME (GAL):</span> <MInput className="small" value={$beverage.bib_size} onChange={() => null} disabled /></h3>
+              <h3><span>VOLUME (GAL):</span> <MInput className="small" value={$beverage.bib_size / 3.78541} onChange={() => null} disabled /></h3>
               <h3><span>EXPIRATION DATE:</span> <MInput className="small" value={$beverage.bib_expiring_date} onChange={() => null} disabled /></h3>
             </div>
           </Box>

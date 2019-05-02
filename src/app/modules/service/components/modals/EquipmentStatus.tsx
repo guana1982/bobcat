@@ -22,7 +22,11 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
   alarms.sort((a, b) => +new Date(b.alarm_date) - +new Date(a.alarm_date));
 
   const ALARM_INIT = 0;
-  const [alarmSelected, setAlarmSelected] = React.useState<IAlarm>(alarms[ALARM_INIT] || null);
+  const [alarmSelected, setAlarmSelected] = React.useState<IAlarm>(null);
+
+  React.useEffect(() => {
+    setAlarmSelected(alarms[ALARM_INIT] || null);
+  }, [alarms]);
 
   return (
     <Modal

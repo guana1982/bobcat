@@ -38,6 +38,9 @@ export const MButton = styled<MButtonProps, "button">("button")`
     height: ${_size}rem;
     font-size: 0.9rem;
     /* font-weight: 600; */
+    &:disabled {
+      opacity: 0.5;
+    }
   }
   &.tiny {
     width: 10rem;

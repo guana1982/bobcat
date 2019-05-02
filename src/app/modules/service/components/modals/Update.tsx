@@ -12,10 +12,10 @@ enum UpdateFroms {
 }
 
 enum UpdateTypes {
-  All = "all",
-  Sw = "sw",
-  Planogram = "planogram",
-  Video = "video"
+  All = "ALL",
+  Sw = "SW",
+  Planogram = "PLANOGRAM",
+  Video = "VIDEO"
 }
 
 interface UpdateProps extends Partial<ModalContentProps> {}
@@ -61,9 +61,6 @@ export const Update = (props: UpdateProps) => {
       actions={ACTIONS_CLOSE}
     >
       <Box className="centered">
-        <MButton onClick={() => update(UpdateTypes.Sw)}>FIRMWARE</MButton>
-        <MButton onClick={() => update(UpdateTypes.Planogram)}>PLANOGRAM</MButton>
-        <MButton onClick={() => update(UpdateTypes.Video)}>ATTRACT LOOP</MButton>
         <MButton onClick={() => update(UpdateTypes.All)}>ALL</MButton>
       </Box>
     </Modal>
@@ -79,6 +76,9 @@ export const Update = (props: UpdateProps) => {
       actions={ACTIONS_CLOSE}
     >
       <Box className="centered">
+        <MButton onClick={() => update(UpdateTypes.Sw)}>FIRMWARE</MButton>
+        <MButton onClick={() => update(UpdateTypes.Planogram)}>PLANOGRAM</MButton>
+        <MButton onClick={() => update(UpdateTypes.Video)}>ATTRACT LOOP</MButton>
         <MButton onClick={() => update(UpdateTypes.All)}>ALL</MButton>
       </Box>
     </Modal>

@@ -31,7 +31,7 @@ export const Timeout = (props: TimeoutProps) => {
       show={true}
       cancel={cancel}
       finish={saveTimeout}
-      title="SELECTION TIMEOUT"
+      title="VIDEO TIMEOUT"
       actions={ACTIONS_CONFIRM}
     >
       <>

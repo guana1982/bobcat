@@ -65,7 +65,7 @@ export const Customize = (props: CustomizeProps) => {
     <Modal
       show={true}
       cancel={cleanSelection}
-      finish={() => video.update(valueSelected)}
+      finish={() => video.update(valueSelected).subscribe()}
       title="VIDEO SELECTION"
       subTitle="SELECT DESIRED VIDEO"
       actions={ACTIONS_CONFIRM}
@@ -83,7 +83,7 @@ export const Customize = (props: CustomizeProps) => {
     <Modal
       show={true}
       cancel={cleanSelection}
-      finish={() => payment.update(valueSelected)}
+      finish={() => payment.update(valueSelected).subscribe()}
       title="PAYMENT SELECTION"
       subTitle="SELECT FREE / PAID"
       actions={ACTIONS_CONFIRM}
@@ -101,7 +101,7 @@ export const Customize = (props: CustomizeProps) => {
     <Modal
       show={true}
       cancel={cleanSelection}
-      finish={() => language.update(valueSelected)}
+      finish={() => language.update(valueSelected).subscribe()}
       title="SERVICE LANGUAGE"
       subTitle="SELECT DESIRED LANGUAGE"
       actions={ACTIONS_CONFIRM}
