@@ -102,7 +102,7 @@ export const Line = (props: LineProps) => {
         <LineContent>
           <div>
             <Box className="centered">
-              <MButton className="small" disabled visibled light info={`LINE - ${line.line_id}`}>
+              <MButton disabled visibled light info={`LINE - ${line.line_id}`}>
                 <BeverageLogo beverage={$beverage} size="tiny" />
               </MButton>
             </Box>

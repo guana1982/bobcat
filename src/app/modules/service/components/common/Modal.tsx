@@ -112,9 +112,12 @@ const ModalWrapper = styled.div`
     }
     ${ModalContent} {
       background: ${props => props.theme.dark};
-      header, footer {
+      header, main, footer {
         h2, h3, button {
           color: ${props => props.theme.light};
+        }
+        h3 {
+          white-space: pre-wrap;
         }
       }
       li {

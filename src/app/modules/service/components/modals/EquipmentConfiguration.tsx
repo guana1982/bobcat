@@ -4,7 +4,7 @@ import Steps from "rc-steps";
 import styled from "styled-components";
 import "rc-steps/assets/index.css";
 import ConnectivityComponent from "../sections/Connectivity";
-import { ServiceContext } from "@core/containers";
+import { ServiceContext, AlertContext } from "@core/containers";
 import { MButton, MTypes } from "@modules/service/components/common/Button";
 import { MInput, InputContent } from "../common/Input";
 import { MKeyboard, KeyboardWrapper } from "../common/Keyboard";
@@ -136,9 +136,10 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   // const [state, setState] = React.useState<EquipmentConfigurationState>({});
 
   const serviceConsumer = React.useContext(ServiceContext);
+  const alertConsumer = React.useContext(AlertContext);
 
   //  ==== FIRST ACTIVATION ====>
-  const { firstActivation, endInizialization, endReplacement, statusConnectivity } = serviceConsumer;
+  const { firstActivation, endInizialization, endReplacement, endPickUp, statusConnectivity } = serviceConsumer;
   const maxStepForm = firstActivation.structure_.length;
   const { form_ } = firstActivation;
   const [form, setForm] = React.useState(form_);
@@ -228,11 +229,16 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
             setDisableNext_(false);
             return;
           }
+        } else if (step === 1) {
+          if (serialNumber !== "") {
+            setDisableNext_(false);
+            return;
+          }
         }
       }
 
       setDisableNext_(true);
-    }, [setup, step, operationSelected, languageSelected, paymentSelected, countrySelected, statusConnectivity, form]);
+    }, [setup, step, operationSelected, languageSelected, paymentSelected, countrySelected, statusConnectivity, form, serialNumber]);
 
     //  <=== ENABLE NEXT ====
 
@@ -262,7 +268,24 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   }, [setup]);
 
   const pickUp = () => {
-    alert("Pick Up");
+
+    const completePickUp = () => {
+      setTimeout(() => {
+        alertConsumer.show({
+          timeout: false,
+          title: "PICK UP",
+          content: "PLEASE DRAIN WATER BATH AND FLUSH THE LINES AFTER SYSTEM SHUTDOWN.",
+          onConfirm: endPickUp
+        });
+      }, 50);
+    };
+
+    alertConsumer.show({
+      timeout: false,
+      title: "PICK UP",
+      content: "ARE YOU SURE THAT YOU WANT TO RESET THE EQUIPMENT? \n VALVE SETTINGS AND INITIAL SETUP WILL BE CLEARED.",
+      onConfirm: completePickUp
+    });
   };
 
   const actionsModal = (maxSteps: number, finish?: () => void, disableNext?: boolean) => {
@@ -326,7 +349,6 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
             <ISection>
               <>
               {step === 0 && (
-                // <OperationSelection />
                 <MButtonGroup
                   options={operation.list}
                   value={operationSelected}
@@ -334,7 +356,6 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
                 />
               )}
               {step === 1 && (
-                // <LanguageSelection />
                 <MButtonGroup
                   options={language.list}
                   value={languageSelected}
@@ -342,7 +363,6 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
                 />
               )}
               {step === 2 && (
-                // <PaymentSelection />
                 <MButtonGroup
                   options={payment.list}
                   value={paymentSelected}
@@ -350,7 +370,6 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
                 />
               )}
               {step === 3 && (
-                // <CountrySelection />
                 <MButtonGroup
                   options={country.list}
                   value={countrySelected}
@@ -382,7 +401,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     <Modal
       show={true}
       title={`${__(setup === SetupTypes.MotherboardReplacement ? "MOTHERBOARD" : "EQUIPMENT" )} REPLACEMENT`}
-      actions={[...actionsConnectivity, ...actionsModal(2, finishReplacement)]}
+      actions={[...actionsConnectivity, ...actionsModal(2, finishReplacement, disableNext_)]}
     >
       <>
         <div>

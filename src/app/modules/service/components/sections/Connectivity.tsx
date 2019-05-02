@@ -117,7 +117,10 @@ const Wifi = (props) => {
     .subscribe(
       data => {
         if (data.error !== false) {
-          alert(data.error);
+          alertConsumer.show({
+            title: "WARNING",
+            content: __(data.error)
+          });
           return;
         }
       }

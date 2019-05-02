@@ -12,16 +12,19 @@ import { ServiceProvider, TimerStore, AlertProvider } from "@core/containers";
 import { ThemeProvider } from "styled-components";
 import { LoaderProvider } from "@core/containers/loader.container";
 import { LoaderComponent } from "./components/common/Loader";
+import { Alert } from "./components/common/Alert";
 
 export const Service = (props) => (
   <ThemeProvider theme={themeMenu}>
     <LoaderProvider loaderComponent={<LoaderComponent />}>
-      <ServiceProvider>
-        {/* <TimerStore> */}
-          <Auth />
-          <Route path={Pages.Menu} component={NewMenu}/>
-        {/* </TimerStore> */}
-      </ServiceProvider>
+      <AlertProvider alertComponent={<Alert />}>
+        <ServiceProvider>
+            {/* <TimerStore> */}
+              <Auth />
+              <Route path={Pages.Menu} component={NewMenu}/>
+            {/* </TimerStore> */}
+          </ServiceProvider>
+      </AlertProvider>
     </LoaderProvider>
   </ThemeProvider>
 );

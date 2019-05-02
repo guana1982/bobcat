@@ -9,6 +9,8 @@ import { of, Observable, forkJoin, merge } from "rxjs";
 import { MTypes } from "@modules/service/components/common/Button";
 import { SetupTypes } from "@modules/service/components/modals/EquipmentConfiguration";
 import { LoaderContext } from "./loader.container";
+import { AlertContext } from ".";
+import { __ } from "@core/utils/lib/i18n";
 
 //  ==== AUTH ====>
 export enum AuthLevels {
@@ -215,6 +217,7 @@ const ServiceContainer = createContainer(() => {
   /* ======================================== */
 
   const loaderConsumer = React.useContext(LoaderContext);
+  const alertConsumer = React.useContext(AlertContext);
 
   const reboot = () => {
     mediumLevel.menu.reboot()
@@ -504,7 +507,7 @@ const ServiceContainer = createContainer(() => {
   }, []);
 
   function endInizialization(operationSelected, languageSelected, paymentSelected, countrySelected, form) {
-    const { video, payment, language, country } = allList;
+    const { payment, language, country } = allList;
     loaderConsumer.show();
     language.update(languageSelected)
     .pipe(
@@ -520,13 +523,17 @@ const ServiceContainer = createContainer(() => {
           return;
         }
         // => ERROR
-        alert(data.error);
+        alertConsumer.show({
+          title: "WARNING",
+          content: __(data.error)
+        });
       }
     );
   }
 
   function endReplacement(setup: SetupTypes, serialNumber: string) {
     let callReplacement_ = null;
+    loaderConsumer.show();
     if (setup === SetupTypes.MotherboardReplacement) {
       callReplacement_ = mediumLevel.equipmentConfiguration.motherboardSubstitution;
     } else if (setup === SetupTypes.EquipmentReplacement) {
@@ -534,6 +541,9 @@ const ServiceContainer = createContainer(() => {
     }
 
     callReplacement_(serialNumber)
+    .pipe(
+      finalize(() => loaderConsumer.hide())
+    )
     .subscribe(
       data => {
         if (data.error === false) {
@@ -541,7 +551,31 @@ const ServiceContainer = createContainer(() => {
           return;
         }
         // => ERROR
-        alert(data.error);
+        alertConsumer.show({
+          title: "WARNING",
+          content: __(data.error)
+        });
+      }
+    );
+  }
+
+  function endPickUp() {
+    loaderConsumer.show();
+    mediumLevel.equipmentConfiguration.pickUp()
+    .pipe(
+      finalize(() => loaderConsumer.hide())
+    )
+    .subscribe(
+      data => {
+        if (data.error === false) {
+          // window.location.reload();
+          return;
+        }
+        // => ERROR
+        alertConsumer.show({
+          title: "WARNING",
+          content: __(data.error)
+        });
       }
     );
   }
@@ -565,7 +599,8 @@ const ServiceContainer = createContainer(() => {
     statusConnectivity,
     firstActivation,
     endInizialization,
-    endReplacement
+    endReplacement,
+    endPickUp
   };
 });
 

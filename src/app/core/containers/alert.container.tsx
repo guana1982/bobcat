@@ -16,6 +16,10 @@ export interface AlertOptions {
   type?: AlertTypes;
   timeout?: boolean | number;
   onDismiss?: () => void;
+
+  title?: string;
+  content?: any;
+  onConfirm?: () => void;
 }
 
 interface AlertState {
