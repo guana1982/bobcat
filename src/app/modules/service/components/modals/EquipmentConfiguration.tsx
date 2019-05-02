@@ -5,21 +5,22 @@ import styled from "styled-components";
 import "rc-steps/assets/index.css";
 import ConnectivityComponent from "../sections/Connectivity";
 import { ServiceContext } from "@core/containers";
-import { MButton } from "@modules/service/components/common/Button";
+import { MButton, MTypes } from "@modules/service/components/common/Button";
 import { MInput, InputContent } from "../common/Input";
 import { MKeyboard, KeyboardWrapper } from "../common/Keyboard";
 import { __ } from "@core/utils/lib/i18n";
 import { MButtonGroup } from "../common/ButtonGroup";
 
-const ACTIONS_START = (cancel, next): Action[] => [{
+const ACTIONS_START = (cancel, next, disableNext: boolean): Action[] => [{
   title: __("cancel"),
   event: cancel,
 }, {
   title: __("next"),
+  disabled: disableNext,
   event: next,
 }];
 
-const ACTIONS_CONTROL = (cancel, previous, next): Action[] => [{
+const ACTIONS_CONTROL = (cancel, previous, next, disableNext: boolean): Action[] => [{
   title: __("cancel"),
   event: cancel,
 }, {
@@ -27,10 +28,11 @@ const ACTIONS_CONTROL = (cancel, previous, next): Action[] => [{
   event: previous,
 }, {
   title: __("next"),
+  disabled: disableNext,
   event: next,
 }];
 
-const ACTIONS_END = (cancel, previous, finish): Action[] => [{
+const ACTIONS_END = (cancel, previous, finish, disableNext: boolean): Action[] => [{
   title: __("cancel"),
   event: cancel,
 }, {
@@ -38,6 +40,7 @@ const ACTIONS_END = (cancel, previous, finish): Action[] => [{
   event: previous,
 }, {
   title: __("finish"),
+  disabled: disableNext,
   event: finish,
 }];
 
@@ -135,7 +138,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   const serviceConsumer = React.useContext(ServiceContext);
 
   //  ==== FIRST ACTIVATION ====>
-  const { firstActivation, endInizialization, endReplacement } = serviceConsumer;
+  const { firstActivation, endInizialization, endReplacement, statusConnectivity } = serviceConsumer;
   const maxStepForm = firstActivation.structure_.length;
   const { form_ } = firstActivation;
   const [form, setForm] = React.useState(form_);
@@ -152,7 +155,6 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
 
   //  ==== REPLACEMENT ====>
   const [serialNumber, setSerialNumber] = React.useState("");
-
   const finishReplacement = () => {
     endReplacement(setup, serialNumber);
   };
@@ -164,6 +166,71 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   const [languageSelected, setLanguageSelected] = React.useState(null);
   const [paymentSelected, setPaymentSelected] = React.useState(null);
   const [countrySelected, setCountrySelected] = React.useState(null);
+
+  //  ==== ENABLE NEXT ====>
+  const [disableNext_, setDisableNext_] = React.useState<boolean>(true);
+
+    React.useEffect(() => {
+      console.log("step_____", step);
+      if (setup === SetupTypes.Inizialization) {
+        if (step === 0) {
+          if (operationSelected !== null) {
+            setDisableNext_(false);
+            return;
+          }
+        } else if (step === 1) {
+          if (languageSelected !== null) {
+            setDisableNext_(false);
+            return;
+          }
+        } else if (step === 2) {
+          if (paymentSelected !== null) {
+            setDisableNext_(false);
+            return;
+          }
+        } else if (step === 3) {
+          if (countrySelected !== null) {
+            setDisableNext_(false);
+            return;
+          }
+        } else if (step === 4) {
+          if (statusConnectivity === MTypes.INFO_SUCCESS) {
+            setDisableNext_(false);
+            return;
+          }
+        } else if (step === 5 || step === 6 || step === 7) {
+          const stepFields_: any[] = firstActivation.structure_[step - 5].fields;
+          let formValid_ = true;
+          stepFields_.forEach(field => {
+            if (field.type === "alphanumeric") {
+              if (form[field.$index] === "") {
+                formValid_ = false;
+                return;
+              }
+            }
+            else if (field.type === "email") {
+              if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(form[field.$index]))) {
+                formValid_ = false;
+                return;
+              }
+            }
+          });
+          setDisableNext_(!formValid_);
+          return;
+        }
+      } else if (setup === SetupTypes.MotherboardReplacement || setup === SetupTypes.EquipmentReplacement) {
+        if (step === 0) {
+          if (statusConnectivity === MTypes.INFO_SUCCESS) {
+            setDisableNext_(false);
+            return;
+          }
+        }
+      }
+
+      setDisableNext_(true);
+    }, [setup, step, operationSelected, languageSelected, paymentSelected, countrySelected, statusConnectivity, form]);
+
+    //  <=== ENABLE NEXT ====
 
   //  ==== ACTIONS CONNECTIVITY ====>
   const [actionsConnectivity, setActionsConnectivity] = React.useState<Action[]>([]);
@@ -182,7 +249,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     alert("Pick Up");
   };
 
-  const actionsModal = (maxSteps: number, finish?: () => void) => {
+  const actionsModal = (maxSteps: number, finish?: () => void, disableNext?: boolean) => {
     if (!finish) {
       finish = () => console.log("Pls add => Finish");
     }
@@ -196,11 +263,11 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     const nextStep = () => setStep(prev => prev + 1);
     const prevStep = () => setStep(prev => prev - 1);
     if (step === 0) {
-      return ACTIONS_START(cancel_, nextStep);
+      return ACTIONS_START(cancel_, nextStep, disableNext);
     } else if (step === maxSteps - 1) {
-      return ACTIONS_END(cancel_, prevStep, finish);
+      return ACTIONS_END(cancel_, prevStep, finish, disableNext);
     } else {
-      return ACTIONS_CONTROL(cancel_, prevStep, nextStep);
+      return ACTIONS_CONTROL(cancel_, prevStep, nextStep, disableNext);
     }
   };
 
@@ -227,7 +294,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     <Modal
       show={true}
       title="INITIAL SETUP"
-      actions={[...actionsConnectivity, ...actionsModal(5 + maxStepForm, finishInizialization)]}
+      actions={[...actionsConnectivity, ...actionsModal(5 + maxStepForm, finishInizialization, disableNext_)]}
     >
       <>
         <div>

@@ -97,6 +97,9 @@ export const ModalContent = styled.div`
       &:active {
         background: rgba(0, 0, 0, .1);
       }
+      &:disabled {
+        opacity: .5;
+      }
     }
   }
 `;
@@ -133,6 +136,7 @@ const FullWrap = styled.div`
 export interface Action {
   title: string;
   icon?: any;
+  disabled?: boolean;
   event: (props) => void;
 }
 
@@ -206,7 +210,7 @@ export const Modal = (props: ModalProps) => {
                   {contentWithProps()}
                 </main>
                 <footer>
-                  { actions.map((action, index) => <button key={index} onClick={() => action.event(eventActions)}>{action.title}</button>) }
+                  { actions.map((action, index) => <button key={index} disabled={action.disabled} onClick={() => action.event(eventActions)}>{action.title}</button>) }
                 </footer>
               </ModalContent>
             </ModalWrapper>

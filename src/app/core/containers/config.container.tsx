@@ -13,7 +13,7 @@ import { MTypes } from "@modules/service/components/common/Button";
 const mergeById = ([t, s, l]) => {
   return t.map((p, i) => {
     return Object.assign({}, p, s.find(q => p.beverage_id === q.beverage_id), {$lock: l[p.line_id - 1]});
-  })
+  });
 };
 
 export interface ConfigInterface {

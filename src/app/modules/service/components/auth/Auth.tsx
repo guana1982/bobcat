@@ -16,12 +16,12 @@ const AuthComponent = (props: AuthProps) => {
   const { authLogin, setAuthLevel } = serviceConsumer;
   const { authService, setAuthService } = configConsumer;
 
-  React.useEffect(() => { // MOCK => START SERVICE UI
-    const { setAuthLevel } = serviceConsumer;
-    setAuthLevel(AuthLevels.Tech);
-    props.history.push(Pages.Menu);
-    return () => {};
-  }, []);
+  // React.useEffect(() => { // MOCK => START SERVICE UI
+  //   const { setAuthLevel } = serviceConsumer;
+  //   setAuthLevel(AuthLevels.Tech);
+  //   props.history.push(Pages.Menu);
+  //   return () => {};
+  // }, []);
 
   const cancel = () => {
     setAuthService(false);
