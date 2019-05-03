@@ -22,7 +22,7 @@ const CircleCard_ = (props: CircleCardProps) => {
 
   const diffHydra = hydraGoal - currHydraLvl;
   let messageHydra = "";
-  if (perc > 0 && perc <= 25) {
+  if (perc >= 0 && perc <= 25) {
     messageHydra = "GREAT START!";
   } else if (perc > 25 && perc <= 60) {
     messageHydra = "KEEP GOING!";
