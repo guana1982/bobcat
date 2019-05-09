@@ -33,7 +33,7 @@ export const Alert = (props) => {
           title={options.title || "ALERT"}
           actions={options.onConfirm ? ACTIONS_CONFIRM : ACTIONS_CLOSE}
         >
-          <h3>{options.content}</h3>
+          <h3 className="alert-text">{options.content}</h3>
         </Modal>
       }
     </>

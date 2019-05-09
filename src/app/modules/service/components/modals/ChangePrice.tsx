@@ -50,7 +50,7 @@ export const ChangePrice = (props: ChangePriceProps) => {
           <h3 id="title">waters</h3>
           <Box className="elements">
             {lines.waters.map((line, i) => {
-                              if (!line.$beverage) return null;
+              if (!line.$beverage) return null;
               return (
                 <MButton key={i} className="small" light info={`${line.$beverage.beverage_type} - ${line.line_id}`}>
                   <BeverageLogo beverage={line.$beverage} size="tiny" />

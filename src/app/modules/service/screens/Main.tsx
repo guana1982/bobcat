@@ -17,6 +17,7 @@ import { Grid, Group, SIZE_GROUP_LINES, SIZE_GROUP_WATERS, SIZE_GROUP_ALARM, SIZ
 import { Customize, SelectionTypes } from "../components/modals/Customize";
 import { Update } from "../components/modals/Update";
 import { Timeout } from "../components/modals/Timeout";
+import { Sanitation } from "../components/modals/Sanitation";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -24,7 +25,7 @@ import { Timeout } from "../components/modals/Timeout";
 interface HomeContentProps { beverageIsSelected?: boolean; }
 export const MenuContent = styled<HomeContentProps, "div">("div")`
   * {
-    font-family: Karla-Reg !important;
+      font-family: Karla-Reg !important;
   }
 
   background: ${props => props.theme.dark};
@@ -49,6 +50,7 @@ enum Modals {
   Connectivity,
   Update,
   Timeout,
+  Sanitation,
   About
 }
 
@@ -74,6 +76,7 @@ const initialModals = {
   [Modals.Connectivity]: initModal,
   [Modals.Update]: initModal,
   [Modals.Timeout]: initModal,
+  [Modals.Sanitation]: initModal,
   [Modals.About]: initModal,
 };
 
@@ -200,6 +203,7 @@ export const NewMenu = (props: MenuProps) => {
               authLevel === AuthLevels.Crew &&
               <>
                 <MButton onClick={() => openModal(Modals.Cleaning)}>SCREEN CLEANING</MButton>
+                <MButton onClick={() => openModal(Modals.Sanitation)}>SANITATION</MButton>
               </>
             }
             {
@@ -209,7 +213,7 @@ export const NewMenu = (props: MenuProps) => {
                 <MButton onClick={() => openModal(Modals.Timeout)}>VIDEO TIMEOUT</MButton>
                 <MButton onClick={() => openModal(Modals.Cleaning)}>SCREEN CLEANING</MButton>
                 <MButton onClick={() => openModal(Modals.Customize)}>CUSTOMIZE UI</MButton>
-                {/* <MButton>SANITATION</MButton> */}
+                <MButton onClick={() => openModal(Modals.Sanitation)}>SANITATION</MButton>
                 {/* <MButton onClick={() => openModal(Modals.ChangePrice)}>CHANGE PRICE</MButton> */}
               </>
             }
@@ -267,6 +271,7 @@ export const NewMenu = (props: MenuProps) => {
       {modals[Modals.EquipmentConfiguration].show && <EquipmentConfiguration {...modals[Modals.EquipmentConfiguration].params} cancel={closeAllModal} />}
       {modals[Modals.Cleaning].show && <Cleaning cancel={closeAllModal} />}
       {modals[Modals.EquipmentStatus].show && <EquipmentStatus cancel={closeAllModal} />}
+      {modals[Modals.Sanitation].show && <Sanitation cancel={closeAllModal} />}
 
       {modals[Modals.Update].show && <Update cancel={closeAllModal} />}
       {modals[Modals.Timeout].show && <Timeout cancel={closeAllModal} />}

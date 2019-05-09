@@ -9,8 +9,15 @@ import { __ } from "@core/utils/lib/i18n";
 import { SignalIcon, CheckmarkIcon, LockIcon, WifiDisabledIcon, LoadingIcon } from "../common/Icons";
 import { tap, flatMap, finalize } from "rxjs/operators";
 import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
-import { ServiceProvider, ServiceContext, ConnectivityTypes, ConnectivityStatus } from "@core/containers";
+import { ServiceProvider, ServiceContext, ConnectivityTypes, ConnectivityStatus, AlertContext } from "@core/containers";
 import { LoaderContext } from "@core/containers/loader.container";
+
+enum STATUS_LABELS {
+  "wifi_not_connected",
+  "wifi_connected",
+  "wifi_connecting",
+  "wifi_error"
+}
 
 /* ==== ACTIONS CONNECTIVITY => MODAL ==== */
 /* ======================================== */
@@ -92,11 +99,24 @@ const Wifi = (props) => {
   const { accessPoints, setApList, wifiEnable } = props;
 
   const loaderConsumer = React.useContext(LoaderContext);
+  const alertConsumer = React.useContext(AlertContext);
 
   const [modalConnection, setModalConnection] = React.useState<boolean>(false);
 
-  const [modalInfo, setModalInfo] = React.useState<boolean>(false);
   const [accessPointSelected, setAccessPointSelected] = React.useState<IAccessPoint>(null);
+
+  const showInfoAp = () => {
+    const { status, ip, encryption, bssid } = accessPointSelected;
+
+    alertConsumer.show({
+      title: bssid,
+      content: `
+        ${__("wifi_status")}: <b>${__(STATUS_LABELS[status])} \n
+        ${__("ip_v4_address")}: ${ip} \n
+        ${__("encryption")}: ${encryption} \n
+      `
+    });
+  };
 
   const disconnect = () => {
     mediumLevel.wifi.disconnect()
@@ -179,7 +199,7 @@ const Wifi = (props) => {
           <MButton
             className="tiny"
             disabled={!accessPointSelected}
-            onClick={() => setModalInfo(true)}
+            onClick={() => showInfoAp()}
           >
             WIFI INFO
           </MButton>
@@ -201,19 +221,6 @@ const Wifi = (props) => {
           }
         </Box>
       </WifiContent>
-      <Modal
-        themeMode={ModalTheme.Dark}
-        show={modalInfo}
-        cancel={() => setModalInfo(false)}
-        title={__("About")}
-        actions={ACTIONS_CLOSE}
-      >
-        <>
-          <div>
-            <h3>Wifi Info</h3>
-          </div>
-        </>
-      </Modal>
       {
         modalConnection &&
         <ModalKeyboard

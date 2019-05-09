@@ -30,6 +30,9 @@ export const Box = styled.div`
     padding: 1rem 2rem ;
     border-top: 1px solid ${props => props.theme.dark};
     border-bottom: 1px solid ${props => props.theme.dark};
+    &.no-border {
+      border: none;
+    }
   }
   & > #title {
     text-transform: uppercase;
@@ -113,12 +116,16 @@ const ModalWrapper = styled.div`
     ${ModalContent} {
       background: ${props => props.theme.dark};
       header, main, footer {
-        h2, h3, button {
+        h2, h3 {
           color: ${props => props.theme.light};
         }
-        h3 {
+        h3.alert-text {
           white-space: pre-wrap;
+          width: 80%;
         }
+      }
+      footer button {
+        color: ${props => props.theme.light};
       }
       li {
         color: ${props => props.theme.light};
