@@ -3,14 +3,12 @@ import { Modal, ModalContentProps, Box, ACTIONS_CLOSE, Action } from "@modules/s
 import Steps from "rc-steps";
 import styled from "styled-components";
 import "rc-steps/assets/index.css";
-import ConnectivityComponent from "../sections/Connectivity";
 import { ServiceContext, AlertContext, ILine } from "@core/containers";
 import { MButton, MTypes } from "@modules/service/components/common/Button";
-import { MInput, InputContent } from "../common/Input";
-import { MKeyboard, KeyboardWrapper } from "../common/Keyboard";
 import { __ } from "@core/utils/lib/i18n";
-import { MButtonGroup } from "../common/ButtonGroup";
 import BeverageLogo from "@core/components/common/Logo";
+
+const TIMER_SANITATION = 35;
 
 const ACTIONS_START = (cancel, next, disableNext: boolean): Action[] => [{
   title: __("cancel"),
@@ -101,24 +99,13 @@ export const ISection = styled.div`
   h2, h3 {
     margin: 0;
   }
-  ${KeyboardWrapper} {
-    margin-top: 20px;
-  }
-  .form-section {
-    margin-top: 10px;
-    max-width: 975px;
-    flex-wrap: wrap;
-    ${InputContent} {
-      flex: 50%;
-      margin-bottom: 8px;
-    }
-  }
 `;
 
 interface ILineSanitation {
   lineId: number;
   $timer: any;
   seconds: number;
+  verified: boolean;
 }
 
 interface SanitationProps extends Partial<ModalContentProps> {
@@ -148,8 +135,33 @@ export const Sanitation = (props: SanitationProps) => {
       const newlineSelected_ = {
         lineId: line_id,
         $timer: null,
-        seconds: 30
+        seconds: TIMER_SANITATION,
+        verified: false
       };
+      // const newlineSelected_ = {
+      //   lineId: line_id,
+      //   steps: {
+      //     1: {
+      //       $timer: null,
+      //       seconds: TIMER_SANITATION,
+      //     },
+      //     2: {
+      //       $timer: null,
+      //       seconds: TIMER_SANITATION,
+      //     },
+      //     3: {
+      //       verified: false
+      //     },
+      //     4: {
+      //       $timer: null,
+      //       seconds: TIMER_SANITATION,
+      //     },
+      //     5: {
+      //       $timer: null,
+      //       seconds: TIMER_SANITATION,
+      //     }
+      //   }
+      // };
       return [ ...prevState, newlineSelected_ ];
     });
   };
@@ -171,9 +183,22 @@ export const Sanitation = (props: SanitationProps) => {
       return;
     }
 
-
     const lineSelected_ = linesSelected[indexLineSelected_];
+    if (lineSelected_.seconds === 0) {
+      return;
+    }
+    if (lineSelected_.$timer) {
+      clearInterval(lineSelected_.$timer);
+      lineSelected_.$timer = null;
+      setlinesSelected(([...linesSelected, lineSelected_]));
+      return;
+    }
+
     lineSelected_.$timer = setInterval(() => {
+      if (lineSelected_.seconds === 1) {
+        clearInterval(lineSelected_.$timer);
+        lineSelected_.$timer = null;
+      }
       lineSelected_.seconds--;
       setlinesSelected(([...linesSelected, lineSelected_]));
     }, 1000);
@@ -181,14 +206,83 @@ export const Sanitation = (props: SanitationProps) => {
     setlinesSelected(([...linesSelected, lineSelected_]));
   };
 
+  const verifiedLine = ({ line_id }) => {
+    const indexLineSelected_ = indexLineSelected({line_id});
+    if (indexLineSelected_ === -1) {
+      return;
+    }
+
+    const lineSelected_ = linesSelected[indexLineSelected_];
+    lineSelected_.verified = true;
+    setlinesSelected(([...linesSelected, lineSelected_]));
+  };
+
+  const resetAllTimer = () => {
+    const linesSelected_ = linesSelected.map(line => {
+      line.seconds = TIMER_SANITATION;
+      return line;
+    });
+    setlinesSelected(([...linesSelected_]));
+  };
+
+  const clearAllTimer = () => {
+    linesSelected.forEach(line => {
+      clearInterval(line.$timer);
+    });
+  };
+
+  React.useEffect(() => {
+    if (step === 0) {
+      setlinesSelected([]);
+    } else if (step !== 0 && step !== 4) {
+      resetAllTimer();
+    }
+    return () => {
+      if (step !== 0 && step !== 4) {
+        clearAllTimer();
+      }
+    };
+  }, [step]);
+
   //  ==== ENABLE NEXT ====>
   const [disableNext_, setDisableNext_] = React.useState<boolean>(true);
 
   React.useEffect(() => {
 
-    setDisableNext_(false);
+    if (step === 0) {
+      if (linesSelected.length !== 0) {
+        setDisableNext_(false);
+        return;
+      }
+    } else if (step !== 0 && step !== 4) {
+      let validLiness_ = true;
+      linesSelected.forEach(line => {
+        if (line.seconds !== 0) {
+          validLiness_ = false;
+          return;
+        }
+      });
+      if (validLiness_) {
+        setDisableNext_(false);
+        return;
+      }
+    } else if (step === 4) {
+      let validLiness_ = true;
+      linesSelected.forEach(line => {
+        if (line.verified !== true) {
+          validLiness_ = false;
+          return;
+        }
+      });
+      if (validLiness_) {
+        setDisableNext_(false);
+        return;
+      }
+    }
+
+    setDisableNext_(true);
     // setDisableNext_(true);
-  }, []);
+  }, [step, linesSelected]);
 
   //  <=== ENABLE NEXT ====
 
@@ -219,27 +313,31 @@ export const Sanitation = (props: SanitationProps) => {
     <Modal
       show={true}
       title="SANITATION"
-      actions={...actionsModal(5, finishSanitation, disableNext_)}
+      actions={...actionsModal(6, finishSanitation, disableNext_)}
     >
       <>
         <div>
           <ISteps icons={icons} current={step}>
-            <ISteps.Step title="OPERATIONS" description="SELECT OPERATIONS" />
-            <ISteps.Step title="LANGUAGE" description="SELECT LANGUAGE" />
-            <ISteps.Step title="PAYMENT" description="SELECT PAYMENT" />
-            <ISteps.Step title="COUNTRY" description="SELECT COUNTRY" />
-            <ISteps.Step title="CONNECTION" description="CHECK CONNECTION" />
+            <ISteps.Step title="STEP 1" description="SELECTION" />
+            <ISteps.Step title="STEP 2" description="TIMER" />
+            <ISteps.Step title="STEP 3" description="TIMER" />
+            <ISteps.Step title="STEP 4" description="TIMER" />
+            <ISteps.Step title="STEP 5" description="VERIFICATION" />
+            <ISteps.Step title="STEP 6" description="TIMER" />
           </ISteps>
           <Box className="container">
             <ISection>
               <>
               {step === 0 && (
                 <Box className="container no-border">
+                  <h3 id="title">{__(`sanitate_step_${step}_title`)}</h3>
+                  <h3 id="title">{__(`sanitate_step_${step}_descr`)}</h3>
+                  <br />
                   <h3 id="title">flavor</h3>
                   <Box className="elements">
                     {lines.pumps.map((line, i) => {
                       return (
-                        <MButton key={i} onClick={() => handleLine(line)} type={isLineSelected(line) ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id}`}>
+                        <MButton key={i} onClick={() => handleLine(line)} className="small" type={isLineSelected(line) ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id}`}>
                           {!line.$beverage ?
                             "UNASSIGNED" :
                             <BeverageLogo beverage={line.$beverage} size="tiny" />
@@ -252,7 +350,7 @@ export const Sanitation = (props: SanitationProps) => {
                   <Box className="elements">
                     {lines.waters.map((line, i) => {
                       return (
-                        <MButton key={i} onClick={() => handleLine(line)} type={isLineSelected(line) ? MTypes.INFO_SUCCESS : null} light info={`${line.$beverage.beverage_type} - ${line.line_id}`}>
+                        <MButton key={i} onClick={() => handleLine(line)} className="small" type={isLineSelected(line) ? MTypes.INFO_SUCCESS : null} light info={`${line.$beverage.beverage_type} - ${line.line_id}`}>
                           <BeverageLogo beverage={line.$beverage} size="tiny" />
                         </MButton>
                       );
@@ -260,47 +358,55 @@ export const Sanitation = (props: SanitationProps) => {
                   </Box>
                 </Box>
               )}
-              {step === 1 && (
+              {(step !== 0 && step !== 4) && (
                 <Box className="container no-border">
-                  <h3 id="title">flavor</h3>
+                  <h3 id="title">{__(`sanitate_step_${step}_title`)}</h3>
+                  <h3 id="title">{__(`sanitate_step_${step}_descr`)}</h3>
+                  <br />
+                  <h3 id="title">lines</h3>
                   <Box className="elements">
-                    {lines.pumps.map((line, i) => {
+                    {Object.values(lines).map(lines => {
+                      return lines.map((line, i) => {
+                        const indexLineSelected_ =  indexLineSelected(line);
+                        if (indexLineSelected_ === -1) return null;
+                        const lineSelected_ = linesSelected[indexLineSelected_];
+                        return (
+                          <MButton key={i} onClick={() => handleTimerLine(line)} type={lineSelected_.$timer ? MTypes.INFO_WARNING : lineSelected_.seconds === 0 ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id} / ${lineSelected_.seconds}`}>
+                            {!line.$beverage ?
+                              "UNASSIGNED" :
+                              <BeverageLogo beverage={line.$beverage} size="tiny" />
+                            }
+                          </MButton>
+                        );
+                      });
+                    })}
+                  </Box>
+                </Box>
+              )}
+              {step === 4 && (
+                <Box className="container no-border">
+                <h3 id="title">{__(`sanitate_step_${step}_title`)}</h3>
+                <h3 id="title">{__(`sanitate_step_${step}_descr`)}</h3>
+                <br />
+                <h3 id="title">lines</h3>
+                <Box className="elements">
+                  {Object.values(lines).map(lines => {
+                    return lines.map((line, i) => {
                       const indexLineSelected_ =  indexLineSelected(line);
                       if (indexLineSelected_ === -1) return null;
                       const lineSelected_ = linesSelected[indexLineSelected_];
                       return (
-                        <MButton key={i} onClick={() => handleTimerLine(line)} light info={`Line - ${line.line_id} / ${lineSelected_.seconds}`}>
+                        <MButton key={i} onClick={() => verifiedLine(line)} type={lineSelected_.verified ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id}`}>
                           {!line.$beverage ?
                             "UNASSIGNED" :
                             <BeverageLogo beverage={line.$beverage} size="tiny" />
                           }
                         </MButton>
                       );
-                    })}
-                  </Box>
-                  <h3 id="title">waters</h3>
-                  <Box className="elements">
-                    {lines.waters.map((line, i) => {
-                      const indexLineSelected_ = indexLineSelected(line);
-                      if (indexLineSelected_ === -1) return null;
-                      const lineSelected_ = linesSelected[indexLineSelected_];
-                      return (
-                        <MButton key={i} onClick={() => handleTimerLine(line)} light info={`Line - ${line.line_id} / ${lineSelected_.seconds}`}>
-                          <BeverageLogo beverage={line.$beverage} size="tiny" />
-                        </MButton>
-                      );
-                    })}
-                  </Box>
+                    });
+                  })}
                 </Box>
-              )}
-              {step === 2 && (
-                <div>Step: {step}</div>
-              )}
-              {step === 3 && (
-                <div>Step: {step}</div>
-              )}
-              {step === 4 && (
-                <div>Step: {step}</div>
+              </Box>
               )}
               </>
             </ISection>

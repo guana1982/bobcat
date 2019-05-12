@@ -93,6 +93,11 @@ export default {
     getVideoList: () => get("menu/video_list"),
     setVideo: filename => post("menu/video", { filename })
   },
+  sanitation: {
+    startClean: line_id => post("menu/tech_menu/clean_sanitation/start_clean", { line_id }),
+    stopClean: line_id => post("menu/tech_menu/clean_sanitation/stop_clean", { line_id }),
+    saveValues: lines => post("menu/tech_menu/clean_sanitation/save_values", { line_id: lines }),
+  },
   updates: {
     updateUsb: update_type => post("menu/usb_update", { update_type }),
     updateRemoteServer: update_type => post("menu/server_update", { update_type })
