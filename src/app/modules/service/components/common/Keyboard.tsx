@@ -145,7 +145,7 @@ const display = (onEnter: () => void) => {
   };
 };
 
-export const MKeyboard = (props: MKeyboardProps) => {
+export const MKeyboard = React.forwardRef((props: MKeyboardProps, ref) => {
 
   const { onChange, onChangeAll, inputName, onEnter } = props;
 
@@ -208,6 +208,7 @@ export const MKeyboard = (props: MKeyboardProps) => {
   return (
     <KeyboardWrapper>
       <Keyboard
+        ref={ref}
         layoutName={layoutName}
         layout={layout}
         display={display(onEnter)}
@@ -220,4 +221,4 @@ export const MKeyboard = (props: MKeyboardProps) => {
       />
     </KeyboardWrapper>
   );
-};
+});

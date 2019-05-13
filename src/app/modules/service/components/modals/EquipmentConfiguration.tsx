@@ -144,10 +144,10 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   const { form_ } = firstActivation;
   const [form, setForm] = React.useState(form_);
 
-  React.useEffect(() => { // => CLEAN FORM ON BACK
-    if (step === 4)
-      setForm(form_);
-  }, [step]);
+  // React.useEffect(() => { // => CLEAN FORM ON BACK
+  //   if (step === 4)
+  //     setForm(form_);
+  // }, [step]);
 
   const finishInizialization = () => {
     endInizialization(operationSelected, languageSelected, paymentSelected, countrySelected, form);
@@ -458,6 +458,14 @@ const FormInitialization = (props: FormInitializationProps) => {
   const stepActivation = structure_[indexStep];
   const { title, fields } = stepActivation;
 
+  const keyboardEl = React.useRef(null);
+  React.useEffect(() => {
+    const keyboardEl_ = keyboardEl.current;
+    Object.keys(form).forEach(key => {
+      keyboardEl_.setInput(form[key], key);
+    });
+  }, [keyboardEl]);
+
   const [fieldSelected, setFieldSelected] = React.useState(null);
 
   const onChangeAll = inputObj => {
@@ -504,6 +512,7 @@ const FormInitialization = (props: FormInitializationProps) => {
         }
       </Box>
       <MKeyboard
+        ref={keyboardEl}
         inputName={fieldSelected}
         onChangeAll={(all) => onChangeAll(all) }
         onEnter={() => onEnter()}
