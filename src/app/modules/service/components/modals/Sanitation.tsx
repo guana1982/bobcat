@@ -7,11 +7,13 @@ import { ServiceContext, AlertContext, ILine } from "@core/containers";
 import { MButton, MTypes } from "@modules/service/components/common/Button";
 import { __ } from "@core/utils/lib/i18n";
 import BeverageLogo from "@core/components/common/Logo";
+import mediumLevel from "@core/utils/lib/mediumLevel";
 
 const TIMER_SANITATION = 35;
 
-const ACTIONS_START = (cancel, next, disableNext: boolean): Action[] => [{
+const ACTIONS_START = (cancel, next, disableNext: boolean , disableBack: boolean): Action[] => [{
   title: __("cancel"),
+  disabled: disableBack,
   event: cancel,
 }, {
   title: __("next"),
@@ -19,11 +21,13 @@ const ACTIONS_START = (cancel, next, disableNext: boolean): Action[] => [{
   event: next,
 }];
 
-const ACTIONS_CONTROL = (cancel, previous, next, disableNext: boolean): Action[] => [{
+const ACTIONS_CONTROL = (cancel, previous, next, disableNext: boolean, disableBack: boolean): Action[] => [{
   title: __("cancel"),
+  disabled: disableBack,
   event: cancel,
 }, {
   title: __("previous"),
+  disabled: disableBack,
   event: previous,
 }, {
   title: __("next"),
@@ -31,11 +35,13 @@ const ACTIONS_CONTROL = (cancel, previous, next, disableNext: boolean): Action[]
   event: next,
 }];
 
-const ACTIONS_END = (cancel, previous, finish, disableNext: boolean): Action[] => [{
+const ACTIONS_END = (cancel, previous, finish, disableNext: boolean, disableBack: boolean): Action[] => [{
   title: __("cancel"),
+  disabled: disableBack,
   event: cancel,
 }, {
   title: __("previous"),
+  disabled: disableBack,
   event: previous,
 }, {
   title: __("finish"),
@@ -103,9 +109,10 @@ export const ISection = styled.div`
 
 interface ILineSanitation {
   lineId: number;
-  $timer: any;
-  seconds: number;
-  verified: boolean;
+  steps: any;
+  // $timer: any;
+  // seconds: number;
+  // verified: boolean;
 }
 
 interface SanitationProps extends Partial<ModalContentProps> {
@@ -120,9 +127,9 @@ export const Sanitation = (props: SanitationProps) => {
   const serviceConsumer = React.useContext(ServiceContext);
   const alertConsumer = React.useContext(AlertContext);
 
-  const { lines } = serviceConsumer;
+  const { lines, endSanitation } = serviceConsumer;
 
-  const [linesSelected , setlinesSelected] = React.useState<ILineSanitation[]>([]);
+  const [linesSelected, setlinesSelected] = React.useState<ILineSanitation[]>([]);
 
   const handleLine = ({ line_id }) => {
     const indexLineSelected_ = indexLineSelected({ line_id });
@@ -134,34 +141,28 @@ export const Sanitation = (props: SanitationProps) => {
       }
       const newlineSelected_ = {
         lineId: line_id,
-        $timer: null,
-        seconds: TIMER_SANITATION,
-        verified: false
+        steps: {
+          1: {
+            $timer: null,
+            seconds: TIMER_SANITATION,
+          },
+          2: {
+            $timer: null,
+            seconds: TIMER_SANITATION,
+          },
+          3: {
+            $timer: null,
+            seconds: TIMER_SANITATION,
+          },
+          4: {
+            verified: false
+          },
+          5: {
+            $timer: null,
+            seconds: TIMER_SANITATION,
+          }
+        }
       };
-      // const newlineSelected_ = {
-      //   lineId: line_id,
-      //   steps: {
-      //     1: {
-      //       $timer: null,
-      //       seconds: TIMER_SANITATION,
-      //     },
-      //     2: {
-      //       $timer: null,
-      //       seconds: TIMER_SANITATION,
-      //     },
-      //     3: {
-      //       verified: false
-      //     },
-      //     4: {
-      //       $timer: null,
-      //       seconds: TIMER_SANITATION,
-      //     },
-      //     5: {
-      //       $timer: null,
-      //       seconds: TIMER_SANITATION,
-      //     }
-      //   }
-      // };
       return [ ...prevState, newlineSelected_ ];
     });
   };
@@ -183,27 +184,43 @@ export const Sanitation = (props: SanitationProps) => {
       return;
     }
 
-    const lineSelected_ = linesSelected[indexLineSelected_];
-    if (lineSelected_.seconds === 0) {
+    const linesSelected_ = linesSelected;
+
+    const lineSelected_ = linesSelected_[indexLineSelected_];
+    const line_ = lineSelected_.steps[step];
+
+    if (line_.seconds === 0) {
       return;
     }
-    if (lineSelected_.$timer) {
-      clearInterval(lineSelected_.$timer);
-      lineSelected_.$timer = null;
-      setlinesSelected(([...linesSelected, lineSelected_]));
+    if (line_.$timer) {
+      clearInterval(line_.$timer);
+      line_.$timer = null;
+      setlinesSelected(([...linesSelected_]));
+      mediumLevel.sanitation.stopClean(lineSelected_.lineId).subscribe(); // <= STOP CLEAN
       return;
     }
 
-    lineSelected_.$timer = setInterval(() => {
-      if (lineSelected_.seconds === 1) {
-        clearInterval(lineSelected_.$timer);
-        lineSelected_.$timer = null;
+    let countTimers_ = 0;
+    linesSelected_.forEach(lineSelected => {
+      if (lineSelected.steps[step].$timer)
+        countTimers_++;
+    });
+    if (countTimers_ > 2) {
+      return;
+    } // => MAX 3 AT SAME TIME
+
+    line_.$timer = setInterval(() => {
+      if (line_.seconds === 1) {
+        clearInterval(line_.$timer);
+        line_.$timer = null;
+        mediumLevel.sanitation.stopClean(lineSelected_.lineId).subscribe(); // <= STOP CLEAN
       }
-      lineSelected_.seconds--;
-      setlinesSelected(([...linesSelected, lineSelected_]));
+      line_.seconds--;
+      setlinesSelected(([...linesSelected_]));
     }, 1000);
 
-    setlinesSelected(([...linesSelected, lineSelected_]));
+    mediumLevel.sanitation.startClean(lineSelected_.lineId).subscribe(); // <= START CLEAN
+    setlinesSelected(([...linesSelected_]));
   };
 
   const verifiedLine = ({ line_id }) => {
@@ -212,14 +229,16 @@ export const Sanitation = (props: SanitationProps) => {
       return;
     }
 
-    const lineSelected_ = linesSelected[indexLineSelected_];
-    lineSelected_.verified = true;
-    setlinesSelected(([...linesSelected, lineSelected_]));
+    const linesSelected_ = linesSelected;
+    const lineSelected_ = linesSelected_[indexLineSelected_];
+    const line_ = lineSelected_.steps[step];
+    line_.verified = true;
+    setlinesSelected(([...linesSelected_]));
   };
 
   const resetAllTimer = () => {
     const linesSelected_ = linesSelected.map(line => {
-      line.seconds = TIMER_SANITATION;
+      line.steps[step].seconds = TIMER_SANITATION;
       return line;
     });
     setlinesSelected(([...linesSelected_]));
@@ -227,7 +246,7 @@ export const Sanitation = (props: SanitationProps) => {
 
   const clearAllTimer = () => {
     linesSelected.forEach(line => {
-      clearInterval(line.$timer);
+      clearInterval(line.steps[step].$timer);
     });
   };
 
@@ -235,7 +254,7 @@ export const Sanitation = (props: SanitationProps) => {
     if (step === 0) {
       setlinesSelected([]);
     } else if (step !== 0 && step !== 4) {
-      resetAllTimer();
+      // resetAllTimer();
     }
     return () => {
       if (step !== 0 && step !== 4) {
@@ -248,7 +267,6 @@ export const Sanitation = (props: SanitationProps) => {
   const [disableNext_, setDisableNext_] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-
     if (step === 0) {
       if (linesSelected.length !== 0) {
         setDisableNext_(false);
@@ -257,7 +275,7 @@ export const Sanitation = (props: SanitationProps) => {
     } else if (step !== 0 && step !== 4) {
       let validLiness_ = true;
       linesSelected.forEach(line => {
-        if (line.seconds !== 0) {
+        if (line.steps[step].seconds !== 0) {
           validLiness_ = false;
           return;
         }
@@ -269,7 +287,7 @@ export const Sanitation = (props: SanitationProps) => {
     } else if (step === 4) {
       let validLiness_ = true;
       linesSelected.forEach(line => {
-        if (line.verified !== true) {
+        if (line.steps[step].verified !== true) {
           validLiness_ = false;
           return;
         }
@@ -281,12 +299,28 @@ export const Sanitation = (props: SanitationProps) => {
     }
 
     setDisableNext_(true);
-    // setDisableNext_(true);
   }, [step, linesSelected]);
-
   //  <=== ENABLE NEXT ====
 
-  const actionsModal = (maxSteps: number, finish?: () => void, disableNext?: boolean) => {
+  //  ==== DISABLE BACK ====>
+  const [disableBack_, setDisableBack_] = React.useState<boolean>(false);
+  React.useEffect(() => {
+    linesSelected.forEach(line => {
+      if (step !== 0 && step !== 4) {
+        let countTimers_ = 0;
+        linesSelected.forEach(lineSelected => {
+          if (lineSelected.steps[step].$timer)
+            countTimers_++;
+        });
+        setDisableBack_(countTimers_ > 0);
+      } else {
+        setDisableBack_(false);
+      }
+    });
+  }, [step, linesSelected]);
+    //  <=== DISABLE BACK ====
+
+  const actionsModal = (maxSteps: number, finish?: () => void, disableNext?: boolean, disableBack?: boolean) => {
     if (!finish) {
       finish = () => console.log("Pls add => Finish");
     }
@@ -296,24 +330,29 @@ export const Sanitation = (props: SanitationProps) => {
     const nextStep = () => setStep(prev => prev + 1);
     const prevStep = () => setStep(prev => prev - 1);
     if (step === 0) {
-      return ACTIONS_START(cancel_, nextStep, disableNext);
+      return ACTIONS_START(cancel_, nextStep, disableNext, disableBack);
     } else if (step === maxSteps - 1) {
-      return ACTIONS_END(cancel_, prevStep, finish, disableNext);
+      return ACTIONS_END(cancel_, prevStep, finish, disableNext, disableBack);
     } else {
-      return ACTIONS_CONTROL(cancel_, prevStep, nextStep, disableNext);
+      return ACTIONS_CONTROL(cancel_, prevStep, nextStep, disableNext, disableBack);
     }
   };
 
   const finishSanitation = () => {
-    alert("finishSanitation");
-    cancel();
+    const lines_ = linesSelected.map(({ lineId }) => lineId);
+    endSanitation(lines_)
+    .subscribe(
+      data => {
+        cancel();
+      }
+    );
   };
 
   return (
     <Modal
       show={true}
       title="SANITATION"
-      actions={...actionsModal(6, finishSanitation, disableNext_)}
+      actions={...actionsModal(6, finishSanitation, disableNext_, disableBack_)}
     >
       <>
         <div>
@@ -370,8 +409,9 @@ export const Sanitation = (props: SanitationProps) => {
                         const indexLineSelected_ =  indexLineSelected(line);
                         if (indexLineSelected_ === -1) return null;
                         const lineSelected_ = linesSelected[indexLineSelected_];
+                        const line_ = lineSelected_.steps[step];
                         return (
-                          <MButton key={i} onClick={() => handleTimerLine(line)} type={lineSelected_.$timer ? MTypes.INFO_WARNING : lineSelected_.seconds === 0 ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id} / ${lineSelected_.seconds}`}>
+                          <MButton key={i} onClick={() => handleTimerLine(line)} type={line_.$timer ? MTypes.INFO_WARNING : line_.seconds === 0 ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id} / ${line_.seconds}`}>
                             {!line.$beverage ?
                               "UNASSIGNED" :
                               <BeverageLogo beverage={line.$beverage} size="tiny" />
@@ -395,8 +435,9 @@ export const Sanitation = (props: SanitationProps) => {
                       const indexLineSelected_ =  indexLineSelected(line);
                       if (indexLineSelected_ === -1) return null;
                       const lineSelected_ = linesSelected[indexLineSelected_];
+                      const line_ = lineSelected_.steps[step];
                       return (
-                        <MButton key={i} onClick={() => verifiedLine(line)} type={lineSelected_.verified ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id}`}>
+                        <MButton key={i} onClick={() => verifiedLine(line)} type={line_.verified ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id}`}>
                           {!line.$beverage ?
                             "UNASSIGNED" :
                             <BeverageLogo beverage={line.$beverage} size="tiny" />

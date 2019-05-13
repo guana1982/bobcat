@@ -580,6 +580,18 @@ const ServiceContainer = createContainer(() => {
     );
   }
 
+  /* ==== SANITATION ==== */
+  /* ======================================== */
+
+  function endSanitation(lines) {
+    loaderConsumer.show();
+    return mediumLevel.sanitation.saveValues(lines)
+    .pipe(
+      tap(() => loaderConsumer.show()),
+      finalize(() => loaderConsumer.hide())
+    );
+  }
+
   return {
     authLevel,
     setAuthLevel,
@@ -600,7 +612,8 @@ const ServiceContainer = createContainer(() => {
     firstActivation,
     endInizialization,
     endReplacement,
-    endPickUp
+    endPickUp,
+    endSanitation
   };
 });
 
