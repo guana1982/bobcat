@@ -587,7 +587,6 @@ const ServiceContainer = createContainer(() => {
     loaderConsumer.show();
     return mediumLevel.sanitation.saveValues(lines)
     .pipe(
-      tap(() => loaderConsumer.show()),
       finalize(() => loaderConsumer.hide())
     );
   }

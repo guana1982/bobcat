@@ -55,10 +55,20 @@ const images = [
   // "icons/last-pour@blur.png",
 ];
 
+const PreCacheFont = () => (
+  <div className="font_preload" style={{opacity: 0}}>
+    <span style={{fontFamily: "Karla-Reg"}}></span>
+    <span style={{fontFamily: "Karla-Bol"}}></span>
+    <span style={{fontFamily: "NeuzeitGro-Reg"}}></span>
+    <span style={{fontFamily: "NeuzeitGro-Bol"}}></span>
+  </div>
+);
+
 const App = () => (
   <React.Fragment>
     <GlobalStyle />
     <PreCacheImg images={images} />
+    <PreCacheFont />
     <MemoryRouter>
       <ConfigStore>
         <Consumer />

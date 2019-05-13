@@ -1,10 +1,10 @@
 import { createGlobalStyle } from "styled-components";
 
-const KarlaReg = require("../fonts/KarlaReg.ttf");
-const KarlaBol = require("../fonts/KarlaBol.ttf");
+const KarlaReg = "fonts/KarlaReg.ttf";
+const KarlaBol = "fonts/KarlaBol.ttf";
 
-const NeuzeitGroReg = require("../fonts/NeuzeitGroReg.otf");
-const NeuzeitGroBol = require("../fonts/NeuzeitGroBol.otf");
+const NeuzeitGroReg = "fonts/NeuzeitGroReg.otf";
+const NeuzeitGroBol = "fonts/NeuzeitGroBol.otf";
 
 export const themeMain = {
   primary: "#005BC3",

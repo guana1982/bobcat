@@ -47,17 +47,17 @@ module.exports = {
           'sass-loader',
         ],
       },
-      {
-        test: /\.(eot|otf|ttf|woff|woff2)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              outputPath: 'fonts/'
-            }
-          }
-        ]
-      },
+      // {
+      //   test: /\.(eot|otf|ttf|woff|woff2)$/,
+      //   use: [
+      //     {
+      //       loader: 'file-loader',
+      //       options: {
+      //         outputPath: 'fonts/'
+      //       }
+      //     }
+      //   ]
+      // },
       // {
       //   test: /\.(jpe?g|png|gif|svg)$/i,
       //   loaders: [

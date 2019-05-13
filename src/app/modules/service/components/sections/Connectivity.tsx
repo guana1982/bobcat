@@ -111,7 +111,7 @@ const Wifi = (props) => {
     alertConsumer.show({
       title: bssid,
       content: `
-        ${__("wifi_status")}: <b>${__(STATUS_LABELS[status])} \n
+        ${__("wifi_status")}: ${__(STATUS_LABELS[status])} \n
         ${__("ip_v4_address")}: ${ip} \n
         ${__("encryption")}: ${encryption} \n
       `
