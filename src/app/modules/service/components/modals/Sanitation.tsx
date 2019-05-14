@@ -84,6 +84,7 @@ export const ISteps = styled(Steps)`
   .rc-steps-item-title,
   .rc-steps-item-description {
     color: ${props => props.theme.dark} !important;
+    text-transform: uppercase;
   }
   .rc-steps-item-description {
     font-size: 10px;
@@ -357,12 +358,12 @@ export const Sanitation = (props: SanitationProps) => {
       <>
         <div>
           <ISteps icons={icons} current={step}>
-            <ISteps.Step title="STEP 1" description="SELECTION" />
-            <ISteps.Step title="STEP 2" description="TIMER" />
-            <ISteps.Step title="STEP 3" description="TIMER" />
-            <ISteps.Step title="STEP 4" description="TIMER" />
-            <ISteps.Step title="STEP 5" description="VERIFICATION" />
-            <ISteps.Step title="STEP 6" description="TIMER" />
+            <ISteps.Step title="STEP 1" description={__(`sanitate_step_${0}_descr`)} />
+            <ISteps.Step title="STEP 2" description={__(`sanitate_step_${1}_descr`)} />
+            <ISteps.Step title="STEP 3" description={__(`sanitate_step_${2}_descr`)} />
+            <ISteps.Step title="STEP 4" description={__(`sanitate_step_${3}_descr`)} />
+            <ISteps.Step title="STEP 5" description={__(`sanitate_step_${4}_descr`)} />
+            <ISteps.Step title="STEP 6" description={__(`sanitate_step_${5}_descr`)} />
           </ISteps>
           <Box className="container">
             <ISection>
@@ -370,8 +371,8 @@ export const Sanitation = (props: SanitationProps) => {
               {step === 0 && (
                 <Box className="container no-border">
                   <h3 id="title">{__(`sanitate_step_${step}_title`)}</h3>
-                  <h3 id="title">{__(`sanitate_step_${step}_descr`)}</h3>
-                  <br />
+                  {/* <h3 id="title">{__(`sanitate_step_${step}_descr`)}</h3> */}
+                  <br /><br />
                   <h3 id="title">flavor</h3>
                   <Box className="elements">
                     {lines.pumps.map((line, i) => {
@@ -400,11 +401,11 @@ export const Sanitation = (props: SanitationProps) => {
               {(step !== 0 && step !== 4) && (
                 <Box className="container no-border">
                   <h3 id="title">{__(`sanitate_step_${step}_title`)}</h3>
-                  <h3 id="title">{__(`sanitate_step_${step}_descr`)}</h3>
-                  <br />
+                  {/* <h3 id="title">{__(`sanitate_step_${step}_descr`)}</h3> */}
+                  <br /><br />
                   <h3 id="title">lines</h3>
                   <Box className="elements">
-                    {Object.values(lines).map(lines => {
+                    {Object.keys(lines).map(k => lines[k]).map(lines => {
                       return lines.map((line, i) => {
                         const indexLineSelected_ =  indexLineSelected(line);
                         if (indexLineSelected_ === -1) return null;
@@ -430,7 +431,7 @@ export const Sanitation = (props: SanitationProps) => {
                 <br />
                 <h3 id="title">lines</h3>
                 <Box className="elements">
-                  {Object.values(lines).map(lines => {
+                  {Object.keys(lines).map(k => lines[k]).map(lines => {
                     return lines.map((line, i) => {
                       const indexLineSelected_ =  indexLineSelected(line);
                       if (indexLineSelected_ === -1) return null;
