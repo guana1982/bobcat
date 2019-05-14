@@ -195,8 +195,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
         // -- FILTER & ORDER => BEVERAGES --
         const beverages_ = beverages.filter(beverage => {
-          const { beverage_type, line_id } = beverage;
-          return beverage_type === Beverages.Plain || beverage_type === Beverages.Bev && line_id > 0;
+          const { beverage_type, line_id, $lock } = beverage;
+          return beverage_type === Beverages.Plain || beverage_type === Beverages.Bev && line_id > 0 && !$lock;
         });
         beverages_.sort((a, b) => {
           if (a.beverage_type === Beverages.Plain) return -1; else if (b.beverage_type === Beverages.Plain) return 1;

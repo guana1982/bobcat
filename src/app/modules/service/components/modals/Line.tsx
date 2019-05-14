@@ -204,7 +204,7 @@ export const Line = (props: LineProps) => {
       <LineContent className={"large"}>
         <div>
           <Box id={"beverage-box"}>
-            <MButton disabled visibled light info={`ID - ${$beverage.beverage_id}`}>
+            <MButton disabled visibled light info={`ID: ${$beverage.beverage_id}${$beverage.$lock ? " / locked" : ""}`}>
               <BeverageLogo beverage={$beverage} size="tiny" />
             </MButton>
             <div id="info-box">
