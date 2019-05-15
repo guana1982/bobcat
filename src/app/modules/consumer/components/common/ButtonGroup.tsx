@@ -27,7 +27,7 @@ const ButtonGroupContent = styled.div`
         width: 86.7px;
         height: 16px;
         font-size: 16px;
-        margin-left: 20.3px;
+        margin-left: 9px;
         color: ${props => props.theme.slateGrey};
         text-transform: capitalize;
         text-align: left;
@@ -43,8 +43,6 @@ const ButtonGroupContent = styled.div`
     width: 375px;
     border-radius: 22px;
     height: 33px;
-    box-shadow: inset 0 1px 4px 0 rgba(212, 212, 212, 0.5);
-    background-color: #f3f3f3;
     button {
       position: relative;
       flex: 1;
@@ -56,11 +54,15 @@ const ButtonGroupContent = styled.div`
       justify-content: center;
       align-items: center;
       text-transform: uppercase;
-      &.i0 {
+      background-color: #f3f3f3;
+      &:nth-child(1) {
         border-top-left-radius: 17px;
         border-bottom-left-radius: 17px;
       }
-      &.i2 {
+      &:nth-child(2) {
+        margin: 0 5px;
+      }
+      &:nth-child(3) {
         border-top-right-radius: 17px;
         border-bottom-right-radius: 17px;
       }
@@ -90,6 +92,22 @@ const ButtonGroupContent = styled.div`
         font-size: 16px;
         height: 13px;
         color: ${props => props.theme.slateGrey};
+      }
+    }
+  }
+  &.disabledGroup {
+    #select {
+      background: none;
+      button {
+        &:disabled:not(.selected) {
+          opacity: 0;
+        }
+        &.selected {
+          background: transparent;
+          span {
+            color: ${props => props.color};
+          }
+        }
       }
     }
   }
@@ -137,7 +155,7 @@ export const ButtonGroup = (props: ButtonGroupProps) => {
   const indexValue = props.options .map(option => option.value).indexOf(props.value);
 
   return (
-    <ButtonGroupContent color={props.color}>
+    <ButtonGroupContent className={props.disabled && "disabledGroup"} color={props.color}>
       <div id="info">
         {props.label &&
           <button id={enableId ? `${props.detectValue}-button_group` : null} disabled={props.disabled} onClick={() => enableAccessibility()}>
