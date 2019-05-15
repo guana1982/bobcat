@@ -10,6 +10,9 @@ import { MInput, InputContent } from "../common/Input";
 import { MKeyboard, KeyboardWrapper } from "../common/Keyboard";
 import { __ } from "@core/utils/lib/i18n";
 import { MButtonGroup } from "../common/ButtonGroup";
+import { finalize, concat } from "rxjs/operators";
+import { LoaderContext } from "@core/containers/loader.container";
+import { forkJoin } from "rxjs";
 
 const ACTIONS_START = (cancel, next, disableNext: boolean): Action[] => [{
   title: __("cancel"),
@@ -133,6 +136,8 @@ interface EquipmentConfigurationProps extends Partial<ModalContentProps> {
 
 interface EquipmentConfigurationState {}
 
+let initialValues = null;
+
 export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
 
   const { cancel } = props;
@@ -141,7 +146,16 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   const [step, setStep] = React.useState<number>(0);
 
   const serviceConsumer = React.useContext(ServiceContext);
+  const loaderConsumer = React.useContext(LoaderContext);
   const alertConsumer = React.useContext(AlertContext);
+
+  const { language, country, timezone, payment, operation } = serviceConsumer.allList;
+
+  const [languageSelected, setLanguageSelected] = React.useState(language.valueSelected);
+  const [countrySelected, setCountrySelected] = React.useState(country.valueSelected);
+  const [timezoneSelected, setTimezoneSelected] = React.useState(timezone.valueSelected);
+  const [paymentSelected, setPaymentSelected] = React.useState(payment.valueSelected);
+  const [operationSelected, setOperationSelected] = React.useState(operation.valueSelected);
 
   //  ==== FIRST ACTIVATION ====>
   const { firstActivation, endInizialization, endReplacement, endPickUp, statusConnectivity } = serviceConsumer;
@@ -150,8 +164,19 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   const { form_ } = firstActivation;
   const [form, setForm] = React.useState(form_);
 
+  React.useEffect(() => {
+    if (setup === SetupTypes.Inizialization) {
+      initialValues = {
+        languageSelected,
+        countrySelected,
+        timezoneSelected,
+        paymentSelected
+      };
+    }
+  }, [setup, props.setup]);
+
   const finishInizialization = () => {
-    endInizialization(operationSelected, languageSelected, paymentSelected, countrySelected, timezoneSelected, form);
+    endInizialization(operationSelected, form);
   };
   //  <=== FIRST ACTIVATION ====
 
@@ -161,14 +186,6 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     endReplacement(setup, serialNumber);
   };
   //  <=== REPLACEMENT ====
-
-  const { language, country, timezone, payment, operation } = serviceConsumer.allList;
-
-  const [languageSelected, setLanguageSelected] = React.useState(language.valueSelected);
-  const [countrySelected, setCountrySelected] = React.useState(country.valueSelected);
-  const [timezoneSelected, setTimezoneSelected] = React.useState(timezone.valueSelected);
-  const [paymentSelected, setPaymentSelected] = React.useState(payment.valueSelected);
-  const [operationSelected, setOperationSelected] = React.useState(operation.valueSelected);
 
   //  ==== ENABLE NEXT ====>
   const [disableNext_, setDisableNext_] = React.useState<boolean>(true);
@@ -245,7 +262,6 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
 
       setDisableNext_(true);
     }, [setup, step, operationSelected, timezoneSelected, languageSelected, paymentSelected, countrySelected, statusConnectivity, form, serialNumber]);
-
     //  <=== ENABLE NEXT ====
 
   //  ==== ACTIONS CONNECTIVITY ====>
@@ -302,12 +318,48 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     }
     const cancel_ = () => {
       if (props.setup) {
-        cancel();
+        let cancelCall$ = null;
+        if (setup === SetupTypes.Inizialization) {
+          cancelCall$ = forkJoin(
+            language.update(initialValues.languageSelected),
+            country.update(initialValues.countrySelected),
+            timezone.update(initialValues.timezoneSelected),
+            payment.update(initialValues.paymentSelected)
+          );
+        }
+        if (cancelCall$) {
+          loaderConsumer.show();
+          cancelCall$
+          .pipe(finalize(() => loaderConsumer.hide()))
+          .subscribe(() => cancel());
+        } else {
+          cancel();
+        }
         return;
       }
       setSetup(SetupTypes.None);
     };
-    const nextStep = () => setStep(prev => prev + 1);
+    const nextStep = () => {
+      let stepCall$ = null;
+      if (setup === SetupTypes.Inizialization) {
+        if (step === 0) {
+          stepCall$ = language.update(languageSelected);
+        } else if (step === 1) {
+          stepCall$ = country.update(countrySelected);
+        } else if (step === 2) {
+          stepCall$ = timezone.update(timezoneSelected);
+        } else if (step === 3) {
+          stepCall$ = payment.update(paymentSelected);
+        }
+      }
+      if (stepCall$) {
+        // loaderConsumer.show();
+        stepCall$
+        .subscribe(() => setStep(prev => prev + 1)); // .pipe(finalize(() => loaderConsumer.hide()))
+      } else {
+        setStep(prev => prev + 1);
+      }
+    };
     const prevStep = () => setStep(prev => prev - 1);
     if (step === 0) {
       return ACTIONS_START(cancel_, nextStep, disableNext);
