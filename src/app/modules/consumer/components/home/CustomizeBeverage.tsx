@@ -134,6 +134,7 @@ export const CustomizeBeverageCard = styled.div`
     bottom: 234px;
     width: 84px;
     font-size: 14px;
+    text-transform: uppercase;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
@@ -253,14 +254,14 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             <div id="beverage-card">
               <div>
                 <span id="title">{__(beverageSelected.beverage_label_id)}</span>
-                <span id="cal">0 CAL.</span>
+                <span id="cal">0 {__("c_cal")}.</span>
                 <div id="group">
                   {beverageConfig.carbonation_level != null &&
                     <ButtonGroup
                       color={beverageSelected.beverage_font_color}
                       detectValue={"sparkling"}
                       icon={"sparkling"}
-                      label={"Sparkling"}
+                      label={"c_sparkling"}
                       options={levels.carbonation}
                       value={beverageConfig.carbonation_level}
                       onChange={(value) => handleChange(value, "carbonation")}>
@@ -303,7 +304,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           // onMouseDown={() => startPour()} // => DESKTOP MODE
           // onMouseUp={() => stopPour()} // => DESKTOP MODE
         >
-          {__("c_hold_to_pour")}
+          {__("c_pour")}
         </Pour>
       </CustomizeBeverageWrap>
     </React.Fragment>

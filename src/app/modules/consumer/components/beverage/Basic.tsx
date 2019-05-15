@@ -55,7 +55,7 @@ export const Basic_ = (props: BasicProps) => {
         }
         <Logo {...props} />
         <span id="title">{__(logoId === 9 ? (sparkling_ ? __("sparkling_water") : __("pure_water")) : __(title))}</span>
-        <span id="cal">0 Cal.</span> {/* {beverage.calories} */}
+        <span id="cal">0 {__("c_cal")}.</span> {/* {beverage.calories} */}
         {/* <span id="price">75¢</span> */}
     </div>
   );
