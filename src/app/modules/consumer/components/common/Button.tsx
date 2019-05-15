@@ -1,6 +1,7 @@
 
 import * as React from "react";
 import styled from "styled-components";
+import { __ } from "@core/utils/lib/i18n";
 
 export const ButtonWrap = styled.button`
   display: flex;
@@ -53,7 +54,7 @@ export const Button = (props: ButtonProps) => {
       <div id="icon">
         <img src={`icons/${icon}.svg`} />
       </div>
-      <span id="text">{text}</span>
+      <span id="text">{__(text)}</span>
     </ButtonWrap>
   );
 };

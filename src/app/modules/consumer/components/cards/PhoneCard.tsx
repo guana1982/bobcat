@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+import { __ } from "@core/utils/lib/i18n";
 
 interface PhoneCardProps {
   className: any;
@@ -16,8 +17,9 @@ const PhoneCard_ = (props: PhoneCardProps) => {
         <PhoneIcon id="icon" color={props.color} />
       </div>
       <div id="text-wrap">
-        <h2>Get the app</h2>
-        <h4>Track your hydration and save <br/> your customized drinks.</h4>
+        <h2>{__("c_get_the_app")}</h2>
+        {/* <h4>Track your hydration and save <br/> your customized drinks.</h4> */}
+        <h4>{__("c_track_and_save")}</h4>
       </div>
     </div>
   );

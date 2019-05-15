@@ -188,7 +188,7 @@ export const Slide = (props: SlideProps) => {
     <React.Fragment>
       <SlideStyled disabled={disabled} beverageIsSelected={beverageIsSelected} pose={animationSlide()}>
         <HeaderSlide className={slideOpen && "open"}>
-          <h2>{__("HI")}, {dataConsumer.consumer_nick}!</h2>
+          <h2>{__("c_welcome")}, {dataConsumer.consumer_nick}!</h2>
         </HeaderSlide>
         <Grid numElement={consumerBeverages.length}>
           {consumerBeverages.map((b, i) => {
@@ -216,7 +216,7 @@ export const Slide = (props: SlideProps) => {
             );
           })}
         </Grid>
-        {consumerBeverages[0].$types[0] === BeverageTypes.Info && <h3 id="info">Save favorites from smartphone</h3>}
+        {consumerBeverages[0].$types[0] === BeverageTypes.Info && <h3 id="info">{__("c_save_favourites")}</h3>}
         <ToggleSlide disabled={disabled} onClick={() => handleSlide()}>
           <img src={"icons/arrow-circle.png"} />
         </ToggleSlide>

@@ -31,15 +31,15 @@ class ConsumerStoreComponent extends React.Component<any, any> {
 
   index_qr;
   readonly infoBeverages: any = [{
-    $logo_id: "last-pour",
+    $logo_id: "last_pour",
     $types: [BeverageTypes.Info],
     $beverage: { beverage_font_color: "#000" },
-    flavorTitle: __("After you pour, your most recent drink will appear here!")
+    flavorTitle: __("c_recent_drinks")
   }, {
     $logo_id: "favorite",
     $types: [BeverageTypes.Info],
     $beverage: { beverage_font_color: "#000" },
-    flavorTitle: __("Save your favorite drinks using the app!")
+    flavorTitle: __("c_save_favorite_drinks")
   }, {
     $logo_id: null,
     $types: [BeverageTypes.Info],
@@ -244,7 +244,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     if (type === SOCKET_CONSUMER.SERVER) {
       this.index_qr = this.index_qr + 1;
     }
-    return socketConsumer$; // of(mock()); // MOCK //
+    return /* socketConsumer$ */ of(mock()); // MOCK //
   }
 
   /* ==== SCANNING ==== */

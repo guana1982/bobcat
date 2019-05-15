@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Circle from "react-circle";
 import { ConsumerContext } from "@core/containers";
 import { calcolaPerc } from "@core/utils/constants";
+import { __ } from "@core/utils/lib/i18n";
 
 interface CircleCardProps {
   className: any;
@@ -22,13 +23,13 @@ const CircleCard_ = (props: CircleCardProps) => {
   const diffHydra = hydraGoal - currHydraLvl;
   let messageHydra = "";
   if (perc >= 0 && perc <= 25) {
-    messageHydra = "GREAT START!";
+    messageHydra = "c_great_start";
   } else if (perc > 25 && perc <= 60) {
-    messageHydra = "KEEP GOING!";
+    messageHydra = "c_keep_going";
   } else if (perc > 60 && perc <= 99) {
-    messageHydra = "ALMOST THERE!";
+    messageHydra = "c_almost_there";
   } else if (perc === 100) {
-    messageHydra = "CONGRATULATION!";
+    messageHydra = "c_congratulations";
   }
 
   return (
@@ -48,10 +49,10 @@ const CircleCard_ = (props: CircleCardProps) => {
         </span>
       </div>
       <div id="text-wrap">
-        <h2>{messageHydra}</h2>
+        <h2>{__(messageHydra)}</h2>
         {diffHydra !== 0 ?
-          <h4>{diffHydra} more oz to reach <br/> your daily goal.</h4> :
-          <h4>You've reached your daily <br/> hydration goal of {hydraGoal} oz</h4>
+          <h4>{diffHydra} {__("c_daily_goal")}.</h4> :
+          <h4>{__("c_reached_daily_goal")} {hydraGoal} oz</h4>
         }
         {/* <h3><span>{currHydraLvl}</span> / {hydraGoal} OZ</h3> */}
       </div>

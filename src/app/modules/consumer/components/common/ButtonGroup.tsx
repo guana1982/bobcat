@@ -2,6 +2,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import { AccessibilityContext } from "@core/containers";
+import { __ } from "@core/utils/lib/i18n";
 
 const ButtonGroupContent = styled.div`
   display: flex;
@@ -54,12 +55,21 @@ const ButtonGroupContent = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
+      text-transform: uppercase;
+      &.i0 {
+        border-top-left-radius: 17px;
+        border-bottom-left-radius: 17px;
+      }
+      &.i2 {
+        border-top-right-radius: 17px;
+        border-bottom-right-radius: 17px;
+      }
       &.active:disabled {
         span {
           display: none;
         }
       }
-      &:first-child{
+      /* &:first-child{
         border-top-left-radius: 17px;
         border-bottom-left-radius: 17px;
       }
@@ -67,7 +77,7 @@ const ButtonGroupContent = styled.div`
         border-top-right-radius: 17px;
         border-bottom-right-radius: 17px;
         text-transform: uppercase;
-      }
+      } */
       &.active, &.selected {
         background: ${props => props.color};
         /* box-shadow: 20px -25px 34px -14px rgba(51, 56, 73, 0.08), 5px 2px 10px 0 rgba(190, 190, 190, 0.22), 0 3px 6px 0 ${props => props.color}; */
@@ -132,7 +142,7 @@ export const ButtonGroup = (props: ButtonGroupProps) => {
         {props.label &&
           <button id={enableId ? `${props.detectValue}-button_group` : null} disabled={props.disabled} onClick={() => enableAccessibility()}>
             <img src={`icons/${props.icon}.svg`} />
-            <span>{props.label}</span>
+            <span>{__(props.label)}</span>
           </button>
         }
       </div>
@@ -143,9 +153,9 @@ export const ButtonGroup = (props: ButtonGroupProps) => {
             type="button" key={i}
             id={enableId ? `${props.detectValue}-option` : null}
             onClick={() => props.onChange(e.value)}
-            className={`${i < indexValue && "active"} ${i === indexValue && "selected"}`}
+            className={/* `${i < indexValue && "active"} */ `i${i}  ${i === indexValue && "selected"}`}
           >
-            <span>{props.options && props.options[i].label}</span>
+            <span>{props.options && __(props.options[i].label)}</span>
           </button>
         ) : " --- " }
       </div>
