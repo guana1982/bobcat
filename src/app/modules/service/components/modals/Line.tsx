@@ -32,7 +32,7 @@ const LevelBeverage = styled.div`
 
 const LineContent = styled.div`
   &.large {
-    width: 850px;
+    width: 750px;
   }
   ${Box}#beverage-box {
     justify-content: center;
@@ -218,7 +218,6 @@ export const Line = (props: LineProps) => {
             {!$beverage.$lock && <MButton onClick={() => lockLine($beverage.line_id).subscribe()}>LOCK DISPENSE</MButton>}
             {$beverage.$lock && <MButton onClick={() => unlockLine($beverage.line_id).subscribe()}>UNLOCK DISPENSE</MButton>}
             <MButton onClick={() => setLineAssignment(true)}>CHANGE LINE ASSIGNMENT</MButton>
-            <MButton>CALIBRATION</MButton>
             <MButton onClick={() => setPriming(true)}>PRIMING</MButton>
             <MButton onClick={() => setBibReset(true)}>BIB RESET</MButton>
           </Box>

@@ -93,6 +93,14 @@ export default {
     getVideoList: () => get("menu/video_list"),
     setVideo: filename => post("menu/video", { filename })
   },
+  operator: {
+    getOperatorList: () => get("menu/operator"),
+    setOperator: type => post("menu/operator", { type })
+  },
+  timezone: {
+    getTimezoneList: () => get("menu/timezone"),
+    setTimezone: timezone => post("menu/timezone", { timezone })
+  },
   sanitation: {
     startClean: line_id => post("menu/tech_menu/clean_sanitation/start_clean", { line_id }),
     stopClean: line_id => post("menu/tech_menu/clean_sanitation/stop_clean", { line_id }),

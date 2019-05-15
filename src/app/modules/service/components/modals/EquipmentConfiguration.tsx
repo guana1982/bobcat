@@ -133,24 +133,19 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
 
   const [setup, setSetup] = React.useState<SetupTypes>(props.setup || SetupTypes.None);
   const [step, setStep] = React.useState<number>(0);
-  // const [state, setState] = React.useState<EquipmentConfigurationState>({});
 
   const serviceConsumer = React.useContext(ServiceContext);
   const alertConsumer = React.useContext(AlertContext);
 
   //  ==== FIRST ACTIVATION ====>
   const { firstActivation, endInizialization, endReplacement, endPickUp, statusConnectivity } = serviceConsumer;
-  const maxStepForm = firstActivation.structure_.length;
+
+  const stepsForm = 3;
   const { form_ } = firstActivation;
   const [form, setForm] = React.useState(form_);
 
-  // React.useEffect(() => { // => CLEAN FORM ON BACK
-  //   if (step === 4)
-  //     setForm(form_);
-  // }, [step]);
-
   const finishInizialization = () => {
-    endInizialization(operationSelected, languageSelected, paymentSelected, countrySelected, form);
+    endInizialization(operationSelected, languageSelected, paymentSelected, countrySelected, timezoneSelected, form);
   };
   //  <=== FIRST ACTIVATION ====
 
@@ -161,12 +156,13 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   };
   //  <=== REPLACEMENT ====
 
-  const { operation, language, payment, country } = serviceConsumer.allList;
+  const { language, country, timezone, payment, operation } = serviceConsumer.allList;
 
-  const [operationSelected, setOperationSelected] = React.useState(null);
-  const [languageSelected, setLanguageSelected] = React.useState(null);
-  const [paymentSelected, setPaymentSelected] = React.useState(null);
-  const [countrySelected, setCountrySelected] = React.useState(null);
+  const [languageSelected, setLanguageSelected] = React.useState(language.valueSelected);
+  const [countrySelected, setCountrySelected] = React.useState(country.valueSelected);
+  const [timezoneSelected, setTimezoneSelected] = React.useState(timezone.valueSelected);
+  const [paymentSelected, setPaymentSelected] = React.useState(payment.valueSelected);
+  const [operationSelected, setOperationSelected] = React.useState(operation.valueSelected);
 
   //  ==== ENABLE NEXT ====>
   const [disableNext_, setDisableNext_] = React.useState<boolean>(true);
@@ -175,22 +171,22 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
       console.log("step_____", step);
       if (setup === SetupTypes.Inizialization) {
         if (step === 0) {
-          if (operationSelected !== null) {
-            setDisableNext_(false);
-            return;
-          }
-        } else if (step === 1) {
           if (languageSelected !== null) {
             setDisableNext_(false);
             return;
           }
+        } else if (step === 1) {
+          if (countrySelected !== null) {
+            setDisableNext_(false);
+            return;
+          }
         } else if (step === 2) {
-          if (paymentSelected !== null) {
+          if (timezoneSelected !== null) {
             setDisableNext_(false);
             return;
           }
         } else if (step === 3) {
-          if (countrySelected !== null) {
+          if (paymentSelected !== null) {
             setDisableNext_(false);
             return;
           }
@@ -199,7 +195,12 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
             setDisableNext_(false);
             return;
           }
-        } else if (step === 5 || step === 6 || step === 7) {
+        } else if (step === 5) {
+          if (operationSelected !== null) {
+            setDisableNext_(false);
+            return;
+          }
+        } else if (step === 6 || step === 7) {
           const stepFields_: any[] = firstActivation.structure_[step - 5].fields;
           let formValid_ = true;
           stepFields_.forEach(field => {
@@ -238,7 +239,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
       }
 
       setDisableNext_(true);
-    }, [setup, step, operationSelected, languageSelected, paymentSelected, countrySelected, statusConnectivity, form, serialNumber]);
+    }, [setup, step, operationSelected, timezoneSelected, languageSelected, paymentSelected, countrySelected, statusConnectivity, form, serialNumber]);
 
     //  <=== ENABLE NEXT ====
 
@@ -259,10 +260,12 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   React.useEffect(() => {
     setStep(0);
 
-    setOperationSelected(null);
-    setLanguageSelected(null);
-    setPaymentSelected(null);
-    setCountrySelected(null);
+    setLanguageSelected(language.valueSelected);
+    setCountrySelected(country.valueSelected);
+    setTimezoneSelected(timezone.valueSelected);
+    setPaymentSelected(payment.valueSelected);
+    setOperationSelected(operation.valueSelected);
+
     setForm(form_);
     setSerialNumber("");
   }, [setup]);
@@ -333,15 +336,15 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     <Modal
       show={true}
       title="INITIAL SETUP"
-      actions={[...actionsConnectivity, ...actionsModal(5 + maxStepForm, finishInizialization, disableNext_)]}
+      actions={[...actionsConnectivity, ...actionsModal(5 + stepsForm, finishInizialization, disableNext_)]}
     >
       <>
         <div>
           <ISteps icons={icons} current={step}>
-            <ISteps.Step title="OPERATIONS" description="SELECT OPERATIONS" />
             <ISteps.Step title="LANGUAGE" description="SELECT LANGUAGE" />
-            <ISteps.Step title="PAYMENT" description="SELECT PAYMENT" />
             <ISteps.Step title="COUNTRY" description="SELECT COUNTRY" />
+            <ISteps.Step title="TIMEZONE" description="SELECT TIMEZONE" />
+            <ISteps.Step title="PAYMENT" description="SELECT PAYMENT" />
             <ISteps.Step title="CONNECTION" description="CHECK CONNECTION" />
             <ISteps.Step title="INITIALIZATION" description="FILL FORM" />
           </ISteps>
@@ -350,30 +353,30 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
               <>
               {step === 0 && (
                 <MButtonGroup
-                  options={operation.list}
-                  value={operationSelected}
-                  onChange={(value) => setOperationSelected(value)}
-                />
-              )}
-              {step === 1 && (
-                <MButtonGroup
                   options={language.list}
                   value={languageSelected}
                   onChange={(value) => setLanguageSelected(value)}
                 />
               )}
-              {step === 2 && (
-                <MButtonGroup
-                  options={payment.list}
-                  value={paymentSelected}
-                  onChange={(value) => setPaymentSelected(value)}
-                />
-              )}
-              {step === 3 && (
+              {step === 1 && (
                 <MButtonGroup
                   options={country.list}
                   value={countrySelected}
                   onChange={(value) => setCountrySelected(value)}
+                />
+              )}
+              {step === 2 && (
+                <MButtonGroup
+                  options={timezone.list}
+                  value={timezoneSelected}
+                  onChange={(value) => setTimezoneSelected(value)}
+                />
+              )}
+              {step === 3 && (
+                <MButtonGroup
+                  options={payment.list}
+                  value={paymentSelected}
+                  onChange={(value) => setPaymentSelected(value)}
                 />
               )}
               {step === 4 && (
@@ -383,9 +386,14 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
                 <FormInitialization
                   form={form}
                   setForm={setForm}
-                  maxStep={maxStepForm}
+                  maxStep={stepsForm}
                   firstActivation={firstActivation}
                   indexStep={step - 5}
+                  operation_={{
+                    operation,
+                    operationSelected,
+                    setOperationSelected
+                  }}
                 />
               )}
               </>
@@ -449,22 +457,30 @@ interface FormInitializationProps {
   indexStep: number;
   form: any;
   setForm: any;
+  operation_: {
+    operation: any;
+    operationSelected: any;
+    setOperationSelected: any;
+  };
 }
 
 const FormInitialization = (props: FormInitializationProps) => {
 
-  const { firstActivation, indexStep, maxStep, form, setForm } = props;
+  const { firstActivation, indexStep, maxStep, form, setForm, operation_ } = props;
   const { structure_ } = firstActivation;
   const stepActivation = structure_[indexStep];
-  const { title, fields } = stepActivation;
+
+  const fields = stepActivation ? stepActivation.fields : [];
 
   const keyboardEl = React.useRef(null);
   React.useEffect(() => {
-    const keyboardEl_ = keyboardEl.current;
-    Object.keys(form).forEach(key => {
-      keyboardEl_.setInput(form[key], key);
-    });
-  }, [keyboardEl]);
+    if (indexStep === 1) {
+      const keyboardEl_ = keyboardEl.current;
+      Object.keys(form).forEach(key => {
+        keyboardEl_.setInput(form[key], key);
+      });
+    }
+  }, [indexStep]);
 
   const [fieldSelected, setFieldSelected] = React.useState(null);
 
@@ -478,6 +494,9 @@ const FormInitialization = (props: FormInitializationProps) => {
 
   React.useEffect(() => {
     const firstField = fields[0];
+    if (!firstField) {
+      return;
+    }
     setFieldSelected(firstField.$index);
   }, [fields]);
 
@@ -495,28 +514,42 @@ const FormInitialization = (props: FormInitializationProps) => {
   return (
     <>
       <h2>INITIALIZATION DATA - {indexStep + 1}/{maxStep}</h2>
-      <Box className="form-section">
-        {
-          fields.map((field, index) => (
-            <MInput
-              selected={field.$index === fieldSelected}
-              key={index}
-              required={field.mandatory}
-              label={__(field.$index)}
-              value={form[field.$index]}
-              type={field.type}
-              click={() => setFieldSelected(field.$index)}
-              onChange={e => console.log(e)}
-            />
-          ))
-        }
-      </Box>
-      <MKeyboard
-        ref={keyboardEl}
-        inputName={fieldSelected}
-        onChangeAll={(all) => onChangeAll(all) }
-        onEnter={() => onEnter()}
-      />
+      {indexStep === 0 && (
+        <>
+          <br/><br/>
+          <MButtonGroup
+            options={operation_.operation.list}
+            value={operation_.operationSelected}
+            onChange={(value) => operation_.setOperationSelected(value)}
+          />
+        </>
+      )}
+      {indexStep > 0 && (
+        <>
+          <Box className="form-section">
+            {
+              fields.map((field, index) => (
+                <MInput
+                  selected={field.$index === fieldSelected}
+                  key={index}
+                  required={field.mandatory}
+                  label={__(field.$index)}
+                  value={form[field.$index]}
+                  type={field.type}
+                  click={() => setFieldSelected(field.$index)}
+                  onChange={e => console.log(e)}
+                />
+              ))
+            }
+          </Box>
+          <MKeyboard
+            ref={keyboardEl}
+            inputName={fieldSelected}
+            onChangeAll={(all) => onChangeAll(all) }
+            onEnter={() => onEnter()}
+          />
+        </>
+      )}
     </>
   );
 };

@@ -72,17 +72,6 @@ interface IList {
   valueSelected: any;
 }
 
-const operationMock = () => of({
-  operation_selected: null,
-  operations: [{
-    operation: "PBC"
-  }, {
-    operation: "FOBO"
-  }, {
-    operation: "3PO"
-  }]
-});
-
 const ListConfig = {
   video: {
     getObservable$: mediumLevel.video.getVideoList,
@@ -105,9 +94,14 @@ const ListConfig = {
     indexValue: { list_: "payment_type_list" , value_: null, selected_ : "payment_type" },
   },
   operation: {
-    getObservable$: operationMock,
-    setObservable$: null,
-    indexValue: { list_: "operations" , value_: "operation", selected_ : "operation_selected" },
+    getObservable$: mediumLevel.operator.getOperatorList,
+    setObservable$: mediumLevel.operator.setOperator,
+    indexValue: { list_: "operator_list" , value_: null, selected_ : "operator" },
+  },
+  timezone: {
+    getObservable$: mediumLevel.timezone.getTimezoneList,
+    setObservable$: mediumLevel.timezone.setTimezone,
+    indexValue: { list_: "timezone_list" , value_: null, selected_ : "timezone" },
   }
 };
 
@@ -194,13 +188,18 @@ const ServiceContainer = createContainer(() => {
   const loadOperationList = () => getList_(ListConfig.operation).pipe(tap(data => setOperationList(data)));
   const updateOperationList = (valueSelected) =>  setList_({ ...operationList, valueSelected, ...ListConfig.operation }).pipe(flatMap(() => loadOperationList()));
 
+  const [timezoneList, setTimezoneList] = React.useState<IList>(initList);
+  const loadTimezoneList = () => getList_(ListConfig.timezone).pipe(tap(data => setTimezoneList(data)));
+  const updateTimezoneList = (valueSelected) =>  setList_({ ...timezoneList, valueSelected, ...ListConfig.timezone }).pipe(flatMap(() => loadTimezoneList()));
+
   React.useEffect(() => {
     forkJoin(
       loadVideoList(),
       loadLanguageList(),
       loadCountryList(),
       loadPaymentList(),
-      loadOperationList()
+      loadOperationList(),
+      loadTimezoneList()
     )
     .subscribe(data => console.log("dataList", data));
   }, []);
@@ -210,7 +209,8 @@ const ServiceContainer = createContainer(() => {
     language: { ...languageList, update: (v) => updateLanguageList(v) },
     country: { ...countryList, update: (v) => updateCountryList(v) },
     payment: { ...paymentList, update: (v) => updatePaymentList(v) },
-    operation: { ...operationList, update: (v) => updateOperationList(v) }
+    operation: { ...operationList, update: (v) => updateOperationList(v) },
+    timezone: { ...timezoneList, update: (v) => updateTimezoneList(v) }
   };
 
   /* ==== GENERAL ==== */
@@ -483,17 +483,18 @@ const ServiceContainer = createContainer(() => {
         });
 
         const form_ = {};
-        Object.keys(data).map((key) => form_[key] = "");
+        Object.keys(data).map((key) => form_[key] = data[key].value || "");
 
-        const structure_ = [
-          {
-            fields: data_.splice(0, 6)
-          }, {
-            fields: data_.splice(0, 6)
-          }, {
-            fields: data_.splice(0, 6)
+        const getDataPage = (index) => data_.filter(f => f.page === index).sort((a, b) => __(b.$index) - __(a.$index));
+
+        const structure_ = {
+          1: {
+            fields: getDataPage(1)
+          },
+          2: {
+            fields: getDataPage(2)
           }
-        ];
+        };
 
         return { form_, structure_ };
       })
@@ -506,13 +507,15 @@ const ServiceContainer = createContainer(() => {
     );
   }, []);
 
-  function endInizialization(operationSelected, languageSelected, paymentSelected, countrySelected, form) {
-    const { payment, language, country } = allList;
+  function endInizialization(operationSelected, languageSelected, paymentSelected, countrySelected, timezoneSelected, form) {
+    const { payment, language, country, timezone, operation } = allList;
     loaderConsumer.show();
     language.update(languageSelected)
     .pipe(
-      flatMap(() => payment.update(paymentSelected)),
       flatMap(() => country.update(countrySelected)),
+      flatMap(() => timezone.update(timezoneSelected)),
+      flatMap(() => payment.update(paymentSelected)),
+      flatMap(() => operation.update(operationSelected)),
       flatMap(() => mediumLevel.equipmentConfiguration.setFirstActivation(form)),
       finalize(() => loaderConsumer.hide())
     )
