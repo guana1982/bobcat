@@ -271,7 +271,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                       color={beverageSelected.beverage_font_color}
                       detectValue={"flavor"}
                       icon={"flavor"}
-                      label={"Flavor"}
+                      label={"c_flavor"}
                       options={levels.flavor}
                       value={beverageConfig.flavor_level}
                       onChange={(value) => handleChange(value, "flavor")}
@@ -281,7 +281,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                     color={beverageSelected.beverage_font_color}
                     detectValue={"temperature"}
                     icon={"temperature"}
-                    label={"Coldness"}
+                    label={"c_temperature"}
                     disabled={isSparkling}
                     options={levels.temperature}
                     value={beverageConfig.temperature_level}
@@ -303,7 +303,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           // onMouseDown={() => startPour()} // => DESKTOP MODE
           // onMouseUp={() => stopPour()} // => DESKTOP MODE
         >
-          Hold to Pour
+          {__("c_hold_to_pour")}
         </Pour>
       </CustomizeBeverageWrap>
     </React.Fragment>

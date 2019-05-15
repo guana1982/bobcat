@@ -7,6 +7,7 @@ import { Pages } from "@utils/constants";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { CloseBtnWrap, CloseBtn } from "../components/common/CloseBtn";
+import { __ } from "@core/utils/lib/i18n";
 
 export const PrepayContent = styled.div`
   background-image: ${props => props.theme.backgroundLight};
@@ -141,7 +142,7 @@ export const Prepay = (props: PrepayProps) => {
         <div id="Webcam" />
         <img id="Bottle-QR" src={"img/bottle-qr.svg"} />
         <img id="Phone-QR" src={"img/phone-qr.svg"} />
-        <h2 id="Text-Info">Display the code on your phone or bottle and place it below. </h2>
+        <h2 id="Text-Info">{__("c_prepay_text")}</h2>
         <img id="Icon-QR" src={"icons/qr-code.svg"} />
       </PrepayContent>
     </section>

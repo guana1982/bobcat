@@ -23,7 +23,7 @@ export enum BeverageTypes {
   Info = "info",
   Sparkling = "sparkling",
   OutOfStock = "out-of-stock",
-  LastPour = "last-pour",
+  LastPour = "last_pour",
   Favorite = "favorite",
   Blur = "blur",
   NutritionFacts = "nutrition-facts"

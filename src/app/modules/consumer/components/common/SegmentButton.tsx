@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+import { __ } from "@core/utils/lib/i18n";
 
 export const SegmentButtonWrapper = styled.div`
   position: relative;
@@ -100,7 +101,7 @@ export const SegmentButton = (props: SegmentButtonProps) => {
             type="button"
           >
             <img src={`icons/${e.icon}.svg`} />
-            <span>{e.label}</span>
+            <span>{__(e.label)}</span>
           </button>
         ) : " --- " }
       </SegmentButtonWrapper>
