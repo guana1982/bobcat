@@ -82,11 +82,11 @@ export const Home = (props: HomeProps) => {
   const levels = LEVELS;
   const types = [
     {
-      label: "Still",
+      label: "c_still_water",
       icon: "still",
       value: false
     }, {
-      label: "Sparkling",
+      label: "c_sparkling_water",
       icon: "sparkling",
       value: true
     }

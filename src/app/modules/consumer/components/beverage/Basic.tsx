@@ -33,7 +33,7 @@ export const Basic_ = (props: BasicProps) => {
         {(specialCard) &&
           <SpecialSection>
             <div id="types">
-              {types.map((type, i) => <LabelIndicator tiny={types.length > 1 || !slideOpen} key={i}><img src={`icons/${type}.svg`} /><span>{__(type)}</span></LabelIndicator>)}
+              {types.map((type, i) => <LabelIndicator tiny={types.length > 1 || !slideOpen} key={i}><img src={`icons/${type}.svg`} /><span>{__('c_' + type)}</span></LabelIndicator>)}
             </div>
             <div id="levels">
               {levels.carbonation_perc != null &&
@@ -54,7 +54,7 @@ export const Basic_ = (props: BasicProps) => {
           </SpecialSection>
         }
         <Logo {...props} />
-        <span id="title">{__(logoId === 9 && (sparkling_ ? "sparkling" : "pure"))} {__(title)}</span>
+        <span id="title">{__(logoId === 9 ? (sparkling_ ? __("sparkling_water") : __("pure_water")) : __(title))}</span>
         <span id="cal">0 Cal.</span> {/* {beverage.calories} */}
         {/* <span id="price">75¢</span> */}
     </div>

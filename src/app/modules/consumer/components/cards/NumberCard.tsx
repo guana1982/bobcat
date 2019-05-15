@@ -1,6 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import { ConfigContext, ConsumerContext } from "@core/containers";
+import { __ } from "@core/utils/lib/i18n";
 
 interface NumberCardProps {
   className: any;
@@ -33,12 +34,12 @@ const NumberCard_ = (props: NumberCardProps) => {
       </div>
       <div id="text-wrap">
         {!isLogged ?
-          <h2>MAKE AN IMPACT</h2> :
-          <h4>YOU'RE MAKING AN IMPACT</h4>
+          <h2>{__("c_make_inpact")}</h2> :
+          <h4>{__("c_making_inpact")}</h4>
         }
         {!isLogged ?
-          <h4>{savedBottle} bottles saved at this station</h4> :
-          <h4>You've helped eliminate {savedBottle} <br/> 16-ounce bottles</h4>
+          <h4>{savedBottle} {__("c_saved_bottles")}</h4> :
+          <h4>{__("c_you_helped_eliminate")} {savedBottle} <br/> {__("c_eliminated_bottle_size")}</h4>
         }
       </div>
     </div>

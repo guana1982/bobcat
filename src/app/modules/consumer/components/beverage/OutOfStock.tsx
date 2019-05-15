@@ -15,7 +15,7 @@ export const OutOfStock_ = (props: OutOfStockProps) => {
 
   return (
     <div className={className}>
-      <span>{__("Sorry, we're out of that flavor at the moment! ")}</span>
+      <span>{__("c_out_of_stock")}</span>
     </div>
   );
 };
