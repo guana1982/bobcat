@@ -107,9 +107,15 @@ export const ISection = styled.div`
     margin-top: 10px;
     max-width: 975px;
     flex-wrap: wrap;
-    ${InputContent} {
+    ${InputContent}, .empty-field {
       flex: 50%;
       margin-bottom: 8px;
+    }
+    .empty-field {
+      flex: 50%;
+      &.one-field {
+        flex: 14%;
+      }
     }
   }
 `;
@@ -168,7 +174,6 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   const [disableNext_, setDisableNext_] = React.useState<boolean>(true);
 
     React.useEffect(() => {
-      console.log("step_____", step);
       if (setup === SetupTypes.Inizialization) {
         if (step === 0) {
           if (languageSelected !== null) {
@@ -526,6 +531,7 @@ const FormInitialization = (props: FormInitializationProps) => {
       )}
       {indexStep > 0 && (
         <>
+          {fields.length < 3 && <br/>}
           <Box className="form-section">
             {
               fields.map((field, index) => (
@@ -541,6 +547,7 @@ const FormInitialization = (props: FormInitializationProps) => {
                 />
               ))
             }
+            {fields.length % 2 !== 0 && <span className={`empty-field ${fields.length === 1 && "one-field"}`} />}
           </Box>
           <MKeyboard
             ref={keyboardEl}
