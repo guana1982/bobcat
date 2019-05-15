@@ -139,10 +139,7 @@ const setList_ = ({ list, valueSelected, setObservable$ }): Observable<any> => {
   if (list === null || list === [])
     return;
 
-  const element = list.find(element => element.value === valueSelected );
-
-  if (element === null)
-    return;
+  let element = list.find(element => element.value === valueSelected ) || { label: null, value: null };
 
   const { label } = element;
 
@@ -178,7 +175,7 @@ const ServiceContainer = createContainer(() => {
 
   const [countryList, setCountryList] = React.useState<IList>(initList);
   const loadCountryList = () => getList_(ListConfig.country).pipe(tap(data => setCountryList(data)));
-  const updateCountryList = (valueSelected) =>  setList_({ ...countryList, valueSelected, ...ListConfig.country }).pipe(flatMap(() => loadCountryList()));
+  const updateCountryList = (valueSelected) =>  setList_({ ...countryList, valueSelected, ...ListConfig.country }).pipe(flatMap(() => loadCountryList()), flatMap(() => loadTimezoneList()));
 
   const [paymentList, setPaymentList] = React.useState<IList>(initList);
   const loadPaymentList = () => getList_(ListConfig.payment).pipe(tap(data => setPaymentList(data)));
@@ -507,15 +504,12 @@ const ServiceContainer = createContainer(() => {
     );
   }, []);
 
-  function endInizialization(operationSelected, languageSelected, paymentSelected, countrySelected, timezoneSelected, form) {
+  function endInizialization(operationSelected, form) {
     const { payment, language, country, timezone, operation } = allList;
     loaderConsumer.show();
-    language.update(languageSelected)
+
+    operation.update(operationSelected)
     .pipe(
-      flatMap(() => country.update(countrySelected)),
-      flatMap(() => timezone.update(timezoneSelected)),
-      flatMap(() => payment.update(paymentSelected)),
-      flatMap(() => operation.update(operationSelected)),
       flatMap(() => mediumLevel.equipmentConfiguration.setFirstActivation(form)),
       finalize(() => loaderConsumer.hide())
     )
