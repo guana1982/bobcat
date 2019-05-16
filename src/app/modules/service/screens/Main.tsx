@@ -6,7 +6,7 @@ import { MButton, MTypes } from "@modules/service/components/common/Button";
 import { Modal,  Box, ACTIONS_CONFIRM, ACTIONS_CLOSE, ModalTheme, Action } from "@modules/service/components/common/Modal";
 import ConnectivityComponent from "../components/sections/Connectivity";
 import { About } from "../components/sections/About";
-import { ServiceContext, AuthLevels } from "@core/containers";
+import { ServiceContext, AuthLevels, AlertContext } from "@core/containers";
 import BeverageLogo from "@core/components/common/Logo";
 import { Line } from "../components/modals/Line";
 import { ChangePrice } from "../components/modals/ChangePrice";
@@ -127,6 +127,7 @@ export const NewMenu = (props: MenuProps) => {
   const [modals, dispatchModals] = React.useReducer(reducerModals, initialModals);
 
   const serviceConsumer = React.useContext(ServiceContext);
+  const alertConsumer = React.useContext(AlertContext);
 
   React.useEffect(() => {
     console.log("Menu => Consumer ;", serviceConsumer);
@@ -173,6 +174,15 @@ export const NewMenu = (props: MenuProps) => {
   const [actionsConnectivity, setActionsConnectivity] = React.useState<Action[]>([]);
   const handleActionsConnectivity = (actions): void => setActionsConnectivity(actions);
   //  <=== ACTIONS CONNECTIVITY ====
+
+  const rebootEvent = () => {
+    alertConsumer.show({
+      timeout: false,
+      title: "REBOOT",
+      content: "ARE YOU SURE THAT YOU WANT TO REBOOT?",
+      onConfirm: serviceConsumer.reboot
+    });
+  };
 
   return (
     <>
@@ -229,7 +239,7 @@ export const NewMenu = (props: MenuProps) => {
             {
               authLevel === AuthLevels.Crew &&
               <>
-                <MButton onClick={serviceConsumer.reboot}>SYSTEM REBOOT</MButton>
+                <MButton onClick={rebootEvent}>SYSTEM REBOOT</MButton>
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 <MButton onClick={() => openModal(Modals.About)}>ABOUT</MButton>
               </>
@@ -237,7 +247,7 @@ export const NewMenu = (props: MenuProps) => {
             {
               authLevel === AuthLevels.Tech &&
               <>
-                <MButton onClick={serviceConsumer.reboot}>SYSTEM REBOOT</MButton>
+                <MButton onClick={rebootEvent}>SYSTEM REBOOT</MButton>
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
                 <MButton onClick={() => openModal(Modals.Update)}>SOFTWARE UPDATE</MButton>
@@ -247,7 +257,7 @@ export const NewMenu = (props: MenuProps) => {
             {
               authLevel === AuthLevels.Super &&
               <>
-                <MButton onClick={serviceConsumer.reboot}>SYSTEM REBOOT</MButton>
+                <MButton onClick={rebootEvent}>SYSTEM REBOOT</MButton>
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 {/* <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
                 <MButton onClick={() => openModal(Modals.Connectivity)} info type={statusConnectivity}>CONNECTIVITY</MButton> */}
