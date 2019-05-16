@@ -4,6 +4,7 @@ import { ConfigContext, ServiceContext, AuthLevels } from "@core/containers";
 import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
 import { Pages } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
+import { __ } from "@core/utils/lib/i18n";
 
 interface AuthProps {
   history: any;
@@ -16,12 +17,12 @@ const AuthComponent = (props: AuthProps) => {
   const { authLogin, setAuthLevel } = serviceConsumer;
   const { authService, setAuthService } = configConsumer;
 
-  // React.useEffect(() => { // MOCK => START SERVICE UI
-  //   const { setAuthLevel } = serviceConsumer;
-  //   setAuthLevel(AuthLevels.Tech);
-  //   props.history.push(Pages.Menu);
-  //   return () => {};
-  // }, []);
+  React.useEffect(() => { // MOCK => START SERVICE UI
+    const { setAuthLevel } = serviceConsumer;
+    setAuthLevel(AuthLevels.Tech);
+    props.history.push(Pages.Menu);
+    return () => {};
+  }, []);
 
   const cancel = () => {
     setAuthService(false);
@@ -36,7 +37,7 @@ const AuthComponent = (props: AuthProps) => {
 
   return (
     <>
-    {authService && <ModalKeyboard title={"ENTER PIN"} type={ModalKeyboardTypes.Auth} cancel={cancel} finish={finish} />}
+    {authService && <ModalKeyboard title={__("s_enter_pin")} type={ModalKeyboardTypes.Auth} cancel={cancel} finish={finish} />}
     </>
   );
 };

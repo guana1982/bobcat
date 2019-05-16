@@ -4,6 +4,7 @@ import { MButton } from "../common/Button";
 import { ConfigContext } from "@core/containers";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { flatMap } from "rxjs/operators";
+import { __ } from "@core/utils/lib/i18n";
 
 interface TimeoutProps extends Partial<ModalContentProps> {}
 
@@ -31,17 +32,17 @@ export const Timeout = (props: TimeoutProps) => {
       show={true}
       cancel={cancel}
       finish={saveTimeout}
-      title="VIDEO TIMEOUT"
+      title={__("s_video_timeout")}
       actions={ACTIONS_CONFIRM}
     >
       <>
         <div>
           <Box className="centered">
-            <MButton disabled visibled light info="TIMEOUT">{timeout} SECONDS</MButton>
+            <MButton disabled visibled light info={__("s_timeout")}>{timeout} {__("s_seconds")}</MButton>
           </Box>
           <Box className="centered">
-            <MButton onClick={decrease}>DECREASE TIMEOUT</MButton>
-            <MButton onClick={increase}>INCREASE TIMEOUT</MButton>
+            <MButton onClick={decrease}>{__("s_decrease_timeout")}</MButton>
+            <MButton onClick={increase}>{__("s_increase_timeout")}</MButton>
           </Box>
         </div>
       </>

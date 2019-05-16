@@ -12,39 +12,39 @@ import mediumLevel from "@core/utils/lib/mediumLevel";
 const TIMER_SANITATION = 35;
 
 const ACTIONS_START = (cancel, next, disableNext: boolean , disableBack: boolean): Action[] => [{
-  title: __("cancel"),
+  title: __("s_cancel"),
   disabled: disableBack,
   event: cancel,
 }, {
-  title: __("next"),
+  title: __("s_next"),
   disabled: disableNext,
   event: next,
 }];
 
 const ACTIONS_CONTROL = (cancel, previous, next, disableNext: boolean, disableBack: boolean): Action[] => [{
-  title: __("cancel"),
+  title: __("s_cancel"),
   disabled: disableBack,
   event: cancel,
 }, {
-  title: __("previous"),
+  title: __("s_previous"),
   disabled: disableBack,
   event: previous,
 }, {
-  title: __("next"),
+  title: __("s_next"),
   disabled: disableNext,
   event: next,
 }];
 
 const ACTIONS_END = (cancel, previous, finish, disableNext: boolean, disableBack: boolean): Action[] => [{
-  title: __("cancel"),
+  title: __("s_cancel"),
   disabled: disableBack,
   event: cancel,
 }, {
-  title: __("previous"),
+  title: __("s_previous"),
   disabled: disableBack,
   event: previous,
 }, {
-  title: __("finish"),
+  title: __("s_finish"),
   disabled: disableNext,
   event: finish,
 }];
@@ -352,32 +352,32 @@ export const Sanitation = (props: SanitationProps) => {
   return (
     <Modal
       show={true}
-      title="SANITATION"
+      title={__("s_sanitation")}
       actions={...actionsModal(6, finishSanitation, disableNext_, disableBack_)}
     >
       <>
         <div>
           <ISteps icons={icons} current={step}>
-            <ISteps.Step title="STEP 1" description={__(`sanitate_step_${0}_descr`)} />
-            <ISteps.Step title="STEP 2" description={__(`sanitate_step_${1}_descr`)} />
-            <ISteps.Step title="STEP 3" description={__(`sanitate_step_${2}_descr`)} />
-            <ISteps.Step title="STEP 4" description={__(`sanitate_step_${3}_descr`)} />
-            <ISteps.Step title="STEP 5" description={__(`sanitate_step_${4}_descr`)} />
-            <ISteps.Step title="STEP 6" description={__(`sanitate_step_${5}_descr`)} />
+            <ISteps.Step title={__(`s_sanitate_step_${0}`)} description={__(`s_sanitate_step_${0}_descr`)} />
+            <ISteps.Step title={__(`s_sanitate_step_${1}`)} description={__(`s_sanitate_step_${1}_descr`)} />
+            <ISteps.Step title={__(`s_sanitate_step_${2}`)} description={__(`s_sanitate_step_${2}_descr`)} />
+            <ISteps.Step title={__(`s_sanitate_step_${3}`)} description={__(`s_sanitate_step_${3}_descr`)} />
+            <ISteps.Step title={__(`s_sanitate_step_${4}`)} description={__(`s_sanitate_step_${4}_descr`)} />
+            <ISteps.Step title={__(`s_sanitate_step_${5}`)} description={__(`s_sanitate_step_${5}_descr`)} />
           </ISteps>
           <Box className="container">
             <ISection>
               <>
               {step === 0 && (
                 <Box className="container no-border">
-                  <h3 id="title">{__(`sanitate_step_${step}_title`)}</h3>
+                  <h3 id="title">{__(`s_sanitate_step_${step}_title`)}</h3>
                   {/* <h3 id="title">{__(`sanitate_step_${step}_descr`)}</h3> */}
                   <br /><br />
-                  <h3 id="title">flavor</h3>
+                  <h3 id="title">{__("s_flavor")}</h3>
                   <Box className="elements">
                     {lines.pumps.map((line, i) => {
                       return (
-                        <MButton key={i} onClick={() => handleLine(line)} className="small" type={isLineSelected(line) ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id}`}>
+                        <MButton key={i} onClick={() => handleLine(line)} className="small" type={isLineSelected(line) ? MTypes.INFO_SUCCESS : null} light info={`${__("s_line")} - ${line.line_id}`}>
                           {!line.$beverage ?
                             "UNASSIGNED" :
                             <BeverageLogo beverage={line.$beverage} size="tiny" />
@@ -386,7 +386,7 @@ export const Sanitation = (props: SanitationProps) => {
                       );
                     })}
                   </Box>
-                  <h3 id="title">waters</h3>
+                  <h3 id="title">{__("s_waters")}</h3>
                   <Box className="elements">
                     {lines.waters.map((line, i) => {
                       return (
@@ -400,10 +400,10 @@ export const Sanitation = (props: SanitationProps) => {
               )}
               {(step !== 0 && step !== 4) && (
                 <Box className="container no-border">
-                  <h3 id="title">{__(`sanitate_step_${step}_title`)}</h3>
+                  <h3 id="title">{__(`s_sanitate_step_${step}_title`)}</h3>
                   {/* <h3 id="title">{__(`sanitate_step_${step}_descr`)}</h3> */}
                   <br /><br />
-                  <h3 id="title">lines</h3>
+                  <h3 id="title">>{__("s_lines")}</h3>
                   <Box className="elements">
                     {Object.keys(lines).map(k => lines[k]).map(lines => {
                       return lines.map((line, i) => {
@@ -412,9 +412,9 @@ export const Sanitation = (props: SanitationProps) => {
                         const lineSelected_ = linesSelected[indexLineSelected_];
                         const line_ = lineSelected_.steps[step];
                         return (
-                          <MButton key={i} onClick={() => handleTimerLine(line)} type={line_.$timer ? MTypes.INFO_WARNING : line_.seconds === 0 ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id} / ${line_.seconds}`}>
+                          <MButton key={i} onClick={() => handleTimerLine(line)} type={line_.$timer ? MTypes.INFO_WARNING : line_.seconds === 0 ? MTypes.INFO_SUCCESS : null} light info={`${__("s_line")} - ${line.line_id} / ${line_.seconds}`}>
                             {!line.$beverage ?
-                              "UNASSIGNED" :
+                              __("s_unassigned") :
                               <BeverageLogo beverage={line.$beverage} size="tiny" />
                             }
                           </MButton>
@@ -426,10 +426,10 @@ export const Sanitation = (props: SanitationProps) => {
               )}
               {step === 4 && (
                 <Box className="container no-border">
-                <h3 id="title">{__(`sanitate_step_${step}_title`)}</h3>
-                <h3 id="title">{__(`sanitate_step_${step}_descr`)}</h3>
+                <h3 id="title">{__(`s_sanitate_step_${step}_title`)}</h3>
+                {/* <h3 id="title">{__(`s_sanitate_step_${step}_descr`)}</h3> */}
                 <br />
-                <h3 id="title">lines</h3>
+                <h3 id="title">{__("s_lines")}</h3>
                 <Box className="elements">
                   {Object.keys(lines).map(k => lines[k]).map(lines => {
                     return lines.map((line, i) => {
@@ -438,9 +438,9 @@ export const Sanitation = (props: SanitationProps) => {
                       const lineSelected_ = linesSelected[indexLineSelected_];
                       const line_ = lineSelected_.steps[step];
                       return (
-                        <MButton key={i} onClick={() => verifiedLine(line)} type={line_.verified ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id}`}>
+                        <MButton key={i} onClick={() => verifiedLine(line)} type={line_.verified ? MTypes.INFO_SUCCESS : null} light info={`${__("s_line")} - ${line.line_id}`}>
                           {!line.$beverage ?
-                            "UNASSIGNED" :
+                            __("s_unassigned") :
                             <BeverageLogo beverage={line.$beverage} size="tiny" />
                           }
                         </MButton>

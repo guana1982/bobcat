@@ -4,6 +4,7 @@ import { MButton } from "../common/Button";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { LoaderContext } from "@core/containers/loader.container";
 import { finalize } from "rxjs/operators";
+import { __ } from "@core/utils/lib/i18n";
 
 enum UpdateFroms {
   None = "none",
@@ -40,13 +41,13 @@ export const Update = (props: UpdateProps) => {
     <Modal
       show={true}
       cancel={cancel}
-      title="update"
-      subTitle="select desired action"
+      title={__("s_update")}
+      subTitle={__("s_select_action")}
       actions={ACTIONS_CLOSE}
     >
       <Box className="centered">
-        <MButton onClick={() => setUpdateFrom(UpdateFroms.Usb)}>UPLOAD FROM USB</MButton>
-        <MButton onClick={() => setUpdateFrom(UpdateFroms.Server)}>UPDATE FROM REMOTE SERVER</MButton>
+        <MButton onClick={() => setUpdateFrom(UpdateFroms.Usb)}>{__("s_update_from_usb")}</MButton>
+        <MButton onClick={() => setUpdateFrom(UpdateFroms.Server)}>{__("s_update_from_server")}</MButton>
       </Box>
     </Modal>
   );
@@ -56,12 +57,12 @@ export const Update = (props: UpdateProps) => {
     <Modal
       show={true}
       cancel={() => setUpdateFrom(UpdateFroms.None)}
-      title="update from usb"
-      subTitle="select desired action"
+      title={__("s_update_from_usb")}
+      subTitle={__("s_select_action")}
       actions={ACTIONS_CLOSE}
     >
       <Box className="centered">
-        <MButton onClick={() => update(UpdateTypes.All)}>ALL</MButton>
+        <MButton onClick={() => update(UpdateTypes.All)}>{__("s_update_all")}</MButton>
       </Box>
     </Modal>
   );
@@ -71,15 +72,15 @@ export const Update = (props: UpdateProps) => {
     <Modal
       show={true}
       cancel={() => setUpdateFrom(UpdateFroms.None)}
-      title="update from remote server"
-      subTitle="select desired action"
+      title={__("s_update_from_server")}
+      subTitle={__("s_select_action")}
       actions={ACTIONS_CLOSE}
     >
       <Box className="centered">
-        <MButton onClick={() => update(UpdateTypes.Sw)}>FIRMWARE</MButton>
-        <MButton onClick={() => update(UpdateTypes.Planogram)}>PLANOGRAM</MButton>
-        <MButton onClick={() => update(UpdateTypes.Video)}>ATTRACT LOOP</MButton>
-        <MButton onClick={() => update(UpdateTypes.All)}>ALL</MButton>
+        <MButton onClick={() => update(UpdateTypes.Sw)}>{__("s_firmware")}</MButton>
+        <MButton onClick={() => update(UpdateTypes.Planogram)}>{__("s_update_planogram")}</MButton>
+        <MButton onClick={() => update(UpdateTypes.Video)}>{__("s_update_attract_loop")}</MButton>
+        <MButton onClick={() => update(UpdateTypes.All)}>{__("s_update_all")}</MButton>
       </Box>
     </Modal>
   );

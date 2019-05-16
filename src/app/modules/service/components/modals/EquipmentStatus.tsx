@@ -32,7 +32,7 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
     <Modal
       show={true}
       cancel={cancel}
-      title="EQUIPMENT STATUS"
+      title={__("s_equipment_status")}
       actions={ACTIONS_CLOSE}
     >
       <>
@@ -40,7 +40,7 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
           {
             alarms.length === 0 &&
              <Box className="elements centered">
-                <h1>No Alarms</h1>
+                <h1>{__("s_no_alarms")}</h1>
              </Box>
           }
           {
@@ -64,13 +64,13 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
           {
             alarmSelected &&
             <Box className="container">
-              <h2 id="title">info</h2>
+              <h2 id="title">{__("s_info")}</h2>
               <h4>
-                <p>NAME: {__(alarmSelected.alarm_name)}</p>
-                <p>CODE: {alarmSelected.alarm_code}</p>
-                <p>DATE: {new Date(alarmSelected.alarm_date).toLocaleDateString()}</p>
-                <p>DESCRIPTION: {__(alarmSelected.alarm_description)}</p>
-                <p>SOLUTION: {__(alarmSelected.alarm_solution)}</p>
+                <p>{__("s_alarm_name")}: {__(alarmSelected.alarm_name)}</p>
+                <p>{__("s_alarm_code")}: {alarmSelected.alarm_code}</p>
+                <p>{__("s_alarm_date")}: {new Date(alarmSelected.alarm_date).toLocaleDateString()}</p>
+                <p>{__("s_alarm_description")}: {__(alarmSelected.alarm_description)}</p>
+                <p>{__("s_alarm_solution")}: {__(alarmSelected.alarm_solution)}</p>
               </h4>
             </Box>
           }

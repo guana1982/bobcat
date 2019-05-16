@@ -109,21 +109,6 @@ interface MenuState {
 
 export const NewMenu = (props: MenuProps) => {
 
-  const [state, setState] = React.useState<MenuState>({
-    languageList: [
-      {label: "ENGLISH \n (United States)", value: 0},
-      {label: "FRANCAIS (Canada)", value: 1},
-      {label: "ESPANOL (Mexico)", value: 2}
-    ],
-    languageSelected: null,
-    videoList: [
-      {label: "video 1", value: 0},
-      {label: "video 2", value: 1},
-      {label: "video 3", value: 2}
-    ],
-    videoSelected: null,
-  });
-
   const [modals, dispatchModals] = React.useReducer(reducerModals, initialModals);
 
   const serviceConsumer = React.useContext(ServiceContext);
@@ -137,16 +122,6 @@ export const NewMenu = (props: MenuProps) => {
 
   /* ==== HANDLE ==== */
   /* ======================================== */
-
-  const handleLanguage = (value) => {
-    console.log(value);
-    setState(prevState => ({ ...prevState, languageSelected: value }));
-  };
-
-  // const handleVideo = (value) => {
-  //   console.log(value);
-  //   setState(prevState => ({ ...prevState, videoSelected: value }));
-  // };
 
   const openModal = (modal: Modals, params?: any) => {
     dispatchModals({ type: "open", modalToOpen: modal, params: params });
@@ -178,91 +153,91 @@ export const NewMenu = (props: MenuProps) => {
     <>
       <MenuContent>
         <Grid>
-          <Group title={__("LINES ASSIGNMENT")} size={authLevel !== AuthLevels.Crew ? SIZE_GROUP_LINES : SIZE_FULL_GROUP_LINES}>
+          <Group title={__("s_lines_assignment")} size={authLevel !== AuthLevels.Crew ? SIZE_GROUP_LINES : SIZE_FULL_GROUP_LINES}>
             {lines.pumps.map((line, i) => {
               return (
-                <MButton disabled={authLevel === AuthLevels.Super} onClick={() => openModal(Modals.Line, { lineId: line.line_id })} key={i} className="small" light info={`Line - ${line.line_id}`}>
-                  {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
+                <MButton disabled={authLevel === AuthLevels.Super} onClick={() => openModal(Modals.Line, { lineId: line.line_id })} key={i} className="small" light info={`${__("s_line")} - ${line.line_id}`}>
+                  {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : __("s_unassigned")}
                 </MButton>
               );
             })}
           </Group>
           {authLevel !== AuthLevels.Crew &&
-            <Group title={__("WATERS")} size={SIZE_GROUP_WATERS}>
+            <Group title={__("s_waters")} size={SIZE_GROUP_WATERS}>
               {lines.waters.map((line, i) => {
                 return (
-                  <MButton disabled={authLevel === AuthLevels.Super} onClick={() => openModal(Modals.Line, { lineId: line.line_id })} key={i} className="small" light info={`${line.$beverage.beverage_type} - ${line.line_id}`}>
-                    {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
+                  <MButton disabled={authLevel === AuthLevels.Super} onClick={() => openModal(Modals.Line, { lineId: line.line_id })} key={i} className="small" light info={`${__(`s_${line.$beverage.beverage_type}`)} - ${line.line_id}`}>
+                    {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : __("s_unassigned")}
                   </MButton>
                 );
               })}
             </Group>
           }
-          <Group title={__("ACTIONS")}>
+          <Group title={__("s_actions")}>
             {
               authLevel === AuthLevels.Crew &&
               <>
-                <MButton onClick={() => openModal(Modals.Cleaning)}>SCREEN CLEANING</MButton>
-                <MButton onClick={() => openModal(Modals.Sanitation)}>SANITATION</MButton>
+                <MButton onClick={() => openModal(Modals.Cleaning)}>{__("s_screen_cleaning")}</MButton>
+                <MButton onClick={() => openModal(Modals.Sanitation)}>{__("s_sanitation")}</MButton>
               </>
             }
             {
               authLevel === AuthLevels.Tech &&
               <>
-                <MButton onClick={() => openModal(Modals.EquipmentConfiguration)}>EQUIPMENT CONFIGURATION</MButton>
-                <MButton onClick={() => openModal(Modals.Timeout)}>VIDEO TIMEOUT</MButton>
-                <MButton onClick={() => openModal(Modals.Cleaning)}>SCREEN CLEANING</MButton>
-                <MButton onClick={() => openModal(Modals.Customize)}>CUSTOMIZE UI</MButton>
-                <MButton onClick={() => openModal(Modals.Sanitation)}>SANITATION</MButton>
-                {/* <MButton onClick={() => openModal(Modals.ChangePrice)}>CHANGE PRICE</MButton> */}
+                <MButton onClick={() => openModal(Modals.EquipmentConfiguration)}>{__("s_equipment_configuration")}</MButton>
+                <MButton onClick={() => openModal(Modals.Timeout)}>{__("s_video_timeout")}</MButton>
+                <MButton onClick={() => openModal(Modals.Cleaning)}>{__("s_screen_cleaning")}</MButton>
+                <MButton onClick={() => openModal(Modals.Customize)}>{__("s_customize_ui")}</MButton>
+                <MButton onClick={() => openModal(Modals.Sanitation)}>{__("s_sanitation")}</MButton>
+                {/* <MButton onClick={() => openModal(Modals.ChangePrice)}>{__("s_change_price")}</MButton> */}
               </>
             }
             {
               authLevel === AuthLevels.Super &&
               <>
-                <MButton onClick={() => openModal(Modals.EquipmentConfiguration, { setup: SetupTypes.Inizialization })}>INITIAL SETUP</MButton>
+                <MButton onClick={() => openModal(Modals.EquipmentConfiguration, { setup: SetupTypes.Inizialization })}>{__("s_initial_setup")}</MButton>
                 {/* <MButton onClick={() => openModal(Modals.Customize, { selection: SelectionTypes.Payment })}>FREE / PAID</MButton> */}
               </>
             }
           </Group>
-          <Group title={__("SYSTEM")}>
+          <Group title={__("s_system")}>
             {
               authLevel === AuthLevels.Crew &&
               <>
-                <MButton onClick={serviceConsumer.reboot}>SYSTEM REBOOT</MButton>
+                <MButton onClick={serviceConsumer.reboot}>{__("s_system_reboot")}</MButton>
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
-                <MButton onClick={() => openModal(Modals.About)}>ABOUT</MButton>
+                <MButton onClick={() => openModal(Modals.About)}>{__("s_about")}</MButton>
               </>
             }
             {
               authLevel === AuthLevels.Tech &&
               <>
-                <MButton onClick={serviceConsumer.reboot}>SYSTEM REBOOT</MButton>
+                <MButton onClick={serviceConsumer.reboot}>{__("s_system_reboot")}</MButton>
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
-                <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
-                <MButton onClick={() => openModal(Modals.Update)}>SOFTWARE UPDATE</MButton>
-                <MButton onClick={() => openModal(Modals.Connectivity)} info type={statusConnectivity}>CONNECTIVITY</MButton>
+                <MButton onClick={() => openModal(Modals.Language)}>{__("s_service_language")}</MButton>
+                <MButton onClick={() => openModal(Modals.Update)}>{__("s_software_update")}</MButton>
+                <MButton onClick={() => openModal(Modals.Connectivity)} info type={statusConnectivity}>{__("s_connectivity")}</MButton>
               </>
             }
             {
               authLevel === AuthLevels.Super &&
               <>
-                <MButton onClick={serviceConsumer.reboot}>SYSTEM REBOOT</MButton>
+                <MButton onClick={serviceConsumer.reboot}>{__("s_system_reboot")}</MButton>
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 {/* <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
                 <MButton onClick={() => openModal(Modals.Connectivity)} info type={statusConnectivity}>CONNECTIVITY</MButton> */}
               </>
             }
           </Group>
-          <Group title={__("ALARMS")} size={authLevel !== AuthLevels.Crew ? SIZE_GROUP_ALARM : SIZE_FULL_GROUP_ALARM}>
-            <MButton onClick={() => openModal(Modals.EquipmentStatus)} info type={statusAlarms}>EQUIPMENT STATUS</MButton>
+          <Group title={__("s_alarms")} size={authLevel !== AuthLevels.Crew ? SIZE_GROUP_ALARM : SIZE_FULL_GROUP_ALARM}>
+            <MButton onClick={() => openModal(Modals.EquipmentStatus)} info type={statusAlarms}>{__("s_equipment_status")}</MButton>
           </Group>
           {authLevel !== AuthLevels.Crew &&
             <Group id="info-group" size={SIZE_GROUP_INFO}>
               <About />
             </Group>
           }
-          <MButton id="exit-btn" onClick={() => location.reload()}>EXIT TO CONSUMER UI</MButton>
+          <MButton id="exit-btn" onClick={() => location.reload()}>{__("s_exit_main")}</MButton>
         </Grid>
       </MenuContent>
 
@@ -283,7 +258,7 @@ export const NewMenu = (props: MenuProps) => {
         <Modal
           show={modals[Modals.Connectivity].show}
           cancel={closeAllModal}
-          title={__("Connectivity")}
+          title={__("s_connectivity")}
           actions={[...actionsConnectivity, ...ACTIONS_CLOSE]}
         >
           <ConnectivityComponent handleActions={handleActionsConnectivity} />
@@ -294,7 +269,7 @@ export const NewMenu = (props: MenuProps) => {
         themeMode={ModalTheme.Dark}
         show={modals[Modals.About].show}
         cancel={closeAllModal}
-        title={__("About")}
+        title={__("s_about")}
         actions={ACTIONS_CLOSE}
       >
         <About />

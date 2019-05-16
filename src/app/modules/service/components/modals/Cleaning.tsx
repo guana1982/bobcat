@@ -64,8 +64,8 @@ export const Cleaning = (props: CleaningProps) => {
     <Modal
       show={true}
       cancel={cancel}
-      title={__("Screen Cleaning")}
-      subTitle={__("SCREEN WILL CLOSE IN 30 SECONDS REMEBER TO DRY SCREEN")}
+      title={__("s_screen_cleaning")}
+      subTitle={__("s_screen_cleaning_desc")}
       actions={[]}
     >
       <CleaningContent>

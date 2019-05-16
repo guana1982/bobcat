@@ -30,8 +30,8 @@ export const ChangePrice = (props: ChangePriceProps) => {
     <Modal
       show={true}
       cancel={cancel}
-      title={"CHANGE PRICE"}
-      subTitle={"SELECT FLAVOR FOR DESIRED PRICE CHANGE"}
+      title={__("s_change_price")}
+      subTitle={__("s_change_price_desc")}
       actions={ACTIONS_CLOSE}
     >
       <ChangePriceContent>

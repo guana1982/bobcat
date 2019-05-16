@@ -42,6 +42,7 @@ export const Group = styled<GroupProps, "div">("div")`
     top: 10%;
     left: 1.5rem;
     font-size: 1.2rem;
+    text-transform: uppercase;
     content: "${props => props.title} ";
   }
   &:first-child {

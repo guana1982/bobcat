@@ -15,34 +15,34 @@ import { LoaderContext } from "@core/containers/loader.container";
 import { forkJoin } from "rxjs";
 
 const ACTIONS_START = (cancel, next, disableNext: boolean): Action[] => [{
-  title: __("cancel"),
+  title: __("s_cancel"),
   event: cancel,
 }, {
-  title: __("next"),
+  title: __("s_next"),
   disabled: disableNext,
   event: next,
 }];
 
 const ACTIONS_CONTROL = (cancel, previous, next, disableNext: boolean): Action[] => [{
-  title: __("cancel"),
+  title: __("s_cancel"),
   event: cancel,
 }, {
-  title: __("previous"),
+  title: __("s_previous"),
   event: previous,
 }, {
-  title: __("next"),
+  title: __("s_next"),
   disabled: disableNext,
   event: next,
 }];
 
 const ACTIONS_END = (cancel, previous, finish, disableNext: boolean): Action[] => [{
-  title: __("cancel"),
+  title: __("s_cancel"),
   event: cancel,
 }, {
-  title: __("previous"),
+  title: __("s_previous"),
   event: previous,
 }, {
-  title: __("finish"),
+  title: __("s_finish"),
   disabled: disableNext,
   event: finish,
 }];
@@ -297,8 +297,8 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
       setTimeout(() => {
         alertConsumer.show({
           timeout: false,
-          title: "PICK UP",
-          content: "PLEASE DRAIN WATER BATH AND FLUSH THE LINES AFTER SYSTEM SHUTDOWN.",
+          title: __("s_pick_up"),
+          content: __("s_pick_up_confirm_desc"),
           onConfirm: endPickUp
         });
       }, 50);
@@ -306,8 +306,8 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
 
     alertConsumer.show({
       timeout: false,
-      title: "PICK UP",
-      content: "ARE YOU SURE THAT YOU WANT TO RESET THE EQUIPMENT? \n VALVE SETTINGS AND INITIAL SETUP WILL BE CLEARED.",
+      title: __("s_pick_up"),
+      content: __("s_pick_up_desc"),
       onConfirm: completePickUp
     });
   };
@@ -375,15 +375,15 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     <Modal
       show={true}
       cancel={cancel}
-      title="EQUIPMENT CONFIGURATION"
-      subTitle="SELECT DESIRED ACTION"
+      title={__("s_equipment_replacement")}
+      subTitle={__("s_select_action")}
       actions={ACTIONS_CLOSE}
     >
       <Box className="centered">
         {/* <MButton onClick={() => setSetup(SetupTypes.Inizialization)}>INITIAL SETUP</MButton> */}
-        <MButton onClick={() => setSetup(SetupTypes.MotherboardReplacement)}>MOTHERBOARD REPLACEMENT</MButton>
-        <MButton onClick={() => setSetup(SetupTypes.EquipmentReplacement)}>EQUIPMENT REPLACEMENT</MButton>
-        <MButton onClick={() => pickUp()}>PICK UP</MButton>
+        <MButton onClick={() => setSetup(SetupTypes.MotherboardReplacement)}>{__("s_motherboard_replacement")}</MButton>
+        <MButton onClick={() => setSetup(SetupTypes.EquipmentReplacement)}>{__("s_equipment_replacement")}</MButton>
+        <MButton onClick={() => pickUp()}>__("s_pick_up")</MButton>
       </Box>
     </Modal>
   );
@@ -392,18 +392,18 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   return (
     <Modal
       show={true}
-      title="INITIAL SETUP"
+      title={__("s_initialization")}
       actions={[...actionsConnectivity, ...actionsModal(5 + stepsForm, finishInizialization, disableNext_)]}
     >
       <>
         <div>
           <ISteps icons={icons} current={step}>
-            <ISteps.Step title="LANGUAGE" description="SELECT LANGUAGE" />
-            <ISteps.Step title="COUNTRY" description="SELECT COUNTRY" />
-            <ISteps.Step title="TIMEZONE" description="SELECT TIMEZONE" />
-            <ISteps.Step title="PAYMENT" description="SELECT PAYMENT" />
-            <ISteps.Step title="CONNECTION" description="CHECK CONNECTION" />
-            <ISteps.Step title="INITIALIZATION" description="FILL FORM" />
+            <ISteps.Step title={__(`s_initialization_step_${0}`)} description={__(`s_initialization_step_${0}_desc`)} />
+            <ISteps.Step title={__(`s_initialization_step_${1}`)} description={__(`s_initialization_step_${1}_desc`)} />
+            <ISteps.Step title={__(`s_initialization_step_${2}`)} description={__(`s_initialization_step_${2}_desc`)} />
+            <ISteps.Step title={__(`s_initialization_step_${3}`)} description={__(`s_initialization_step_${3}_desc`)} />
+            <ISteps.Step title={__(`s_initialization_step_${4}`)} description={__(`s_initialization_step_${4}_desc`)} />
+            <ISteps.Step title={__(`s_initialization_step_${5}`)} description={__(`s_initialization_step_${5}_desc`)} />
           </ISteps>
           <Box className="container">
             <ISection>

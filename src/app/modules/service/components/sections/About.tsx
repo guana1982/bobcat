@@ -1,5 +1,6 @@
 import * as React from "react";
 import { ConfigContext } from "@core/containers";
+import { __ } from "@core/utils/lib/i18n";
 
 export const About = () => {
 
@@ -10,12 +11,12 @@ export const About = () => {
   return (
     <>
       <ul>
-        <li>COUNTRY: <b>{country || "---"}</b></li>
-        <li>IMEI: <b>{imei || "---"}</b></li>
-        <li>MQTT S/N: <b>{serial_number_mqtt || "---"}</b></li>
-        <li>MEDIABOARD S/N: <b>{serial_number_mediaboard || "---"}</b></li>
-        <li>POWERBOARD S/N: <b>{serial_number_powerboard || "---"}</b></li>
-        <li>SOFTWARE VERSIONE: <b>{software_version || "---"}</b></li>
+        <li>{__("s_country")}: <b>{country || "---"}</b></li>
+        <li>{__("s_imei")}: <b>{imei || "---"}</b></li>
+        <li>{__("s_mqtt_sn")}: <b>{serial_number_mqtt || "---"}</b></li>
+        <li>{__("s_mediaboard_sn")}: <b>{serial_number_mediaboard || "---"}</b></li>
+        <li>{__("s_powerboard_sn")}: <b>{serial_number_powerboard || "---"}</b></li>
+        <li>{__("s_software_version")}: <b>{software_version || "---"}</b></li>
       </ul>
     </>
   );
