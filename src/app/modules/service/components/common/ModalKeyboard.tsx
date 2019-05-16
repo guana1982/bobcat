@@ -1,12 +1,13 @@
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
 import Keyboard from "react-simple-keyboard";
-import { ModalContent, Modal, ACTIONS_CONFIRM, ModalTheme, Box } from "./Modal";
+import { ModalContent, Modal, ACTIONS_CONFIRM, ModalTheme, Box, Action } from "./Modal";
 import { MInput, InputTheme, InputContent, InputWrapper } from "./Input";
 import { ConfigContext, ServiceContext } from "@core/containers";
 import "react-simple-keyboard/build/css/index.css";
 import { MButton } from "./Button";
 import { MKeyboard, KeyboardWrapper } from "./Keyboard";
+import { __ } from "@core/utils/lib/i18n";
 
 const dateFormat = (input: string) => {
   const lenght_ = input.length;
@@ -17,6 +18,15 @@ const dateFormat = (input: string) => {
     return `${_(0)}${_(1)}/${_(2)}${_(3)}/${_(4)}${_(5)}${_(6)}${_(7)}`;
   }
 };
+
+const ACTIONS_MULTIPLE = (cancel, finish, disableNext: boolean): Action[] => [{
+  title: __("s_cancel"),
+  event: cancel,
+}, {
+  title: __("s_finish"),
+  disabled: disableNext,
+  event: finish,
+}];
 
 const FullKeyboardWrapper = styled.div`
   ${InputWrapper} {
@@ -85,7 +95,6 @@ interface NumberPadState {
   input2: string;
 }
 
-let keyboard: any;
 const layout = {
   [TypeLayout.Default]: ["1 2 3", "4 5 6", "7 8 9", " 0 {bksp}"],
   [TypeLayout.Shift]: ["! / #", "$ % ^", "& * (", "{bksp} ) +"],
@@ -93,6 +102,13 @@ const layout = {
 const display = {
   "{bksp}": "Del",
   // "{enter}": "Go"
+};
+
+const isValidDate = (dateString: string) => {
+  const date_ = new Date(dateString);
+  const today_ = new Date();
+  const validDate_ = date_ > today_;
+  return validDate_;
 };
 
 export const ModalKeyboard = (props: NumberPadProps) => {
@@ -106,6 +122,40 @@ export const ModalKeyboard = (props: NumberPadProps) => {
     input: "",
     input2: ""
   });
+
+  const keyboardEl = React.useRef(null);
+
+  React.useEffect(() => {
+    if (!state.showKeyboard) {
+      return;
+    }
+    if (type === ModalKeyboardTypes.Multiple) {
+      const keyboardEl_ = keyboardEl.current;
+      keyboardEl_.setInput(state.input);
+    }
+  }, [state.showKeyboard]);
+
+  //  ==== ENABLE NEXT ====>
+  const [disableNext_, setDisableNext_] = React.useState<boolean>(true);
+
+  React.useEffect(() => {
+    const { input, input2 } = state;
+    if (type === ModalKeyboardTypes.Multiple) {
+      if (input !== "" && input2 !== "") {
+        const date_ = dateFormat(state.input);
+        const validDate_ = isValidDate(date_);
+        if (validDate_) {
+          setDisableNext_(false);
+          return;
+        }
+      }
+    } else {
+      setDisableNext_(false);
+      return;
+    }
+    setDisableNext_(true);
+  }, [state.input, state.input2]);
+  //  <=== ENABLE NEXT ====
 
   const onChangeInput = input => {
     setState(prevState => ({
@@ -126,15 +176,6 @@ export const ModalKeyboard = (props: NumberPadProps) => {
   const onKeyPress = button => {
     // console.log("Button pressed", button);
   };
-
-  // const onChangeInput = event => {
-  //   let input = event.target.value;
-  //   setState(prevState => ({
-  //     ...prevState,
-  //     input: input,
-  //   }));
-  //   keyboard.setInput(input);
-  // };
 
   const toggleKeyboard = () => {
     setState(prevState => ({
@@ -170,7 +211,7 @@ export const ModalKeyboard = (props: NumberPadProps) => {
               onChange={e => console.log(e)}
             />
             <Keyboard
-              ref={r => (keyboard = r)}
+              ref={keyboardEl}
               layoutName={state.layoutName}
               layout={layout}
               display={display}
@@ -222,9 +263,7 @@ export const ModalKeyboard = (props: NumberPadProps) => {
         show={true}
         title={title}
         themeMode={ModalTheme.Dark}
-        actions={ACTIONS_CONFIRM}
-        cancel={() => cancel()}
-        finish={() => finish(resetBibPayload)}
+        actions={ACTIONS_MULTIPLE(cancel, resetBibPayload, disableNext_)}
       >
         <NumberPadWrapper>
           <div>
@@ -247,7 +286,7 @@ export const ModalKeyboard = (props: NumberPadProps) => {
             />
             { state.showKeyboard &&
                 <Keyboard
-                  ref={r => (keyboard = r)}
+                  ref={keyboardEl}
                   layoutName={state.layoutName}
                   layout={layout}
                   display={display}
