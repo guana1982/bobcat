@@ -20,10 +20,10 @@ const dateFormat = (input: string) => {
 };
 
 const ACTIONS_MULTIPLE = (cancel, finish, disableNext: boolean): Action[] => [{
-  title: __("s_cancel"),
+  title: __("cancel"),
   event: cancel,
 }, {
-  title: __("s_finish"),
+  title: __("finish"),
   disabled: disableNext,
   event: finish,
 }];
@@ -257,13 +257,18 @@ export const ModalKeyboard = (props: NumberPadProps) => {
     "line_id": beverage.line_id
   };
 
+  const finishMultiple = () => {
+    finish(resetBibPayload);
+    cancel();
+  };
+
   if (type === ModalKeyboardTypes.Multiple)
   return (
       <Modal
         show={true}
         title={title}
         themeMode={ModalTheme.Dark}
-        actions={ACTIONS_MULTIPLE(cancel, resetBibPayload, disableNext_)}
+        actions={ACTIONS_MULTIPLE(cancel, finishMultiple, disableNext_)}
       >
         <NumberPadWrapper>
           <div>
