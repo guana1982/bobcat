@@ -31,6 +31,7 @@ interface AccessibilityState {
 
 interface StateLayout {
   beverageSelected?: number;
+  nutritionFacts?: boolean;
   slideOpen?: boolean;
   buttonGroupSelected?: string;
   alertShow?: boolean;
@@ -45,6 +46,7 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
 
   const [stateLayout, setStateLayout] = React.useState<StateLayout>({
     beverageSelected: null,
+    nutritionFacts: false,
     slideOpen: false,
     buttonGroupSelected: null,
     alertShow: false,
@@ -84,11 +86,29 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
   //  ==== ON CHANGE STATE LAYOUT ====
   //  ================================
 
-  //  ==== BEVERAGE SELECTED CASE ====
+  //  ==== ALERT CASE ====
+  const { alertShow } = stateLayout;
+  React.useEffect(() => {
+    if (alertShow) {
+      // setDown(false);
+      // setEnable(false);
+      // setPour(false);
+      // setStop(true);
+      const buttons = detectButtons();
+      focusElement(buttons[0]);
+    }
+    if (!alertShow) {
+      // setStop(false);
+      const buttons = detectButtons();
+      focusElement(buttons[0]);
+    }
+  }, [alertShow]);
+
+  //  ==== BEVERAGE SELECTED CASE & NUTRITION FACTS CASE ====
   React.useEffect(() => {
     const buttons = detectButtons();
     focusElement(buttons[0]);
-  }, [stateLayout.beverageSelected]);
+  }, [stateLayout.beverageSelected, stateLayout.nutritionFacts]);
 
   //  ==== SLIDE OPEN CASE ====
   React.useEffect(() => {
@@ -106,20 +126,19 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
     }
   }, [stateLayout.buttonGroupSelected]);
 
-  //  ==== ALERT || END BEVERAGE CASE ====
-  const { alertShow, endBeverageShow } = stateLayout;
+  //  ==== END BEVERAGE CASE ====
+  const { endBeverageShow } = stateLayout;
   React.useEffect(() => {
-    if (alertShow || endBeverageShow) {
-      // focusRemove();
+    if (endBeverageShow) {
       setDown(false);
       setEnable(false);
       setPour(false);
       setStop(true);
     }
-    if (!alertShow && !endBeverageShow) {
+    if (!endBeverageShow) {
       setStop(false);
     }
-  }, [alertShow, endBeverageShow]);
+  }, [endBeverageShow]);
 
   //  ==== DETECT STATUS FOR STYLE ====
   //  ================================
@@ -250,6 +269,13 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
 
   function backAction() {
 
+    // === ALERT CASE ===
+    const buttonAlertClose = getSpecificButton(`alert_close`);
+    if (buttonAlertClose) {
+      buttonAlertClose.click();
+      return;
+    }
+
     // === BUTTON GROUP CASE ===
     const { buttonGroupSelected } = stateLayout;
     if (buttonGroupSelected !== null) {
@@ -266,6 +292,14 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
     const { beverageSelected } = stateLayout;
     if (beverageSelected !== null) {
       const buttonToFocus = getSpecificButton(`beverage_close`);
+      buttonToFocus.click();
+      return;
+    }
+
+    // === NUTRITION FACTS CASE ===
+    const { nutritionFacts } = stateLayout;
+    if (nutritionFacts) {
+      const buttonToFocus = getSpecificButton(`nutrition-btn`);
       buttonToFocus.click();
       return;
     }

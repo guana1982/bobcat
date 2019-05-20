@@ -151,7 +151,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   //  ==== ACCESSIBILITY FUNCTION ====>
   const buttonEl = React.useRef(null);
   const accessibilityConsumer = React.useContext(AccessibilityContext);
-  const { enter, pour } = accessibilityConsumer;
+  const { enter, pour, changeStateLayout } = accessibilityConsumer;
 
   React.useEffect(() => {
     const button = buttonEl.current;
@@ -160,6 +160,13 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
     if (!isFocus) return;
 
     if (enter) {
+      if (nutritionFacts) {
+        handleZoomNutrition(true);
+        changeStateLayout({
+          alertShow: true
+        });
+        return;
+      }
       if (onStart) {
         onStart();
       }
@@ -167,6 +174,9 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
     }
 
     if (pour === true) {
+      if (nutritionFacts) {
+        return;
+      }
       if (onHoldStart) {
         onHoldStart();
       }
@@ -184,6 +194,13 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   const handleZoomNutrition = (status: boolean) => {
     setZoomNutrition(status);
     handleDisabled(status);
+  };
+
+  const closeZoomNutrition = () => {
+    changeStateLayout({
+      alertShow: false
+    }); //  <=== ACCESSIBILITY FUNCTION ====
+    handleZoomNutrition(false);
   };
 
   const start = () => {
@@ -224,7 +241,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
           {zoomNutrition &&
             <AppendedFullBeverage {...props}>
               <BeverageFull>
-                <CloseBtn detectValue={"nutrition_close"} icon={"close"} onClick={() => handleZoomNutrition(false)} />
+                <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={closeZoomNutrition} />
                 <BeverageWrap show={true} color={color}>
                   <Nutrition show={nutritionFacts} title={title} color={color} />
                 </BeverageWrap>

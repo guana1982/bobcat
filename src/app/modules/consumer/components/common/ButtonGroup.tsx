@@ -60,7 +60,7 @@ const ButtonGroupContent = styled.div`
         border-bottom-left-radius: 17px;
       }
       &:nth-child(2) {
-        margin: 0 5px;
+        margin: 0 6px;
       }
       &:nth-child(3) {
         border-top-right-radius: 17px;

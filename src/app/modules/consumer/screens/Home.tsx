@@ -137,10 +137,11 @@ export const Home = (props: HomeProps) => {
   React.useEffect(() => {
     changeStateLayout({
       beverageSelected: state.beverageSelected,
+      nutritionFacts: nutritionFacts,
       slideOpen: slideOpen,
       buttonGroupSelected: null
     });
-  }, [state.beverageSelected, slideOpen]);
+  }, [state.beverageSelected, slideOpen, nutritionFacts]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
   /* ==== PROXIMITY SENSOR ==== */

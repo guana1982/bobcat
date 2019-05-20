@@ -57,6 +57,37 @@ export const GlobalStyle = createGlobalStyle`
     src: url(${NeuzeitGroBol})
   }
 
+  body::after{
+    position:absolute; width:0; height:0; overflow:hidden; z-index:-1;
+    content:
+      url("img/bottle-qr.svg")
+      url("img/logos/2009.png")
+
+      url("img/logos/9.png")
+      url("img/logos/2009.png")
+      url("img/logos/2011.png")
+      url("img/logos/2012.png")
+      url("img/logos/2013.png")
+      url("img/logos/2014.png")
+      url("img/logos/2015.png")
+
+      url("img/logos/9@sparkling.png")
+      url("img/logos/2009@sparkling.png")
+      url("img/logos/2011@sparkling.png")
+      url("img/logos/2012@sparkling.png")
+      url("img/logos/2013@sparkling.png")
+      url("img/logos/2014@sparkling.png")
+      url("img/logos/2015@sparkling.png")
+
+      url("img/logos/9@blur.png")
+      url("img/logos/2009@blur.png")
+      url("img/logos/2011@blur.png")
+      url("img/logos/2012@blur.png")
+      url("img/logos/2013@blur.png")
+      url("img/logos/2014@blur.png")
+      url("img/logos/2015@blur.png");
+  }
+
   html,
   body {
     font-family: NeuzeitGro-Reg;

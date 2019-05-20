@@ -191,8 +191,6 @@ class ConfigStoreComponent extends React.Component<any, any> {
     .pipe(
       map(mergeById),
       tap(beverages => {
-        console.log("BEVERAGES", beverages);
-
         // -- FILTER & ORDER => BEVERAGES --
         const beverages_ = beverages.filter(beverage => {
           const { beverage_type, line_id, $lock } = beverage;
@@ -202,7 +200,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
           if (a.beverage_type === Beverages.Plain) return -1; else if (b.beverage_type === Beverages.Plain) return 1;
           return a.line_id - b.line_id;
         });
-        console.log(beverages);
+        console.log("BEVERAGES_", beverages);
         this.setState({
           allBeverages: beverages,
           beverages: beverages_

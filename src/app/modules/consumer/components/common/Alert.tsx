@@ -95,11 +95,11 @@ export const Alert = (props: AlertProps) => {
     });
   }, [show]);
 
-  React.useEffect(() => {
-    if (enter && show) {
-      onDismiss_();
-    }
-  }, [enter, show]);
+  // React.useEffect(() => {
+  //   if (enter && show) {
+  //     onDismiss_();
+  //   }
+  // }, [enter, show]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
   const onDismiss_ = () => {
