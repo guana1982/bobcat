@@ -17,11 +17,11 @@ enum Direction {
 }
 
 enum KeyMapping {
-  BACK = 65,
-  LEFT = 83,
-  RIGHT = 68,
-  ENTER = 70,
-  POUR = 71
+  BACK = 97,
+  LEFT = 115,
+  RIGHT = 100,
+  ENTER = 102,
+  POUR = 103
 }
 
 interface AccessibilityState {
@@ -156,10 +156,10 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
   //  ================================
 
   React.useEffect(() => {
-    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("keypress", onKeyDown);
     document.addEventListener("touchend", onTouchEnd);
     return () => {
-      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("keypress", onKeyDown);
       document.addEventListener("touchend", onTouchEnd);
     };
   }, [down, enable, stop, props.location.pathname]);
