@@ -76,6 +76,7 @@ export enum SOCKET_CONSUMER {
 export const SOCKET_CONNECTIVITY = "connectivity_status";
 // export const SOCKET_QR = "qr_found";
 // -- MESSAGES SOCKET --
+export const MESSAGE_START_VIDEO = "start_video";
 export const MESSAGE_STOP_VIDEO = "stop_video";
 export const MESSAGE_START_CAMERA = "start_camera";
 

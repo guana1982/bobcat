@@ -46,6 +46,10 @@ export default {
     stop: () => post("dispense/stop"),
     getReservedBeverage: () => get("dispense/reserved_beverage")
   },
+  brightness: {
+    dimDisplay: () => post("menu/dim_display"),
+    brightenDisplay: () => post("menu/brighten_display")
+  },
   menu: {
     getList: () => get("menu"),
     getSubMenu: (menuId = "", submenuId = "") => get(`menu/${menuId}/${submenuId}`),

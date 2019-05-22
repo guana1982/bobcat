@@ -12,6 +12,7 @@ import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
 import { SegmentButtonProps, SegmentButton } from "../common/SegmentButton";
 import { Button } from "../common/Button";
 import { ButtonGroup } from "../common/ButtonGroup";
+import ClickNHold from "../common/ClickNHold";
 
 const _sizePour = 105;
 
@@ -293,19 +294,28 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             </div>
           </CustomizeBeverageCard>
         }
-        <Pour
-          color={beverageSelected.beverage_font_color}
-          isPouring={isPouring}
-          ref={buttonPourEl}
-          onTouchStart={() => startPour()}
-          onTouchEnd={() => stopPour()}
-          onTouchMove={() => stopPour()}
-          onTouchCancel={() => stopPour()}
-          // onMouseDown={() => startPour()} // => DESKTOP MODE
-          // onMouseUp={() => stopPour()} // => DESKTOP MODE
+        <ClickNHold
+          time={0.250}
+          onStart={() => console.log("pd1")}
+          onClickNHold={() => startPour()}
+          onEnd={(e, enough) => enough && stopPour()}
         >
-          {__("c_pour")}
-        </Pour>
+          <Pour
+            color={beverageSelected.beverage_font_color}
+            isPouring={isPouring}
+            ref={buttonPourEl}
+
+            // onTouchStart={() => startPour()}
+            // onTouchEnd={() => stopPour()}
+            // onTouchMove={() => stopPour()}
+            // onTouchCancel={() => stopPour()}
+
+            // onMouseDown={() => startPour()} // => DESKTOP MODE
+            // onMouseUp={() => stopPour()} // => DESKTOP MODE
+          >
+            {__("c_pour")}
+          </Pour>
+        </ClickNHold>
       </CustomizeBeverageWrap>
     </React.Fragment>
   );

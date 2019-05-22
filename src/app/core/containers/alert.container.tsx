@@ -42,10 +42,10 @@ const AlertContainer = createContainer(() => {
   };
 
   const hide = () => {
-    // setState({
-    //   show: false,
-    //   options: {}
-    // });
+    setState({
+      show: false,
+      options: {}
+    });
   };
 
   return { state, show, hide };

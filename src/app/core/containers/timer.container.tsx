@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BehaviorSubject, Observable } from "rxjs";
 import { withRouter } from "react-router-dom";
-import { Pages } from "../utils/constants";
+import { Pages, MESSAGE_START_VIDEO } from "../utils/constants";
 import { withConsumer } from "./consumer.container";
 import { withConfig } from "./config.container";
 import { AlertTypes, withAlert } from "./alert.container";
@@ -27,10 +27,19 @@ class TimerStoreComponent extends React.Component<any, any> {
 
   constructor(props) {
     super(props);
+    console.log("propsTimer_", props);
     this.time$ = new BehaviorSubject<any>(null);
     this.clearTimer(false);
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
+
+    const { socketAttractor$ } = props.configConsumer;
+    const socketAttractor_ = socketAttractor$
+    .subscribe(value => {
+      if (value === MESSAGE_START_VIDEO) {
+        // alert("START_VIDEO");
+      }
+    });
   }
 
   secondsToTime(secs) {

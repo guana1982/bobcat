@@ -264,13 +264,19 @@ class ConfigStoreComponent extends React.Component<any, any> {
       temperature_level: config.temperature_level,
       pour_method: "free_flow"
     };
-    this.setState({isPouring: true});
-    return mediumLevel.dispense.pour(recipe).pipe(first());
+    return mediumLevel.dispense.pour(recipe)
+    .pipe(
+      first(),
+      tap(() => this.setState({isPouring: true}))
+    );
   }
 
   private onStopPour = () => {
-    this.setState({isPouring: false});
-    return mediumLevel.dispense.stop().pipe(first());
+    return mediumLevel.dispense.stop()
+    .pipe(
+      first(),
+      tap(() => this.setState({isPouring: false}))
+    );
   }
 
   /* ==== MAIN ==== */

@@ -127,6 +127,10 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
   }
 
+  /* a, button, .myelements  {
+    touch-action: manipulation;
+  } */
+
   button {
     font-family: inherit;
     font-weight: inherit;
