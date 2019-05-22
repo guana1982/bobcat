@@ -33,7 +33,7 @@ export const LEVELS = {
   ],
   temperature: [
     {label: "c_ambient", value: 100},
-    {label: "c_cool", value: 50},
+    {label: "c_cold", value: 50},
     {label: "c_ice_cold", value: 0},
   ],
   // carbTemperature: [

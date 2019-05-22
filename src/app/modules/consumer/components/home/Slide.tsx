@@ -216,7 +216,7 @@ export const Slide = (props: SlideProps) => {
             );
           })}
         </Grid>
-        {consumerBeverages[0].$types[0] === BeverageTypes.Info && <h3 id="info">{__("c_save_favourites")}</h3>}
+        {/* {consumerBeverages[0].$types[0] === BeverageTypes.Info && <h3 id="info">{__("c_save_favourites")}</h3>} */}
         <ToggleSlide disabled={disabled} onClick={() => handleSlide()}>
           <img src={"icons/arrow-circle.png"} />
         </ToggleSlide>

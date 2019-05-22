@@ -30,7 +30,7 @@ export const Nutrition_ = (props: NutritionProps) => {
         <div className="value">
           <span></span>
           <span></span>
-          <span>% {__("c_daily_value")} *</span>
+          <span>{__("c_daily_value")}</span>
         </div>
         <div className="value">
           <span>{__("c_total_fat")}</span>
@@ -43,19 +43,19 @@ export const Nutrition_ = (props: NutritionProps) => {
           <span>0%</span>
         </div>
         <div className="value">
-          <span>{__("c_potassium")}</span>
-          <span>35mg</span>
-          <span>1%</span>
-        </div>
-        <div className="value">
           <span>{__("c_total_carbohydrate")}</span>
           <span>0g</span>
           <span>0%</span>
         </div>
         <div className="value">
+          <span>{__("c_sugars")}</span>
+          <span>35g</span>
+          <span>1%</span>
+        </div>
+        <div className="value">
           <span>{__("c_protein")}</span>
           <span>0g</span>
-          <span>0g</span>
+          <span>0%</span>
         </div>
       </div>
     </div>
@@ -79,7 +79,7 @@ export const Nutrition = styled(Nutrition_)`
     padding: 0 5px;
     height: 40px;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
   }
   .row {
     display: block;

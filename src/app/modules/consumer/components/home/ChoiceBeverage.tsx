@@ -88,7 +88,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
         </Grid>
         <Button detectValue="nutrition-btn" disabled={disabled} onClick={() => handleNutritionFacts()} text="c_nutrition" icon={!nutritionFacts ? "nutrition" : "close"} />
         {!isLogged && <Button detectValue="signin-btn" disabled={disabled} onClick={() => goToPrepay()} text="c_sign_in" icon="qr-code" />}
-        {isLogged && <Button detectValue="logout-btn" disabled={disabled} onClick={() => resetConsumer()} text="c_sign_out" icon="log-out" />}
+        {isLogged && <Button detectValue="logout-btn" disabled={disabled} onClick={() => resetConsumer()} text="c_done" icon="log-out" />}
       </ChoiceBeverageWrap>
     </React.Fragment>
   );

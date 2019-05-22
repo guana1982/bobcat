@@ -47,6 +47,7 @@ export const Pour = styled.button`
     animation-delay: .5s;
   }
   position: absolute;
+  text-transform: uppercase;
   bottom: 0; /* ${-_sizePour / 5}px; */
   line-height: 6;
   right: calc(50% - ${_sizePour}px);
