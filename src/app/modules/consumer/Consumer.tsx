@@ -11,7 +11,7 @@ import { Prepay } from "./screens/Prepay";
 import { OldMenu } from "./screens/Menu";
 
 /* ==== STORES ==== */
-import { ConsumerStore, AccessibilityProvider, AlertProvider, TimerStore } from "@core/containers";
+import { ConsumerStore, AccessibilityProvider, AlertProvider, TimerProvider } from "@core/containers";
 import { ThemeProvider } from "styled-components";
 
 export const Consumer = () => (
@@ -19,12 +19,12 @@ export const Consumer = () => (
     <AccessibilityProvider>
       <AlertProvider alertComponent={<Alert />}>
         <ConsumerStore>
-          <TimerStore>
+          <TimerProvider>
             <Route exact path={Pages.Attractor} component={Attractor}/>
             <Route path={Pages.Home} component={Home}/>
             <Route path={Pages.Prepay} component={Prepay}/>
             {/* <Route path={Pages.Menu} component={OldMenu}/> */}
-          </TimerStore>
+          </TimerProvider>
         </ConsumerStore>
       </AlertProvider>
     </AccessibilityProvider>
