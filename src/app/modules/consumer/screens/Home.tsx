@@ -76,6 +76,7 @@ enum StatusEndSession {
 }
 
 let socketAlarms_: Subscription;
+let endSession_: Subscription;
 
 export const Home = (props: HomeProps) => {
 
@@ -116,6 +117,8 @@ export const Home = (props: HomeProps) => {
   const configConsumer = React.useContext(ConfigContext);
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
+
+  const { timerFull$ } = timerConsumer;
 
   React.useEffect(() => {
     const stopVideo_ = setTimeout(() => {
@@ -265,12 +268,10 @@ export const Home = (props: HomeProps) => {
       }
     }
 
-    timerConsumer.resetTimer();
     configConsumer.onStartPour(bevSelected, bevConfig).subscribe(); // => TEST MODE
   };
 
   const stopPour = () => {
-    timerConsumer.startTimer();
     configConsumer.onStopPour().subscribe(); // => TEST MODE
     setEndSession(StatusEndSession.Start);
   };
@@ -280,52 +281,34 @@ export const Home = (props: HomeProps) => {
 
   React.useEffect(
     () => {
-      const startTimerEnd = () => TimerEnd.startTimer(() => setEndSession(StatusEndSession.Finish));
-      if (endSession !== null) {
-        console.log(`${endSession} | End Session`);
-      }
-
       if (endSession === StatusEndSession.Start) {
-
-        startTimerEnd();
-
-        document.addEventListener("touchstart", TimerEnd.clearTimer);
-        document.addEventListener("touchend", startTimerEnd);
-        // document.addEventListener("mousedown", TimerEnd.clearTimer); // => DESKTOP MODE
-        // document.addEventListener("mouseup", startTimerEnd); // => DESKTOP MODE
-        document.addEventListener("keydown", TimerEnd.clearTimer); // => ACCESSIBILITY
-        document.addEventListener("keyup", startTimerEnd); // => ACCESSIBILITY
-
-      } else if (endSession === StatusEndSession.Finish) {
-
-        TimerEnd.clearTimer();
-        mediumLevel.product.sessionEnded().subscribe();
-
-        if (StatusEndSession.Finish) {
-          alertConsumer.show({
-            type: AlertTypes.EndBeverage,
-            timeout: true,
-            onDismiss: () => {
-              resetBeverage();
-              consumerConsumer.resetConsumer();
+        timerConsumer.resetTimer();
+        endSession_ = timerFull$
+        .subscribe(
+          val => {
+            if (val === "timer_stop") {
+              setEndSession(StatusEndSession.Finish);
             }
-          });
-        }
-
+          }
+        );
+      } else if (endSession === StatusEndSession.Finish) {
+        mediumLevel.product.sessionEnded().subscribe();
+        alertConsumer.show({
+          type: AlertTypes.EndBeverage,
+          timeout: true,
+          onDismiss: () => {
+            resetBeverage();
+            consumerConsumer.resetConsumer();
+          }
+        });
       } else if (endSession === StatusEndSession.OutOfStock) {
-        TimerEnd.clearTimer();
         mediumLevel.product.sessionEnded().subscribe();
         consumerConsumer.resetConsumer();
       }
 
       return () => {
         if (endSession === StatusEndSession.Start) {
-          document.removeEventListener("touchstart", TimerEnd.clearTimer);
-          document.removeEventListener("touchend", startTimerEnd);
-          // document.removeEventListener("mousedown", TimerEnd.clearTimer); // => DESKTOP MODE
-          // document.removeEventListener("mouseup", startTimerEnd); // => DESKTOP MODE
-          document.removeEventListener("keydown", TimerEnd.clearTimer); // => ACCESSIBILITY
-          document.removeEventListener("keyup", startTimerEnd); // => ACCESSIBILITY
+          endSession_.unsubscribe();
         }
       };
 

@@ -21,7 +21,7 @@ const TimerContainer = createContainer((props: any) => {
   const sourceTouchStart = fromEvent(document, "touchstart");
   const sourceTouchEnd = fromEvent(document, "touchend");
 
-  const timer$ = (time: number, tapDetect: boolean) => sourceTouchEnd
+  const timerTouch$ = (time: number, tapDetect: boolean) => sourceTouchEnd
   .pipe(
     startWith(void 0), // trigger emission at launch
     switchMap(() => timer(0, time).pipe(
@@ -44,29 +44,33 @@ const TimerContainer = createContainer((props: any) => {
 
   const brightness$ = mediumLevel.brightness.dimDisplay()
   .pipe(
-    switchMap(() => timer$(3000, true)),
+    switchMap(() => timerTouch$(3000, true)),
     first(),
     tap(value => value === "tap_detect" && mediumLevel.brightness.brightenDisplay().subscribe())
   );
 
-  const home$ = timer$(10000, false)
+  const timerFull$ = timerTouch$(10000, false)
   .pipe(
     first(),
-    switchMap(() => brightness$)
+    switchMap(() => brightness$),
   );
 
   function startTimer() {
-    timer_ = home$.subscribe(
+    timer_ = timerFull$.subscribe(
       val => {
         if (val === "timer_stop") {
-          alertConsumer.show({
-            type: AlertTypes.TimedOut,
-            timeout: true,
-            onDismiss: () => {
-              consumerConsumer.resetConsumer();
-              props.history.push(Pages.Attractor);
-            }
-          });
+          if (isLogged) {
+            alertConsumer.show({
+              type: AlertTypes.TimedOut,
+              timeout: true,
+              onDismiss: () => {
+                consumerConsumer.resetConsumer();
+                props.history.push(Pages.Attractor);
+              }
+            });
+          } else {
+            consumerConsumer.resetConsumer();
+          }
         } else {
           startTimer();
         }
@@ -82,7 +86,12 @@ const TimerContainer = createContainer((props: any) => {
 
   }
 
-  return { startTimer, resetTimer, clearTimer };
+  return {
+    timerFull$,
+    startTimer,
+    resetTimer,
+    clearTimer
+  };
 });
 
 export const TimerProvider = withRouter(TimerContainer.Provider);
