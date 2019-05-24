@@ -10,6 +10,8 @@ import BeverageLogo from "@core/components/common/Logo";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 
 const TIMER_SANITATION = 35;
+const TIMER_RINSING = 2;
+const TIMER_PH = 20;
 
 const ACTIONS_START = (cancel, next, disableNext: boolean , disableBack: boolean): Action[] => [{
   title: __("cancel"),
@@ -156,9 +158,14 @@ export const Sanitation = (props: SanitationProps) => {
             seconds: TIMER_SANITATION,
           },
           4: {
-            verified: false
+            $timer: null,
+            seconds: TIMER_RINSING,
           },
           5: {
+            $timer: null,
+            seconds: TIMER_PH,
+          },
+          6: {
             $timer: null,
             seconds: TIMER_SANITATION,
           }
@@ -269,26 +276,17 @@ export const Sanitation = (props: SanitationProps) => {
 
   React.useEffect(() => {
     if (step === 0) {
+      setDisableNext_(false);
+      return;
+    } else if (step === 1) {
       if (linesSelected.length !== 0) {
         setDisableNext_(false);
         return;
       }
-    } else if (step !== 0 && step !== 4) {
+    } else if (step !== 0 && step !== 1) {
       let validLiness_ = true;
       linesSelected.forEach(line => {
         if (line.steps[step].seconds !== 0) {
-          validLiness_ = false;
-          return;
-        }
-      });
-      if (validLiness_) {
-        setDisableNext_(false);
-        return;
-      }
-    } else if (step === 4) {
-      let validLiness_ = true;
-      linesSelected.forEach(line => {
-        if (line.steps[step].verified !== true) {
           validLiness_ = false;
           return;
         }
@@ -307,7 +305,7 @@ export const Sanitation = (props: SanitationProps) => {
   const [disableBack_, setDisableBack_] = React.useState<boolean>(false);
   React.useEffect(() => {
     linesSelected.forEach(line => {
-      if (step !== 0 && step !== 4) {
+      if (step !== 1 && step !== 5) {
         let countTimers_ = 0;
         linesSelected.forEach(lineSelected => {
           if (lineSelected.steps[step].$timer)
@@ -353,60 +351,72 @@ export const Sanitation = (props: SanitationProps) => {
     <Modal
       show={true}
       title="SANITATION"
-      actions={...actionsModal(6, finishSanitation, disableNext_, disableBack_)}
+      actions={...actionsModal(7, finishSanitation, disableNext_, disableBack_)}
     >
       <>
         <div>
           <ISteps icons={icons} current={step}>
-            <ISteps.Step title="STEP 1" description={__(`sanitate_step_${0}_descr`)} />
-            <ISteps.Step title="STEP 2" description={__(`sanitate_step_${1}_descr`)} />
-            <ISteps.Step title="STEP 3" description={__(`sanitate_step_${2}_descr`)} />
-            <ISteps.Step title="STEP 4" description={__(`sanitate_step_${3}_descr`)} />
-            <ISteps.Step title="STEP 5" description={__(`sanitate_step_${4}_descr`)} />
-            <ISteps.Step title="STEP 6" description={__(`sanitate_step_${5}_descr`)} />
+            <ISteps.Step title="STEP 0" description="SANITATION PROCEDURE START" />
+            <ISteps.Step title="STEP 1" description="LINE SELECTION" />
+            <ISteps.Step title="STEP 2" description="Water filling" />
+            <ISteps.Step title="STEP 3" description="SANITIZER FILLING" />
+            <ISteps.Step title="STEP 4" description="RINSING" />
+            <ISteps.Step title="STEP 5" description="PH COMPARISON" />
+            <ISteps.Step title="STEP 6" description="SYRUP REFILLING" />
           </ISteps>
           <Box className="container">
             <ISection>
               <>
               {step === 0 && (
                 <Box className="container no-border">
-                  <h3 id="title">{__(`sanitate_step_${step}_title`)}</h3>
-                  {/* <h3 id="title">{__(`sanitate_step_${step}_descr`)}</h3> */}
+                  <h2 id="title">warning</h2>
+                  <h3 id="title">Before carrying out the following operations, carefully read the instructions provided by the manufacturer of the sanitizing product and be sure to use personal protective equipment (latex gloves, masks, eye glasses).</h3>
+                  <h3 id="title">Sanitization of product lines must only be carried out by qualified TECHNICAL SERVICE staff. During sanitization, it is recommended to put a warning sign that informs that sanitation is in progress and it is forbidden to dispense beverages. Make sure that the rooms are ventilated properly.</h3>
+                  <br />
+                  <h3 id="title">1. Prepare at least 2 gallons of sanitizing solution in accordance with the manufacturer recommendations using warm clean water at 80 - 100° F (26.7 - 37.8° C). The type and concentration of sanitizing agent shall comply with 40 CFR §180.940. The solution must provide 100 parts per million (PPM) of chlorine (e.g. Sodium Hypochlorite or bleach)</h3>
+                  <br />
+                  <h3 id="title">2. Unscrew the nozzle and the stainless steal diffusor</h3>
+                  <br />
+                  <h3 id="title">3. Drop nozzle and diffusor in a bucket with 0.25 gallons of sanitazer for 5 minutes and then let them dry</h3>
+                  <br />
+                  <h3 id="title">4. Spray some sanitizer on the nozzle component not detached from the unit</h3>
+                  <br />
+                  <h3 id="title">5. Detach the lines from the BiB and screw the «octopus» to the BiB connectors (in absence of the octopus remove springs and shutters from the connectors and drop them in the sanitizer bucket with the nozzle for 5 minutes)</h3>
+                </Box>
+              )}
+              {step === 1 && (
+                <Box className="container no-border">
+                  <h3 id="title">{__(`sanitate_step_${step - 1}_title`)}</h3>
+                  <h3 id="title">UP TO THREE LINES PER TIME CAN BE selected</h3>
                   <br /><br />
                   <h3 id="title">flavor</h3>
                   <Box className="elements">
-                    {lines.pumps.map((line, i) => {
-                      return (
-                        <MButton key={i} onClick={() => handleLine(line)} className="small" type={isLineSelected(line) ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id}`}>
-                          {!line.$beverage ?
-                            "UNASSIGNED" :
-                            <BeverageLogo beverage={line.$beverage} size="tiny" />
-                          }
-                        </MButton>
-                      );
-                    })}
-                  </Box>
-                  <h3 id="title">waters</h3>
-                  <Box className="elements">
-                    {lines.waters.map((line, i) => {
-                      return (
-                        <MButton key={i} onClick={() => handleLine(line)} className="small" type={isLineSelected(line) ? MTypes.INFO_SUCCESS : null} light info={`${line.$beverage.beverage_type} - ${line.line_id}`}>
-                          <BeverageLogo beverage={line.$beverage} size="tiny" />
-                        </MButton>
-                      );
-                    })}
+                    {
+                      lines.pumps.map((line, i) => {
+                        return (
+                          <MButton key={i} onClick={() => handleLine(line)} className="small" type={isLineSelected(line) ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id}`}>
+                            {!line.$beverage ?
+                              "UNASSIGNED" :
+                              <BeverageLogo beverage={line.$beverage} size="tiny" />
+                            }
+                          </MButton>
+                        );
+                      })
+                    }
                   </Box>
                 </Box>
               )}
-              {(step !== 0 && step !== 4) && (
+              {(step !== 0 && step !== 1) && (
                 <Box className="container no-border">
-                  <h3 id="title">{__(`sanitate_step_${step}_title`)}</h3>
+                  {step === 2 && <h3 id="title">Drop the selected lines in a bucket with water and start dispensing. Continue dispensing until the lines are completely full of water. Please note, dispensing is possible for maximum 3 lines at a time</h3>}
+                  {(step !== 2 && step !== 6) && <h3 id="title">{__(`sanitate_step_${step - 1}_title`)}</h3>}
+                  {step === 6 && <h3 id="title">CONNECT THE LINES TO THE BIBS AND DISPENSE TILL ALL THE LINES ARE FULL OF SYRUP. CLOSE THE FRONT DOOR AND RE-ASSEMBLE STAINLESS STEEL DIFFUSER AND PLASTIC NOZZLE.</h3>}
                   {/* <h3 id="title">{__(`sanitate_step_${step}_descr`)}</h3> */}
                   <br /><br />
                   <h3 id="title">lines</h3>
                   <Box className="elements">
-                    {Object.keys(lines).map(k => lines[k]).map(lines => {
-                      return lines.map((line, i) => {
+                    {
+                      lines.pumps.map((line, i) => {
                         const indexLineSelected_ =  indexLineSelected(line);
                         if (indexLineSelected_ === -1) return null;
                         const lineSelected_ = linesSelected[indexLineSelected_];
@@ -419,20 +429,27 @@ export const Sanitation = (props: SanitationProps) => {
                             }
                           </MButton>
                         );
-                      });
-                    })}
+                      })
+                    }
                   </Box>
+                  <br />
+                  {(step === 3 && !disableNext_) && (
+                    <>
+                      <h3 id="title">Wait for the sanitizer required time before rinsing</h3>
+                      <h1 id="title">20:00</h1>
+                    </>
+                  )}
                 </Box>
               )}
-              {step === 4 && (
+              {/* {step === 5 && (
                 <Box className="container no-border">
-                <h3 id="title">{__(`sanitate_step_${step}_title`)}</h3>
-                <h3 id="title">{__(`sanitate_step_${step}_descr`)}</h3>
+                <h3 id="title">{__(`sanitate_step_${step - 1}_title`)}</h3>
+                <h3 id="title">{__(`sanitate_step_${step - 1}_descr`)}</h3>
                 <br />
                 <h3 id="title">lines</h3>
                 <Box className="elements">
-                  {Object.keys(lines).map(k => lines[k]).map(lines => {
-                    return lines.map((line, i) => {
+                  {
+                    lines.pumps.map((line, i) => {
                       const indexLineSelected_ =  indexLineSelected(line);
                       if (indexLineSelected_ === -1) return null;
                       const lineSelected_ = linesSelected[indexLineSelected_];
@@ -445,11 +462,11 @@ export const Sanitation = (props: SanitationProps) => {
                           }
                         </MButton>
                       );
-                    });
-                  })}
+                    })
+                  }
                 </Box>
               </Box>
-              )}
+              )} */}
               </>
             </ISection>
           </Box>
