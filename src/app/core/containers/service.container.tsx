@@ -346,27 +346,6 @@ const ServiceContainer = createContainer(() => {
     }
   };
 
-  /* ==== AUTH ==== */
-  /* ======================================== */
-
-  const [authLevel, setAuthLevel] = React.useState<AuthLevels>(null);
-
-  function authLogin(pincode: string) {
-    return mediumLevel.menu.authentication(pincode)
-    .pipe(
-      map(data => {
-        if (data.error) {
-          throw data.error;
-        }
-        const authLevel: AuthLevels = data.menu_id;
-        return authLevel;
-      }),
-      tap(authLevel => {
-        setAuthLevel(authLevel);
-      })
-    );
-  }
-
   /* ==== BEVERAGES / LINES ==== */
   /* ======================================== */
 
@@ -589,9 +568,6 @@ const ServiceContainer = createContainer(() => {
   }
 
   return {
-    authLevel,
-    setAuthLevel,
-    authLogin,
     lines,
     syrups,
     saveLines,

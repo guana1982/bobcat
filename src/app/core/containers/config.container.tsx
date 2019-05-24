@@ -219,8 +219,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
     forkJoin(
       this.setVendorConfig,
       this.setBeverages,
-      mediumLevel.menu.getList(),
-      mediumLevel.config.getSizes(),
+      // mediumLevel.menu.getList(),
+      // mediumLevel.config.getSizes(),
       mediumLevel.config.getLang(),
       mediumLevel.config.startDisplay(),
     ).subscribe((res: any[]) => {
@@ -228,14 +228,14 @@ class ConfigStoreComponent extends React.Component<any, any> {
       let [
         vendorConfig,
         beverages,
-        menuList,
-        sizes,
+        // menuList,
+        // sizes,
         langDict
       ] = res;
 
       console.log(vendorConfig);
 
-      this.menuList = menuList;
+      // this.menuList = menuList;
 
       console.log("langDict_", langDict.i18n);
       const otherValuesLang = {

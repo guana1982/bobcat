@@ -8,23 +8,59 @@ import { Auth } from "./components/auth/Auth";
 import { NewMenu } from "./screens/Main";
 
 /* ==== STORES ==== */
-import { ServiceProvider, TimerStore, AlertProvider } from "@core/containers";
+import { ServiceProvider, AlertProvider, AuthLevels } from "@core/containers";
 import { ThemeProvider } from "styled-components";
 import { LoaderProvider } from "@core/containers/loader.container";
 import { LoaderComponent } from "./components/common/Loader";
 import { Alert } from "./components/common/Alert";
+import mediumLevel from "@core/utils/lib/mediumLevel";
+import { map, tap } from "rxjs/operators";
 
-export const Service = (props) => (
-  <ThemeProvider theme={themeMenu}>
-    <LoaderProvider loaderComponent={<LoaderComponent />}>
-      <AlertProvider alertComponent={<Alert />}>
-        <ServiceProvider>
-            {/* <TimerStore> */}
-              <Auth />
-              <Route path={Pages.Menu} component={NewMenu}/>
-            {/* </TimerStore> */}
-          </ServiceProvider>
-      </AlertProvider>
-    </LoaderProvider>
-  </ThemeProvider>
-);
+export const Service = (props) => {
+
+  /* ==== AUTH ==== */
+  /* ======================================== */
+
+  const [authLevel, setAuthLevel] = React.useState<AuthLevels>(null);
+
+  function authLogin(pincode: string) {
+    return mediumLevel.menu.authentication(pincode)
+    .pipe(
+      map(data => {
+        if (data.error) {
+          throw data.error;
+        }
+        const authLevel: AuthLevels = data.menu_id;
+        return authLevel;
+      }),
+      tap(authLevel => {
+        setAuthLevel(authLevel);
+      })
+    );
+  }
+
+  /* ==== MAIN ==== */
+  /* ======================================== */
+
+  return (
+    <ThemeProvider theme={themeMenu}>
+      <LoaderProvider loaderComponent={<LoaderComponent />}>
+        <AlertProvider alertComponent={<Alert />}>
+          <Auth authLogin={authLogin} setAuthLevel={setAuthLevel} />
+          {
+            authLevel &&
+            <ServiceProvider>
+              <Route
+                path={Pages.Menu}
+                render={(routeProps) => (
+                  <NewMenu {...routeProps} authLevel={authLevel} />
+                )}
+              />
+            </ServiceProvider>
+          }
+        </AlertProvider>
+      </LoaderProvider>
+    </ThemeProvider>
+  );
+
+};

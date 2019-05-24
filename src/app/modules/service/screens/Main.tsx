@@ -98,7 +98,9 @@ function reducerModals(state: StateModals, action: ActionModals) {
 /* ==== MAIN ==== */
 /* ======================================== */
 
-interface MenuProps {}
+interface MenuProps {
+  authLevel: AuthLevels;
+}
 
 interface MenuState {
   languageList: any;
@@ -160,7 +162,8 @@ export const NewMenu = (props: MenuProps) => {
   /* ==== MAIN ==== */
   /* ======================================== */
 
-  const { lines, authLevel, statusAlarms, statusConnectivity } = serviceConsumer;
+  const { lines, statusAlarms, statusConnectivity } = serviceConsumer;
+  const { authLevel } = props;
 
   if (!authLevel)
   return (
