@@ -2,6 +2,7 @@
 // bindings to medium level apis
 import { getFake, get, post } from "./APIUtils";
 import { of } from "rxjs";
+import { tap } from "rxjs/operators";
 
 export default {
   config: {
@@ -47,8 +48,8 @@ export default {
     getReservedBeverage: () => get("dispense/reserved_beverage")
   },
   brightness: {
-    dimDisplay: () => post("menu/dim_display"),
-    brightenDisplay: () => post("menu/brighten_display")
+    dimDisplay: () => post("menu/dim_display").pipe(tap(() => console.log("dim_brightness"))),
+    brightenDisplay: () => post("menu/brighten_display").pipe(tap(() => console.log("brighten_brightness")))
   },
   menu: {
     getList: () => get("menu"),

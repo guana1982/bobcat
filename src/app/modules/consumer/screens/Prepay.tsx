@@ -8,6 +8,7 @@ import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { CloseBtnWrap, CloseBtn } from "../components/common/CloseBtn";
 import { __ } from "@core/utils/lib/i18n";
+import { Subscription } from "rxjs";
 
 export const PrepayContent = styled.div`
   background-image: ${props => props.theme.backgroundLight};
@@ -85,18 +86,61 @@ interface PrepayProps {
   history: any;
 }
 
+let timer_: Subscription;
+
 export const Prepay = (props: PrepayProps) => {
 
   const alertConsumer = React.useContext(AlertContext);
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 
+  //  ==== TIMER ====>
+  const { timerFull$ } = timerConsumer;
+  const { isLogged } = consumerConsumer;
+
+  function alertIsLogged(event) {
+    if (isLogged) {
+      alertConsumer.show({
+        type: AlertTypes.EndBeverage,
+        timeout: true,
+        onDismiss: () => {
+          consumerConsumer.resetConsumer(true);
+          event();
+        }
+      });
+    } else {
+      event();
+    }
+  }
+
+  const startTimer_ = () => {
+    timer_ = timerFull$.subscribe(
+      val => {
+        if (val === "proximity_stop") {
+          const event_ = () => consumerConsumer.resetConsumer();
+          alertIsLogged(event_);
+          return;
+        }
+        if (val === "timer_stop") {
+          const event_ = () => props.history.push(Pages.Home);
+          alertIsLogged(event_);
+        }
+        startTimer_();
+      }
+    );
+  };
+
+  const resetTimer_ = () => {
+    timer_.unsubscribe();
+  };
+  //  <=== TIMER ====
+
   React.useEffect(() => {
     mediumLevel.config.stopVideo().subscribe(); // <= STOP ATTRACTOR
-    timerConsumer.startTimer();
+    startTimer_();
     start();
     return () => {
-      timerConsumer.resetTimer();
+      resetTimer_();
       stop();
     };
   }, []);
@@ -105,7 +149,7 @@ export const Prepay = (props: PrepayProps) => {
     const { startScanning } = consumerConsumer;
     startScanning()
     .subscribe((status: true | false | null) => { // => true: correct qr / false: error qr / null: data from server <=
-      timerConsumer.clearTimer();
+      resetTimer_();
       if (status === true) {
         alertConsumer.show({
           type: AlertTypes.Success,
@@ -119,6 +163,7 @@ export const Prepay = (props: PrepayProps) => {
           type: AlertTypes.Error,
           timeout: true,
           onDismiss: () => {
+            startTimer_();
             start();
           }
         });

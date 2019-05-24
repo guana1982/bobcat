@@ -58,24 +58,15 @@ export interface HomeState {
   showCardsInfo: boolean;
 }
 
-const TimerEnd = {
-  timer_: null,
-  clearTimer() {
-    clearInterval(TimerEnd.timer_);
-    TimerEnd.timer_ = null;
-  },
-  startTimer(endEvent) {
-    TimerEnd.clearTimer();
-    TimerEnd.timer_ = setInterval(endEvent, CONSUMER_TIMER.END_POUR);
-  }
-};
 enum StatusEndSession {
   Start = "start",
   Finish = "finish",
+  FinishForce = "finishForce",
   OutOfStock = "outOfStock"
 }
 
 let socketAlarms_: Subscription;
+let timer_: Subscription;
 let endSession_: Subscription;
 
 export const Home = (props: HomeProps) => {
@@ -111,25 +102,68 @@ export const Home = (props: HomeProps) => {
   const [nutritionFacts, setNutritionFacts] = React.useState(false);
   const [slideOpen, setSlideOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
-  const [endSession, setEndSession] = React.useState<"start" | "finish" | "outOfStock">(null);
+  const [endSession, setEndSession] = React.useState<"start" | "finish" | "finishForce" | "outOfStock">(null);
 
   const alertConsumer = React.useContext(AlertContext);
   const configConsumer = React.useContext(ConfigContext);
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 
-  const { timerFull$ } = timerConsumer;
+  //  ==== TIMER ====>
+  const { timerFull$, restartBrightness$ } = timerConsumer;
+  const { isLogged } = consumerConsumer;
+
+  function alertIsLogged(event) {
+    if (isLogged) {
+      alertConsumer.show({
+        type: AlertTypes.EndBeverage,
+        timeout: true,
+        onDismiss: () => {
+          consumerConsumer.resetConsumer(true);
+          event();
+        }
+      });
+    } else {
+      event();
+    }
+  }
+
+  const startTimer_ = () => {
+    timer_ = timerFull$.subscribe(
+      val => {
+        if (val === "tap_detect") {
+          startTimer_();
+        } else if (val === "proximity_stop") {
+          const event_ = () => consumerConsumer.resetConsumer();
+          alertIsLogged(event_);
+          return;
+        } else if (val === "timer_stop") {
+          const event_ = () => {
+            handleType(false);
+            resetBeverage();
+          };
+          alertIsLogged(event_);
+          restartBrightness$.subscribe(() => startTimer_());
+        }
+
+      }
+    );
+  };
+
+  const resetTimer_ = () => {
+    timer_.unsubscribe();
+  };
+  //  <=== TIMER ====
 
   React.useEffect(() => {
     const stopVideo_ = setTimeout(() => {
       mediumLevel.config.stopVideo().subscribe();
     }, TIMEOUT_ATTRACTOR); // <= STOP ATTRACTOR
-    timerConsumer.startTimer();
-    TimerEnd.clearTimer();
+    startTimer_();
     return () => {
       clearTimeout(stopVideo_); // <= STOP ATTRACTOR
       configConsumer.setAuthService(false);
-      timerConsumer.resetTimer();
+      resetTimer_();
     };
   }, []);
 
@@ -279,46 +313,64 @@ export const Home = (props: HomeProps) => {
   /* ==== END POUR ==== */
   /* ======================================== */
 
-  React.useEffect(
-    () => {
-      if (endSession === StatusEndSession.Start) {
-        timerConsumer.resetTimer();
-        endSession_ = timerFull$
-        .subscribe(
-          val => {
-            if (val === "timer_stop") {
-              setEndSession(StatusEndSession.Finish);
-            }
-          }
-        );
-      } else if (endSession === StatusEndSession.Finish) {
-        mediumLevel.product.sessionEnded().subscribe();
-        alertConsumer.show({
-          type: AlertTypes.EndBeverage,
-          timeout: true,
-          onDismiss: () => {
-            resetBeverage();
-            consumerConsumer.resetConsumer();
-          }
-        });
-      } else if (endSession === StatusEndSession.OutOfStock) {
-        mediumLevel.product.sessionEnded().subscribe();
-        consumerConsumer.resetConsumer();
-      }
-
-      return () => {
-        if (endSession === StatusEndSession.Start) {
-          endSession_.unsubscribe();
+  const startTimerEnd_ = () => {
+    endSession_ = timerFull$
+    .subscribe(
+      val => {
+        if (val === "tap_detect") {
+          startTimerEnd_();
+        } else if (val === "timer_stop") {
+          setEndSession(StatusEndSession.Finish);
+        } else if (val === "proximity_stop") {
+          setEndSession(StatusEndSession.FinishForce);
         }
-      };
+      }
+    );
+  };
 
-    }, [endSession]);
+  const resetTimerEnd_ = () => {
+    endSession_.unsubscribe();
+  };
+
+  React.useEffect(() => {
+    if (endSession === StatusEndSession.Start) {
+      resetTimer_();
+      startTimerEnd_();
+    } else if (endSession === StatusEndSession.Finish) {
+      alertConsumer.show({
+        type: AlertTypes.EndBeverage,
+        timeout: true,
+        onDismiss: () => {
+          resetBeverage();
+          consumerConsumer.resetConsumer(true);
+          startTimer_();
+        }
+      });
+    } else if (endSession === StatusEndSession.FinishForce) {
+      alertConsumer.show({
+        type: AlertTypes.EndBeverage,
+        timeout: true,
+        onDismiss: () => {
+          resetBeverage();
+          consumerConsumer.resetConsumer();
+        }
+      });
+    } else if (endSession === StatusEndSession.OutOfStock) {
+      consumerConsumer.resetConsumer();
+    }
+
+    return () => {
+      if (endSession === StatusEndSession.Start) {
+        resetTimerEnd_();
+        mediumLevel.product.sessionEnded().subscribe();
+      }
+    };
+  }, [endSession]);
 
   /* ==== RESET ==== */
   /* ======================================== */
 
   const resetBeverage = () => {
-    TimerEnd.clearTimer();
     setState(prevState => ({
       ...prevState,
       beverageSelected: null,
@@ -331,6 +383,7 @@ export const Home = (props: HomeProps) => {
 
   /* ==== BEVERAGE CONSUMER ==== */
   /* ======================================== */
+
   const MAX_CONSUMER_BEVERAGE = 3;
   const validConsumerBeverage = consumerConsumer.consumerBeverages.filter(beverage => beverage.$types[0] !== BeverageTypes.Info);
   const lengthConsumerBeverages = validConsumerBeverage.length;
@@ -417,10 +470,6 @@ export const Home = (props: HomeProps) => {
   const onGesture = (gestureType) => {
     if (gestureType === "p")
       configConsumer.setAuthService(true);
-    // if (gestureType === "p")
-    //   props.history.push(Pages.MenuTech);
-    // else if (gestureType === "v")
-    //   props.history.push(Pages.MenuCrew);
   };
 
   const goToPrepay = () => {
