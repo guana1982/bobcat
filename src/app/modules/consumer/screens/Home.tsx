@@ -19,6 +19,8 @@ import { CardsWrap } from "../components/home/CardsWrap";
 import { CustomizeBeverage } from "../components/home/CustomizeBeverage";
 import { Grid } from "../components/common/Grid";
 import { SegmentButtonProps } from "../components/common/SegmentButton";
+import { OutOfOrder } from "../components/home/OutOfOrder";
+import Gesture from "@core/components/Menu/Gesture";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -99,8 +101,10 @@ export const Home = (props: HomeProps) => {
       antioxidants: false
     }
   });
+
   const [nutritionFacts, setNutritionFacts] = React.useState(false);
   const [slideOpen, setSlideOpen] = React.useState(false);
+  const [blur, setBlur] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
   const [endSession, setEndSession] = React.useState<"start" | "finish" | "finishForce" | "outOfStock">(null);
 
@@ -140,12 +144,12 @@ export const Home = (props: HomeProps) => {
         } else if (val === "timer_stop") {
           const event_ = () => {
             handleType(false);
+            setNutritionFacts(false);
             resetBeverage();
           };
           alertIsLogged(event_);
           restartBrightness$.subscribe(() => startTimer_());
         }
-
       }
     );
   };
@@ -428,6 +432,24 @@ export const Home = (props: HomeProps) => {
   /* ======================================== */
 
   const handleType = (value) => { // TRUE => isSparkling
+
+    if (value === true) {
+      resetBeverage();
+      setBlur(true);
+      const evtSparkling_ = () => {
+        consumerConsumer.resetConsumer(true);
+        handleType(false);
+        setBlur(false);
+      };
+      alertConsumer.show({
+        type: AlertTypes.EndBeverage,
+        timeout: false,
+        transparent: true,
+        onConfirm: evtSparkling_,
+        onDismiss: evtSparkling_
+      });
+    }
+
     setState(prevState => ({
       ...prevState,
       isSparkling: value,
@@ -494,6 +516,13 @@ export const Home = (props: HomeProps) => {
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
+  // return (
+  //   <HomeContent>
+  //     <Gesture onGesture={onGesture} />
+  //     <OutOfOrder />
+  //   </HomeContent>
+  // );
+
   return (
     <HomeContent>
       {presentSlide &&
@@ -519,6 +548,7 @@ export const Home = (props: HomeProps) => {
             startPour={startPour}
             fullMode={fullMode}
             stopPour={stopPour}
+            blur={blur}
             goToPrepay={goToPrepay}
             idBeveragePouring_={state.idBeveragePouring_}
             isSparkling={state.isSparkling}

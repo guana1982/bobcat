@@ -51,6 +51,20 @@ const AlertWrap = styled.div`
     line-height: 1.5;
     text-align: center;
   }
+  &>#confirm-btn {
+    margin-top: 22px;
+    width: 92px;
+    height: 47px;
+    border-radius: 23.5px;
+    background: #fff;
+    font-size: 20px;
+    font-family: NeuzeitGro-Bol;
+    letter-spacing: 1.6px;
+    padding-top: 7px;
+    text-align: center;
+    box-shadow: 7px 13px 28px 0 rgba(199, 200, 204, 0.3);
+    color: ${props => props.theme.slateGrey};
+  }
 `;
 
 const Overlay = styled.div`
@@ -59,6 +73,9 @@ const Overlay = styled.div`
   width: 100%;
   height: 100%;
   background-image: ${props => props.theme.backgroundLight};
+  &.transparent {
+    background-image: none;
+  }
 `;
 
 const AlertContent = styled.div`
@@ -83,7 +100,7 @@ export const Alert = (props: AlertProps) => {
 
   const alertConsumer = React.useContext(AlertContext);
   const {show, options} = alertConsumer.state;
-  const {type, onDismiss, timeout} = options;
+  const {type, onDismiss, timeout, transparent, onConfirm} = options;
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const accessibilityConsumer = React.useContext(AccessibilityContext);
@@ -101,6 +118,11 @@ export const Alert = (props: AlertProps) => {
   //   }
   // }, [enter, show]);
   //  <=== ACCESSIBILITY FUNCTION ====
+
+  const onConfirm_ = () => {
+    onConfirm();
+    alertConsumer.hide();
+  };
 
   const onDismiss_ = () => {
     onDismiss();
@@ -127,11 +149,12 @@ export const Alert = (props: AlertProps) => {
   return (
     <React.Fragment>
       {show && <AlertContent>
-        <Overlay onClick={dismiss} />
+        <Overlay className={transparent ? "transparent" : null} onClick={dismiss} />
         <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={dismiss} />
         <AlertWrap>
           <span id="title">{__(type)}</span> {/* {__(`${type}_title`)} */}
           {/* <span id="sub-title">{__(`${type}_subtitle`)}</span> */}
+          {onConfirm && <button id="confirm-btn" onClick={onConfirm_}>OK</button>}
         </AlertWrap>
       </AlertContent>}
     </React.Fragment>

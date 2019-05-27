@@ -8,17 +8,18 @@ interface BlurProps {
   show: boolean;
   logoId?: any;
   types: BeverageTypes[];
+  nutritionFacts?: boolean;
 }
 
 export const Blur_ = (props: BlurProps) => {
-  const { className, logoId, types } = props;
-  const logoBlur = (types && types[0]) === BeverageTypes.Info ? `icons/${logoId}@blur.png` : `img/logos/${logoId}@blur.png`;
+  const { className, logoId, types, nutritionFacts } = props;
+  const logoBlur = (types && types[0]) === BeverageTypes.Info ? `icons/${logoId}@blur.png` : `img/logos/${logoId}@${nutritionFacts ? "nutrition-" : ""}blur.png`;
 
   if (logoId === undefined) return null;
 
   return (
     <div className={className}>
-      <img src={logoBlur} />
+      <img className={nutritionFacts ? "nutrition-mode" : ""} src={logoBlur} />
     </div>
   );
 };
@@ -31,4 +32,11 @@ export const Blur = styled<BlurProps>(Blur_)`
   height: 100%;
   visibility: ${props => props.show ? "visible" : "hidden"};
   z-index: 2;
+  img.nutrition-mode {
+    position: absolute;
+    bottom: 0;
+    width: 130%;
+    left: -15%;
+    height: 87%;
+  }
 `;

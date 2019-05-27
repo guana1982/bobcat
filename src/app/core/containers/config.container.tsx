@@ -55,7 +55,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ======================================== */
 
     const ws = webSocket({
-      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://93.55.118.44:5901", // "ws://93.55.118.44:5901",
+      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://192.168.188.204:5901", // "ws://93.55.118.44:5901",
       deserializer: data => {
         try {
           return JSON.parse(data.data);
@@ -286,7 +286,10 @@ class ConfigStoreComponent extends React.Component<any, any> {
         c_favorite: "favorite",
         c_last_pour: "last pour",
         c_save_favorite_drinks: "Save your favorite drinks using the app",
-        c_recent_drinks: "Your most recent drink will appear here"
+        c_recent_drinks: "Your most recent drink will appear here",
+
+        c_out_of_order_title: "Help is on the way!",
+        c_out_of_order_text : "Sorry, this machine is currently out of order. Check back soon!"
       };
       setLangDict({
         ...langDict.i18n,

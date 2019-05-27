@@ -47,6 +47,7 @@ interface ChoiceBeverageProps {
   idBeveragePouring_: number;
   isSparkling: boolean;
   disabled: boolean;
+  blur?: boolean;
   fullMode: boolean;
   segmentButton: SegmentButtonProps; // => _SegmentButton
 }
@@ -56,7 +57,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
   const { beverages } = React.useContext(ConfigContext);
   const { isLogged, resetConsumer } = React.useContext(ConsumerContext);
 
-  const { idBeveragePouring_, onGesture, isSparkling, selectBeverage, startPour, stopPour, goToPrepay, disabled, handleNutritionFacts, nutritionFacts, handleDisabled, fullMode } = props;
+  const { idBeveragePouring_, onGesture, isSparkling, selectBeverage, startPour, stopPour, goToPrepay, disabled, handleNutritionFacts, nutritionFacts, handleDisabled, fullMode, blur } = props;
 
   return (
     <React.Fragment>
@@ -79,7 +80,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
                 onStart={() => selectBeverage(b)}
                 onHoldStart={() => startPour(b)}
                 onHoldEnd={() => stopPour()}
-                disabled={disabled}
+                disabled={disabled || blur}
                 nutritionFacts={nutritionFacts}
                 handleDisabled={handleDisabled}
               />

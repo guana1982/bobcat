@@ -85,7 +85,15 @@ export const GlobalStyle = createGlobalStyle`
       url("img/logos/2012@blur.png")
       url("img/logos/2013@blur.png")
       url("img/logos/2014@blur.png")
-      url("img/logos/2015@blur.png");
+      url("img/logos/2015@blur.png")
+
+      url("img/logos/9@nutrition-blur.png")
+      url("img/logos/2009@nutrition-blur.png")
+      url("img/logos/2011@nutrition-blur.png")
+      url("img/logos/2012@nutrition-blur.png")
+      url("img/logos/2013@nutrition-blur.png")
+      url("img/logos/2014@nutrition-blur.png")
+      url("img/logos/2015@nutrition-blur.png");
   }
 
   html,
