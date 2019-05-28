@@ -55,7 +55,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ======================================== */
 
     const ws = webSocket({
-      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://192.168.188.204:5901", // "ws://93.55.118.44:5901",
+      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://93.55.118.44:5901", // "ws://93.55.118.44:5901",
       deserializer: data => {
         try {
           return JSON.parse(data.data);
@@ -143,9 +143,9 @@ class ConfigStoreComponent extends React.Component<any, any> {
       map(alarms => {
         return alarms.map(alarm => {
           if (alarm.alarm_state) {
-            if (alarm.alarm_category === "alarm_category_1") {
+            if (alarm.alarm_category === "alert" || alarm.alarm_category === "super_alert") {
               alarm.$info = MTypes.INFO_DANGER;
-            } else if (alarm.alarm_category === "alarm_category_2") {
+            } else if (alarm.alarm_category === "warning") {
               alarm.$info = MTypes.INFO_WARNING;
             }
           } else {

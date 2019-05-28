@@ -433,22 +433,22 @@ export const Home = (props: HomeProps) => {
 
   const handleType = (value) => { // TRUE => isSparkling
 
-    if (value === true) {
-      resetBeverage();
-      setBlur(true);
-      const evtSparkling_ = () => {
-        consumerConsumer.resetConsumer(true);
-        handleType(false);
-        setBlur(false);
-      };
-      alertConsumer.show({
-        type: AlertTypes.EndBeverage,
-        timeout: false,
-        transparent: true,
-        onConfirm: evtSparkling_,
-        onDismiss: evtSparkling_
-      });
-    }
+    // if (value === true) {
+    //   resetBeverage();
+    //   setBlur(true);
+    //   const evtSparkling_ = () => {
+    //     consumerConsumer.resetConsumer(true);
+    //     handleType(false);
+    //     setBlur(false);
+    //   };
+    //   alertConsumer.show({
+    //     type: AlertTypes.EndBeverage,
+    //     timeout: false,
+    //     transparent: true,
+    //     onConfirm: evtSparkling_,
+    //     onDismiss: evtSparkling_
+    //   });
+    // }
 
     setState(prevState => ({
       ...prevState,
