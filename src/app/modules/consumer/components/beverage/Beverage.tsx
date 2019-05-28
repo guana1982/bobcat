@@ -243,7 +243,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
               <BeverageFull>
                 <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={closeZoomNutrition} />
                 <BeverageWrap show={true} color={color}>
-                  <Nutrition show={nutritionFacts} title={title} color={color} />
+                  <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
                 </BeverageWrap>
               </BeverageFull>
             </AppendedFullBeverage>
@@ -257,7 +257,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
             >
               <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
                 <button ref={buttonEl} disabled={disabledButton}>
-                  <Nutrition show={nutritionFacts} title={title} color={color} />
+                  <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
                   <Basic levels={levels} show={!nutritionFacts} specialCard={$specialCard} {...props} />
                 </button>
               </BeverageWrap>

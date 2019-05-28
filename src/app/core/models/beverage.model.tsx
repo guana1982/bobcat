@@ -7,14 +7,32 @@ export interface IBeverageConfig {
   antioxidants?: boolean;
 }
 
-export interface IBeverage {
+export interface IBrandDescription {
+  beverage_id?: number;
+  uom?: string[];
+  calories?: string;
+  sodium_perc?: string;
+  sugars_perc?: string;
+  protein_perc?: string;
+  serving_size_fl_oz?: string;
+  serving_size_ml?: string;
+  sodium?: string;
+  total_fat?: string;
+  beverage_font_color?: string;
+  sizes?: string[];
+  protein?: string;
+  sugars?: string;
+  total_fat_perc?: string;
+  total_carb?: string;
+  total_carb_perc?: string;
+}
+
+export interface IBeverage extends IBrandDescription {
   $lock?: boolean;
   beverage_type?: string;
   line_id?: number;
   toppings?: Topping[];
   density?: number;
-  beverage_font_color?: string;
-  calories?: string;
   calibration_status?: number;
   last_sanification_date?: string;
   carbonation_divider?: number;
@@ -35,7 +53,6 @@ export interface IBeverage {
   ratio?: number;
   second_shelf_life?: number;
   enabled_beverage_size_ids?: number[];
-  beverage_id?: number;
 }
 
 interface Topping {

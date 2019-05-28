@@ -1,16 +1,28 @@
 import * as React from "react";
 import { __ } from "@utils/lib/i18n";
 import styled from "styled-components";
+import { IBeverage } from "@core/models";
 
 interface NutritionProps {
   className: any;
   title: string;
   color: string;
   show: boolean;
+  beverage: IBeverage;
 }
 
 export const Nutrition_ = (props: NutritionProps) => {
-  const { title, show, className } = props;
+  const { title, show, className, beverage } = props;
+
+  const {
+    serving_size_fl_oz, serving_size_ml,
+    calories,
+    total_fat, total_fat_perc,
+    sodium, sodium_perc,
+    total_carb, total_carb_perc,
+    sugars, sugars_perc,
+    protein, protein_perc
+  } = beverage;
 
   if (!show)
     return null;
@@ -20,11 +32,11 @@ export const Nutrition_ = (props: NutritionProps) => {
       <h2 id="title">{__(title)}</h2>
       <div className="row">
         <span>{__("c_nutrition_facts")}</span>
-        <span>{__("c_serving_size")} 0.3 fl oz (9 mL)</span>
+        <span>{__("c_serving_size")} {serving_size_fl_oz} fl oz ({serving_size_ml} mL)</span>
       </div>
       <div className="row">
         <span>{__("c_amount_per_serving")}</span>
-        <span>{__("c_calories")} {"0"}</span>
+        <span>{__("c_calories")} {calories}</span>
       </div>
       <div id="content-values">
         <div className="value">
@@ -34,28 +46,28 @@ export const Nutrition_ = (props: NutritionProps) => {
         </div>
         <div className="value">
           <span>{__("c_total_fat")}</span>
-          <span>0g</span>
-          <span>0%</span>
+          <span>{total_fat}g</span>
+          <span>{total_fat_perc}%</span>
         </div>
         <div className="value">
           <span>{__("c_sodium")}</span>
-          <span>0mg</span>
-          <span>0%</span>
+          <span>{sodium}mg</span>
+          <span>{sodium_perc}%</span>
         </div>
         <div className="value">
           <span>{__("c_total_carbohydrate")}</span>
-          <span>0g</span>
-          <span>0%</span>
+          <span>{total_carb}</span>
+          <span>{total_carb_perc}%</span>
         </div>
         <div className="value">
           <span>{__("c_sugars")}</span>
-          <span>35g</span>
-          <span>1%</span>
+          <span>{sugars}g</span>
+          <span>{sugars_perc}%</span>
         </div>
         <div className="value">
           <span>{__("c_protein")}</span>
-          <span>0g</span>
-          <span>0%</span>
+          <span>{protein}g</span>
+          <span>{protein_perc}%</span>
         </div>
       </div>
     </div>

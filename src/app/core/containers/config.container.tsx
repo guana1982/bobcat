@@ -238,59 +238,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       // this.menuList = menuList;
 
       console.log("langDict_", langDict.i18n);
-      const otherValuesLang = {
-        pure_water: "pure water",
-        sparkling_water: "sparkling water",
-        c_still: "still",
-        c_sparkling: "sparkling",
-        c_flavor: "flavor",
-        c_temperature: "temperature",
-        c_light: "light",
-        c_medium: "medium",
-        c_full: "full",
-        c_bold: "bold",
-        c_ambient: "ambient",
-        c_cold: "cold",
-        c_ice_cold: "ice cold",
-        c_pour: "pour",
-        c_nutrition: "nutrition",
-        c_sign_in: "sign in",
-        c_done: "done",
-        c_out_of_stock: "Sorry, we're out of that flavor at the moment! ",
-        c_cal: "cal",
-        c_nutrition_facts: "Nutrition Facts",
-        c_serving_size: "Serving Size",
-        c_amount_per_serving: "Amount Per Serving",
-        c_calories: "Calories",
-        c_daily_value: "% Daily Value *",
-        c_total_fat: "Total Fat",
-        c_sodium: "Sodium",
-        c_total_carbohydrate: "Total Carbohydrate",
-        c_sugars: "Sugars",
-        c_protein: "Protein",
-        c_get_the_app: "GET THE APP",
-        c_track_and_save: "Track your hydration and save your customized drinks",
-
-        c_great_start: "GREAT START",
-        c_keep_going: "KEEP GOING",
-        c_almost_there: "ALMOST THERE",
-        c_congratulations: "CONGRATULATIONS",
-        c_daily_goal: "You've reached your daily hydration goal of",
-        c_reached_daily_goal: "You've reached your daily hydration goal of",
-
-        c_make_inpact: "YOU'RE MAKING AN IMPACT",
-        c_saved_bottles: "16-oz plastic bottles saved at this station",
-
-        c_prepay_text: "Scan the code on your phone or bottle below",
-        c_welcome: "hi",
-        c_favorite: "favorite",
-        c_last_pour: "last pour",
-        c_save_favorite_drinks: "Save your favorite drinks using the app",
-        c_recent_drinks: "Your most recent drink will appear here",
-
-        c_out_of_order_title: "Help is on the way!",
-        c_out_of_order_text : "Sorry, this machine is currently out of order. Check back soon!"
-      };
+      const otherValuesLang = {};
       setLangDict({
         ...langDict.i18n,
         ...otherValuesLang
