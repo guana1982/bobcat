@@ -7,13 +7,16 @@ import { MESSAGE_START_VIDEO, Pages } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
 import { ConfigContext, ConsumerContext, AlertTypes, AlertContext } from ".";
 
-let timer_: Subscription;
 
 const TimerContainer = createContainer((props: any) => {
 
   const configConsumer = React.useContext(ConfigContext);
 
   const { socketAttractor$ } = configConsumer;
+
+  const [timerStop, setTimerStop] = React.useState(false);
+
+  // BASIC
 
   const sourceTouchStart = fromEvent(document, "touchstart");
   const sourceTouchEnd = fromEvent(document, "touchend");
@@ -36,6 +39,8 @@ const TimerContainer = createContainer((props: any) => {
     tap(value => value === "tap_detect" && mediumLevel.brightness.brightenDisplay().subscribe())
   );
 
+  // TO MERGE
+
   const timerWithBrightness$ = timerTouch$(10000, false)
   .pipe(
     first(),
@@ -50,21 +55,27 @@ const TimerContainer = createContainer((props: any) => {
     map(() => "proximity_stop")
   );
 
+  // MAIN
+
   const timerFull$ = timerWithBrightness$
   .pipe(
     merge(startVideo$),
+    tap(value => setTimerStop(value === "timer_stop")),
     first()
   );
 
   const restartBrightness$ = sourceTouchStart
   .pipe(
-    switchMap(() => mediumLevel.brightness.brightenDisplay()),
+    tap(() => mediumLevel.brightness.brightenDisplay().subscribe()),
+    tap(() => setTimerStop(false)),
+    map(() => "timer_restart"),
     first()
   );
 
   return {
     timerFull$,
-    restartBrightness$
+    restartBrightness$,
+    timerStop
   };
 });
 

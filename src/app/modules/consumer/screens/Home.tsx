@@ -114,7 +114,7 @@ export const Home = (props: HomeProps) => {
   const consumerConsumer = React.useContext(ConsumerContext);
 
   //  ==== TIMER ====>
-  const { timerFull$, restartBrightness$ } = timerConsumer;
+  const { timerFull$, timerStop, restartBrightness$ } = timerConsumer;
   const { isLogged } = consumerConsumer;
 
   function alertIsLogged(event) {
@@ -132,23 +132,28 @@ export const Home = (props: HomeProps) => {
     }
   }
 
+  const restartBrightness_ = () => {
+    timer_ = restartBrightness$
+    .subscribe(() => startTimer_());
+  };
+
   const startTimer_ = () => {
     timer_ = timerFull$.subscribe(
       val => {
+        console.log({val});
         if (val === "tap_detect") {
           startTimer_();
         } else if (val === "proximity_stop") {
           const event_ = () => consumerConsumer.resetConsumer();
           alertIsLogged(event_);
-          return;
         } else if (val === "timer_stop") {
           const event_ = () => {
             handleType(false);
             setNutritionFacts(false);
             resetBeverage();
+            restartBrightness_();
           };
           alertIsLogged(event_);
-          restartBrightness$.subscribe(() => startTimer_());
         }
       }
     );
@@ -163,7 +168,11 @@ export const Home = (props: HomeProps) => {
     const stopVideo_ = setTimeout(() => {
       mediumLevel.config.stopVideo().subscribe();
     }, TIMEOUT_ATTRACTOR); // <= STOP ATTRACTOR
-    startTimer_();
+    if (timerStop) {
+      restartBrightness_();
+    } else {
+      startTimer_();
+    }
     return () => {
       clearTimeout(stopVideo_); // <= STOP ATTRACTOR
       configConsumer.setAuthService(false);
@@ -184,26 +193,6 @@ export const Home = (props: HomeProps) => {
     });
   }, [state.beverageSelected, slideOpen, nutritionFacts]);
   //  <=== ACCESSIBILITY FUNCTION ====
-
-  /* ==== PROXIMITY SENSOR ==== */
-  /* ======================================== */
-
-  // const { socketAttractor$ } = configConsumer;
-  // React.useEffect(() => {
-  //   const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
-  //   if (socketAttractor$ === undefined || consumerConsumer.isLogged || (beverageSelected != null || idBeveragePouring_ != null || indexFavoritePouring_ != null)) {
-  //     return () => null;
-  //   }
-  //   const socketAttractor_ = socketAttractor$
-  //   .subscribe(value => {
-  //     if (value === MESSAGE_START_CAMERA) {
-  //       goToPrepay();
-  //     }
-  //   });
-  //   return () => {
-  //     socketAttractor_.unsubscribe();
-  //   };
-  // }, [socketAttractor$, state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_, consumerConsumer.isLogged]); // => TO IMPROVE
 
   /* ==== ALARMS ==== */
   /* ======================================== */
@@ -309,9 +298,10 @@ export const Home = (props: HomeProps) => {
     configConsumer.onStartPour(bevSelected, bevConfig).subscribe(); // => TEST MODE
   };
 
-  const stopPour = () => {
+  const stopPour = (forse?: boolean) => {
     configConsumer.onStopPour().subscribe(); // => TEST MODE
-    setEndSession(StatusEndSession.Start);
+    if (!forse)
+      setEndSession(StatusEndSession.Start);
   };
 
   /* ==== END POUR ==== */
@@ -366,6 +356,7 @@ export const Home = (props: HomeProps) => {
     return () => {
       if (endSession === StatusEndSession.Start) {
         resetTimerEnd_();
+        stopPour(true);
         mediumLevel.product.sessionEnded().subscribe();
       }
     };
@@ -592,3 +583,29 @@ export const Home = (props: HomeProps) => {
   );
 
 };
+
+
+
+
+
+
+
+  /* ==== PROXIMITY SENSOR ==== */
+  /* ======================================== */
+
+  // const { socketAttractor$ } = configConsumer;
+  // React.useEffect(() => {
+  //   const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
+  //   if (socketAttractor$ === undefined || consumerConsumer.isLogged || (beverageSelected != null || idBeveragePouring_ != null || indexFavoritePouring_ != null)) {
+  //     return () => null;
+  //   }
+  //   const socketAttractor_ = socketAttractor$
+  //   .subscribe(value => {
+  //     if (value === MESSAGE_START_CAMERA) {
+  //       goToPrepay();
+  //     }
+  //   });
+  //   return () => {
+  //     socketAttractor_.unsubscribe();
+  //   };
+  // }, [socketAttractor$, state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_, consumerConsumer.isLogged]); // => TO IMPROVE

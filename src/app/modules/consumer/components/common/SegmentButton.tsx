@@ -59,7 +59,7 @@ export const SegmentButtonWrapper = styled.div`
       margin-left: 10px;
     }
     &:not(.selected) {
-      background: rgba(245, 245, 245, .5);
+      background: rgba(245, 245, 245, 1);
       span {
         color: rgba(86, 86, 87, .8);
       }

@@ -54,8 +54,8 @@ export enum AlarmsOutOfStock {
   flux4,
   flux5,
   flux6,
-  flux_water,
-  flux_soda,
+  press_co2,
+  press_h2o
 }
 
 // -- PAYMENT METHODS --

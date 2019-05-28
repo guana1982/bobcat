@@ -57,7 +57,7 @@ export const Pour = styled.button`
   border-top-right-radius: ${_sizePour * 2}px;
   font-size: ${_sizePour / 5}px;
   font-weight: 600;
-  opacity: ${props => props.isPouring ? .7 : 1};
+  /* opacity: ${props => props.isPouring ? .7 : 1}; */
   font-family: NeuzeitGro-Bol;
   &, &:active {
     color: ${props => props.theme.light};
@@ -177,6 +177,11 @@ export const CustomizeBeverageWrap = styled.section`
     position: absolute;
     right: 10px;
     bottom: 10px;
+  }
+  .pour-btn:not(.cnh_ended):not(.cnh_holding) {
+    button {
+      opacity: .7;
+    }
   }
 `;
 
@@ -300,19 +305,12 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           onStart={() => console.log("pd1")}
           onClickNHold={() => startPour()}
           onEnd={(e, enough) => enough && stopPour()}
+          className="pour-btn"
         >
           <Pour
             color={beverageSelected.beverage_font_color}
-            isPouring={isPouring}
-            ref={buttonPourEl}
-
-            // onTouchStart={() => startPour()}
-            // onTouchEnd={() => stopPour()}
-            // onTouchMove={() => stopPour()}
-            // onTouchCancel={() => stopPour()}
-
-            // onMouseDown={() => startPour()} // => DESKTOP MODE
-            // onMouseUp={() => stopPour()} // => DESKTOP MODE
+            // isPouring={isPouring}
+            // ref={buttonPourEl}
           >
             {__("c_pour")}
           </Pour>

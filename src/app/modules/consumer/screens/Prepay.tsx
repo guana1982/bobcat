@@ -116,7 +116,9 @@ export const Prepay = (props: PrepayProps) => {
   const startTimer_ = () => {
     timer_ = timerFull$.subscribe(
       val => {
-        if (val === "proximity_stop") {
+        if (val === "tap_detect") {
+          startTimer_();
+        } else if (val === "proximity_stop") {
           const event_ = () => consumerConsumer.resetConsumer();
           alertIsLogged(event_);
           return;
@@ -125,7 +127,6 @@ export const Prepay = (props: PrepayProps) => {
           const event_ = () => props.history.push(Pages.Home);
           alertIsLogged(event_);
         }
-        startTimer_();
       }
     );
   };
