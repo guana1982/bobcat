@@ -32,7 +32,7 @@ module.exports = merge(commonConfig, {
   },
   output: {
     filename: './js/bundle.[hash].min.js',
-    path: resolve(__dirname, '../../dist'),
+    path: resolve(__dirname, '../../build'),
     publicPath: './',
   },
   devtool: 'source-map',
