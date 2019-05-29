@@ -76,9 +76,10 @@ export const PrepayContent = styled.div`
     width: 48px;
     height: 48px;
   }
-  #Icon-Arrow {
-    width: 48px;
-    height: 48px;
+  #Icon-Down {
+    position: absolute;
+    bottom: 70px;
+    right: 234px;
   }
 `;
 
@@ -190,6 +191,7 @@ export const Prepay = (props: PrepayProps) => {
         <img id="Phone-QR" src={"img/phone-qr.svg"} />
         <h2 id="Text-Info">{__("c_prepay_text")}</h2>
         <img id="Icon-QR" src={"icons/qr-code.svg"} />
+        <img id="Icon-Down" src={"icons/down.svg"} />
       </PrepayContent>
     </section>
   );
