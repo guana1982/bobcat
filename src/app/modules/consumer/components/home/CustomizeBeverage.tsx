@@ -190,6 +190,9 @@ export const CustomizeBeverageWrap = styled.section`
   .pour-btn:not(.cnh_ended):not(.cnh_holding) {
     button {
       opacity: .7;
+      &::before {
+        opacity: .3;
+      }
     }
   }
 `;

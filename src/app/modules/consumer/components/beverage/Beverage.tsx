@@ -210,18 +210,13 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
       handleZoomNutrition(true);
       return null;
     }
-
-    if (pouring)
-      onHoldStart();
   };
 
   const end = (e, enough) => {
     if (disabledButton || nutritionFacts) return;
 
-    if (!enough) { // START
-      if (pouring)
-        onHoldEnd();
-      else
+    if (!enough) {
+      if (!pouring)
         onStart();
     } else {
       onHoldEnd();
@@ -231,8 +226,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   const clickHold = (e) => {
     if (disabledButton || nutritionFacts) return;
 
-    if (!pouring)
-      onHoldStart();
+    onHoldStart();
   };
 
   return (
@@ -258,7 +252,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
               <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
                 <button ref={buttonEl} disabled={disabledButton}>
                   <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
-                  <Basic levels={levels} show={!nutritionFacts} specialCard={$specialCard} {...props} />
+                  <Basic levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
                 </button>
               </BeverageWrap>
             </ClickNHold>
