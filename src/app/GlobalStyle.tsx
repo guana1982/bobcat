@@ -61,6 +61,7 @@ export const GlobalStyle = createGlobalStyle`
     position:absolute; width:0; height:0; overflow:hidden; z-index:-1;
     content:
       url("img/bottle-qr.svg")
+      url("img/phone-qr.svg")
       url("img/logos/2009.png")
 
       url("img/logos/9.png")

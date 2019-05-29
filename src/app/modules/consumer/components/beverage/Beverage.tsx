@@ -71,6 +71,14 @@ const BeverageFull = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
+  #backdrop {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
   ${BeverageWrap} {
     position: absolute;
     left: 50%;
@@ -191,6 +199,12 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 
   const disabledButton = types && types[0] === BeverageTypes.Info || $outOfStock || (disabled && !pouring);
 
+  // React.useEffect(() => {
+  //   if (!nutritionFacts) {
+  //     handleZoomNutrition(false);
+  //   }
+  // }, [nutritionFacts]);
+
   const handleZoomNutrition = (status: boolean) => {
     setZoomNutrition(status);
     handleDisabled(status);
@@ -235,6 +249,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
           {zoomNutrition &&
             <AppendedFullBeverage {...props}>
               <BeverageFull>
+                {/* <div id="backdrop" onClick={closeZoomNutrition}></div> */}
                 <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={closeZoomNutrition} />
                 <BeverageWrap show={true} color={color}>
                   <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />

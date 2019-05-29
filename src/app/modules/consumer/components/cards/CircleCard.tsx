@@ -50,8 +50,8 @@ const CircleCard_ = (props: CircleCardProps) => {
       </div>
       <div id="text-wrap">
         <h2>{__(messageHydra)}</h2>
-        {diffHydra !== 0 ?
-          <h4>{diffHydra} {__("c_daily_goal")}.</h4> :
+        {perc !== 100 ?
+          <h4>{hydraGoal - currHydraLvl} oz {__("c_daily_goal")} {hydraGoal} oz</h4> :
           <h4>{__("c_reached_daily_goal")} {hydraGoal} oz</h4>
         }
         {/* <h3><span>{currHydraLvl}</span> / {hydraGoal} OZ</h3> */}

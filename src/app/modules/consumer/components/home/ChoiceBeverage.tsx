@@ -20,6 +20,11 @@ export const ChoiceBeverageWrap = styled.section`
       opacity: 0;
     }
   `}
+  ${({ blurWrap }) => blurWrap && css`
+    #nutrition-btn, #signin-btn, #logout-btn {
+      opacity: 0;
+    }
+  `}
   #nutrition-btn {
     position: absolute;
     left: 22px;
@@ -61,7 +66,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
 
   return (
     <React.Fragment>
-      <ChoiceBeverageWrap disabledWrap={disabled}>
+      <ChoiceBeverageWrap blurWrap={blur} disabledWrap={disabled}>
         {!nutritionFacts && <SegmentButton {...props.segmentButton} disabled={disabled} />}
         <Gesture onGesture={onGesture} />
         <Grid numElement={beverages.length}>

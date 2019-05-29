@@ -356,7 +356,7 @@ export const Home = (props: HomeProps) => {
         }
       });
     } else if (endSession === StatusEndSession.OutOfStock) {
-      consumerConsumer.resetConsumer();
+      consumerConsumer.resetConsumer(true);
     }
 
     return () => {
@@ -430,22 +430,25 @@ export const Home = (props: HomeProps) => {
 
   const handleType = (value) => { // TRUE => isSparkling
 
-    // if (value === true) {
-    //   resetBeverage();
-    //   setBlur(true);
-    //   const evtSparkling_ = () => {
-    //     consumerConsumer.resetConsumer(true);
-    //     handleType(false);
-    //     setBlur(false);
-    //   };
-    //   alertConsumer.show({
-    //     type: AlertTypes.EndBeverage,
-    //     timeout: false,
-    //     transparent: true,
-    //     onConfirm: evtSparkling_,
-    //     onDismiss: evtSparkling_
-    //   });
-    // }
+    const { alarms } = configConsumer;
+    const alarmSparkling_ = true; // alarms.find(alarm => alarm.alarm_name === "press_co2");
+    if (value === true && alarmSparkling_ ) {
+      resetBeverage();
+      setBlur(true);
+      const evtSparkling_ = () => {
+        consumerConsumer.resetConsumer(true);
+        handleType(false);
+        setBlur(false);
+      };
+      alertConsumer.show({
+        type: AlertTypes.EndSparkling,
+        subTitle: true,
+        timeout: true,
+        transparent: true,
+        onConfirm: evtSparkling_,
+        onDismiss: evtSparkling_
+      });
+    }
 
     setState(prevState => ({
       ...prevState,

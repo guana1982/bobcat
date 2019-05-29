@@ -57,7 +57,7 @@ export const PrepayContent = styled.div`
     font-family: NeuzeitGro-Bol;
     position: absolute;
     margin: 0;
-    top: 585px;
+    top: 595px;
     left: 715px;
     width: 232px;
     height: 97px;

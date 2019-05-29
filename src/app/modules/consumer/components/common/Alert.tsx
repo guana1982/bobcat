@@ -41,7 +41,6 @@ const AlertWrap = styled.div`
     line-height: 1.5;
     letter-spacing: 1.6px;
     text-align: center;
-    height: 30px;
     font-size: 22px;
   }
   &>#sub-title {
@@ -100,7 +99,7 @@ export const Alert = (props: AlertProps) => {
 
   const alertConsumer = React.useContext(AlertContext);
   const {show, options} = alertConsumer.state;
-  const {type, onDismiss, timeout, transparent, onConfirm} = options;
+  const {type, onDismiss, timeout, transparent, onConfirm, subTitle} = options;
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const accessibilityConsumer = React.useContext(AccessibilityContext);
@@ -152,8 +151,8 @@ export const Alert = (props: AlertProps) => {
         <Overlay className={transparent ? "transparent" : null} onClick={dismiss} />
         <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={dismiss} />
         <AlertWrap>
-          <span id="title">{__(type)}</span> {/* {__(`${type}_title`)} */}
-          {/* <span id="sub-title">{__(`${type}_subtitle`)}</span> */}
+          <span id="title">{__(type)}</span>
+          {subTitle && <span id="sub-title">{__(`${type}_subtitle`)}</span>}
           {onConfirm && <button id="confirm-btn" onClick={onConfirm_}>OK</button>}
         </AlertWrap>
       </AlertContent>}

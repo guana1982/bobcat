@@ -8,8 +8,8 @@ export enum AlertTypes {
   Success = "c_success",
   Error = "c_error",
   OutOfStock = "c_out_of_stock",
-  TimedOut = "c_timed_out",
-  EndBeverage = "c_end_session"
+  EndBeverage = "c_end_session",
+  EndSparkling = "c_end_sparkling"
 }
 
 export interface AlertOptions {
@@ -19,6 +19,7 @@ export interface AlertOptions {
   onDismiss?: () => void;
 
   title?: string;
+  subTitle?: boolean;
   content?: any;
   onConfirm?: () => void;
 }
