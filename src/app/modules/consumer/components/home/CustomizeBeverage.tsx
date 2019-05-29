@@ -14,54 +14,63 @@ import { Button } from "../common/Button";
 import { ButtonGroup } from "../common/ButtonGroup";
 import ClickNHold from "../common/ClickNHold";
 
-const _sizePour = 105;
-
 /* color: string; */
-export const Pour = styled.button`
-  @keyframes shadow-pulse
-  {
-      0% {
-        zoom: 500%;
-        box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1);
-      }
-      100% {
-        zoom: 500%;
-        box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
-      }
-  }
-  &.pulse {
-    &:before, &:after {
-      content: " ";
-      height: ${_sizePour}px;
-      width: ${_sizePour * 2}px;
-      border-top-left-radius: ${_sizePour * 2}px;
-      border-top-right-radius: ${_sizePour * 2}px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: block;
-      animation: "shadow-pulse 1.5s linear infinite";
+/* @keyframes shadow-pulse
+{
+    0% {
+      zoom: 500%;
+      box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1);
     }
+    100% {
+      zoom: 500%;
+      box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
+    }
+}
+&.pulse {
+  &:before, &:after {
+    content: " ";
+    height: ${_sizePour}px;
+    width: ${_sizePour * 2}px;
+    border-top-left-radius: ${_sizePour * 2}px;
+    border-top-right-radius: ${_sizePour * 2}px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    animation: "shadow-pulse 1.5s linear infinite";
   }
-  &:after {
-    animation-delay: .5s;
-  }
+} */
+export const Pour = styled.button`
   position: absolute;
-  text-transform: uppercase;
-  bottom: 0; /* ${-_sizePour / 5}px; */
-  line-height: 6;
-  right: calc(50% - ${_sizePour}px);
-  height: ${_sizePour}px;
-  width: ${_sizePour * 2}px;
-  border-top-left-radius: ${_sizePour * 2}px;
-  border-top-right-radius: ${_sizePour * 2}px;
-  font-size: ${_sizePour / 5}px;
-  font-weight: 600;
-  /* opacity: ${props => props.isPouring ? .7 : 1}; */
+  width: 206px;
+  height: 95px;
+  box-shadow: 20px -25px 34px -14px rgba(51, 56, 73, 0.08), 5px 2px 10px 0 rgba(190, 190, 190, 0.22), 0 -9px 34px 0 rgba(108, 163, 0, 0.04);
   font-family: NeuzeitGro-Bol;
+  font-size: 20px;
+  letter-spacing: 3px;
+  text-align: center;
+  color: #ffffff;
+  text-transform: uppercase;
+  bottom: 0;
+  left: calc(50% - (206px / 2));
+  border-radius: 200px 200px 0 0;
+  line-height: 6.3;
   &, &:active {
     color: ${props => props.theme.light};
     background: ${props => props.color};
+  }
+  &:before {
+    content: " ";
+    z-index: -1;
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    background: ${props => props.color};
+    opacity: 0.2;
+    top: -20%;
+    left: -10%;
+    border-radius: 200px 200px 0 0;
+    box-shadow: 20px -25px 34px -14px rgba(51, 56, 73, 0.08), 5px 2px 10px 0 rgba(190, 190, 190, 0.22);
   }
 `;
 
@@ -261,7 +270,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             <div id="beverage-card">
               <div>
                 <span id="title">{__(beverageSelected.beverage_label_id)}</span>
-                <span id="cal">0 {__("c_cal")}.</span>
+                <span id="cal">{beverageSelected.calories} {__("c_cal")}.</span>
                 <div id="group">
                   {beverageConfig.carbonation_level != null &&
                     <ButtonGroup
