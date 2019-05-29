@@ -134,13 +134,19 @@ export const Home = (props: HomeProps) => {
 
   const restartBrightness_ = () => {
     timer_ = restartBrightness$
-    .subscribe(() => startTimer_());
+    .subscribe(val => {
+      if (val === "timer_restart") {
+        startTimer_();
+      } else if (val === "proximity_stop") {
+        const event_ = () => consumerConsumer.resetConsumer();
+        alertIsLogged(event_);
+      }
+    });
   };
 
   const startTimer_ = () => {
     timer_ = timerFull$.subscribe(
       val => {
-        console.log({val});
         if (val === "tap_detect") {
           startTimer_();
         } else if (val === "proximity_stop") {

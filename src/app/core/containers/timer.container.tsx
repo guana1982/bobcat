@@ -55,6 +55,14 @@ const TimerContainer = createContainer((props: any) => {
     map(() => "proximity_stop")
   );
 
+  const upBrightness$ = sourceTouchStart
+  .pipe(
+    tap(() => mediumLevel.brightness.brightenDisplay().subscribe()),
+    tap(() => setTimerStop(false)),
+    first(),
+    map(() => "timer_restart")
+  );
+
   // MAIN
 
   const timerFull$ = timerWithBrightness$
@@ -64,11 +72,10 @@ const TimerContainer = createContainer((props: any) => {
     first()
   );
 
-  const restartBrightness$ = sourceTouchStart
+  const restartBrightness$ = upBrightness$
   .pipe(
-    tap(() => mediumLevel.brightness.brightenDisplay().subscribe()),
+    merge(startVideo$),
     tap(() => setTimerStop(false)),
-    map(() => "timer_restart"),
     first()
   );
 
