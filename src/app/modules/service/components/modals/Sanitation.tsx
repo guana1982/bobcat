@@ -137,7 +137,7 @@ export const Sanitation = (props: SanitationProps) => {
   const { lines, endSanitation } = serviceConsumer;
 
   const [linesSelected, setlinesSelected] = React.useState<ILineSanitation[]>([]);
-  const [rinsingReps, setRinsingReps] = React.useState<number>(null);
+  const [rinsingReps, setRinsingReps] = React.useState([]);
   const [sanitizerTimer, setSanitizerTimer] = React.useState<number>(null);
 
   const handleLine = ({ line_id }) => {
@@ -206,7 +206,10 @@ export const Sanitation = (props: SanitationProps) => {
     if (line_.seconds === 0 && step !== 4) return;
     if (line_.seconds === 0 || line_.seconds === TIMER_RINSING && step === 4) {
       line_.seconds = TIMER_RINSING;
-      setRinsingReps(prevState => prevState ? prevState + 1 : 1);
+      setRinsingReps(prevState => {
+        prevState[indexLineSelected_] = prevState[indexLineSelected_] ? prevState[indexLineSelected_] + 1 : 1;
+        return prevState;
+      });
       // return;
     }
 
@@ -309,7 +312,7 @@ export const Sanitation = (props: SanitationProps) => {
         return;
       }
 
-      if (step === 4 && rinsingReps < 8) {
+      if (step === 4 && rinsingReps.find(l => l < 8)) {
         setDisableNext_(true);
         return;
       }
@@ -346,7 +349,7 @@ export const Sanitation = (props: SanitationProps) => {
           return;
         }
 
-        if (step === 4 && rinsingReps && rinsingReps < 8) {
+        if (step === 4 && rinsingReps && rinsingReps.find(l => l < 8)) {
           setDisableBack_(true);
           return;
         }
@@ -412,12 +415,19 @@ export const Sanitation = (props: SanitationProps) => {
       }, [sanitizerTimer]);
       // <=== SANITIZER TIMER ====
 
-      const checkButtonState = (line_) => {
+      const checkButtonState = (line_, i) => {
         if (step !== 4) return line_.seconds === 0;
-        else return line_.seconds === 0 && rinsingReps >= 8;
+        else return line_.seconds === 0 && rinsingReps[i] >= 8;
       }
 
-      
+      // ==== RINSING COUNT ===>
+      React.useEffect(() => {
+        step === 4 && setRinsingReps(linesSelected.map(l => null));
+      }, [step])
+      // <=== RINSING COUNT ====
+
+      console.log(rinsingReps, linesSelected)
+
       return (
         <Modal
         show={true}
@@ -493,7 +503,7 @@ export const Sanitation = (props: SanitationProps) => {
                         const lineSelected_ = linesSelected[indexLineSelected_];
                         const line_ = lineSelected_.steps[step];
                         return (
-                          <MButton key={i} onClick={() => handleTimerLine(line)} type={line_.$timer ? MTypes.INFO_WARNING : checkButtonState(line_) ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id} / ${line_.seconds}`}>
+                          <MButton key={i} onClick={() => handleTimerLine(line)} type={line_.$timer ? MTypes.INFO_WARNING : checkButtonState(line_, indexLineSelected_) ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id} / ${line_.seconds}`}>
                             {!line.$beverage ?
                               "UNASSIGNED" :
                               <BeverageLogo beverage={line.$beverage} size="tiny" />
