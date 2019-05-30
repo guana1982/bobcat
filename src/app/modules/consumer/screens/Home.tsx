@@ -431,7 +431,7 @@ export const Home = (props: HomeProps) => {
   const handleType = (value) => { // TRUE => isSparkling
 
     const { alarms } = configConsumer;
-    const alarmSparkling_ = true; // alarms.find(alarm => alarm.alarm_name === "press_co2");
+    const alarmSparkling_ = alarms.find(alarm => alarm.alarm_name === "press_co2");
     if (value === true && alarmSparkling_ ) {
       resetBeverage();
       setBlur(true);
