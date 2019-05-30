@@ -9,9 +9,12 @@ import { __ } from "@core/utils/lib/i18n";
 import BeverageLogo from "@core/components/common/Logo";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 
-const TIMER_SANITATION = 35;
+const TIMER_SANITATION = 1;
 const TIMER_RINSING = 2;
 const TIMER_PH = 20;
+const TIMER_SANITIZER = 12;
+
+function fmtMSS(s){return(s-(s%=60))/60+(9<s?':':':0')+s};
 
 const ACTIONS_START = (cancel, next, disableNext: boolean , disableBack: boolean): Action[] => [{
   title: __("cancel"),
@@ -291,6 +294,10 @@ export const Sanitation = (props: SanitationProps) => {
           return;
         }
       });
+      if (step === 3 && validLiness_) {
+        setDisableNext_(true);
+        return;
+      }
       if (validLiness_) {
         setDisableNext_(false);
         return;
@@ -307,10 +314,21 @@ export const Sanitation = (props: SanitationProps) => {
     linesSelected.forEach(line => {
       if (step !== 1 && step !== 5) {
         let countTimers_ = 0;
+        let validLiness_ = true;
         linesSelected.forEach(lineSelected => {
-          if (lineSelected.steps[step].$timer)
+          if (lineSelected.steps[step].$timer) {
             countTimers_++;
+          }
+          if (line.steps[step].seconds !== 0) {
+            validLiness_ = false;
+          }
         });
+
+        if (step === 3 && validLiness_) {
+          setDisableNext_(true);
+          return;
+        }
+
         setDisableBack_(countTimers_ > 0);
       } else {
         setDisableBack_(false);
@@ -319,37 +337,69 @@ export const Sanitation = (props: SanitationProps) => {
   }, [step, linesSelected]);
     //  <=== DISABLE BACK ====
 
-  const actionsModal = (maxSteps: number, finish?: () => void, disableNext?: boolean, disableBack?: boolean) => {
-    if (!finish) {
-      finish = () => console.log("Pls add => Finish");
-    }
-    const cancel_ = () => {
-      cancel();
-    };
-    const nextStep = () => setStep(prev => prev + 1);
-    const prevStep = () => setStep(prev => prev - 1);
-    if (step === 0) {
-      return ACTIONS_START(cancel_, nextStep, disableNext, disableBack);
-    } else if (step === maxSteps - 1) {
-      return ACTIONS_END(cancel_, prevStep, finish, disableNext, disableBack);
-    } else {
-      return ACTIONS_CONTROL(cancel_, prevStep, nextStep, disableNext, disableBack);
-    }
-  };
-
-  const finishSanitation = () => {
-    const lines_ = linesSelected.map(({ lineId }) => lineId);
-    endSanitation(lines_)
-    .subscribe(
-      data => {
-        cancel();
+    
+    const actionsModal = (maxSteps: number, finish?: () => void, disableNext?: boolean, disableBack?: boolean) => {
+      if (!finish) {
+        finish = () => console.log("Pls add => Finish");
       }
-    );
-  };
+      const cancel_ = () => {
+        cancel();
+      };
+      const nextStep = () => setStep(prev => prev + 1);
+      const prevStep = () => setStep(prev => prev - 1);
+      if (step === 0) {
+        return ACTIONS_START(cancel_, nextStep, disableNext, disableBack);
+      } else if (step === maxSteps - 1) {
+        return ACTIONS_END(cancel_, prevStep, finish, disableNext, disableBack);
+      } else {
+        return ACTIONS_CONTROL(cancel_, prevStep, nextStep, disableNext, disableBack);
+      }
+    };
+    
+    const finishSanitation = () => {
+      const lines_ = linesSelected.map(({ lineId }) => lineId);
+      endSanitation(lines_)
+      .subscribe(
+        data => {
+          cancel();
+        }
+        );
+      };
+      
+      // ==== SANITIZER TIMER ====>
+      const [sanitizerTimer, setSanitizerTimer] = React.useState(TIMER_SANITIZER);
+    
+      const handleSanitizerTimer = () => {
+        setTimeout(() => setSanitizerTimer(TIMER_SANITIZER - 1), 1000);
+      }
 
-  return (
-    <Modal
-      show={true}
+      React.useEffect(() => {
+        if (step === 3) {
+          let validLiness_ = true;
+          linesSelected.forEach(line => {
+            if (line.steps[step].seconds !== 0) {
+              validLiness_ = false;
+              return;
+            }
+          });
+          validLiness_ && handleSanitizerTimer();
+        }
+      }, [step, linesSelected])
+
+      React.useEffect(() => {
+        if (sanitizerTimer === 0) {
+          setDisableBack_(false);
+          setDisableNext_(false);
+        }
+        sanitizerTimer < TIMER_SANITIZER && sanitizerTimer > 0 &&
+          setTimeout(() => setSanitizerTimer(prevState => prevState - 1), 1000);
+      }, [sanitizerTimer]);
+
+      // <=== SANITIZER TIMER ====
+      
+      return (
+        <Modal
+        show={true}
       title="SANITATION"
       actions={...actionsModal(7, finishSanitation, disableNext_, disableBack_)}
     >
@@ -387,7 +437,7 @@ export const Sanitation = (props: SanitationProps) => {
               {step === 1 && (
                 <Box className="container no-border">
                   <h3 id="title">{__(`sanitate_step_${step - 1}_title`)}</h3>
-                  <h3 id="title">UP TO THREE LINES PER TIME CAN BE selected</h3>
+                  {/* <h3 id="title">UP TO THREE LINES PER TIME CAN BE selected</h3> */}
                   <br /><br />
                   <h3 id="title">flavor</h3>
                   <Box className="elements">
@@ -433,10 +483,10 @@ export const Sanitation = (props: SanitationProps) => {
                     }
                   </Box>
                   <br />
-                  {(step === 3 && !disableNext_) && (
+                  {(step === 3 && disableNext_ && sanitizerTimer < TIMER_SANITIZER) && (
                     <>
                       <h3 id="title">Wait for the sanitizer required time before rinsing</h3>
-                      <h1 id="title">20:00</h1>
+                      <h1 id="title">{fmtMSS(sanitizerTimer)}</h1>
                     </>
                   )}
                 </Box>
