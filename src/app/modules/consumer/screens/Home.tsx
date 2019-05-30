@@ -211,13 +211,6 @@ export const Home = (props: HomeProps) => {
     if (beverageSelected != null || idBeveragePouring_ != null || indexFavoritePouring_ != null) {
       resetBeverage();
       setEndSession(StatusEndSession.OutOfStock);
-      alertConsumer.show({
-        type: AlertTypes.OutOfStock,
-        timeout: true,
-        onDismiss: () => {
-          consumerConsumer.updateConsumerBeverages(); // => TO IMPROVE
-        }
-      });
     }
   };
 
@@ -301,19 +294,24 @@ export const Home = (props: HomeProps) => {
       }
     }
 
+    setEndSession(StatusEndSession.Start);
+
     configConsumer.onStartPour(bevSelected, bevConfig).subscribe(); // => TEST MODE
   };
 
   const stopPour = (forse?: boolean) => {
     configConsumer.onStopPour().subscribe(); // => TEST MODE
-    if (!forse)
-      setEndSession(StatusEndSession.Start);
+    // if (!forse)
+    //  setEndSession(StatusEndSession.Start);
+    if (endSession === StatusEndSession.Start)
+      startTimerEnd_();
   };
 
   /* ==== END POUR ==== */
   /* ======================================== */
 
   const startTimerEnd_ = () => {
+    resetTimerEnd_();
     endSession_ = timerFull$
     .subscribe(
       val => {
@@ -329,13 +327,14 @@ export const Home = (props: HomeProps) => {
   };
 
   const resetTimerEnd_ = () => {
-    endSession_.unsubscribe();
+    if (endSession_)
+      endSession_.unsubscribe();
   };
 
   React.useEffect(() => {
     if (endSession === StatusEndSession.Start) {
       resetTimer_();
-      startTimerEnd_();
+      // startTimerEnd_();
     } else if (endSession === StatusEndSession.Finish) {
       alertConsumer.show({
         type: AlertTypes.EndBeverage,
@@ -356,7 +355,14 @@ export const Home = (props: HomeProps) => {
         }
       });
     } else if (endSession === StatusEndSession.OutOfStock) {
-      consumerConsumer.resetConsumer(true);
+      alertConsumer.show({
+        type: AlertTypes.OutOfStock,
+        timeout: true,
+        onDismiss: () => {
+          consumerConsumer.updateConsumerBeverages(); // => TO IMPROVE
+          consumerConsumer.resetConsumer(true);
+        }
+      });
     }
 
     return () => {
@@ -431,7 +437,7 @@ export const Home = (props: HomeProps) => {
   const handleType = (value) => { // TRUE => isSparkling
 
     const { alarms } = configConsumer;
-    const alarmSparkling_ = alarms.find(alarm => alarm.alarm_name === "press_co2");
+    const alarmSparkling_ = alarms.find(alarm => alarm.alarm_name === "press_co2" && alarm.alarm_enable === true);
     if (value === true && alarmSparkling_ ) {
       resetBeverage();
       setBlur(true);
