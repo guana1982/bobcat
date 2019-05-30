@@ -1,0 +1,351 @@
+{
+  "methods": [
+    {
+      "id": "free_drink",
+      "label_id": "Free drink",
+      "type": "passthrough",
+      "enabled": true
+    },
+    {
+      "id": "qr_pre",
+      "label_id": "QR Code",
+      "type": "pre",
+      "enabled": true
+    }
+  ],
+  "postpay/qr/confirm_payment": {
+    "success": true,
+    "error": null
+  },
+  "prepay/qr/lean/validate": {
+    "error": false,
+    "status": 0
+  },
+  "prepay/qr/lean/validate_fail": {
+    "success": false,
+    "error": "Qr code not valid"
+  },
+  "postpay/qr/generate": {
+    "timeout":30,
+    "price": "25.00",
+    "qr": [
+      {
+        "id": "wechat",
+        "data": "53100011198000052906700970008065100020802003001",
+        "order_id": "order_id_1"
+      },
+      {
+        "id": "alipay",
+        "data": "63100011198000052906500970008065150020802003001",
+        "order_id": "order_id_1"
+      }
+    ]
+  },
+  "prepay/qr/lean/beverages_from_qr/1": [{
+    "available": true,
+    "target_flow_rate_ml": 9.8599999999999994,
+    "beverage_type": "bev",
+    "ratio": 5.0,
+    "beverage_id": 1,
+    "status_id": "ok",
+    "country": [
+      "en_us"
+    ],
+    "carbonation_levels": {
+      "values": [
+        100
+      ],
+      "type": "value"
+    },
+    "density": 1.2638799999999999,
+    "line_id": 3,
+    "current_flow_rate_ml": 9.8599999999999994,
+    "calibration_status": false,
+    "last_calibration_date": "1970-01-01",
+    "toppings": [{
+      "topping_percs": {
+        "values": [
+          0
+        ],
+        "type": "values"
+      },
+      "topping_id": 0
+    }],
+    "beverage_logo_id": 1,
+    "beverage_label_id": "pepsi_regular",
+    "shelf_life": 0,
+    "enabled_beverage_size_ids": [
+      3
+    ]
+  }],
+  "prepay/qr/lean/beverages_from_qr/2": [{
+    "available": true,
+    "target_flow_rate_ml": 9.8599999999999994,
+    "beverage_type": "bev",
+    "ratio": 5.0,
+    "beverage_id": 2,
+    "status_id": "ok",
+    "country": [
+      "en_us"
+    ],
+    "carbonation_levels": {
+      "values": [
+        100
+      ],
+      "type": "value"
+    },
+    "density": 1.2638799999999999,
+    "line_id": 4,
+    "current_flow_rate_ml": 9.8599999999999994,
+    "calibration_status": false,
+    "last_calibration_date": "1970-01-01",
+    "toppings": [{
+      "topping_percs": {
+        "values": [
+          0
+        ],
+        "type": "values"
+      },
+      "topping_id": 0
+    }],
+    "beverage_logo_id": 2,
+    "beverage_label_id": "pepsi_max",
+    "shelf_life": 0,
+    "enabled_beverage_size_ids": [
+      4
+    ]
+  }],
+  "prepay/qr/lean/beverages_from_qr/3": [{
+    "available": true,
+    "target_flow_rate_ml": 9.8599999999999994,
+    "beverage_type": "bev",
+    "ratio": 5.0,
+    "beverage_id": 3,
+    "status_id": "ok",
+    "country": [
+      "en_us"
+    ],
+    "carbonation_levels": {
+      "values": [
+        100
+      ],
+      "type": "value"
+    },
+    "density": 1.2638799999999999,
+    "line_id": 5,
+    "current_flow_rate_ml": 9.8599999999999994,
+    "calibration_status": false,
+    "last_calibration_date": "1970-01-01",
+    "toppings": [{
+      "topping_percs": {
+        "values": [
+          0
+        ],
+        "type": "values"
+      },
+      "topping_id": 0
+    }],
+    "beverage_logo_id": 3,
+    "beverage_label_id": "pepsi_twist",
+    "shelf_life": 0,
+    "enabled_beverage_size_ids": [
+      2
+    ]
+  }],
+  "prepay/qr/lean/beverages_from_qr/4": [{
+    "available": true,
+    "target_flow_rate_ml": 9.8599999999999994,
+    "beverage_type": "bev",
+    "ratio": 5.0,
+    "beverage_id": 4,
+    "status_id": "ok",
+    "country": [
+      "en_us"
+    ],
+    "carbonation_levels": {
+      "values": [
+        50,
+        100
+      ],
+      "type": "value"
+    },
+    "density": 1.2638799999999999,
+    "line_id": 6,
+    "current_flow_rate_ml": 9.8599999999999994,
+    "calibration_status": false,
+    "last_calibration_date": "1970-01-01",
+    "toppings": [{
+      "topping_percs": {
+        "values": [
+          0
+        ],
+        "type": "values"
+      },
+      "topping_id": 0
+    }],
+    "beverage_logo_id": 4,
+    "beverage_label_id": "7up",
+    "shelf_life": 0,
+    "enabled_beverage_size_ids": [
+      2
+    ]
+  }],
+  "prepay/qr/lean/beverages_from_qr/5": [{
+    "available": true,
+    "target_flow_rate_ml": 10.550000000000001,
+    "beverage_type": "bev",
+    "ratio": 4.6699999999999999,
+    "beverage_id": 5,
+    "status_id": "ok",
+    "country": [
+      "en_us"
+    ],
+    "carbonation_levels": {
+      "values": [
+        50,
+        100
+      ],
+      "type": "value"
+    },
+    "density": 1.2638799999999999,
+    "line_id": 7,
+    "current_flow_rate_ml": 10.550000000000001,
+    "calibration_status": false,
+    "last_calibration_date": "1970-01-01",
+    "toppings": [{
+      "topping_percs": {
+        "values": [
+          0
+        ],
+        "type": "values"
+      },
+      "topping_id": 0
+    }],
+    "beverage_logo_id": 5,
+    "beverage_label_id": "pepsi_orange",
+    "shelf_life": 0,
+    "enabled_beverage_size_ids": [
+      3
+    ]
+  }],
+  "prepay/qr/lean/beverages_from_qr/6": [
+
+    {
+      "available": true,
+      "target_flow_rate_ml": 10.550000000000001,
+      "beverage_type": "bev",
+      "ratio": 4.6699999999999999,
+      "beverage_id": 6,
+      "status_id": "ok",
+      "country": [
+        "en_us"
+      ],
+      "carbonation_levels": {
+        "values": [
+          50,
+          100
+        ],
+        "type": "value"
+      },
+      "density": 1.2638799999999999,
+      "line_id": 8,
+      "current_flow_rate_ml": 10.550000000000001,
+      "calibration_status": false,
+      "last_calibration_date": "1970-01-01",
+      "toppings": [{
+        "topping_percs": {
+          "values": [
+            0
+          ],
+          "type": "values"
+        },
+        "topping_id": 0
+      }],
+      "beverage_logo_id": 6,
+      "beverage_label_id": "pepsi_lemon",
+      "shelf_life": 0,
+      "enabled_beverage_size_ids": [
+        1
+      ]
+    }
+  ],
+  "prepay/qr/lean/beverages_from_qr/7": [
+
+    {
+      "available": true,
+      "target_flow_rate_ml": 6.1600000000000001,
+      "beverage_type": "bev",
+      "ratio": 8.0,
+      "beverage_id": 7,
+      "status_id": "ok",
+      "country": [
+        "en_us"
+      ],
+      "carbonation_levels": {
+        "values": [
+          0
+        ],
+        "type": "value"
+      },
+      "density": 1.2638799999999999,
+      "line_id": 9,
+      "current_flow_rate_ml": 6.1600000000000001,
+      "calibration_status": false,
+      "last_calibration_date": "1970-01-01",
+      "toppings": [{
+        "topping_percs": {
+          "values": [
+            0
+          ],
+          "type": "values"
+        },
+        "topping_id": 0
+      }],
+      "beverage_logo_id": 7,
+      "beverage_label_id": "lipton_limone",
+      "shelf_life": 0,
+      "enabled_beverage_size_ids": [
+        4
+      ]
+    }
+  ],
+  "prepay/qr/lean/beverages_from_qr/8": [
+    {
+      "available": true,
+      "target_flow_rate_ml": 6.1600000000000001,
+      "beverage_type": "bev",
+      "ratio": 8.0,
+      "beverage_id": 8,
+      "status_id": "ok",
+      "country": [
+        "en_us"
+      ],
+      "carbonation_levels": {
+        "values": [
+          0
+        ],
+        "type": "value"
+      },
+      "density": 1.2638799999999999,
+      "line_id": 10,
+      "current_flow_rate_ml": 6.1600000000000001,
+      "calibration_status": false,
+      "last_calibration_date": "1970-01-01",
+      "toppings": [{
+        "topping_percs": {
+          "values": [
+            0
+          ],
+          "type": "values"
+        },
+        "topping_id": 0
+      }],
+      "beverage_logo_id": 8,
+      "beverage_label_id": "lipton_pesca",
+      "shelf_life": 0,
+      "enabled_beverage_size_ids": [
+        1
+      ]
+    }
+  ]
+}
