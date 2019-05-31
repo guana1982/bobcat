@@ -245,7 +245,7 @@ export const Home = (props: HomeProps) => {
 
   //  ==== ON POUR ====>
   const alarmDetect = (data) => {
-    if (!(data.value === true && data.name in AlarmsOutOfStock)) { // Object.values(AlarmsOutOfStock).includes(data.name)
+    if (!(data.value === true && data.enable === true && data.name in AlarmsOutOfStock)) { // Object.values(AlarmsOutOfStock).includes(data.name)
       return null;
     }
     const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
