@@ -249,7 +249,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
           {zoomNutrition &&
             <AppendedFullBeverage {...props}>
               <BeverageFull>
-                {/* <div id="backdrop" onClick={closeZoomNutrition}></div> */}
+                <div id="backdrop" onTouchStart={closeZoomNutrition}></div>
                 <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={closeZoomNutrition} />
                 <BeverageWrap show={true} color={color}>
                   <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
