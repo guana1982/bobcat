@@ -9,11 +9,15 @@ import { __ } from "@core/utils/lib/i18n";
 import BeverageLogo from "@core/components/common/Logo";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { line } from "@core/Menu/Custom/Lines.scss";
+import { switchMap } from "rxjs/operators";
+import { interval, Subject, Subscription } from "rxjs";
+
+const MAX_TIME_EROGATION = 40000;
 
 const TIMER_SANITATION = 35;
 const TIMER_RINSING = 240;
 const TIMER_PH = 20;
-const TIMER_SANITIZER = 5 * 60;
+const TIMER_SANITIZER = 20 * 60;
 
 const fmtMSS = (s) => (s - (s %= 60)) / 60 + (9 < s ? ":" : ":0" ) + s;
 
@@ -217,21 +221,30 @@ export const Sanitation = (props: SanitationProps) => {
       if (lineSelected.steps[step].$timer)
         countTimers_++;
     });
-    if (countTimers_ > 2) {
+    if (countTimers_ > 2 || step === 5 && countTimers_ > 0) {
       return;
     } // => MAX 3 AT SAME TIME
+
+    let startClean_: Subscription = null;
 
     line_.$timer = setInterval(() => {
       if (line_.seconds === 1) {
         clearInterval(line_.$timer);
         line_.$timer = null;
+        startClean_.unsubscribe();
         mediumLevel.sanitation.stopClean(lineSelected_.lineId).subscribe(); // <= STOP CLEAN
       }
       line_.seconds--;
       setlinesSelected(([...linesSelected_]));
     }, 1000);
 
-    mediumLevel.sanitation.startClean(lineSelected_.lineId).subscribe(); // <= START CLEAN
+    startClean_ = mediumLevel.sanitation.startClean(lineSelected_.lineId)
+    .pipe(
+      switchMap(() => interval(MAX_TIME_EROGATION)),
+      switchMap(() => mediumLevel.sanitation.startClean(lineSelected_.lineId))
+    )
+    .subscribe(); // <= START CLEAN
+
     setlinesSelected(([...linesSelected_]));
   };
 
