@@ -10,7 +10,7 @@ export const OutOfOrder_ = (props: OutOfOrderProps) => {
   const { className } = props;
   return (
     <div className={className}>
-      <img id="machine" src={"img/out-of-order.png"} />
+      <img id="machine" src={"img/out-of-order.svg"} />
       <h2 id="title">{__("c_out_of_order_title")}</h2>
       <h2 id="text">{__("c_out_of_order_text")}</h2>
     </div>

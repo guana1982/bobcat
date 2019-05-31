@@ -49,6 +49,36 @@ const _toggleSlide = posed.button({
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */
+const AlertSLide = styled.div`
+  position: absolute;
+  top: 255px;
+  left: 515px;
+  display: flex;
+  flex-direction: column;
+  width: 310px;
+  justify-content: center;
+  align-items: center;
+  &>img {
+
+  }
+  &>#title {
+    font-family: NeuzeitGro-Bol;
+    width: 310px;
+    text-transform: uppercase;
+    line-height: 1.5;
+    letter-spacing: 1.6px;
+    text-align: center;
+    font-size: 20px;
+    margin-top: 25px;
+  }
+  &>#sub-title {
+    margin-top: 10px;
+    width: 310px;
+    font-size: 20px;
+    line-height: 1.5;
+    text-align: center;
+  }
+`;
 
 const HeaderSlide = styled.div`
   padding: 1.5rem;
@@ -174,11 +204,12 @@ interface SlideProps {
   fullMode: boolean;
   disabled?: boolean;
   nutritionFacts: boolean;
+  alarmConnectivity_: boolean;
   handleDisabled: (d) => void;
 }
 
 export const Slide = (props: SlideProps) => {
-  const { slideOpen, indexFavoritePouring_, beverageSelected, selectConsumerBeverage, startConsumerPour, stopConsumerPour, handleSlide, fullMode, disabled, handleDisabled } = props;
+  const { slideOpen, indexFavoritePouring_, beverageSelected, selectConsumerBeverage, startConsumerPour, stopConsumerPour, handleSlide, fullMode, disabled, handleDisabled, alarmConnectivity_ } = props;
   const { dataConsumer, consumerBeverages } = React.useContext(ConsumerContext);
 
   const beverageIsSelected = beverageSelected !== undefined && beverageSelected !== null;
@@ -190,32 +221,40 @@ export const Slide = (props: SlideProps) => {
         <HeaderSlide className={slideOpen && "open"}>
           <h2>{__("c_welcome")}, {dataConsumer.consumer_nick}!</h2>
         </HeaderSlide>
-        <Grid numElement={consumerBeverages.length}>
-          {consumerBeverages.map((b, i) => {
-            const BeverageAnimated = BeveragesAnimated[i];
-            return (
-              <BeverageAnimated
-                pouring={i === indexFavoritePouring_}
-                onStart={() => selectConsumerBeverage(b)}
-                onHoldStart={() => startConsumerPour(b, i)}
-                onHoldEnd={() => stopConsumerPour(b)}
-                key={i}
-                logoId={b.$logo_id || b.$beverage.beverage_logo_id}
-                color={b.$beverage.beverage_font_color}
-                status_id={b.$status_id}
-                title={b.flavorTitle}
-                types={b.$types}
-                $sparkling={b.$sparkling}
-                disabled={disabled}
-                beverage={b.$beverage}
-                levels={b.$levels}
-                slideOpen={slideOpen}
-                // nutritionFacts={nutritionFacts}
-                handleDisabled={handleDisabled}
-              />
-            );
-          })}
-        </Grid>
+        {
+          alarmConnectivity_ ?
+          <AlertSLide>
+            <img src="img/cannot-connect-to-cloud.svg" />
+            <span id="title">{__("c_no_connectivity")}</span>
+            <span id="sub-title">{__("c_no_connectivity_subtitle")}</span>
+          </AlertSLide> :
+          <Grid numElement={consumerBeverages.length}>
+            {consumerBeverages.map((b, i) => {
+              const BeverageAnimated = BeveragesAnimated[i];
+              return (
+                <BeverageAnimated
+                  pouring={i === indexFavoritePouring_}
+                  onStart={() => selectConsumerBeverage(b)}
+                  onHoldStart={() => startConsumerPour(b, i)}
+                  onHoldEnd={() => stopConsumerPour(b)}
+                  key={i}
+                  logoId={b.$logo_id || b.$beverage.beverage_logo_id}
+                  color={b.$beverage.beverage_font_color}
+                  status_id={b.$status_id}
+                  title={b.flavorTitle}
+                  types={b.$types}
+                  $sparkling={b.$sparkling}
+                  disabled={disabled}
+                  beverage={b.$beverage}
+                  levels={b.$levels}
+                  slideOpen={slideOpen}
+                  // nutritionFacts={nutritionFacts}
+                  handleDisabled={handleDisabled}
+                />
+              );
+            })}
+          </Grid>
+        }
         {/* {consumerBeverages[0].$types[0] === BeverageTypes.Info && <h3 id="info">{__("c_save_favourites")}</h3>} */}
         <ToggleSlide disabled={disabled} onClick={() => handleSlide()}>
           <img src={"icons/arrow-circle.png"} />

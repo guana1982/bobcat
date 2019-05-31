@@ -229,26 +229,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
         langDict
       ] = res;
 
-      const otherValuesLang = {
-        c_make_impact: "MAKE AN IMPACT",
-        c_success: "...Refreshment is on the way",
-        c_error: "SOMETHING WENT WRONG",
-        c_out_of_stock: "WE’RE OUT OF THIS FLAVOR AT THE MOMENT",
-        c_end_session: "THANK YOU",
-
-        c_you_helped_eliminate: "You’ve helped eliminate",
-        c_eliminated_bottle_size: "16-oz plastic bottles",
-        c_you_make_impact: "YOU'RE MAKING AN IMPACT",
-        c_good_job: "GOOD JOB",
-        c_keep_it_going: "KEEP IT GOING",
-        c_keep_drinking: "KEEP DRINKING",
-        c_amazing: "AMAZING",
-        c_daily_goal: "to go to reach your daily goal of",
-        c_reached_daily_goal: "You've reached your daily hydration goal of",
-
-        c_end_sparkling: "We’re out of Sparkling at the moment",
-        c_end_sparkling_subtitle: "Please select a Still option"
-      };
+      const otherValuesLang = {};
       setLangDict({
         ...langDict.i18n,
         ...otherValuesLang

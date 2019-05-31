@@ -203,6 +203,47 @@ export const Home = (props: HomeProps) => {
   /* ==== ALARMS ==== */
   /* ======================================== */
 
+  const { alarms } = configConsumer;
+  const [alarmSuper_, setAlarmSuper_] = React.useState(false);
+  const [alarmSparkling_, setAlarmSparkling_] = React.useState(false);
+  const [alarmConnectivity_, setAlarmConnectivity_] = React.useState(false);
+
+  const showAlarmSparkling = () => {
+    resetBeverage();
+    setBlur(true);
+    const evtSparkling_ = () => {
+      consumerConsumer.resetConsumer(true);
+      handleType(false);
+      setBlur(false);
+    };
+    alertConsumer.show({
+      type: AlertTypes.EndSparkling,
+      subTitle: true,
+      timeout: true,
+      transparent: true,
+      onConfirm: evtSparkling_,
+      onDismiss: evtSparkling_
+    });
+  };
+
+  React.useEffect(() => {
+    const detectSuperAlarm_ = Boolean(alarms.find(alarm => alarm.alarm_category === "super_alert" && alarm.alarm_enable === true));
+    setAlarmSuper_(detectSuperAlarm_);
+
+    const detectSparklingAlarm_ = Boolean(alarms.find(alarm => alarm.alarm_name === "press_co2" && alarm.alarm_enable === true));
+    setAlarmSparkling_(detectSparklingAlarm_);
+    if (detectSparklingAlarm_) {
+      if (endSession !== StatusEndSession.Start && isSparkling) {
+        showAlarmSparkling();
+      }
+    }
+
+    const detectConnectivityAlarm_ = Boolean(alarms.find(alarm => (alarm.alarm_name === "mqtt" || alarm.alarm_name === "mqtt") && alarm.alarm_enable === true));
+    setAlarmConnectivity_(detectConnectivityAlarm_);
+
+  }, [alarms]);
+
+  //  ==== ON POUR ====>
   const alarmDetect = (data) => {
     if (!(data.value === true && data.name in AlarmsOutOfStock)) { // Object.values(AlarmsOutOfStock).includes(data.name)
       return null;
@@ -436,24 +477,8 @@ export const Home = (props: HomeProps) => {
 
   const handleType = (value) => { // TRUE => isSparkling
 
-    const { alarms } = configConsumer;
-    const alarmSparkling_ = alarms.find(alarm => alarm.alarm_name === "press_co2" && alarm.alarm_enable === true);
-    if (value === true && alarmSparkling_ ) {
-      resetBeverage();
-      setBlur(true);
-      const evtSparkling_ = () => {
-        consumerConsumer.resetConsumer(true);
-        handleType(false);
-        setBlur(false);
-      };
-      alertConsumer.show({
-        type: AlertTypes.EndSparkling,
-        subTitle: true,
-        timeout: true,
-        transparent: true,
-        onConfirm: evtSparkling_,
-        onDismiss: evtSparkling_
-      });
+    if (alarmSparkling_ && value) {
+      showAlarmSparkling();
     }
 
     setState(prevState => ({
@@ -522,12 +547,13 @@ export const Home = (props: HomeProps) => {
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
-  // return (
-  //   <HomeContent>
-  //     <Gesture onGesture={onGesture} />
-  //     <OutOfOrder />
-  //   </HomeContent>
-  // );
+  if (alarmSuper_)
+  return (
+    <HomeContent>
+      <Gesture onGesture={onGesture} />
+      <OutOfOrder />
+    </HomeContent>
+  );
 
   return (
     <HomeContent>
@@ -544,6 +570,7 @@ export const Home = (props: HomeProps) => {
           handleDisabled={handleDisabled}
           disabled={disabledMode}
           nutritionFacts={nutritionFacts}
+          alarmConnectivity_={alarmConnectivity_}
         />
       }
       <HomeWrap isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={beverageIsSelected}>
