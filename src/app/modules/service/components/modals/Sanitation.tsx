@@ -121,9 +121,12 @@ export const ISection = styled.div`
 interface ILineSanitation {
   lineId: number;
   steps: any;
+
   // $timer: any;
   // seconds: number;
   // verified: boolean;
+
+  // startClean_ : Subscription;
 }
 
 interface SanitationProps extends Partial<ModalContentProps> {
@@ -211,6 +214,7 @@ export const Sanitation = (props: SanitationProps) => {
     if (line_.$timer) {
       clearInterval(line_.$timer);
       line_.$timer = null;
+      line_.startClean_.unsubscribe();
       setlinesSelected(([...linesSelected_]));
       mediumLevel.sanitation.stopClean(lineSelected_.lineId).subscribe(); // <= STOP CLEAN
       return;
@@ -225,20 +229,18 @@ export const Sanitation = (props: SanitationProps) => {
       return;
     } // => MAX 3 AT SAME TIME
 
-    let startClean_: Subscription = null;
-
     line_.$timer = setInterval(() => {
       if (line_.seconds === 1) {
         clearInterval(line_.$timer);
         line_.$timer = null;
-        startClean_.unsubscribe();
+        line_.startClean_.unsubscribe();
         mediumLevel.sanitation.stopClean(lineSelected_.lineId).subscribe(); // <= STOP CLEAN
       }
       line_.seconds--;
       setlinesSelected(([...linesSelected_]));
     }, 1000);
 
-    startClean_ = mediumLevel.sanitation.startClean(lineSelected_.lineId)
+    line_.startClean_ = mediumLevel.sanitation.startClean(lineSelected_.lineId)
     .pipe(
       switchMap(() => interval(MAX_TIME_EROGATION)),
       switchMap(() => mediumLevel.sanitation.startClean(lineSelected_.lineId))
