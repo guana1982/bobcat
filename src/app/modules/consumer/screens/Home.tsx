@@ -212,7 +212,7 @@ export const Home = (props: HomeProps) => {
     resetBeverage();
     setBlur(true);
     const evtSparkling_ = () => {
-      consumerConsumer.resetConsumer(true);
+      // consumerConsumer.resetConsumer(true);
       handleType(false);
       setBlur(false);
     };
