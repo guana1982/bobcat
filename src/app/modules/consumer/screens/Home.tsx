@@ -207,6 +207,7 @@ export const Home = (props: HomeProps) => {
   const [alarmSuper_, setAlarmSuper_] = React.useState(false);
   const [alarmSparkling_, setAlarmSparkling_] = React.useState(false);
   const [alarmConnectivity_, setAlarmConnectivity_] = React.useState(false);
+  const [alarmWebcam_, setAlarmWebcam_] = React.useState(false);
 
   const showAlarmSparkling = () => {
     resetBeverage();
@@ -226,6 +227,15 @@ export const Home = (props: HomeProps) => {
     });
   };
 
+  const showAlarmWebcam = () => {
+    alertConsumer.show({
+      type: AlertTypes.ErrorWebcam,
+      subTitle: true,
+      timeout: true,
+      onDismiss: () => console.log('ciao')
+    });
+  };
+
   React.useEffect(() => {
     const detectSuperAlarm_ = Boolean(alarms.find(alarm => alarm.alarm_category === "super_alert" && alarm.alarm_enable === true));
     setAlarmSuper_(detectSuperAlarm_);
@@ -240,6 +250,9 @@ export const Home = (props: HomeProps) => {
 
     const detectConnectivityAlarm_ = Boolean(alarms.find(alarm => (alarm.alarm_name === "mqtt" || alarm.alarm_name === "mqtt") && alarm.alarm_enable === true));
     setAlarmConnectivity_(detectConnectivityAlarm_);
+
+    const detectWebcamAlarm_ = Boolean(alarms.find(a => a.alarm_name === "webcam"));
+    setAlarmWebcam_(detectWebcamAlarm_);
 
   }, [alarms]);
 
@@ -526,6 +539,10 @@ export const Home = (props: HomeProps) => {
   };
 
   const goToPrepay = () => {
+    if (alarmWebcam_) {
+      showAlarmWebcam();
+      return;
+    }
     props.history.push(Pages.Prepay);
   };
 

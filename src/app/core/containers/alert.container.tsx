@@ -9,7 +9,8 @@ export enum AlertTypes {
   Error = "c_error",
   OutOfStock = "c_out_of_stock",
   EndBeverage = "c_end_session",
-  EndSparkling = "c_end_sparkling"
+  EndSparkling = "c_end_sparkling",
+  ErrorWebcam = "c_error_webcam"
 }
 
 export interface AlertOptions {
