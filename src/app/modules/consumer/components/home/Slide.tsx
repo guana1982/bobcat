@@ -234,7 +234,7 @@ export const Slide = (props: SlideProps) => {
               return (
                 <BeverageAnimated
                   pouring={i === indexFavoritePouring_}
-                  onStart={() => selectConsumerBeverage(b)}
+                  // onStart={() => selectConsumerBeverage(b)}
                   onHoldStart={() => startConsumerPour(b, i)}
                   onHoldEnd={() => stopConsumerPour(b)}
                   key={i}
