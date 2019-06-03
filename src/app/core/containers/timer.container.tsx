@@ -18,8 +18,8 @@ const TimerContainer = createContainer((props: any) => {
 
   // BASIC
 
-  const sourceTouchStart = fromEvent(document, "touchstart");
-  const sourceTouchEnd = fromEvent(document, "touchend");
+  const sourceTouchStart = fromEvent(document, "touchstart").pipe(merge(fromEvent(document, "keydown")));
+  const sourceTouchEnd = fromEvent(document, "touchend").pipe(merge(fromEvent(document, "keyup")));
 
   const timerTouch$ = (time: number, tapDetect: boolean) => sourceTouchEnd
   .pipe(
