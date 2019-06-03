@@ -60,7 +60,10 @@ export default {
     action: (menuId, submenuId, actionId, payload) => post(`menu/${menuId}/${submenuId}/${actionId}`, payload),
 
     authentication: pin => post("auth", { pin }),
-    reboot: () => post("menu/tech_menu/operation_settings_tech/reboot_tower")
+    reboot: () => post("menu/tech_menu/operation_settings_tech/reboot_tower"),
+
+    getMaster: () => get("menu/master_menu/master_submenu/"),
+    saveMaster: values => post("menu/master_menu/master_submenu/", values)
   },
   connectivity: {
     connectivityInfo: () => get("menu/connectivity_status"),

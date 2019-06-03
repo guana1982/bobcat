@@ -15,6 +15,7 @@ import { LoaderComponent } from "./components/common/Loader";
 import { Alert } from "./components/common/Alert";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { map, tap } from "rxjs/operators";
+import { MasterMenu } from "./screens/Master";
 
 export const Service = (props) => {
 
@@ -54,6 +55,12 @@ export const Service = (props) => {
                 path={Pages.Menu}
                 render={(routeProps) => (
                   <NewMenu {...routeProps} authLevel={authLevel} />
+                )}
+              />
+              <Route
+                path={Pages.Master}
+                render={(routeProps) => (
+                  <MasterMenu {...routeProps} authLevel={authLevel} />
                 )}
               />
             </ServiceProvider>

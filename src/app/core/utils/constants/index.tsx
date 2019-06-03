@@ -1,12 +1,12 @@
 // -- PAGES --
 export enum Pages {
+  // -- CONSUMER --
   Attractor = "/",
   Home = "/home",
   Prepay = "/prepay",
+  // -- SERVICE --
   Menu = "/menu",
-  // Menu = "/menu/:typeMenu(tech|crew)",
-  // MenuCrew = "/menu/crew",
-  // MenuTech = "/menu/tech"
+  Master = "/master",
 }
 
 export const calcolaPerc = (tot, num): number => Number(((num / tot) * 100).toFixed(0));

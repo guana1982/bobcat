@@ -121,3 +121,31 @@ interface Action {
   group_label_id: string;
   id: string;
 }
+
+/* ==== MASTER MENU ==== */
+/* ======================================== */
+
+export interface IMasterElement {
+  type: string;
+  value: any;
+  permission: string;
+  id: string;
+  label_id: string;
+  default_value: any;
+  group_label_id: string;
+  unit: string;
+}
+
+export interface IMasterGroup {
+  label_id: string;
+  elements: IMasterElement[];
+}
+
+export interface IMasterMenu {
+  type: string;
+  elements: IMasterElement[];
+  $groups: IMasterGroup[];
+  save: { label_id: string };
+  id: string;
+  label_id: string;
+}

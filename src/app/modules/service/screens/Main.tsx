@@ -18,22 +18,25 @@ import { Customize, SelectionTypes } from "../components/modals/Customize";
 import { Update } from "../components/modals/Update";
 import { Timeout } from "../components/modals/Timeout";
 import { Sanitation } from "../components/modals/Sanitation";
+import { Pages } from "@core/utils/constants";
 
 /* ==== STYLE ==== */
 /* ======================================== */
 
-interface HomeContentProps { beverageIsSelected?: boolean; }
-export const MenuContent = styled<HomeContentProps, "div">("div")`
+interface MenuContentProps { beverageIsSelected?: boolean; }
+export const MenuContent = styled<MenuContentProps, "div">("div")`
   * {
       font-family: Karla-Reg !important;
   }
-
   background: ${props => props.theme.dark};
   width: 100vw;
   height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
+  &.scroll {
+    overflow-y: auto;
+  }
 `;
 
 /* ==== MODALS ==== */
@@ -100,6 +103,7 @@ function reducerModals(state: StateModals, action: ActionModals) {
 
 interface MenuProps {
   authLevel: AuthLevels;
+  history: any;
 }
 
 interface MenuState {
@@ -187,6 +191,8 @@ export const NewMenu = (props: MenuProps) => {
     });
   };
 
+  const { history } = props;
+
   return (
     <>
       <MenuContent>
@@ -261,6 +267,8 @@ export const NewMenu = (props: MenuProps) => {
               authLevel === AuthLevels.Super &&
               <>
                 <MButton onClick={rebootEvent}>SYSTEM REBOOT</MButton>
+                {/* <MButton onClick={() => history.push(Pages.Master)}>MASTER MENU</MButton> */}
+
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 {/* <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
                 <MButton onClick={() => openModal(Modals.Connectivity)} info type={statusConnectivity}>CONNECTIVITY</MButton> */}

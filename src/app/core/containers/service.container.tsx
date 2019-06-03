@@ -5,12 +5,13 @@ import { IBeverage } from "@core/models";
 import { Beverages, SOCKET_CONNECTIVITY } from "@core/utils/constants";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { flatMap, map, tap, mergeMap, finalize } from "rxjs/operators";
-import { of, Observable, forkJoin, merge } from "rxjs";
+import { of, Observable, forkJoin, merge, throwError } from "rxjs";
 import { MTypes } from "@modules/service/components/common/Button";
 import { SetupTypes } from "@modules/service/components/modals/EquipmentConfiguration";
 import { LoaderContext } from "./loader.container";
 import { AlertContext } from ".";
 import { __ } from "@core/utils/lib/i18n";
+import { IMasterMenu } from "@core/utils/APIModel";
 
 //  ==== AUTH ====>
 export enum AuthLevels {
@@ -234,6 +235,7 @@ const ServiceContainer = createContainer(() => {
     else a = MTypes.INFO_SUCCESS;
     setStatusAlarms(a);
   }, [alarms]);
+
   /* ==== CONNECTIVITY ==== */
   /* ======================================== */
 
@@ -567,6 +569,51 @@ const ServiceContainer = createContainer(() => {
     );
   }
 
+  /* ==== MASTER MENU ==== */
+  /* ======================================== */
+
+  function getMasterMenu(): Observable<IMasterMenu> {
+    loaderConsumer.show();
+    return mediumLevel.menu.getMaster()
+    .pipe(
+      map(data => {
+        const error = { data };
+        if (error)
+          throw error;
+        else
+          return data;
+      }),
+      map((data: IMasterMenu) => {
+        data.$groups = [];
+        const { elements } = data;
+        const groups_ = elements.map(k => k.group_label_id).filter((item, pos, self) => self.indexOf(item) === pos);
+        groups_.forEach(group_ => {
+          const elementsOfGroup_ = elements.filter(element => element.group_label_id === group_);
+          data.$groups.push({
+            label_id: group_,
+            elements: elementsOfGroup_
+          });
+        });
+        return data;
+      }),
+      finalize(() => loaderConsumer.hide())
+    );
+  }
+
+  function saveMasterMenu(data: IMasterMenu) {
+    const values_ = {};
+    data.$groups.forEach(group => {
+      group.elements.forEach(element => {
+        values_[element.id] = element.value;
+      });
+    });
+    loaderConsumer.show();
+    return mediumLevel.menu.saveMaster(values_)
+    .pipe(
+      finalize(() => loaderConsumer.hide())
+    );
+  }
+
   return {
     lines,
     syrups,
@@ -585,7 +632,9 @@ const ServiceContainer = createContainer(() => {
     endInizialization,
     endReplacement,
     endPickUp,
-    endSanitation
+    endSanitation,
+    getMasterMenu,
+    saveMasterMenu
   };
 });
 
