@@ -6,7 +6,7 @@ import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { setLangDict } from "../utils/lib/i18n";
 import { withRouter } from "react-router-dom";
 import { IBeverage, ISocket, IBeverageConfig, IAlarm } from "../models";
-import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages } from "../utils/constants";
+import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages, CONSUMER_ALARM } from "../utils/constants";
 import { VendorConfig } from "@core/models/vendor.model";
 import { MTypes } from "@modules/service/components/common/Button";
 
@@ -164,7 +164,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     .multiplex(
       () => console.info(`Start => ${SOCKET_ALARM}`),
       () => console.info(`End => ${SOCKET_ALARM}`),
-      (data) => data && data.message_type === SOCKET_ALARM
+      (data) => data && (data.message_type === SOCKET_ALARM || data.message_type === CONSUMER_ALARM)
     ).pipe(debounceTime(250));
 
     setAlarms

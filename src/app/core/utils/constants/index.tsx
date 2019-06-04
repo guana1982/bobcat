@@ -69,6 +69,7 @@ export const SIZE_BIG = 4;
 // -- SOCKET --
 export const SOCKET_ATTRACTOR = "attract_loop";
 export const SOCKET_ALARM = "alarm_changed";
+export const CONSUMER_ALARM = "consumer_server_data";
 export enum SOCKET_CONSUMER {
   QR = "consumer_qr_data",
   SERVER = "consumer_server_data"
