@@ -380,7 +380,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
       actions={ACTIONS_CLOSE}
     >
       <Box className="centered">
-        {/* <MButton onClick={() => setSetup(SetupTypes.Inizialization)}>INITIAL SETUP</MButton> */}
+        <MButton onClick={() => setSetup(SetupTypes.Inizialization)}>INITIAL SETUP</MButton>
         <MButton onClick={() => setSetup(SetupTypes.MotherboardReplacement)}>MOTHERBOARD REPLACEMENT</MButton>
         <MButton onClick={() => setSetup(SetupTypes.EquipmentReplacement)}>EQUIPMENT REPLACEMENT</MButton>
         <MButton onClick={() => pickUp()}>PICK UP</MButton>
