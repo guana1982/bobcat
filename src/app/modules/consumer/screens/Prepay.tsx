@@ -27,9 +27,11 @@ export const PrepayContent = styled.div`
     position: absolute;
     top: 261px;
     left: 209px;
-    width: 257px;
+    width: 259px;
     height: 259px;
-    background-color: #0000ff;
+    &.enable {
+      background-color: #0000ff;
+    }
     &:before {
       content: " ";
       position: absolute;
@@ -93,6 +95,8 @@ let consumerSocket_: Subscription;
 
 export const Prepay = (props: PrepayProps) => {
 
+  const [webcamReady, setWebcamReady] = React.useState<boolean>(false);
+
   const alertConsumer = React.useContext(AlertContext);
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
@@ -141,9 +145,14 @@ export const Prepay = (props: PrepayProps) => {
   //  <=== TIMER ====
 
   React.useEffect(() => {
-    mediumLevel.config.stopVideo().subscribe(); // <= STOP ATTRACTOR
     startTimer_();
-    start();
+    setTimeout(() => {
+      mediumLevel.config.stopVideo().subscribe(); // <= STOP ATTRACTOR
+      start();
+      setTimeout(() => {
+        setWebcamReady(true);
+      }, 1500);
+    }, 1500);
     return () => {
       resetTimer_();
       stop();
@@ -152,31 +161,31 @@ export const Prepay = (props: PrepayProps) => {
 
   // ==== CONSUMER-SOCKET ===>
   const getObjectLength = obj => {
-    var array = [];
-    for (var key in obj) array.push(key);
+    const array = [];
+    for (const key in obj) array.push(key);
     return array;
-  }
+  };
 
   React.useEffect(() => {
     consumerSocket_ = configConsumer.socketAlarms$.subscribe(data => {
-      data.message_type === 'consumer_server_data'
+      data.message_type === "consumer_server_data"
       && getObjectLength(data.value).length === 0
       && alertConsumer.show({
         type: AlertTypes.ErrorUnassociatedBottle,
         subTitle: true,
         // timeout: true,
-        onDismiss: () => console.log('ciao')
-      })
+        onDismiss: () => console.log("ciao")
+      });
     });
     return () => consumerSocket_.unsubscribe();
-  }, [])
+  }, []);
   // <=== CONSUMER-SOCKET ====
 
   const start = () => {
     const { startScanning } = consumerConsumer;
     startScanning()
     .subscribe((status: true | false | null) => { // => true: correct qr / false: error qr / null: data from server <=
-      console.log(status)
+      console.log(status);
       resetTimer_();
       if (status === true) {
         alertConsumer.show({
@@ -212,7 +221,9 @@ export const Prepay = (props: PrepayProps) => {
     <section>
       <PrepayContent>
         <CloseBtn detectValue={"prepay_close"} icon={"close"} onClick={() => goToHome()} />
-        <div id="Webcam" />
+        <div id="Webcam" className={webcamReady && "enable"}>
+          {!webcamReady && <img src={"animation/spinner-qr.gif"} />}
+        </div>
         <img id="Bottle-QR" src={"img/bottle-qr.svg"} />
         <img id="Phone-QR" src={"img/phone-qr.svg"} />
         <h2 id="Text-Info">{__("c_prepay_text")}</h2>
