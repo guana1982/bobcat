@@ -43,7 +43,7 @@ import ClickNHold from "../common/ClickNHold";
 export const Pour = styled.button`
   position: absolute;
   width: 206px;
-  height: 95px;
+  height: 100px;
   box-shadow: 20px -25px 34px -14px rgba(51, 56, 73, 0.08), 5px 2px 10px 0 rgba(190, 190, 190, 0.22), 0 -9px 34px 0 rgba(108, 163, 0, 0.04);
   font-family: NeuzeitGro-Bol;
   font-size: 20px;
