@@ -4,7 +4,7 @@ import { ConfigContext } from "./config.container";
 import { IBeverage } from "@core/models";
 import { Beverages, SOCKET_CONNECTIVITY } from "@core/utils/constants";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { flatMap, map, tap, mergeMap, finalize } from "rxjs/operators";
+import { flatMap, map, tap, mergeMap, finalize, delay } from "rxjs/operators";
 import { of, Observable, forkJoin, merge, throwError } from "rxjs";
 import { MTypes } from "@modules/service/components/common/Button";
 import { SetupTypes } from "@modules/service/components/modals/EquipmentConfiguration";
@@ -256,13 +256,23 @@ const ServiceContainer = createContainer(() => {
     forkJoin(
       mediumLevel.connectivity.connectivityInfo(),
       mediumLevel.connectivity.getApn(),
-      mediumLevel.connectivity.signalStrength()
     )
     .pipe(
-      map(data => {
+      flatMap(data => {
         const listConnectivity = data[0];
         const { apn } = data[1];
-        const signalStrength = data[2].signal_strength;
+        let signalStrength = of("NaN");
+        if (listConnectivity[ConnectivityTypes.Mobile].status !== ConnectivityStatus.NotConnected) {
+          signalStrength = mediumLevel.connectivity.signalStrength().pipe(map((data: any) => data.signal_strength));
+        }
+        return forkJoin(
+          of(listConnectivity),
+          of(apn),
+          signalStrength
+        );
+      }),
+      tap(valueConnectivity => console.log({ valueConnectivity })),
+      map(([listConnectivity, apn, signalStrength]) => {
 
         const list =
         [ConnectivityTypes.Mobile, ConnectivityTypes.Wifi, ConnectivityTypes.Eth] // Object.keys(listConnectivity)
