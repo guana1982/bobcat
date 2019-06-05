@@ -9,6 +9,7 @@ import mediumLevel from "@core/utils/lib/mediumLevel";
 import { CloseBtnWrap, CloseBtn } from "../components/common/CloseBtn";
 import { __ } from "@core/utils/lib/i18n";
 import { Subscription } from "rxjs";
+import { ConfigContext } from "@core/containers";
 
 export const PrepayContent = styled.div`
   background-image: ${props => props.theme.backgroundLight};
@@ -88,12 +89,14 @@ interface PrepayProps {
 }
 
 let timer_: Subscription;
+let consumerSocket_: Subscription;
 
 export const Prepay = (props: PrepayProps) => {
 
   const alertConsumer = React.useContext(AlertContext);
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
+  const configConsumer = React.useContext(ConfigContext);
 
   //  ==== TIMER ====>
   const { timerFull$ } = timerConsumer;
@@ -147,10 +150,33 @@ export const Prepay = (props: PrepayProps) => {
     };
   }, []);
 
+  // ==== CONSUMER-SOCKET ===>
+  const getObjectLength = obj => {
+    var array = [];
+    for (var key in obj) array.push(key);
+    return array;
+  }
+
+  React.useEffect(() => {
+    consumerSocket_ = configConsumer.socketAlarms$.subscribe(data => {
+      data.message_type === 'consumer_server_data'
+      && getObjectLength(data.value).length === 0
+      && alertConsumer.show({
+        type: AlertTypes.ErrorUnassociatedBottle,
+        subTitle: true,
+        // timeout: true,
+        onDismiss: () => console.log('ciao')
+      })
+    });
+    return () => consumerSocket_.unsubscribe();
+  }, [])
+  // <=== CONSUMER-SOCKET ====
+
   const start = () => {
     const { startScanning } = consumerConsumer;
     startScanning()
     .subscribe((status: true | false | null) => { // => true: correct qr / false: error qr / null: data from server <=
+      console.log(status)
       resetTimer_();
       if (status === true) {
         alertConsumer.show({
