@@ -160,26 +160,32 @@ export const Sanitation = (props: SanitationProps) => {
           1: {
             $timer: null,
             seconds: TIMER_SANITATION,
+            seconds_: TIMER_SANITATION,
           },
           2: {
             $timer: null,
             seconds: TIMER_SANITATION,
+            seconds_: TIMER_SANITATION,
           },
           3: {
             $timer: null,
             seconds: TIMER_SANITATION,
+            seconds_: TIMER_SANITATION,
           },
           4: {
             $timer: null,
             seconds: TIMER_RINSING,
+            seconds_: TIMER_RINSING,
           },
           5: {
             $timer: null,
             seconds: TIMER_PH,
+            seconds_: TIMER_PH,
           },
           6: {
             $timer: null,
             seconds: TIMER_SANITATION,
+            seconds_: TIMER_SANITATION,
           }
         }
       };
@@ -209,7 +215,9 @@ export const Sanitation = (props: SanitationProps) => {
     const lineSelected_ = linesSelected_[indexLineSelected_];
     const line_ = lineSelected_.steps[step];
 
-    if (line_.seconds === 0) return;
+    if (line_.seconds === 0) {
+      line_.seconds = line_.seconds_;
+    }
 
     if (line_.$timer) {
       clearInterval(line_.$timer);
