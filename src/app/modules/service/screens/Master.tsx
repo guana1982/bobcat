@@ -102,14 +102,22 @@ export const MasterMenu = (props: MasterProps) => {
                   />
                 );
 
-                if (element.type === "select" || element.type === "multi")
-                return (
-                  <MButtonGroup
-                    options={element.value}
-                    value={element.value}
-                    onChange={(value) => console.log(element.label_id, value)}
-                  />
-                );
+                if (element.type === "select" || element.type === "multi") {
+                  const options = [];
+                  element.value.forEach(value => {
+                    options.push({
+                      "label": value,
+                      "value": value
+                    });
+                  });
+                  return (
+                    <MButtonGroup
+                      options={options}
+                      value={element.value}
+                      onChange={(value) => console.log(element.label_id, value)}
+                    />
+                  );
+                }
               })
             }
           </Group>

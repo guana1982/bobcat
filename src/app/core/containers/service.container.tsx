@@ -577,7 +577,7 @@ const ServiceContainer = createContainer(() => {
     return mediumLevel.menu.getMaster()
     .pipe(
       map(data => {
-        const error = { data };
+        const { error } = data;
         if (error)
           throw error;
         else
