@@ -33,7 +33,7 @@ export const Basic_ = (props: BasicProps) => {
         {(specialCard) &&
           <SpecialSection>
             <div id="types">
-              {types.map((type, i) => <LabelIndicator tiny={types.length > 1 || !slideOpen} key={i}><img src={`icons/${type}.svg`} /><span>{__('c_' + type)}</span></LabelIndicator>)}
+              {types.map((type, i) => <LabelIndicator tiny={types.length > 1 || !slideOpen} key={i}><img src={`icons/${type}.svg`} /><span>{__(`c_${type}`)}</span></LabelIndicator>)}
             </div>
             <div id="levels">
               {levels.carbonation_perc != null &&
