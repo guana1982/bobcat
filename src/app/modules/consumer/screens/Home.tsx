@@ -564,13 +564,13 @@ export const Home = (props: HomeProps) => {
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
-  // if (alarmSuper_)
-  // return (
-  //   <HomeContent>
-  //     <Gesture onGesture={onGesture} />
-  //     <OutOfOrder />
-  //   </HomeContent>
-  // );
+  if (alarmSuper_)
+  return (
+    <HomeContent>
+      <Gesture onGesture={onGesture} />
+      <OutOfOrder />
+    </HomeContent>
+  );
 
   return (
     <HomeContent>
