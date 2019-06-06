@@ -10,6 +10,7 @@ import { CloseBtnWrap, CloseBtn } from "../components/common/CloseBtn";
 import { __ } from "@core/utils/lib/i18n";
 import { Subscription } from "rxjs";
 import { ConfigContext } from "@core/containers";
+import { IdentificationConsumerTypes, IdentificationConsumerStatus } from "@core/utils/APIModel";
 
 export const PrepayContent = styled.div`
   background-image: ${props => props.theme.backgroundLight};
@@ -184,10 +185,10 @@ export const Prepay = (props: PrepayProps) => {
   const start = () => {
     const { startScanning } = consumerConsumer;
     startScanning()
-    .subscribe((status: true | false | null) => { // => true: correct qr / false: error qr / null: data from server <=
-      console.log(status);
+    .subscribe((status: IdentificationConsumerStatus) => {
       resetTimer_();
-      if (status === true) {
+      console.log(status);
+      if (status === IdentificationConsumerStatus.Complete) {
         alertConsumer.show({
           type: AlertTypes.Success,
           timeout: true,
@@ -195,7 +196,25 @@ export const Prepay = (props: PrepayProps) => {
             goToHome();
           }
         });
-      } else if (status === false) {
+      } else if (status === IdentificationConsumerStatus.Error) {
+        alertConsumer.show({
+          type: AlertTypes.Error,
+          timeout: true,
+          onDismiss: () => {
+            startTimer_();
+            start();
+          }
+        });
+      } else if (status === IdentificationConsumerStatus.Loading) {
+        alertConsumer.show({
+          type: AlertTypes.Success,
+          timeout: false,
+          lock: true,
+        });
+      } else if (status === IdentificationConsumerStatus.CompleteLoading) {
+        alertConsumer.hide();
+        goToHome();
+      } else if (status === IdentificationConsumerStatus.ErrorLoading) {
         alertConsumer.show({
           type: AlertTypes.Error,
           timeout: true,

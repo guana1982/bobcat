@@ -2,7 +2,7 @@ import * as React from "react";
 import mediumLevel from "../utils/lib/mediumLevel";
 import { mergeMap, first, map, tap, delay } from "rxjs/operators";
 import { SOCKET_CONSUMER, Pages, Beverages, LEVELS } from "../utils/constants";
-import { IConsumerModel, IdentificationConsumerTypes, IConsumerBeverage } from "../utils/APIModel";
+import { IConsumerModel, IdentificationConsumerTypes, IConsumerBeverage, IdentificationConsumerStatus } from "../utils/APIModel";
 import { Observable, of, merge } from "rxjs";
 import { withConfig } from "./config.container";
 import { withRouter } from "react-router-dom";
@@ -17,7 +17,7 @@ export interface ConsumerInterface {
   dataConsumer: IConsumerModel;
   consumerBeverages: IConsumerBeverage[];
   resetConsumer: (noPushAttractor?: boolean) => void;
-  startScanning: () => Observable<boolean>;
+  startScanning: () => Observable<IdentificationConsumerStatus>;
   stopScanning: () => Observable<any>;
   updateConsumerBeverages: () => void;
 }
@@ -250,34 +250,47 @@ class ConsumerStoreComponent extends React.Component<any, any> {
   /* ==== SCANNING ==== */
   /* ======================================== */
 
-  startScanning = (): Observable<boolean> => {
+  startScanning = (): Observable<IdentificationConsumerStatus> => {
 
-    const loadDataFromQr: Observable<true | false> =
+    const loadDataFromQr: Observable<IdentificationConsumerStatus> =
       mediumLevel.config.startQrCamera()
       .pipe(
         mergeMap(() => this.getDataFromSocket(SOCKET_CONSUMER.QR)),
         tap(() => this.stopScanning().subscribe()),
         map((data: IConsumerModel) => {
-          console.log("ConsumerBeverages", data);
-          const isLogged = data.identification_type !== IdentificationConsumerTypes.NoAuth;
+          const { identification_type } = data;
+
+          if (identification_type === IdentificationConsumerTypes.Vessel || identification_type === IdentificationConsumerTypes.VesselSticker) {
+            return IdentificationConsumerStatus.Loading;
+          }
+          if (identification_type === IdentificationConsumerTypes.NoAuth) {
+            return IdentificationConsumerStatus.Error;
+          }
+
           this.setState({
-            isLogged: isLogged,
+            isLogged: true,
             dataConsumer: data,
             consumerBeverages: this.getConsumerBeverages(data)
           });
-          return isLogged;
+          return IdentificationConsumerStatus.Complete;
         }),
       );
 
-    const loadDataFromServer: Observable<null> =
+    const loadDataFromServer: Observable<IdentificationConsumerStatus> =
       this.getDataFromSocket(SOCKET_CONSUMER.SERVER)
       .pipe(
         map((data: IConsumerModel) => {
+          if (data === null) {
+            return IdentificationConsumerStatus.Null;
+          }
+          if (data === {}) {
+            return IdentificationConsumerStatus.ErrorLoading;
+          }
           this.setState({
             dataConsumer: data,
             consumerBeverages: this.getConsumerBeverages(data)
           });
-          return null;
+          return IdentificationConsumerStatus.CompleteLoading;
         }),
       );
 

@@ -99,7 +99,7 @@ export const Alert = (props: AlertProps) => {
 
   const alertConsumer = React.useContext(AlertContext);
   const {show, options} = alertConsumer.state;
-  const {type, onDismiss, timeout, transparent, onConfirm, subTitle} = options;
+  const {type, onDismiss, timeout, transparent, onConfirm, subTitle, lock} = options;
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const accessibilityConsumer = React.useContext(AccessibilityContext);
@@ -141,6 +141,9 @@ export const Alert = (props: AlertProps) => {
   };
 
   const dismiss = () => {
+    if (lock) {
+      return;
+    }
     stopTimeout();
     onDismiss_();
   };
@@ -149,7 +152,7 @@ export const Alert = (props: AlertProps) => {
     <React.Fragment>
       {show && <AlertContent>
         <Overlay className={transparent ? "transparent" : null} onClick={dismiss} />
-        <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={dismiss} />
+        {!lock && <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={dismiss} />}
         <AlertWrap>
           <span id="title">{__(type)}</span>
           {subTitle && <span id="sub-title">{__(`${type}_subtitle`)}</span>}

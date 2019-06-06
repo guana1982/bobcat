@@ -49,19 +49,28 @@ export enum IdentificationConsumerTypes {
   VesselSticker = "1",
   Vessel = "2",
   Phone = "3",
-  // PromoCode = 4
+    // PromoCode = 4
+}
+
+export enum IdentificationConsumerStatus {
+  Error = "error",
+  Complete = "complete",
+  Loading = "loading",
+  CompleteLoading = "complete-loading",
+  ErrorLoading = "error-loading",
+  Null = "null"
 }
 
 export interface IConsumerModel {
   identification_type?: IdentificationConsumerTypes;
   pack_id?: string;
-  consumer_id: string;
-  consumer_nick: string;
-  saveBottles: number;
-  currHydraLvl: number;
-  hydraGoal: number;
-  favorites: IConsumerBeverage[];
-  lastPour: IConsumerBeverage;
+  consumer_id?: string;
+  consumer_nick?: string;
+  saveBottles?: number;
+  currHydraLvl?: number;
+  hydraGoal?: number;
+  favorites?: IConsumerBeverage[];
+  lastPour?: IConsumerBeverage;
 }
 
 export interface ILevelsModel {
