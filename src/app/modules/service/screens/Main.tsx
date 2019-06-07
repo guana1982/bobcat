@@ -166,7 +166,7 @@ export const NewMenu = (props: MenuProps) => {
   /* ==== MAIN ==== */
   /* ======================================== */
 
-  const { lines, statusAlarms, statusConnectivity, connectivity } = serviceConsumer;
+  const { lines, statusAlarms, statusConnectivity } = serviceConsumer;
   const { authLevel } = props;
 
   if (!authLevel)
@@ -260,7 +260,7 @@ export const NewMenu = (props: MenuProps) => {
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
                 <MButton onClick={() => openModal(Modals.Update)}>SOFTWARE UPDATE</MButton>
-                <MButton disabled={connectivity == null} onClick={() => openModal(Modals.Connectivity)} info type={statusConnectivity}>CONNECTIVITY</MButton>
+                <MButton onClick={() => openModal(Modals.Connectivity)} info type={statusConnectivity}>CONNECTIVITY</MButton>
               </>
             }
             {

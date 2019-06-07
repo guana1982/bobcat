@@ -240,7 +240,7 @@ export const Prepay = (props: PrepayProps) => {
     <section>
       <PrepayContent>
         <CloseBtn detectValue={"prepay_close"} icon={"close"} onClick={() => goToHome()} />
-        <div id="Webcam" className={webcamReady && "enable"}>
+        <div id="Webcam" className={webcamReady ? "enable" : ""}>
           {!webcamReady && <img src={"animation/spinner-qr.gif"} />}
         </div>
         <img id="Bottle-QR" src={"img/bottle-qr.svg"} />

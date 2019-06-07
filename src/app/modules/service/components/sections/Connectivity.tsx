@@ -11,6 +11,7 @@ import { tap, flatMap, finalize } from "rxjs/operators";
 import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
 import { ServiceProvider, ServiceContext, ConnectivityTypes, ConnectivityStatus, AlertContext } from "@core/containers";
 import { LoaderContext } from "@core/containers/loader.container";
+import Loader from "react-loader-spinner";
 
 enum STATUS_LABELS {
   "wifi_not_connected",
@@ -288,7 +289,11 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
   const { cancel } = props;
   const { connectivity, enableConnection, disableConnection } = React.useContext(ServiceContext);
 
-  const connectionList = connectivity.list;
+  let connectionList = null;
+
+  if (connectivity && connectivity.list) {
+    connectionList = connectivity.list;
+  }
 
   const [state, setState] = React.useState<ConnectivityState>({
     connectionSelected: ConnectivityTypes.Mobile,
@@ -297,9 +302,13 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
   });
 
   React.useEffect(() => {
+    if (!connectionList) {
+      return;
+    }
     getApList_  = setApList().subscribe();
     return () => {
-      getApList_.unsubscribe();
+      if (getApList_)
+        getApList_.unsubscribe();
     };
   }, [connectionList]);
 
@@ -340,6 +349,9 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
   };
 
   React.useEffect(() => {
+    if (!connectionList) {
+      return;
+    }
     if (connectionSelected === ConnectivityTypes.Mobile) {
       const dataConnection_ = getItemConnectivity(ConnectivityTypes.Mobile);
       props.handleActions(dataConnection_.status === ConnectivityStatus.Off ? ACTION_ENABLE_MOBILE(enableConnection) : ACTION_DISABLE_MOBILE(disableConnection));
@@ -350,6 +362,18 @@ const ConnectivityComponent = (props: ConnectivityProps) => {
       props.handleActions([]);
     }
   }, [connectionList, connectionSelected]);
+
+  if (connectivity == null)
+    return (
+      <ConnectivityContent>
+        <Loader
+          type="Oval"
+          color="#000"
+          height="100"
+          width="100"
+        />
+      </ConnectivityContent>
+    );
 
   return (
     <ConnectivityContent>
