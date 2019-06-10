@@ -39,7 +39,7 @@ export const Group = styled<GroupProps, "div">("div")`
   padding-top: 2.5rem;
   &:before {
     position: absolute;
-    top: 10%;
+    top: 17px;
     left: 1.5rem;
     font-size: 1.2rem;
     text-transform: uppercase;

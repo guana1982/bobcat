@@ -15,7 +15,27 @@ import { MButtonGroup } from "../components/common/ButtonGroup";
 /* ==== ELEMENTS ==== */
 /* ======================================== */
 
-
+export const MasterContent = styled.div`
+  ${Group} {
+    flex-direction: column;
+    padding-top: 50px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    &>div {
+      margin: 6px;
+      align-self: flex-start;
+    }
+    .select-box {
+      padding: 15px;
+      border: 1px solid black;
+      border-radius: 20px;
+      #title {
+        text-transform: uppercase;
+        font-size: 1.2rem;
+      }
+    }
+  }
+`;
 
 /* ==== MASTER ==== */
 /* ======================================== */
@@ -86,46 +106,51 @@ export const MasterMenu = (props: MasterProps) => {
 
   return (
     <MenuContent className="scroll">
-      <Grid>
-        {$groups.map((group, i) => (
-          <Group key={i} title={__(group.label_id)}>
-            {
-              group.elements.map(element => {
+      <MasterContent>
+        <Grid>
+          {$groups.map((group, i) => (
+            <Group key={i} title={__(group.label_id)}>
+              {
+                group.elements.map(element => {
 
-                if (element.type === "text" || element.type === "number")
-                return (
-                  <MInput
-                    type={element.type}
-                    label={__(element.label_id)}
-                    value={element.value}
-                    onChange={value => console.log(element.label_id, value)}
-                  />
-                );
-
-                if (element.type === "select" || element.type === "multi") {
-                  const options = [];
-                  element.value.forEach(value => {
-                    options.push({
-                      "label": value,
-                      "value": value
-                    });
-                  });
+                  if (element.type === "text" || element.type === "number")
                   return (
-                    <MButtonGroup
-                      options={options}
+                    <MInput
+                      type={element.type}
+                      label={__(element.label_id)}
                       value={element.value}
-                      onChange={(value) => console.log(element.label_id, value)}
+                      onChange={value => console.log(element.label_id, value)}
                     />
                   );
-                }
-              })
-            }
-          </Group>
-        ))}
-        <Group title="" size={74} />
-        <MButton id="exit-btn" onClick={() => history.push(Pages.Menu)}>EXIT TO MASTER UI</MButton>
-        <MButton id="exit-btn" onClick={() => saveValues()}>SAVE VALUES</MButton>
-      </Grid>
+
+                  if (element.type === "select" || element.type === "multi") {
+                    const options = [];
+                    element.value.forEach(value => {
+                      options.push({
+                        "label": value,
+                        "value": value
+                      });
+                    });
+                    return (
+                      <div className="select-box">
+                        <span id="title">{__(element.group_label_id)}</span>
+                        <MButtonGroup
+                          options={options}
+                          value={element.default_value}
+                          onChange={(value) => console.log(element.label_id, value)}
+                        />
+                      </div>
+                    );
+                  }
+                })
+              }
+            </Group>
+          ))}
+          <Group title="" size={74} />
+          <MButton id="exit-btn" onClick={() => history.push(Pages.Menu)}>EXIT TO MASTER UI</MButton>
+          <MButton id="exit-btn" onClick={() => saveValues()}>SAVE VALUES</MButton>
+        </Grid>
+      </MasterContent>
     </MenuContent>
   );
 };

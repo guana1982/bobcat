@@ -267,7 +267,7 @@ export const NewMenu = (props: MenuProps) => {
               authLevel === AuthLevels.Super &&
               <>
                 <MButton onClick={rebootEvent}>SYSTEM REBOOT</MButton>
-                {/* <MButton onClick={() => history.push(Pages.Master)}>MASTER MENU</MButton> */}
+                <MButton onClick={() => history.push(Pages.Master)}>MASTER MENU</MButton>
 
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 {/* <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
