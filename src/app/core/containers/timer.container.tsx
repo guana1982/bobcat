@@ -50,7 +50,7 @@ const TimerContainer = createContainer((props: any) => {
   const startVideo$ = socketAttractor$
   .pipe(
     filter(value => value === MESSAGE_START_VIDEO),
-    switchMap(() => timerTouch$(3000, false)),
+    switchMap(() => timerTouch$(1500, false)),
     first(),
     map(() => "proximity_stop")
   );
