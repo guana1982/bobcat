@@ -11,7 +11,8 @@ export enum AlertTypes {
   EndBeverage = "c_end_session",
   EndSparkling = "c_end_sparkling",
   ErrorWebcam = "c_error_webcam",
-  ErrorUnassociatedBottle = "c_error_unassociated_bottle"
+  ErrorUnassociatedBottle = "c_error_unassociated_bottle",
+  ErrorADAPanelDown = "c_ada_panel_down"
 }
 
 export interface AlertOptions {
