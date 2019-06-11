@@ -578,6 +578,8 @@ export const Home = (props: HomeProps) => {
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
+  // consumerConsumer.resetConsumer(true);
+
   if (alarmSuper_)
   return (
     <HomeContent>
