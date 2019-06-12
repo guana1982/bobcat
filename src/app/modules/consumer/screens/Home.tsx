@@ -195,9 +195,10 @@ export const Home = (props: HomeProps) => {
       beverageSelected: state.beverageSelected,
       nutritionFacts: nutritionFacts,
       slideOpen: slideOpen,
-      buttonGroupSelected: null
+      buttonGroupSelected: null,
+      endSession: endSession
     });
-  }, [state.beverageSelected, slideOpen, nutritionFacts]);
+  }, [state.beverageSelected, slideOpen, nutritionFacts, endSession]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
   /* ==== ALARMS ==== */

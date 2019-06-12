@@ -229,7 +229,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   const { isPouring } = configConsumer;
 
   React.useEffect(() => {
-    const button = buttonPourEl.current;
+    const button = buttonPourEl.current.node;
     const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
     if (!isPouring) {
       if (pour === true || enter === true && isFocus) {
@@ -318,6 +318,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           onClickNHold={() => startPour()}
           onEnd={(e, enough) => enough && stopPour()}
           className="pour-btn"
+          ref={buttonPourEl}
         >
           <Pour
             color={beverageSelected.beverage_font_color}

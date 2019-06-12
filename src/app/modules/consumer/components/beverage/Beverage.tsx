@@ -175,6 +175,10 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         });
         return;
       }
+      if (pouring) {
+        onHoldStart();
+        return;
+      }
       if (onStart) {
         onStart();
       }
