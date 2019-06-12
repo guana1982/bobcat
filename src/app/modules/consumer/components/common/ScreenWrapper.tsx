@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+import { themeMain } from "@style";
 
 export const SreenWrapper = styled.div`
   top: 0;
@@ -7,8 +8,8 @@ export const SreenWrapper = styled.div`
   width: 100%;
   height: 100%;
   background-color: #0000FF;
-  display: block;
   z-index: 1000;
+  display: block;
 `;
 
 const _sizeWarning = 200;

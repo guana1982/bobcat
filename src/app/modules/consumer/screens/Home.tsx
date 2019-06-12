@@ -209,6 +209,7 @@ export const Home = (props: HomeProps) => {
   const [alarmSparkling_, setAlarmSparkling_] = React.useState(false);
   const [alarmConnectivity_, setAlarmConnectivity_] = React.useState(false);
   const [alarmWebcam_, setAlarmWebcam_] = React.useState(false);
+  const [alarmADAPanel_, setAlarmADAPanel_] = React.useState(false);
 
   const showAlarmSparkling = () => {
     resetBeverage();
@@ -237,6 +238,15 @@ export const Home = (props: HomeProps) => {
     });
   };
 
+  const showAlarmADAPanel = () => {
+    alertConsumer.show({
+      type: AlertTypes.ErrorADAPanelDown,
+      subTitle: true,
+      timeout: true,
+      onDismiss: () => console.log('ciao')
+    });
+  };
+
   React.useEffect(() => {
     const detectSuperAlarm_ = Boolean(alarms.find(alarm => alarm.alarm_category === "super_alert" && alarm.alarm_enable === true));
     setAlarmSuper_(detectSuperAlarm_);
@@ -254,6 +264,10 @@ export const Home = (props: HomeProps) => {
 
     const detectWebcamAlarm_ = Boolean(alarms.find(a => a.alarm_name === "webcam"));
     setAlarmWebcam_(detectWebcamAlarm_);
+
+    const detectADAPanelAlarm_ = Boolean(alarms.find(a => a.alarm_name === "ada_panel"));
+    // setAlarmADAPanel_(true);
+    detectADAPanelAlarm_ && showAlarmADAPanel();
 
   }, [alarms]);
 
@@ -564,6 +578,8 @@ export const Home = (props: HomeProps) => {
   };
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
+
+  // consumerConsumer.resetConsumer(true);
 
   if (alarmSuper_)
   return (
