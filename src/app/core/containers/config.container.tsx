@@ -74,7 +74,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       () => console.info(`End => ${SOCKET_ATTRACTOR}`),
       (data) => data && data.message_type === SOCKET_ATTRACTOR
     ).pipe(
-      debounceTime(250),
+      // debounceTime(250),
       map((data: any) => data.value)
     );
 

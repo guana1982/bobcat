@@ -1,12 +1,13 @@
 import * as React from "react";
 import createContainer from "constate";
 import { Subscription, fromEvent, timer } from "rxjs";
-import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge } from "rxjs/operators";
+import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge, debounce, debounceTime } from "rxjs/operators";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { MESSAGE_START_VIDEO, Pages } from "@core/utils/constants";
+import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_STOP_CAMERA } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
 import { ConfigContext, ConsumerContext, AlertTypes, AlertContext } from ".";
 
+let enableProximity = false;
 
 const TimerContainer = createContainer((props: any) => {
 
@@ -17,6 +18,15 @@ const TimerContainer = createContainer((props: any) => {
   const [timerStop, setTimerStop] = React.useState(false);
 
   // BASIC
+
+  React.useEffect(() => {
+    socketAttractor$
+    .pipe(
+      filter(value => value !== MESSAGE_STOP_CAMERA),
+      map(value => value !== MESSAGE_STOP_VIDEO),
+    )
+    .subscribe(value => enableProximity = value);
+  }, []);
 
   const sourceTouchStart = fromEvent(document, "touchstart").pipe(merge(fromEvent(document, "keydown")));
   const sourceTouchEnd = fromEvent(document, "touchend").pipe(merge(fromEvent(document, "keyup")));
@@ -55,6 +65,8 @@ const TimerContainer = createContainer((props: any) => {
     map(() => "proximity_stop")
   );
 
+  const startVideoNoProximity$ = timerTouch$(5000, false).pipe(map(() => "proximity_stop"));
+
   const upBrightness$ = sourceTouchStart
   .pipe(
     tap(() => mediumLevel.brightness.brightenDisplay().subscribe()),
@@ -67,14 +79,14 @@ const TimerContainer = createContainer((props: any) => {
 
   const timerFull$ = timerWithBrightness$
   .pipe(
-    merge(startVideo$),
+    merge(enableProximity ? startVideo$ : startVideoNoProximity$),
     tap(value => setTimerStop(value === "timer_stop")),
     first()
   );
 
   const restartBrightness$ = upBrightness$
   .pipe(
-    merge(startVideo$),
+    merge(enableProximity ? startVideo$ : startVideoNoProximity$),
     tap(() => setTimerStop(false)),
     first()
   );

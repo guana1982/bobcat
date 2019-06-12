@@ -80,6 +80,7 @@ export const SOCKET_CONNECTIVITY = "connectivity_status";
 export const MESSAGE_START_VIDEO = "start_video";
 export const MESSAGE_STOP_VIDEO = "stop_video";
 export const MESSAGE_START_CAMERA = "start_camera";
+export const MESSAGE_STOP_CAMERA = "start_camera";
 
 
 //  INFO-CARDS POSITIONS ON LONG-PRESS POUR
