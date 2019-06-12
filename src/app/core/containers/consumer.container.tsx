@@ -283,7 +283,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
           if (data === null) {
             return IdentificationConsumerStatus.Null;
           }
-          if (data === {}) {
+          if (data.error) {
             return IdentificationConsumerStatus.ErrorLoading;
           }
           this.setState({
