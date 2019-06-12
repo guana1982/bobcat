@@ -83,6 +83,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-simple-keyboard": "^1.16.1",
+    "react-switch": "^5.0.0",
     "react-transition-group": "^2.4.0",
     "react-web-animation": "^0.7.0",
     "recompose": "^0.30.0",

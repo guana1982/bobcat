@@ -29,11 +29,30 @@ const ACTIONS_MULTIPLE = (cancel, finish, disableNext: boolean): Action[] => [{
 }];
 
 const FullKeyboardWrapper = styled.div`
+  ${InputContent}.selected input {
+    border: 3px solid #009933;
+  }
   ${InputWrapper} {
     margin: 20px auto;
   }
   ${KeyboardWrapper} {
     margin: 20px 60px 0
+  }
+  &.vector-number {
+    .values {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 20px;
+      width: 801px;
+      justify-content: center;
+    }
+    ${InputWrapper} {
+      margin: 7px;
+    }
+    .numeric-theme {
+      max-width: 320px;
+      margin: auto;
+    }
   }
 `;
 
@@ -69,11 +88,14 @@ const NumberPadWrapper = styled.div`
 
 enum TypeLayout {
   Default = "default",
+  Number = "number",
   Shift = "shift"
 }
 
 export enum ModalKeyboardTypes {
   Multiple = "multiple",
+  Number = "number",
+  VectorNumber = "vector-number",
   Default = "default",
   Auth = "auth",
   Full = "full"
@@ -83,6 +105,7 @@ interface NumberPadProps {
   beverage?: any;
   title: string;
   type: ModalKeyboardTypes;
+  form?: any;
   cancel: () => void;
   finish: (output: any) => void;
 }
@@ -93,10 +116,12 @@ interface NumberPadState {
   layoutName: TypeLayout;
   input: string;
   input2: string;
+  form: any;
 }
 
 const layout = {
   [TypeLayout.Default]: ["1 2 3", "4 5 6", "7 8 9", " 0 {bksp}"],
+  [TypeLayout.Number]: ["1 2 3", "4 5 6", "7 8 9", ". 0 {bksp}"],
   [TypeLayout.Shift]: ["! / #", "$ % ^", "& * (", "{bksp} ) +"],
 };
 const display = {
@@ -113,12 +138,15 @@ const isValidDate = (dateString: string) => {
 
 export const ModalKeyboard = (props: NumberPadProps) => {
 
-  const { beverage, title, type, cancel, finish } = props;
+  const { beverage, title, type, cancel, finish, form } = props;
+
+  const [fieldSelected, setFieldSelected] = React.useState(0);
 
   const [state, setState] = React.useState<NumberPadState>({
     showKeyboard: type === ModalKeyboardTypes.Multiple ? false : true,
     showSelect: false,
     layoutName: TypeLayout.Default,
+    form: form,
     input: "",
     input2: ""
   });
@@ -131,7 +159,7 @@ export const ModalKeyboard = (props: NumberPadProps) => {
     }
     if (type === ModalKeyboardTypes.Multiple) {
       const keyboardEl_ = keyboardEl.current;
-      keyboardEl_.setInput(state.input);
+      keyboardEl_.setInput(state.input.toString());
     }
   }, [state.showKeyboard]);
 
@@ -193,36 +221,93 @@ export const ModalKeyboard = (props: NumberPadProps) => {
     }));
   };
 
+  React.useEffect(() => {
+    if (type === ModalKeyboardTypes.VectorNumber || type === ModalKeyboardTypes.Number) {
+      const keyboardEl_ = keyboardEl.current;
+      Object.keys(form).forEach(key => {
+        keyboardEl_.setInput(form[key].toString(), key);
+      });
+    }
+  }, [form]);
+
+  const onChangeAll = inputObj => {
+    delete inputObj.default;
+    setState(prevState => ({
+      ...prevState,
+      form: Object.keys(inputObj).map(k => inputObj[k])
+    }));
+  };
+
+  if (type === ModalKeyboardTypes.Number || type === ModalKeyboardTypes.VectorNumber)
+  return (
+    <Modal
+      show={true}
+      title={title}
+      themeMode={ModalTheme.Dark}
+      actions={ACTIONS_CONFIRM}
+      cancel={() => cancel()}
+      finish={() => finish(type === ModalKeyboardTypes.Number ? state.form[0] : state.form)}
+    >
+      <FullKeyboardWrapper className={type}>
+        <div>
+          <div className="values">
+          {
+            state.form.map((inputValue, i) => (
+              <MInput
+                className={`value ${fieldSelected === i ? "selected" : ""}`}
+                key={i}
+                click={() => setFieldSelected(i)}
+                value={inputValue}
+                onChange={e => console.log(e)}
+              />
+            ))
+          }
+          </div>
+          <Keyboard
+            ref={keyboardEl}
+            layoutName={TypeLayout.Number}
+            layout={layout}
+            display={display}
+            theme="hg-theme-default hg-layout-numeric numeric-theme"
+            preventMouseDownDefault={true}
+            inputName={fieldSelected}
+            onChangeAll={(all) => onChangeAll(all) }
+          />
+        </div>
+      </FullKeyboardWrapper>
+    </Modal>
+  );
+
   if (type === ModalKeyboardTypes.Auth)
   return (
-      <Modal
-        show={true}
-        title={title}
-        themeMode={ModalTheme.Dark}
-        actions={ACTIONS_CONFIRM}
-        cancel={() => cancel()}
-        finish={() => finish(state.input)}
-      >
-        <NumberPadWrapper>
-          <div>
-            <MInput
-              value={state.input}
-              type="password"
-              onChange={e => console.log(e)}
-            />
-            <Keyboard
-              ref={keyboardEl}
-              layoutName={state.layoutName}
-              layout={layout}
-              display={display}
-              theme="hg-theme-default hg-layout-numeric numeric-theme"
-              preventMouseDownDefault={true}
-              onChange={input => onChangeInput(input)}
-              onKeyPress={button => onKeyPress(button)}
-            />
-          </div>
-        </NumberPadWrapper>
-      </Modal>
+    <Modal
+      show={true}
+      title={title}
+      themeMode={ModalTheme.Dark}
+      actions={ACTIONS_CONFIRM}
+      cancel={() => cancel()}
+      finish={() => finish(state.input)}
+    >
+      <NumberPadWrapper>
+        <div>
+          <MInput
+            value={state.input}
+            type="password"
+            onChange={e => console.log(e)}
+          />
+          <Keyboard
+            ref={keyboardEl}
+            layoutName={state.layoutName}
+            layout={layout}
+            display={display}
+            theme="hg-theme-default hg-layout-numeric numeric-theme"
+            preventMouseDownDefault={true}
+            onChange={input => onChangeInput(input)}
+            onKeyPress={button => onKeyPress(button)}
+          />
+        </div>
+      </NumberPadWrapper>
+    </Modal>
   );
 
   if (type === ModalKeyboardTypes.Full)
