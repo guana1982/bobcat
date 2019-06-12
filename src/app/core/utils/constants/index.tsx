@@ -23,16 +23,16 @@ export enum Beverages {
 export const LEVELS = {
   flavor: [
     {label: "c_light", value: 1},
-    {label: "c_full", value: 2},
-    {label: "c_bold", value: 3}
+    {label: "c_medium", value: 2},
+    {label: "c_strong", value: 3}
   ],
   carbonation: [
     {label: "c_light", value: 20},
     {label: "c_medium", value: 50},
-    {label: "c_full", value: 100}
+    {label: "c_strong", value: 100}
   ],
   temperature: [
-    {label: "c_ambient", value: 100},
+    {label: "c_cool", value: 100},
     {label: "c_cold", value: 50},
     {label: "c_ice_cold", value: 0},
   ],
