@@ -157,7 +157,7 @@ export const MasterMenu = (props: MasterProps) => {
     saveMasterMenu(state.form_)
     .subscribe(
       data => {
-        location.reload();
+        history.push(Pages.Menu);
       },
       error => {
         console.error(error);
@@ -270,7 +270,7 @@ export const MasterMenu = (props: MasterProps) => {
           type={fieldSelected.type === "text" ? ModalKeyboardTypes.Full : fieldSelected.type}
           form={fieldSelected.type === "vector-number" ? form_[fieldSelected.id] : [form_[fieldSelected.id]]  }
           cancel={() => setFieldSelected(null)}
-          finish={(value) => setValueForm(fieldSelected.id, value)}
+          finish={(value) => setValueForm(fieldSelected.id, Array.isArray(value) ? value.map(v => Number(v)) : Number(value))}
         />
       }
     </MenuContent>
