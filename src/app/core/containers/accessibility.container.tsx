@@ -36,6 +36,7 @@ interface StateLayout {
   buttonGroupSelected?: string;
   alertShow?: boolean;
   endBeverageShow?: boolean;
+  endSession?: any;
 }
 
 const AccessibilityContainer = createContainer((props: AccessibilityState) => {
@@ -285,6 +286,14 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
         ...prevState,
         buttonGroupSelected: null
       }));
+      return;
+    }
+
+    // === END SESSION (POURING) ===
+    const { endSession } = stateLayout;
+    if (endSession === "start") {
+      const buttonToFocus = getSpecificButton(`exit-btn`);
+      buttonToFocus.click();
       return;
     }
 

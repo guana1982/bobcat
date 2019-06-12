@@ -71,6 +71,7 @@ export interface IConsumerModel {
   hydraGoal?: number;
   favorites?: IConsumerBeverage[];
   lastPour?: IConsumerBeverage;
+  error?: any;
 }
 
 export interface ILevelsModel {
@@ -153,7 +154,8 @@ export interface IMasterGroup {
 export interface IMasterMenu {
   type: string;
   elements: IMasterElement[];
-  $groups: IMasterGroup[];
+  structure_: IMasterGroup[];
+  form_: any;
   save: { label_id: string };
   id: string;
   label_id: string;

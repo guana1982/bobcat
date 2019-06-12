@@ -73,7 +73,10 @@ class ConfigStoreComponent extends React.Component<any, any> {
       () => console.info(`Start => ${SOCKET_ATTRACTOR}`),
       () => console.info(`End => ${SOCKET_ATTRACTOR}`),
       (data) => data && data.message_type === SOCKET_ATTRACTOR
-    ).pipe(map((data: any) => data.value));
+    ).pipe(
+      debounceTime(250),
+      map((data: any) => data.value)
+    );
 
     // socketAttractor$
     // .subscribe(value => {

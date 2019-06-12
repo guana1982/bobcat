@@ -63,7 +63,7 @@ export default {
     reboot: () => post("menu/tech_menu/operation_settings_tech/reboot_tower"),
 
     getMaster: () => get("menu/master_menu/master_submenu/"),
-    saveMaster: values => post("menu/master_menu/master_submenu/", values)
+    saveMaster: values => post("menu/master_menu/master_submenu/save", values)
   },
   connectivity: {
     connectivityInfo: () => get("menu/connectivity_status"),

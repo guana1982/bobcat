@@ -26,6 +26,13 @@ export const InputWrapper = styled.div`
       background: #fff;
     }
   }
+  #enable-click {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
 `;
 
 export const InputContent = styled.div`
@@ -95,6 +102,7 @@ export const MInput = (props: MInputProps) => {
             type={type}
             onChange={onChange}
           />
+          <div id="enable-click" />
         </InputWrapper>
       </InputContent>
     );

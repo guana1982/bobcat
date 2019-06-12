@@ -92,6 +92,7 @@ interface PrepayProps {
 }
 
 let timer_: Subscription;
+let scanning_: Subscription;
 let consumerSocket_: Subscription;
 
 export const Prepay = (props: PrepayProps) => {
@@ -157,6 +158,8 @@ export const Prepay = (props: PrepayProps) => {
     return () => {
       resetTimer_();
       stop();
+      if (scanning_)
+        scanning_.unsubscribe();
     };
   }, []);
 
@@ -184,7 +187,7 @@ export const Prepay = (props: PrepayProps) => {
 
   const start = () => {
     const { startScanning } = consumerConsumer;
-    startScanning()
+    scanning_ = startScanning()
     .subscribe((status: IdentificationConsumerStatus) => {
       resetTimer_();
       console.log(status);

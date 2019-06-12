@@ -4,8 +4,8 @@ import { ConfigContext } from "./config.container";
 import { IBeverage } from "@core/models";
 import { Beverages, SOCKET_CONNECTIVITY } from "@core/utils/constants";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { flatMap, map, tap, mergeMap, finalize, delay } from "rxjs/operators";
-import { of, Observable, forkJoin, merge, throwError } from "rxjs";
+import { flatMap, map, tap, mergeMap, finalize, delay, concatMap } from "rxjs/operators";
+import { of, Observable, forkJoin, merge, throwError, timer } from "rxjs";
 import { MTypes } from "@modules/service/components/common/Button";
 import { SetupTypes } from "@modules/service/components/modals/EquipmentConfiguration";
 import { LoaderContext } from "./loader.container";
@@ -594,31 +594,43 @@ const ServiceContainer = createContainer(() => {
           return data;
       }),
       map((data: IMasterMenu) => {
-        data.$groups = [];
+
+        data.form_ = {};
+        data.elements.forEach((element) => data.form_[element.id] = element.type === "select" ? element.default_value : element.value);
+
+        data.structure_ = [];
         const { elements } = data;
         const groups_ = elements.map(k => k.group_label_id).filter((item, pos, self) => self.indexOf(item) === pos);
         groups_.forEach(group_ => {
           const elementsOfGroup_ = elements.filter(element => element.group_label_id === group_);
-          data.$groups.push({
+          data.structure_.push({
             label_id: group_,
             elements: elementsOfGroup_
           });
         });
         return data;
+
       }),
       finalize(() => loaderConsumer.hide())
     );
   }
 
-  function saveMasterMenu(data: IMasterMenu) {
-    const values_ = {};
-    data.$groups.forEach(group => {
-      group.elements.forEach(element => {
-        values_[element.id] = element.value;
-      });
-    });
+  function pollingMasterMenu(): Observable<any> {
+    return timer(0, 1000)
+    .pipe(
+      concatMap(_ => mediumLevel.menu.getMaster()),
+      map(data => data.elements.filter(elm => elm.permission === "read")),
+      map(elements => {
+        let form_ = {};
+        elements.forEach((element) => form_[element.id] = element.type === "select" ? element.default_value : element.value);
+        return form_;
+      })
+    );
+  }
+
+  function saveMasterMenu(form: any) {
     loaderConsumer.show();
-    return mediumLevel.menu.saveMaster(values_)
+    return mediumLevel.menu.saveMaster(form)
     .pipe(
       finalize(() => loaderConsumer.hide())
     );
@@ -644,6 +656,7 @@ const ServiceContainer = createContainer(() => {
     endPickUp,
     endSanitation,
     getMasterMenu,
+    pollingMasterMenu,
     saveMasterMenu
   };
 });
