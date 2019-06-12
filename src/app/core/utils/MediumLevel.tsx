@@ -101,9 +101,13 @@ export default {
     getVideoList: () => get("menu/video_list"),
     setVideo: filename => post("menu/video", { filename })
   },
+  owner: {
+    getOwnerList: () => get("menu/owner"),
+    setOwner: owner => post("menu/owner", { owner })
+  },
   operator: {
     getOperatorList: () => get("menu/operator"),
-    setOperator: type => post("menu/operator", { type })
+    setOperator: payload => post("menu/operator", payload)
   },
   timezone: {
     getTimezoneList: () => get("menu/timezone"),

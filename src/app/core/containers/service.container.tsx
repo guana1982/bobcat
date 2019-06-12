@@ -94,10 +94,20 @@ const ListConfig = {
     setObservable$: mediumLevel.price.setPaymentType,
     indexValue: { list_: "payment_type_list" , value_: null, selected_ : "payment_type" },
   },
+  owner: {
+    getObservable$: mediumLevel.owner.getOwnerList,
+    setObservable$: mediumLevel.owner.setOwner,
+    indexValue: { list_: "owner_list" , value_: null, selected_ : "owner" },
+  },
   operation: {
     getObservable$: mediumLevel.operator.getOperatorList,
     setObservable$: mediumLevel.operator.setOperator,
     indexValue: { list_: "operator_list" , value_: null, selected_ : "operator" },
+  },
+  service: {
+    getObservable$: mediumLevel.operator.getOperatorList,
+    setObservable$: mediumLevel.operator.setOperator,
+    indexValue: { list_: "service_list" , value_: null, selected_ : "service" },
   },
   timezone: {
     getObservable$: mediumLevel.timezone.getTimezoneList,
@@ -136,15 +146,21 @@ const getList_ = ({ getObservable$, indexValue }): Observable<IList> => {
   );
 };
 
-const setList_ = ({ list, valueSelected, setObservable$ }): Observable<any> => {
+const setList_ = ({ list, valueSelected, setObservable$ }, service?): Observable<any> => {
   if (list === null || list === [])
     return;
 
   let element = list.find(element => element.value === valueSelected ) || { label: null, value: null };
 
   const { label } = element;
+  
+  return service && service.serviceSelected !== null
+    ? setObservable$({
+      name: label,
+      service: service.list.find(el => el.value === service.serviceSelected).label
+    })
+    : setObservable$(label)
 
-  return setObservable$(label);
 };
 //  <=== LIST ====
 
@@ -182,9 +198,17 @@ const ServiceContainer = createContainer(() => {
   const loadPaymentList = () => getList_(ListConfig.payment).pipe(tap(data => setPaymentList(data)));
   const updatePaymentList = (valueSelected) => setList_({ ...paymentList, valueSelected, ...ListConfig.payment }).pipe(flatMap(() => loadPaymentList()));
 
+  const [ownerList, setOwnerList] = React.useState<IList>(initList);
+  const loadOwnerList = () => getList_(ListConfig.owner).pipe(tap(data => setOwnerList(data)));
+  const updateOwnerList = (valueSelected) =>  setList_({ ...ownerList, valueSelected, ...ListConfig.owner }).pipe(flatMap(() => loadOwnerList()));
+
   const [operationList, setOperationList] = React.useState<IList>(initList);
   const loadOperationList = () => getList_(ListConfig.operation).pipe(tap(data => setOperationList(data)));
-  const updateOperationList = (valueSelected) =>  setList_({ ...operationList, valueSelected, ...ListConfig.operation }).pipe(flatMap(() => loadOperationList()));
+  const updateOperationList = (valueSelected, serviceSelected) =>  setList_({ ...operationList, valueSelected, ...ListConfig.operation }, { list: serviceList.list, serviceSelected: serviceSelected }).pipe(flatMap(() => loadOperationList()));
+
+  const [serviceList, setServiceList] = React.useState<IList>(initList);
+  const loadServiceList = () => getList_(ListConfig.service).pipe(tap(data => setServiceList(data)));
+  // const updateServiceList = (valueSelected) =>  setList_({ ...serviceList, valueSelected, ...ListConfig.service }).pipe(flatMap(() => loadServiceList()));
 
   const [timezoneList, setTimezoneList] = React.useState<IList>(initList);
   const loadTimezoneList = () => getList_(ListConfig.timezone).pipe(tap(data => setTimezoneList(data)));
@@ -196,7 +220,9 @@ const ServiceContainer = createContainer(() => {
       loadLanguageList(),
       loadCountryList(),
       loadPaymentList(),
+      loadOwnerList(),
       loadOperationList(),
+      loadServiceList(),
       loadTimezoneList()
     )
     .subscribe(data => console.log("dataList", data));
@@ -207,7 +233,9 @@ const ServiceContainer = createContainer(() => {
     language: { ...languageList, update: (v) => updateLanguageList(v) },
     country: { ...countryList, update: (v) => updateCountryList(v) },
     payment: { ...paymentList, update: (v) => updatePaymentList(v) },
-    operation: { ...operationList, update: (v) => updateOperationList(v) },
+    owner: { ...ownerList, update: (v) => updateOwnerList(v) },
+    operation: { ...operationList, update: (v, v2) => updateOperationList(v, v2) },
+    service: { ...serviceList, update: () => {} },
     timezone: { ...timezoneList, update: (v) => updateTimezoneList(v) }
   };
 
@@ -495,11 +523,11 @@ const ServiceContainer = createContainer(() => {
     );
   }, []);
 
-  function endInizialization(operationSelected, form) {
+  function endInizialization(operationSelected, serviceSelected, form) {
     const { payment, language, country, timezone, operation } = allList;
     loaderConsumer.show();
 
-    operation.update(operationSelected)
+    operation.update(operationSelected, serviceSelected)
     .pipe(
       flatMap(() => mediumLevel.equipmentConfiguration.setFirstActivation(form)),
       finalize(() => loaderConsumer.hide())
@@ -635,6 +663,7 @@ const ServiceContainer = createContainer(() => {
       finalize(() => loaderConsumer.hide())
     );
   }
+
 
   return {
     lines,
