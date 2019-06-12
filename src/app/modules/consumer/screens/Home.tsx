@@ -266,7 +266,7 @@ export const Home = (props: HomeProps) => {
 
     const detectADAPanelAlarm_ = Boolean(alarms.find(a => a.alarm_name === "ada_panel"));
     // setAlarmADAPanel_(true);
-    detectADAPanelAlarm_ && showAlarmADAPanel();
+    // detectADAPanelAlarm_ && showAlarmADAPanel();
 
   }, [alarms]);
 
@@ -578,7 +578,6 @@ export const Home = (props: HomeProps) => {
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
-  // consumerConsumer.resetConsumer(true);
 
   if (alarmSuper_)
   return (
