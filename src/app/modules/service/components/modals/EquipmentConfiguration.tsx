@@ -12,7 +12,7 @@ import { __ } from "@core/utils/lib/i18n";
 import { MButtonGroup } from "../common/ButtonGroup";
 import { finalize, concat } from "rxjs/operators";
 import { LoaderContext } from "@core/containers/loader.container";
-import { forkJoin } from "rxjs";
+import { forkJoin, of } from "rxjs";
 
 const ACTIONS_START = (cancel, next, disableNext: boolean): Action[] => [{
   title: __("cancel"),
@@ -184,6 +184,11 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     }
   }, [setup, props.setup]);
 
+  React.useEffect(() => { // <= FIX TIMEZONE ON CHANGE COUNTRY
+    const { valueSelected } = timezone;
+    setTimezoneSelected(valueSelected);
+  }, [timezone]);
+
   const finishInizialization = () => {
     endInizialization(operationSelected, serviceSelected, form);
   };
@@ -246,7 +251,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
               if (!field.mandatory) {
                 return;
               }
-  
+
               if (field.type === "alphanumeric") {
                 if (form[field.$index] === "") {
                   formValid_ = false;
@@ -368,7 +373,10 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
         if (step === 0) {
           stepCall$ = language.update(languageSelected);
         } else if (step === 1) {
-          stepCall$ = country.update(countrySelected);
+          if (country.valueSelected !== countrySelected) // <= FIX TIMEZONE ON CHANGE COUNTRY
+            stepCall$ = country.update(countrySelected);
+          else
+            stepCall$ = of("No changes");
         } else if (step === 2) {
           stepCall$ = timezone.update(timezoneSelected);
         } else if (step === 3) {
@@ -397,7 +405,6 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     }
   };
 
-  
   if (setup === SetupTypes.None)
   return (
     <Modal
@@ -566,28 +573,28 @@ interface FormInitializationProps {
     service: any;
     serviceSelected: any
     setServiceSelected: any;
-  }
+  };
 }
 
 const FormInitialization = (props: FormInitializationProps) => {
 
   const { firstActivation, indexStep, maxStep, form, setForm, owner_, operation_, service_ } = props;
   const { structure_ } = firstActivation;
-  
-  if ((owner_.ownerSelected === 0 || owner_.ownerSelected === 1) && !structure_['3']) {
-    structure_['3'] = structure_['2'];
-    structure_['2'] = structure_['1'];
-    structure_['1'] = { fields: [] };
-  } else if (owner_.ownerSelected === 2 && structure_['3']) {
-    structure_['1'] = structure_['2'];
-    structure_['2'] = structure_['3'];
-    delete structure_['3'];
+
+  if ((owner_.ownerSelected === 0 || owner_.ownerSelected === 1) && !structure_["3"]) {
+    structure_["3"] = structure_["2"];
+    structure_["2"] = structure_["1"];
+    structure_["1"] = { fields: [] };
+  } else if (owner_.ownerSelected === 2 && structure_["3"]) {
+    structure_["1"] = structure_["2"];
+    structure_["2"] = structure_["3"];
+    delete structure_["3"];
   }
-  
+
   const stepsNumber = Object.keys(structure_).length + 1;
   const stepActivation = structure_[indexStep];
   const fields = stepActivation ? stepActivation.fields : [];
-  
+
   const keyboardEl = React.useRef(null);
   React.useEffect(() => {
     if ((owner_.ownerSelected === 2 && indexStep === 1) || (indexStep === 2 && owner_.ownerSelected !== 2)) {
@@ -641,7 +648,7 @@ const FormInitialization = (props: FormInitializationProps) => {
         </>
       )}
       {indexStep === 1 && (owner_.ownerSelected === 0 || owner_.ownerSelected === 1) &&
-        <div style={{overflow: 'scroll'}}>
+        <div style={{overflow: "scroll"}}>
           <span className="label">OPERATOR</span>
           <MButtonGroup
             options={operation_.operation.list}
