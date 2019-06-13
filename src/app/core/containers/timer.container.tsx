@@ -3,7 +3,7 @@ import createContainer from "constate";
 import { Subscription, fromEvent, timer } from "rxjs";
 import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge, debounce, debounceTime } from "rxjs/operators";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_STOP_CAMERA } from "@core/utils/constants";
+import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_STOP_CAMERA, MESSAGE_START_CAMERA } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
 import { ConfigContext, ConsumerContext, AlertTypes, AlertContext } from ".";
 
@@ -22,8 +22,8 @@ const TimerContainer = createContainer((props: any) => {
   React.useEffect(() => {
     socketAttractor$
     .pipe(
-      filter(value => value !== MESSAGE_STOP_CAMERA),
-      map(value => value !== MESSAGE_STOP_VIDEO),
+      filter(value => value === MESSAGE_STOP_VIDEO || value === MESSAGE_START_CAMERA || value === MESSAGE_START_VIDEO), // DETECT ENTER / EXIT MESSAGES
+      map(value => value === MESSAGE_STOP_VIDEO || value === MESSAGE_START_CAMERA), // SET CONDITION
     )
     .subscribe(value => enableProximity = value);
   }, []);
@@ -65,7 +65,7 @@ const TimerContainer = createContainer((props: any) => {
     map(() => "proximity_stop")
   );
 
-  const startVideoNoProximity$ = timerTouch$(5000, false).pipe(map(() => "proximity_stop"));
+  const startVideoNoProximity$ = timerTouch$(10000, false).pipe(map(() => "proximity_stop"));
 
   const upBrightness$ = sourceTouchStart
   .pipe(

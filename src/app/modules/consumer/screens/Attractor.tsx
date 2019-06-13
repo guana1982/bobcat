@@ -6,7 +6,7 @@ import { Subscription } from "rxjs";
 import { Pages, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA } from "@utils/constants";
 import { ConfigContext } from "@core/containers";
 import { SreenWrapper } from "../components/common/ScreenWrapper";
-import CountUp from 'react-countup';
+import CountUp from "react-countup";
 import { themeMain } from "@style";
 import { CountUpComponent } from "../components/common/CountUp";
 

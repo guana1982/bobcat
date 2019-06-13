@@ -153,13 +153,13 @@ const setList_ = ({ list, valueSelected, setObservable$ }, service?): Observable
   let element = list.find(element => element.value === valueSelected ) || { label: null, value: null };
 
   const { label } = element;
-  
+
   return service && service.serviceSelected !== null
     ? setObservable$({
       name: label,
       service: service.list.find(el => el.value === service.serviceSelected).label
     })
-    : setObservable$(label)
+    : setObservable$(label);
 
 };
 //  <=== LIST ====
@@ -527,9 +527,8 @@ const ServiceContainer = createContainer(() => {
     const { payment, language, country, timezone, operation } = allList;
     loaderConsumer.show();
 
-    operation.update(operationSelected, serviceSelected)
+    mediumLevel.equipmentConfiguration.setFirstActivation(form)
     .pipe(
-      flatMap(() => mediumLevel.equipmentConfiguration.setFirstActivation(form)),
       finalize(() => loaderConsumer.hide())
     )
     .subscribe(
@@ -663,7 +662,6 @@ const ServiceContainer = createContainer(() => {
       finalize(() => loaderConsumer.hide())
     );
   }
-
 
   return {
     lines,
