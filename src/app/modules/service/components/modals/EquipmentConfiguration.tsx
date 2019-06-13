@@ -10,7 +10,7 @@ import { MInput, InputContent } from "../common/Input";
 import { MKeyboard, KeyboardWrapper } from "../common/Keyboard";
 import { __ } from "@core/utils/lib/i18n";
 import { MButtonGroup } from "../common/ButtonGroup";
-import { finalize, concat } from "rxjs/operators";
+import { finalize, concat, tap, flatMap } from "rxjs/operators";
 import { LoaderContext } from "@core/containers/loader.container";
 import { forkJoin, of } from "rxjs";
 
@@ -164,7 +164,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   const [serviceSelected, setServiceSelected] = React.useState(service.valueSelected);
 
   //  ==== FIRST ACTIVATION ====>
-  const { firstActivation, endInizialization, endReplacement, endPickUp, statusConnectivity } = serviceConsumer;
+  const { firstActivation, endInizialization, endReplacement, endPickUp, statusConnectivity, timezoneList } = serviceConsumer;
 
   const stepsForm = Object.keys(firstActivation.structure_).length + 1;
   const { form_ } = firstActivation;
@@ -179,7 +179,8 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
         paymentSelected,
         ownerSelected,
         operationSelected,
-        serviceSelected
+        serviceSelected,
+        timezoneList
       };
     }
   }, [setup, props.setup]);
@@ -348,7 +349,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
           cancelCall$ = forkJoin(
             language.update(initialValues.languageSelected),
             country.update(initialValues.countrySelected),
-            timezone.update(initialValues.timezoneSelected),
+            timezone.update(initialValues.timezoneSelected, initialValues.timezoneList),
             payment.update(initialValues.paymentSelected),
             owner.update(initialValues.ownerSelected),
             operation.update(initialValues.operationSelected, initialValues.serviceSelected),
@@ -373,16 +374,19 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
         if (step === 0) {
           stepCall$ = language.update(languageSelected);
         } else if (step === 1) {
-          if (country.valueSelected !== countrySelected) // <= FIX TIMEZONE ON CHANGE COUNTRY
-            stepCall$ = country.update(countrySelected);
-          else
-            stepCall$ = of("No changes");
+          stepCall$ = country.update(countrySelected);
         } else if (step === 2) {
           stepCall$ = timezone.update(timezoneSelected);
         } else if (step === 3) {
           stepCall$ = payment.update(paymentSelected);
         } else if (step === 5) {
           stepCall$ = owner.update(ownerSelected);
+          if (ownerSelected === 2) { // <= PBC case
+            stepCall$ = stepCall$
+            .pipe(
+              flatMap(() => operation.update(NaN, NaN))
+            );
+          }
         } else if (step === 6 && (ownerSelected === 0 || ownerSelected === 1)) {
           stepCall$ = operation.update(operationSelected, serviceSelected);
         }

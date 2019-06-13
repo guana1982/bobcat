@@ -157,9 +157,9 @@ const setList_ = ({ list, valueSelected, setObservable$ }, service?): Observable
   return service && service.serviceSelected !== null
     ? setObservable$({
       name: label,
-      service: service.list.find(el => el.value === service.serviceSelected).label
+      service: (service.list.find(el => el.value === service.serviceSelected) || { label: null, value: null }).label
     })
-    : setObservable$(label);
+    : setObservable$(label); // <= TO IMPROVE
 
 };
 //  <=== LIST ====
@@ -212,7 +212,7 @@ const ServiceContainer = createContainer(() => {
 
   const [timezoneList, setTimezoneList] = React.useState<IList>(initList);
   const loadTimezoneList = () => getList_(ListConfig.timezone).pipe(tap(data => setTimezoneList(data)));
-  const updateTimezoneList = (valueSelected) =>  setList_({ ...timezoneList, valueSelected, ...ListConfig.timezone }).pipe(flatMap(() => loadTimezoneList()));
+  const updateTimezoneList = (valueSelected, list?) =>  setList_({ ...(list || timezoneList), valueSelected, ...ListConfig.timezone }).pipe(flatMap(() => loadTimezoneList())); // <= TO IMPROVE
 
   React.useEffect(() => {
     forkJoin(
@@ -229,14 +229,14 @@ const ServiceContainer = createContainer(() => {
   }, []);
 
   const allList = {
-    video: { ...videoList, update: (v) => updateVideoList(v) },
-    language: { ...languageList, update: (v) => updateLanguageList(v) },
-    country: { ...countryList, update: (v) => updateCountryList(v) },
-    payment: { ...paymentList, update: (v) => updatePaymentList(v) },
-    owner: { ...ownerList, update: (v) => updateOwnerList(v) },
+    video: { ...videoList, update: (v) => videoList.valueSelected !== v ? updateVideoList(v) : of("No Changes") },
+    language: { ...languageList, update: (v) => languageList.valueSelected !== v ? updateLanguageList(v) : of("No Changes") },
+    country: { ...countryList, update: (v) => countryList.valueSelected !== v ? updateCountryList(v) : of("No Changes") },
+    payment: { ...paymentList, update: (v) => paymentList.valueSelected !== v ? updatePaymentList(v) : of("No Changes") },
+    owner: { ...ownerList, update: (v) => ownerList.valueSelected !== v ? updateOwnerList(v) : of("No Changes") },
     operation: { ...operationList, update: (v, v2) => updateOperationList(v, v2) },
     service: { ...serviceList, update: () => {} },
-    timezone: { ...timezoneList, update: (v) => updateTimezoneList(v) }
+    timezone: { ...timezoneList, update: (v, list?) => timezoneList.valueSelected !== v ? updateTimezoneList(v, list) : of("No Changes") }
   };
 
   /* ==== GENERAL ==== */
@@ -684,7 +684,8 @@ const ServiceContainer = createContainer(() => {
     endSanitation,
     getMasterMenu,
     pollingMasterMenu,
-    saveMasterMenu
+    saveMasterMenu,
+    timezoneList
   };
 });
 
