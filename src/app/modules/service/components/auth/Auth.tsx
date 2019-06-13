@@ -19,7 +19,7 @@ const AuthComponent = (props: AuthProps) => {
   const { authLogin, setAuthLevel } = props;
 
   React.useEffect(() => { // MOCK => START SERVICE UI
-    setAuthLevel(AuthLevels.Tech);
+    setAuthLevel(AuthLevels.Super);
     props.history.push(Pages.Menu);
     return () => {};
   }, []);

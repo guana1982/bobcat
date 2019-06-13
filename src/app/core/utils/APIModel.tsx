@@ -160,3 +160,7 @@ export interface IMasterMenu {
   id: string;
   label_id: string;
 }
+
+export interface ITestMenu {
+  structure_: any
+}

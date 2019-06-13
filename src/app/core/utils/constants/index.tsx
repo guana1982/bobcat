@@ -7,6 +7,7 @@ export enum Pages {
   // -- SERVICE --
   Menu = "/menu",
   Master = "/master",
+  Test = "/test",
 }
 
 export const calcolaPerc = (tot, num): number => Number(((num / tot) * 100).toFixed(0));
