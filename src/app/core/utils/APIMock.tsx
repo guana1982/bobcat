@@ -409,126 +409,86 @@ export const TEST_QR_7 = {
 
 
 
-export const TestMenu_ = 
-{
+export const TestMenu_ = {
   "structure_": [
     {
-      "label_id": "display_group_label_id",
+      "label_id": "t_display_group_label_id",
       "elements": [
         {
           "label_id": "t_display_works",
           "id": "t_display_works",
           "type": "boolean",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "display_group_label_id"
+          "value": false
         },
         {
           "label_id": "t_touch_works",
           "id": "t_touch_works",
           "value": false,
-          "type": "boolean",
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "display_group_label_id"
+          "type": "boolean"
         },
         {
           "label_id": "t_leds_work",
           "id": "t_leds_work",
           "type": "boolean",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "display_group_label_id"
+          "value": false
         },
         {
           "label_id": "---------------",
           "id": "---------------",
           "type": "boolean",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "display_group_label_id"
+          "value": false
         },
         {
           "label_id": "t_qr_works",
           "id": "t_qr_works",
-          "type": "modal",
-          "modal": "Qr",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "display_group_label_id"
+          "type": "custom_qr",
+          "value": false
         },
         {
           "label_id": "t_proximity_works",
           "id": "t_proximity_works",
-          "type": "modal",
-          "modal": "Proximity",
+          "type": "custom_proximity",
           "value": [
             { "distance": 5, "value": false },
             { "distance": 30, "value": false },
             { "distance": 100, "value": false }
-          ],
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "display_group_label_id"
+          ]
         },
         {
           "label_id": "t_wifi_signal",
           "id": "t_wifi_signal",
           "type": "modal",
-          "modal": "Connectivity",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "display_group_label_id"
+          "value": false
         },
         {
           "label_id": "t_sim_4g",
           "id": "t_sim_4g",
-          "type": "sim",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "display_group_label_id"
+          "type": "custom_connectivity",
+          "value": false
         },
         {
           "label_id": "t_power_connectivity",
           "id": "t_power_connectivity",
-          "type": "power_connectivity",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "display_group_label_id"
+          "type": "custom_alarm",
+          "value": false
         },
         {
           "label_id": "t_gicar_link",
           "id": "t_gicar_link",
-          "type": "gicar_link",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "display_group_label_id"
+          "type": "custom_alarm",
+          "value": false
         },
         {
           "label_id": "t_ventolina",
           "id": "t_ventolina",
           "type": "boolean",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "display_group_label_id"
+          "value": false
         },
         {
           "label_id": "t_kit_monitor",
           "id": "t_kit_monitor",
           "type": "boolean",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "display_group_label_id"
+          "value": false
         }
       ]
     },
@@ -538,100 +498,167 @@ export const TestMenu_ =
         {
           "label_id": "t_ada_panel_works",
           "id": "t_ada_panel_works",
-          "type": "select",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "product_group_label_id"
+          "type": "custom_ada",
+          "value": false
         }
       ]
     },
     {
-      "label_id": "frigorifero_group_label_id",
+      "label_id": "t_frigorifero_group_label_id",
       "elements": [
         {
           "label_id": "t_compressor_works",
           "id": "t_compressor_works",
           "type": "boolean",
-          "value": false,
-          "permission": "read",
-          "unit": "",
-          "group_label_id": "frigorifero_group_label_id"
+          "value": false
         },
         {
           "label_id": "t_motoventilator_works",
           "id": "t_motoventilator_works",
           "type": "boolean",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "frigorifero_group_label_id"
+          "value": false
         },
         {
           "label_id": "t_ntc_wokrs",
           "id": "t_ntc_wokrs",
-          "type": "boolean",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "frigorifero_group_label_id"
+          "type": "custom_temperature",
+          "value": false
         },
         {
           "label_id": "t_coldness",
           "id": "t_coldness",
           "type": "boolean",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "frigorifero_group_label_id"
+          "value": false
         },
       ]
     },
     {
-      "label_id": "monoagitator_group_label_id",
+      "label_id": "t_monoagitator_group_label_id",
       "elements": [
         {
           "label_id": "t_agitator_works",
           "id": "t_agitator_works",
           "type": "boolean",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "monoagitator_group_label_id"
+          "value": false
         }
       ]
     },
     {
-      "label_id": "riempimento_vasca_group_label_id",
+      "label_id": "t_riempimento_vasca_group_label_id",
       "elements": [
         {
           "label_id": "t_statelevel_low",
           "id": "t_statelevel_low",
-          "type": "alarm",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "riempimento_vasca_group_label_id"
+          "type": "boolean",
+          "value": false
         },
         {
           "label_id": "t_statelevel_high",
           "id": "t_statelevel_high",
-          "type": "alarm",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "riempimento_vasca_group_label_id"
+          "type": "boolean",
+          "value": false
         },
         {
           "label_id": "t_sensor_state",
           "id": "t_sensor_state",
+          "type": "custom_alarm",
+          "value": false
+        }
+      ]
+    },
+    {
+      "label_id": "t_pressostati_group_label_id",
+      "elements": [
+        {
+          "label_id": "t_press_co2",
+          "id": "t_press_co2",
+          "type": "custom_alarm",
+          "value": false
+        },
+        {
+          "label_id": "t_press_h2o",
+          "id": "t_press_h2o",
+          "type": "custom_alarm",
+          "value": false
+        },
+      ]
+    },
+    {
+      "label_id": "t_test_acqua_group_label_id",
+      "elements": [
+        {
+          "label_id": "t_acqua_test",
+          "id": "t_acqua_test",
+          "type": "custom_waters",
+          "value": false
+        }
+      ]
+    },
+    {
+      "label_id": "t_test_pompe_group_label_id",
+      "elements": [
+        {
+          "label_id": "t_pompe_test",
+          "id": "t_pompe_test",
+          "type": "custom_bibs",
+          "value": false
+        }
+      ]
+    },
+    {
+      "label_id": "t_circuito_idraulico_group_label",
+      "elements": [
+        {
+          "label_id": "t_elettrovalvole_erogazione",
+          "id": "t_elettrovalvole_erogazione",
           "type": "boolean",
-          "value": false,
-          "permission": "write",
-          "unit": "",
-          "group_label_id": "riempimento_vasca_group_label_id"
+          "value": false
+        },
+        {
+          "label_id": "t_giunzioni_serpentine",
+          "id": "t_giunzioni_serpentine",
+          "type": "boolean",
+          "value": false
+        },
+        {
+          "label_id": "t_giunzioni_saturatore",
+          "id": "t_giunzioni_saturatore",
+          "type": "boolean",
+          "value": false
+        },
+        {
+          "label_id": "t_beccuccio_erogazione",
+          "id": "t_beccuccio_erogazione",
+          "type": "boolean",
+          "value": false
+        }
+      ]
+    },
+    {
+      "label_id": "t_form_group_label_id",
+      "elements": [
+        {
+          "label_id": "open_loop_m",
+          "default_value": "",
+          "id": "open_loop_m",
+          "type": "text",
+          "value": 453
+        },
+        {
+          "label_id": "open_loop_m",
+          "default_value": "",
+          "id": "open_loop_m",
+          "type": "text",
+          "value": 453
+        },
+        {
+          "label_id": "open_loop_m",
+          "default_value": "",
+          "id": "open_loop_m",
+          "type": "password",
+          "value": 453
         }
       ]
     }
   ]
-}
+};

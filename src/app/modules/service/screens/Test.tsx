@@ -15,54 +15,9 @@ import Switch from "react-switch";
 import { ModalKeyboard, ModalKeyboardTypes } from "../components/common/ModalKeyboard";
 import { tap } from "rxjs/operators";
 import { of } from "rxjs";
-import { TestMenu_ } from "@core/utils/APIMock"
+import { TestMenu_ } from "@core/utils/APIMock";
 import { Modal, ACTIONS_CLOSE, Action } from "../components/common/Modal";
 import ConnectivityComponent from "../components/sections/Connectivity";
-
-/* ==== MODALS ==== */
-/* ======================================== */
-
-enum Modals {
-  Connectivity,
-  Ada,
-  Qr,
-  Alarms,
-  Proximity
-}
-
-interface ActionModals {
-  type: "reset" | "open";
-  modalToOpen?: Modals;
-  params?: any;
-}
-
-type StateModals = {
-  [modal in Modals]: { show: boolean; params?: any };
-};
-
-const initModal = { show: false , params: null };
-const initialModals = {
-  [Modals.Connectivity]: initModal,
-  [Modals.Ada]: initModal,
-  [Modals.Qr]: initModal,
-  [Modals.Alarms]: initModal,
-  [Modals.Proximity]: initModal,
-};
-
-function reducerModals(state: StateModals, action: ActionModals) {
-  switch (action.type) {
-    case "reset":
-      return initialModals;
-    case "open":
-    console.log("action", action);
-      return {
-        ...state,
-        [action.modalToOpen]: { show: true, params: action.params}
-      };
-    default:
-      throw new Error();
-  }
-}
 
 /* ==== ELEMENTS ==== */
 /* ======================================== */
@@ -148,20 +103,15 @@ export const TestMenu = (props: MasterProps) => {
   const serviceConsumer = React.useContext(ServiceContext);
   const alertConsumer = React.useContext(AlertContext);
 
-  const [pollingValues, setPollingValues] = React.useState({});
-
   const [indexSelected, setIndexSelected] = React.useState({group: null, element: null});
 
   const [state, setState] = React.useState({ structure_: []});
 
-  const [modals, dispatchModals] = React.useReducer(reducerModals, initialModals);
 
-  const openModal = (modal, params?: any) => {
-    dispatchModals({ type: "open", modalToOpen: modal, params: params });
-  };
+  const [fieldSelected, setFieldSelected] = React.useState(null);
 
-  const closeAllModal = () => {
-    dispatchModals({ type: "reset" });
+  const completeTest = () => {
+    alert("ok");
   };
 
   function setValueForm(group, i, value) {
@@ -173,21 +123,16 @@ export const TestMenu = (props: MasterProps) => {
   }
 
   function setValueForSelect(changedValueIndex, value) {
-    var list = state.structure_[indexSelected.group].elements[indexSelected.element].value;
+    const list = state.structure_[indexSelected.group].elements[indexSelected.element].value;
     list[changedValueIndex].value = value;
     setValueForm(indexSelected.group, indexSelected.element, list);
   }
-
-  //  ==== ACTIONS CONNECTIVITY ====>
-  const [actionsConnectivity, setActionsConnectivity] = React.useState<Action[]>([]);
-  const handleActionsConnectivity = (actions): void => setActionsConnectivity(actions);
-  //  <=== ACTIONS CONNECTIVITY ====
 
   React.useEffect(() => {
     // serviceConsumer.getMasterMenu()
     of(TestMenu_)
     .subscribe(
-      data => { setState(data); console.log(data) },
+      data => { setState(data); console.log(data); },
       error => {
         const evtError_ = () => {
           history.push(Pages.Menu);
@@ -234,7 +179,7 @@ export const TestMenu = (props: MasterProps) => {
     ? state.structure_[indexSelected.group].elements[indexSelected.element].value
     : null;
 
-  console.log(state)
+  console.log(state);
 
   if (!(structure_.length > 0))
     return <MenuContent />;
@@ -250,7 +195,7 @@ export const TestMenu = (props: MasterProps) => {
 
                   if (element.type === "boolean")
                   return (
-                    <div key={i2} className="boolean-box">
+                    <div key={i + i2} className="boolean-box">
                       <span id="title">{__(element.label_id)}</span>
                       <Switch
                         onChange={(value) => setValueForm(i, i2, value)}
@@ -270,21 +215,105 @@ export const TestMenu = (props: MasterProps) => {
                     </div>
                   );
 
+                  if (element.type === "custom_qr") {
+                    return (
+                      <CustomQr
+                        key={i + i2}
+                        element={element}
+                      />
+                    );
+                  }
 
-                  if (element.type === "modal")
+                  if (element.type === "custom_proximity") {
+                    return (
+                      <CustomProximity
+                        key={i + i2}
+                        element={element}
+                      />
+                    );
+                  }
+
+                  if (element.type === "custom_connectivity") {
+                    return (
+                      <CustomConnectivity
+                        key={i + i2}
+                        element={element}
+                      />
+                    );
+                  }
+
+                  if (element.type === "custom_alarm") {
+                    return (
+                      <CustomAllarm
+                        key={i + i2}
+                        element={element}
+                      />
+                    );
+                  }
+
+                  if (element.type === "custom_ada") {
+                    return (
+                      <CustomAda
+                        key={i + i2}
+                        element={element}
+                      />
+                    );
+                  }
+
+                  if (element.type === "custom_temperature") {
+                    return (
+                      <CustomTemperature
+                        key={i + i2}
+                        element={element}
+                      />
+                    );
+                  }
+
+                  if (element.type === "custom_waters") {
+                    return (
+                      <CustomWaters
+                        key={i + i2}
+                        element={element}
+                      />
+                    );
+                  }
+
+                  if (element.type === "custom_bibs") {
+                    return (
+                      <CustomBibs
+                        key={i + i2}
+                        element={element}
+                      />
+                    );
+                  }
+
+                  if (element.type === "text" || element.type === "password")
                   return (
-                    <div key={i2} className="boolean-box">
-                      <span id="title">{__(element.label_id)}</span>
-                      <MButton
-                        onClick={() => {
-                          setIndexSelected({group: i, element: i2}),
-                          openModal(Modals[element.modal])
-                        }}
-                      >
-                        {element.modal.toUpperCase()}
-                      </MButton>
+                    <div key={i + i2} onClick={() => element.permission === "write" && setFieldSelected(element)} className="input-box">
+                      <MInput
+                        className={element.permission}
+                        type={element.type}
+                        label={__(element.label_id)}
+                        value={""}
+                      />
+                      <span className="unit">{element.unit}</span>
                     </div>
-                  )
+                  );
+
+                  // if (element.type === "modal")
+                  // return (
+                  //   <div key={i2} className="boolean-box">
+                  //     <span id="title">{__(element.label_id)}</span>
+                  //     <MButton
+                  //       onClick={() => {
+                  //         setIndexSelected({group: i, element: i2}),
+                  //         openModal(Modals[element.modal]);
+                  //       }}
+                  //     >
+                  //       {element.modal.toUpperCase()}
+                  //     </MButton>
+                  //   </div>
+                  // );
 
                 })
               }
@@ -292,52 +321,136 @@ export const TestMenu = (props: MasterProps) => {
           ))}
           <Group title="" size={74} />
           <MButton id="exit-btn" onClick={() => history.push(Pages.Menu)}>EXIT TO MASTER UI</MButton>
-          {/* <MButton id="exit-btn" onClick={() => saveValues()}>SAVE VALUES</MButton> */}
+          <MButton id="exit-btn" onClick={() => completeTest()}>COMPLETE TEST</MButton>
         </Grid>
       </MasterContent>
 
-      <Modal
-        show={modals[Modals.Connectivity].show}
-        cancel={closeAllModal}
-        title={__("Connectivity")}
-        actions={[...actionsConnectivity, ...ACTIONS_CLOSE]}
-      >
-        <ConnectivityComponent handleActions={handleActionsConnectivity} /> 
-      </Modal>
+      {
+        fieldSelected !== null &&
+        <ModalKeyboard
+          title={__(fieldSelected.label_id)}
+          type={ModalKeyboardTypes.Full}
+          form={""}
+          cancel={() => setFieldSelected(null)}
+          finish={(value) => {}}
+        />
+      }
 
+    </MenuContent>
+  );
+};
+
+/* ==== COMPONENTS ==== */
+/* ======================================== */
+
+const CustomQr = (props) => {
+  return (
+    <>
+      <h2>CUSTOM QR</h2>
       <Modal
-        show={modals[Modals.Qr].show}
-        cancel={closeAllModal}
+        show={false}
+        cancel={() => {}}
         title={__("Qr")}
         actions={[/* ...actionsConnectivity */, ...ACTIONS_CLOSE]}
       >
-        <div style={{width: '100%', height: '300px'}}>
-          <div style={{background: '#0000ff', width: '300px', height: '300px'}}></div>
+        <div style={{width: "100%", height: "300px"}}>
+          <div style={{background: "#0000ff", width: "300px", height: "300px"}}></div>
         </div>
       </Modal>
+    </>
+  );
+};
 
-      {/* <Modal
-        show={modals[Modals.Proximity].show}
-        cancel={closeAllModal}
-        title={__("Proximity")}
+const CustomConnectivity = (props) => {
+
+  //  ==== ACTIONS CONNECTIVITY ====>
+  const [actionsConnectivity, setActionsConnectivity] = React.useState<Action[]>([]);
+  const handleActionsConnectivity = (actions): void => setActionsConnectivity(actions);
+  //  <=== ACTIONS CONNECTIVITY ====
+
+  return (
+    <>
+      <h2>CUSTOM CONNECTIVITY</h2>
+      <Modal
+        show={false}
+        cancel={() => {}}
+        title={__("Connectivity")}
         actions={[...actionsConnectivity, ...ACTIONS_CLOSE]}
       >
-        <Grid>
-          <span>Distance</span>
-          { indexSelected.group && state.structure_[indexSelected.group].elements[indexSelected.element].value.map((v, i) =>
-              <MButton
-                onClick={() => setValueForSelect(i, true)}
-                info
-                type={v.value ? MTypes.INFO_SUCCESS : MTypes.INFO_WARNING}
-              >
-                {v.distance} cm
-              </MButton>
-            )
-              
-          }
-        </Grid>
-      </Modal> */}
-        
-    </MenuContent>
+        <ConnectivityComponent handleActions={handleActionsConnectivity} />
+      </Modal>
+    </>
+  );
+};
+
+const CustomProximity = (props) => {
+  return (
+    <>
+      <h2>CUSTOM PROXIMITY</h2>
+      {/* <Grid>
+        <span>Distance</span>
+        { indexSelected.group && state.structure_[indexSelected.group].elements[indexSelected.element].value.map((v, i) =>
+            <MButton
+              onClick={() => setValueForSelect(i, true)}
+              info
+              type={v.value ? MTypes.INFO_SUCCESS : MTypes.INFO_WARNING}
+            >
+              {v.distance} cm
+            </MButton>
+          )
+
+        }
+      </Grid> */}
+    </>
+  );
+};
+
+const CustomTemperature = (props) => {
+  return (
+    <>
+      <h2>CUSTOM TEMPERATURE</h2>
+    </>
+  );
+};
+
+const CustomAllarm = (props) => {
+  return (
+    <>
+      <h2>CUSTOM ALLARM</h2>
+    </>
+  );
+};
+
+const CustomAda = (props) => {
+  return (
+    <>
+      <h2>CUSTOM ADA</h2>
+    </>
+  );
+};
+
+const CustomWaters = (props) => {
+  return (
+    <>
+      <h2>CUSTOM WATERS</h2>
+      <CustomCalibration />
+    </>
+  );
+};
+
+const CustomBibs = (props) => {
+  return (
+    <>
+      <h2>CUSTOM WATERS</h2>
+      <CustomCalibration />
+    </>
+  );
+};
+
+const CustomCalibration = (props) => {
+  return (
+    <>
+      <h2>CUSTOM CALIBRATION</h2>
+    </>
   );
 };
