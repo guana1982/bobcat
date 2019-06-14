@@ -268,7 +268,7 @@ export const NewMenu = (props: MenuProps) => {
               <>
                 <MButton onClick={rebootEvent}>SYSTEM REBOOT</MButton>
                 <MButton onClick={() => history.push(Pages.Master)}>MASTER MENU</MButton>
-                <MButton onClick={() => history.push(Pages.Test)}>TEST MENU</MButton>
+                {/* <MButton onClick={() => history.push(Pages.Test)}>TEST MENU</MButton> */}
 
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 {/* <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>

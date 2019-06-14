@@ -1,13 +1,14 @@
 import * as React from "react";
 import createContainer from "constate";
-import { Subscription, fromEvent, timer } from "rxjs";
-import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge, debounce, debounceTime } from "rxjs/operators";
+import { Subscription, fromEvent, timer, BehaviorSubject, of } from "rxjs";
+import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge, debounce, debounceTime, flatMap } from "rxjs/operators";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_STOP_CAMERA, MESSAGE_START_CAMERA } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
 import { ConfigContext, ConsumerContext, AlertTypes, AlertContext } from ".";
 
 let enableProximity = false;
+const subjectProximity = new BehaviorSubject(false);
 
 const TimerContainer = createContainer((props: any) => {
 
@@ -19,13 +20,16 @@ const TimerContainer = createContainer((props: any) => {
 
   // BASIC
 
-  React.useEffect(() => {
+  React.useEffect(() => { // STATUS PROXIMITY
     socketAttractor$
     .pipe(
       filter(value => value === MESSAGE_STOP_VIDEO || value === MESSAGE_START_CAMERA || value === MESSAGE_START_VIDEO), // DETECT ENTER / EXIT MESSAGES
       map(value => value === MESSAGE_STOP_VIDEO || value === MESSAGE_START_CAMERA), // SET CONDITION
     )
-    .subscribe(value => enableProximity = value);
+    .subscribe(value => {
+      enableProximity = value;
+      subjectProximity.next(value);
+    });
   }, []);
 
   const sourceTouchStart = fromEvent(document, "touchstart").pipe(merge(fromEvent(document, "keydown")));
@@ -65,7 +69,12 @@ const TimerContainer = createContainer((props: any) => {
     map(() => "proximity_stop")
   );
 
-  const startVideoNoProximity$ = timerTouch$(10000, false).pipe(map(() => "proximity_stop"));
+  const startVideoNoProximity$ = timerTouch$(10000, false)
+  .pipe(
+    map(() => "proximity_stop"),
+    flatMap(() => subjectProximity),
+    flatMap(enable => enable === true ? startVideo$ : of("proximity_stop")),
+  );
 
   const upBrightness$ = sourceTouchStart
   .pipe(
