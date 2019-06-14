@@ -29,8 +29,15 @@ export const MasterContent = styled.div`
       align-self: flex-start;
     }
     .input-box {
+      display: flex;
+      align-items: center;
       ${InputContent}.read input {
         background: #D9D9D9;
+      }
+      .unit {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-left: 10px;
       }
     }
     .select-box {
@@ -189,7 +196,7 @@ export const MasterMenu = (props: MasterProps) => {
                           label={__(element.label_id)}
                           value={element.permission === "write" ? form_[element.id] : pollingValues[element.id] || form_[element.id]}
                         />
-                        {element.unit}
+                        <span className="unit">{element.unit}</span>
                       </div>
                     );
                   }
@@ -198,7 +205,7 @@ export const MasterMenu = (props: MasterProps) => {
                     return (
                       <div key={i} className="vector-number-box">
                         <div>
-                          <span id="title">{__(element.label_id)}</span>
+                          <span id="title">{__(element.label_id)}{element.unit ? ` [${element.unit}]` : ""}</span>
                           <div className="values">
                             [
                             {form_[element.id].map((value, i) => (
