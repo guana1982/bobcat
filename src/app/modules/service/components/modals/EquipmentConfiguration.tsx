@@ -164,7 +164,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   const [serviceSelected, setServiceSelected] = React.useState(service.valueSelected);
 
   //  ==== FIRST ACTIVATION ====>
-  const { firstActivation, endInizialization, endReplacement, endPickUp, statusConnectivity, timezoneList } = serviceConsumer;
+  const { firstActivation, endInizialization, endReplacement, endPickUp, statusConnectivity, timezoneList, operationList, serviceList } = serviceConsumer;
 
   const stepsForm = Object.keys(firstActivation.structure_).length + 1;
   const { form_ } = firstActivation;
@@ -180,7 +180,9 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
         ownerSelected,
         operationSelected,
         serviceSelected,
-        timezoneList
+        timezoneList,
+        operationList,
+        serviceList,
       };
     }
   }, [setup, props.setup]);
@@ -352,7 +354,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
             timezone.update(initialValues.timezoneSelected, initialValues.timezoneList),
             payment.update(initialValues.paymentSelected),
             owner.update(initialValues.ownerSelected),
-            operation.update(initialValues.operationSelected, initialValues.serviceSelected),
+            operation.update(initialValues.operationSelected, initialValues.serviceSelected, initialValues.operationList, initialValues.serviceList),
             // service.update(initialValues.serviceSelected),
           );
         }

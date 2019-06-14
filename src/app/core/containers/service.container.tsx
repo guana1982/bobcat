@@ -150,14 +150,14 @@ const setList_ = ({ list, valueSelected, setObservable$ }, service?): Observable
   if (list === null || list === [])
     return;
 
-  let element = list.find(element => element.value === valueSelected ) || { label: null, value: null };
+  let element = list.find(element => element.value === valueSelected ) || { label: "", value: "" };
 
   const { label } = element;
 
   return service && service.serviceSelected !== null
     ? setObservable$({
       name: label,
-      service: (service.list.find(el => el.value === service.serviceSelected) || { label: null, value: null }).label
+      service: (service.list.find(el => el.value === service.serviceSelected) || { label: "", value: "" }).label
     })
     : setObservable$(label); // <= TO IMPROVE
 
@@ -204,7 +204,7 @@ const ServiceContainer = createContainer(() => {
 
   const [operationList, setOperationList] = React.useState<IList>(initList);
   const loadOperationList = () => getList_(ListConfig.operation).pipe(tap(data => setOperationList(data)));
-  const updateOperationList = (valueSelected, serviceSelected) =>  setList_({ ...operationList, valueSelected, ...ListConfig.operation }, { list: serviceList.list, serviceSelected: serviceSelected }).pipe(flatMap(() => loadOperationList()));
+  const updateOperationList = (valueSelected, serviceSelected, forceOperationList?, forceServiceList?) =>  setList_({ ...(forceOperationList || operationList), valueSelected, ...ListConfig.operation }, { list: forceServiceList ? forceServiceList.list : serviceList.list, serviceSelected: serviceSelected }).pipe(flatMap(() => loadOperationList()));
 
   const [serviceList, setServiceList] = React.useState<IList>(initList);
   const loadServiceList = () => getList_(ListConfig.service).pipe(tap(data => setServiceList(data)));
@@ -212,7 +212,7 @@ const ServiceContainer = createContainer(() => {
 
   const [timezoneList, setTimezoneList] = React.useState<IList>(initList);
   const loadTimezoneList = () => getList_(ListConfig.timezone).pipe(tap(data => setTimezoneList(data)));
-  const updateTimezoneList = (valueSelected, list?) =>  setList_({ ...(list || timezoneList), valueSelected, ...ListConfig.timezone }).pipe(flatMap(() => loadTimezoneList())); // <= TO IMPROVE
+  const updateTimezoneList = (valueSelected, forceTimezoneList?) =>  setList_({ ...(forceTimezoneList || timezoneList), valueSelected, ...ListConfig.timezone }).pipe(flatMap(() => loadTimezoneList())); // <= TO IMPROVE
 
   React.useEffect(() => {
     forkJoin(
@@ -234,9 +234,9 @@ const ServiceContainer = createContainer(() => {
     country: { ...countryList, update: (v) => countryList.valueSelected !== v ? updateCountryList(v) : of("No Changes") },
     payment: { ...paymentList, update: (v) => paymentList.valueSelected !== v ? updatePaymentList(v) : of("No Changes") },
     owner: { ...ownerList, update: (v) => ownerList.valueSelected !== v ? updateOwnerList(v) : of("No Changes") },
-    operation: { ...operationList, update: (v, v2) => updateOperationList(v, v2) },
+    operation: { ...operationList, update: (v, v2, listV?, listV2?) => updateOperationList(v, v2, listV, listV2) },
     service: { ...serviceList, update: () => {} },
-    timezone: { ...timezoneList, update: (v, list?) => timezoneList.valueSelected !== v ? updateTimezoneList(v, list) : of("No Changes") }
+    timezone: { ...timezoneList, update: (v, listV?) => timezoneList.valueSelected !== v ? updateTimezoneList(v, listV) : of("No Changes") }
   };
 
   /* ==== GENERAL ==== */
@@ -274,7 +274,7 @@ const ServiceContainer = createContainer(() => {
     let c;
     if (connectivity) {
       if (connectivity.list.find(c => c.status === ConnectivityStatus.Active)) c = MTypes.INFO_SUCCESS;
-      else if (connectivity.list.find(c => c.status === ConnectivityStatus.Inactive)) c = MTypes.INFO_WARNING;
+      else if (connectivity.list.find(c => c.status === ConnectivityStatus.Inactive)) c = MTypes.INFO_SUCCESS; // MTypes.INFO_WARNING;
       else c = MTypes.INFO_DANGER;
     }
     setStatusConnectivity(c);
@@ -310,7 +310,7 @@ const ServiceContainer = createContainer(() => {
           if (listConnectivity[key].status === ConnectivityStatus.Active) {
            elmConnectivity_.info = MTypes.INFO_SUCCESS;
           } else if (listConnectivity[key].status === ConnectivityStatus.Inactive) {
-            elmConnectivity_.info = MTypes.INFO_WARNING;
+            elmConnectivity_.info =  MTypes.INFO_SUCCESS; // MTypes.INFO_WARNING;
           } else if (listConnectivity[key].status === ConnectivityStatus.NotConnected) {
             elmConnectivity_.info = MTypes.INFO_DANGER;
           }
@@ -685,7 +685,9 @@ const ServiceContainer = createContainer(() => {
     getMasterMenu,
     pollingMasterMenu,
     saveMasterMenu,
-    timezoneList
+    timezoneList,
+    operationList,
+    serviceList,
   };
 });
 
