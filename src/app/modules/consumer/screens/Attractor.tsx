@@ -14,7 +14,7 @@ interface AttractorProps {
   history: any;
 }
 
-export const TIMEOUT_ATTRACTOR = 1100;
+export const TIMEOUT_ATTRACTOR = 1500;
 let eventTimeout_ = null;
 
 export const Attractor = (props: AttractorProps) => {

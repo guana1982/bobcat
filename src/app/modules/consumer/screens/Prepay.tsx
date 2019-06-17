@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import styled from "styled-components";
-import { TimerContext } from "@containers/timer.container";
+import { TimerContext, StatusProximity } from "@containers/timer.container";
 import { ConsumerContext } from "@containers/consumer.container";
 import { Pages } from "@utils/constants";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
@@ -126,14 +126,15 @@ export const Prepay = (props: PrepayProps) => {
   const startTimer_ = () => {
     timer_ = timerFull$.subscribe(
       val => {
-        if (val === "tap_detect") {
+        if (val === StatusProximity.TapDetect) {
           startTimer_();
-        } else if (val === "proximity_stop") {
+        } else if (val === StatusProximity.ProximityStop) {
+          const event_ = () => consumerConsumer.resetConsumer(true);
+          alertIsLogged(event_);
+        } else if (val === StatusProximity.TouchStop) {
           const event_ = () => consumerConsumer.resetConsumer();
           alertIsLogged(event_);
-          return;
-        }
-        if (val === "timer_stop") {
+        } else if (val === StatusProximity.TimerStop) {
           const event_ = () => props.history.push(Pages.Home);
           alertIsLogged(event_);
         }

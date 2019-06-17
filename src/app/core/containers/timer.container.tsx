@@ -7,8 +7,15 @@ import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_STOP_CAMERA, ME
 import { withRouter } from "react-router-dom";
 import { ConfigContext, ConsumerContext, AlertTypes, AlertContext } from ".";
 
+export enum StatusProximity {
+  TapDetect = "tap_detect",
+  TimerRestart = "timer_restart",
+  TimerStop = "timer_stop",
+  ProximityStop = "proximity_stop",
+  TouchStop = "touch_stop"
+}
+
 let enableProximity = false;
-const subjectProximity = new BehaviorSubject(false);
 
 const TimerContainer = createContainer((props: any) => {
 
@@ -20,15 +27,16 @@ const TimerContainer = createContainer((props: any) => {
 
   // BASIC
 
+  const statusProximity$ = socketAttractor$
+  .pipe(
+    filter(value => value === MESSAGE_STOP_VIDEO || value === MESSAGE_START_CAMERA || value === MESSAGE_START_VIDEO), // DETECT ENTER / EXIT MESSAGES
+    map(value => value === MESSAGE_STOP_VIDEO || value === MESSAGE_START_CAMERA), // SET CONDITION
+  );
+
   React.useEffect(() => { // STATUS PROXIMITY
-    socketAttractor$
-    .pipe(
-      filter(value => value === MESSAGE_STOP_VIDEO || value === MESSAGE_START_CAMERA || value === MESSAGE_START_VIDEO), // DETECT ENTER / EXIT MESSAGES
-      map(value => value === MESSAGE_STOP_VIDEO || value === MESSAGE_START_CAMERA), // SET CONDITION
-    )
+    statusProximity$
     .subscribe(value => {
       enableProximity = value;
-      subjectProximity.next(value);
     });
   }, []);
 
@@ -43,14 +51,14 @@ const TimerContainer = createContainer((props: any) => {
     )),
     skip(1),
     filter(data => data !== 0 || tapDetect),
-    map(data => data === 0 ? "tap_detect" : "timer_stop")
+    map(data => data === 0 ? StatusProximity.TapDetect : StatusProximity.TimerStop)
   );
 
   const brightness$ = mediumLevel.brightness.dimDisplay()
   .pipe(
     switchMap(() => timerTouch$(3000, true)),
     first(),
-    tap(value => value === "tap_detect" && mediumLevel.brightness.brightenDisplay().subscribe())
+    tap(value => value === StatusProximity.TapDetect && mediumLevel.brightness.brightenDisplay().subscribe())
   );
 
   // TO MERGE
@@ -66,14 +74,12 @@ const TimerContainer = createContainer((props: any) => {
     filter(value => value === MESSAGE_START_VIDEO),
     switchMap(() => timerTouch$(1500, false)),
     first(),
-    map(() => "proximity_stop")
+    map(() => StatusProximity.TouchStop)
   );
 
   const startVideoNoProximity$ = timerTouch$(10000, false)
   .pipe(
-    map(() => "proximity_stop"),
-    flatMap(() => subjectProximity),
-    flatMap(enable => enable === true ? startVideo$ : of("proximity_stop")),
+    map(() => StatusProximity.TouchStop),
   );
 
   const upBrightness$ = sourceTouchStart
@@ -81,7 +87,7 @@ const TimerContainer = createContainer((props: any) => {
     tap(() => mediumLevel.brightness.brightenDisplay().subscribe()),
     tap(() => setTimerStop(false)),
     first(),
-    map(() => "timer_restart")
+    map(() => StatusProximity.TimerRestart)
   );
 
   // MAIN
@@ -89,7 +95,7 @@ const TimerContainer = createContainer((props: any) => {
   const timerFull$ = timerWithBrightness$
   .pipe(
     merge(enableProximity ? startVideo$ : startVideoNoProximity$),
-    tap(value => setTimerStop(value === "timer_stop")),
+    tap(value => setTimerStop(value === StatusProximity.TimerStop)),
     first()
   );
 

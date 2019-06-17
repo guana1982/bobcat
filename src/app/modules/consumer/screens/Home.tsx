@@ -7,7 +7,7 @@ import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
 import { Subscription } from "rxjs";
 import { ConfigContext } from "@containers/config.container";
-import { TimerContext } from "@containers/timer.container";
+import { TimerContext, StatusProximity } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { BeverageTypes } from "@modules/consumer/components/beverage/Beverage";
 import { AccessibilityContext } from "@core/containers";
@@ -135,9 +135,9 @@ export const Home = (props: HomeProps) => {
   const restartBrightness_ = () => {
     timer_ = restartBrightness$
     .subscribe(val => {
-      if (val === "timer_restart") {
+      if (val === StatusProximity.TimerRestart) {
         startTimer_();
-      } else if (val === "proximity_stop") {
+      } else if (val === StatusProximity.ProximityStop) {
         const event_ = () => consumerConsumer.resetConsumer();
         alertIsLogged(event_);
       }
@@ -147,12 +147,15 @@ export const Home = (props: HomeProps) => {
   const startTimer_ = () => {
     timer_ = timerFull$.subscribe(
       val => {
-        if (val === "tap_detect") {
+        if (val === StatusProximity.TapDetect) {
           startTimer_();
-        } else if (val === "proximity_stop") {
+        } else if (val === StatusProximity.ProximityStop) {
+          const event_ = () => consumerConsumer.resetConsumer(true);
+          alertIsLogged(event_);
+        } else if (val === StatusProximity.TouchStop) {
           const event_ = () => consumerConsumer.resetConsumer();
           alertIsLogged(event_);
-        } else if (val === "timer_stop") {
+        } else if (val === StatusProximity.TimerStop) {
           const event_ = () => {
             handleType(false);
             setNutritionFacts(false);
