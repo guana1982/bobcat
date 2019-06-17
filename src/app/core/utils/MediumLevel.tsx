@@ -32,7 +32,9 @@ export default {
   },
   product: {
     sustainabilityData: () => get("product/sustainability_data"),
-    sessionEnded: () => post("product/session_ended")
+    sessionEnded: () => post("product/session_ended"),
+    proximity: () => get("product/proximity"),
+    temperature: () => get("product/temperature")
   },
   payment: {
     // getAvailableMethods: () => getFake("payment/methods"),

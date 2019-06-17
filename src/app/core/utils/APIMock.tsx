@@ -415,14 +415,14 @@ export const TestMenu_ = {
       "label_id": "t_display_group_label_id",
       "elements": [
         {
-          "label_id": "t_display_works",
-          "id": "t_display_works",
+          "label_id": "t_display",
+          "id": "t_display",
           "type": "boolean",
           "value": false
         },
         {
-          "label_id": "t_touch_works",
-          "id": "t_touch_works",
+          "label_id": "t_touch",
+          "id": "t_touch",
           "value": false,
           "type": "boolean"
         },
@@ -439,14 +439,14 @@ export const TestMenu_ = {
           "value": false
         },
         {
-          "label_id": "t_qr_works",
-          "id": "t_qr_works",
+          "label_id": "t_qr",
+          "id": "t_qr",
           "type": "custom_qr",
           "value": false
         },
         {
-          "label_id": "t_proximity_works",
-          "id": "t_proximity_works",
+          "label_id": "t_proximity",
+          "id": "t_proximity",
           "type": "custom_proximity",
           "value": [
             { "distance": 5, "value": false },
@@ -455,14 +455,8 @@ export const TestMenu_ = {
           ]
         },
         {
-          "label_id": "t_wifi_signal",
-          "id": "t_wifi_signal",
-          "type": "modal",
-          "value": false
-        },
-        {
-          "label_id": "t_sim_4g",
-          "id": "t_sim_4g",
+          "label_id": "t_connectivity",
+          "id": "t_connectivity",
           "type": "custom_connectivity",
           "value": false
         },
@@ -470,13 +464,15 @@ export const TestMenu_ = {
           "label_id": "t_power_connectivity",
           "id": "t_power_connectivity",
           "type": "custom_alarm",
-          "value": false
+          "value": false,
+          "alarms": ["powerboard"]
         },
         {
           "label_id": "t_gicar_link",
           "id": "t_gicar_link",
           "type": "custom_alarm",
-          "value": false
+          "value": false,
+          "alarms": ["gicar_connection"]
         },
         {
           "label_id": "t_ventolina",
@@ -496,8 +492,8 @@ export const TestMenu_ = {
       "label_id": "ada_group_label_id",
       "elements": [
         {
-          "label_id": "t_ada_panel_works",
-          "id": "t_ada_panel_works",
+          "label_id": "t_ada_panel",
+          "id": "t_ada_panel",
           "type": "custom_ada",
           "value": false
         }
@@ -507,14 +503,14 @@ export const TestMenu_ = {
       "label_id": "t_frigorifero_group_label_id",
       "elements": [
         {
-          "label_id": "t_compressor_works",
-          "id": "t_compressor_works",
+          "label_id": "t_compressor",
+          "id": "t_compressor",
           "type": "boolean",
           "value": false
         },
         {
-          "label_id": "t_motoventilator_works",
-          "id": "t_motoventilator_works",
+          "label_id": "t_motoventilator",
+          "id": "t_motoventilator",
           "type": "boolean",
           "value": false
         },
@@ -536,8 +532,8 @@ export const TestMenu_ = {
       "label_id": "t_monoagitator_group_label_id",
       "elements": [
         {
-          "label_id": "t_agitator_works",
-          "id": "t_agitator_works",
+          "label_id": "t_agitator",
+          "id": "t_agitator",
           "type": "boolean",
           "value": false
         }
@@ -562,7 +558,8 @@ export const TestMenu_ = {
           "label_id": "t_sensor_state",
           "id": "t_sensor_state",
           "type": "custom_alarm",
-          "value": false
+          "value": false,
+          "alarms": ["level_switch"]
         }
       ]
     },
@@ -573,13 +570,15 @@ export const TestMenu_ = {
           "label_id": "t_press_co2",
           "id": "t_press_co2",
           "type": "custom_alarm",
-          "value": false
+          "value": false,
+          "alarms": ["press_co2"]
         },
         {
           "label_id": "t_press_h2o",
           "id": "t_press_h2o",
           "type": "custom_alarm",
-          "value": false
+          "value": false,
+          "alarms": ["press_h2o"]
         },
       ]
     },
@@ -642,21 +641,24 @@ export const TestMenu_ = {
           "default_value": "",
           "id": "open_loop_m",
           "type": "text",
-          "value": 453
+          "value": 453,
+          "permission": "write"
         },
         {
           "label_id": "open_loop_m",
           "default_value": "",
           "id": "open_loop_m",
           "type": "text",
-          "value": 453
+          "value": 453,
+          "permission": "write"
         },
         {
           "label_id": "open_loop_m",
           "default_value": "",
           "id": "open_loop_m",
           "type": "password",
-          "value": 453
+          "value": 453,
+          "permission": "write"
         }
       ]
     }

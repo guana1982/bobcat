@@ -25,6 +25,10 @@ export const MButton = styled<MButtonProps, "button">("button")`
   white-space: pre-wrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  &:disabled {
+    opacity: .5;
+    touch-action: none;
+  }
   &:disabled &:active  {
     background: ${props => props.theme[props.light ? "light" : "secondary"]};
   }

@@ -73,6 +73,7 @@ export const SOCKET_ALARM = "alarm_changed";
 export const CONSUMER_ALARM = "consumer_server_data";
 export enum SOCKET_CONSUMER {
   QR = "consumer_qr_data",
+  QR_TEST = "qr_collaudo",
   SERVER = "consumer_server_data"
 }
 export const SOCKET_CONNECTIVITY = "connectivity_status";

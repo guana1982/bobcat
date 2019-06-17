@@ -97,10 +97,10 @@ export const MInput = (props: MInputProps) => {
         <InputWrapper onClick={props.click}>
           <input
             // disabled={disabled} // <= TO FIX
-            disabled
+            // disabled
             value={value}
             type={type}
-            onChange={onChange}
+            onChange={value => console.log(value)}
           />
           <div id="enable-click" />
         </InputWrapper>
