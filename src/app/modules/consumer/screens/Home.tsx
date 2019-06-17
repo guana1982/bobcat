@@ -198,6 +198,7 @@ export const Home = (props: HomeProps) => {
       beverageSelected: state.beverageSelected,
       nutritionFacts: nutritionFacts,
       slideOpen: slideOpen,
+      fullMode: fullMode,
       buttonGroupSelected: null,
       endSession: endSession
     });

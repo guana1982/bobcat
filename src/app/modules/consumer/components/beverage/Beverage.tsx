@@ -130,6 +130,7 @@ interface BeverageProps {
   status_id?: BeverageStatus;
   title?: string;
   disabled?: boolean;
+  detectValue?: string;
   $sparkling?: boolean;
   nutritionFacts?: boolean;
   levels?: ILevelsModel;
@@ -141,7 +142,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 
   const [zoomNutrition, setZoomNutrition] = React.useState(false);
 
-  const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled, beverage, levels, slideOpen } = props;
+  const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled, beverage, levels, detectValue } = props;
 
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib || beverage.line_id <= 0;
   const $blur: boolean = disabled && !pouring;
@@ -269,7 +270,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
               onEnd={end}
             >
               <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
-                <button ref={buttonEl} disabled={disabledButton}>
+                <button id={detectValue} ref={buttonEl} disabled={disabledButton}>
                   <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
                   <Basic levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
                 </button>

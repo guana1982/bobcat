@@ -238,6 +238,7 @@ export const Slide = (props: SlideProps) => {
                   onHoldStart={() => startConsumerPour(b, i)}
                   onHoldEnd={() => stopConsumerPour(b)}
                   key={i}
+                  detectValue={"slide-beverage"}
                   logoId={b.$logo_id || b.$beverage.beverage_logo_id}
                   color={b.$beverage.beverage_font_color}
                   status_id={b.$status_id}
@@ -256,7 +257,7 @@ export const Slide = (props: SlideProps) => {
           </Grid>
         }
         {/* {consumerBeverages[0].$types[0] === BeverageTypes.Info && <h3 id="info">{__("c_save_favourites")}</h3>} */}
-        <ToggleSlide disabled={disabled} onClick={() => handleSlide()}>
+        <ToggleSlide id="slide-toogle" disabled={disabled} onClick={() => handleSlide()}>
           <img src={"icons/arrow-circle.png"} />
         </ToggleSlide>
       </SlideStyled>

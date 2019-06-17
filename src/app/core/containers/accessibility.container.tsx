@@ -33,6 +33,7 @@ interface StateLayout {
   beverageSelected?: number;
   nutritionFacts?: boolean;
   slideOpen?: boolean;
+  fullMode?: boolean;
   buttonGroupSelected?: string;
   alertShow?: boolean;
   endBeverageShow?: boolean;
@@ -49,6 +50,7 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
     beverageSelected: null,
     nutritionFacts: false,
     slideOpen: false,
+    fullMode: false,
     buttonGroupSelected: null,
     alertShow: false,
     endBeverageShow: false
@@ -161,7 +163,7 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
     document.addEventListener("touchend", onTouchEnd);
     return () => {
       document.removeEventListener("keypress", onKeyDown);
-      document.addEventListener("touchend", onTouchEnd);
+      document.removeEventListener("touchend", onTouchEnd);
     };
   }, [down, enable, stop, props.location.pathname]);
 
@@ -173,13 +175,17 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
     const event = KeyMapping[evt.keyCode];
     const direction = Direction[event];
     const action = Action[event];
+    const { pathname } = props.location;
+
+    //  ==== ONLY CONSUMER UI ====
+    if (!(pathname === Pages.Attractor || pathname === Pages.Home || pathname === Pages.Prepay))
+      return;
 
     //  ==== KEY NOT VALID ====
     if (direction === undefined && action === undefined)
       return;
 
     //  ==== INIT CONDITION ====
-    const { pathname } = props.location;
     if (pathname === Pages.Attractor) {
       setEnable(true);
       props.history.push(Pages.Home);
@@ -343,6 +349,10 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
     // === FILTER BUTTONS ===
     buttons = buttons.filter(button => {
 
+      if (button.disabled) {
+        return false; // => REMOVE DISABLED BUTTON
+      }
+
       const idValues = button.id.split("-"); // => GET TYPE BUTTON
 
       // === BUTTON GROUP CASE ==>
@@ -358,7 +368,20 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
         }
       }
 
-      return !button.disabled; // => REMOVE DISABLED BUTTON
+      // === SLIDE OPEN CASE ==>
+      if (!stateLayout.beverageSelected) {
+        if (stateLayout.slideOpen === true) {
+          return idValues[0] === "slide";
+        } else if (stateLayout.slideOpen === false) {
+          if (stateLayout.fullMode) {
+            return !(idValues[0] === "slide" && idValues[1] === "beverage");
+          } else {
+            return true;
+          }
+        }
+      }
+
+      return true;
     });
 
     // === SORT BUTTONS ===
@@ -375,6 +398,14 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
       const contentButtons = buttons.slice(3, lastIndex);
       const pourButton = buttons.slice(lastIndex);
       buttons = [...pourButton, ...contentButtons, ...initButtons];
+    }
+
+    // === SLIDE OPEN ===
+    if (stateLayout.slideOpen === false) {
+      buttons.sort((a, b) => {
+        const c_ = (v) => Number(v.id.split("-")[0] === "slide");
+        return  c_(a) - c_(b);
+      });
     }
 
     return buttons;
