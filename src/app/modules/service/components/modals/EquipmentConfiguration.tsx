@@ -120,8 +120,42 @@ export const ISection = styled.div`
         flex: 14%;
       }
     }
+    .select {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      flex: 50%;
+      height: 40px;
+      .label {
+        display: inline-block;
+        color: #383838;
+        text-transform: capitalize;
+        text-align: right;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-right: 10px;
+      }
+      button {
+        height: 38px;
+        border-radius: 12px;
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-right: 0;
+        padding-bottom: 0;
+        padding-top: 0;
+        padding-left: 20px;
+        &:first-child {
+          margin-left: 0;
+        }
+        &:before {
+          height: 100%;
+          width: 20px;
+          border-radius: 0;
+        }
+      }
+    }
   }
-  .label {
+  & > .label {
     font-size: 20px;
     margin-top: 50px;
   }
@@ -621,6 +655,15 @@ const FormInitialization = (props: FormInitializationProps) => {
     }));
   };
 
+  const onChangeValue = (fieldIndex, value) => {
+    const obj_ = {};
+    obj_[fieldIndex] = value;
+    setForm(prevState => ({
+      ...prevState,
+      ...obj_
+    }));
+  };
+
   React.useEffect(() => {
     const firstField = fields[0];
     if (!firstField) {
@@ -654,7 +697,7 @@ const FormInitialization = (props: FormInitializationProps) => {
         </>
       )}
       {indexStep === 1 && (owner_.ownerSelected === 0 || owner_.ownerSelected === 1) &&
-        <div style={{overflow: "scroll"}}>
+        <div style={{overflow: "scroll", marginTop: "10px"}}>
           <span className="label">OPERATOR</span>
           <MButtonGroup
             options={operation_.operation.list}
@@ -674,18 +717,33 @@ const FormInitialization = (props: FormInitializationProps) => {
           {fields.length < 3 && <br/>}
           <Box className="form-section">
             {
-              fields.map((field, index) => (
-                <MInput
-                  selected={field.$index === fieldSelected}
-                  key={index}
-                  required={field.mandatory}
-                  label={__(field.$index)}
-                  value={form[field.$index]}
-                  type={field.type}
-                  click={() => setFieldSelected(field.$index)}
-                  onChange={e => console.log(e)}
-                />
-              ))
+              fields.map((field, index) => {
+                if (field.type === "alphanumeric")
+                  return (
+                    <MInput
+                      selected={field.$index === fieldSelected}
+                      key={index}
+                      required={field.mandatory}
+                      label={__(field.$index)}
+                      value={form[field.$index]}
+                      type={field.type}
+                      click={() => setFieldSelected(field.$index)}
+                      onChange={e => console.log(e)}
+                    />
+                  );
+
+                if (field.type === "select")
+                  return (
+                    <div key={index} className="select">
+                      <span className="label">{__(field.$index)}{field.mandatory && "*"}</span>
+                      <MButtonGroup
+                        options={field.select.map(v => { return { "label": v , "value": v}; } )}
+                        value={form[field.$index]}
+                        onChange={(value) => onChangeValue(field.$index, value)}
+                      />
+                    </div>
+                  );
+              })
             }
             {fields.length % 2 !== 0 && <span className={`empty-field ${fields.length === 1 && "one-field"}`} />}
           </Box>
