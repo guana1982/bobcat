@@ -661,6 +661,36 @@ export const TestMenu_ = {
           "permission": "write"
         }
       ]
+    },
+    {
+      "label_id": "t_machine_group_label_id",
+      "elements": [
+        // {
+        //   "label_id": "t_bobcat_type",
+        //   "default_value": "",
+        //   "id": "t_bobcat_type",
+        //   "type": "select",
+        //   "value": [
+        //     { "label": "SA", "value": false },
+        //     { "label": "CT", "value": false }
+        //   ],
+        //   "permission": "write"
+        // },
+        {
+          "label_id": "t_production_site",
+          "default_value": "",
+          "id": "t_production_site",
+          "type": "select",
+          "value": false,
+          "options": [
+            {
+              "label": "Celli Spa, San Giovanni in Marignano",
+              "value": "Celli Spa, San Giovanni in Marignano"
+            }
+          ],
+          "permission": "write"
+        }
+      ]
     }
   ]
 };

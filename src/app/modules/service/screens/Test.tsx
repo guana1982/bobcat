@@ -285,6 +285,15 @@ export const TestMenu = (props: MasterProps) => {
                     </div>
                   );
 
+                  if (element.type === "select")
+                  return (
+                    <CustomSelect
+                      key={i + i2}
+                      element={element}
+                      onChange={(value) => setValueForm(i, i2, value)}
+                    />
+                  );
+
                 })
               }
             </Group>
@@ -569,7 +578,21 @@ const CustomCalibration = (props) => {
   );
 };
 
+const CustomSelect = (props) => {
 
+  const onSelect = (value) => props.onChange(value);
+
+  return (
+    <div className="select-box">
+      <span id="title">{props.element.label_id}</span>
+      <MButtonGroup
+        options={props.element.options}
+        onChange={(value) => onSelect(value)}
+        value={props.element.value}
+      />
+    </div>
+  );
+};
 
 
 
@@ -582,6 +605,8 @@ const testValidation = form => {
         element.value === false
         ||
         (element.label_id === "t_proximity" && element.value.find(el => el.value === false))
+        ||
+        element.value === ""
       ) {
         valid = false;
       }
