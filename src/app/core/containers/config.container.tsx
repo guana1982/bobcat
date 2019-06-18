@@ -26,6 +26,7 @@ export interface ConfigInterface {
   ws: WebSocketSubject<ISocket>;
   socketAlarms$: Observable<any>;
   socketAttractor$: Observable<any>;
+  allAlarms: IAlarm[];
   alarms: IAlarm[];
   allBeverages: IBeverage[];
   beverages: IBeverage[];
@@ -102,6 +103,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       ws: ws,
       socketAttractor$: socketAttractor$,
       beverages: [],
+      allAlarms: [],
       alarms: [],
       isPouring: false,
       sustainabilityData: { saved_bottle_year: "", saved_bottle_day: "" }
@@ -142,7 +144,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     const setAlarms = mediumLevel.alarm.getAlarms()
     .pipe(
       map(data => data && data.elements || []),
-      map((alarms: IAlarm[]) => alarms.filter(alarm => alarm.alarm_state)),
+      // map((alarms: IAlarm[]) => alarms.filter(alarm => alarm.alarm_state)),
       map(alarms => {
         return alarms.map(alarm => {
           if (alarm.alarm_state) {
@@ -159,7 +161,11 @@ class ConfigStoreComponent extends React.Component<any, any> {
       }),
       tap((alarms: IAlarm[]) => {
         console.log("ALARMS", alarms);
-        this.setState({alarms: alarms});
+        const enabledAlarms = alarms.filter(alarm => alarm.alarm_state);
+        this.setState({
+          allAlarms: alarms,
+          alarms: enabledAlarms
+        });
       })
     );
 
@@ -293,6 +299,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
           allBeverages: this.state.allBeverages,
           beverages: this.state.beverages,
           menuList: this.menuList,
+          allAlarms: this.state.allAlarms,
           alarms: this.state.alarms,
           isPouring: this.state.isPouring,
           socketAlarms$: this.socketAlarms$,

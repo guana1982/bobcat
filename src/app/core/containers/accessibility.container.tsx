@@ -5,18 +5,18 @@ import { withRouter } from "react-router-dom";
 import { ConsumerContext } from "@core/containers";
 import createContainer from "constate";
 
-enum Action {
+export enum Action {
   BACK,
   ENTER,
   POUR
 }
 
-enum Direction {
+export enum Direction {
   LEFT,
   RIGHT
 }
 
-enum KeyMapping {
+export enum KeyMapping {
   BACK = 97,
   LEFT = 115,
   RIGHT = 100,
