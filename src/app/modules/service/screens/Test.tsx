@@ -136,8 +136,8 @@ export const TestMenu = (props: MasterProps) => {
   }
 
   React.useEffect(() => {
-    // serviceConsumer.getMasterMenu()
-    of(TestMenu_)
+    mediumLevel.menu.getSubMenu("master_menu", "test_submenu")
+    // of(TestMenu_)
     .subscribe(
       data => { setState(data); console.log(data); },
       error => {
