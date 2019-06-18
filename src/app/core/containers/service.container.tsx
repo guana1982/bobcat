@@ -499,9 +499,9 @@ const ServiceContainer = createContainer(() => {
         });
 
         const form_ = {};
-        Object.keys(data).map((key) => form_[key] = data[key].value || "");
+        Object.keys(data).map((key) => form_[key] = data[key].value || (data[key].type === "select" ? data[key].select[0] : ""));
 
-        const getDataPage = (index) => data_.filter(f => f.page === index).sort((a, b) => __(b.$index) - __(a.$index));
+        const getDataPage = (index) => data_.filter(f => f.page === index).sort((a, b) => a.order - b.order);
 
         const structure_ = {
           1: {
@@ -583,7 +583,7 @@ const ServiceContainer = createContainer(() => {
     .subscribe(
       data => {
         if (data.error === false) {
-          // window.location.reload();
+          window.location.reload();
           return;
         }
         // => ERROR
