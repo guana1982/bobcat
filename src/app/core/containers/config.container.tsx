@@ -130,7 +130,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ==== POLLING SUSTAINABILITY DATA ==== */
     /* ======================================== */
 
-    const pollIntervalSustainability = 6000 * 60;
+    const pollIntervalSustainability = 6000 * 60 * 10;
     timer(0, pollIntervalSustainability)
       .pipe(
         switchMap(() => mediumLevel.product.sustainabilityData())
