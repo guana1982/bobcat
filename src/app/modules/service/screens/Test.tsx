@@ -443,7 +443,7 @@ const CustomProximity = (props) => {
       <span id="title">CUSTOM PROXIMITY</span>
       <MInput
         label={__("t_proximity_value")}
-        value={distance}
+        value={distance || ""}
         disabled
       />
       { props.element.value.map((v, i) =>
@@ -483,7 +483,7 @@ const CustomTemperature = (props) => {
       <span id="title">CUSTOM TEMPERATURE</span>
       <MInput
         label={__("t_temperature_value")}
-        value={temperatureValue}
+        value={temperatureValue || ""}
         disabled
       />
       <MButton

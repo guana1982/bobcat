@@ -641,7 +641,7 @@ export const TestMenu_ = {
           "default_value": "",
           "id": "open_loop_m",
           "type": "text",
-          "value": 453,
+          "value": "",
           "permission": "write"
         },
         {
@@ -649,7 +649,7 @@ export const TestMenu_ = {
           "default_value": "",
           "id": "open_loop_m",
           "type": "text",
-          "value": 453,
+          "value": "",
           "permission": "write"
         },
         {
@@ -657,7 +657,7 @@ export const TestMenu_ = {
           "default_value": "",
           "id": "open_loop_m",
           "type": "password",
-          "value": 453,
+          "value": "",
           "permission": "write"
         }
       ]

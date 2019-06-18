@@ -24,7 +24,7 @@ module.exports = merge(commonConfig, {
           warnings: false,
           ie8: false,
           compress: {
-            drop_console: true,
+            drop_console: false // true, => Temporarily disabled
           },
         },
       }),

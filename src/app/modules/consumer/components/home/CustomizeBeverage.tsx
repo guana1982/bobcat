@@ -314,7 +314,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
         }
         <ClickNHold
           time={0.250}
-          onStart={() => console.log("pd1")}
+          onStart={() => {}}
           onClickNHold={() => startPour()}
           onEnd={(e, enough) => enough && stopPour()}
           className="pour-btn"
