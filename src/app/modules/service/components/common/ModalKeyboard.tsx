@@ -108,6 +108,7 @@ interface NumberPadProps {
   form?: any;
   cancel: () => void;
   finish: (output: any) => void;
+  inputType?: string;
 }
 
 interface NumberPadState {
@@ -138,7 +139,7 @@ const isValidDate = (dateString: string) => {
 
 export const ModalKeyboard = (props: NumberPadProps) => {
 
-  const { beverage, title, type, cancel, finish, form } = props;
+  const { beverage, title, type, cancel, finish, form, inputType } = props;
 
   const [fieldSelected, setFieldSelected] = React.useState(0);
 
@@ -325,6 +326,7 @@ export const ModalKeyboard = (props: NumberPadProps) => {
             <MInput
               value={state.input}
               onChange={e => console.log(e)}
+              type={inputType}
             />
             <MKeyboard
               inputName="field"

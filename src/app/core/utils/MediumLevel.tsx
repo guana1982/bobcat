@@ -65,7 +65,8 @@ export default {
     reboot: () => post("menu/tech_menu/operation_settings_tech/reboot_tower"),
 
     getMaster: () => get("menu/master_menu/master_submenu/"),
-    saveMaster: values => post("menu/master_menu/master_submenu/save", values)
+    saveMaster: values => post("menu/master_menu/master_submenu/save", values),
+    saveTest: values => post("menu/master_menu/test_submenu/save", values)
   },
   connectivity: {
     connectivityInfo: () => get("menu/connectivity_status"),
@@ -76,7 +77,7 @@ export default {
   },
   line: {
     startPriming: line_id => post("menu/start_priming", { line_id }),
-    stopPriming: () => post("menu/stop_priming"),
+    stopPriming: (line_id?) => post("menu/stop_priming", { line_id }),
     getLockLines: () => get("menu/lock_lines"),
     setLockLine: line_id => post("menu/lock_line", { line_id }),
     setUnlockLine: line_id => post("menu/unlock_line", { line_id }),

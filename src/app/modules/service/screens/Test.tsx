@@ -20,6 +20,9 @@ import { Modal, ACTIONS_CLOSE, Action } from "../components/common/Modal";
 import ConnectivityComponent from "../components/sections/Connectivity";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import MediumLevel from "@core/utils/MediumLevel";
+import { LoaderContext } from "@core/containers/loader.container";
+import { reaction } from "mobx";
+import BeverageLogo from "@core/components/common/Logo";
 
 /* ==== ELEMENTS ==== */
 /* ======================================== */
@@ -88,14 +91,21 @@ export const MasterContent = styled.div`
     min-height: 120px;
   }
   .select-box {
-      padding: 15px;
-      border: 1px solid black;
-      border-radius: 20px;
-      #title {
-        text-transform: uppercase;
-        font-size: 1.2rem;
-      }
+    padding: 15px;
+    border: 1px solid black;
+    border-radius: 20px;
+    #title {
+      text-transform: uppercase;
+      font-size: 1.2rem;
+    };
+    &.inline {
+      border: none;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      & > * { display: inline-block; }
     }
+  }
 `;
 
 /* ==== MASTER ==== */
@@ -112,14 +122,24 @@ interface MasterState {
 
 export const TestMenu = (props: MasterProps) => {
 
-  const serviceConsumer = React.useContext(ServiceContext);
   const alertConsumer = React.useContext(AlertContext);
+  const loaderContext = React.useContext(LoaderContext);
 
   const [state, setState] = React.useState({ structure_: []});
   const [fieldSelected, setFieldSelected] = React.useState(null);
 
   const completeTest = () => {
-    alert("Valid Test");
+    loaderContext.show();
+    let parsedPayload = [];
+    state.structure_.forEach(g =>
+      g.elements.forEach(e => parsedPayload.push({ id: e.id, value: e.value }))
+    );
+    mediumLevel.menu.saveTest(parsedPayload)
+      .subscribe(
+        data => {},
+        err => {},
+        () => { loaderContext.hide(); history.push(Pages.Menu); }
+      );
   };
 
   function setValueForm(group, i, value) {
@@ -136,6 +156,7 @@ export const TestMenu = (props: MasterProps) => {
   }
 
   React.useEffect(() => {
+    loaderContext.show();
     mediumLevel.menu.getSubMenu("master_menu", "test_submenu")
     // of(TestMenu_)
     .subscribe(
@@ -150,14 +171,14 @@ export const TestMenu = (props: MasterProps) => {
           content: "ERROR LOAD MASTER UI",
           onConfirm: evtError_
         });
-      }
+      },
+      () => loaderContext.hide()
     );
   }, []);
 
   const { structure_ } = state;
   const { history } = props;
 
-  console.log(state);
 
   if (!(structure_.length > 0))
     return <MenuContent />;
@@ -258,6 +279,7 @@ export const TestMenu = (props: MasterProps) => {
                       <CustomWaters
                         key={i + i2}
                         element={element}
+                        onEnd={value => setValueForm(i, i2, value)}
                       />
                     );
                   }
@@ -267,6 +289,7 @@ export const TestMenu = (props: MasterProps) => {
                       <CustomBibs
                         key={i + i2}
                         element={element}
+                        onEnd={value => setValueForm(i, i2, value)}
                       />
                     );
                   }
@@ -312,6 +335,7 @@ export const TestMenu = (props: MasterProps) => {
           form={fieldSelected.value}
           cancel={() => setFieldSelected(null)}
           finish={value => setTextInputValue(value)}
+          inputType={fieldSelected.type}
         />
       }
 
@@ -380,18 +404,11 @@ const CustomConnectivity = (props) => {
 
   const [connectivityModal, setConnectivityModal] = React.useState(false);
   const _connectivity = React.useContext(ServiceContext).connectivity;
-  const wifiStatus = _connectivity.list.find(c => c.$index === "wifi").info === "success"
-    ? MTypes.INFO_SUCCESS
-    : null;
-  const mobileStatus = _connectivity.list.find(c => c.$index === "mobile").info === "success"
-    ? MTypes.INFO_SUCCESS
-    : null;
+  const wifiStatus = _connectivity.list.find(c => c.$index === "wifi").info === "success";
+  const mobileStatus = _connectivity.list.find(c => c.$index === "mobile").info === "success";
 
   React.useEffect(() => {
-    props.onMount(
-      wifiStatus === MTypes.INFO_SUCCESS && mobileStatus === MTypes.INFO_SUCCESS
-       ? true : false
-    );
+    props.onMount(wifiStatus && mobileStatus ? true : false);
   }, []);
 
 
@@ -399,8 +416,14 @@ const CustomConnectivity = (props) => {
     <>
       <div className="select-box">
         <span id="title">CUSTOM CONNECTIVITY</span>
-        <MButton info type={wifiStatus} onClick={() => setConnectivityModal(true)}>{__("Wifi")}</MButton>
-        <MButton info type={mobileStatus} onClick={() => setConnectivityModal(true)}>{__("Mobile Data")}</MButton>
+        <MButton
+          info
+          type={wifiStatus && mobileStatus ? MTypes.INFO_SUCCESS : null}
+          onClick={() => setConnectivityModal(true)}
+        >
+          {__("Connectivity")}
+        </MButton>
+        {/* <MButton info type={mobileStatus} onClick={() => setConnectivityModal(true)}>{__("Mobile Data")}</MButton> */}
       </div>
       <Modal
         show={connectivityModal}
@@ -415,14 +438,14 @@ const CustomConnectivity = (props) => {
 };
 
 const CustomProximity = (props) => {
-  // const [distancesCheck, setDistanceCheck] = React.useState(props.element.value);
   const [distance, setDistance] = React.useState(null);
 
   const selectButton = (selectedIndex) => {
-    props.onClick(props.element.value.map((d, i) => {
+    props.element.options.forEach((d, i) => {
       d.value = i === selectedIndex ? !d.value : d.value;
       return d;
-    }));
+    });
+    props.onClick(props.element.options.find(o => o.value === false) ? false : true);
   };
 
   function pollingProximity(): Observable<any> {
@@ -446,7 +469,7 @@ const CustomProximity = (props) => {
         value={distance || ""}
         disabled
       />
-      { props.element.value.map((v, i) =>
+      { props.element.options.map((v, i) =>
           <MButton
             key={i}
             onClick={() => selectButton(i)}
@@ -561,30 +584,159 @@ const CustomAda = (props) => {
 };
 
 const CustomWaters = (props) => {
+  const { lines } = React.useContext(ServiceContext);
+  const [priming, setPriming] = React.useState(null);
+  const [watersStatus, setWatersStatus] = React.useState(
+    lines.waters.map(w => { return { timer: 30, status: false, volume: "" }; })
+  );
+
+  const startStopTimer = i => {
+    if (watersStatus[i].timer === 0) return;
+    if (priming !== null) {
+      setPriming(null);
+    } else {
+      mediumLevel.line.startPriming(lines.waters[i].line_id).subscribe();
+      setPriming(i);
+    }
+  };
+
+  const setOk = index => setWatersStatus(prev => prev.map((t, i) => {
+    if (i === index) t.status = !t.status;
+    return t;
+  }));
+
+  React.useEffect(() => {
+    priming !== null && watersStatus[priming].timer > 0 &&
+      setTimeout(() => setWatersStatus(prev => prev.map((t, i) => {
+        if (i === priming) t.timer--;
+        return t;
+      })), 1000);
+    priming !== null && watersStatus[priming].timer === 0 &&
+      mediumLevel.line.stopPriming(lines.waters[priming].line_id).subscribe(
+        data => {
+          setPriming(null);
+          setWatersStatus(prev => prev.map((t, i) => {
+            if (i === priming) t.volume = data.volume;
+            return t;
+          }));
+        }
+      );
+      if (priming === null) {
+        !watersStatus.find(el => el.status === false) && props.onEnd(true);
+      }
+  }, [priming, watersStatus]);
+
   return (
-    <>
-      <h2>CUSTOM WATERS</h2>
-      <CustomCalibration />
-    </>
+    <div className="select-box">
+      <span id="title">CUSTOM WATERS</span>
+      {lines.waters.map((line, i) => {
+        return (
+          <div key={i} className="select-box inline">
+            <MButton onClick={() => startStopTimer(i)} className="small" light info={`Line - ${line.line_id}`}>
+              {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
+              {watersStatus[i].timer}
+            </MButton>
+            <MInput
+              label={__("volume")}
+              value={watersStatus[i].volume}
+              disabled
+            />
+            <MButton
+              info
+              type={watersStatus[i].status ? MTypes.INFO_SUCCESS : null}
+              onClick={() => setOk(i)}
+              disabled={watersStatus[i].timer > 0}
+            >
+              Ok
+            </MButton>
+          </div>
+        );
+      })}
+    </div>
   );
 };
 
 const CustomBibs = (props) => {
+  const { lines } = React.useContext(ServiceContext);
+  const [priming, setPriming] = React.useState(null);
+  const [watersStatus, setWatersStatus] = React.useState(
+    lines.pumps.map(w => { return { timer: 30, status: false, volume: "" }; })
+  );
+
+  const startStopTimer = i => {
+    if (watersStatus[i].timer === 0) return;
+    if (priming !== null) {
+      setPriming(null);
+    } else {
+      mediumLevel.line.startPriming(lines.waters[i].line_id).subscribe();
+      setPriming(i);
+    }
+  };
+
+  const setOk = index => setWatersStatus(prev => prev.map((t, i) => {
+    if (i === index) t.status = !t.status;
+    return t;
+  }));
+
+  React.useEffect(() => {
+    priming !== null && watersStatus[priming].timer > 0 &&
+      setTimeout(() => setWatersStatus(prev => prev.map((t, i) => {
+        if (i === priming) t.timer--;
+        return t;
+      })), 1000);
+    priming !== null && watersStatus[priming].timer === 0 &&
+      mediumLevel.line.stopPriming(lines.waters[priming].line_id).subscribe(
+        data => {
+          setPriming(null);
+          setWatersStatus(prev => prev.map((t, i) => {
+            if (i === priming) t.volume = data.volume;
+            return t;
+          }));
+        }
+      );
+    if (priming === null) {
+      !watersStatus.find(el => el.status === false) && props.onEnd(true);
+    }
+  }, [priming, watersStatus]);
+
+
   return (
-    <>
-      <h2>CUSTOM WATERS</h2>
-      <CustomCalibration />
-    </>
+    <div className="select-box">
+      <span id="title">CUSTOM PUMPS</span>
+      {lines.pumps.map((line, i) => {
+        return (
+          <div key={i} className="select-box inline">
+            <MButton onClick={() => startStopTimer(i)} className="small" light info={`Line - ${line.line_id}`}>
+              {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
+              {watersStatus[i].timer}
+            </MButton>
+            <MInput
+              label={__("volume")}
+              value={watersStatus[i].volume}
+              disabled
+            />
+            <MButton
+              info
+              type={watersStatus[i].status ? MTypes.INFO_SUCCESS : null}
+              onClick={() => setOk(i)}
+              disabled={watersStatus[i].timer > 0}
+            >
+              Ok
+            </MButton>
+          </div>
+        );
+      })}
+    </div>
   );
 };
 
-const CustomCalibration = (props) => {
-  return (
-    <>
-      <h2>CUSTOM CALIBRATION</h2>
-    </>
-  );
-};
+// const CustomCalibration = (props) => {
+//   return (
+//     <>
+//       <h2>CUSTOM CALIBRATION</h2>
+//     </>
+//   );
+// };
 
 const CustomSelect = (props) => {
 
@@ -610,9 +762,11 @@ const testValidation = form => {
   form.forEach(group =>
     group.elements.forEach(element => {
       if (
-        element.value === false
-        ||
-        (element.label_id === "t_proximity" && element.value.find(el => el.value === false))
+        (
+          ((element.id === "t_press_co2" || element.id === "t_press_h2o") && element.value === true)
+          ||
+          element.value === false
+        )
         ||
         element.value === ""
       ) {
