@@ -23,7 +23,7 @@ export const InputWrapper = styled.div`
     font-size: 20px;
     box-sizing: border-box;
     &:disabled {
-      background: #fff;
+      background: #c1c1c1;
     }
   }
   #enable-click {
@@ -96,7 +96,7 @@ export const MInput = (props: MInputProps) => {
         {label && <label>{label}{required && "*"}</label>}
         <InputWrapper onClick={props.click}>
           <input
-            // disabled={disabled} // <= TO FIX
+            disabled={disabled} // <= TO FIX
             // disabled
             value={value}
             type={type}

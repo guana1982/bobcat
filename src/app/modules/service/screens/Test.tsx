@@ -441,19 +441,23 @@ const CustomProximity = (props) => {
   return (
     <div className="select-box">
       <span id="title">CUSTOM PROXIMITY</span>
-        <span>{distance}</span>
-        { props.element.value.map((v, i) =>
-            <MButton
-              key={i}
-              onClick={() => selectButton(i)}
-              info
-              type={v.value ? MTypes.INFO_SUCCESS : null}
-            >
-              {v.distance} cm
-            </MButton>
-          )
+      <MInput
+        label={__("t_proximity_value")}
+        value={distance}
+        disabled
+      />
+      { props.element.value.map((v, i) =>
+          <MButton
+            key={i}
+            onClick={() => selectButton(i)}
+            info
+            type={v.value ? MTypes.INFO_SUCCESS : null}
+          >
+            {v.distance} cm
+          </MButton>
+        )
 
-        }
+      }
     </div>
   );
 };
@@ -477,7 +481,11 @@ const CustomTemperature = (props) => {
   return (
     <div className="select-box">
       <span id="title">CUSTOM TEMPERATURE</span>
-      <span>{temperatureValue}</span>
+      <MInput
+        label={__("t_temperature_value")}
+        value={temperatureValue}
+        disabled
+      />
       <MButton
         info
         onClick={() => props.onClick(!props.element.value)}
