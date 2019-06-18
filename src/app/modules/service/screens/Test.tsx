@@ -119,7 +119,7 @@ export const TestMenu = (props: MasterProps) => {
   const [fieldSelected, setFieldSelected] = React.useState(null);
 
   const completeTest = () => {
-    alert("ok");
+    alert("Valid Test");
   };
 
   function setValueForm(group, i, value) {
@@ -363,8 +363,8 @@ const CustomQr = (props) => {
         title={__("Qr")}
         actions={[...ACTIONS_CLOSE]}
       >
-        <div style={{width: "100%", height: "300px"}}>
-          <div style={{background: "#0000ff", width: "300px", height: "300px"}}></div>
+        <div style={{width: "100vw", height: "calc(100vh - 87px - 61px)"}}>
+          <div style={{background: "#0000ff", position: "absolute", top: "261px", left: "209px", width: "259px", height: "259px"}}></div>
         </div>
       </Modal>
     </>

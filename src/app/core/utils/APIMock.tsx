@@ -582,28 +582,28 @@ export const TestMenu_ = {
         },
       ]
     },
-    {
-      "label_id": "t_test_acqua_group_label_id",
-      "elements": [
-        {
-          "label_id": "t_acqua_test",
-          "id": "t_acqua_test",
-          "type": "custom_waters",
-          "value": false
-        }
-      ]
-    },
-    {
-      "label_id": "t_test_pompe_group_label_id",
-      "elements": [
-        {
-          "label_id": "t_pompe_test",
-          "id": "t_pompe_test",
-          "type": "custom_bibs",
-          "value": false
-        }
-      ]
-    },
+    // {
+    //   "label_id": "t_test_acqua_group_label_id",
+    //   "elements": [
+    //     {
+    //       "label_id": "t_acqua_test",
+    //       "id": "t_acqua_test",
+    //       "type": "custom_waters",
+    //       "value": false
+    //     }
+    //   ]
+    // },
+    // {
+    //   "label_id": "t_test_pompe_group_label_id",
+    //   "elements": [
+    //     {
+    //       "label_id": "t_pompe_test",
+    //       "id": "t_pompe_test",
+    //       "type": "custom_bibs",
+    //       "value": false
+    //     }
+    //   ]
+    // },
     {
       "label_id": "t_circuito_idraulico_group_label",
       "elements": [
@@ -665,17 +665,6 @@ export const TestMenu_ = {
     {
       "label_id": "t_machine_group_label_id",
       "elements": [
-        // {
-        //   "label_id": "t_bobcat_type",
-        //   "default_value": "",
-        //   "id": "t_bobcat_type",
-        //   "type": "select",
-        //   "value": [
-        //     { "label": "SA", "value": false },
-        //     { "label": "CT", "value": false }
-        //   ],
-        //   "permission": "write"
-        // },
         {
           "label_id": "t_production_site",
           "default_value": "",
