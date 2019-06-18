@@ -224,15 +224,15 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 
   const start = () => {
     if (disabledButton) return;
+  };
+
+  const end = (e, enough) => {
+    if (disabledButton) return;
 
     if (nutritionFacts) {
       handleZoomNutrition(true);
       return null;
     }
-  };
-
-  const end = (e, enough) => {
-    if (disabledButton || nutritionFacts) return;
 
     if (!enough) {
       if (!pouring)
@@ -254,7 +254,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
           {zoomNutrition &&
             <AppendedFullBeverage {...props}>
               <BeverageFull>
-                <div id="backdrop" onTouchStart={closeZoomNutrition}></div>
+                <div id="backdrop" onClick={closeZoomNutrition}></div>
                 <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={closeZoomNutrition} />
                 <BeverageWrap show={true} color={color}>
                   <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
