@@ -18,7 +18,7 @@ const CircleCard_ = (props: CircleCardProps) => {
   const consumerConsumer = React.useContext(ConsumerContext);
   const { currHydraLvl, hydraGoal } = consumerConsumer.dataConsumer;
   let perc = calcolaPerc(hydraGoal, currHydraLvl);
-  perc = perc > 100 ? 100 : perc;
+  // perc = perc > 100 ? 100 : perc;
 
   const diffHydra = hydraGoal - currHydraLvl;
   let messageHydra = "";
