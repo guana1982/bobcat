@@ -104,6 +104,10 @@ export const MasterContent = styled.div`
       flex-direction: row;
       align-items: center;
       & > * { display: inline-block; }
+      & > div:nth-of-type(1) input {
+        width: 75px;
+        margin-right: 20px;
+      }
     }
   }
 `;
@@ -634,8 +638,8 @@ const CustomWaters = (props) => {
           <div key={i} className="select-box inline">
             <MButton onClick={() => startStopTimer(i)} className="small" light info={`Line - ${line.line_id}`}>
               {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
-              {watersStatus[i].timer}
             </MButton>
+            <MInput label="Timer" value={watersStatus[i].timer} disabled />
             <MInput
               label={__("volume")}
               value={watersStatus[i].volume}
@@ -647,7 +651,7 @@ const CustomWaters = (props) => {
               onClick={() => setOk(i)}
               disabled={watersStatus[i].timer > 0}
             >
-              Ok
+              Checked
             </MButton>
           </div>
         );
@@ -708,8 +712,8 @@ const CustomBibs = (props) => {
           <div key={i} className="select-box inline">
             <MButton onClick={() => startStopTimer(i)} className="small" light info={`Line - ${line.line_id}`}>
               {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
-              {watersStatus[i].timer}
             </MButton>
+            <MInput label="Timer" value={watersStatus[i].timer} disabled />
             <MInput
               label={__("volume")}
               value={watersStatus[i].volume}
@@ -721,7 +725,7 @@ const CustomBibs = (props) => {
               onClick={() => setOk(i)}
               disabled={watersStatus[i].timer > 0}
             >
-              Ok
+              Checked
             </MButton>
           </div>
         );
