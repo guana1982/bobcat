@@ -589,46 +589,58 @@ const CustomAda = (props) => {
 
 const CustomWaters = (props) => {
   const { lines } = React.useContext(ServiceContext);
-  const [priming, setPriming] = React.useState(null);
+  const [primingLine, setPrimingLine] = React.useState(null);
   const [watersStatus, setWatersStatus] = React.useState(
-    lines.waters.map(w => { return { timer: 30, status: false, volume: "" }; })
+    lines.waters.map(w => { return { timeout_: null, status: false, volume: "-" }; })
   );
 
-  const startStopTimer = i => {
-    if (watersStatus[i].timer === 0) return;
-    if (priming !== null) {
-      setPriming(null);
-    } else {
-      mediumLevel.line.startPriming(lines.waters[i].line_id).subscribe();
-      setPriming(i);
+  const stopWaterPriming = (i) => {
+    mediumLevel.line.stopPriming(lines.waters[i].line_id).subscribe(
+      data => {
+        setPrimingLine(null);
+        setWatersStatus(prev => prev.map((t, i_) => {
+          if (i_ === i) {
+            t.volume = data.volume;
+            clearTimeout(t.timeout_);
+          }
+          return t;
+        }));
+      }
+    );
+    setPrimingLine(null);
+  };
+
+  const startWaterPriming = (i) => {
+    mediumLevel.line.startPriming(lines.waters[i].line_id).subscribe();
+    setPrimingLine(i);
+    setWatersStatus(prev => prev.map((t, i_) => {
+      if (i_ === i) {
+        t.volume = "-";
+        t.status = false;
+        t.timeout_ = setTimeout(() => stopWaterPriming(i), 30000);
+      }
+      return t;
+    }));
+  };
+
+  const handleTimer = i => {
+    if (primingLine === null) {
+      startWaterPriming(i);
+    } else if (primingLine === i) {
+      stopWaterPriming(i);
     }
   };
 
-  const setOk = index => setWatersStatus(prev => prev.map((t, i) => {
+  React.useEffect(() => {
+    return () => {
+      watersStatus.forEach(t => clearTimeout(t.timeout_));
+    };
+  }, []);
+
+  const setChecked = index => setWatersStatus(prev => prev.map((t, i) => {
     if (i === index) t.status = !t.status;
     return t;
   }));
-
-  React.useEffect(() => {
-    priming !== null && watersStatus[priming].timer > 0 &&
-      setTimeout(() => setWatersStatus(prev => prev.map((t, i) => {
-        if (i === priming) t.timer--;
-        return t;
-      })), 1000);
-    priming !== null && watersStatus[priming].timer === 0 &&
-      mediumLevel.line.stopPriming(lines.waters[priming].line_id).subscribe(
-        data => {
-          setPriming(null);
-          setWatersStatus(prev => prev.map((t, i) => {
-            if (i === priming) t.volume = data.volume;
-            return t;
-          }));
-        }
-      );
-      if (priming === null) {
-        !watersStatus.find(el => el.status === false) && props.onEnd(true);
-      }
-  }, [priming, watersStatus]);
 
   return (
     <div className="select-box">
@@ -636,10 +648,9 @@ const CustomWaters = (props) => {
       {lines.waters.map((line, i) => {
         return (
           <div key={i} className="select-box inline">
-            <MButton onClick={() => startStopTimer(i)} className="small" light info={`Line - ${line.line_id}`}>
+            <MButton type={primingLine === i ? MTypes.INFO_WARNING : null} onClick={() => handleTimer(i)} className="small" light info={`Line - ${line.line_id}`}>
               {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
             </MButton>
-            <MInput label="Timer" value={watersStatus[i].timer} disabled />
             <MInput
               label={__("volume")}
               value={watersStatus[i].volume}
@@ -648,8 +659,8 @@ const CustomWaters = (props) => {
             <MButton
               info
               type={watersStatus[i].status ? MTypes.INFO_SUCCESS : null}
-              onClick={() => setOk(i)}
-              disabled={watersStatus[i].timer > 0}
+              onClick={() => setChecked(i)}
+              disabled={watersStatus[i].volume === "-"}
             >
               Checked
             </MButton>
@@ -662,47 +673,58 @@ const CustomWaters = (props) => {
 
 const CustomBibs = (props) => {
   const { lines } = React.useContext(ServiceContext);
-  const [priming, setPriming] = React.useState(null);
-  const [watersStatus, setWatersStatus] = React.useState(
-    lines.pumps.map(w => { return { timer: 30, status: false, volume: "" }; })
+  const [primingLine, setPrimingLine] = React.useState(null);
+  const [pumpsStatus, setPumpsStatus] = React.useState(
+    lines.pumps.map(w => { return { timeout_: null, status: false, volume: "-" }; })
   );
 
-  const startStopTimer = i => {
-    if (watersStatus[i].timer === 0) return;
-    if (priming !== null) {
-      setPriming(null);
-    } else {
-      mediumLevel.line.startPriming(lines.waters[i].line_id).subscribe();
-      setPriming(i);
+  const stopWaterPriming = (i) => {
+    mediumLevel.line.stopPriming(lines.pumps[i].line_id).subscribe(
+      data => {
+        setPrimingLine(null);
+        setPumpsStatus(prev => prev.map((t, i_) => {
+          if (i_ === i) {
+            t.volume = data.volume;
+            clearTimeout(t.timeout_);
+          }
+          return t;
+        }));
+      }
+    );
+    setPrimingLine(null);
+  };
+
+  const startWaterPriming = (i) => {
+    mediumLevel.line.startPriming(lines.pumps[i].line_id).subscribe();
+    setPrimingLine(i);
+    setPumpsStatus(prev => prev.map((t, i_) => {
+      if (i_ === i) {
+        t.volume = "-";
+        t.status = false;
+        t.timeout_ = setTimeout(() => stopWaterPriming(i), 30000);
+      }
+      return t;
+    }));
+  };
+
+  const handleTimer = i => {
+    if (primingLine === null) {
+      startWaterPriming(i);
+    } else if (primingLine === i) {
+      stopWaterPriming(i);
     }
   };
 
-  const setOk = index => setWatersStatus(prev => prev.map((t, i) => {
+  React.useEffect(() => {
+    return () => {
+      pumpsStatus.forEach(t => clearTimeout(t.timeout_));
+    };
+  }, []);
+
+  const setChecked = index => setPumpsStatus(prev => prev.map((t, i) => {
     if (i === index) t.status = !t.status;
     return t;
   }));
-
-  React.useEffect(() => {
-    priming !== null && watersStatus[priming].timer > 0 &&
-      setTimeout(() => setWatersStatus(prev => prev.map((t, i) => {
-        if (i === priming) t.timer--;
-        return t;
-      })), 1000);
-    priming !== null && watersStatus[priming].timer === 0 &&
-      mediumLevel.line.stopPriming(lines.waters[priming].line_id).subscribe(
-        data => {
-          setPriming(null);
-          setWatersStatus(prev => prev.map((t, i) => {
-            if (i === priming) t.volume = data.volume;
-            return t;
-          }));
-        }
-      );
-    if (priming === null) {
-      !watersStatus.find(el => el.status === false) && props.onEnd(true);
-    }
-  }, [priming, watersStatus]);
-
 
   return (
     <div className="select-box">
@@ -710,20 +732,19 @@ const CustomBibs = (props) => {
       {lines.pumps.map((line, i) => {
         return (
           <div key={i} className="select-box inline">
-            <MButton onClick={() => startStopTimer(i)} className="small" light info={`Line - ${line.line_id}`}>
+            <MButton type={primingLine === i ? MTypes.INFO_WARNING : null} onClick={() => handleTimer(i)} className="small" light info={`Line - ${line.line_id}`}>
               {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
             </MButton>
-            <MInput label="Timer" value={watersStatus[i].timer} disabled />
             <MInput
               label={__("volume")}
-              value={watersStatus[i].volume}
+              value={pumpsStatus[i].volume}
               disabled
             />
             <MButton
               info
-              type={watersStatus[i].status ? MTypes.INFO_SUCCESS : null}
-              onClick={() => setOk(i)}
-              disabled={watersStatus[i].timer > 0}
+              type={pumpsStatus[i].status ? MTypes.INFO_SUCCESS : null}
+              onClick={() => setChecked(i)}
+              disabled={pumpsStatus[i].volume === "-"}
             >
               Checked
             </MButton>
