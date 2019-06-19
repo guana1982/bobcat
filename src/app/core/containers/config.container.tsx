@@ -24,8 +24,8 @@ export interface ConfigInterface {
   vendorConfig: VendorConfig;
   menuList: any;
   ws: WebSocketSubject<ISocket>;
-  socketAlarms$: Observable<any>;
-  socketAttractor$: Observable<any>;
+  socketAlarms$: Subject<any>;
+  socketAttractor$: Subject<any>;
   allAlarms: IAlarm[];
   alarms: IAlarm[];
   allBeverages: IBeverage[];
@@ -46,8 +46,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
   menuList: any;
   setBeverages: Observable<any>;
   setVendorConfig: Observable<any>;
-  socketAttractor$: Observable<any>;
-  socketAlarms$: Observable<any>;
+  socketAlarms$ = new Subject<any>();
+  socketAttractor$ = new Subject<any>();
 
   constructor(props) {
     super(props);
@@ -66,34 +66,6 @@ class ConfigStoreComponent extends React.Component<any, any> {
       }
     });
 
-    /* ==== ATTRACTOR SOCKET ==== */
-    /* ======================================== */
-
-    const socketAttractor$ = ws
-    .multiplex(
-      () => console.info(`Start => ${SOCKET_ATTRACTOR}`),
-      () => console.info(`End => ${SOCKET_ATTRACTOR}`),
-      (data) => data && data.message_type === SOCKET_ATTRACTOR
-    ).pipe(
-      debounceTime(300),
-      map((data: any) => data.value)
-    );
-
-    // socketAttractor$
-    // .subscribe(value => {
-    //   const { pathname } = this.props.location;
-    //   if (pathname !== Pages.Attractor && pathname !== Pages.Home)
-    //     return;
-
-    //   let page = "";
-    //   if (value === MESSAGE_STOP_VIDEO)
-    //     page = Pages.Home;
-    //   else if (value === MESSAGE_START_CAMERA)
-    //     page = Pages.Prepay;
-
-    //   this.props.history.push(page);
-    // });
-
     /* ==== STATE ==== */
     /* ======================================== */
 
@@ -101,7 +73,6 @@ class ConfigStoreComponent extends React.Component<any, any> {
       authService: false,
       vendorConfig: {},
       ws: ws,
-      socketAttractor$: socketAttractor$,
       beverages: [],
       allAlarms: [],
       alarms: [],
@@ -132,19 +103,47 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
     const pollIntervalSustainability = 6000 * 60 * 10;
     timer(0, pollIntervalSustainability)
-      .pipe(
-        switchMap(() => mediumLevel.product.sustainabilityData())
-      ).subscribe(data => {
-        this.setState({sustainabilityData: data});
-      });
+    .pipe(
+      switchMap(() => mediumLevel.product.sustainabilityData())
+    )
+    .subscribe(data => {
+      this.setState({sustainabilityData: data});
+    });
+
+    /* ==== ATTRACTOR SOCKET ==== */
+    /* ======================================== */
+
+    const socketAttractor$ = this.state.ws
+    .multiplex(
+      () => console.info(`Start => ${SOCKET_ATTRACTOR}`),
+      () => console.info(`End => ${SOCKET_ATTRACTOR}`),
+      (data) => data && data.message_type === SOCKET_ATTRACTOR
+    )
+    .pipe(
+      debounceTime(300),
+      map((data: any) => data.value)
+    );
+
+    socketAttractor$
+    .pipe(
+      tap(value => this.socketAttractor$.next(value))
+    )
+    .subscribe();
 
     /* ==== ALARM SOCKET ==== */
     /* ======================================== */
 
+    const socketAlarms$ = this.state.ws
+    .multiplex(
+      () => console.info(`Start => ${SOCKET_ALARM}`),
+      () => console.info(`End => ${SOCKET_ALARM}`),
+      (data) => data && (data.message_type === SOCKET_ALARM || data.message_type === CONSUMER_ALARM)
+    )
+    .pipe(debounceTime(250));
+
     const setAlarms = mediumLevel.alarm.getAlarms()
     .pipe(
       map(data => data && data.elements || []),
-      // map((alarms: IAlarm[]) => alarms.filter(alarm => alarm.alarm_state)),
       map(alarms => {
         return alarms.map(alarm => {
           if (alarm.alarm_state) {
@@ -169,29 +168,14 @@ class ConfigStoreComponent extends React.Component<any, any> {
       })
     );
 
-    this.socketAlarms$ = this.state.ws
-    .multiplex(
-      () => console.info(`Start => ${SOCKET_ALARM}`),
-      () => console.info(`End => ${SOCKET_ALARM}`),
-      (data) => data && (data.message_type === SOCKET_ALARM || data.message_type === CONSUMER_ALARM)
-    ).pipe(debounceTime(250));
-
     setAlarms
     .pipe(
-      mergeMap(() => this.socketAlarms$),
+      mergeMap(() => socketAlarms$),
+      tap(value => this.socketAlarms$.next(value)),
       mergeMap(() => setAlarms),
       mergeMap(() => this.setBeverages)
     )
     .subscribe();
-
-    // setTimeout(() => {
-    //   const half_length = Math.ceil(this.state.alarms.length / 2);
-    //   this.setState(prevState => ({
-    //     ...prevState,
-    //     alarms: prevState.alarms.splice(0, half_length)
-    //   }));
-    //   console.log(this.state.alarms);
-    // }, 30000);
 
     /* ==== GET CONFIG ==== */
     /* ======================================== */
@@ -303,7 +287,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
           alarms: this.state.alarms,
           isPouring: this.state.isPouring,
           socketAlarms$: this.socketAlarms$,
-          socketAttractor$: this.state.socketAttractor$,
+          socketAttractor$: this.socketAttractor$,
           ws: this.state.ws,
           onStartPour: this.onStartPour,
           onStopPour: this.onStopPour,
