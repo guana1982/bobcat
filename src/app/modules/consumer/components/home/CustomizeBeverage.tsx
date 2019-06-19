@@ -13,6 +13,7 @@ import { SegmentButtonProps, SegmentButton } from "../common/SegmentButton";
 import { Button } from "../common/Button";
 import { ButtonGroup } from "../common/ButtonGroup";
 import ClickNHold from "../common/ClickNHold";
+import { Beverages } from "@core/utils/constants";
 
 /* color: string; */
 /* @keyframes shadow-pulse
@@ -272,7 +273,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           <CustomizeBeverageCard color={beverageSelected.beverage_font_color}>
             <div id="beverage-card">
               <div>
-                <span id="title">{__(beverageSelected.beverage_logo_id === 9 ? (isSparkling ? __("sparkling_water") : __("pure_water")) : __(beverageSelected.beverage_label_id))}</span>
+                <span id="title">{__(beverageSelected.beverage_type === Beverages.Plain ? (isSparkling ? __("sparkling_water") : __("pure_water")) : __(beverageSelected.beverage_label_id))}</span>
                 <span id="cal">{beverageSelected.calories} {__("c_cal")}.</span>
                 <div id="group">
                   {beverageConfig.carbonation_level != null &&

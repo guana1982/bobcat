@@ -5,6 +5,7 @@ import { BeverageTypes } from "./Beverage";
 import { Logo } from "./Logo";
 import { IBeverage } from "@core/models";
 import { ILevelsModel } from "@core/utils/APIModel";
+import { Beverages } from "@core/utils/constants";
 
 interface BasicProps {
   className: any;
@@ -21,7 +22,7 @@ interface BasicProps {
 }
 
 export const Basic_ = (props: BasicProps) => {
-  const { className, types, specialCard, title, levels, slideOpen, $sparkling, logoId, calories } = props;
+  const { className, types, specialCard, title, levels, slideOpen, $sparkling, logoId, calories, beverage } = props;
 
   if (!props.show)
     return null;
@@ -42,10 +43,12 @@ export const Basic_ = (props: BasicProps) => {
                   <div className="value" />
                 </LevelIndicator>
               }
-              <LevelIndicator level={levels.flavor_perc}>
-                <img src={`icons/${"flavor"}.svg`} />
-                <div className="value" />
-              </LevelIndicator>
+              {beverage.beverage_type === Beverages.Bev &&
+                <LevelIndicator level={levels.flavor_perc}>
+                  <img src={`icons/${"flavor"}.svg`} />
+                  <div className="value" />
+                </LevelIndicator>
+              }
               <LevelIndicator level={levels.temperature_perc}>
                 <img src={`icons/${"temperature"}.svg`} />
                 <div className="value" />
@@ -54,7 +57,7 @@ export const Basic_ = (props: BasicProps) => {
           </SpecialSection>
         }
         <Logo {...props} />
-        <span id="title">{__(logoId === 9 ? (sparkling_ ? __("sparkling_water") : __("pure_water")) : __(title))}</span>
+        <span id="title">{__(beverage.beverage_type === Beverages.Plain ? (sparkling_ ? __("sparkling_water") : __("pure_water")) : __(title))}</span>
         <span id="cal">{calories} {__("c_cal")}.</span> {/* {beverage.calories} */}
         {/* <span id="price">75¢</span> */}
     </div>
