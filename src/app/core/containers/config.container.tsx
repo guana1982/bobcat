@@ -1,12 +1,12 @@
 import * as React from "react";
 import { map, tap, first, mergeMap, debounceTime, switchMap } from "rxjs/operators";
 import mediumLevel from "../utils/MediumLevel";
-import { forkJoin, of, Observable, Subject, combineLatest, interval, timer } from "rxjs";
+import { forkJoin, of, Observable, Subject, combineLatest, interval, timer, BehaviorSubject } from "rxjs";
 import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { setLangDict } from "../utils/lib/i18n";
 import { withRouter } from "react-router-dom";
 import { IBeverage, ISocket, IBeverageConfig, IAlarm } from "../models";
-import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages, CONSUMER_ALARM } from "../utils/constants";
+import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages, CONSUMER_ALARM, SOCKET_UPDATE } from "../utils/constants";
 import { VendorConfig } from "@core/models/vendor.model";
 import { MTypes } from "@modules/service/components/common/Button";
 
@@ -26,6 +26,7 @@ export interface ConfigInterface {
   ws: WebSocketSubject<ISocket>;
   socketAlarms$: Subject<any>;
   socketAttractor$: Subject<any>;
+  socketUpdate$: Subject<any>;
   allAlarms: IAlarm[];
   alarms: IAlarm[];
   allBeverages: IBeverage[];
@@ -48,6 +49,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
   setVendorConfig: Observable<any>;
   socketAlarms$ = new Subject<any>();
   socketAttractor$ = new Subject<any>();
+  socketUpdate$ = new BehaviorSubject<any>({});
 
   constructor(props) {
     super(props);
@@ -109,6 +111,31 @@ class ConfigStoreComponent extends React.Component<any, any> {
     .subscribe(data => {
       this.setState({sustainabilityData: data});
     });
+
+    /* ==== ATTRACTOR SOCKET ==== */
+    /* ======================================== */
+
+    const socketUpdate$ = this.state.ws
+    .multiplex(
+      () => console.info(`Start => ${SOCKET_UPDATE}`),
+      () => console.info(`End => ${SOCKET_UPDATE}`),
+      (data) => data && data.message_type === SOCKET_UPDATE
+    )
+    .pipe(
+      map((data: any) => data.value)
+    );
+
+    socketUpdate$
+    .pipe(
+      tap(value => this.socketUpdate$.next(value))
+    )
+    .subscribe(
+      value => {
+        if (value.percentage === 0) {
+          this.props.history.push(Pages.Update);
+        }
+      }
+    );
 
     /* ==== ATTRACTOR SOCKET ==== */
     /* ======================================== */
@@ -288,6 +315,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
           isPouring: this.state.isPouring,
           socketAlarms$: this.socketAlarms$,
           socketAttractor$: this.socketAttractor$,
+          socketUpdate$: this.socketUpdate$,
           ws: this.state.ws,
           onStartPour: this.onStartPour,
           onStopPour: this.onStopPour,

@@ -4,6 +4,7 @@ export enum Pages {
   Attractor = "/",
   Home = "/home",
   Prepay = "/prepay",
+  Update = "/update",
   // -- SERVICE --
   Menu = "/menu",
   Master = "/master",
@@ -77,6 +78,7 @@ export enum SOCKET_CONSUMER {
   SERVER = "consumer_server_data"
 }
 export const SOCKET_CONNECTIVITY = "connectivity_status";
+export const SOCKET_UPDATE = "update_status";
 // export const SOCKET_QR = "qr_found";
 // -- MESSAGES SOCKET --
 export const MESSAGE_START_VIDEO = "start_video";

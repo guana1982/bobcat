@@ -13,6 +13,7 @@ import { OldMenu } from "./screens/Menu";
 /* ==== STORES ==== */
 import { ConsumerStore, AccessibilityProvider, AlertProvider, TimerProvider } from "@core/containers";
 import { ThemeProvider } from "styled-components";
+import { Update } from "./screens/Update";
 
 export const Consumer = () => (
   <ThemeProvider theme={themeMain}>
@@ -23,6 +24,7 @@ export const Consumer = () => (
             <Route exact path={Pages.Attractor} component={Attractor}/>
             <Route path={Pages.Home} component={Home}/>
             <Route path={Pages.Prepay} component={Prepay}/>
+            <Route path={Pages.Update} component={Update}/>
             {/* <Route path={Pages.Menu} component={OldMenu}/> */}
           </TimerProvider>
         </ConsumerStore>
