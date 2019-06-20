@@ -23,6 +23,7 @@ import MediumLevel from "@core/utils/MediumLevel";
 import { LoaderContext } from "@core/containers/loader.container";
 import { reaction } from "mobx";
 import BeverageLogo from "@core/components/common/Logo";
+import { Calibration } from "../components/sections/Calibration";
 
 /* ==== ELEMENTS ==== */
 /* ======================================== */
@@ -33,6 +34,7 @@ export const MasterContent = styled.div`
     padding-top: 50px;
     padding-left: 20px;
     padding-bottom: 20px;
+    overflow: hidden;
     &>div {
       margin: 6px;
       align-self: flex-start;
@@ -110,6 +112,16 @@ export const MasterContent = styled.div`
       }
     }
   }
+
+  .disabled {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, .7);
+    margin: 0 !important;
+  }
 `;
 
 /* ==== MASTER ==== */
@@ -131,6 +143,8 @@ export const TestMenu = (props: MasterProps) => {
 
   const [state, setState] = React.useState({ structure_: []});
   const [fieldSelected, setFieldSelected] = React.useState(null);
+
+  const { lines } = React.useContext(ServiceContext);
 
   const completeTest = () => {
     loaderContext.show();
@@ -161,8 +175,8 @@ export const TestMenu = (props: MasterProps) => {
 
   React.useEffect(() => {
     loaderContext.show();
-    mediumLevel.menu.getSubMenu("master_menu", "test_submenu")
-    // of(TestMenu_)
+    // mediumLevel.menu.getSubMenu("master_menu", "test_submenu")
+    of(TestMenu_)
     .subscribe(
       data => { setState(data); console.log(data); },
       error => {
@@ -183,6 +197,7 @@ export const TestMenu = (props: MasterProps) => {
   const { structure_ } = state;
   const { history } = props;
 
+  console.log(state.structure_);
 
   if (!(structure_.length > 0))
     return <MenuContent />;
@@ -319,6 +334,28 @@ export const TestMenu = (props: MasterProps) => {
                       element={element}
                       onChange={(value) => setValueForm(i, i2, value)}
                     />
+                  );
+
+                  if (element.type === "calibration_waters")
+                  return (
+                    <React.Fragment>
+                      {lines.waters.map( l => <Calibration line={l} /> )}
+                      {/* { !structure_
+                          .find(group => group.label_id === "t_test_acqua_group_label_id").elements[0].value &&
+                            <div className="disabled"/>
+                      } */}
+                    </React.Fragment>
+                  );
+
+                  if (element.type === "calibration_pumps")
+                  return (
+                    <React.Fragment>
+                      {lines.pumps.map( l => <Calibration line={l} /> )}
+                      { !structure_
+                          .find(group => group.label_id === "t_test_pompe_group_label_id").elements[0].value &&
+                            <div className="disabled"/>
+                      }
+                    </React.Fragment>
                   );
 
                 })
@@ -782,7 +819,6 @@ const CustomSelect = (props) => {
     </div>
   );
 };
-
 
 
 
