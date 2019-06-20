@@ -105,7 +105,7 @@ export const MasterContent = styled.div`
       align-items: center;
       & > * { display: inline-block; }
       & > div:nth-of-type(1) input {
-        width: 75px;
+        width: 150px;
         margin-right: 20px;
       }
     }
@@ -355,7 +355,8 @@ const CustomQr = (props) => {
   const configContext = React.useContext(ConfigContext);
 
   React.useEffect(() => {
-    const qrSocket = mediumLevel.config.startQrCamera()
+    if (modalQr === true) {
+      const qrSocket = mediumLevel.config.startQrCamera()
       .pipe(
         mergeMap(() =>
           configContext.ws.multiplex(
@@ -371,6 +372,9 @@ const CustomQr = (props) => {
           setModalQr(false);
         }
       });
+    } else {
+      mediumLevel.config.stopQrCamera().subscribe();
+    }
   }, [modalQr]);
 
   return (
