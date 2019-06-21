@@ -338,7 +338,7 @@ export const Sanitation = (props: SanitationProps) => {
   const [disableBack_, setDisableBack_] = React.useState<boolean>(false);
   React.useEffect(() => {
     linesSelected.forEach(line => {
-      if (step !== 1 && step !== 5) {
+      if (step !== 1 && step !== 0 && step !== 5) {
         let countTimers_ = 0;
         let validLiness_ = true;
         linesSelected.forEach(lineSelected => {

@@ -54,6 +54,32 @@ const FullKeyboardWrapper = styled.div`
       margin: auto;
     }
   }
+  &.bobcat-name {
+    .values {
+      display: flex;
+      justify-content: center;
+      .input-field {
+        display: flex;
+        &:nth-child(1), &:nth-child(2), &:nth-child(3) {
+          input {
+            width: 50px;
+          }
+        }
+        &:nth-child(4) {
+          input {
+            width: 150px;
+          }
+        }
+      }
+      span {
+        width: 20px;
+        color: #fff;
+        align-self: center;
+        text-align: center;
+        font-size: 30px;
+      }
+    }
+  }
 `;
 
 const NumberPadWrapper = styled.div`
@@ -105,6 +131,7 @@ interface NumberPadProps {
   beverage?: any;
   title: string;
   type: ModalKeyboardTypes;
+  id?: string;
   form?: any;
   cancel: () => void;
   finish: (output: any) => void;
@@ -139,7 +166,7 @@ const isValidDate = (dateString: string) => {
 
 export const ModalKeyboard = (props: NumberPadProps) => {
 
-  const { beverage, title, type, cancel, finish, form, inputType } = props;
+  const { beverage, title, type, cancel, finish, form, inputType, id } = props;
 
   const [fieldSelected, setFieldSelected] = React.useState(0);
 
@@ -238,6 +265,50 @@ export const ModalKeyboard = (props: NumberPadProps) => {
       form: Object.keys(inputObj).map(k => inputObj[k])
     }));
   };
+
+  //  ==== CUSTOM BY ID ====>
+
+  if (id === "bobcat_name" || id === "bobcat_name_check") {
+    const { input } = state;
+    const form_ = [input.slice(0, 2), input.slice(2, 4), input.slice(4, 7), input.slice(7, 17)];
+    const separetor_ = [".", ".", "-", ""];
+    return (
+      <Modal
+        show={true}
+        title={title}
+        themeMode={ModalTheme.Dark}
+        actions={ACTIONS_CONFIRM}
+        cancel={() => cancel()}
+        finish={() => finish(`${form_[0]}${separetor_[0]}${form_[1]}${separetor_[1]}${form_[2]}${separetor_[2]}${form_[3]}`)}
+      >
+        <FullKeyboardWrapper className="bobcat-name">
+          <div>
+            <div className="values">
+            {
+                form_.map((inputValue, i) => (
+                  <div className="input-field">
+                    <MInput
+                      key={i}
+                      type={inputType}
+                      value={inputValue}
+                    />
+                    <span>{separetor_[i]}</span>
+                  </div>
+                ))
+              }
+              </div>
+            <MKeyboard
+              inputName="field"
+              onChangeAll={inputObj => onChangeInput(inputObj.field)}
+              maxLength={17}
+            />
+          </div>
+        </FullKeyboardWrapper>
+      </Modal>
+    );
+  }
+
+  //  <=== CUSTOM BY ID ====
 
   if (type === ModalKeyboardTypes.Number || type === ModalKeyboardTypes.VectorNumber)
   return (

@@ -102,6 +102,7 @@ interface MKeyboardProps {
   onChangeAll?: (inputObj) => any;
   onEnter?: () => void;
   inputName?: any;
+  maxLength?: number;
 }
 
 interface MKeyboardState {
@@ -147,7 +148,7 @@ const display = (onEnter: () => void) => {
 
 export const MKeyboard = React.forwardRef((props: MKeyboardProps, ref) => {
 
-  const { onChange, onChangeAll, inputName, onEnter } = props;
+  const { onChange, onChangeAll, inputName, onEnter, maxLength } = props;
 
   const [layoutName, setLayoutName] = React.useState<TypeLayout>(TypeLayout.Default);
 
@@ -209,11 +210,14 @@ export const MKeyboard = React.forwardRef((props: MKeyboardProps, ref) => {
     <KeyboardWrapper>
       <Keyboard
         ref={ref}
+        disableButtonHold={true}
         layoutName={layoutName}
         layout={layout}
         display={display(onEnter)}
         theme="hg-theme-default hg-theme-ios"
         preventMouseDownDefault={true}
+        disableCaretPositioning={true}
+        maxLength={maxLength}
         // onChange={input => onChange(input)}
         onKeyPress={button => onKeyPress(button)}
         onChangeAll={inputObj => onChangeAll(inputObj)}

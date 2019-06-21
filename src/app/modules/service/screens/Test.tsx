@@ -372,6 +372,7 @@ export const TestMenu = (props: MasterProps) => {
         <ModalKeyboard
           title={__(fieldSelected.label_id)}
           type={ModalKeyboardTypes.Full}
+          id={fieldSelected.id}
           form={fieldSelected.value}
           cancel={() => setFieldSelected(null)}
           finish={value => setTextInputValue(value)}
@@ -384,6 +385,9 @@ export const TestMenu = (props: MasterProps) => {
 };
 
 /* ==== COMPONENTS ==== */
+/* ======================================== */
+
+/* ==== QR ==== */
 /* ======================================== */
 
 const CustomQr = (props) => {
@@ -439,6 +443,9 @@ const CustomQr = (props) => {
   );
 };
 
+/* ==== CONNECTIVITY ==== */
+/* ======================================== */
+
 const CustomConnectivity = (props) => {
 
   //  ==== ACTIONS CONNECTIVITY ====>
@@ -480,6 +487,9 @@ const CustomConnectivity = (props) => {
     </>
   );
 };
+
+/* ==== PROXIMITY ==== */
+/* ======================================== */
 
 const CustomProximity = (props) => {
   const [distance, setDistance] = React.useState(null);
@@ -529,6 +539,9 @@ const CustomProximity = (props) => {
   );
 };
 
+/* ==== TEMPERATURE ==== */
+/* ======================================== */
+
 const CustomTemperature = (props) => {
   const [temperatureValue, setTemperatureValue] = React.useState(null);
 
@@ -564,6 +577,9 @@ const CustomTemperature = (props) => {
   );
 };
 
+/* ==== ALARM ==== */
+/* ======================================== */
+
 const CustomAlarm = (props) => {
   const configAlarms = React.useContext(ConfigContext).allAlarms;
   const options = props.element.alarms.map(al => {
@@ -585,6 +601,9 @@ const CustomAlarm = (props) => {
     </div>
   );
 };
+
+/* ==== ADA PANEL ==== */
+/* ======================================== */
 
 const CustomAda = (props) => {
 
@@ -626,6 +645,9 @@ const CustomAda = (props) => {
     </div>
   );
 };
+
+/* ==== CHECKED WATERS ==== */
+/* ======================================== */
 
 const CustomWaters = (props) => {
   const { lines } = React.useContext(ServiceContext);
@@ -715,6 +737,9 @@ const CustomWaters = (props) => {
   );
 };
 
+/* ==== CHECKED BIBS (PUMPS) ==== */
+/* ======================================== */
+
 const CustomBibs = (props) => {
   const { lines } = React.useContext(ServiceContext);
   const [primingLine, setPrimingLine] = React.useState(null);
@@ -803,6 +828,9 @@ const CustomBibs = (props) => {
   );
 };
 
+/* ==== CALIBRATION ==== */
+/* ======================================== */
+
 // const CustomCalibration = (props) => {
 //   return (
 //     <>
@@ -810,6 +838,9 @@ const CustomBibs = (props) => {
 //     </>
 //   );
 // };
+
+/* ==== SELECT ==== */
+/* ======================================== */
 
 const CustomSelect = (props) => {
 
@@ -860,7 +891,7 @@ const CustomCalibration = (props) => {
 };
 
 
-
+// ==== VALIDATION ===>
 const testValidation = form => {
   let valid = true;
   form.forEach(group =>
