@@ -338,24 +338,23 @@ export const TestMenu = (props: MasterProps) => {
 
                   if (element.type === "calibration_waters")
                   return (
-                    <React.Fragment>
-                      {lines.waters.map( l => <Calibration line={l} /> )}
-                      {/* { !structure_
-                          .find(group => group.label_id === "t_test_acqua_group_label_id").elements[0].value &&
-                            <div className="disabled"/>
-                      } */}
-                    </React.Fragment>
+                    <CustomCalibration
+                      lines={lines.waters}
+                      waters
+                      onEnd={(value) => setValueForm(i, i2, value)}
+                      disabled={structure_
+                        .find(group => group.label_id === "t_test_acqua_group_label_id").elements[0].value}
+                    />
                   );
 
                   if (element.type === "calibration_pumps")
                   return (
-                    <React.Fragment>
-                      {lines.pumps.map( l => <Calibration line={l} /> )}
-                      { !structure_
-                          .find(group => group.label_id === "t_test_pompe_group_label_id").elements[0].value &&
-                            <div className="disabled"/>
-                      }
-                    </React.Fragment>
+                    <CustomCalibration
+                      lines={lines.pumps}
+                      onEnd={(value) => setValueForm(i, i2, value)}
+                      disabled={structure_
+                        .find(group => group.label_id === "t_test_pompe_group_label_id").elements[0].value}
+                    />
                   );
 
                 })
@@ -678,6 +677,10 @@ const CustomWaters = (props) => {
     };
   }, []);
 
+  React.useEffect(() => {
+    !watersStatus.find(w => w.status === false) && props.onEnd(true);
+  }, [watersStatus]);
+
   const setChecked = index => setWatersStatus(prev => prev.map((t, i) => {
     if (i === index) t.status = !t.status;
     return t;
@@ -762,6 +765,10 @@ const CustomBibs = (props) => {
     };
   }, []);
 
+  React.useEffect(() => {
+    !pumpsStatus.find(p => p.status === false) && props.onEnd(true);
+  }, [pumpsStatus]);
+
   const setChecked = index => setPumpsStatus(prev => prev.map((t, i) => {
     if (i === index) t.status = !t.status;
     return t;
@@ -818,6 +825,38 @@ const CustomSelect = (props) => {
       />
     </div>
   );
+};
+
+const CustomCalibration = (props) => {
+  const { lines, waters, disabled, onEnd } = props;
+  const [linesStatus, setLinesStatus] = React.useState(
+    lines.map(l => { return undefined; } )
+  );
+
+  const setLinesStatus_ = (indexSelected, value) => {
+    setLinesStatus(prev => (prev.map((l, i) => {
+      return i === indexSelected ? value : l;
+    })));
+  };
+
+  React.useEffect(() => {
+    linesStatus.findIndex(l => l === undefined || l === false) === -1 && onEnd(true);
+  }, [linesStatus]);
+
+  return (
+    <React.Fragment>
+      {lines.map((l, ii) =>
+        <Calibration
+          key={ii}
+          waters={waters}
+          line={l}
+          onEnd={(v) => setLinesStatus_(ii, v)}
+          lineStatus={linesStatus[ii]}
+        />
+      )}
+      {/* { !disabled && <div className="disabled"/> } */}
+    </React.Fragment>
+ );
 };
 
 

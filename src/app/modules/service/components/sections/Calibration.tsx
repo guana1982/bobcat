@@ -1,10 +1,13 @@
 import * as React from "react";
 import styled from "styled-components";
-import { MButton } from "../common/Button";
+import { MButton, MTypes } from "../common/Button";
 import BeverageLogo from "@core/components/common/Logo";
 import { MInput } from "../common/Input";
 import { __ } from "@core/utils/lib/i18n";
 import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
+import mediumLevel from "@core/utils/lib/mediumLevel";
+import { switchMap, tap, timeout, delay } from "rxjs/operators";
+import { interval, of } from "rxjs";
 
 const StyledCalibration = styled.div`
   .select-box {
@@ -14,70 +17,127 @@ const StyledCalibration = styled.div`
   .select-box > * { display: inline-block; }
   & > div input {
     width: 150px;
-    margin: 5px 20px;
+    margin: 5px 0px;
   }
 `;
 
+let timerStart_;
+let timerStop_;
+const MAX_TIME_EROGATION = 3000;
+
 export const Calibration = props => {
-  const { line } = props;
+  const { line, waters, onEnd, lineStatus } = props;
   const [lineState, setLineState] = React.useState({
-    ratio: null,
-    timer: null,
-    tick: null,
-    volume: null
+    ratio: "",
+    timer: 0,
+    tick: "",
+    volume: ""
   });
-  const [timerState, setTimerState] = React.useState(null);
-  const [fieldSelected, setFieldSelected] = React.useState();
+  const [timerState, setTimerState] = React.useState(false);
+  const [fieldSelected, setFieldSelected] = React.useState(null);
+
+  const updateInputValue = (value) => {
+    setLineState(prev => ({
+      ...prev,
+      [fieldSelected]: Number(value)
+    }));
+  };
+
+  const start = () => {
+    setTimerState(true);
+    timerStart_ = mediumLevel.line.startCalibrate(line.line_id, !waters ? lineState.ratio : null)
+      .pipe(
+        switchMap(() => interval(MAX_TIME_EROGATION)),
+        switchMap(() => mediumLevel.line.startCalibrate(line.line_id, !waters ? lineState.ratio : null))
+      ).subscribe();
+
+      timerStop_ = of("---")
+      .pipe(
+        delay(lineState.timer * 1000),
+        switchMap(() => stop())
+      ).subscribe(data => setLineState(prev => ({...prev, tick: data.tick})));
+  };
+
+  const stop = (force?: boolean) => {
+    setTimerState(false);
+    timerStart_.unsubscribe();
+    if (force) {
+      timerStop_.unsubscribe();
+    }
+    return mediumLevel.line.stopCalibrate(line.line_id);
+  };
+
+  const checkStatus = () => {
+    mediumLevel.line.setCalibrate(line.line_id, lineState.volume, lineState.tick)
+      .subscribe(data => onEnd(!data.error ? true : false));
+  };
+
+  React.useEffect(() => {
+    return () => {
+      timerStart_.unsubscribe();
+      timerStop_.unsubscribe();
+    };
+  }, []);
+
 
   return (
     <>
       <StyledCalibration>
         <div className="select-box">
           <MButton
-            type={null}
+            type={timerState ? MTypes.INFO_WARNING : null}
             className="small"
             light
             info={`Line - ${line.line_id}`}>
               {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
           </MButton>
           <div>
-            <div onClick={() => setFieldSelected("ratio")}>
-              <MInput label={__("Ratio")} value={""} />
-            </div>
-            <div onClick={() => setFieldSelected("timer")}>
-              <MInput label={__("Timer")} value={""} />
+            { !waters && <div onClick={() => !timerState ? setFieldSelected("ratio") : {}}>
+              <MInput disabled={timerState} label={__("Ratio")} value={lineState.ratio} />
+            </div> }
+            <div onClick={() => !timerState ? setFieldSelected("timer") : {}}>
+              <MInput disabled={timerState} label={__("Timer")} value={lineState.timer} />
             </div>
           </div>
-          <MButton>{__("Start")}</MButton>
+          <MButton
+            disabled={lineState.timer === 0}
+            onClick={() => !timerState ? start() : stop(true).subscribe()}
+          >
+            {__(!timerState ? "Start" : "Stop")}
+          </MButton>
           <div>
-            <div onClick={() => setFieldSelected("tick")}>
+            <div>
               <MInput
-                disabled={timerState === null || timerState !== lineState.timer}
+                disabled={true}
                 label={__("Tick")}
-                value={""} />
+                value={lineState.tick} />
             </div>
-            <div onClick={() => setFieldSelected("volume")}>
+            <div onClick={() => lineState.tick !== "" ? setFieldSelected("volume") : {}}>
               <MInput
-                disabled={timerState === null || timerState !== lineState.timer}
+                disabled={lineState.tick === ""}
                 label={__("Volume")}
-                value={""} />
+                value={lineState.volume} />
             </div>
           </div>
-          <MButton>{__("Checked")}</MButton>
+          <MButton
+            onClick={() => lineState.volume !== "" ? checkStatus() : {}}
+            disabled={lineState.volume === ""}
+            info
+            type={lineStatus ? MTypes.INFO_SUCCESS : lineStatus === false ? MTypes.INFO_DANGER : null}
+            >{__("Check")}</MButton>
         </div>
       </StyledCalibration>
 
-      {/* {
+      {
         fieldSelected !== null &&
         <ModalKeyboard
-          title={__(fieldSelected.label_id)}
-          type={ModalKeyboardTypes.Full}
-          form={fieldSelected.value}
+          title={__(fieldSelected)}
+          type={ModalKeyboardTypes.Number}
+          form={[lineState[fieldSelected]]}
           cancel={() => setFieldSelected(null)}
-          finish={value => {}}
-          inputType={fieldSelected.type}
+          finish={value => updateInputValue(value)}
         />
-      } */}
+      }
 
     </>
   );
