@@ -415,76 +415,89 @@ export const TestMenu_ = {
       "label_id": "t_display_group_label_id",
       "elements": [
         {
-          "label_id": "t_display",
           "id": "t_display",
           "type": "boolean",
+          "label_id": "t_display",
           "value": false
         },
         {
-          "label_id": "t_touch",
           "id": "t_touch",
-          "value": false,
-          "type": "boolean"
+          "type": "boolean",
+          "label_id": "t_touch",
+          "value": false
         },
         {
-          "label_id": "t_leds_work",
           "id": "t_leds_work",
           "type": "boolean",
+          "label_id": "t_leds_work",
           "value": false
         },
         {
-          "label_id": "---------------",
-          "id": "---------------",
+          "id": "t_trafilamenti",
           "type": "boolean",
+          "label_id": "t_trafilamenti",
           "value": false
         },
         {
-          "label_id": "t_qr",
           "id": "t_qr",
           "type": "custom_qr",
+          "label_id": "t_qr",
           "value": false
         },
         {
-          "label_id": "t_proximity",
           "id": "t_proximity",
           "type": "custom_proximity",
+          "label_id": "t_proximity",
           "value": false,
           "options": [
-            { "distance": 5, "value": false },
-            { "distance": 30, "value": false },
-            { "distance": 100, "value": false }
+            {
+              "value": false,
+              "distance": 5
+            },
+            {
+              "value": false,
+              "distance": 30
+            },
+            {
+              "value": false,
+              "distance": 100
+            }
           ]
         },
         {
-          "label_id": "t_connectivity",
           "id": "t_connectivity",
           "type": "custom_connectivity",
+          "label_id": "t_connectivity",
           "value": false
         },
         {
-          "label_id": "t_power_connectivity",
           "id": "t_power_connectivity",
           "type": "custom_alarm",
+          "label_id": "t_power_connectivity",
           "value": false,
-          "alarms": ["powerboard"]
+          "alarms": [
+            "powerboard"
+          ]
         },
         {
-          "label_id": "t_gicar_link",
           "id": "t_gicar_link",
           "type": "custom_alarm",
+          "label_id": "t_gicar_link",
           "value": false,
-          "alarms": ["gicar_connection"]
+          "alarms": [
+            "gicar_connection"
+          ]
         },
         {
-          "label_id": "t_ventolina",
           "id": "t_ventolina",
           "type": "boolean",
+          "label_id": "t_ventolina",
           "value": false
         },
         {
-          "label_id": "t_kit_monitor",
           "id": "t_kit_monitor",
           "type": "boolean",
+          "label_id": "t_kit_monitor",
           "value": false
         }
       ]
@@ -493,9 +506,9 @@ export const TestMenu_ = {
       "label_id": "ada_group_label_id",
       "elements": [
         {
-          "label_id": "t_ada_panel",
           "id": "t_ada_panel",
           "type": "custom_ada",
+          "label_id": "t_ada_panel",
           "value": false
         }
       ]
@@ -504,38 +517,38 @@ export const TestMenu_ = {
       "label_id": "t_frigorifero_group_label_id",
       "elements": [
         {
-          "label_id": "t_compressor",
           "id": "t_compressor",
           "type": "boolean",
+          "label_id": "t_compressor",
           "value": false
         },
         {
-          "label_id": "t_motoventilator",
           "id": "t_motoventilator",
           "type": "boolean",
+          "label_id": "t_motoventilator",
           "value": false
         },
         {
-          "label_id": "t_ntc_wokrs",
           "id": "t_ntc_wokrs",
           "type": "custom_temperature",
+          "label_id": "t_ntc_wokrs",
           "value": false
         },
         {
-          "label_id": "t_coldness",
           "id": "t_coldness",
           "type": "boolean",
+          "label_id": "t_coldness",
           "value": false
-        },
+        }
       ]
     },
     {
       "label_id": "t_monoagitator_group_label_id",
       "elements": [
         {
-          "label_id": "t_agitator",
           "id": "t_agitator",
           "type": "boolean",
+          "label_id": "t_agitator",
           "value": false
         }
       ]
@@ -544,63 +557,35 @@ export const TestMenu_ = {
       "label_id": "t_riempimento_vasca_group_label_id",
       "elements": [
         {
-          "label_id": "t_statelevel_low",
           "id": "t_statelevel_low",
           "type": "boolean",
+          "label_id": "t_statelevel_low",
           "value": false
         },
         {
-          "label_id": "t_statelevel_high",
           "id": "t_statelevel_high",
           "type": "boolean",
+          "label_id": "t_statelevel_high",
           "value": false
         },
         {
-          "label_id": "t_sensor_state",
           "id": "t_sensor_state",
           "type": "custom_alarm",
+          "label_id": "t_sensor_state",
           "value": false,
-          "alarms": ["level_switch"]
+          "alarms": [
+            "level_switch"
+          ]
         }
-      ]
-    },
-    {
-      "label_id": "t_pressostati_group_label_id",
-      "elements": [
-        {
-          "label_id": "t_press_co2",
-          "id": "t_press_co2",
-          "type": "custom_alarm",
-          "value": false,
-          "alarms": ["press_co2"]
-        },
-        {
-          "label_id": "t_press_h2o",
-          "id": "t_press_h2o",
-          "type": "custom_alarm",
-          "value": false,
-          "alarms": ["press_h2o"]
-        },
       ]
     },
     {
       "label_id": "t_test_acqua_group_label_id",
       "elements": [
         {
-          "label_id": "t_acqua_test",
           "id": "t_acqua_test",
           "type": "custom_waters",
-          "value": false
-        }
-      ]
-    },
-    {
-      "label_id": "t_test_pompe_group_label_id",
-      "elements": [
-        {
-          "label_id": "t_pompe_test",
-          "id": "t_pompe_test",
-          "type": "custom_bibs",
+          "label_id": "t_acqua_test",
           "value": false
         }
       ]
@@ -617,6 +602,17 @@ export const TestMenu_ = {
       ]
     },
     {
+      "label_id": "t_test_pompe_group_label_id",
+      "elements": [
+        {
+          "id": "t_pompe_test",
+          "type": "custom_bibs",
+          "label_id": "t_pompe_test",
+          "value": false
+        }
+      ]
+    },
+    {
       "label_id": "t_calibrazione_pompe_group_label_id",
       "elements": [
         {
@@ -628,30 +624,53 @@ export const TestMenu_ = {
       ]
     },
     {
+      "label_id": "t_pressostati_group_label_id",
+      "elements": [
+        {
+          "id": "t_press_co2",
+          "type": "custom_alarm",
+          "label_id": "t_press_co2",
+          "value": false,
+          "alarms": [
+            "press_co2"
+          ]
+        },
+        {
+          "id": "t_press_h2o",
+          "type": "custom_alarm",
+          "label_id": "t_press_h2o",
+          "value": false,
+          "alarms": [
+            "press_h2o"
+          ]
+        }
+      ]
+    },
+    {
       "label_id": "t_circuito_idraulico_group_label",
       "elements": [
         {
-          "label_id": "t_elettrovalvole_erogazione",
           "id": "t_elettrovalvole_erogazione",
           "type": "boolean",
+          "label_id": "t_elettrovalvole_erogazione",
           "value": false
         },
         {
-          "label_id": "t_giunzioni_serpentine",
           "id": "t_giunzioni_serpentine",
           "type": "boolean",
+          "label_id": "t_giunzioni_serpentine",
           "value": false
         },
         {
-          "label_id": "t_giunzioni_saturatore",
           "id": "t_giunzioni_saturatore",
           "type": "boolean",
+          "label_id": "t_giunzioni_saturatore",
           "value": false
         },
         {
-          "label_id": "t_beccuccio_erogazione",
           "id": "t_beccuccio_erogazione",
           "type": "boolean",
+          "label_id": "t_beccuccio_erogazione",
           "value": false
         }
       ]
@@ -660,28 +679,28 @@ export const TestMenu_ = {
       "label_id": "t_form_group_label_id",
       "elements": [
         {
-          "label_id": "open_loop_m",
-          "default_value": "",
-          "id": "open_loop_m",
           "type": "text",
-          "value": "",
-          "permission": "write"
+          "label_id": "operator_name",
+          "default_value": "",
+          "permission": "write",
+          "id": "operator_name",
+          "value": ""
         },
         {
-          "label_id": "open_loop_m",
-          "default_value": "",
-          "id": "open_loop_m",
           "type": "text",
-          "value": "",
-          "permission": "write"
+          "label_id": "bobcat_name",
+          "default_value": "",
+          "permission": "write",
+          "id": "bobcat_name",
+          "value": ""
         },
         {
-          "label_id": "open_loop_m",
-          "default_value": "",
-          "id": "open_loop_m",
           "type": "password",
-          "value": "",
-          "permission": "write"
+          "label_id": "bobcat_name_check",
+          "default_value": "",
+          "permission": "write",
+          "id": "bobcat_name_check",
+          "value": ""
         }
       ]
     },
@@ -689,18 +708,18 @@ export const TestMenu_ = {
       "label_id": "t_machine_group_label_id",
       "elements": [
         {
+          "permission": "write",
+          "type": "select",
           "label_id": "t_production_site",
           "default_value": "",
-          "id": "t_production_site",
-          "type": "select",
-          "value": false,
           "options": [
             {
               "label": "Celli Spa, San Giovanni in Marignano",
               "value": "Celli Spa, San Giovanni in Marignano"
             }
           ],
-          "permission": "write"
+          "id": "t_production_site",
+          "value": false
         }
       ]
     }

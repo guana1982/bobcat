@@ -74,8 +74,10 @@ export const Calibration = props => {
 
   React.useEffect(() => {
     return () => {
-      timerStart_.unsubscribe();
-      timerStop_.unsubscribe();
+      if (timerStart_)
+        timerStart_.unsubscribe();
+      if (timerStop_)
+        timerStop_.unsubscribe();
     };
   }, []);
 

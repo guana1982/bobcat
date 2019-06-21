@@ -148,9 +148,15 @@ export const TestMenu = (props: MasterProps) => {
 
   const completeTest = () => {
     loaderContext.show();
-    let parsedPayload = [];
+    let parsedPayload = {};
     state.structure_.forEach(g =>
-      g.elements.forEach(e => parsedPayload.push({ id: e.id, value: e.value }))
+      g.elements.forEach(e => {
+        if (e.value.value && e.value.value === "success") {
+          parsedPayload[e.id] = true;
+          return;
+        }
+        parsedPayload[e.id] = e.value;
+      })
     );
     mediumLevel.menu.saveTest(parsedPayload)
       .subscribe(
@@ -175,8 +181,7 @@ export const TestMenu = (props: MasterProps) => {
 
   React.useEffect(() => {
     loaderContext.show();
-    // mediumLevel.menu.getSubMenu("master_menu", "test_submenu")
-    of(TestMenu_)
+    mediumLevel.menu.getSubMenu("master_menu", "test_submenu") // of(TestMenu_)
     .subscribe(
       data => { setState(data); console.log(data); },
       error => {
@@ -363,7 +368,7 @@ export const TestMenu = (props: MasterProps) => {
           ))}
           <Group title="" size={74} />
           <MButton id="exit-btn" onClick={() => history.push(Pages.Menu)}>EXIT TO MASTER UI</MButton>
-          <MButton disabled={testValidation(state.structure_)} id="exit-btn" onClick={() => completeTest()}>COMPLETE TEST</MButton>
+          <MButton id="exit-btn" disabled={testValidation(state.structure_)} onClick={() => completeTest()}>COMPLETE TEST</MButton>
         </Grid>
       </MasterContent>
 
@@ -828,17 +833,6 @@ const CustomBibs = (props) => {
   );
 };
 
-/* ==== CALIBRATION ==== */
-/* ======================================== */
-
-// const CustomCalibration = (props) => {
-//   return (
-//     <>
-//       <h2>CUSTOM CALIBRATION</h2>
-//     </>
-//   );
-// };
-
 /* ==== SELECT ==== */
 /* ======================================== */
 
@@ -857,6 +851,9 @@ const CustomSelect = (props) => {
     </div>
   );
 };
+
+/* ==== CALIBRATION ==== */
+/* ======================================== */
 
 const CustomCalibration = (props) => {
   const { lines, waters, disabled, onEnd } = props;
