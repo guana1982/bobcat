@@ -81,7 +81,10 @@ export default {
     getLockLines: () => get("menu/lock_lines"),
     setLockLine: line_id => post("menu/lock_line", { line_id }),
     setUnlockLine: line_id => post("menu/unlock_line", { line_id }),
-    bibReset: (line) => post("menu/bib_reset", line)
+    bibReset: (line) => post("menu/bib_reset", line),
+    startCalibrate: (line_id, ratio) => post("menu/start_calibrate", { line_id: line_id, ratio: ratio }),
+    stopCalibrate: (line_id) => post("menu/stop_calibrate", { line_id: line_id }),
+    setCalibrate: (line_id, volume, tick) => post("menu/set_calibrate", { line_id: line_id, volume: volume, tick: tick })
   },
   price: {
     getPaymentType: () =>  get("menu/payment_type"),

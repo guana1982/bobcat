@@ -606,6 +606,28 @@ export const TestMenu_ = {
       ]
     },
     {
+      "label_id": "t_calibrazione_acqua_group_label_id",
+      "elements": [
+        {
+          "label_id": "t_calibrazione_acqua_test",
+          "id": "t_calibrazione_acqua_test",
+          "type": "calibration_waters",
+          "value": false
+        }
+      ]
+    },
+    {
+      "label_id": "t_calibrazione_pompe_group_label_id",
+      "elements": [
+        {
+          "label_id": "t_calibrazione_pompe_test",
+          "id": "t_calibrazione_pompe_test",
+          "type": "calibration_pumps",
+          "value": false
+        }
+      ]
+    },
+    {
       "label_id": "t_circuito_idraulico_group_label",
       "elements": [
         {
