@@ -45,6 +45,7 @@ export const Calibration = props => {
 
   const start = () => {
     setTimerState(true);
+    setLineState(prev => ({...prev, tick: "", volume: ""}));
     timerStart_ = mediumLevel.line.startCalibrate(line.line_id, !waters ? lineState.ratio : null)
       .pipe(
         switchMap(() => interval(MAX_TIME_EROGATION)),
@@ -80,6 +81,10 @@ export const Calibration = props => {
         timerStop_.unsubscribe();
     };
   }, []);
+
+  React.useEffect(() => {
+    lineState.volume !== "" && checkStatus();
+  }, [lineState.volume]);
 
 
   return (
@@ -122,8 +127,8 @@ export const Calibration = props => {
             </div>
           </div>
           <MButton
-            onClick={() => lineState.volume !== "" ? checkStatus() : {}}
-            disabled={lineState.volume === ""}
+            // onClick={() => lineState.volume !== "" ? checkStatus() : {}}
+            // disabled={/* lineState.volume === "" */ true}
             info
             type={lineStatus ? MTypes.INFO_SUCCESS : lineStatus === false ? MTypes.INFO_DANGER : null}
             >{__("Check")}</MButton>
