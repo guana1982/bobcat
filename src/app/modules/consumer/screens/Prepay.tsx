@@ -11,6 +11,7 @@ import { __ } from "@core/utils/lib/i18n";
 import { Subscription } from "rxjs";
 import { ConfigContext } from "@core/containers";
 import { IdentificationConsumerTypes, IdentificationConsumerStatus } from "@core/utils/APIModel";
+import { debounceTime } from "rxjs/operators";
 
 export const PrepayContent = styled.div`
   background-image: ${props => props.theme.backgroundLight};
@@ -143,12 +144,13 @@ export const Prepay = (props: PrepayProps) => {
   };
 
   const resetTimer_ = () => {
-    timer_.unsubscribe();
+    if (timer_)
+      timer_.unsubscribe();
   };
   //  <=== TIMER ====
 
   React.useEffect(() => {
-    startTimer_();
+    // startTimer_();
     setTimeout(() => {
       mediumLevel.config.stopVideo().subscribe(); // <= STOP ATTRACTOR
       start();
@@ -157,7 +159,7 @@ export const Prepay = (props: PrepayProps) => {
       }, 1500);
     }, 1500);
     return () => {
-      resetTimer_();
+      // resetTimer_();
       stop();
       if (scanning_)
         scanning_.unsubscribe();
@@ -188,21 +190,29 @@ export const Prepay = (props: PrepayProps) => {
 
   const start = () => {
     const { startScanning } = consumerConsumer;
+
+    if (scanning_)
+      scanning_.unsubscribe();
+
     scanning_ = startScanning()
+    .pipe(
+      debounceTime(500),
+    )
     .subscribe((status: IdentificationConsumerStatus) => {
       resetTimer_();
-      console.log(status);
+      console.log({ status });
       if (status === IdentificationConsumerStatus.Complete) {
+        // alertConsumer.show({
+        //   type: AlertTypes.Success,
+        //   timeout: true,
+        //   onDismiss: () => {
+        //     goToHome();
+        //   }
+        // });
+        goToHome();
+      } else if (status === IdentificationConsumerStatus.ErrorQr) {
         alertConsumer.show({
-          type: AlertTypes.Success,
-          timeout: true,
-          onDismiss: () => {
-            goToHome();
-          }
-        });
-      } else if (status === IdentificationConsumerStatus.Error) {
-        alertConsumer.show({
-          type: AlertTypes.Error,
+          type: AlertTypes.ErrorQrNotFound,
           timeout: true,
           onDismiss: () => {
             startTimer_();
@@ -221,6 +231,15 @@ export const Prepay = (props: PrepayProps) => {
       } else if (status === IdentificationConsumerStatus.ErrorLoading) {
         alertConsumer.show({
           type: AlertTypes.Error,
+          timeout: true,
+          onDismiss: () => {
+            startTimer_();
+            start();
+          }
+        });
+      } else if (status === IdentificationConsumerStatus.NotAssociatedBottle) {
+        alertConsumer.show({
+          type: AlertTypes.ErrorUnassociatedBottle,
           timeout: true,
           onDismiss: () => {
             startTimer_();

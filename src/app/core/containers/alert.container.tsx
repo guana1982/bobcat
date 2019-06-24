@@ -2,7 +2,7 @@ import * as React from "react";
 import createContainer from "constate";
 import { Alert } from "@modules/consumer/components/common/Alert"; // => TO IMPORVE
 
-export const DEFAULT_TIMEOUT_ALERT = 1500;
+export const DEFAULT_TIMEOUT_ALERT = 2000;
 
 export enum AlertTypes {
   Success = "c_success",
@@ -11,6 +11,7 @@ export enum AlertTypes {
   EndBeverage = "c_end_session",
   EndSparkling = "c_end_sparkling",
   ErrorWebcam = "c_error_webcam",
+  ErrorQrNotFound = "c_error_qr_not_found",
   ErrorUnassociatedBottle = "c_error_unassociated_bottle",
   ErrorADAPanelDown = "c_ada_panel_down"
 }

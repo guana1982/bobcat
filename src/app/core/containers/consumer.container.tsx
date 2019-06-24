@@ -264,7 +264,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
             return IdentificationConsumerStatus.Loading;
           }
           if (identification_type === IdentificationConsumerTypes.NoAuth) {
-            return IdentificationConsumerStatus.Error;
+            return IdentificationConsumerStatus.ErrorQr;
           }
 
           this.setState({
@@ -284,7 +284,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
             return IdentificationConsumerStatus.Null;
           }
           if (data.error) {
-            return IdentificationConsumerStatus.ErrorLoading;
+            return data.error;
           }
           this.setState({
             isLogged: true,

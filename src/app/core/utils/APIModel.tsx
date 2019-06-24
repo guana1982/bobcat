@@ -53,9 +53,12 @@ export enum IdentificationConsumerTypes {
 }
 
 export enum IdentificationConsumerStatus {
-  Error = "error",
+  // SOCKET_CONSUMER.QR
+  ErrorQr = "error_qr",
   Complete = "complete",
   Loading = "loading",
+  // SOCKET_CONSUMER.SERVER
+  NotAssociatedBottle = "not_associated_bottle_id",
   CompleteLoading = "complete-loading",
   ErrorLoading = "error-loading",
   Null = "null"
