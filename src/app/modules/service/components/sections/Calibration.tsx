@@ -9,6 +9,13 @@ import mediumLevel from "@core/utils/lib/mediumLevel";
 import { switchMap, tap, timeout, delay } from "rxjs/operators";
 import { interval, of } from "rxjs";
 
+interface CalibrationProps {
+  line: any;
+  waters: boolean;
+  onEnd: (v) => void;
+  lineStatus: any;
+}
+
 const StyledCalibration = styled.div`
   .select-box {
     display: flex;
@@ -25,7 +32,7 @@ let timerStart_;
 let timerStop_;
 const MAX_TIME_EROGATION = 3000;
 
-export const Calibration = props => {
+export const Calibration = (props: CalibrationProps) => {
   const { line, waters, onEnd, lineStatus } = props;
   const [lineState, setLineState] = React.useState({
     ratio: "",
