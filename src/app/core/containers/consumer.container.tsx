@@ -287,6 +287,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
             return IdentificationConsumerStatus.ErrorLoading;
           }
           this.setState({
+            isLogged: true,
             dataConsumer: data,
             consumerBeverages: this.getConsumerBeverages(data)
           });
