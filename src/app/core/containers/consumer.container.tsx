@@ -1,6 +1,6 @@
 import * as React from "react";
 import mediumLevel from "../utils/lib/mediumLevel";
-import { mergeMap, first, map, tap, delay } from "rxjs/operators";
+import { mergeMap, first, map, tap, delay, debounceTime, timeout, catchError } from "rxjs/operators";
 import { SOCKET_CONSUMER, Pages, Beverages, LEVELS } from "../utils/constants";
 import { IConsumerModel, IdentificationConsumerTypes, IConsumerBeverage, IdentificationConsumerStatus } from "../utils/APIModel";
 import { Observable, of, merge } from "rxjs";
@@ -293,6 +293,8 @@ class ConsumerStoreComponent extends React.Component<any, any> {
           });
           return IdentificationConsumerStatus.CompleteLoading;
         }),
+        timeout(10000),
+        catchError(data => of(IdentificationConsumerStatus.ErrorLoading))
       );
 
     return merge(loadDataFromQr, loadDataFromServer);
