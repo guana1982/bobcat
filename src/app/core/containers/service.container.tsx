@@ -643,7 +643,7 @@ const ServiceContainer = createContainer(() => {
   }
 
   function pollingMasterMenu(): Observable<any> {
-    return timer(0, 1000)
+    return timer(0, 3000)
     .pipe(
       concatMap(_ => mediumLevel.menu.getMaster()),
       map(data => data.elements.filter(elm => elm.permission === "read")),

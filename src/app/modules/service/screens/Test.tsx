@@ -122,6 +122,18 @@ export const MasterContent = styled.div`
     background: rgba(255, 255, 255, .7);
     margin: 0 !important;
   }
+
+  .inline {
+    & > div {
+      display: inline-block;
+    }
+  }
+
+  .block {
+    border: none !important;
+    margin-left: 30px;
+    h2 { margin: 0 }
+  }
 `;
 
 /* ==== MASTER ==== */
@@ -181,7 +193,8 @@ export const TestMenu = (props: MasterProps) => {
 
   React.useEffect(() => {
     loaderContext.show();
-    mediumLevel.menu.getSubMenu("master_menu", "test_submenu") // of(TestMenu_)
+    // mediumLevel.menu.getSubMenu("master_menu", "test_submenu")
+    of(TestMenu_)
     .subscribe(
       data => { setState(data); console.log(data); },
       error => {
@@ -362,6 +375,17 @@ export const TestMenu = (props: MasterProps) => {
                     />
                   );
 
+                  if (element.type === "custom_press") {
+                    return (
+                      <CustomPress
+                        key={i + i2}
+                        element={element}
+                        onPress={(value) => setValueForm(i, i2, value)}
+                        value={element.value}
+                      />
+                    );
+                  }
+
                 })
               }
             </Group>
@@ -508,7 +532,7 @@ const CustomProximity = (props) => {
   };
 
   function pollingProximity(): Observable<any> {
-    return timer(0, 1000)
+    return timer(0, 3000)
     .pipe(
       concatMap(_ => mediumLevel.product.proximity()),
       map(elements => setDistance(elements.ps_value))
@@ -551,7 +575,7 @@ const CustomTemperature = (props) => {
   const [temperatureValue, setTemperatureValue] = React.useState(null);
 
   function pollingTemperature(): Observable<any> {
-    return timer(0, 1000)
+    return timer(0, 10000)
     .pipe(
       concatMap(_ => mediumLevel.product.temperature()),
       map(elements => setTemperatureValue(elements.value))
@@ -888,6 +912,42 @@ const CustomCalibration = (props) => {
 };
 
 
+const CustomPress = (props) => {
+  const configAlarms = React.useContext(ConfigContext).allAlarms;
+  const options = props.element.alarms.map(al => {
+    const currentAlarm = configAlarms.find(el => el.alarm_name === al);
+    return {
+      label: al,
+      value: currentAlarm.alarm_state ? MTypes.INFO_DANGER : MTypes.INFO_SUCCESS
+    };
+  });
+
+  // React.useEffect(() => {
+  //   props.onMount(options.find(al => al.value === MTypes.INFO_DANGER ? false : true));
+  // }, []);
+
+  const checkPress = () => props.onPress(!props.value);
+
+  return (
+    <div className="inline">
+      <div className="select-box">
+        <span id="title">CUSTOM PRESS</span>
+        { options.map((o, i) => <MButton key={i} info type={o.value}>{__(o.label)}</MButton> )}
+      </div>
+      <div className="select-box block">
+        <span id="title">Check press status</span>
+        <MButton
+          info
+          type={props.value ? MTypes.INFO_SUCCESS : null}
+          onClick={() => checkPress()}
+        >
+          CHECKED
+        </MButton>
+      </div>
+    </div>
+  );
+};
+
 // ==== VALIDATION ===>
 const testValidation = form => {
   let valid = true;
@@ -895,7 +955,7 @@ const testValidation = form => {
     group.elements.forEach(element => {
       if (
         (
-          ((element.id === "t_press_co2" || element.id === "t_press_h2o") && element.value === true)
+          ((element.id === "t_press_co2" || element.id === "t_press_h2o") && (element.value !== true && element.value !== false))
           ||
           element.value === false
         )

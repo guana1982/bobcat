@@ -628,7 +628,7 @@ export const TestMenu_ = {
       "elements": [
         {
           "id": "t_press_co2",
-          "type": "custom_alarm",
+          "type": "custom_press",
           "label_id": "t_press_co2",
           "value": false,
           "alarms": [
@@ -637,7 +637,7 @@ export const TestMenu_ = {
         },
         {
           "id": "t_press_h2o",
-          "type": "custom_alarm",
+          "type": "custom_press",
           "label_id": "t_press_h2o",
           "value": false,
           "alarms": [
