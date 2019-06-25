@@ -8,12 +8,13 @@ import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { switchMap, tap, timeout, delay } from "rxjs/operators";
 import { interval, of } from "rxjs";
+import { AlertContext } from "@core/containers";
 
 interface CalibrationProps {
-  line: any;
-  waters: boolean;
-  onEnd: (v) => void;
-  lineStatus: any;
+  line?: any;
+  waters?: boolean;
+  onEnd?: (v) => void;
+  lineStatus?: any;
 }
 
 const StyledCalibration = styled.div`
@@ -26,17 +27,24 @@ const StyledCalibration = styled.div`
     width: 150px;
     margin: 5px 0px;
   }
+  input:disabled {
+    background: #c1c1c1;
+  }
 `;
 
 let timerStart_;
 let timerStop_;
-const MAX_TIME_EROGATION = 3000;
+const MAX_TIME_EROGATION = 30000;
 
 export const Calibration = (props: CalibrationProps) => {
+
   const { line, waters, onEnd, lineStatus } = props;
+
+  const alertConsumer = React.useContext(AlertContext);
+
   const [lineState, setLineState] = React.useState({
-    ratio: "",
-    timer: 0,
+    ratio: "45",
+    timer: waters ? "20" : "60",
     tick: "",
     volume: ""
   });
@@ -46,7 +54,7 @@ export const Calibration = (props: CalibrationProps) => {
   const updateInputValue = (value) => {
     setLineState(prev => ({
       ...prev,
-      [fieldSelected]: Number(value)
+      [fieldSelected]: value
     }));
   };
 
@@ -61,7 +69,7 @@ export const Calibration = (props: CalibrationProps) => {
 
       timerStop_ = of("---")
       .pipe(
-        delay(lineState.timer * 1000),
+        delay(Number(lineState.timer) * 1000),
         switchMap(() => stop())
       ).subscribe(data => setLineState(prev => ({...prev, tick: data.tick})));
   };
@@ -77,7 +85,18 @@ export const Calibration = (props: CalibrationProps) => {
 
   const checkStatus = () => {
     mediumLevel.line.setCalibrate(line.line_id, lineState.volume, lineState.tick)
-      .subscribe(data => onEnd(!data.error ? true : false));
+    .pipe(
+      tap(data => {
+        if (data.error) {
+          alertConsumer.show({
+            timeout: false,
+            title: "ERROR",
+            content: __(data.error)
+          });
+        }
+      })
+    )
+    .subscribe(data => onEnd(!data.error ? true : false));
   };
 
   React.useEffect(() => {
@@ -90,7 +109,7 @@ export const Calibration = (props: CalibrationProps) => {
   }, []);
 
   React.useEffect(() => {
-    lineState.volume !== "" && checkStatus();
+    Number(lineState.volume) > 0 && checkStatus();
   }, [lineState.volume]);
 
 
@@ -114,7 +133,7 @@ export const Calibration = (props: CalibrationProps) => {
             </div>
           </div>
           <MButton
-            disabled={lineState.timer === 0}
+            disabled={!(Number(lineState.timer) > 0 && Number(lineState.ratio) > 0)}
             onClick={() => !timerState ? start() : stop(true).subscribe()}
           >
             {__(!timerState ? "Start" : "Stop")}

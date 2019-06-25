@@ -22,9 +22,6 @@ export const InputWrapper = styled.div`
     /* margin: 30px; */
     font-size: 20px;
     box-sizing: border-box;
-    &:disabled {
-      background: #c1c1c1;
-    }
   }
   #enable-click {
     position: absolute;
