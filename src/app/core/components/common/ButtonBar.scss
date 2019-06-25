@@ -1,0 +1,23 @@
+$color_fuscous_gray_approx: #555;
+$white: #fff;
+
+.bar {
+  position: absolute;
+  bottom: 0;
+  height: 70px;
+  left: 0;
+  width: 100%;
+  background: $color_fuscous_gray_approx;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  button {
+    height: 100%;
+    padding: 0 1em;
+    color: $white;
+    font-size: 1.125em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
