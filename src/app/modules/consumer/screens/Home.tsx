@@ -388,11 +388,11 @@ export const Home = (props: HomeProps) => {
     endSession_ = timerFull$
     .subscribe(
       val => {
-        if (val === "tap_detect") {
+        if (val === StatusProximity.TapDetect) {
           startTimerEnd_();
-        } else if (val === "timer_stop") {
+        } else if (val === StatusProximity.TimerStop) {
           setEndSession(StatusEndSession.Finish);
-        } else if (val === "proximity_stop") {
+        } else if (val === StatusProximity.ProximityStop || val === StatusProximity.TouchStop) {
           setEndSession(StatusEndSession.FinishForce);
         }
       }
@@ -407,7 +407,7 @@ export const Home = (props: HomeProps) => {
   React.useEffect(() => {
     if (endSession === StatusEndSession.Start) {
       resetTimer_();
-      // startTimerEnd_();
+      startTimerEnd_();
     } else if (endSession === StatusEndSession.Finish) {
       alertConsumer.show({
         type: AlertTypes.EndBeverage,
@@ -467,12 +467,15 @@ export const Home = (props: HomeProps) => {
   const MAX_CONSUMER_BEVERAGE = 3;
   const validConsumerBeverage = consumerConsumer.consumerBeverages.filter(beverage => beverage.$types[0] !== BeverageTypes.Info);
   const lengthConsumerBeverages = validConsumerBeverage.length;
-  const fullMode = lengthConsumerBeverages === MAX_CONSUMER_BEVERAGE;
+  const fullModeCondition_ = lengthConsumerBeverages === MAX_CONSUMER_BEVERAGE;
+  const fullMode = fullModeCondition_ || alarmConnectivity_;
 
   React.useEffect(() => {
-    if (fullMode) {
-      handleSlide();
-    }
+    setTimeout(() => {
+      if (fullModeCondition_) {
+        handleSlide();
+      }
+    } , 200);
   }, [consumerConsumer.consumerBeverages]);
 
   const selectConsumerBeverage = (consumerBeverage: IConsumerBeverage) => {
@@ -582,7 +585,6 @@ export const Home = (props: HomeProps) => {
   };
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
-
 
   if (alarmSuper_)
   return (
