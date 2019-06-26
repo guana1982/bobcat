@@ -18,9 +18,8 @@ const CircleCard_ = (props: CircleCardProps) => {
   const consumerConsumer = React.useContext(ConsumerContext);
   const { currHydraLvl, hydraGoal } = consumerConsumer.dataConsumer;
   let perc = calcolaPerc(hydraGoal, currHydraLvl);
-  // perc = perc > 100 ? 100 : perc;
+  const percCircle_ = perc > 100 ? 100 : perc;
 
-  const diffHydra = hydraGoal - currHydraLvl;
   let messageHydra = "";
   if (perc >= 0 && perc <= 25) {
     messageHydra = "c_great_start";
@@ -28,7 +27,7 @@ const CircleCard_ = (props: CircleCardProps) => {
     messageHydra = "c_keep_going";
   } else if (perc > 60 && perc <= 99) {
     messageHydra = "c_almost_there";
-  } else if (perc === 100) {
+  } else if (perc >= 100) {
     messageHydra = "c_congratulations";
   }
 
@@ -37,7 +36,7 @@ const CircleCard_ = (props: CircleCardProps) => {
       <div id="illustration-wrap">
         <Circle
           size={"159.6px"}
-          progress={perc}
+          progress={percCircle_}
           progressColor={props.color}
           // textColor={}
           lineWidth={"10px"}
@@ -50,7 +49,7 @@ const CircleCard_ = (props: CircleCardProps) => {
       </div>
       <div id="text-wrap">
         <h2>{__(messageHydra)}</h2>
-        {perc !== 100 ?
+        {perc < 100 ?
           <h4>{hydraGoal - currHydraLvl} oz {__("c_daily_goal")} {hydraGoal} oz</h4> :
           <h4>{__("c_reached_daily_goal")} {hydraGoal} oz</h4>
         }
