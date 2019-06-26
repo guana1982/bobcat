@@ -10,7 +10,6 @@ import { IBeverage } from "../models";
 import { BeverageStatus } from "../models/beverage.model";
 import { BeverageTypes } from "../../modules/consumer/components/beverage/Beverage";
 import { __ } from "../utils/lib/i18n";
-import { TEST_QR_0, TEST_QR_1, TEST_QR_2, TEST_QR_3, TEST_QR_4, TEST_QR_5, TEST_QR_6, TEST_QR_7 } from "../utils/APIMock";
 
 export interface ConsumerInterface {
   isLogged: boolean;
@@ -124,11 +123,6 @@ class ConsumerStoreComponent extends React.Component<any, any> {
       dataConsumer.favorites[2]
     ];
 
-    console.log("dataConsumer.favorites", dataConsumer.favorites);
-
-    console.log("favorites", favorites);
-    console.log("lastPour", lastPour);
-
     let lastPourSame: boolean = false;
     favorites.forEach(favorite => {
       if (favorite === undefined) return;
@@ -141,14 +135,10 @@ class ConsumerStoreComponent extends React.Component<any, any> {
       }
     });
 
-    console.log("lastPourSame", lastPourSame);
     let consumerBeverages: IConsumerBeverage[] = [];
 
     const validFavorites = favorites.filter(filter => filter);
     const lengthValidFavorites = validFavorites.length;
-
-    console.log("validFavorites", validFavorites);
-    console.log("lengthValidFavorites", lengthValidFavorites);
 
     if (lastPourSame) {
       if (lengthValidFavorites === 0) {
@@ -173,13 +163,6 @@ class ConsumerStoreComponent extends React.Component<any, any> {
         consumerBeverages = favorites;
       }
     }
-
-    // } else {
-    //   const infoBeverage = this.infoBeverages[index];
-    //   infoBeverage.$type = BeverageTypes.Info;
-    //   infoBeverage.$beverage = {};
-    //   return infoBeverage;
-    // }
 
     console.log("consumerBeverages", consumerBeverages);
 
@@ -212,39 +195,10 @@ class ConsumerStoreComponent extends React.Component<any, any> {
       map((data: any) => data.value),
     );
 
-    // ____ MOCK
-    const mock = () => {
-      switch (this.index_qr) {
-        case 0:
-          return TEST_QR_0;
-          break;
-        case 1:
-          return TEST_QR_1;
-          break;
-        case 2:
-          return TEST_QR_2;
-          break;
-        case 3:
-          return TEST_QR_3;
-          break;
-        case 4:
-          return TEST_QR_4;
-          break;
-        case 5:
-          return TEST_QR_5;
-          break;
-        case 6:
-          return TEST_QR_6;
-          break;
-        case 7:
-          return TEST_QR_7;
-          break;
-      }
-    };
     if (type === SOCKET_CONSUMER.SERVER) {
       this.index_qr = this.index_qr + 1;
     }
-    return socketConsumer$; /* of(mock()); */ // MOCK //
+    return socketConsumer$;
   }
 
   /* ==== SCANNING ==== */
