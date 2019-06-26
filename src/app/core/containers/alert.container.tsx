@@ -5,7 +5,7 @@ import { Alert } from "@modules/consumer/components/common/Alert"; // => TO IMPO
 export const DEFAULT_TIMEOUT_ALERT = 2000;
 
 export enum AlertTypes {
-  Success = "c_success",
+  LoadingDataQr = "c_loading_data_qr",
   Error = "c_error",
   OutOfStock = "c_out_of_stock",
   EndBeverage = "c_end_session",

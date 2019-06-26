@@ -150,7 +150,7 @@ export const Prepay = (props: PrepayProps) => {
   //  <=== TIMER ====
 
   React.useEffect(() => {
-    // startTimer_();
+    startTimer_();
     setTimeout(() => {
       mediumLevel.config.stopVideo().subscribe(); // <= STOP ATTRACTOR
       start();
@@ -159,7 +159,7 @@ export const Prepay = (props: PrepayProps) => {
       }, 1500);
     }, 1500);
     return () => {
-      // resetTimer_();
+      resetTimer_();
       stop();
       if (scanning_)
         scanning_.unsubscribe();
@@ -221,7 +221,7 @@ export const Prepay = (props: PrepayProps) => {
         });
       } else if (status === IdentificationConsumerStatus.Loading) {
         alertConsumer.show({
-          type: AlertTypes.Success,
+          type: AlertTypes.LoadingDataQr,
           timeout: false,
           lock: true,
         });
