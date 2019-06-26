@@ -163,7 +163,7 @@ export const TestMenu = (props: MasterProps) => {
     let parsedPayload = {};
     state.structure_.forEach(g =>
       g.elements.forEach(e => {
-        if (e.value.value && e.value.value === "success") {
+        if (e.value && e.value.value && e.value.value === "success") {
           parsedPayload[e.id] = true;
           return;
         }
@@ -171,11 +171,19 @@ export const TestMenu = (props: MasterProps) => {
       })
     );
     mediumLevel.menu.saveTest(parsedPayload)
-      .subscribe(
-        data => {},
-        err => {},
-        () => { loaderContext.hide(); history.push(Pages.Menu); }
-      );
+    .subscribe(
+      data => {
+        loaderContext.hide();
+        if (data.error) {
+          alertConsumer.show({
+            title: "ERROR",
+            content: __(data.error)
+          });
+          return;
+        }
+        history.push(Pages.Menu);
+      }
+    );
   };
 
   function setValueForm(group, i, value) {
@@ -391,7 +399,7 @@ export const TestMenu = (props: MasterProps) => {
           ))}
           <Group title="" size={74} />
           <MButton id="exit-btn" onClick={() => history.push(Pages.Menu)}>EXIT TO MASTER UI</MButton>
-          <MButton id="exit-btn" disabled={testValidation(state.structure_)} onClick={() => completeTest()}>COMPLETE TEST</MButton>
+          <MButton id="exit-btn" onClick={() => completeTest()}>COMPLETE TEST</MButton> {/* disabled={testValidation(state.structure_)} */}
         </Grid>
       </MasterContent>
 
