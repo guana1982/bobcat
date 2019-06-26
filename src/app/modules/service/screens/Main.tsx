@@ -200,7 +200,7 @@ export const NewMenu = (props: MenuProps) => {
           <Group title={__("LINES ASSIGNMENT")} size={authLevel !== AuthLevels.Crew ? SIZE_GROUP_LINES : SIZE_FULL_GROUP_LINES}>
             {lines.pumps.map((line, i) => {
               return (
-                <MButton onClick={() => openModal(Modals.Line, { lineId: line.line_id })} key={i} className="small" light info={`Line - ${line.line_id}`}>
+                <MButton onClick={() => openModal(Modals.Line, { lineId: line.line_id })} key={i} className="small" light info={`Line - ${line.line_id}`} type={line.$beverage.$lock ? MTypes.INFO_WARNING : null}>
                   {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
                 </MButton>
               );
