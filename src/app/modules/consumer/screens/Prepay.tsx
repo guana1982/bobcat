@@ -92,11 +92,11 @@ interface PrepayProps {
   history: any;
 }
 
-let timer_: Subscription;
-let scanning_: Subscription;
-let consumerSocket_: Subscription;
-
 export const Prepay = (props: PrepayProps) => {
+
+  const timer_ = React.useRef<Subscription>(null);
+  const scanning_ = React.useRef<Subscription>(null);
+  const consumerSocket_ = React.useRef<Subscription>(null);
 
   const [webcamReady, setWebcamReady] = React.useState<boolean>(false);
 
@@ -125,7 +125,7 @@ export const Prepay = (props: PrepayProps) => {
   }
 
   const startTimer_ = () => {
-    timer_ = timerFull$.subscribe(
+    timer_.current = timerFull$.subscribe(
       val => {
         if (val === StatusProximity.TapDetect) {
           startTimer_();
@@ -144,8 +144,8 @@ export const Prepay = (props: PrepayProps) => {
   };
 
   const resetTimer_ = () => {
-    if (timer_)
-      timer_.unsubscribe();
+    if (timer_.current)
+      timer_.current.unsubscribe();
   };
   //  <=== TIMER ====
 
@@ -161,8 +161,8 @@ export const Prepay = (props: PrepayProps) => {
     return () => {
       resetTimer_();
       stop();
-      if (scanning_)
-        scanning_.unsubscribe();
+      if (scanning_.current)
+        scanning_.current.unsubscribe();
     };
   }, []);
 
@@ -174,7 +174,7 @@ export const Prepay = (props: PrepayProps) => {
   };
 
   React.useEffect(() => {
-    consumerSocket_ = configConsumer.socketAlarms$.subscribe(data => {
+    consumerSocket_.current = configConsumer.socketAlarms$.subscribe(data => {
       data.message_type === "consumer_server_data"
       && getObjectLength(data.value).length === 0
       && alertConsumer.show({
@@ -184,23 +184,27 @@ export const Prepay = (props: PrepayProps) => {
         onDismiss: () => console.log("ciao")
       });
     });
-    return () => consumerSocket_.unsubscribe();
+    return () => consumerSocket_.current.unsubscribe();
   }, []);
   // <=== CONSUMER-SOCKET ====
 
   const start = () => {
     const { startScanning } = consumerConsumer;
 
-    if (scanning_)
-      scanning_.unsubscribe();
+    if (scanning_.current)
+      scanning_.current.unsubscribe();
 
-    scanning_ = startScanning()
+    scanning_.current = startScanning()
     .pipe(
       debounceTime(500),
     )
     .subscribe((status: IdentificationConsumerStatus) => {
       resetTimer_();
-      console.log({ status });
+      if (status !== IdentificationConsumerStatus.Loading) {
+        if (scanning_.current)
+          scanning_.current.unsubscribe();
+      }
+
       if (status === IdentificationConsumerStatus.Complete) {
         // alertConsumer.show({
         //   type: AlertTypes.Success,
@@ -213,10 +217,11 @@ export const Prepay = (props: PrepayProps) => {
       } else if (status === IdentificationConsumerStatus.ErrorQr) {
         alertConsumer.show({
           type: AlertTypes.ErrorQrNotFound,
+          img: "img/qr-code-not-recognized.svg",
+          subTitle: true,
           timeout: true,
           onDismiss: () => {
-            startTimer_();
-            start();
+            goToHome();
           }
         });
       } else if (status === IdentificationConsumerStatus.Loading) {
@@ -231,6 +236,8 @@ export const Prepay = (props: PrepayProps) => {
       } else if (status === IdentificationConsumerStatus.ErrorLoading) {
         alertConsumer.show({
           type: AlertTypes.Error,
+          img: "img/cannot-connect-to-cloud.svg",
+          subTitle: true,
           timeout: true,
           onDismiss: () => {
             startTimer_();
@@ -240,10 +247,11 @@ export const Prepay = (props: PrepayProps) => {
       } else if (status === IdentificationConsumerStatus.NotAssociatedBottle) {
         alertConsumer.show({
           type: AlertTypes.ErrorUnassociatedBottle,
+          img: "img/qr-code-not-associated-with-account.png",
+          subTitle: true,
           timeout: true,
           onDismiss: () => {
-            startTimer_();
-            start();
+            goToHome();
           }
         });
       }

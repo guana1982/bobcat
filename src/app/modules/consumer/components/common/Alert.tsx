@@ -34,6 +34,16 @@ const AlertWrap = styled.div`
     opacity: 0.2;
     background-image: linear-gradient(to bottom, #eeeeee, #cbcfda);
   }
+  &.with-img {
+    img {
+      width: 260px;
+      height: 260px;
+      margin-bottom: 40px;
+    }
+    &:before {
+      content: none;
+    }
+  }
   &>#title {
     font-family: NeuzeitGro-Bol;
     width: 433px;
@@ -99,7 +109,7 @@ export const Alert = (props: AlertProps) => {
 
   const alertConsumer = React.useContext(AlertContext);
   const {show, options} = alertConsumer.state;
-  const {type, onDismiss, timeout, transparent, onConfirm, subTitle, lock} = options;
+  const {type, onDismiss, timeout, transparent, onConfirm, subTitle, lock, img} = options;
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const accessibilityConsumer = React.useContext(AccessibilityContext);
@@ -153,7 +163,8 @@ export const Alert = (props: AlertProps) => {
       {show && <AlertContent>
         <Overlay className={transparent ? "transparent" : null} onClick={dismiss} />
         {!lock && <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={dismiss} />}
-        <AlertWrap>
+        <AlertWrap className={img ? "with-img" : ""}>
+          {img && <img src={img} />}
           <span id="title">{__(type)}</span>
           {subTitle && <span id="sub-title">{__(`${type}_subtitle`)}</span>}
           {onConfirm && <button id="confirm-btn" onClick={onConfirm_}>OK</button>}

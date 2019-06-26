@@ -15,9 +15,9 @@ export enum StatusProximity {
   TouchStop = "touch_stop"
 }
 
-let enableProximity = false;
-
 const TimerContainer = createContainer((props: any) => {
+
+  const enableProximity = React.useRef(false);
 
   const configConsumer = React.useContext(ConfigContext);
 
@@ -36,7 +36,7 @@ const TimerContainer = createContainer((props: any) => {
   React.useEffect(() => { // STATUS PROXIMITY
     statusProximity$
     .subscribe(value => {
-      enableProximity = value;
+      enableProximity.current = value;
     });
   }, []);
 
@@ -94,14 +94,14 @@ const TimerContainer = createContainer((props: any) => {
 
   const timerFull$ = timerWithBrightness$
   .pipe(
-    merge(enableProximity ? startVideo$ : startVideoNoProximity$),
+    merge(enableProximity.current ? startVideo$ : startVideoNoProximity$),
     tap(value => setTimerStop(value === StatusProximity.TimerStop)),
     first()
   );
 
   const restartBrightness$ = upBrightness$
   .pipe(
-    merge(enableProximity ? startVideo$ : startVideoNoProximity$),
+    merge(enableProximity.current ? startVideo$ : startVideoNoProximity$),
     tap(() => setTimerStop(false)),
     first()
   );

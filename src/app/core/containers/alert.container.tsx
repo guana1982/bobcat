@@ -25,6 +25,7 @@ export interface AlertOptions {
 
   title?: string;
   subTitle?: boolean;
+  img?: string;
   content?: any;
   onConfirm?: () => void;
 }
