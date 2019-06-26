@@ -32,8 +32,6 @@ const StyledCalibration = styled.div`
   }
 `;
 
-let timerStart_;
-let timerStop_;
 const MAX_TIME_EROGATION = 30000;
 
 export const Calibration = (props: CalibrationProps) => {
@@ -41,6 +39,9 @@ export const Calibration = (props: CalibrationProps) => {
   const { line, waters, onEnd, lineStatus } = props;
 
   const alertConsumer = React.useContext(AlertContext);
+
+  const timerStart_ = React.useRef(null);
+  const timerStop_ = React.useRef(null);
 
   const [lineState, setLineState] = React.useState({
     ratio: "45",
@@ -61,13 +62,13 @@ export const Calibration = (props: CalibrationProps) => {
   const start = () => {
     setTimerState(true);
     setLineState(prev => ({...prev, tick: "", volume: ""}));
-    timerStart_ = mediumLevel.line.startCalibrate(line.line_id, !waters ? lineState.ratio : null)
+    timerStart_.current = mediumLevel.line.startCalibrate(line.line_id, !waters ? lineState.ratio : null)
       .pipe(
         switchMap(() => interval(MAX_TIME_EROGATION)),
         switchMap(() => mediumLevel.line.startCalibrate(line.line_id, !waters ? lineState.ratio : null))
       ).subscribe();
 
-      timerStop_ = of("---")
+      timerStop_.current = of("---")
       .pipe(
         delay(Number(lineState.timer) * 1000),
         switchMap(() => stop())
@@ -76,9 +77,9 @@ export const Calibration = (props: CalibrationProps) => {
 
   const stop = (force?: boolean) => {
     setTimerState(false);
-    timerStart_.unsubscribe();
+    timerStart_.current.unsubscribe();
     if (force) {
-      timerStop_.unsubscribe();
+      timerStop_.current.unsubscribe();
     }
     return mediumLevel.line.stopCalibrate(line.line_id);
   };
@@ -101,10 +102,10 @@ export const Calibration = (props: CalibrationProps) => {
 
   React.useEffect(() => {
     return () => {
-      if (timerStart_)
-        timerStart_.unsubscribe();
-      if (timerStop_)
-        timerStop_.unsubscribe();
+      if (timerStart_.current)
+        timerStart_.current.unsubscribe();
+      if (timerStop_.current)
+        timerStop_.current.unsubscribe();
     };
   }, []);
 
