@@ -8,16 +8,15 @@ import { MButton, MTypes } from "@modules/service/components/common/Button";
 import { __ } from "@core/utils/lib/i18n";
 import BeverageLogo from "@core/components/common/Logo";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { line } from "@core/Menu/Custom/Lines.scss";
 import { switchMap } from "rxjs/operators";
 import { interval, Subject, Subscription } from "rxjs";
 
 const MAX_TIME_EROGATION = 40000;
 
 const TIMER_SANITATION = 35;
-const TIMER_RINSING = 240;
+const TIMER_RINSING = 360;
 const TIMER_PH = 20;
-const TIMER_SANITIZER = 20 * 60;
+const TIMER_SANITIZER = 25 * 60;
 
 const fmtMSS = (s) => (s - (s %= 60)) / 60 + (9 < s ? ":" : ":0" ) + s;
 
