@@ -96,7 +96,7 @@ export const Home = (props: HomeProps) => {
     beverageConfig: {
       flavor_level: null,
       carbonation_level: null,
-      temperature_level: levels.temperature[2].value,
+      temperature_level: null,
       b_complex: false,
       antioxidants: false
     }
@@ -286,7 +286,7 @@ export const Home = (props: HomeProps) => {
       beverageSelected: beverages.indexOf(beverage),
       beverageConfig: {
         ...prevState.beverageConfig,
-        flavor_level: beverage.beverage_type !== Beverages.Plain ? levels.flavor[0].value : null,
+        flavor_level: beverage.beverage_type !== Beverages.Plain ? levels.flavor[1].value : null,
         b_complex: false,
         antioxidants: false
       }
@@ -500,8 +500,8 @@ export const Home = (props: HomeProps) => {
       isSparkling: value,
       beverageConfig: {
         ...prevState.beverageConfig,
-        carbonation_level: value ? levels.carbonation[2].value : null,
-        temperature_level:  levels.temperature[2].value // value ? levels.carbTemperature[0].value : levels.temperature[2].value
+        carbonation_level: value ? levels.carbonation[1].value : null,
+        temperature_level: value ? levels.temperature[2].value : levels.temperature[1].value
       }
     }));
   };
