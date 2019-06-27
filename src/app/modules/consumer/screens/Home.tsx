@@ -208,12 +208,7 @@ export const Home = (props: HomeProps) => {
   /* ==== ALARMS ==== */
   /* ======================================== */
 
-  const { alarms } = configConsumer;
-  const [alarmSuper_, setAlarmSuper_] = React.useState(false);
-  const [alarmSparkling_, setAlarmSparkling_] = React.useState(false);
-  const [alarmConnectivity_, setAlarmConnectivity_] = React.useState(false);
-  const [alarmWebcam_, setAlarmWebcam_] = React.useState(false);
-  const [alarmADAPanel_, setAlarmADAPanel_] = React.useState(false);
+  const { alarmSuper_, alarmSparkling_, alarmConnectivity_, alarmWebcam_, alarmADAPanel_ } = configConsumer.statusAlarms;
 
   const showAlarmSparkling = () => {
     resetBeverage();
@@ -247,33 +242,17 @@ export const Home = (props: HomeProps) => {
       type: AlertTypes.ErrorADAPanelDown,
       subTitle: true,
       timeout: true,
-      onDismiss: () => console.log('ciao')
+      onDismiss: () => console.log(null)
     });
   };
 
   React.useEffect(() => {
-    const detectSuperAlarm_ = Boolean(alarms.find(alarm => alarm.alarm_category === "super_alert" && alarm.alarm_enable === true));
-    setAlarmSuper_(detectSuperAlarm_);
-
-    const detectSparklingAlarm_ = Boolean(alarms.find(alarm => alarm.alarm_name === "press_co2" && alarm.alarm_enable === true));
-    setAlarmSparkling_(detectSparklingAlarm_);
-    if (detectSparklingAlarm_) {
+    if (alarmSparkling_) {
       if (endSession !== StatusEndSession.Start && isSparkling) {
         showAlarmSparkling();
       }
     }
-
-    const detectConnectivityAlarm_ = Boolean(alarms.find(alarm => (alarm.alarm_name === "mqtt" || alarm.alarm_name === "mqtt") && alarm.alarm_enable === true));
-    setAlarmConnectivity_(detectConnectivityAlarm_);
-
-    const detectWebcamAlarm_ = Boolean(alarms.find(a => a.alarm_name === "webcam"));
-    setAlarmWebcam_(detectWebcamAlarm_);
-
-    const detectADAPanelAlarm_ = Boolean(alarms.find(a => a.alarm_name === "ada_panel"));
-    // setAlarmADAPanel_(true);
-    // detectADAPanelAlarm_ && showAlarmADAPanel();
-
-  }, [alarms]);
+  }, [alarmSparkling_]);
 
   //  ==== ON POUR ====>
   const alarmDetect = (data) => {

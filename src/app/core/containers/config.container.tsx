@@ -9,6 +9,8 @@ import { IBeverage, ISocket, IBeverageConfig, IAlarm } from "../models";
 import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages, CONSUMER_ALARM, SOCKET_UPDATE } from "../utils/constants";
 import { VendorConfig } from "@core/models/vendor.model";
 import { MTypes } from "@modules/service/components/common/Button";
+import { Alarms_ } from "@core/utils/APIMock";
+import { IStatusAlarms } from "@core/utils/APIModel";
 
 const mergeById = ([t, s, l]) => {
   return t.map((p, i) => {
@@ -28,6 +30,7 @@ export interface ConfigInterface {
   socketAttractor$: Subject<any>;
   socketUpdate$: Subject<any>;
   allAlarms: IAlarm[];
+  statusAlarms: IStatusAlarms;
   alarms: IAlarm[];
   allBeverages: IBeverage[];
   beverages: IBeverage[];
@@ -77,6 +80,13 @@ class ConfigStoreComponent extends React.Component<any, any> {
       ws: ws,
       beverages: [],
       allAlarms: [],
+      statusAlarms: {
+        alarmSuper_: false,
+        alarmSparkling_: false,
+        alarmConnectivity_: false,
+        alarmWebcam_: false,
+        alarmADAPanel_: false
+      },
       alarms: [],
       isPouring: false,
       sustainabilityData: { saved_bottle_year: "", saved_bottle_day: "" }
@@ -168,7 +178,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     )
     .pipe(debounceTime(250));
 
-    const setAlarms = mediumLevel.alarm.getAlarms()
+    const setAlarms = mediumLevel.alarm.getAlarms() // of(Alarms_)
     .pipe(
       map(data => data && data.elements || []),
       map(alarms => {
@@ -187,10 +197,18 @@ class ConfigStoreComponent extends React.Component<any, any> {
       }),
       tap((alarms: IAlarm[]) => {
         console.log("ALARMS", alarms);
-        const enabledAlarms = alarms.filter(alarm => alarm.alarm_state);
+        const enabledAlarms_ = alarms.filter(alarm => alarm.alarm_state);
+        const statusAlarms_: IStatusAlarms = {
+          alarmSuper_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_category === "super_alert" && alarm.alarm_enable === true)),
+          alarmSparkling_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "press_co2" && alarm.alarm_enable === true)),
+          alarmConnectivity_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "mqtt" && alarm.alarm_enable === true)),
+          alarmWebcam_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "webcam" && alarm.alarm_enable === true)),
+          alarmADAPanel_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "ada_panel" && alarm.alarm_enable === true)),
+        };
         this.setState({
           allAlarms: alarms,
-          alarms: enabledAlarms
+          alarms: enabledAlarms_,
+          statusAlarms: statusAlarms_
         });
       })
     );
@@ -311,6 +329,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
           beverages: this.state.beverages,
           menuList: this.menuList,
           allAlarms: this.state.allAlarms,
+          statusAlarms: this.state.statusAlarms,
           alarms: this.state.alarms,
           isPouring: this.state.isPouring,
           socketAlarms$: this.socketAlarms$,

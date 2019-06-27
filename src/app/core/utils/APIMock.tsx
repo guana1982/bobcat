@@ -346,4 +346,287 @@ export const TestMenu_ = {
       ]
       }
   ]
+};
+
+export const Alarms_: any = {
+    "label_id": "alarms_menu",
+    "id": "alarms_menu_tech",
+    "type": "custom",
+    "elements": [
+      {
+        "alarm_state": false,
+        "alarm_name": "press_h2o",
+        "alarm_solution": "press_h2o_solution",
+        "alarm_type": "tech",
+        "alarm_date": "1970-01-01T00:00:00",
+        "alarm_code": "PRS101",
+        "alarm_enable": true,
+        "alarm_category": "super_alert",
+        "alarm_description": "press_h2o_description"
+      },
+      {
+        "alarm_state": true,
+        "alarm_name": "press_co2",
+        "alarm_solution": "press_co2_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-06-24T18:09:26",
+        "alarm_code": "PRS102",
+        "alarm_enable": true,
+        "alarm_category": "alert",
+        "alarm_description": "press_co2_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "timeout_plain",
+        "alarm_solution": "timeout_plain_solution",
+        "alarm_type": "tech",
+        "alarm_date": "1970-01-01T00:00:00",
+        "alarm_code": "ENG103",
+        "alarm_enable": true,
+        "alarm_category": "alert",
+        "alarm_description": "timeout_plain_description"
+      },
+      {
+        "alarm_state": true,
+        "alarm_name": "timeout_pump",
+        "alarm_solution": "timeout_pump_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-06-24T17:59:21",
+        "alarm_code": "ENG104",
+        "alarm_enable": true,
+        "alarm_category": "alert",
+        "alarm_description": "timeout_pump_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "timeout_compressor",
+        "alarm_solution": "timeout_compressor_solution",
+        "alarm_type": "tech",
+        "alarm_date": "1970-01-01T00:00:00",
+        "alarm_code": "ENG102",
+        "alarm_enable": true,
+        "alarm_category": "alert",
+        "alarm_description": "timeout_compressor_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "temp_alert",
+        "alarm_solution": "temp_solution",
+        "alarm_type": "tech",
+        "alarm_date": "1970-01-01T00:00:00",
+        "alarm_code": "TMP101",
+        "alarm_enable": true,
+        "alarm_category": "alert",
+        "alarm_description": "temp_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "drain_tank",
+        "alarm_solution": "drain_tank_solution",
+        "alarm_type": "tech",
+        "alarm_date": "1970-01-01T00:00:00",
+        "alarm_code": "LVL101",
+        "alarm_enable": true,
+        "alarm_category": "alert",
+        "alarm_description": "drain_tank_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "level_switch",
+        "alarm_solution": "level_switch_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-06-20T10:50:56",
+        "alarm_code": "LVL103",
+        "alarm_enable": true,
+        "alarm_category": "alert",
+        "alarm_description": "level_switch_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "flux1",
+        "alarm_solution": "flux1_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-06-25T10:25:01",
+        "alarm_code": "FLW110",
+        "alarm_enable": true,
+        "alarm_category": "warning",
+        "alarm_description": "flux1_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "flux2",
+        "alarm_solution": "flux2_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-06-26T11:35:13",
+        "alarm_code": "FLW111",
+        "alarm_enable": true,
+        "alarm_category": "warning",
+        "alarm_description": "flux2_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "flux3",
+        "alarm_solution": "flux3_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-06-26T11:15:01",
+        "alarm_code": "FLW112",
+        "alarm_enable": true,
+        "alarm_category": "warning",
+        "alarm_description": "flux3_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "flux4",
+        "alarm_solution": "flux4_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-06-20T17:48:59",
+        "alarm_code": "FLW113",
+        "alarm_enable": true,
+        "alarm_category": "warning",
+        "alarm_description": "flux4_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "flux5",
+        "alarm_solution": "flux5_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-06-20T18:11:38",
+        "alarm_code": "FLW114",
+        "alarm_enable": true,
+        "alarm_category": "warning",
+        "alarm_description": "flux5_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "flux6",
+        "alarm_solution": "flux6_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-06-20T18:14:01",
+        "alarm_code": "FLW115",
+        "alarm_enable": false,
+        "alarm_category": "warning",
+        "alarm_description": "flux6_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "network",
+        "alarm_solution": "network_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-05-31T16:24:23",
+        "alarm_code": "TRM101",
+        "alarm_enable": true,
+        "alarm_category": "warning",
+        "alarm_description": "network_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "powerboard",
+        "alarm_solution": "powerboard_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-06-14T10:26:43",
+        "alarm_code": "ELT102",
+        "alarm_enable": false,
+        "alarm_category": "super_alert",
+        "alarm_description": "powerboard_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "flux_water",
+        "alarm_solution": "flux_water_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-06-20T17:42:34",
+        "alarm_code": "FLW101",
+        "alarm_enable": true,
+        "alarm_category": "alert",
+        "alarm_description": "flux_water_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "flux_soda",
+        "alarm_solution": "flux_soda_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-06-21T10:26:20",
+        "alarm_code": "FLW102",
+        "alarm_enable": true,
+        "alarm_category": "alert",
+        "alarm_description": "flux_soda_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "ada_panel",
+        "alarm_solution": "ada_panel_solution",
+        "alarm_type": "tech",
+        "alarm_date": "1970-01-01T00:00:00",
+        "alarm_code": "ELT103",
+        "alarm_enable": true,
+        "alarm_category": "warning",
+        "alarm_description": "ada_panel_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "ps_als",
+        "alarm_solution": "ps_als_solution",
+        "alarm_type": "tech",
+        "alarm_date": "1970-01-01T00:00:00",
+        "alarm_code": "ELT104",
+        "alarm_enable": true,
+        "alarm_category": "warning",
+        "alarm_description": "ps_als_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "webcam",
+        "alarm_solution": "webcam_solution",
+        "alarm_type": "tech",
+        "alarm_date": "1970-01-01T00:00:00",
+        "alarm_code": "ELT105",
+        "alarm_enable": true,
+        "alarm_category": "warning",
+        "alarm_description": "webcam_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "touchscreen",
+        "alarm_solution": "touchscreen_solution",
+        "alarm_type": "tech",
+        "alarm_date": "1970-01-01T00:00:00",
+        "alarm_code": "ELT106",
+        "alarm_enable": true,
+        "alarm_category": "super_alert",
+        "alarm_description": "touchscreen_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "modem",
+        "alarm_solution": "modem_solution",
+        "alarm_type": "tech",
+        "alarm_date": "1970-01-01T00:00:00",
+        "alarm_code": "ELT107",
+        "alarm_enable": true,
+        "alarm_category": "alert",
+        "alarm_description": "modem_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "mqtt",
+        "alarm_solution": "mqtt_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-06-26T09:05:17",
+        "alarm_code": "TRM102",
+        "alarm_enable": true,
+        "alarm_category": "warning",
+        "alarm_description": "mqtt_description"
+      },
+      {
+        "alarm_state": false,
+        "alarm_name": "gicar_connection",
+        "alarm_solution": "gicar_solution",
+        "alarm_type": "tech",
+        "alarm_date": "2019-06-24T17:59:24",
+        "alarm_code": "ELT101",
+        "alarm_enable": true,
+        "alarm_category": "alert",
+        "alarm_description": "gicar_description"
+      }
+    ]
   }

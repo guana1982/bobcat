@@ -41,6 +41,7 @@ export const Attractor = (props: AttractorProps) => {
 
   //  ==== PROXIMITY SENSOR ====>
   const { socketAttractor$ } = configConsumer;
+  const { alarmSuper_ } = configConsumer.statusAlarms;
   React.useEffect(() => {
     if (socketAttractor$ === undefined) {
       return () => null;
@@ -49,7 +50,7 @@ export const Attractor = (props: AttractorProps) => {
     .subscribe(value => {
       if (value === MESSAGE_STOP_VIDEO) {
         goToHome();
-      } else if (value === MESSAGE_START_CAMERA) {
+      } else if (value === MESSAGE_START_CAMERA && !alarmSuper_) {
         goToPrepay();
       }
     });

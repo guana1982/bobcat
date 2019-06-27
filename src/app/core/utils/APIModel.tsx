@@ -165,5 +165,16 @@ export interface IMasterMenu {
 }
 
 export interface ITestMenu {
-  structure_: any
+  structure_: any;
+}
+
+/* ==== ALARMS ==== */
+/* ======================================== */
+
+export interface IStatusAlarms {
+  alarmSuper_: boolean;
+  alarmSparkling_: boolean;
+  alarmConnectivity_: boolean;
+  alarmWebcam_: boolean;
+  alarmADAPanel_: boolean;
 }
