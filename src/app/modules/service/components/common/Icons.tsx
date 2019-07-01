@@ -85,10 +85,38 @@ export const WifiDisabledIcon = ({ width = 164, height = 164 }) => {
   );
 };
 
-export const SignalIcon = (props) => {
-  const { power, active } = props;
-  const db = 100 - Math.abs(Number(power.replace("dBm", "")));
-  const ratio = Math.round(db / 100 * 5);
+
+export enum SignalType {
+  Mobile = "mobile",
+  Wifi = "wifi"
+}
+
+interface SignalIconProps {
+  power?: any;
+  active?: boolean;
+  type?: SignalType;
+}
+
+export const SignalIcon = (props: SignalIconProps) => {
+  const { power, active, type } = props;
+  const db = Math.abs(Number(power.replace("dBm", "")));
+  let ratio = 0;
+
+  if (type === SignalType.Mobile) {
+    if (db < 100) ratio = 5;
+    else if (db < 110) ratio = 4;
+    else if (db < 120) ratio = 3;
+    else if (db < 130) ratio = 2;
+    else if (db < 140) ratio = 1;
+  } else if (type === SignalType.Wifi) {
+    if (db < 64) ratio = 5;
+    else if (db < 67) ratio = 4;
+    else if (db < 70) ratio = 3;
+    else if (db < 80) ratio = 2;
+    else if (db < 90) ratio = 1;
+    else if (db >= 90) ratio = 0;
+  }
+
   return (
     <label>
       {[...Array(5).keys()].map((d, i) => {

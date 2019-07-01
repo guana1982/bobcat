@@ -6,7 +6,7 @@ import { IWifi, IAccessPoint } from "@core/utils/APIModel";
 import styled, { keyframes } from "styled-components";
 import { Subscription } from "rxjs";
 import { __ } from "@core/utils/lib/i18n";
-import { SignalIcon, CheckmarkIcon, LockIcon, WifiDisabledIcon, LoadingIcon } from "../common/Icons";
+import { SignalIcon, CheckmarkIcon, LockIcon, WifiDisabledIcon, LoadingIcon, SignalType } from "../common/Icons";
 import { tap, flatMap, finalize } from "rxjs/operators";
 import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
 import { ServiceProvider, ServiceContext, ConnectivityTypes, ConnectivityStatus, AlertContext } from "@core/containers";
@@ -107,15 +107,17 @@ const Wifi = (props) => {
   const [accessPointSelected, setAccessPointSelected] = React.useState<IAccessPoint>(null);
 
   const showInfoAp = () => {
-    const { status, ip, encryption, bssid } = accessPointSelected;
+    const { status, ip, encryption, bssid, power } = accessPointSelected;
 
     alertConsumer.show({
       title: bssid,
-      content: `
-        ${__("wifi_status")}: ${__(STATUS_LABELS[status])} \n
-        ${__("ip_v4_address")}: ${ip} \n
-        ${__("encryption")}: ${encryption} \n
-      `
+      content:
+      <>
+        <span style={{margin: "10px 0"}}>{__("wifi_status")}: {__(STATUS_LABELS[status])}</span> <br/><br/>
+        <span style={{margin: "10px 0"}}>{__("ip_v4_address")}: {ip} </span> <br/><br/>
+        <span style={{margin: "10px 0"}}>{__("encryption")}: {encryption} </span> <br/><br/>
+        <span style={{margin: "10px 0"}}>{__("signal_strength")}: {power} {<SignalIcon active power={power} type={SignalType.Wifi}/>} </span>
+      </>
     });
   };
 
@@ -184,7 +186,7 @@ const Wifi = (props) => {
                 </div>
                 <div>
                   {ap.locked && <LockIcon />}{" "}
-                  <SignalIcon active={selected} power={ap.power} />
+                  <SignalIcon active={selected} power={ap.power} type={SignalType.Wifi} />
                 </div>
               </div>
             );
@@ -247,7 +249,7 @@ const MobileData = (props) => {
       <h3>STATUS: {status}</h3>
       <h3>APN: {apn}</h3>
       {ip && <h3>IP: {ip}</h3>}
-      {signalStrength !== "NaN" && <h3>SIGNAL STRENGTH: {signalStrength} dbm <SignalIcon power={signalStrength} /></h3>}
+      {signalStrength !== "NaN" && <h3>SIGNAL STRENGTH: {signalStrength} dbm <SignalIcon power={signalStrength} type={SignalType.Mobile} /></h3>}
     </div>
   );
 };
