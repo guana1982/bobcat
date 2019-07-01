@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import { __ } from "@utils/lib/i18n";
-import { AlertContext, DEFAULT_TIMEOUT_ALERT } from "@core/containers/alert.container";
+import { AlertContext, DEFAULT_TIMEOUT_ALERT, AlertOptions } from "@core/containers/alert.container";
 import { AccessibilityContext } from "@core/containers";
 import { CloseBtn, CloseBtnWrap } from "./CloseBtn";
 
@@ -101,11 +101,11 @@ const AlertContent = styled.div`
   }
 `;
 
-export interface AlertProps {}
+export interface AlertFullProps {}
 
 let timeout_ = null;
 
-export const Alert = (props: AlertProps) => {
+export const AlertFull = (props: AlertFullProps) => {
 
   const alertConsumer = React.useContext(AlertContext);
   const {show, options} = alertConsumer.state;
@@ -138,12 +138,6 @@ export const Alert = (props: AlertProps) => {
     alertConsumer.hide();
   };
 
-  React.useEffect(() => {
-    if (timeout) {
-      timeout_ = setTimeout(onDismiss_, typeof timeout === "boolean" ? DEFAULT_TIMEOUT_ALERT : timeout);
-    }
-  }, [timeout]);
-
   const stopTimeout = () => {
     if (timeout_) {
       window.clearTimeout(timeout_);
@@ -163,13 +157,32 @@ export const Alert = (props: AlertProps) => {
       {show && <AlertContent>
         <Overlay className={transparent ? "transparent" : null} onClick={dismiss} />
         {!lock && <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={dismiss} />}
-        <AlertWrap className={img ? "with-img" : ""}>
-          {img && <img src={img} />}
-          <span id="title">{__(type)}</span>
-          {subTitle && <span id="sub-title">{__(`${type}_subtitle`)}</span>}
-          {onConfirm && <button id="confirm-btn" onClick={onConfirm_}>OK</button>}
-        </AlertWrap>
+        <Alert options={options} onDismiss_={onDismiss_} />
       </AlertContent>}
     </React.Fragment>
+  );
+};
+
+export interface AlertProps {
+  options: AlertOptions;
+  onDismiss_?: () => void;
+}
+
+export const Alert = (props: AlertProps) => {
+  const {type, onDismiss, timeout, transparent, onConfirm, subTitle, lock, img} = props.options;
+
+  React.useEffect(() => {
+    if (timeout) {
+      timeout_ = setTimeout((props.onDismiss_ || onDismiss), typeof timeout === "boolean" ? DEFAULT_TIMEOUT_ALERT : timeout);
+    }
+  }, [timeout]);
+
+  return (
+    <AlertWrap className={img ? "with-img" : ""}>
+      {img && <img src={img} />}
+      <span className={type} id="title">{__(type)}</span>
+      {subTitle && <span id="sub-title">{__(`${type}_subtitle`)}</span>}
+      {onConfirm && <button id="confirm-btn" onClick={onConfirm}>OK</button>}
+    </AlertWrap>
   );
 };

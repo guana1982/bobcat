@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Route } from "react-router";
 import { Pages } from "@utils/constants";
-import { Alert } from "./components/common/Alert";
+import { AlertFull } from "./components/common/Alert";
 import { themeMain } from "@style";
 
 /* ==== PAGES ==== */
@@ -17,7 +17,7 @@ import { Update } from "./screens/Update";
 export const Consumer = () => (
   <ThemeProvider theme={themeMain}>
     <AccessibilityProvider>
-      <AlertProvider alertComponent={<Alert />}>
+      <AlertProvider alertComponent={<AlertFull />}>
         <ConsumerStore>
           <PaymentProvider>
             <TimerProvider>

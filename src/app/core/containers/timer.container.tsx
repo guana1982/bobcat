@@ -106,8 +106,11 @@ const TimerContainer = createContainer((props: any) => {
     first()
   );
 
+  const timerPrepay$ = enableProximity.current ? timerTouch$(30000, false) : timerTouch$(15000, false)
+
   return {
     timerFull$,
+    timerPrepay$,
     restartBrightness$,
     timerStop
   };

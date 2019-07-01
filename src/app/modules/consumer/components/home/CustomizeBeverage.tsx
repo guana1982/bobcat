@@ -6,7 +6,7 @@ import { NumberCard } from "../cards/NumberCard";
 import { CircleCard } from "../cards/CircleCard";
 import { PhoneCard } from "../cards/PhoneCard";
 import posed from "react-pose";
-import { AccessibilityContext, ConfigContext } from "@core/containers";
+import { AccessibilityContext, ConfigContext, AlertTypes } from "@core/containers";
 import { __ } from "@core/utils/lib/i18n";
 import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
 import { SegmentButtonProps, SegmentButton } from "../common/SegmentButton";
@@ -14,6 +14,7 @@ import { Button } from "../common/Button";
 import { ButtonGroup } from "../common/ButtonGroup";
 import ClickNHold from "../common/ClickNHold";
 import { Beverages } from "@core/utils/constants";
+import { Alert } from "../common/Alert";
 
 /* color: string; */
 /* @keyframes shadow-pulse
@@ -216,10 +217,11 @@ interface CustomizeBeverageProps {
   segmentButton: SegmentButtonProps; // => _SegmentButton
   nutritionFacts: boolean;
   isLogged?: boolean;
+  handleType: (b: boolean) => void;
 }
 
 export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
-  const { beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, getBeverageSelected, handleChange, endPourEvent, nutritionFacts } = props;
+  const { beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, getBeverageSelected, handleChange, endPourEvent, nutritionFacts, handleType } = props;
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const buttonPourEl = React.useRef(null);
@@ -227,7 +229,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   const configConsumer = React.useContext(ConfigContext);
   const { pour, enter } = accessibilityConsumer;
 
-  const { isPouring } = configConsumer;
+  const { isPouring, statusAlarms } = configConsumer;
 
   React.useEffect(() => {
     const button = buttonPourEl.current.node;
@@ -243,6 +245,33 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
     }
   }, [pour, buttonPourEl, enter]);
   //  <=== ACCESSIBILITY FUNCTION ====
+
+  //  ==== DISABLE SPARKLING ====>
+  const disableSparkling_ = isSparkling && statusAlarms.alarmSparkling_;
+  if (disableSparkling_) {
+    return (
+      <>
+        <CustomizeBeverageWrap>
+          {!props.showCardsInfo && <SegmentButton {...props.segmentButton} />}
+          {/* {!props.showCardsInfo ?
+            <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => resetBeverage()} /> :
+            <Button detectValue="exit-btn" onClick={() => endPourEvent()} text="Done" icon="log-out" />
+          } */}
+          <Alert
+            options = {{
+              type: AlertTypes.EndSparkling,
+              subTitle: true,
+              timeout: true,
+              transparent: true,
+              onConfirm: () => handleType(false),
+              onDismiss: () => handleType(false),
+            }}
+          />
+        </CustomizeBeverageWrap>
+      </>
+    );
+  }
+  //  <=== DISABLE SPARKLING ====
 
   const beverageSelected: IBeverage = getBeverageSelected();
 

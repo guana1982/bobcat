@@ -246,9 +246,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
             consumerBeverages: this.getConsumerBeverages(data)
           });
           return IdentificationConsumerStatus.CompleteLoading;
-        }),
-        timeout(10000),
-        catchError(data => of(IdentificationConsumerStatus.ErrorLoading))
+        })
       );
 
     return merge(loadDataFromQr, loadDataFromServer);

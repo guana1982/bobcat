@@ -6,7 +6,7 @@ import { __ } from "@utils/lib/i18n";
 import { IBeverage } from "@models/index";
 import { forwardRef } from "react";
 import { BeverageStatus } from "@models/beverage.model";
-import { AccessibilityContext } from "@core/containers";
+import { AccessibilityContext, ConfigContext } from "@core/containers";
 import ReactDOM = require("react-dom");
 import { Nutrition } from "./Nutrition";
 import { OutOfStock } from "./OutOfStock";
@@ -144,10 +144,13 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 
   const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled, beverage, levels, detectValue } = props;
 
-  const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib || beverage.line_id <= 0;
+  const configConsumer = React.useContext(ConfigContext);
+  const { alarmSparkling_ } = configConsumer.statusAlarms;
+
+  const $specialCard: boolean = types && types[0] === BeverageTypes.LastPour || types && types[0] === BeverageTypes.Favorite;
+  const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib || beverage.line_id <= 0 || ($specialCard && (beverage.$lock || (levels.carbonation_perc != null && alarmSparkling_)));
   const $blur: boolean = disabled && !pouring;
   const $disabledTouch: boolean = types && types[0] === BeverageTypes.Info || $outOfStock;
-  const $specialCard: boolean = types && types[0] === BeverageTypes.LastPour || types && types[0] === BeverageTypes.Favorite;
   const $info: boolean = types && types[0] === BeverageTypes.Info;
 
   let  onStart, onHoldStart, onHoldEnd  = null;

@@ -67,11 +67,11 @@ enum StatusEndSession {
   OutOfStock = "outOfStock"
 }
 
-let socketAlarms_: Subscription;
-let timer_: Subscription;
-let endSession_: Subscription;
-
 export const Home = (props: HomeProps) => {
+
+  const socketAlarms_ =  React.useRef<Subscription>(null);
+  const timer_ =  React.useRef<Subscription>(null);
+  const endSession_ =  React.useRef<Subscription>(null);
 
   const levels = LEVELS;
   const types = [
@@ -98,13 +98,13 @@ export const Home = (props: HomeProps) => {
       carbonation_level: null,
       temperature_level: null,
       b_complex: false,
-      antioxidants: false
+      antioxidants: false,
+      isConsumerBeverage: false
     }
   });
 
   const [nutritionFacts, setNutritionFacts] = React.useState(false);
   const [slideOpen, setSlideOpen] = React.useState(false);
-  const [blur, setBlur] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
   const [endSession, setEndSession] = React.useState<"start" | "finish" | "finishForce" | "outOfStock">(null);
 
@@ -133,7 +133,8 @@ export const Home = (props: HomeProps) => {
   }
 
   const restartBrightness_ = () => {
-    timer_ = restartBrightness$
+    resetTimer_();
+    timer_.current = restartBrightness$
     .subscribe(val => {
       if (val === StatusProximity.TimerRestart) {
         startTimer_();
@@ -145,7 +146,8 @@ export const Home = (props: HomeProps) => {
   };
 
   const startTimer_ = () => {
-    timer_ = timerFull$.subscribe(
+    resetTimer_();
+    timer_.current = timerFull$.subscribe(
       val => {
         if (val === StatusProximity.TapDetect) {
           startTimer_();
@@ -169,7 +171,8 @@ export const Home = (props: HomeProps) => {
   };
 
   const resetTimer_ = () => {
-    timer_.unsubscribe();
+    if (timer_.current)
+      timer_.current.unsubscribe();
   };
   //  <=== TIMER ====
 
@@ -186,6 +189,15 @@ export const Home = (props: HomeProps) => {
       clearTimeout(stopVideo_); // <= STOP ATTRACTOR
       configConsumer.setAuthService(false);
       resetTimer_();
+
+      if (socketAlarms_.current)
+        socketAlarms_.current.unsubscribe();
+      if (timer_.current)
+        timer_.current.unsubscribe();
+      if (endSession_.current)
+        endSession_.current.unsubscribe();
+
+      alertConsumer.hide();
     };
   }, []);
 
@@ -210,23 +222,22 @@ export const Home = (props: HomeProps) => {
 
   const { alarmSuper_, alarmSparkling_, alarmConnectivity_, alarmWebcam_, alarmADAPanel_ } = configConsumer.statusAlarms;
 
-  const showAlarmSparkling = () => {
-    resetBeverage();
-    setBlur(true);
-    const evtSparkling_ = () => {
-      // consumerConsumer.resetConsumer(true);
-      handleType(false);
-      setBlur(false);
-    };
-    alertConsumer.show({
-      type: AlertTypes.EndSparkling,
-      subTitle: true,
-      timeout: true,
-      transparent: true,
-      onConfirm: evtSparkling_,
-      onDismiss: evtSparkling_
-    });
-  };
+  // const showAlarmSparkling = () => {
+  //   if (!state.beverageConfig.isConsumerBeverage)
+  //     resetBeverage();
+  //   const evtSparkling_ = () => {
+  //     // consumerConsumer.resetConsumer(true);
+  //     handleType(false);
+  //   };
+  //   alertConsumer.show({
+  //     type: AlertTypes.EndSparkling,
+  //     subTitle: true,
+  //     timeout: false,
+  //     transparent: true,
+  //     onConfirm: evtSparkling_,
+  //     onDismiss: evtSparkling_
+  //   });
+  // };
 
   const showAlarmWebcam = () => {
     alertConsumer.show({
@@ -246,13 +257,13 @@ export const Home = (props: HomeProps) => {
     });
   };
 
-  React.useEffect(() => {
-    if (alarmSparkling_) {
-      if (endSession !== StatusEndSession.Start && isSparkling) {
-        showAlarmSparkling();
-      }
-    }
-  }, [alarmSparkling_]);
+  // React.useEffect(() => {
+  //   if (alarmSparkling_) {
+  //     if (endSession !== StatusEndSession.Start && isSparkling) {
+  //       showAlarmSparkling();
+  //     }
+  //   }
+  // }, [alarmSparkling_]);
 
   //  ==== ON POUR ====>
   const alarmDetect = (data) => {
@@ -267,9 +278,10 @@ export const Home = (props: HomeProps) => {
   };
 
   React.useEffect(() => {
-    socketAlarms_ = configConsumer.socketAlarms$.subscribe(data => alarmDetect(data));
+    socketAlarms_.current = configConsumer.socketAlarms$.subscribe(data => alarmDetect(data));
       return () => {
-        socketAlarms_.unsubscribe();
+        if (socketAlarms_.current)
+          socketAlarms_.current.unsubscribe();
       };
     },
     [state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_] // => TO IMPROVE
@@ -364,7 +376,7 @@ export const Home = (props: HomeProps) => {
 
   const startTimerEnd_ = () => {
     resetTimerEnd_();
-    endSession_ = timerFull$
+    endSession_.current = timerFull$
     .subscribe(
       val => {
         if (val === StatusProximity.TapDetect) {
@@ -379,8 +391,8 @@ export const Home = (props: HomeProps) => {
   };
 
   const resetTimerEnd_ = () => {
-    if (endSession_)
-      endSession_.unsubscribe();
+    if (endSession_.current)
+      endSession_.current.unsubscribe();
   };
 
   React.useEffect(() => {
@@ -459,14 +471,16 @@ export const Home = (props: HomeProps) => {
 
   const selectConsumerBeverage = (consumerBeverage: IConsumerBeverage) => {
     const { beverages } = configConsumer;
+    const indexBeverage_ = beverages.findIndex(beverage => beverage.beverage_id === consumerBeverage.$beverage.beverage_id);
     setState(prevState => ({
       ...prevState,
       isSparkling: consumerBeverage.$sparkling,
-      beverageSelected: beverages.indexOf(consumerBeverage.$beverage),
+      beverageSelected: indexBeverage_,
       beverageConfig: {
         flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),
         carbonation_level: consumerBeverage.$sparkling ? Number(consumerBeverage.carbLvl) : null,
         temperature_level: Number(consumerBeverage.coldLvl),
+        isConsumerBeverage: true
       }
     }));
   };
@@ -477,6 +491,7 @@ export const Home = (props: HomeProps) => {
       flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),
       carbonation_level: Number(consumerBeverage.carbLvl),
       temperature_level: Number(consumerBeverage.coldLvl),
+      isConsumerBeverage: true
     };
     startPour(beverageSelected, beverageConfig, index);
   };
@@ -492,7 +507,7 @@ export const Home = (props: HomeProps) => {
   const handleType = (value) => { // TRUE => isSparkling
 
     if (alarmSparkling_ && value) {
-      showAlarmSparkling();
+      // showAlarmSparkling();
     }
 
     setState(prevState => ({
@@ -594,12 +609,13 @@ export const Home = (props: HomeProps) => {
       <HomeWrap isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={beverageIsSelected}>
         {beverages.length > 0 && (
           <ChoiceBeverage
+            beverageSelected={beverageSelected}
+            handleType={handleType}
             onGesture={onGesture}
             selectBeverage={selectBeverage}
             startPour={startPour}
             fullMode={fullMode}
             stopPour={stopPour}
-            blur={blur}
             goToPrepay={goToPrepay}
             idBeveragePouring_={state.idBeveragePouring_}
             isSparkling={state.isSparkling}
@@ -623,6 +639,7 @@ export const Home = (props: HomeProps) => {
       />
       {beverageSelected &&
         <CustomizeBeverage
+          handleType={handleType}
           levels={levels}
           isSparkling={isSparkling}
           slideOpen={slideOpen}
@@ -666,6 +683,7 @@ export const Home = (props: HomeProps) => {
   //     }
   //   });
   //   return () => {
-  //     socketAttractor_.unsubscribe();
+  //     if (socketAttractor_.current)
+  //      socketAttractor_.current.unsubscribe();
   //   };
   // }, [socketAttractor$, state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_, consumerConsumer.isLogged]); // => TO IMPROVE

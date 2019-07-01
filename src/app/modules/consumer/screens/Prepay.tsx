@@ -12,6 +12,7 @@ import { Subscription } from "rxjs";
 import { ConfigContext } from "@core/containers";
 import { IdentificationConsumerTypes, IdentificationConsumerStatus } from "@core/utils/APIModel";
 import { debounceTime } from "rxjs/operators";
+import { Alert } from "../components/common/Alert";
 
 export const PrepayContent = styled.div`
   background-image: ${props => props.theme.backgroundLight};
@@ -98,6 +99,8 @@ export const Prepay = (props: PrepayProps) => {
   const scanning_ = React.useRef<Subscription>(null);
   const consumerSocket_ = React.useRef<Subscription>(null);
 
+  const timeoutDataFromServer_ = React.useRef(null);
+
   const [webcamReady, setWebcamReady] = React.useState<boolean>(false);
 
   const alertConsumer = React.useContext(AlertContext);
@@ -106,7 +109,7 @@ export const Prepay = (props: PrepayProps) => {
   const configConsumer = React.useContext(ConfigContext);
 
   //  ==== TIMER ====>
-  const { timerFull$ } = timerConsumer;
+  const { timerPrepay$ } = timerConsumer;
   const { isLogged } = consumerConsumer;
 
   function alertIsLogged(event) {
@@ -125,18 +128,14 @@ export const Prepay = (props: PrepayProps) => {
   }
 
   const startTimer_ = () => {
-    timer_.current = timerFull$.subscribe(
+    resetTimer_();
+    timer_.current = timerPrepay$.subscribe(
       val => {
-        if (val === StatusProximity.TapDetect) {
-          startTimer_();
-        } else if (val === StatusProximity.ProximityStop) {
-          const event_ = () => consumerConsumer.resetConsumer(true);
-          alertIsLogged(event_);
-        } else if (val === StatusProximity.TouchStop) {
-          const event_ = () => consumerConsumer.resetConsumer();
-          alertIsLogged(event_);
-        } else if (val === StatusProximity.TimerStop) {
-          const event_ = () => props.history.push(Pages.Home);
+        if (val === StatusProximity.TimerStop) {
+          const event_ = () => {
+            consumerConsumer.resetConsumer(true);
+            goToHome();
+          };
           alertIsLogged(event_);
         }
       }
@@ -163,6 +162,9 @@ export const Prepay = (props: PrepayProps) => {
       stop();
       if (scanning_.current)
         scanning_.current.unsubscribe();
+      if (timeoutDataFromServer_.current) {
+        clearTimeout(timeoutDataFromServer_.current);
+      }
     };
   }, []);
 
@@ -230,21 +232,21 @@ export const Prepay = (props: PrepayProps) => {
           timeout: false,
           lock: true,
         });
+        timeoutDataFromServer_.current = setTimeout(() => {
+          alertConsumer.show({
+            type: AlertTypes.ErrorLoadingQr,
+            img: "img/cannot-connect-to-cloud.svg",
+            subTitle: true,
+            timeout: true,
+            onDismiss: () => {
+              goToHome();
+            }
+          });
+        },  10000);
       } else if (status === IdentificationConsumerStatus.CompleteLoading) {
         alertConsumer.hide();
         goToHome();
-      } else if (status === IdentificationConsumerStatus.ErrorLoading) {
-        alertConsumer.show({
-          type: AlertTypes.Error,
-          img: "img/cannot-connect-to-cloud.svg",
-          subTitle: true,
-          timeout: true,
-          onDismiss: () => {
-            startTimer_();
-            start();
-          }
-        });
-      } else if (status === IdentificationConsumerStatus.NotAssociatedBottle) {
+      }  else if (status === IdentificationConsumerStatus.NotAssociatedBottle) {
         alertConsumer.show({
           type: AlertTypes.ErrorUnassociatedBottle,
           img: "img/qr-code-not-associated-with-account.png",
@@ -272,7 +274,10 @@ export const Prepay = (props: PrepayProps) => {
       <PrepayContent>
         <CloseBtn detectValue={"prepay_close"} icon={"close"} onClick={() => goToHome()} />
         <div id="Webcam" className={webcamReady ? "enable" : ""}>
-          {!webcamReady && <img src={"animation/spinner-qr.gif"} />}
+          {!webcamReady && <>
+            <Alert options={{type: AlertTypes.LoadingQr}} />
+          </>}
+          {/* <img src={"animation/spinner-qr.gif"} /> */}
         </div>
         <img id="Bottle-QR" src={"img/bottle-qr.svg"} />
         <img id="Phone-QR" src={"img/phone-qr.svg"} />

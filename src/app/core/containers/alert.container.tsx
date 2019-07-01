@@ -6,7 +6,8 @@ export const DEFAULT_TIMEOUT_ALERT = 2000;
 
 export enum AlertTypes {
   LoadingDataQr = "c_loading_data_qr",
-  Error = "c_error",
+  LoadingQr = "loading...",
+  ErrorLoadingQr = "c_error_loading_qr",
   OutOfStock = "c_out_of_stock",
   EndBeverage = "c_end_session",
   EndSparkling = "c_end_sparkling",
@@ -22,7 +23,6 @@ export interface AlertOptions {
   lock?: boolean;
   transparent?: boolean;
   onDismiss?: () => void;
-
   title?: string;
   subTitle?: boolean;
   img?: string;

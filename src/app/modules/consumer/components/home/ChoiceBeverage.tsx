@@ -1,11 +1,12 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
-import { ConfigContext, ConsumerContext } from "@containers/index";
+import { ConfigContext, ConsumerContext, AlertTypes } from "@containers/index";
 import Gesture from "@core/components/Menu/Gesture";
 import { Beverage, BeverageTypes, BeverageSize } from "../beverage/Beverage";
 import { SegmentButtonWrapper, SegmentButtonProps, SegmentButton } from "../common/SegmentButton";
 import { Button } from "../common/Button";
 import { Grid } from "../common/Grid";
+import { Alert } from "../common/Alert";
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */
@@ -46,29 +47,42 @@ interface ChoiceBeverageProps {
   startPour: (b) => void;
   stopPour: () => void;
   goToPrepay: () => void;
+  handleType: (v: boolean) => void;
   handleNutritionFacts: () => void;
   handleDisabled: (d) => void;
   nutritionFacts: boolean;
   idBeveragePouring_: number;
   isSparkling: boolean;
   disabled: boolean;
-  blur?: boolean;
   fullMode: boolean;
+  beverageSelected: any;
   segmentButton: SegmentButtonProps; // => _SegmentButton
 }
 
 export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
 
-  const { beverages } = React.useContext(ConfigContext);
+  const { beverages, statusAlarms } = React.useContext(ConfigContext);
   const { isLogged, resetConsumer } = React.useContext(ConsumerContext);
 
-  const { idBeveragePouring_, onGesture, isSparkling, selectBeverage, startPour, stopPour, goToPrepay, disabled, handleNutritionFacts, nutritionFacts, handleDisabled, fullMode, blur } = props;
+  const { idBeveragePouring_, onGesture, isSparkling, selectBeverage, startPour, stopPour, goToPrepay, disabled, handleNutritionFacts, nutritionFacts, handleDisabled, fullMode, handleType, beverageSelected } = props;
+
+  const disableSparkling_ = isSparkling && statusAlarms.alarmSparkling_;
 
   return (
     <React.Fragment>
-      <ChoiceBeverageWrap blurWrap={blur} disabledWrap={disabled}>
+      <ChoiceBeverageWrap disabledWrap={disabled}>
         {!nutritionFacts && <SegmentButton {...props.segmentButton} disabled={disabled} />}
         <Gesture onGesture={onGesture} />
+        {(disableSparkling_ && !beverageSelected) && <Alert
+          options = {{
+            type: AlertTypes.EndSparkling,
+            subTitle: true,
+            timeout: true,
+            transparent: true,
+            onConfirm: () => handleType(false),
+            onDismiss: () => handleType(false),
+          }}
+        />}
         <Grid numElement={beverages.length}>
           {beverages.map((b, i) => {
             return (
@@ -85,14 +99,14 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
                 onStart={() => selectBeverage(b)}
                 onHoldStart={() => startPour(b)}
                 onHoldEnd={() => stopPour()}
-                disabled={disabled || blur}
+                disabled={disabled || disableSparkling_}
                 nutritionFacts={nutritionFacts}
                 handleDisabled={handleDisabled}
               />
             );
           })}
         </Grid>
-        <Button detectValue="nutrition-btn" disabled={disabled} onClick={() => handleNutritionFacts()} text="c_nutrition" icon={!nutritionFacts ? "nutrition" : "close"} />
+        <Button detectValue="nutrition-btn" disabled={disabled || disableSparkling_} onClick={() => handleNutritionFacts()} text="c_nutrition" icon={!nutritionFacts ? "nutrition" : "close"} />
         {!isLogged && <Button detectValue="signin-btn" disabled={disabled} onClick={() => goToPrepay()} text="c_sign_in" icon="qr-code" />}
         {isLogged && <Button detectValue="logout-btn" disabled={disabled} onClick={() => resetConsumer()} text="c_done" icon="log-out" />}
       </ChoiceBeverageWrap>
