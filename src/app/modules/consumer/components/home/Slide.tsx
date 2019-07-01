@@ -14,26 +14,26 @@ export const _sizeSlideFull = "5vw";
 /* ==== ANIMATIONS ==== */
 /* ======================================== */
 
-const _Slide = posed.div({
-  fullClose: {
-    transform: "translate3d(-1200px, 0, 0)",
-    transition: {
-      duration: 300,
-    }
-  },
-  close: {
-    transform: "translate3d(-951px, 0, 0)",
-    transition: {
-      duration: 300,
-    }
-  },
-  open: {
-    transform: "translate3d(-31px, 0, 0)",
-    transition: {
-      duration: 300,
-    }
-  }
-});
+// const _Slide = posed.div({
+//   fullClose: {
+//     transform: "translate3d(-1200px, 0, 0)",
+//     transition: {
+//       duration: 300,
+//     }
+//   },
+//   close: {
+//     transform: "translate3d(-951px, 0, 0)",
+//     transition: {
+//       duration: 300,
+//     }
+//   },
+//   open: {
+//     transform: "translate3d(-31px, 0, 0)",
+//     transition: {
+//       duration: 300,
+//     }
+//   }
+// });
 
 const _toggleSlide = posed.button({
   close: {
@@ -109,7 +109,7 @@ const HeaderSlide = styled.div`
 `;
 
 /* disabled?: boolean */
-export const SlideStyled = styled(_Slide)`
+export const SlideStyled = styled.div`
   position: absolute;
   top: 0;
   width: 100vw;
@@ -215,9 +215,32 @@ export const Slide = (props: SlideProps) => {
   const beverageIsSelected = beverageSelected !== undefined && beverageSelected !== null;
   const animationSlide = () => slideOpen ? "open" : fullMode ? "fullClose" : "close";
 
+  const Slide_ = React.useRef(null);
+
+  React.useEffect(() => {
+    const closed = fullMode ? "translate3d(-1200px, 0, 0)" : "translate3d(-951px, 0, 0)";
+    slideOpen && Slide_.current.animate([
+      { transform: closed },
+      { transform: "translate3d(-31px, 0, 0)" }
+    ],
+    {
+      duration: 150,
+      fill: "forwards"
+    });
+
+    !slideOpen && Slide_.current.animate([
+      { transform: "translate3d(-31px, 0, 0)" },
+      { transform: closed }
+    ],
+    {
+      duration: 150,
+      fill: "forwards"
+    });
+  }, [slideOpen]);
+
   return (
     <React.Fragment>
-      <SlideStyled disabled={disabled} beverageIsSelected={beverageIsSelected} pose={animationSlide()}>
+      <SlideStyled ref={Slide_} disabled={disabled} beverageIsSelected={beverageIsSelected} /* pose={animationSlide()} */>
         <HeaderSlide className={slideOpen && "open"}>
           <h2>{__("c_welcome")}, {dataConsumer.consumer_nick}!</h2>
         </HeaderSlide>

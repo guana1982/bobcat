@@ -180,11 +180,11 @@ export const Home = (props: HomeProps) => {
     const stopVideo_ = setTimeout(() => {
       mediumLevel.config.stopVideo().subscribe();
     }, TIMEOUT_ATTRACTOR); // <= STOP ATTRACTOR
-    if (timerStop) {
-      restartBrightness_();
-    } else {
-      startTimer_();
-    }
+    // if (timerStop) {
+    //   restartBrightness_();
+    // } else {
+    //   startTimer_();
+    // }
     return () => {
       clearTimeout(stopVideo_); // <= STOP ATTRACTOR
       configConsumer.setAuthService(false);

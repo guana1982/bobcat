@@ -79,27 +79,28 @@ export const Pour = styled.button`
 /* ==== LOGO ==== */
 /* ======================================== */
 
-const _logoBeverage = posed.img({
-  normal: {
-    zoom: "100%",
-    transform: "translate(-50%, -105%)"
-  },
-  zoom: {
-    zoom: "180%",
-    transform: "translate(-50%, -62%)",
-    transition: {
-      duration: 500
-    }
-  }
-});
+// const _logoBeverage = posed.img({
+//   normal: {
+//     zoom: "100%",
+//     transform: "translate(-50%, -105%)"
+//   },
+//   zoom: {
+//     zoom: "180%",
+//     transform: "translate(-50%, -62%)",
+//     transition: {
+//       duration: 500
+//     }
+//   }
+// });
 
-export const LogoBeverage = styled(_logoBeverage)`
+export const LogoBeverage = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
   width: 305px;
   height: 308px;
   z-index: 99;
+  transform: translate(-50%, -105%);
 `;
 
 /* ==== CARDS ==== */
@@ -228,6 +229,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   const accessibilityConsumer = React.useContext(AccessibilityContext);
   const configConsumer = React.useContext(ConfigContext);
   const { pour, enter } = accessibilityConsumer;
+  const zoomableImage = React.useRef(null);
 
   const { isPouring, statusAlarms } = configConsumer;
 
@@ -245,6 +247,16 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
     }
   }, [pour, buttonPourEl, enter]);
   //  <=== ACCESSIBILITY FUNCTION ====
+
+  React.useEffect(() => {
+    props.showCardsInfo && zoomableImage.current.animate([
+      { transform: "translate3d(-50%, -105%, 0) scale(1)" },
+      { transform: "translate3d(-50%, -62%, 0) scale(1.8)" },
+    ], {
+        duration: 500,
+        fill: "forwards",
+      });
+  }, [props.showCardsInfo]);
 
   //  ==== DISABLE SPARKLING ====>
   const disableSparkling_ = isSparkling && statusAlarms.alarmSparkling_;
@@ -297,7 +309,9 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           </React.Fragment>
         }
 
-        <LogoBeverage pose={props.showCardsInfo ? "zoom" : "normal"} src={`img/logos/${beverageSelected.beverage_logo_id}${isSparkling ? "@sparkling" : ""}.png`} />
+        <LogoBeverage /* pose={props.showCardsInfo ? "zoom" : "normal"} */ ref={zoomableImage} >
+          <img src={`img/logos/${beverageSelected.beverage_logo_id}${isSparkling ? "@sparkling" : ""}.png`} />
+        </LogoBeverage>
         {!props.showCardsInfo &&
           <CustomizeBeverageCard color={beverageSelected.beverage_font_color}>
             <div id="beverage-card">
