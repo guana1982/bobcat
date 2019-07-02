@@ -180,11 +180,11 @@ export const Home = (props: HomeProps) => {
     const stopVideo_ = setTimeout(() => {
       mediumLevel.config.stopVideo().subscribe();
     }, TIMEOUT_ATTRACTOR); // <= STOP ATTRACTOR
-    if (timerStop) {
-      restartBrightness_();
-    } else {
-      startTimer_();
-    }
+    // if (timerStop) {
+    //   restartBrightness_();
+    // } else {
+    //   startTimer_();
+    // }
     return () => {
       clearTimeout(stopVideo_); // <= STOP ATTRACTOR
       configConsumer.setAuthService(false);
@@ -287,6 +287,23 @@ export const Home = (props: HomeProps) => {
     [state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_] // => TO IMPROVE
   );
 
+  /* ==== PAYMENT ==== */
+  /* ======================================== */
+
+  const showPayment = () => {
+    setDisabled(true);
+    alertConsumer.show({
+      type: AlertTypes.ErrorQrNotFound,
+      img: "img/pay.svg",
+      timeout: false,
+      transparent: true,
+      onDismiss: () => {
+        console.log("tao");
+        setDisabled(false);
+      }
+    });
+  };
+
   /* ==== BEVERAGE ==== */
   /* ======================================== */
 
@@ -328,6 +345,9 @@ export const Home = (props: HomeProps) => {
   };
 
   const startPour = (beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig, indexFavorite?: number) => {
+
+    showPayment();
+    return;
 
     let bevSelected, bevConfig = null;
 
@@ -609,6 +629,7 @@ export const Home = (props: HomeProps) => {
       <HomeWrap isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={beverageIsSelected}>
         {beverages.length > 0 && (
           <ChoiceBeverage
+            showPayment={showPayment}
             beverageSelected={beverageSelected}
             handleType={handleType}
             onGesture={onGesture}

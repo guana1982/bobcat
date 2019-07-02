@@ -9,6 +9,7 @@ export enum AlertTypes {
   LoadingQr = "loading...",
   ErrorLoadingQr = "c_error_loading_qr",
   OutOfStock = "c_out_of_stock",
+  NeedPayment = "c_tap_swipe_pour",
   EndBeverage = "c_end_session",
   EndSparkling = "c_end_sparkling",
   ErrorWebcam = "c_error_webcam",

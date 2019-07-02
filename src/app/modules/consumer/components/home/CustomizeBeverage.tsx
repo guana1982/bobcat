@@ -157,7 +157,38 @@ export const CustomizeBeverageCard = styled.div`
   }
   #group {
     position: absolute;
-    top: 370px;
+    top: 360px;
+    /* top: 370px; */
+  }
+  #price {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 53px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 20px 40px 8px rgba(89, 96, 118, 0.15);
+    background-image: #fff;
+    text-transform: uppercase;
+    * {
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+    }
+    #value {
+      position: absolute;
+      right: 31.5px;
+      bottom: 8px;
+      font-size: 24px;
+      color: #292929;
+      #total {
+        font-size: 14px;
+        letter-spacing: 1px;
+        text-align: right;
+        color: #565657;
+        margin-right: 21px;
+      }
+    }
   }
 `;
 
@@ -337,6 +368,12 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                     value={beverageConfig.temperature_level}
                     onChange={(value) => handleChange(value, "temperature")}>
                   </ButtonGroup>
+                </div>
+                <div id="price">
+                  <span id="value">
+                    <span id="total">{__("c_total")}</span>
+                    75¢
+                  </span>
                 </div>
               </div>
             </div>

@@ -59,7 +59,7 @@ export const Basic_ = (props: BasicProps) => {
         <Logo {...props} />
         <span id="title">{__(beverage.beverage_type === Beverages.Plain ? (sparkling_ ? __("sparkling_water") : __("pure_water")) : __(title))}</span>
         <span id="cal">{calories} {__("c_cal")}.</span> {/* {beverage.calories} */}
-        {/* <span id="price">75¢</span> */}
+        <span id="price">75¢</span>
     </div>
   );
 };
@@ -179,7 +179,7 @@ export const Basic = styled<BasicProps>(Basic_)`
     position: absolute;
     right: 23px;
     bottom: 14px;
-    font-size: 12.6px;
+    font-size: 13.7px;
     letter-spacing: 1px;
     text-align: right;
   }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import { __ } from "@utils/lib/i18n";
-import { AlertContext, DEFAULT_TIMEOUT_ALERT, AlertOptions } from "@core/containers/alert.container";
+import { AlertContext, DEFAULT_TIMEOUT_ALERT, AlertOptions, AlertTypes } from "@core/containers/alert.container";
 import { AccessibilityContext } from "@core/containers";
 import { CloseBtn, CloseBtnWrap } from "./CloseBtn";
 
@@ -73,6 +73,15 @@ const AlertWrap = styled.div`
     text-align: center;
     box-shadow: 7px 13px 28px 0 rgba(199, 200, 204, 0.3);
     color: ${props => props.theme.slateGrey};
+  }
+  .${AlertTypes.NeedPayment} {
+    width: 480px;
+    height: 589px;
+    #Icon-Down {
+      position: absolute;
+      bottom: 56.3px;
+      right: 386.3px;
+    }
   }
 `;
 
@@ -155,7 +164,7 @@ export const AlertFull = (props: AlertFullProps) => {
   return (
     <React.Fragment>
       {show && <AlertContent>
-        <Overlay className={transparent ? "transparent" : null} onClick={dismiss} />
+        <Overlay className={transparent ? "transparent" : null} onTouchEnd={dismiss} />
         {!lock && <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={dismiss} />}
         <Alert options={options} onDismiss_={onDismiss_} />
       </AlertContent>}
@@ -178,11 +187,17 @@ export const Alert = (props: AlertProps) => {
   }, [timeout]);
 
   return (
-    <AlertWrap className={img ? "with-img" : ""}>
+    <AlertWrap className={`${img ? "with-img" : ""} ${type}`}>
       {img && <img src={img} />}
       <span className={type} id="title">{__(type)}</span>
       {subTitle && <span id="sub-title">{__(`${type}_subtitle`)}</span>}
       {onConfirm && <button id="confirm-btn" onClick={onConfirm}>OK</button>}
+      {/* CUSTOM BY TYPE => */}
+      {type === AlertTypes.NeedPayment &&
+        <>
+          <img id="Icon-Down" src={"icons/down.svg"} />
+        </>
+      }
     </AlertWrap>
   );
 };
