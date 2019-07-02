@@ -192,6 +192,7 @@ export const Prepay = (props: PrepayProps) => {
 
   const start = () => {
     const { startScanning } = consumerConsumer;
+    console.log("start");
 
     if (scanning_.current)
       scanning_.current.unsubscribe();
@@ -201,6 +202,7 @@ export const Prepay = (props: PrepayProps) => {
       debounceTime(500),
     )
     .subscribe((status: IdentificationConsumerStatus) => {
+      console.log(status);
       resetTimer_();
       if (status !== IdentificationConsumerStatus.Loading) {
         if (scanning_.current)

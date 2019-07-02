@@ -14,26 +14,26 @@ export const _sizeSlideFull = "5vw";
 /* ==== ANIMATIONS ==== */
 /* ======================================== */
 
-// const _Slide = posed.div({
-//   fullClose: {
-//     transform: "translate3d(-1200px, 0, 0)",
-//     transition: {
-//       duration: 300,
-//     }
-//   },
-//   close: {
-//     transform: "translate3d(-951px, 0, 0)",
-//     transition: {
-//       duration: 300,
-//     }
-//   },
-//   open: {
-//     transform: "translate3d(-31px, 0, 0)",
-//     transition: {
-//       duration: 300,
-//     }
-//   }
-// });
+const _Slide = posed.div({
+  fullClose: {
+    transform: "translate3d(-1200px, 0, 0)",
+    transition: {
+      duration: 300,
+    }
+  },
+  close: {
+    transform: "translate3d(-951px, 0, 0)",
+    transition: {
+      duration: 300,
+    }
+  },
+  open: {
+    transform: "translate3d(-31px, 0, 0)",
+    transition: {
+      duration: 300,
+    }
+  }
+});
 
 const _toggleSlide = posed.button({
   close: {
@@ -240,7 +240,7 @@ export const Slide = (props: SlideProps) => {
 
   return (
     <React.Fragment>
-      <SlideStyled ref={Slide_} disabled={disabled} beverageIsSelected={beverageIsSelected} /* pose={animationSlide()} */>
+      <SlideStyled ref={Slide_} disabled={disabled} beverageIsSelected={beverageIsSelected}>
         <HeaderSlide className={slideOpen && "open"}>
           <h2>{__("c_welcome")}, {dataConsumer.consumer_nick}!</h2>
         </HeaderSlide>
@@ -256,6 +256,7 @@ export const Slide = (props: SlideProps) => {
               const BeverageAnimated = BeveragesAnimated[i];
               return (
                 <BeverageAnimated
+                  pose={animationSlide()}
                   pouring={i === indexFavoritePouring_}
                   onStart={() => selectConsumerBeverage(b)}
                   onHoldStart={() => startConsumerPour(b, i)}
