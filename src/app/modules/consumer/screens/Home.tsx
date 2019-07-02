@@ -346,8 +346,8 @@ export const Home = (props: HomeProps) => {
 
   const startPour = (beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig, indexFavorite?: number) => {
 
-    showPayment();
-    return;
+    // showPayment();
+    // return;
 
     let bevSelected, bevConfig = null;
 

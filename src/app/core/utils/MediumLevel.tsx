@@ -37,12 +37,9 @@ export default {
     temperature: () => get("product/temperature")
   },
   payment: {
-    // getAvailableMethods: () => getFake("payment/methods"),
-    // getBeverageFromQr: data => getFake(`payment/prepay/qr/lean/beverages_from_qr/${data}`),
-    // validateQr: data => getFake(`payment/prepay/qr/lean/validate`),
-    // pollNfc: () => getFake("poll_nfc_empty"),
-    generateQr: data => post("payment/postpay/qr/mode1/generate", data),
-    confirmPostPayment: payload => post("payment/postpay/qr/mode1/confirm", payload)
+    getPrices: () => get("menu/prices"),
+    setPrice: (beverage_id, price, currency) => post("menu/price", { beverage_id, price, currency }),
+    vendRequest: beverageConfig => post("product/vend_request", beverageConfig),
   },
   dispense: {
     pour: beverageConfig => post("dispense/pour", beverageConfig),

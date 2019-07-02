@@ -3,10 +3,19 @@ import createContainer from "constate";
 import { ConfigContext, ConsumerContext } from ".";
 
 //  ==== STATUS ====>
+export enum PaymentMode {
+  Pay = "pay",
+  Free = "free",
+  Null = ""
+}
+
 export enum PaymentStatus {
-  Eth = "eth",
-  Wifi = "wifi",
-  Mobile = "mobile"
+  Swiped = "SWIPED",
+  Authorized = "AUTHORIZED",
+  Declined = "DECLINED",
+  VendApprove = "VENDAPPROVE",
+  EndSession = "ENDSESSION",
+  Power = "POWER"
 }
 
 /* ==== MAIN ==== */
@@ -17,13 +26,19 @@ const PaymentContainer = createContainer(() => {
   const configConsumer = React.useContext(ConfigContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 
-  React.useEffect(() => {
-    console.log("PaymentContainer => INIT");
-    return () => {
-      console.log("PaymentContainer => END");
-    };
-  }, []);
+  const { vendorConfig } = configConsumer;
+  const [paymentEnabled, setPaymentEnabled] = React.useState<boolean>(null);
 
+  React.useEffect(() => {
+    if (vendorConfig && vendorConfig.pay_id) {
+      setPaymentEnabled(vendorConfig.pay_id === PaymentMode.Pay);
+    }
+  }, [vendorConfig.pay_id]);
+
+
+  React.useEffect(() => {
+    console.log({ paymentEnabled });
+  }, [paymentEnabled]);
 
   return {
 

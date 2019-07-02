@@ -45,6 +45,7 @@ interface ChoiceBeverageProps {
   onGesture: (gestureType: any) => void;
   selectBeverage: (b) => void;
   startPour: (b) => void;
+  showPayment: () => any;
   stopPour: () => void;
   goToPrepay: () => void;
   handleType: (v: boolean) => void;
