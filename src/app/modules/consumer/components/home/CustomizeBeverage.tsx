@@ -253,7 +253,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
       { transform: "translate3d(-50%, -105%, 0) scale(1)" },
       { transform: "translate3d(-50%, -62%, 0) scale(1.8)" },
     ], {
-        duration: 750,
+        duration: 1000,
         fill: "forwards",
         easing: "ease-out"
       });

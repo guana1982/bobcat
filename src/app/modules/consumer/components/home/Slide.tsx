@@ -224,7 +224,7 @@ export const Slide = (props: SlideProps) => {
       { transform: "translate3d(-31px, 0, 0)" }
     ],
     {
-      duration: 150,
+      duration: 500,
       fill: "forwards"
     });
 
@@ -233,7 +233,7 @@ export const Slide = (props: SlideProps) => {
       { transform: closed }
     ],
     {
-      duration: 150,
+      duration: 500,
       fill: "forwards"
     });
   }, [slideOpen]);
