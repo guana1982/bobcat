@@ -2,7 +2,6 @@ import * as React from "react";
 import { MemoryRouter } from "react-router";
 import { ConfigStore } from "@containers/index";
 import { GlobalStyle } from "./GlobalStyle";
-import PreCacheImg from "react-precache-img";
 import { Consumer } from "@modules/consumer/Consumer";
 import { Service } from "@modules/service/Service";
 
@@ -20,7 +19,7 @@ const App = () => {
   ROOT.addEventListener("touchstart", function() {
     // console.log("touched");
     setTimeout(() => ROOT.style.pointerEvents = "none", 50);
-    setTimeout(() => ROOT.style.pointerEvents = "auto", 750);
+    setTimeout(() => ROOT.style.pointerEvents = "auto", 500);
   });
 
   return (
