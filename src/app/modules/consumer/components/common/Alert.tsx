@@ -35,7 +35,7 @@ const AlertWrap = styled.div`
     background-image: linear-gradient(to bottom, #eeeeee, #cbcfda);
   }
   &.with-img {
-    img {
+    img.type-img {
       width: 260px;
       height: 260px;
       margin-bottom: 40px;
@@ -74,13 +74,62 @@ const AlertWrap = styled.div`
     box-shadow: 7px 13px 28px 0 rgba(199, 200, 204, 0.3);
     color: ${props => props.theme.slateGrey};
   }
-  .${AlertTypes.NeedPayment} {
-    width: 480px;
-    height: 589px;
-    #Icon-Down {
+  &.${AlertTypes.NeedPayment} {
+    top: 125px;
+    left: 382px;
+    transform: none !important;
+    &, img.type-img {
       position: absolute;
-      bottom: 56.3px;
-      right: 386.3px;
+      width: 516px;
+      height: 550px;
+      margin: 0;
+    }
+    #title {
+      position: fixed;
+      font-size: 16px;
+      line-height: 2.34;
+      letter-spacing: 1.28px;
+      text-align: left;
+      vertical-align: center;
+      top: 347px;
+      right: 108px;
+      width: 300px;
+      height: 38px;
+    }
+    #Icon-Left {
+      position: fixed;
+      width: 27px;
+      height: 47px;
+      top: 370.5px;
+      right: 468.5px;
+    }
+    #Icon-CreditCard {
+      position: fixed;
+      top: 401px;
+      right: 374px;
+      width: 34px;
+      height: 22px;
+    }
+    #Icon-ApplePay {
+      position: fixed;
+      top: 402px;
+      right: 283px;
+      width: 47px;
+      height: 20px;
+    }
+    #Icon-AndroidPay {
+      position: fixed;
+      top: 394px;
+      right: 210px;
+      width: 29px;
+      height: 35px;
+    }
+    #Icon-SamsungPay {
+      position: fixed;
+      top: 401px;
+      right: 117px;
+      width: 49px;
+      height: 22px;
     }
   }
 `;
@@ -188,15 +237,19 @@ export const Alert = (props: AlertProps) => {
 
   return (
     <AlertWrap className={`${img ? "with-img" : ""} ${type}`}>
-      {img && <img src={img} />}
+      {img && <img className={"type-img"} src={img} />}
       <span className={type} id="title">{__(type)}</span>
       {subTitle && <span id="sub-title">{__(`${type}_subtitle`)}</span>}
       {onConfirm && <button id="confirm-btn" onClick={onConfirm}>OK</button>}
       {/* CUSTOM BY TYPE => */}
       {type === AlertTypes.NeedPayment &&
-        <>
-          <img id="Icon-Down" src={"icons/down.svg"} />
-        </>
+        <div className={"custom-elements"}>
+          <img id="Icon-Left" src={"icons/left.svg"} />
+          <img id="Icon-CreditCard" src={"icons/credit-card.svg"} />
+          <img id="Icon-ApplePay" src={"icons/apple-pay.png"} />
+          <img id="Icon-AndroidPay" src={"icons/android-pay.svg"} />
+          <img id="Icon-SamsungPay" src={"icons/samsung-pay.png"} />
+        </div>
       }
     </AlertWrap>
   );
