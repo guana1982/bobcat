@@ -378,8 +378,10 @@ export const Home = (props: HomeProps) => {
       bevConfig = beverageConfig;
     } else {
       bevConfig = {...state.beverageConfig};
-      if (bevConfig.carbonation_level == null) {
-        bevConfig.carbonation_level = 0;
+      if (bevConfig.carbonation_level == null || bevConfig.temperature_level || bevConfig.flavor_level) {
+        bevConfig.carbonation_level = bevSelected.carbonation_levels.values[1];
+        bevConfig.temperature_level = 50;
+        bevConfig.flavor_level = 2;
       }
     }
 
