@@ -285,7 +285,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           <Button detectValue="exit-btn" onClick={() => endPourEvent()} text="Done" icon="log-out" />
         }
 
-        {!props.showCardsInfo && <div id="backdrop" onClick={resetBeverage} />}
+        {!props.showCardsInfo && <div id="backdrop" onTouchStart={resetBeverage} />}
 
         {props.showCardsInfo &&
           <React.Fragment>

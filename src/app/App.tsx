@@ -15,17 +15,26 @@ const PreCacheFont = () => (
   </div>
 );
 
-const App = () => (
-  <React.Fragment>
-    <GlobalStyle />
-    <PreCacheFont />
-    <MemoryRouter>
-      <ConfigStore>
-        <Consumer />
-        <Service />
-      </ConfigStore>
-    </MemoryRouter>
-  </React.Fragment>
-);
+const App = () => {
+  let ROOT = document.getElementById("root");
+  ROOT.addEventListener("touchstart", function() {
+    // console.log("touched");
+    setTimeout(() => ROOT.style.pointerEvents = "none", 50);
+    setTimeout(() => ROOT.style.pointerEvents = "auto", 750);
+  });
+
+  return (
+    <React.Fragment>
+      <GlobalStyle />
+      <PreCacheFont />
+      <MemoryRouter>
+        <ConfigStore>
+          <Consumer />
+          <Service />
+        </ConfigStore>
+      </MemoryRouter>
+    </React.Fragment>
+  );
+};
 
 export default App;

@@ -50,7 +50,7 @@ interface ButtonProps {
 export const Button = (props: ButtonProps) => {
   const {text, icon, onClick, disabled, detectValue} = props;
   return (
-    <ButtonWrap className={text ? "large" : "small"} id={detectValue} disabled={disabled} onClick={onClick}>
+    <ButtonWrap className={text ? "large" : "small"} id={detectValue} disabled={disabled} onTouchStart={onClick}>
       <div id="icon">
         <img src={`icons/${icon}.svg`} />
       </div>
