@@ -122,7 +122,7 @@ export const SlideStyled = styled(_Slide)`
       }
     }
   `}
-  background: #fff;
+  background: ${props => props.beverageIsSelected ? "none" : "#fff"};
   /* background-image: url("img/slider-bg.svg"); */
   /* &:before {
     content: " ";
@@ -215,12 +215,13 @@ export const Slide = (props: SlideProps) => {
   const beverageIsSelected = beverageSelected !== undefined && beverageSelected !== null;
   const animationSlide = () => slideOpen ? "open" : fullMode ? "fullClose" : "close";
 
+
   return (
     <React.Fragment>
       <SlideStyled disabled={disabled} beverageIsSelected={beverageIsSelected} pose={animationSlide()}>
-        <HeaderSlide className={slideOpen && "open"}>
+        {!beverageIsSelected && <HeaderSlide className={slideOpen && "open"}>
           <h2>{__("c_welcome")}, {dataConsumer.consumer_nick}!</h2>
-        </HeaderSlide>
+        </HeaderSlide>}
         {
           alarmConnectivity_ ?
           <AlertSLide>
@@ -257,9 +258,11 @@ export const Slide = (props: SlideProps) => {
           </Grid>
         }
         {/* {consumerBeverages[0].$types[0] === BeverageTypes.Info && <h3 id="info">{__("c_save_favourites")}</h3>} */}
-        <ToggleSlide id="slide-toogle" disabled={disabled} onClick={() => handleSlide()}>
-          <img src={"icons/arrow-circle.png"} />
-        </ToggleSlide>
+        {!beverageIsSelected &&
+          <ToggleSlide id="slide-toogle" disabled={disabled} onClick={() => handleSlide()}>
+            <img src={"icons/arrow-circle.png"} />
+          </ToggleSlide>
+        }
       </SlideStyled>
     </React.Fragment>
   );
