@@ -30,6 +30,7 @@ export interface IBrandDescription {
 
 export interface IBeverage extends IBrandDescription {
   $lock?: boolean;
+  $price?: any;
   beverage_type?: string;
   line_id?: number;
   toppings?: Topping[];

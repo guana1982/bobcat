@@ -6,7 +6,7 @@ import { NumberCard } from "../cards/NumberCard";
 import { CircleCard } from "../cards/CircleCard";
 import { PhoneCard } from "../cards/PhoneCard";
 import posed from "react-pose";
-import { AccessibilityContext, ConfigContext, AlertTypes } from "@core/containers";
+import { AccessibilityContext, ConfigContext, AlertTypes, PaymentContext } from "@core/containers";
 import { __ } from "@core/utils/lib/i18n";
 import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
 import { SegmentButtonProps, SegmentButton } from "../common/SegmentButton";
@@ -258,9 +258,11 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   const buttonPourEl = React.useRef(null);
   const accessibilityConsumer = React.useContext(AccessibilityContext);
   const configConsumer = React.useContext(ConfigContext);
+  const paymentConsumer = React.useContext(PaymentContext);
   const { pour, enter } = accessibilityConsumer;
 
   const { isPouring, statusAlarms } = configConsumer;
+  const { getPriceBeverage, paymentEnabled } = paymentConsumer;
 
   React.useEffect(() => {
     const button = buttonPourEl.current.node;
@@ -369,12 +371,14 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                     onChange={(value) => handleChange(value, "temperature")}>
                   </ButtonGroup>
                 </div>
-                <div id="price">
-                  <span id="value">
-                    <span id="total">{__("c_total")}</span>
-                    75¢
-                  </span>
-                </div>
+                {paymentEnabled &&
+                  <div id="price">
+                    <span id="value">
+                      {beverageSelected.$price > 0 && <span id="total">{__("c_total")}</span>}
+                      {getPriceBeverage(beverageSelected.$price)}
+                    </span>
+                  </div>
+                }
               </div>
             </div>
           </CustomizeBeverageCard>

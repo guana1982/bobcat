@@ -12,9 +12,12 @@ import { MTypes } from "@modules/service/components/common/Button";
 import { Alarms_ } from "@core/utils/APIMock";
 import { IStatusAlarms } from "@core/utils/APIModel";
 
-const mergeById = ([t, s, l]) => {
-  return t.map((p, i) => {
-    return Object.assign({}, p, s.find(q => p.beverage_id === q.beverage_id), {$lock: l[p.line_id - 1]});
+const mergeById = ([bevs, brands, locks, prices]) => {
+  return bevs.map((bev, i) => {
+    const brand_ = brands.find(b => bev.beverage_id === b.beverage_id);
+    const lock_ = {$lock: locks[bev.line_id - 1]};
+    const price_ = prices.products.filter(p => (Number(bev.beverage_id) === Number(p.upc))).map(p => { return { $price: Number(p.price) }; })[0] || { $price: 0 };
+    return Object.assign({}, bev, brand_, lock_, price_);
   });
 };
 
@@ -223,8 +226,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
     /* ==== GET CONFIG ==== */
     /* ======================================== */
-
-    this.setBeverages = combineLatest(mediumLevel.config.getBeverages(), mediumLevel.config.getBrands(), mediumLevel.line.getLockLines())
+    this.setBeverages = combineLatest(mediumLevel.config.getBeverages(), mediumLevel.config.getBrands(), mediumLevel.line.getLockLines(), mediumLevel.payment.getPrices())
     .pipe(
       map(mergeById),
       tap(beverages => {

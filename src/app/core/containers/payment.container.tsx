@@ -1,6 +1,7 @@
 import * as React from "react";
 import createContainer from "constate";
 import { ConfigContext, ConsumerContext } from ".";
+import { __ } from "@core/utils/lib/i18n";
 
 //  ==== STATUS ====>
 export enum PaymentMode {
@@ -27,6 +28,8 @@ const PaymentContainer = createContainer(() => {
   const consumerConsumer = React.useContext(ConsumerContext);
 
   const { vendorConfig } = configConsumer;
+  const { currency } = vendorConfig;
+
   const [paymentEnabled, setPaymentEnabled] = React.useState<boolean>(null);
 
   React.useEffect(() => {
@@ -35,13 +38,20 @@ const PaymentContainer = createContainer(() => {
     }
   }, [vendorConfig.pay_id]);
 
-
-  React.useEffect(() => {
-    console.log({ paymentEnabled });
-  }, [paymentEnabled]);
+  function getPriceBeverage(value: number) {
+    if (value === 0) {
+      return __("c_free");
+    }
+    if (value < 100 && currency === "USD") {
+      return `${String(value / 100).replace(/^0+/, "")} ${__("c_cent")}`;
+    }
+    return `${value / 100} ${__(`c_${currency}`)}`;
+  }
 
   return {
-
+    paymentEnabled,
+    currency,
+    getPriceBeverage
   };
 });
 

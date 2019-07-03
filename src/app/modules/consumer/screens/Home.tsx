@@ -10,7 +10,7 @@ import { ConfigContext } from "@containers/config.container";
 import { TimerContext, StatusProximity } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { BeverageTypes } from "@modules/consumer/components/beverage/Beverage";
-import { AccessibilityContext } from "@core/containers";
+import { AccessibilityContext, PaymentContext } from "@core/containers";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { TIMEOUT_ATTRACTOR } from "./Attractor";
 import { Slide, _sizeSlideFull, _sizeSlide } from "../components/home/Slide";
@@ -110,6 +110,7 @@ export const Home = (props: HomeProps) => {
 
   const alertConsumer = React.useContext(AlertContext);
   const configConsumer = React.useContext(ConfigContext);
+  const paymentConsumer = React.useContext(PaymentContext);
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 
@@ -290,10 +291,12 @@ export const Home = (props: HomeProps) => {
   /* ==== PAYMENT ==== */
   /* ======================================== */
 
+  const { paymentEnabled } = paymentConsumer;
+
   const showPayment = () => {
     setDisabled(true);
     alertConsumer.show({
-      type: AlertTypes.ErrorQrNotFound,
+      type: AlertTypes.NeedPayment,
       img: "img/pay.svg",
       timeout: false,
       transparent: true,
@@ -346,8 +349,10 @@ export const Home = (props: HomeProps) => {
 
   const startPour = (beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig, indexFavorite?: number) => {
 
-    // showPayment();
-    // return;
+    if (paymentEnabled || true) {
+      showPayment();
+      return;
+    }
 
     let bevSelected, bevConfig = null;
 

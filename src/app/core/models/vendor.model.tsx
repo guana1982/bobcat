@@ -5,6 +5,7 @@ export interface VendorConfig {
   screen_saver_timeout: number;
   imei: string;
   country: string;
+  currency: string;
   pay_id: string;
   serial_number_mediaboard: string;
   serial_number_powerboard: string;

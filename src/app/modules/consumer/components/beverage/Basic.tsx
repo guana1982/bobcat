@@ -6,6 +6,7 @@ import { Logo } from "./Logo";
 import { IBeverage } from "@core/models";
 import { ILevelsModel } from "@core/utils/APIModel";
 import { Beverages } from "@core/utils/constants";
+import { PaymentContext } from "@core/containers";
 
 interface BasicProps {
   className: any;
@@ -28,6 +29,9 @@ export const Basic_ = (props: BasicProps) => {
     return null;
 
   const sparkling_ = (types && types[0] === BeverageTypes.Sparkling) || $sparkling; // <= CONDITION
+
+  const paymentConsumer = React.useContext(PaymentContext);
+  const { getPriceBeverage, paymentEnabled } = paymentConsumer;
 
   return (
     <div className={className}>
@@ -59,7 +63,7 @@ export const Basic_ = (props: BasicProps) => {
         <Logo {...props} />
         <span id="title">{__(beverage.beverage_type === Beverages.Plain ? (sparkling_ ? __("sparkling_water") : __("pure_water")) : __(title))}</span>
         <span id="cal">{calories} {__("c_cal")}.</span> {/* {beverage.calories} */}
-        <span id="price">75¢</span>
+        {paymentEnabled && <span id="price">{getPriceBeverage(beverage.$price)}</span>}
     </div>
   );
 };
