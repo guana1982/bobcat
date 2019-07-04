@@ -79,6 +79,7 @@ export enum SOCKET_CONSUMER {
 }
 export const SOCKET_CONNECTIVITY = "connectivity_status";
 export const SOCKET_UPDATE = "update_status";
+export const SOCKET_PAYMENT = "payment";
 // export const SOCKET_QR = "qr_found";
 // -- MESSAGES SOCKET --
 export const MESSAGE_START_VIDEO = "start_video";

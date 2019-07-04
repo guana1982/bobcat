@@ -6,7 +6,7 @@ import { NumberCard } from "../cards/NumberCard";
 import { CircleCard } from "../cards/CircleCard";
 import { PhoneCard } from "../cards/PhoneCard";
 import posed from "react-pose";
-import { AccessibilityContext, ConfigContext, AlertTypes, PaymentContext } from "@core/containers";
+import { AccessibilityContext, ConfigContext, AlertTypes, PaymentContext, PaymentStatus } from "@core/containers";
 import { __ } from "@core/utils/lib/i18n";
 import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
 import { SegmentButtonProps, SegmentButton } from "../common/SegmentButton";
@@ -15,6 +15,8 @@ import { ButtonGroup } from "../common/ButtonGroup";
 import ClickNHold from "../common/ClickNHold";
 import { Beverages } from "@core/utils/constants";
 import { Alert } from "../common/Alert";
+import { PaymentInfo } from "../common/PaymentInfo";
+import { ReplaySubscription } from "../common/Subscription";
 
 /* color: string; */
 /* @keyframes shadow-pulse
@@ -228,6 +230,21 @@ export const CustomizeBeverageWrap = styled.section`
       }
     }
   }
+  #payment-status {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    bottom: 3rem;
+    right: 0;
+    font-size: 16px;
+    font-family: NeuzeitGro-Bol;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 1.28px;
+    color: ${props => props.theme.slateGrey};
+  }
 `;
 
 /* ==== ELEMENT ==== */
@@ -262,9 +279,12 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   const { pour, enter } = accessibilityConsumer;
 
   const { isPouring, statusAlarms } = configConsumer;
-  const { getPriceBeverage, paymentEnabled } = paymentConsumer;
+  const { getPriceBeverage, paymentModeEnabled, socketPayment$, needToPay } = paymentConsumer;
 
   React.useEffect(() => {
+    if (!(buttonPourEl.current && buttonPourEl.current.node)) {
+      return;
+    }
     const button = buttonPourEl.current.node;
     const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
     if (!isPouring) {
@@ -371,7 +391,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                     onChange={(value) => handleChange(value, "temperature")}>
                   </ButtonGroup>
                 </div>
-                {paymentEnabled &&
+                {paymentModeEnabled &&
                   <div id="price">
                     <span id="value">
                       {beverageSelected.$price > 0 && <span id="total">{__("c_total")}</span>}
@@ -383,22 +403,32 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             </div>
           </CustomizeBeverageCard>
         }
-        <ClickNHold
-          time={0.250}
-          onStart={() => {}}
-          onClickNHold={() => startPour()}
-          onEnd={(e, enough) => enough && stopPour()}
-          className="pour-btn"
-          ref={buttonPourEl}
-        >
-          <Pour
-            color={beverageSelected.beverage_font_color}
-            // isPouring={isPouring}
-            // ref={buttonPourEl}
-          >
-            {__("c_pour")}
-          </Pour>
-        </ClickNHold>
+        <PaymentInfo />
+        <ReplaySubscription source={socketPayment$.current}>
+          {(status: PaymentStatus) => {
+            if (status === PaymentStatus.Authorized || !needToPay(beverageSelected))
+              return(
+                <ClickNHold
+                  time={0.250}
+                  onStart={() => {}}
+                  onClickNHold={() => startPour()}
+                  onEnd={(e, enough) => enough && stopPour()}
+                  className="pour-btn"
+                  ref={buttonPourEl}
+                >
+                  <Pour
+                    color={beverageSelected.beverage_font_color}
+                    // isPouring={isPouring}
+                    // ref={buttonPourEl}
+                  >
+                    {__("c_pour")}
+                  </Pour>
+                </ClickNHold>
+              );
+
+            return null;
+          }}
+        </ReplaySubscription>
       </CustomizeBeverageWrap>
     </React.Fragment>
   );

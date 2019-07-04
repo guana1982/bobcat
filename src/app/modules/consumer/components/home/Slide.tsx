@@ -7,6 +7,7 @@ import { ConsumerContext } from "@core/containers";
 import { BeveragesAnimated, BeverageTypes } from "../beverage/Beverage";
 import { Footer } from "../common/Footer";
 import { Grid } from "../common/Grid";
+import { PaymentInfo } from "../common/PaymentInfo";
 
 export const _sizeSlide = "325px";
 export const _sizeSlideFull = "5vw";
@@ -137,18 +138,19 @@ export const SlideStyled = styled(_Slide)`
     background-repeat: no-repeat;
     background-position: bottom;
   } */
-  #info {
+  #payment-status {
     position: absolute;
     width: 100%;
     text-align: center;
+    text-transform: uppercase;
     bottom: 6rem;
     right: 0;
-    font-size: 18px;
+    font-size: 16px;
+    font-family: NeuzeitGro-Bol;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
+    letter-spacing: 1.28px;
     color: ${props => props.theme.slateGrey};
   }
   ${Footer} {
@@ -257,7 +259,7 @@ export const Slide = (props: SlideProps) => {
             })}
           </Grid>
         }
-        {/* {consumerBeverages[0].$types[0] === BeverageTypes.Info && <h3 id="info">{__("c_save_favourites")}</h3>} */}
+        {slideOpen && <PaymentInfo />}
         {!beverageIsSelected &&
           <ToggleSlide id="slide-toogle" disabled={disabled} onClick={() => handleSlide()}>
             <img src={"icons/arrow-circle.png"} />

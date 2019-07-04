@@ -87,7 +87,8 @@ export default {
     getPaymentType: () =>  get("menu/payment_type"),
     setPaymentType: type => post("menu/payment_type", { type }),
     getPrices: () => get("menu/prices"),
-    setPrice: data => post("menu/price", data)
+    setPrice: data => post("menu/price", data),
+    vendRrequest: beverageConfig => post("product/vend_request", beverageConfig)
   },
   timeout: {
     setTimeout: screen_saver_timeout => post("menu/screen_saver_timeout", { screen_saver_timeout })

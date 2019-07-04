@@ -7,6 +7,7 @@ import { SegmentButtonWrapper, SegmentButtonProps, SegmentButton } from "../comm
 import { Button } from "../common/Button";
 import { Grid } from "../common/Grid";
 import { Alert } from "../common/Alert";
+import { PaymentInfo } from "../common/PaymentInfo";
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */
@@ -107,6 +108,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
             );
           })}
         </Grid>
+        <PaymentInfo disabled={disabled} />
         <Button detectValue="nutrition-btn" disabled={disabled || disableSparkling_} onClick={() => handleNutritionFacts()} text="c_nutrition" icon={!nutritionFacts ? "nutrition" : "close"} />
         {!isLogged && <Button detectValue="signin-btn" disabled={disabled} onClick={() => goToPrepay()} text="c_sign_in" icon="qr-code" />}
         {isLogged && <Button detectValue="logout-btn" disabled={disabled} onClick={() => resetConsumer()} text="c_done" icon="log-out" />}

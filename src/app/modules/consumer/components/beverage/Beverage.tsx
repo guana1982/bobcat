@@ -6,7 +6,7 @@ import { __ } from "@utils/lib/i18n";
 import { IBeverage } from "@models/index";
 import { forwardRef } from "react";
 import { BeverageStatus } from "@models/beverage.model";
-import { AccessibilityContext, ConfigContext } from "@core/containers";
+import { AccessibilityContext, ConfigContext, PaymentContext } from "@core/containers";
 import ReactDOM = require("react-dom");
 import { Nutrition } from "./Nutrition";
 import { OutOfStock } from "./OutOfStock";
@@ -163,6 +163,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   //  ==== ACCESSIBILITY FUNCTION ====>
   const buttonEl = React.useRef(null);
   const accessibilityConsumer = React.useContext(AccessibilityContext);
+  const paymentConsumer = React.useContext(PaymentContext);
   const { enter, pour, changeStateLayout } = accessibilityConsumer;
 
   React.useEffect(() => {
@@ -275,7 +276,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
               <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
                 <button id={detectValue} ref={buttonEl} disabled={disabledButton}>
                   <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
-                  <Basic levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
+                  <Basic paymentConsumer={paymentConsumer} levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
                 </button>
               </BeverageWrap>
             </ClickNHold>

@@ -10,7 +10,7 @@ import { ConfigContext } from "@containers/config.container";
 import { TimerContext, StatusProximity } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { BeverageTypes } from "@modules/consumer/components/beverage/Beverage";
-import { AccessibilityContext, PaymentContext } from "@core/containers";
+import { AccessibilityContext, PaymentContext, PaymentStatus } from "@core/containers";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { TIMEOUT_ATTRACTOR } from "./Attractor";
 import { Slide, _sizeSlideFull, _sizeSlide } from "../components/home/Slide";
@@ -21,6 +21,7 @@ import { Grid } from "../components/common/Grid";
 import { SegmentButtonProps } from "../components/common/SegmentButton";
 import { OutOfOrder } from "../components/home/OutOfOrder";
 import Gesture from "@core/components/Menu/Gesture";
+import { first } from "rxjs/operators";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -35,6 +36,21 @@ export const HomeWrap = styled.div`
   top: 0;
   ${Grid} {
     padding-top: 5.5rem;
+  }
+  #payment-status {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    bottom: 1.5rem;
+    right: 0;
+    font-size: 16px;
+    font-family: NeuzeitGro-Bol;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 1.28px;
+    color: ${props => props.theme.slateGrey};
   }
 `;
 
@@ -291,9 +307,9 @@ export const Home = (props: HomeProps) => {
   /* ==== PAYMENT ==== */
   /* ======================================== */
 
-  const { paymentEnabled } = paymentConsumer;
+  const { needToPay, canPour, socketPayment$ } = paymentConsumer;
 
-  const showPayment = () => {
+  const showPayment = (call_?: any) => {
     setDisabled(true);
     alertConsumer.show({
       type: AlertTypes.NeedPayment,
@@ -301,15 +317,35 @@ export const Home = (props: HomeProps) => {
       timeout: false,
       transparent: true,
       onDismiss: () => {
-        console.log("tao");
         setDisabled(false);
+        call_();
       }
     });
   };
 
+  const checkPayment = () => {
+    let needToPay_ = false;
+    const socketPayment_ = socketPayment$.current
+    .subscribe(
+      status => {
+        if (status !== PaymentStatus.Authorized) {
+          if (needToPay_ === false) {
+            showPayment(() => socketPayment_.unsubscribe());
+            needToPay_ = true;
+          }
+        } else if (status === PaymentStatus.Authorized) {
+          alertConsumer.hide();
+          socketPayment_.unsubscribe();
+        } else if (status === PaymentStatus.Declined) {
+          alert("ERROR => PaymentStatus.Declined");
+          socketPayment_.unsubscribe();
+        }
+      }
+    );
+  };
+
   /* ==== BEVERAGE ==== */
   /* ======================================== */
-
   const selectBeverage = (beverage: IBeverage) => {
     const { beverages } = configConsumer;
     handleType(state.isSparkling);
@@ -349,9 +385,12 @@ export const Home = (props: HomeProps) => {
 
   const startPour = (beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig, indexFavorite?: number) => {
 
-    if (paymentEnabled || true) {
-      showPayment();
-      return;
+    const needToPay_ = needToPay(beverageSelected || getBeverageSelected());
+    if (needToPay_) {
+      if (!canPour()) {
+        checkPayment();
+        return;
+      }
     }
 
     let bevSelected, bevConfig = null;
@@ -387,7 +426,22 @@ export const Home = (props: HomeProps) => {
 
     setEndSession(StatusEndSession.Start);
 
-    configConsumer.onStartPour(bevSelected, bevConfig).subscribe(); // => TEST MODE
+    const pour_ = configConsumer.onStartPour(bevSelected, bevConfig);
+
+    if (needToPay_) {
+      mediumLevel.price.vendRrequest({ beverage_id: bevSelected.beverage_id })
+      .subscribe(
+        data => {
+          if (data.status === 0) {
+            pour_.subscribe();
+          } else {
+            alert("ERROR => VendRrequest === 1");
+          }
+        }
+      );
+    } else {
+      pour_.subscribe(); // => TEST MODE
+    }
   };
 
   const stopPour = (forse?: boolean) => {
