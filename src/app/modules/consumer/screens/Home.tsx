@@ -417,12 +417,22 @@ export const Home = (props: HomeProps) => {
       bevConfig = beverageConfig;
     } else {
       bevConfig = {...state.beverageConfig};
-      if (bevConfig.carbonation_level == null || bevConfig.temperature_level || bevConfig.flavor_level) {
-        bevConfig.carbonation_level = bevSelected.carbonation_levels.values[1];
+      if (bevConfig.carbonation_level == null
+        || bevConfig.temperature_level == null
+        || bevConfig.flavor_level == null
+      ) {
+        if (state.isSparkling) {
+          bevConfig.carbonation_level = bevSelected.carbonation_levels.type === "single"
+            ? 50 : bevSelected.carbonation_levels.values[1];
+        } else {
+          bevConfig.carbonation_level = bevSelected.carbonation_levels.values[0];
+        }
         bevConfig.temperature_level = 50;
         bevConfig.flavor_level = 2;
       }
     }
+
+    console.log(bevConfig, beverageConfig);
 
     setEndSession(StatusEndSession.Start);
 
