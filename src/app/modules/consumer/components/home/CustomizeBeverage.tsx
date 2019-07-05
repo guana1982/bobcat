@@ -6,7 +6,7 @@ import { NumberCard } from "../cards/NumberCard";
 import { CircleCard } from "../cards/CircleCard";
 import { PhoneCard } from "../cards/PhoneCard";
 import posed from "react-pose";
-import { AccessibilityContext, ConfigContext, AlertTypes, PaymentContext, PaymentStatus } from "@core/containers";
+import { AccessibilityContext, ConfigContext, AlertTypes, PaymentContext, PaymentStatus, PaymentStatusPour } from "@core/containers";
 import { __ } from "@core/utils/lib/i18n";
 import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
 import { SegmentButtonProps, SegmentButton } from "../common/SegmentButton";
@@ -279,7 +279,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   const { pour, enter } = accessibilityConsumer;
 
   const { isPouring, statusAlarms } = configConsumer;
-  const { getPriceBeverage, paymentModeEnabled, socketPayment$, needToPay } = paymentConsumer;
+  const { getPriceBeverage, paymentModeEnabled, socketPayment$, needToPay, canPour } = paymentConsumer;
 
   React.useEffect(() => {
     if (!(buttonPourEl.current && buttonPourEl.current.node)) {
@@ -403,10 +403,9 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             </div>
           </CustomizeBeverageCard>
         }
-        <PaymentInfo />
         <ReplaySubscription source={socketPayment$.current}>
           {(status: PaymentStatus) => {
-            if (status === PaymentStatus.Authorized || !needToPay(beverageSelected))
+            if (status in PaymentStatusPour || !needToPay(beverageSelected))
               return(
                 <ClickNHold
                   time={0.250}
@@ -426,7 +425,9 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                 </ClickNHold>
               );
 
-            return null;
+            return (
+              <PaymentInfo />
+            );
           }}
         </ReplaySubscription>
       </CustomizeBeverageWrap>

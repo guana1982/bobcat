@@ -15,7 +15,8 @@ export enum AlertTypes {
   ErrorWebcam = "c_error_webcam",
   ErrorQrNotFound = "c_error_qr_not_found",
   ErrorUnassociatedBottle = "c_error_unassociated_bottle",
-  ErrorADAPanelDown = "c_ada_panel_down"
+  ErrorADAPanelDown = "c_ada_panel_down",
+  ErrorPaymentDown = "c_payment_down"
 }
 
 export interface AlertOptions {

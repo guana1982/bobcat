@@ -39,7 +39,7 @@ export default {
   payment: {
     getPrices: () => get("menu/prices"),
     setPrice: (beverage_id, price, currency) => post("menu/price", { beverage_id, price, currency }),
-    vendRequest: beverageConfig => post("product/vend_request", beverageConfig),
+    vendRrequest: beverageConfig => post("payment/vend_request", beverageConfig)
   },
   dispense: {
     pour: beverageConfig => post("dispense/pour", beverageConfig),
@@ -87,8 +87,7 @@ export default {
     getPaymentType: () =>  get("menu/payment_type"),
     setPaymentType: type => post("menu/payment_type", { type }),
     getPrices: () => get("menu/prices"),
-    setPrice: data => post("menu/price", data),
-    vendRrequest: beverageConfig => post("product/vend_request", beverageConfig)
+    setPrice: data => post("menu/price", data)
   },
   timeout: {
     setTimeout: screen_saver_timeout => post("menu/screen_saver_timeout", { screen_saver_timeout })

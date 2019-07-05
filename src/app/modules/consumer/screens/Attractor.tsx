@@ -4,7 +4,7 @@ import mediumLevel from "@utils/MediumLevel";
 import { tap } from "rxjs/operators";
 import { Subscription } from "rxjs";
 import { Pages, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA } from "@utils/constants";
-import { ConfigContext } from "@core/containers";
+import { ConfigContext, PaymentContext } from "@core/containers";
 import { SreenWrapper } from "../components/common/ScreenWrapper";
 import CountUp from "react-countup";
 import { themeMain } from "@style";
@@ -22,13 +22,15 @@ export const Attractor = (props: AttractorProps) => {
   const [show, setShow] = React.useState(false);
 
   const configConsumer = React.useContext(ConfigContext);
+  const paymentConsumer = React.useContext(PaymentContext);
 
   const goToHome = () => props.history.push(Pages.Home);
   const goToPrepay = () => props.history.push(Pages.Prepay);
 
   React.useEffect(() => {
-    const timeout_ = props.history.index === 0 ? 0 : TIMEOUT_ATTRACTOR;
-    eventTimeout_ = setTimeout(() => setShow(true), timeout_);
+    paymentConsumer.restartPayment();
+    // const timeout_ = props.history.index === 0 ? 0 : TIMEOUT_ATTRACTOR;
+    eventTimeout_ = setTimeout(() => setShow(true), TIMEOUT_ATTRACTOR);
     const video_ = mediumLevel.config.startVideo().subscribe();
     return () => {
       clearTimeout(eventTimeout_);

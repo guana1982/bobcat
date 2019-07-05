@@ -17,18 +17,18 @@ import { Update } from "./screens/Update";
 export const Consumer = () => (
   <ThemeProvider theme={themeMain}>
     <AccessibilityProvider>
-      <AlertProvider alertComponent={<AlertFull />}>
-        <ConsumerStore>
-          <PaymentProvider>
+      <PaymentProvider>
+        <AlertProvider alertComponent={<AlertFull />}>
+          <ConsumerStore>
             <TimerProvider>
               <Route exact path={Pages.Attractor} component={Attractor}/>
               <Route path={Pages.Home} component={Home}/>
               <Route path={Pages.Prepay} component={Prepay}/>
               <Route path={Pages.Update} component={Update}/>
             </TimerProvider>
-          </PaymentProvider>
-        </ConsumerStore>
-      </AlertProvider>
+          </ConsumerStore>
+        </AlertProvider>
+      </PaymentProvider>
     </AccessibilityProvider>
   </ThemeProvider>
 );

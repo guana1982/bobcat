@@ -150,13 +150,13 @@ export const Prepay = (props: PrepayProps) => {
 
   React.useEffect(() => {
     startTimer_();
-    setTimeout(() => {
+    // setTimeout(() => {
       mediumLevel.config.stopVideo().subscribe(); // <= STOP ATTRACTOR
       start();
       setTimeout(() => {
         setWebcamReady(true);
       }, 1500);
-    }, 1500);
+    // }, 1500);
     return () => {
       resetTimer_();
       stop();

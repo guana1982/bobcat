@@ -2,7 +2,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import { __ } from "@core/utils/lib/i18n";
-import { PaymentContext, PaymentStatus } from "@core/containers";
+import { PaymentContext, PaymentStatus, ConfigContext } from "@core/containers";
 import { ReplaySubscription } from "./Subscription";
 
 export const PaymentInfoWrap = styled.div`
@@ -17,14 +17,29 @@ interface PaymentInfoProps {
 
 export const PaymentInfo = (props: PaymentInfoProps) => {
   const { disabled } = props;
+
+  const configConsumer = React.useContext(ConfigContext);
+  const { statusAlarms } = configConsumer;
+
   const paymentConsumer = React.useContext(PaymentContext);
-  const { socketPayment$, paymentModeEnabled } = paymentConsumer;
+  const { socketPayment$, paymentModeEnabled, dataPayment_ } = paymentConsumer;
+
   return (
     <PaymentInfoWrap className={disabled ? "disabled" : ""}>
       {
         paymentModeEnabled &&
         <ReplaySubscription source={socketPayment$.current}>
-          {(status: PaymentStatus) => <span id="payment-status">{status}</span>}
+          {(status: PaymentStatus) => {
+            if (statusAlarms.alarmPayment_) {
+              return (
+                <span id="payment-status">{__(`c_payment_system_down`)}</span>
+              );
+            }
+
+            return (
+              <span id="payment-status">{__(`c_${status.toLowerCase()}${dataPayment_.current ? `-${dataPayment_.current}` : ""}`)}</span>
+            );
+          }}
         </ReplaySubscription>
       }
     </PaymentInfoWrap>

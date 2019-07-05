@@ -10,7 +10,7 @@ import { ConfigContext } from "@containers/config.container";
 import { TimerContext, StatusProximity } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { BeverageTypes } from "@modules/consumer/components/beverage/Beverage";
-import { AccessibilityContext, PaymentContext, PaymentStatus } from "@core/containers";
+import { AccessibilityContext, PaymentContext, PaymentStatus, PaymentStatusPour } from "@core/containers";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { TIMEOUT_ATTRACTOR } from "./Attractor";
 import { Slide, _sizeSlideFull, _sizeSlide } from "../components/home/Slide";
@@ -86,6 +86,7 @@ enum StatusEndSession {
 export const Home = (props: HomeProps) => {
 
   const socketAlarms_ =  React.useRef<Subscription>(null);
+  const socketPayment_ =  React.useRef<Subscription>(null);
   const timer_ =  React.useRef<Subscription>(null);
   const endSession_ =  React.useRef<Subscription>(null);
 
@@ -194,16 +195,17 @@ export const Home = (props: HomeProps) => {
   //  <=== TIMER ====
 
   React.useEffect(() => {
-    const stopVideo_ = setTimeout(() => {
-      mediumLevel.config.stopVideo().subscribe();
-    }, TIMEOUT_ATTRACTOR); // <= STOP ATTRACTOR
-    // if (timerStop) {
-    //   restartBrightness_();
-    // } else {
-    //   startTimer_();
-    // }
+    mediumLevel.config.stopVideo().subscribe();
+    // const stopVideo_ = setTimeout(() => {
+    //   mediumLevel.config.stopVideo().subscribe();
+    // }, TIMEOUT_ATTRACTOR); // <= STOP ATTRACTOR
+    if (timerStop) {
+      restartBrightness_();
+    } else {
+      startTimer_();
+    }
     return () => {
-      clearTimeout(stopVideo_); // <= STOP ATTRACTOR
+      // clearTimeout(stopVideo_); // <= STOP ATTRACTOR
       configConsumer.setAuthService(false);
       resetTimer_();
 
@@ -237,7 +239,7 @@ export const Home = (props: HomeProps) => {
   /* ==== ALARMS ==== */
   /* ======================================== */
 
-  const { alarmSuper_, alarmSparkling_, alarmConnectivity_, alarmWebcam_, alarmADAPanel_ } = configConsumer.statusAlarms;
+  const { alarmSuper_, alarmSparkling_, alarmConnectivity_, alarmWebcam_, alarmADAPanel_, alarmPayment_ } = configConsumer.statusAlarms;
 
   // const showAlarmSparkling = () => {
   //   if (!state.beverageConfig.isConsumerBeverage)
@@ -325,20 +327,24 @@ export const Home = (props: HomeProps) => {
 
   const checkPayment = () => {
     let needToPay_ = false;
-    const socketPayment_ = socketPayment$.current
+    socketPayment_.current = socketPayment$.current
     .subscribe(
       status => {
-        if (status !== PaymentStatus.Authorized) {
+        if (!(status in PaymentStatusPour)) {
           if (needToPay_ === false) {
-            showPayment(() => socketPayment_.unsubscribe());
+            showPayment(() => socketPayment_.current.unsubscribe());
             needToPay_ = true;
           }
-        } else if (status === PaymentStatus.Authorized) {
-          alertConsumer.hide();
-          socketPayment_.unsubscribe();
+        } else if (status in PaymentStatusPour) {
+          if (socketPayment_.current) {
+            setDisabled(false);
+            alertConsumer.hide();
+            socketPayment_.current.unsubscribe();
+          }
         } else if (status === PaymentStatus.Declined) {
-          alert("ERROR => PaymentStatus.Declined");
-          socketPayment_.unsubscribe();
+          // console.log("ERROR => PaymentStatus.Declined");
+          // setDisabled(false);
+          // socketPayment_.current.unsubscribe();
         }
       }
     );
@@ -387,6 +393,16 @@ export const Home = (props: HomeProps) => {
 
     const needToPay_ = needToPay(beverageSelected || getBeverageSelected());
     if (needToPay_) {
+      if (alarmPayment_) {
+        alertConsumer.show({
+          type: AlertTypes.ErrorPaymentDown,
+          img: "img/payment_system_down.png",
+          subTitle: true,
+          timeout: true,
+          onDismiss: () => {}
+        });
+        return;
+      }
       if (!canPour()) {
         checkPayment();
         return;
@@ -439,13 +455,13 @@ export const Home = (props: HomeProps) => {
     const pour_ = configConsumer.onStartPour(bevSelected, bevConfig);
 
     if (needToPay_) {
-      mediumLevel.price.vendRrequest({ beverage_id: bevSelected.beverage_id })
+      mediumLevel.payment.vendRrequest({ beverage_id: bevSelected.beverage_id })
       .subscribe(
         data => {
           if (data.status === 0) {
             pour_.subscribe();
           } else {
-            alert("ERROR => VendRrequest === 1");
+            console.log("ERROR => VendRrequest");
           }
         }
       );

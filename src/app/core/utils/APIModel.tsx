@@ -177,4 +177,5 @@ export interface IStatusAlarms {
   alarmConnectivity_: boolean;
   alarmWebcam_: boolean;
   alarmADAPanel_: boolean;
+  alarmPayment_: boolean;
 }

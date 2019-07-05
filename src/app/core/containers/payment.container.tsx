@@ -2,10 +2,11 @@ import * as React from "react";
 import createContainer from "constate";
 import { ConfigContext, ConsumerContext } from ".";
 import { __ } from "@core/utils/lib/i18n";
-import { SOCKET_PAYMENT } from "@core/utils/constants";
+import { SOCKET_PAYMENT, Pages } from "@core/utils/constants";
 import { map, tap } from "rxjs/operators";
 import { Subject, BehaviorSubject } from "rxjs";
 import { IBeverage } from "@core/models";
+import { withRouter } from "react-router-dom";
 
 //  ==== STATUS ====>
 export enum PaymentMode {
@@ -20,17 +21,26 @@ export enum PaymentStatus {
   Authorized = "AUTHORIZED",
   Declined = "DECLINED",
   VendApprove = "VENDAPPROVE",
+  VendComplete = "VENDCOMPLETE",
   EndSession = "ENDSESSION",
-  Power = "POWER"
+  Power = "POWER",
+  Cancel = "CANCEL"
+}
+
+export enum PaymentStatusPour {
+  "AUTHORIZED",
+  "VENDAPPROVE"
 }
 
 /* ==== MAIN ==== */
 /* ======================================== */
 
-const PaymentContainer = createContainer(() => {
+const PaymentContainer = createContainer((props: any) => {
 
   const statusPayment_ = React.useRef<PaymentStatus>(PaymentStatus.NotAuthorized);
   const socketPayment$ = React.useRef(new BehaviorSubject<PaymentStatus>(PaymentStatus.NotAuthorized));
+
+  const dataPayment_ = React.useRef<any>(null);
 
   const configConsumer = React.useContext(ConfigContext);
   const consumerConsumer = React.useContext(ConsumerContext);
@@ -63,10 +73,25 @@ const PaymentContainer = createContainer(() => {
 
     socketPayment_
     .pipe(
-      tap(value => socketPayment$.current.next(value.message))
+      map(value => {
+        if (value.message === PaymentStatus.EndSession) {
+          value.message = PaymentStatus.NotAuthorized;
+        }
+        return value;
+      }),
+      tap(value => socketPayment$.current.next(value.message)),
+      tap(value => {
+        const { pathname } = props.location;
+        if (value.message === PaymentStatus.Swiped && pathname === Pages.Attractor) {
+          props.history.push(Pages.Home);
+        }
+      })
     )
     .subscribe(
-      value => statusPayment_.current = value.message
+      value => {
+        statusPayment_.current = value.message;
+        dataPayment_.current = value.message === PaymentStatus.Cancel ? value.data : null;
+      }
     );
 
   }, []);
@@ -94,7 +119,7 @@ const PaymentContainer = createContainer(() => {
   }
 
   function canPour() {
-    return statusPayment_.current === PaymentStatus.Authorized;
+    return statusPayment_.current in PaymentStatusPour;
   }
 
   return {
@@ -104,9 +129,11 @@ const PaymentContainer = createContainer(() => {
     currency,
     getPriceBeverage,
     needToPay,
-    canPour
+    canPour,
+    statusPayment_,
+    dataPayment_
   };
 });
 
-export const PaymentProvider = PaymentContainer.Provider;
+export const PaymentProvider = withRouter(PaymentContainer.Provider);
 export const PaymentContext = PaymentContainer.Context;
