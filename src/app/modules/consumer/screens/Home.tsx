@@ -307,7 +307,7 @@ export const Home = (props: HomeProps) => {
   /* ==== PAYMENT ==== */
   /* ======================================== */
 
-  const { needToPay, canPour, socketPayment$ } = paymentConsumer;
+  const { needToPay, canPour, socketPayment$, restartPayment } = paymentConsumer;
 
   const showPayment = (call_?: any) => {
     setDisabled(true);
@@ -515,6 +515,7 @@ export const Home = (props: HomeProps) => {
         resetTimerEnd_();
         stopPour(true);
         mediumLevel.product.sessionEnded().subscribe();
+        restartPayment();
       }
     };
   }, [endSession]);
