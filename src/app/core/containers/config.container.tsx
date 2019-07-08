@@ -6,10 +6,9 @@ import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { setLangDict } from "../utils/lib/i18n";
 import { withRouter } from "react-router-dom";
 import { IBeverage, ISocket, IBeverageConfig, IAlarm } from "../models";
-import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages, CONSUMER_ALARM, SOCKET_UPDATE } from "../utils/constants";
+import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages, CONSUMER_ALARM, SOCKET_UPDATE, SOCKET_STOP_EROGATION, MESSAGE_STOP_EROGATION } from "../utils/constants";
 import { VendorConfig } from "@core/models/vendor.model";
 import { MTypes } from "@modules/service/components/common/Button";
-import { Alarms_ } from "@core/utils/APIMock";
 import { IStatusAlarms } from "@core/utils/APIModel";
 
 const mergeById = ([bevs, brands, locks, prices]) => {
@@ -32,6 +31,7 @@ export interface ConfigInterface {
   socketAlarms$: Subject<any>;
   socketAttractor$: Subject<any>;
   socketUpdate$: Subject<any>;
+  socketStopErogation$: Subject<MESSAGE_STOP_EROGATION>;
   allAlarms: IAlarm[];
   statusAlarms: IStatusAlarms;
   alarms: IAlarm[];
@@ -55,6 +55,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
   setVendorConfig: Observable<any>;
   socketAlarms$ = new Subject<any>();
   socketAttractor$ = new Subject<any>();
+  socketStopErogation$ = new Subject<MESSAGE_STOP_EROGATION>();
   socketUpdate$ = new BehaviorSubject<any>({});
 
   constructor(props) {
@@ -126,7 +127,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       this.setState({sustainabilityData: data});
     });
 
-    /* ==== ATTRACTOR SOCKET ==== */
+    /* ==== UPDATE SOCKET ==== */
     /* ======================================== */
 
     const socketUpdate$ = this.state.ws
@@ -149,6 +150,19 @@ class ConfigStoreComponent extends React.Component<any, any> {
           this.props.history.push(Pages.Update);
         }
       }
+    );
+
+    /* ==== STOP EROGATION SOCKET ==== */
+    /* ======================================== */
+
+    this.socketStopErogation$ = this.state.ws
+    .multiplex(
+      () => console.info(`Start => ${SOCKET_STOP_EROGATION}`),
+      () => console.info(`End => ${SOCKET_STOP_EROGATION}`),
+      (data) => data && data.message_type === SOCKET_STOP_EROGATION
+    )
+    .pipe(
+      map((data: any) => data.value)
     );
 
     /* ==== ATTRACTOR SOCKET ==== */
@@ -338,6 +352,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
           socketAlarms$: this.socketAlarms$,
           socketAttractor$: this.socketAttractor$,
           socketUpdate$: this.socketUpdate$,
+          socketStopErogation$: this.socketStopErogation$,
           ws: this.state.ws,
           onStartPour: this.onStartPour,
           onStopPour: this.onStopPour,

@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
-import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER } from "@utils/constants";
+import { Beverages, Pages, LEVELS, MESSAGE_STOP_EROGATION } from "@utils/constants";
 import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
 import { Subscription } from "rxjs";
@@ -12,7 +12,6 @@ import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { BeverageTypes } from "@modules/consumer/components/beverage/Beverage";
 import { AccessibilityContext, PaymentContext, PaymentStatus, PaymentStatusPour } from "@core/containers";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { TIMEOUT_ATTRACTOR } from "./Attractor";
 import { Slide, _sizeSlideFull, _sizeSlide } from "../components/home/Slide";
 import { ChoiceBeverage } from "../components/home/ChoiceBeverage";
 import { CardsWrap } from "../components/home/CardsWrap";
@@ -79,8 +78,7 @@ export interface HomeState {
 enum StatusEndSession {
   Start = "start",
   Finish = "finish",
-  FinishForce = "finishForce",
-  OutOfStock = "outOfStock"
+  FinishForce = "finishForce"
 }
 
 export const Home = (props: HomeProps) => {
@@ -123,7 +121,7 @@ export const Home = (props: HomeProps) => {
   const [nutritionFacts, setNutritionFacts] = React.useState(false);
   const [slideOpen, setSlideOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
-  const [endSession, setEndSession] = React.useState<"start" | "finish" | "finishForce" | "outOfStock">(null);
+  const [endSession, setEndSession] = React.useState<StatusEndSession | MESSAGE_STOP_EROGATION>(null);
 
   const alertConsumer = React.useContext(AlertContext);
   const configConsumer = React.useContext(ConfigContext);
@@ -196,16 +194,12 @@ export const Home = (props: HomeProps) => {
 
   React.useEffect(() => {
     mediumLevel.config.stopVideo().subscribe();
-    // const stopVideo_ = setTimeout(() => {
-    //   mediumLevel.config.stopVideo().subscribe();
-    // }, TIMEOUT_ATTRACTOR); // <= STOP ATTRACTOR
     if (timerStop) {
       restartBrightness_();
     } else {
       startTimer_();
     }
     return () => {
-      // clearTimeout(stopVideo_); // <= STOP ATTRACTOR
       configConsumer.setAuthService(false);
       resetTimer_();
 
@@ -241,23 +235,6 @@ export const Home = (props: HomeProps) => {
 
   const { alarmSuper_, alarmSparkling_, alarmConnectivity_, alarmWebcam_, alarmADAPanel_, alarmPayment_ } = configConsumer.statusAlarms;
 
-  // const showAlarmSparkling = () => {
-  //   if (!state.beverageConfig.isConsumerBeverage)
-  //     resetBeverage();
-  //   const evtSparkling_ = () => {
-  //     // consumerConsumer.resetConsumer(true);
-  //     handleType(false);
-  //   };
-  //   alertConsumer.show({
-  //     type: AlertTypes.EndSparkling,
-  //     subTitle: true,
-  //     timeout: false,
-  //     transparent: true,
-  //     onConfirm: evtSparkling_,
-  //     onDismiss: evtSparkling_
-  //   });
-  // };
-
   const showAlarmWebcam = () => {
     alertConsumer.show({
       type: AlertTypes.ErrorWebcam,
@@ -267,44 +244,14 @@ export const Home = (props: HomeProps) => {
     });
   };
 
-  const showAlarmADAPanel = () => {
-    alertConsumer.show({
-      type: AlertTypes.ErrorADAPanelDown,
-      subTitle: true,
-      timeout: true,
-      onDismiss: () => console.log(null)
-    });
-  };
-
-  // React.useEffect(() => {
-  //   if (alarmSparkling_) {
-  //     if (endSession !== StatusEndSession.Start && isSparkling) {
-  //       showAlarmSparkling();
-  //     }
-  //   }
-  // }, [alarmSparkling_]);
-
-  //  ==== ON POUR ====>
-  const alarmDetect = (data) => {
-    if (!(data.value === true && data.enable === true && data.name in AlarmsOutOfStock)) { // Object.values(AlarmsOutOfStock).includes(data.name)
-      return null;
-    }
-    const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
-    if (beverageSelected != null || idBeveragePouring_ != null || indexFavoritePouring_ != null) {
-      resetBeverage();
-      setEndSession(StatusEndSession.OutOfStock);
-    }
-  };
-
-  React.useEffect(() => {
-    socketAlarms_.current = configConsumer.socketAlarms$.subscribe(data => alarmDetect(data));
-      return () => {
-        if (socketAlarms_.current)
-          socketAlarms_.current.unsubscribe();
-      };
-    },
-    [state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_] // => TO IMPROVE
-  );
+  // const showAlarmADAPanel = () => {
+  //   alertConsumer.show({
+  //     type: AlertTypes.ErrorADAPanelDown,
+  //     subTitle: true,
+  //     timeout: true,
+  //     onDismiss: () => console.log(null)
+  //   });
+  // };
 
   /* ==== PAYMENT ==== */
   /* ======================================== */
@@ -352,7 +299,22 @@ export const Home = (props: HomeProps) => {
 
   /* ==== BEVERAGE ==== */
   /* ======================================== */
+
   const selectBeverage = (beverage: IBeverage) => {
+    const needToPay_ = needToPay(beverage);
+    if (needToPay_) {
+      if (alarmPayment_) {
+        alertConsumer.show({
+          type: AlertTypes.ErrorPaymentDown,
+          img: "img/payment_system_down.png",
+          subTitle: true,
+          timeout: true,
+          onDismiss: () => {}
+        });
+        return;
+      }
+    }
+
     const { beverages } = configConsumer;
     handleType(state.isSparkling);
     setState(prevState => ({
@@ -369,7 +331,6 @@ export const Home = (props: HomeProps) => {
 
   const getBeverageSelected = (): IBeverage => {
     const { beverages } = configConsumer;
-    // console.log(beverages);
     return beverages ? beverages[state.beverageSelected] : null;
   };
 
@@ -433,22 +394,21 @@ export const Home = (props: HomeProps) => {
       bevConfig = beverageConfig;
     } else {
       bevConfig = {...state.beverageConfig};
-      if (bevConfig.carbonation_level == null
-        || bevConfig.temperature_level == null
-        || bevConfig.flavor_level == null
-      ) {
+      if (bevConfig.carbonation_level == null) {
         if (state.isSparkling) {
           bevConfig.carbonation_level = bevSelected.carbonation_levels.type === "single"
             ? 50 : bevSelected.carbonation_levels.values[1];
         } else {
           bevConfig.carbonation_level = bevSelected.carbonation_levels.values[0];
         }
+      }
+      if (bevConfig.temperature_level == null) {
         bevConfig.temperature_level = 50;
+      }
+      if (bevConfig.flavor_level == null) {
         bevConfig.flavor_level = 2;
       }
     }
-
-    console.log(bevConfig, beverageConfig);
 
     setEndSession(StatusEndSession.Start);
 
@@ -502,37 +462,54 @@ export const Home = (props: HomeProps) => {
       endSession_.current.unsubscribe();
   };
 
+  const detectStopErogation = () => {
+    const { socketStopErogation$ } = configConsumer;
+    return socketStopErogation$
+    .pipe(first())
+    .subscribe(
+      value => setEndSession(value)
+    );
+  };
+
+  const stopEndSession = (force?: boolean) => {
+    resetBeverage();
+    consumerConsumer.updateConsumerBeverages();
+    consumerConsumer.resetConsumer(!force);
+    if (!force) {
+      startTimer_();
+    }
+  };
+
   React.useEffect(() => {
+    let socketStopErogation_: Subscription = null;
+
     if (endSession === StatusEndSession.Start) {
       resetTimer_();
       startTimerEnd_();
+      socketStopErogation_ = detectStopErogation();
     } else if (endSession === StatusEndSession.Finish) {
       alertConsumer.show({
         type: AlertTypes.EndBeverage,
         timeout: true,
-        onDismiss: () => {
-          resetBeverage();
-          consumerConsumer.resetConsumer(true);
-          startTimer_();
-        }
+        onDismiss: () => stopEndSession()
       });
     } else if (endSession === StatusEndSession.FinishForce) {
       alertConsumer.show({
         type: AlertTypes.EndBeverage,
         timeout: true,
-        onDismiss: () => {
-          resetBeverage();
-          consumerConsumer.resetConsumer();
-        }
+        onDismiss: () => stopEndSession(true)
       });
-    } else if (endSession === StatusEndSession.OutOfStock) {
+    } else if (endSession === MESSAGE_STOP_EROGATION.OUT_OF_SODA || endSession === MESSAGE_STOP_EROGATION.OUT_OF_STOCK || endSession === MESSAGE_STOP_EROGATION.EROGATION_LIMIT) {
       alertConsumer.show({
-        type: AlertTypes.OutOfStock,
+        type: AlertTypes[`c_${endSession}`],
         timeout: true,
-        onDismiss: () => {
-          consumerConsumer.updateConsumerBeverages(); // => TO IMPROVE
-          consumerConsumer.resetConsumer(true);
-        }
+        onDismiss: () => stopEndSession()
+      });
+    } else if (endSession === MESSAGE_STOP_EROGATION.OUT_OF_ORDER) {
+      alertConsumer.show({
+        type: AlertTypes[`c_${endSession}`],
+        timeout: true,
+        onDismiss: () => stopEndSession(true)
       });
     }
 
@@ -542,6 +519,9 @@ export const Home = (props: HomeProps) => {
         stopPour(true);
         mediumLevel.product.sessionEnded().subscribe();
         restartPayment();
+        if (socketStopErogation_) {
+          socketStopErogation_.unsubscribe();
+        }
       }
     };
   }, [endSession]);
@@ -586,7 +566,7 @@ export const Home = (props: HomeProps) => {
       beverageSelected: indexBeverage_,
       beverageConfig: {
         flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),
-        carbonation_level: consumerBeverage.$sparkling ? Number(consumerBeverage.carbLvl) : null,
+        carbonation_level: consumerBeverage.$sparkling ? Number(consumerBeverage.carbLvl) : 0,
         temperature_level: Number(consumerBeverage.coldLvl),
         isConsumerBeverage: true
       }
@@ -688,14 +668,6 @@ export const Home = (props: HomeProps) => {
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
-  if (alarmSuper_)
-  return (
-    <HomeContent>
-      <Gesture onGesture={onGesture} />
-      <OutOfOrder />
-    </HomeContent>
-  );
-
   return (
     <HomeContent>
       {presentSlide &&
@@ -769,30 +741,3 @@ export const Home = (props: HomeProps) => {
   );
 
 };
-
-
-
-
-
-
-
-  /* ==== PROXIMITY SENSOR ==== */
-  /* ======================================== */
-
-  // const { socketAttractor$ } = configConsumer;
-  // React.useEffect(() => {
-  //   const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
-  //   if (socketAttractor$ === undefined || consumerConsumer.isLogged || (beverageSelected != null || idBeveragePouring_ != null || indexFavoritePouring_ != null)) {
-  //     return () => null;
-  //   }
-  //   const socketAttractor_ = socketAttractor$
-  //   .subscribe(value => {
-  //     if (value === MESSAGE_START_CAMERA) {
-  //       goToPrepay();
-  //     }
-  //   });
-  //   return () => {
-  //     if (socketAttractor_.current)
-  //      socketAttractor_.current.unsubscribe();
-  //   };
-  // }, [socketAttractor$, state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_, consumerConsumer.isLogged]); // => TO IMPROVE

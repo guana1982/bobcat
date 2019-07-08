@@ -26,10 +26,10 @@ export const Attractor = (props: AttractorProps) => {
 
   const goToHome = () => props.history.push(Pages.Home);
   const goToPrepay = () => props.history.push(Pages.Prepay);
+  const goToOutOfOrder = () => props.history.push(Pages.OutOfOrder);
 
   React.useEffect(() => {
     paymentConsumer.restartPayment();
-    // const timeout_ = props.history.index === 0 ? 0 : TIMEOUT_ATTRACTOR;
     eventTimeout_ = setTimeout(() => setShow(true), TIMEOUT_ATTRACTOR);
     const video_ = mediumLevel.config.startVideo().subscribe();
     return () => {
@@ -41,6 +41,14 @@ export const Attractor = (props: AttractorProps) => {
     };
   }, []);
 
+  const eventAttractor = () => {
+    if (alarmSuper_) {
+      goToOutOfOrder();
+      return;
+    }
+    goToHome();
+  };
+
   //  ==== PROXIMITY SENSOR ====>
   const { socketAttractor$ } = configConsumer;
   const { alarmSuper_ } = configConsumer.statusAlarms;
@@ -50,9 +58,14 @@ export const Attractor = (props: AttractorProps) => {
     }
     const socketAttractor_ = socketAttractor$
     .subscribe(value => {
+      if (alarmSuper_) {
+        goToOutOfOrder();
+        return;
+      }
+
       if (value === MESSAGE_STOP_VIDEO) {
         goToHome();
-      } else if (value === MESSAGE_START_CAMERA && !alarmSuper_) {
+      } else if (value === MESSAGE_START_CAMERA) {
         goToPrepay();
       }
     });
@@ -67,7 +80,7 @@ export const Attractor = (props: AttractorProps) => {
       {show &&
         <>
           {/* <CountUpComponent/> */}
-          <SreenWrapper onClick={() => goToHome()}/>
+          <SreenWrapper onClick={eventAttractor}/>
         </>
       }
       {/* <Warning /> */}

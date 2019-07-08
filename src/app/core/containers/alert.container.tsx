@@ -7,11 +7,17 @@ export const DEFAULT_TIMEOUT_ALERT = 2000;
 export enum AlertTypes {
   LoadingDataQr = "c_loading_data_qr",
   LoadingQr = "loading...",
-  ErrorLoadingQr = "c_error_loading_qr",
+
   OutOfStock = "c_out_of_stock",
-  NeedPayment = "c_tap_swipe_pour",
+  OutOfSoda = "c_out_of_soda",
+  ErogationLimit = "c_erogation_limit",
+  OutOfOrder = "c_out_of_order",
   EndBeverage = "c_end_session",
+
+  NeedPayment = "c_tap_swipe_pour",
   EndSparkling = "c_end_sparkling",
+
+  ErrorLoadingQr = "c_error_loading_qr",
   ErrorWebcam = "c_error_webcam",
   ErrorQrNotFound = "c_error_qr_not_found",
   ErrorUnassociatedBottle = "c_error_unassociated_bottle",

@@ -118,7 +118,7 @@ const PaymentContainer = createContainer((props: any) => {
     return paymentModeEnabled;
   }
 
-  function canPour() {
+  function canPour() { /* NOT GENERATE RENDERING */
     return statusPayment_.current in PaymentStatusPour;
   }
 

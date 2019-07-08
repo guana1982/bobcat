@@ -13,6 +13,7 @@ import { Prepay } from "./screens/Prepay";
 import { ConsumerStore, AccessibilityProvider, AlertProvider, TimerProvider, PaymentProvider } from "@core/containers";
 import { ThemeProvider } from "styled-components";
 import { Update } from "./screens/Update";
+import { OutOfOrder } from "./screens/OutOfOrder";
 
 export const Consumer = () => (
   <ThemeProvider theme={themeMain}>
@@ -25,6 +26,7 @@ export const Consumer = () => (
               <Route path={Pages.Home} component={Home}/>
               <Route path={Pages.Prepay} component={Prepay}/>
               <Route path={Pages.Update} component={Update}/>
+              <Route path={Pages.OutOfOrder} component={OutOfOrder}/>
             </TimerProvider>
           </ConsumerStore>
         </AlertProvider>
