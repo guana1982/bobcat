@@ -135,6 +135,7 @@ export default {
   alarm: {
     getAlarms: (menuId = "tech_menu", submenuId = "alarms_menu_tech") => get(`menu/${menuId}/${submenuId}`),
     disableAlarm: name => post("menu/disable_alerts", { name }),
+    resetAlarm: name => post("menu/reset_alert", { name }),
     enableAlarm: name => post("menu/enable_alerts", { name })
   },
   wifi: {

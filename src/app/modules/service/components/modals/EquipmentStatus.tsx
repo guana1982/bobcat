@@ -9,21 +9,19 @@ import mediumLevel from "@core/utils/lib/mediumLevel";
 import { finalize } from "rxjs/operators";
 import { LoaderContext } from "@core/containers/loader.container";
 
-const actionsAlarm = (alarmSelected, enableAlarm_, disableAlarm_): Action[] => {
-  if (!alarmSelected)
-    return ACTIONS_CLOSE;
+const actionsAlarm = (advancedMode, setAdvancedMode): Action[] => {
 
-  const ACTION_ENABLE = {
-    title: __("s_enable_alert"),
-    event: enableAlarm_
+  const ACTION_STANDARD = {
+    title: __("s_standard_menu"),
+    event: () => setAdvancedMode(false)
   };
 
-  const ACTION_DISABLE = {
-    title: __("s_disable_alert"),
-    event: disableAlarm_,
+  const ACTION_ADVANCED = {
+    title: __("s_advanced_menu"),
+    event: () => setAdvancedMode(true)
   };
 
-  const ACTION_STATUS = alarmSelected.alarm_enable ? ACTION_DISABLE : ACTION_ENABLE;
+  const ACTION_STATUS = advancedMode ? ACTION_STANDARD : ACTION_ADVANCED;
 
   return [
     ACTION_STATUS,
@@ -32,7 +30,28 @@ const actionsAlarm = (alarmSelected, enableAlarm_, disableAlarm_): Action[] => {
 };
 
 const EquipmentStatusContent = styled.div`
-
+  .alarms-group {
+    height: 500px;
+    overflow: auto;
+    width: 900px;
+    padding: 0;
+    .alarm-element {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .alarm-info {
+        display: flex;
+        align-items: center;
+        div:nth-child(2) {
+          margin-left: 20px;
+        }
+      }
+      .alarm-actions {
+        align-items: center;
+        display: flex;
+      }
+    }
+  }
 `;
 
 interface EquipmentStatusProps extends Partial<ModalContentProps> {}
@@ -44,7 +63,9 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
   const configConsumer = React.useContext(ConfigContext);
   const loaderConsumer = React.useContext(LoaderContext);
 
-  const { alarms } = configConsumer;
+  const [advancedMode, setAdvancedMode] = React.useState<boolean>(false);
+
+  const { alarms, allAlarms } = configConsumer;
   alarms.sort((a, b) => +new Date(b.alarm_date) - +new Date(a.alarm_date));
 
   const ALARM_INIT = 0;
@@ -59,22 +80,88 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
     }
   }, [alarms]);
 
-  function enableAlarm_() {
+  function enableAlarm(alarm: IAlarm) {
     loaderConsumer.show();
-    mediumLevel.alarm.enableAlarm(alarmSelected.alarm_name)
+    mediumLevel.alarm.enableAlarm(alarm.alarm_name)
     .pipe(
       finalize(() => loaderConsumer.hide())
     )
     .subscribe();
   }
 
-  function disableAlarm_() {
+  function disableAlarm(alarm: IAlarm) {
     loaderConsumer.show();
-    mediumLevel.alarm.disableAlarm(alarmSelected.alarm_name)
+    mediumLevel.alarm.disableAlarm(alarm.alarm_name)
     .pipe(
       finalize(() => loaderConsumer.hide())
     )
     .subscribe();
+  }
+
+  function resetAlarm(alarm: IAlarm) {
+    loaderConsumer.show();
+    mediumLevel.alarm.resetAlarm(alarm.alarm_name)
+    .pipe(
+      finalize(() => loaderConsumer.hide())
+    )
+    .subscribe();
+  }
+
+  if (advancedMode) {
+    return (
+      <Modal
+        show={true}
+        cancel={cancel}
+        title="EQUIPMENT STATUS"
+        actions={actionsAlarm(advancedMode, setAdvancedMode)}
+      >
+        <EquipmentStatusContent>
+          <Box className="container alarms-group">
+            {
+              allAlarms.map((alarm, i) => {
+                return (
+                  <Box key={i} className="container alarm-element">
+                    <div className="alarm-info">
+                      <div>
+                        <MButton
+                          className="small" info
+                          light={alarm.alarm_name !== alarmSelected.alarm_name}
+                          key={i}
+                          onClick={() => setAlarmSelected(alarm)}
+                          type={alarm.$info}
+                        >
+                          {alarm.alarm_code}
+                        </MButton>
+                      </div>
+                      <div>
+                        <p>NAME: {__(alarm.alarm_name)}</p>
+                        <p>CODE: {alarm.alarm_code}</p>
+                        <p>DATE: {new Date(alarmSelected.alarm_date).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                    <div className="alarm-actions">
+                      <MButton
+                        className="small"
+                        onClick={() => resetAlarm(alarm)}
+                      >
+                        RESET
+                      </MButton>
+                      <MButton
+                        className="small" info
+                        type={!alarm.alarm_enable ? MTypes.INFO_WARNING : null}
+                        onClick={() => alarm.alarm_enable ? disableAlarm(alarm) : enableAlarm(alarm)}
+                      >
+                        {alarm.alarm_enable ? "DISABLE" : "ENABLE"}
+                      </MButton>
+                    </div>
+                  </Box>
+                );
+              })
+            }
+          </Box>
+        </EquipmentStatusContent>
+      </Modal>
+    );
   }
 
   return (
@@ -82,7 +169,7 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
       show={true}
       cancel={cancel}
       title="EQUIPMENT STATUS"
-      actions={actionsAlarm(alarmSelected, enableAlarm_, disableAlarm_)}
+      actions={actionsAlarm(advancedMode, setAdvancedMode)}
     >
       <>
         <div>
