@@ -2,14 +2,18 @@ import * as React from "react";
 import styled from "styled-components";
 import { Box, ModalContentProps, Modal, ACTIONS_CLOSE, Action } from "@modules/service/components/common/Modal";
 import { MButton, MTypes } from "@modules/service/components/common/Button";
-import { ConfigContext } from "@core/containers";
+import { ConfigContext, AuthLevels } from "@core/containers";
 import { IAlarm } from "@core/models";
 import { __ } from "@core/utils/lib/i18n";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { finalize } from "rxjs/operators";
 import { LoaderContext } from "@core/containers/loader.container";
 
-const actionsAlarm = (advancedMode, setAdvancedMode): Action[] => {
+const actionsAlarm = (authLevel, advancedMode, setAdvancedMode): Action[] => {
+
+  if (authLevel !== AuthLevels.Super) {
+    return ACTIONS_CLOSE;
+  }
 
   const ACTION_STANDARD = {
     title: __("s_standard_menu"),
@@ -54,7 +58,9 @@ const EquipmentStatusContent = styled.div`
   }
 `;
 
-interface EquipmentStatusProps extends Partial<ModalContentProps> {}
+interface EquipmentStatusProps extends Partial<ModalContentProps> {
+  authLevel: AuthLevels;
+}
 
 export const EquipmentStatus = (props: EquipmentStatusProps) => {
 
@@ -107,13 +113,15 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
     .subscribe();
   }
 
+  const { authLevel } = props;
+
   if (advancedMode) {
     return (
       <Modal
         show={true}
         cancel={cancel}
         title="EQUIPMENT STATUS"
-        actions={actionsAlarm(advancedMode, setAdvancedMode)}
+        actions={actionsAlarm(authLevel, advancedMode, setAdvancedMode)}
       >
         <EquipmentStatusContent>
           <Box className="container alarms-group">
@@ -125,9 +133,7 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
                       <div>
                         <MButton
                           className="small" info
-                          light={alarm.alarm_name !== alarmSelected.alarm_name}
                           key={i}
-                          onClick={() => setAlarmSelected(alarm)}
                           type={alarm.$info}
                         >
                           {alarm.alarm_code}
@@ -136,7 +142,7 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
                       <div>
                         <p>NAME: {__(alarm.alarm_name)}</p>
                         <p>CODE: {alarm.alarm_code}</p>
-                        <p>DATE: {new Date(alarmSelected.alarm_date).toLocaleDateString()}</p>
+                        <p>DATE: {new Date(alarm.alarm_date).toLocaleDateString()}</p>
                       </div>
                     </div>
                     <div className="alarm-actions">
@@ -169,7 +175,7 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
       show={true}
       cancel={cancel}
       title="EQUIPMENT STATUS"
-      actions={actionsAlarm(advancedMode, setAdvancedMode)}
+      actions={actionsAlarm(authLevel, advancedMode, setAdvancedMode)}
     >
       <>
         <div>

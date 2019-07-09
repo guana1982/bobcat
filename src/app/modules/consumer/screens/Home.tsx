@@ -18,7 +18,6 @@ import { CardsWrap } from "../components/home/CardsWrap";
 import { CustomizeBeverage } from "../components/home/CustomizeBeverage";
 import { Grid } from "../components/common/Grid";
 import { SegmentButtonProps } from "../components/common/SegmentButton";
-import { OutOfOrder } from "../components/home/OutOfOrder";
 import Gesture from "@core/components/Menu/Gesture";
 import { first } from "rxjs/operators";
 
@@ -193,7 +192,6 @@ export const Home = (props: HomeProps) => {
   //  <=== TIMER ====
 
   React.useEffect(() => {
-    mediumLevel.config.stopVideo().subscribe();
     if (timerStop) {
       restartBrightness_();
     } else {
@@ -430,10 +428,9 @@ export const Home = (props: HomeProps) => {
     }
   };
 
-  const stopPour = (forse?: boolean) => {
+  const stopPour = () => {
     configConsumer.onStopPour().subscribe(); // => TEST MODE
-    // if (!forse)
-    //  setEndSession(StatusEndSession.Start);
+
     if (endSession === StatusEndSession.Start)
       startTimerEnd_();
   };
@@ -485,7 +482,6 @@ export const Home = (props: HomeProps) => {
 
     if (endSession === StatusEndSession.Start) {
       resetTimer_();
-      startTimerEnd_();
       socketStopErogation_ = detectStopErogation();
     } else if (endSession === StatusEndSession.Finish) {
       alertConsumer.show({
@@ -500,14 +496,15 @@ export const Home = (props: HomeProps) => {
         onDismiss: () => stopEndSession(true)
       });
     } else if (endSession === MESSAGE_STOP_EROGATION.OUT_OF_SODA || endSession === MESSAGE_STOP_EROGATION.OUT_OF_STOCK || endSession === MESSAGE_STOP_EROGATION.EROGATION_LIMIT) {
+      const alertType_: any = `c_${endSession}`;
       alertConsumer.show({
-        type: AlertTypes[`c_${endSession}`],
+        type: alertType_,
         timeout: true,
         onDismiss: () => stopEndSession()
       });
     } else if (endSession === MESSAGE_STOP_EROGATION.OUT_OF_ORDER) {
       alertConsumer.show({
-        type: AlertTypes[`c_${endSession}`],
+        type: AlertTypes.OutOfOrder,
         timeout: true,
         onDismiss: () => stopEndSession(true)
       });
@@ -516,7 +513,6 @@ export const Home = (props: HomeProps) => {
     return () => {
       if (endSession === StatusEndSession.Start) {
         resetTimerEnd_();
-        stopPour(true);
         mediumLevel.product.sessionEnded().subscribe();
         restartPayment();
         if (socketStopErogation_) {

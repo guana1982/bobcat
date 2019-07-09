@@ -1,7 +1,7 @@
 import * as React from "react";
 import mediumLevel from "@utils/MediumLevel";
 
-import { tap } from "rxjs/operators";
+import { tap, first } from "rxjs/operators";
 import { Subscription } from "rxjs";
 import { Pages, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA } from "@utils/constants";
 import { ConfigContext, PaymentContext } from "@core/containers";
@@ -14,12 +14,13 @@ interface AttractorProps {
   history: any;
 }
 
-export const TIMEOUT_ATTRACTOR = 1500;
-let eventTimeout_ = null;
+export const TIMEOUT_ATTRACTOR = 2000;
 
 export const Attractor = (props: AttractorProps) => {
 
   const [show, setShow] = React.useState(false);
+
+  const eventTimeout_ =  React.useRef<any>(null);
 
   const configConsumer = React.useContext(ConfigContext);
   const paymentConsumer = React.useContext(PaymentContext);
@@ -30,14 +31,11 @@ export const Attractor = (props: AttractorProps) => {
 
   React.useEffect(() => {
     paymentConsumer.restartPayment();
-    eventTimeout_ = setTimeout(() => setShow(true), TIMEOUT_ATTRACTOR);
-    const video_ = mediumLevel.config.startVideo().subscribe();
+    mediumLevel.config.startVideo().pipe(first()).subscribe();
+    eventTimeout_.current = setTimeout(() => setShow(true), TIMEOUT_ATTRACTOR);
     return () => {
-      clearTimeout(eventTimeout_);
-      video_.unsubscribe();
-      // setTimeout(() => {
-      //   mediumLevel.config.stopVideo().subscribe();
-      // }, TIMEOUT_ATTRACTOR);
+      clearTimeout(eventTimeout_.current);
+      mediumLevel.config.stopVideo().pipe(first()).subscribe();
     };
   }, []);
 

@@ -5,12 +5,11 @@ import { TimerContext, StatusProximity } from "@containers/timer.container";
 import { ConsumerContext } from "@containers/consumer.container";
 import { Pages } from "@utils/constants";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
-import mediumLevel from "@core/utils/lib/mediumLevel";
 import { CloseBtnWrap, CloseBtn } from "../components/common/CloseBtn";
 import { __ } from "@core/utils/lib/i18n";
 import { Subscription } from "rxjs";
 import { ConfigContext } from "@core/containers";
-import { IdentificationConsumerTypes, IdentificationConsumerStatus } from "@core/utils/APIModel";
+import { IdentificationConsumerStatus } from "@core/utils/APIModel";
 import { debounceTime } from "rxjs/operators";
 import { Alert } from "../components/common/Alert";
 
@@ -93,6 +92,8 @@ interface PrepayProps {
   history: any;
 }
 
+export const TIMEOUT_QR = 1500;
+
 export const Prepay = (props: PrepayProps) => {
 
   const timer_ = React.useRef<Subscription>(null);
@@ -150,18 +151,14 @@ export const Prepay = (props: PrepayProps) => {
 
   React.useEffect(() => {
     startTimer_();
-    // setTimeout(() => {
-      mediumLevel.config.stopVideo().subscribe(); // <= STOP ATTRACTOR
-      start();
-      setTimeout(() => {
-        setWebcamReady(true);
-      }, 1500);
-    // }, 1500);
+    startReadQr();
+    setTimeout(() => setWebcamReady(true), TIMEOUT_QR);
     return () => {
       resetTimer_();
-      stop();
-      if (scanning_.current)
+      stopReadQr();
+      if (scanning_.current) {
         scanning_.current.unsubscribe();
+      }
       if (timeoutDataFromServer_.current) {
         clearTimeout(timeoutDataFromServer_.current);
       }
@@ -190,7 +187,7 @@ export const Prepay = (props: PrepayProps) => {
   }, []);
   // <=== CONSUMER-SOCKET ====
 
-  const start = () => {
+  const startReadQr = () => {
     const { startScanning } = consumerConsumer;
 
     if (scanning_.current)
@@ -264,7 +261,7 @@ export const Prepay = (props: PrepayProps) => {
     props.history.push(Pages.Home);
   };
 
-  const stop = () => {
+  const stopReadQr = () => {
     const { stopScanning } = consumerConsumer;
     stopScanning().subscribe();
   };
@@ -277,7 +274,6 @@ export const Prepay = (props: PrepayProps) => {
           {!webcamReady && <>
             <Alert options={{type: AlertTypes.LoadingQr}} />
           </>}
-          {/* <img src={"animation/spinner-qr.gif"} /> */}
         </div>
         <img id="Bottle-QR" src={"img/bottle-qr.svg"} />
         <img id="Phone-QR" src={"img/phone-qr.svg"} />

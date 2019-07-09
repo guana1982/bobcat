@@ -299,7 +299,7 @@ export const NewMenu = (props: MenuProps) => {
       {modals[Modals.ChangePrice].show && <ChangePrice cancel={closeAllModal} />}
       {modals[Modals.EquipmentConfiguration].show && <EquipmentConfiguration {...modals[Modals.EquipmentConfiguration].params} cancel={closeAllModal} />}
       {modals[Modals.Cleaning].show && <Cleaning cancel={closeAllModal} />}
-      {modals[Modals.EquipmentStatus].show && <EquipmentStatus cancel={closeAllModal} />}
+      {modals[Modals.EquipmentStatus].show && <EquipmentStatus cancel={closeAllModal} authLevel={authLevel} />}
       {modals[Modals.Sanitation].show && <Sanitation cancel={closeAllModal} />}
 
       {modals[Modals.Update].show && <Update cancel={closeAllModal} />}

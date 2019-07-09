@@ -365,7 +365,7 @@ export const Alarms_: any = {
         "alarm_description": "press_h2o_description"
       },
       {
-        "alarm_state": true,
+        "alarm_state": false,
         "alarm_name": "press_co2",
         "alarm_solution": "press_co2_solution",
         "alarm_type": "tech",
@@ -387,7 +387,7 @@ export const Alarms_: any = {
         "alarm_description": "timeout_plain_description"
       },
       {
-        "alarm_state": true,
+        "alarm_state": false,
         "alarm_name": "timeout_pump",
         "alarm_solution": "timeout_pump_solution",
         "alarm_type": "tech",
