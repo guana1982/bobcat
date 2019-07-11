@@ -126,10 +126,17 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     let lastPourSame: boolean = false;
     favorites.forEach(favorite => {
       if (favorite === undefined) return;
-        favorite.$types = [BeverageTypes.Favorite];
 
-      if (!lastPour.flavors[0]) return;
-      if (favorite.flavors[0].product.flavorUpc === lastPour.flavors[0].product.flavorUpc) {
+      favorite.$types = [BeverageTypes.Favorite];
+
+      if (!lastPour.flavors[0]) return; // || lastPourSame ??
+
+      if (
+        favorite.flavors[0].product.flavorUpc === lastPour.flavors[0].product.flavorUpc &&
+        favorite.flavors[0].flavorStrength === lastPour.flavors[0].flavorStrength &&
+        favorite.carbLvl === lastPour.carbLvl &&
+        favorite.coldLvl === lastPour.coldLvl
+      ) {
         lastPourSame = true;
         favorite.$types.push(BeverageTypes.LastPour);
       }
