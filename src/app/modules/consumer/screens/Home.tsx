@@ -393,18 +393,15 @@ export const Home = (props: HomeProps) => {
     } else {
       bevConfig = {...state.beverageConfig};
       if (bevConfig.carbonation_level == null) {
-        if (state.isSparkling) {
-          bevConfig.carbonation_level = bevSelected.carbonation_levels.type === "single"
-            ? 50 : bevSelected.carbonation_levels.values[1];
-        } else {
-          bevConfig.carbonation_level = bevSelected.carbonation_levels.values[0];
+        if (!isSparkling) {
+          bevConfig.carbonation_level = levels.noCarbonation[0].value;
         }
       }
       if (bevConfig.temperature_level == null) {
-        bevConfig.temperature_level = 50;
+        bevConfig.temperature_level = levels.temperature[1].value;
       }
       if (bevConfig.flavor_level == null) {
-        bevConfig.flavor_level = 2;
+        bevConfig.flavor_level = levels.flavor[1].value;
       }
     }
 
@@ -554,7 +551,23 @@ export const Home = (props: HomeProps) => {
   }, [consumerConsumer.consumerBeverages]);
 
   const selectConsumerBeverage = (consumerBeverage: IConsumerBeverage) => {
+
     const { beverages } = configConsumer;
+
+    const needToPay_ = needToPay(consumerBeverage.$beverage);
+    if (needToPay_) {
+      if (alarmPayment_) {
+        alertConsumer.show({
+          type: AlertTypes.ErrorPaymentDown,
+          img: "img/payment_system_down.png",
+          subTitle: true,
+          timeout: true,
+          onDismiss: () => {}
+        });
+        return;
+      }
+    }
+
     const indexBeverage_ = beverages.findIndex(beverage => beverage.beverage_id === consumerBeverage.$beverage.beverage_id);
     setState(prevState => ({
       ...prevState,
@@ -589,17 +602,12 @@ export const Home = (props: HomeProps) => {
   /* ======================================== */
 
   const handleType = (value) => { // TRUE => isSparkling
-
-    if (alarmSparkling_ && value) {
-      // showAlarmSparkling();
-    }
-
     setState(prevState => ({
       ...prevState,
       isSparkling: value,
       beverageConfig: {
         ...prevState.beverageConfig,
-        carbonation_level: value ? levels.carbonation[1].value : null,
+        carbonation_level: value ? levels.carbonation[1].value : levels.noCarbonation[0].value,
         temperature_level: value ? levels.temperature[2].value : levels.temperature[1].value
       }
     }));

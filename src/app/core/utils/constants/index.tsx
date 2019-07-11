@@ -39,9 +39,9 @@ export const LEVELS = {
     {label: "c_cold", value: 50},
     {label: "c_ice_cold", value: 0},
   ],
-  // carbTemperature: [
-  //   {label: "ice-cold", value: 0},
-  // ]
+  noCarbonation: [
+    {label: "", value: 0},
+  ]
 };
 
 // -- TIMER --
