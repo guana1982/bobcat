@@ -358,7 +358,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                 <span id="title">{__(beverageSelected.beverage_type === Beverages.Plain ? (isSparkling ? __("sparkling_water") : __("pure_water")) : __(beverageSelected.beverage_label_id))}</span>
                 <span id="cal">{beverageSelected.calories} {__("c_cal")}.</span>
                 <div id="group">
-                  {beverageConfig.carbonation_level != null && isSparkling &&
+                  {isSparkling &&
                     <ButtonGroup
                       color={beverageSelected.beverage_font_color}
                       detectValue={"sparkling"}
@@ -369,7 +369,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                       onChange={(value) => handleChange(value, "carbonation")}>
                     </ButtonGroup>
                   }
-                  {beverageConfig.flavor_level != null &&
+                  {beverageSelected.beverage_type === Beverages.Bev &&
                     <ButtonGroup
                       color={beverageSelected.beverage_font_color}
                       detectValue={"flavor"}
