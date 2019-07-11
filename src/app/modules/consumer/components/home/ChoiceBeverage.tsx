@@ -8,6 +8,7 @@ import { Button } from "../common/Button";
 import { Grid } from "../common/Grid";
 import { Alert } from "../common/Alert";
 import { PaymentInfo } from "../common/PaymentInfo";
+import { IBeverage } from "@core/models";
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */
@@ -52,6 +53,7 @@ interface ChoiceBeverageProps {
   handleType: (v: boolean) => void;
   handleNutritionFacts: () => void;
   handleDisabled: (d) => void;
+  beverages: IBeverage[];
   nutritionFacts: boolean;
   idBeveragePouring_: number;
   isSparkling: boolean;
@@ -62,8 +64,8 @@ interface ChoiceBeverageProps {
 }
 
 export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
-
-  const { beverages, statusAlarms } = React.useContext(ConfigContext);
+  const { beverages } = props;
+  const { statusAlarms } = React.useContext(ConfigContext);
   const { isLogged, resetConsumer } = React.useContext(ConsumerContext);
 
   const { idBeveragePouring_, onGesture, isSparkling, selectBeverage, startPour, stopPour, goToPrepay, disabled, handleNutritionFacts, nutritionFacts, handleDisabled, fullMode, handleType, beverageSelected } = props;

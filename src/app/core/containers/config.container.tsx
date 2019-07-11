@@ -36,9 +36,9 @@ export interface ConfigInterface {
   statusAlarms: IStatusAlarms;
   alarms: IAlarm[];
   allBeverages: IBeverage[];
-  beverages: IBeverage[];
   isPouring: boolean;
   sustainabilityData: { saved_bottle_year?: string, saved_bottle_day?: string };
+  getBeverage: (isSparkling: boolean) => IBeverage[];
   onStartPour: (beverage: IBeverage, config: IBeverageConfig) => Observable<any>;
   onStopPour: () => Observable<any>;
 }
@@ -65,7 +65,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ======================================== */
 
     const ws = webSocket({
-      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://93.55.118.44:5901", // "ws://93.55.118.44:5901",
+      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://192.168.188.178:5901", // "ws://93.55.118.44:5901",
       deserializer: data => {
         try {
           return JSON.parse(data.data);
@@ -82,7 +82,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
       authService: false,
       vendorConfig: {},
       ws: ws,
-      beverages: [],
+      allBeverages: [],
       allAlarms: [],
       statusAlarms: {
         alarmSuper_: false,
@@ -245,22 +245,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     this.setBeverages = combineLatest(mediumLevel.config.getBeverages(), mediumLevel.config.getBrands(), mediumLevel.line.getLockLines(), mediumLevel.payment.getPrices())
     .pipe(
       map(mergeById),
-      tap(beverages => {
-        // -- FILTER & ORDER => BEVERAGES --
-        const beverages_ = beverages.filter(beverage => {
-          const { beverage_type, line_id, $lock } = beverage;
-          return beverage_type === Beverages.Plain || beverage_type === Beverages.Bev && line_id > 0 && !$lock;
-        });
-        beverages_.sort((a, b) => {
-          if (a.beverage_type === Beverages.Plain) return -1; else if (b.beverage_type === Beverages.Plain) return 1;
-          return a.line_id - b.line_id;
-        });
-        console.log("BEVERAGES_", beverages);
-        this.setState({
-          allBeverages: beverages,
-          beverages: beverages_
-        });
-      })
+      tap(beverages => this.setState({ allBeverages: beverages }))
     );
 
     this.setVendorConfig = mediumLevel.config.getVendor()
@@ -303,6 +288,24 @@ class ConfigStoreComponent extends React.Component<any, any> {
   /* ==== BEVERAGE ==== */
   /* ======================================== */
 
+  private getBeverage = (isSparkling: boolean) => {
+    const { allBeverages } = this.state;
+    if (!allBeverages) {
+      return [];
+    }
+    // -- FILTER & ORDER => BEVERAGES --
+    const beverages_ = allBeverages.filter(beverage => {
+      const { beverage_type, line_id, $lock } = beverage;
+      return (isSparkling ? beverage_type === Beverages.Soda : beverage_type === Beverages.Plain) || beverage_type === Beverages.Bev && line_id > 0 && !$lock;
+    });
+    console.log({ allBeverages, isSparkling, beverages_ });
+    beverages_.sort((a, b) => {
+      if (a.beverage_type !== Beverages.Bev) return -1; else if (b.beverage_type !== Beverages.Bev) return 1;
+      return a.line_id - b.line_id;
+    });
+    return beverages_;
+  }
+
   private onStartPour = (beverage: IBeverage, config: IBeverageConfig) => {
     const recipe = {
       beverage_size_id: null,
@@ -343,9 +346,9 @@ class ConfigStoreComponent extends React.Component<any, any> {
           setVendorConfig: this.setVendorConfig,
           vendorConfig: this.state.vendorConfig,
           allBeverages: this.state.allBeverages,
-          beverages: this.state.beverages,
           menuList: this.menuList,
           allAlarms: this.state.allAlarms,
+          getBeverage: this.getBeverage,
           statusAlarms: this.state.statusAlarms,
           alarms: this.state.alarms,
           isPouring: this.state.isPouring,

@@ -61,7 +61,7 @@ export const Basic_ = (props: BasicProps) => {
           </SpecialSection>
         }
         <Logo {...props} />
-        <span id="title">{__(beverage.beverage_type === Beverages.Plain ? (sparkling_ ? __("sparkling_water") : __("pure_water")) : __(title))}</span>
+        <span id="title">{__(title)}</span>
         <span id="cal">{calories} {__("c_cal")}.</span> {/* {beverage.calories} */}
         {paymentModeEnabled && <span id="price">{getPriceBeverage(beverage.$price)}</span>}
     </div>

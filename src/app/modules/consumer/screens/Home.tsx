@@ -18,7 +18,6 @@ import { CardsWrap } from "../components/home/CardsWrap";
 import { CustomizeBeverage } from "../components/home/CustomizeBeverage";
 import { Grid } from "../components/common/Grid";
 import { SegmentButtonProps } from "../components/common/SegmentButton";
-import Gesture from "@core/components/Menu/Gesture";
 import { first } from "rxjs/operators";
 
 /* ==== STYLE ==== */
@@ -117,6 +116,7 @@ export const Home = (props: HomeProps) => {
     }
   });
 
+
   const [nutritionFacts, setNutritionFacts] = React.useState(false);
   const [slideOpen, setSlideOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
@@ -127,6 +127,8 @@ export const Home = (props: HomeProps) => {
   const paymentConsumer = React.useContext(PaymentContext);
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
+
+  const [beverages, setBeverages] = React.useState<IBeverage[]>(configConsumer.getBeverage(state.isSparkling));
 
   //  ==== TIMER ====>
   const { timerFull$, timerStop, restartBrightness$ } = timerConsumer;
@@ -298,6 +300,11 @@ export const Home = (props: HomeProps) => {
   /* ==== BEVERAGE ==== */
   /* ======================================== */
 
+  // React.useEffect(() => {
+  //   const beverages_ = configConsumer.getBeverage(state.isSparkling);
+  //   setBeverages(beverages_);
+  // }, [state.isSparkling, configConsumer.allBeverages]);
+
   const selectBeverage = (beverage: IBeverage) => {
     const needToPay_ = needToPay(beverage);
     if (needToPay_) {
@@ -313,7 +320,6 @@ export const Home = (props: HomeProps) => {
       }
     }
 
-    const { beverages } = configConsumer;
     handleType(state.isSparkling);
     setState(prevState => ({
       ...prevState,
@@ -328,13 +334,10 @@ export const Home = (props: HomeProps) => {
   };
 
   const getBeverageSelected = (): IBeverage => {
-    const { beverages } = configConsumer;
     return beverages ? beverages[state.beverageSelected] : null;
   };
 
   const getBeverageColorOnLongPressPour = (): string => {
-    const { beverages } = configConsumer;
-
     let color: string;
 
     if (state.indexBeverageForLongPressPour_ !== null && state.indexBeverageForLongPressPour_ >= 0) {
@@ -551,9 +554,6 @@ export const Home = (props: HomeProps) => {
   }, [consumerConsumer.consumerBeverages]);
 
   const selectConsumerBeverage = (consumerBeverage: IConsumerBeverage) => {
-
-    const { beverages } = configConsumer;
-
     const needToPay_ = needToPay(consumerBeverage.$beverage);
     if (needToPay_) {
       if (alarmPayment_) {
@@ -611,6 +611,8 @@ export const Home = (props: HomeProps) => {
         temperature_level: value ? levels.temperature[2].value : levels.temperature[1].value
       }
     }));
+    const beverages_ = configConsumer.getBeverage(value); // TO IMPROVE
+    setBeverages(beverages_);
   };
 
   const handleChange = (value: any, type: string) => {
@@ -657,7 +659,6 @@ export const Home = (props: HomeProps) => {
   /* ==== MAIN ==== */
   /* ======================================== */
 
-  const { beverages } = configConsumer;
   const { consumerBeverages } = consumerConsumer;
   const { isSparkling } = state;
   const presentSlide = consumerBeverages.length > 0;
@@ -693,6 +694,7 @@ export const Home = (props: HomeProps) => {
       <HomeWrap isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={beverageIsSelected}>
         {beverages.length > 0 && (
           <ChoiceBeverage
+            beverages={beverages}
             showPayment={showPayment}
             beverageSelected={beverageSelected}
             handleType={handleType}

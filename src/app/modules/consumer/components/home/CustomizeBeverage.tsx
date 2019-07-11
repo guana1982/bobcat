@@ -21,14 +21,14 @@ import { ReplaySubscription } from "../common/Subscription";
 /* color: string; */
 /* @keyframes shadow-pulse
 {
-    0% {
-      zoom: 500%;
-      box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1);
-    }
-    100% {
-      zoom: 500%;
-      box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
-    }
+  0% {
+    zoom: 500%;
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    zoom: 500%;
+    box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
+  }
 }
 &.pulse {
   &:before, &:after {
@@ -355,7 +355,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           <CustomizeBeverageCard color={beverageSelected.beverage_font_color}>
             <div id="beverage-card">
               <div>
-                <span id="title">{__(beverageSelected.beverage_type === Beverages.Plain ? (isSparkling ? __("sparkling_water") : __("pure_water")) : __(beverageSelected.beverage_label_id))}</span>
+                <span id="title">{__(beverageSelected.beverage_label_id)}</span>
                 <span id="cal">{beverageSelected.calories} {__("c_cal")}.</span>
                 <div id="group">
                   {isSparkling &&
