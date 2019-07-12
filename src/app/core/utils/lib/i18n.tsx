@@ -6,7 +6,10 @@ export function setLangDict(dict) {
 
 export function __(label: string , fallback?) {
   if (!fallback) fallback = label;
-  if (!langDict || !langDict[label.toLowerCase()]) {
+  if (label) {
+    label = label.toLowerCase();
+  }
+  if (!langDict || !langDict[label]) {
     return fallback;
   }
   return langDict[label];
