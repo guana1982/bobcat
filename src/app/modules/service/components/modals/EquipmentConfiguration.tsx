@@ -640,7 +640,7 @@ const FormInitialization = (props: FormInitializationProps) => {
     if ((owner_.ownerSelected === 2 && indexStep === 1) || (indexStep === 2 && owner_.ownerSelected !== 2)) {
       const keyboardEl_ = keyboardEl.current;
       Object.keys(form).forEach(key => {
-        keyboardEl_.setInput(form[key], key);
+        keyboardEl_.keyboard.setInput(form[key], key);
       });
     }
   }, [indexStep]);

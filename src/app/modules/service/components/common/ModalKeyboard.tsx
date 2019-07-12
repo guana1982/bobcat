@@ -187,7 +187,7 @@ export const ModalKeyboard = (props: NumberPadProps) => {
     }
     if (type === ModalKeyboardTypes.Multiple) {
       const keyboardEl_ = keyboardEl.current;
-      keyboardEl_.setInput(state.input.toString());
+      keyboardEl_.keyboard.setInput(state.input.toString());
     }
   }, [state.showKeyboard]);
 
@@ -252,8 +252,9 @@ export const ModalKeyboard = (props: NumberPadProps) => {
   React.useEffect(() => {
     if (type === ModalKeyboardTypes.VectorNumber || type === ModalKeyboardTypes.Number) {
       const keyboardEl_ = keyboardEl.current;
+      if (!keyboardEl_) return;
       Object.keys(form).forEach(key => {
-        keyboardEl_.setInput(form[key].toString(), key);
+        keyboardEl_.keyboard.setInput(form[key].toString(), key);
       });
     }
   }, [form]);
