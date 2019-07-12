@@ -6,7 +6,7 @@ export const DEFAULT_TIMEOUT_ALERT = 2000;
 
 export enum AlertTypes {
   LoadingDataQr = "c_loading_data_qr",
-  LoadingQr = "loading...",
+  LoadingQr = "c_loading_qr",
 
   OutOfStock = "c_out_of_stock",
   OutOfSoda = "c_out_of_soda",

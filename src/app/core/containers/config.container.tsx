@@ -1,12 +1,12 @@
 import * as React from "react";
 import { map, tap, first, mergeMap, debounceTime, switchMap } from "rxjs/operators";
 import mediumLevel from "../utils/MediumLevel";
-import { forkJoin, of, Observable, Subject, combineLatest, interval, timer, BehaviorSubject } from "rxjs";
+import { forkJoin, of, Observable, Subject, combineLatest, interval, timer, BehaviorSubject, merge } from "rxjs";
 import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { setLangDict } from "../utils/lib/i18n";
 import { withRouter } from "react-router-dom";
 import { IBeverage, ISocket, IBeverageConfig, IAlarm } from "../models";
-import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages, CONSUMER_ALARM, SOCKET_UPDATE, SOCKET_STOP_EROGATION, MESSAGE_STOP_EROGATION } from "../utils/constants";
+import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages, CONSUMER_ALARM, SOCKET_UPDATE, SOCKET_STOP_EROGATION, MESSAGE_STOP_EROGATION, SOCKET_SUSTAINABILITY } from "../utils/constants";
 import { VendorConfig } from "@core/models/vendor.model";
 import { MTypes } from "@modules/service/components/common/Button";
 import { IStatusAlarms } from "@core/utils/APIModel";
@@ -37,7 +37,7 @@ export interface ConfigInterface {
   alarms: IAlarm[];
   allBeverages: IBeverage[];
   isPouring: boolean;
-  sustainabilityData: { saved_bottle_year?: string, saved_bottle_day?: string };
+  socketSustainability$: BehaviorSubject<{ saved_bottle_year: string, saved_bottle_day: string }>;
   getBeverage: (isSparkling: boolean) => IBeverage[];
   onStartPour: (beverage: IBeverage, config: IBeverageConfig) => Observable<any>;
   onStopPour: () => Observable<any>;
@@ -57,6 +57,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
   socketAttractor$ = new Subject<any>();
   socketStopErogation$ = new Subject<MESSAGE_STOP_EROGATION>();
   socketUpdate$ = new BehaviorSubject<any>({});
+  socketSustainability$ = new BehaviorSubject({ saved_bottle_year: "", saved_bottle_day: "" });
 
   constructor(props) {
     super(props);
@@ -65,7 +66,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ======================================== */
 
     const ws = webSocket({
-      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://192.168.188.178:5901", // "ws://93.55.118.44:5901",
+      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://172.20.10.3:5901", // "ws://93.55.118.44:5901",
       deserializer: data => {
         try {
           return JSON.parse(data.data);
@@ -94,11 +95,9 @@ class ConfigStoreComponent extends React.Component<any, any> {
       },
       alarms: [],
       isPouring: false,
-      sustainabilityData: { saved_bottle_year: "", saved_bottle_day: "" }
     };
 
     this.setAuthService = this.setAuthService.bind(this);
-
   }
 
   componentDidMount() {
@@ -115,16 +114,25 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
     socketTest$.subscribe(data => console.log("SOCKET", data));
 
-    /* ==== POLLING SUSTAINABILITY DATA ==== */
+    /* ==== SUSTAINABILITY DATA SOCKET ==== */
     /* ======================================== */
 
-    const pollIntervalSustainability = 6000 * 60 * 10;
-    timer(0, pollIntervalSustainability)
+    const socketSustainability$ = this.state.ws
+    .multiplex(
+      () => console.info(`Start => ${SOCKET_SUSTAINABILITY}`),
+      () => console.info(`End => ${SOCKET_SUSTAINABILITY}`),
+      (data) => data && data.message_type === SOCKET_SUSTAINABILITY
+    )
     .pipe(
-      switchMap(() => mediumLevel.product.sustainabilityData())
+      map((data: any) => data.value)
+    );
+
+    merge(
+      mediumLevel.product.sustainabilityData(),
+      socketSustainability$
     )
     .subscribe(data => {
-      this.setState({sustainabilityData: data});
+      this.socketSustainability$.next(data);
     });
 
     /* ==== UPDATE SOCKET ==== */
@@ -298,7 +306,6 @@ class ConfigStoreComponent extends React.Component<any, any> {
       const { beverage_type, line_id, $lock } = beverage;
       return (isSparkling ? beverage_type === Beverages.Soda : beverage_type === Beverages.Plain) || beverage_type === Beverages.Bev && line_id > 0 && !$lock;
     });
-    console.log({ allBeverages, isSparkling, beverages_ });
     beverages_.sort((a, b) => {
       if (a.beverage_type !== Beverages.Bev) return -1; else if (b.beverage_type !== Beverages.Bev) return 1;
       return a.line_id - b.line_id;
@@ -359,7 +366,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
           ws: this.state.ws,
           onStartPour: this.onStartPour,
           onStopPour: this.onStopPour,
-          sustainabilityData: this.state.sustainabilityData
+          socketSustainability$: this.socketSustainability$
         }}
       >
         {children}

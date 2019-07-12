@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import Circle from "react-circle";
 import { ConsumerContext } from "@core/containers";
-import { calcolaPerc } from "@core/utils/constants";
+import { calcolaPerc, toOZ } from "@core/utils/constants";
 import { __ } from "@core/utils/lib/i18n";
 
 interface CircleCardProps {
@@ -17,7 +17,9 @@ const CircleCard_ = (props: CircleCardProps) => {
 
   const consumerConsumer = React.useContext(ConsumerContext);
   const { currHydraLvl, hydraGoal } = consumerConsumer.dataConsumer;
-  let perc = calcolaPerc(hydraGoal, currHydraLvl);
+  const currHydraLvlOZ = toOZ(currHydraLvl);
+  const hydraGoalOZ = toOZ(hydraGoal);
+  let perc = calcolaPerc(hydraGoalOZ, currHydraLvlOZ);
   const percCircle_ = perc > 100 ? 100 : perc;
 
   let messageHydra = "";
@@ -50,10 +52,10 @@ const CircleCard_ = (props: CircleCardProps) => {
       <div id="text-wrap">
         <h2>{__(messageHydra)}</h2>
         {perc < 100 ?
-          <h4>{hydraGoal - currHydraLvl} oz {__("c_daily_goal")} {hydraGoal} oz</h4> :
-          <h4>{__("c_reached_daily_goal")} {hydraGoal} oz</h4>
+          <h4>{hydraGoalOZ - currHydraLvlOZ} oz {__("c_daily_goal")} {hydraGoalOZ} oz</h4> :
+          <h4>{__("c_reached_daily_goal")} {hydraGoalOZ} oz</h4>
         }
-        {/* <h3><span>{currHydraLvl}</span> / {hydraGoal} OZ</h3> */}
+        {/* <h3><span>{currHydraLvlOZ}</span> / {hydraGoalOZ} OZ</h3> */}
       </div>
     </div>
   );

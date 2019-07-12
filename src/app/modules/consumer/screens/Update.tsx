@@ -3,6 +3,7 @@ import * as React from "react";
 import styled from "styled-components";
 import Loader from "react-loader-spinner";
 import { ConfigContext } from "@core/containers";
+import { __ } from "@core/utils/lib/i18n";
 
 export const UpdateContent = styled.div`
   display: flex;
@@ -55,7 +56,7 @@ export const Update = (props: UpdateProps) => {
         width="150"
       />
       <br /><br />
-      <h1>{statusUpdate.message}</h1>
+      <h1>{__(statusUpdate.message)}</h1>
     </UpdateContent>
   );
 

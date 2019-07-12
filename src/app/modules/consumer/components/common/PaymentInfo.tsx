@@ -37,7 +37,7 @@ export const PaymentInfo = (props: PaymentInfoProps) => {
             }
 
             return (
-              <span id="payment-status">{__(`c_${status.toLowerCase()}${dataPayment_.current ? `-${dataPayment_.current}` : ""}`)}</span>
+              <span id="payment-status">{__(`c_${status.toLowerCase()}`)}</span> // ${dataPayment_.current ? `-${dataPayment_.current}` : ""}
             );
           }}
         </ReplaySubscription>

@@ -12,7 +12,11 @@ export enum Pages {
   Test = "/test",
 }
 
-export const calcolaPerc = (tot, num): number => Number(((num / tot) * 100).toFixed(0));
+export const toOZ = (value) => Math.round(value / 29.5735);
+export const calcolaPerc = (tot, num): number => {
+  const percent = Math.round((num / tot * 100));
+  return Math.max(0, percent);
+};
 
 // -- BEVERAGE --
 export enum Beverages {
@@ -72,6 +76,7 @@ export const SOCKET_CONNECTIVITY = "connectivity_status";
 export const SOCKET_UPDATE = "update_status";
 export const SOCKET_PAYMENT = "payment";
 export const SOCKET_STOP_EROGATION = "force_stop_erogation";
+export const SOCKET_SUSTAINABILITY = "sustainability_data";
 // export const SOCKET_QR = "qr_found";
 
 // -- MESSAGES SOCKET --

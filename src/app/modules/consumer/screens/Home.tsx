@@ -128,7 +128,7 @@ export const Home = (props: HomeProps) => {
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 
-  const [beverages, setBeverages] = React.useState<IBeverage[]>(configConsumer.getBeverage(state.isSparkling));
+  const [beverages, setBeverages] = React.useState<IBeverage[]>([]);
 
   //  ==== TIMER ====>
   const { timerFull$, timerStop, restartBrightness$ } = timerConsumer;
@@ -199,6 +199,7 @@ export const Home = (props: HomeProps) => {
     } else {
       startTimer_();
     }
+    setBeverages(configConsumer.getBeverage(state.isSparkling));
     return () => {
       configConsumer.setAuthService(false);
       resetTimer_();
@@ -300,11 +301,6 @@ export const Home = (props: HomeProps) => {
   /* ==== BEVERAGE ==== */
   /* ======================================== */
 
-  // React.useEffect(() => {
-  //   const beverages_ = configConsumer.getBeverage(state.isSparkling);
-  //   setBeverages(beverages_);
-  // }, [state.isSparkling, configConsumer.allBeverages]);
-
   const selectBeverage = (beverage: IBeverage) => {
     const needToPay_ = needToPay(beverage);
     if (needToPay_) {
@@ -326,7 +322,7 @@ export const Home = (props: HomeProps) => {
       beverageSelected: beverages.indexOf(beverage),
       beverageConfig: {
         ...prevState.beverageConfig,
-        flavor_level: beverage.beverage_type !== Beverages.Plain ? levels.flavor[1].value : null,
+        flavor_level: levels.flavor[1].value,
         b_complex: false,
         antioxidants: false
       }
@@ -383,29 +379,22 @@ export const Home = (props: HomeProps) => {
         idBeveragePouring_: !validFavorite ? bevSelected.beverage_id : null,
         indexFavoritePouring_: !validFavorite ? null : indexFavorite
       })); // <= Rapid mode
+      if (beverageConfig) {
+        bevConfig = beverageConfig;
+      } else {
+        bevConfig = {
+          carbonation_level: !isSparkling ? levels.noCarbonation[0].value : levels.carbonation[1].value,
+          temperature_level: levels.temperature[1].value,
+          flavor_level: levels.flavor[1].value
+        };
+      }
     } else {
       bevSelected = getBeverageSelected();
       setState({
         ...state,
         showCardsInfo: true
       }); // <= Slow mode
-    }
-
-    if (beverageConfig) {
-      bevConfig = beverageConfig;
-    } else {
       bevConfig = {...state.beverageConfig};
-      if (bevConfig.carbonation_level == null) {
-        if (!isSparkling) {
-          bevConfig.carbonation_level = levels.noCarbonation[0].value;
-        }
-      }
-      if (bevConfig.temperature_level == null) {
-        bevConfig.temperature_level = levels.temperature[1].value;
-      }
-      if (bevConfig.flavor_level == null) {
-        bevConfig.flavor_level = levels.flavor[1].value;
-      }
     }
 
     setEndSession(StatusEndSession.Start);
@@ -512,6 +501,7 @@ export const Home = (props: HomeProps) => {
 
     return () => {
       if (endSession === StatusEndSession.Start) {
+        handleType(false);
         resetTimerEnd_();
         mediumLevel.product.sessionEnded().subscribe();
         restartPayment();

@@ -92,7 +92,7 @@ interface PrepayProps {
   history: any;
 }
 
-export const TIMEOUT_QR = 1500;
+export const TIMEOUT_QR = 2000;
 
 export const Prepay = (props: PrepayProps) => {
 
