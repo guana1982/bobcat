@@ -128,7 +128,7 @@ export const Home = (props: HomeProps) => {
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 
-  const [beverages, setBeverages] = React.useState<IBeverage[]>([]);
+  const beverages = configConsumer.beverages[state.isSparkling ? "sparkling" : "still"];
 
   //  ==== TIMER ====>
   const { timerFull$, timerStop, restartBrightness$ } = timerConsumer;
@@ -199,7 +199,6 @@ export const Home = (props: HomeProps) => {
     } else {
       startTimer_();
     }
-    setBeverages(configConsumer.getBeverage(state.isSparkling));
     return () => {
       configConsumer.setAuthService(false);
       resetTimer_();
@@ -601,8 +600,6 @@ export const Home = (props: HomeProps) => {
         temperature_level: value ? levels.temperature[2].value : levels.temperature[1].value
       }
     }));
-    const beverages_ = configConsumer.getBeverage(value); // TO IMPROVE
-    setBeverages(beverages_);
   };
 
   const handleChange = (value: any, type: string) => {
