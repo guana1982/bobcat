@@ -22,7 +22,7 @@ export enum AlertTypes {
   ErrorQrNotFound = "c_error_qr_not_found",
   ErrorUnassociatedBottle = "c_error_unassociated_bottle",
   ErrorADAPanelDown = "c_ada_panel_down",
-  ErrorPaymentDown = "c_payment_down"
+  ErrorPaymentDown = "p_payment_down"
 }
 
 export interface AlertOptions {

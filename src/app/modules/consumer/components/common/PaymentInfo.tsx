@@ -32,12 +32,12 @@ export const PaymentInfo = (props: PaymentInfoProps) => {
           {(status: PaymentStatus) => {
             if (statusAlarms.alarmPayment_) {
               return (
-                <span id="payment-status">{__(`c_payment_system_down`)}</span>
+                <span id="payment-status">{__(`p_payment_system_down`)}</span>
               );
             }
 
             return (
-              <span id="payment-status">{__(`c_${status.toLowerCase()}`)}</span> // ${dataPayment_.current ? `-${dataPayment_.current}` : ""}
+              <span id="payment-status">{__(`p_${status}`)}</span> // ${dataPayment_.current ? `-${dataPayment_.current}` : ""}
             );
           }}
         </ReplaySubscription>
