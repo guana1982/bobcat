@@ -13,7 +13,7 @@ import { SegmentButtonProps, SegmentButton } from "../common/SegmentButton";
 import { Button } from "../common/Button";
 import { ButtonGroup } from "../common/ButtonGroup";
 import ClickNHold from "../common/ClickNHold";
-import { Beverages } from "@core/utils/constants";
+import { Beverages, debounce } from "@core/utils/constants";
 import { Alert } from "../common/Alert";
 import { PaymentInfo } from "../common/PaymentInfo";
 import { ReplaySubscription } from "../common/Subscription";

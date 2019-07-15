@@ -18,6 +18,7 @@ import { componentWillAppendToBody } from "react-append-to-body";
 import { ILevelsModel } from "@core/utils/APIModel";
 import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
 import ClickNHold from "../common/ClickNHold";
+import { debounce } from "@core/utils/constants";
 
 export enum BeverageTypes {
   Info = "info",
@@ -190,20 +191,27 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
       return;
     }
 
+  }, [buttonEl, enter]);
+
+  React.useEffect(() => {
+    const button = buttonEl.current;
+    const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
+
+    if (!isFocus || nutritionFacts) return;
+
     if (pour === true) {
-      if (nutritionFacts) {
-        return;
-      }
+      console.log("POUR");
       if (onHoldStart) {
         onHoldStart();
       }
     } else if (pour === false) {
+      console.log("STOP");
       if (onHoldEnd) {
         onHoldEnd();
       }
     }
 
-  }, [buttonEl, enter, pour]);
+  }, [buttonEl, pour]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
   const disabledButton = types && types[0] === BeverageTypes.Info || $outOfStock || (disabled && !pouring);

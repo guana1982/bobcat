@@ -17,6 +17,20 @@ export const calcolaPerc = (tot, num): number => {
   const percent = Math.round((num / tot * 100));
   return Math.max(0, percent);
 };
+export function debounce(func, wait, immediate?) {
+  let timeout;
+  return function() {
+    let context = this, args = arguments;
+    let later = function() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    let callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+}
 
 // -- BEVERAGE --
 export enum Beverages {

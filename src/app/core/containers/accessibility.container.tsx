@@ -1,8 +1,7 @@
 
 import * as React from "react";
-import { Pages } from "@core/utils/constants";
+import { Pages, debounce } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
-import { ConsumerContext } from "@core/containers";
 import createContainer from "constate";
 
 export enum Action {
@@ -92,15 +91,16 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
   //  ==== ALERT CASE ====
   const { alertShow } = stateLayout;
   React.useEffect(() => {
+    console.log({alertShow});
     if (alertShow) {
       // setDown(false);
       // setEnable(false);
       // setPour(false);
       // setStop(true);
+      const buttonClose = getSpecificButton(`alert_close`);
       const buttons = detectButtons();
-      focusElement(buttons[0]);
-    }
-    if (!alertShow) {
+      focusElement(buttonClose || buttons[0]);
+    } else {
       // setStop(false);
       const buttons = detectButtons();
       focusElement(buttons[0]);
@@ -170,7 +170,7 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
   //  ==== EVENTS FUNCTION ====
   //  ================================
 
-  function onKeyDown(evt: KeyboardEvent) {
+  const onKeyDown = debounce((evt: KeyboardEvent) => {
     this.evt = evt;
     const event = KeyMapping[evt.keyCode];
     const direction = Direction[event];
@@ -220,7 +220,7 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
 
       actionStartEvent(action);
     }
-  }
+  }, 100);
 
   function onTouchEnd(evt) {
     setEnable(false);

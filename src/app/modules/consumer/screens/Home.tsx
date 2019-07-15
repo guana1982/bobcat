@@ -64,7 +64,7 @@ interface HomeProps {
 
 export interface HomeState {
   isSparkling: boolean;
-  beverageSelected: number;
+  beverageSelectedId: number;
   indexBeverageForLongPressPour_: number;
   idBeveragePouring_: number;
   indexFavoritePouring_: number;
@@ -101,7 +101,7 @@ export const Home = (props: HomeProps) => {
 
   const [state, setState] = React.useState<HomeState>({
     isSparkling: false,
-    beverageSelected: null,
+    beverageSelectedId: null,
     indexBeverageForLongPressPour_: null,
     idBeveragePouring_: null,
     indexFavoritePouring_: null,
@@ -129,6 +129,8 @@ export const Home = (props: HomeProps) => {
   const consumerConsumer = React.useContext(ConsumerContext);
 
   const beverages = configConsumer.beverages[state.isSparkling ? "sparkling" : "still"];
+
+  const { allBeverages } = configConsumer;
 
   //  ==== TIMER ====>
   const { timerFull$, timerStop, restartBrightness$ } = timerConsumer;
@@ -219,15 +221,17 @@ export const Home = (props: HomeProps) => {
   const { changeStateLayout } = accessibilityConsumer;
 
   React.useEffect(() => {
+    const { beverageSelectedId } = state;
+    console.log({ beverageSelectedId, slideOpen, nutritionFacts, endSession });
     changeStateLayout({
-      beverageSelected: state.beverageSelected,
+      beverageSelected: state.beverageSelectedId,
       nutritionFacts: nutritionFacts,
       slideOpen: slideOpen,
       fullMode: fullMode,
       buttonGroupSelected: null,
       endSession: endSession
     });
-  }, [state.beverageSelected, slideOpen, nutritionFacts, endSession]);
+  }, [state.beverageSelectedId, slideOpen, nutritionFacts, endSession]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
   /* ==== ALARMS ==== */
@@ -329,7 +333,9 @@ export const Home = (props: HomeProps) => {
   };
 
   const getBeverageSelected = (): IBeverage => {
-    return beverages ? beverages[state.beverageSelected] : null;
+    const { beverageSelectedId } = state;
+    console.log({ beverageSelectedId });
+    return allBeverages ? allBeverages.find(beverage => beverage.beverage_id === beverageSelectedId) : null;
   };
 
   const getBeverageColorOnLongPressPour = (): string => {
@@ -557,11 +563,11 @@ export const Home = (props: HomeProps) => {
       }
     }
 
-    const indexBeverage_ = beverages.findIndex(beverage => beverage.beverage_id === consumerBeverage.$beverage.beverage_id);
+    const idBeverage_ = allBeverages.find(beverage => beverage.beverage_id === consumerBeverage.$beverage.beverage_id).beverage_id;
     setState(prevState => ({
       ...prevState,
       isSparkling: consumerBeverage.$sparkling,
-      beverageSelected: indexBeverage_,
+      beverageSelectedId: idBeverage_,
       beverageConfig: {
         flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),
         carbonation_level: consumerBeverage.$sparkling ? Number(consumerBeverage.carbLvl) : 0,
@@ -666,7 +672,7 @@ export const Home = (props: HomeProps) => {
         <Slide
           slideOpen={slideOpen}
           indexFavoritePouring_={state.indexFavoritePouring_}
-          beverageSelected={state.beverageSelected}
+          beverageSelected={state.beverageSelectedId}
           selectConsumerBeverage={selectConsumerBeverage}
           startConsumerPour={startConsumerPour}
           stopConsumerPour={stopConsumerPour}
@@ -693,7 +699,7 @@ export const Home = (props: HomeProps) => {
             goToPrepay={goToPrepay}
             idBeveragePouring_={state.idBeveragePouring_}
             isSparkling={state.isSparkling}
-            disabled={disabledMode} // || presentSlide && state.slideOpen
+            disabled={disabledMode}
             segmentButton={segmentButton} // => _SegmentButton
             handleNutritionFacts={handleNutritionFacts}
             handleDisabled={handleDisabled}
