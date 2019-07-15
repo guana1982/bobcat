@@ -259,7 +259,7 @@ export const Slide = (props: SlideProps) => {
             })}
           </Grid>
         }
-        {slideOpen && <PaymentInfo />}
+        {(slideOpen && !beverageIsSelected) && <PaymentInfo />}
         {!beverageIsSelected &&
           <ToggleSlide id="slide-toogle" disabled={disabled} onClick={() => handleSlide()}>
             <img src={"icons/arrow-circle.png"} />
