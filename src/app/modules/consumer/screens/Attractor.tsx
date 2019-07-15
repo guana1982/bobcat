@@ -70,7 +70,7 @@ export const Attractor = (props: AttractorProps) => {
     return () => {
       socketAttractor_.unsubscribe();
     };
-  }, [socketAttractor$]);
+  }, [socketAttractor$, alarmSuper_]);
   //  <=== PROXIMITY SENSOR ====
 
   return (
