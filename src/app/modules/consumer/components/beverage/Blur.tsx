@@ -13,7 +13,7 @@ interface BlurProps {
 
 export const Blur_ = (props: BlurProps) => {
   const { className, logoId, types, nutritionFacts } = props;
-  const logoBlur = (types && types[0]) === BeverageTypes.Info ? `icons/${logoId}@blur.png` : `img/logos/${logoId}@${nutritionFacts ? "nutrition-" : ""}blur.png`;
+  const logoBlur = (types && types[0]) === BeverageTypes.Info ? `icons/${logoId}@blur.webp` : `img/logos/${logoId}@${nutritionFacts ? "nutrition-" : ""}blur.webp`;
 
   if (logoId === undefined) return null;
 

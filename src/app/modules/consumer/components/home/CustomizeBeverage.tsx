@@ -17,6 +17,7 @@ import { Beverages, debounce } from "@core/utils/constants";
 import { Alert } from "../common/Alert";
 import { PaymentInfo } from "../common/PaymentInfo";
 import { ReplaySubscription } from "../common/Subscription";
+import { motion } from "framer-motion";
 
 /* color: string; */
 /* @keyframes shadow-pulse
@@ -81,28 +82,26 @@ export const Pour = styled.button`
 /* ==== LOGO ==== */
 /* ======================================== */
 
-const _logoBeverage = posed.img({
+const AnimationLogoBeverage = {
   normal: {
-    zoom: "100%",
-    transform: "translate(-50%, -105%)"
+    translateX: "-50%",
+    translateY:  "-75%",
+    scale: 0.5
   },
   zoom: {
-    zoom: "180%",
-    transform: "translate(-50%, -62%)",
-    transition: {
-      duration: 500
-    }
+    translateX: "-50%",
+    translateY: "-60%",
+    scale: 0.9
   }
-});
+};
 
-export const LogoBeverage = styled(_logoBeverage)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 305px;
-  height: 308px;
-  z-index: 99;
-`;
+const StyleLogoBeverage: any = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  zIndex: 99,
+  willChange: "transform"
+};
 
 /* ==== CARDS ==== */
 /* ======================================== */
@@ -350,7 +349,15 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           </React.Fragment>
         }
 
-        <LogoBeverage pose={props.showCardsInfo ? "zoom" : "normal"} src={`img/logos/${beverageSelected.beverage_logo_id}${isSparkling ? "@sparkling" : ""}.png`} />
+        <motion.img
+          style={StyleLogoBeverage}
+          initial={"normal"}
+          transition={{ delay: 0.1, duration: 0.8 }}
+          animate={props.showCardsInfo ? "zoom" : "normal"}
+          variants={AnimationLogoBeverage}
+          src={`img/logos/${beverageSelected.beverage_logo_id}${isSparkling ? "@sparkling" : ""}.webp`}
+        />
+
         {!props.showCardsInfo &&
           <CustomizeBeverageCard color={beverageSelected.beverage_font_color}>
             <div id="beverage-card">
