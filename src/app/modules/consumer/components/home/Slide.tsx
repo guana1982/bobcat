@@ -123,7 +123,8 @@ export const SlideStyled = styled(_Slide)`
       }
     }
   `}
-  background: ${props => props.beverageIsSelected ? "none" : "#fff"};
+  background: #fff;
+  background-image: ${props => props.beverageIsSelected ? "linear-gradient(to bottom,#fff,#f9f9f9)" : "none"};
   /* background-image: url("img/slider-bg.svg"); */
   /* &:before {
     content: " ";

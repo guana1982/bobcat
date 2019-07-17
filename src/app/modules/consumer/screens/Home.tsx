@@ -221,8 +221,6 @@ export const Home = (props: HomeProps) => {
   const { changeStateLayout } = accessibilityConsumer;
 
   React.useEffect(() => {
-    const { beverageSelectedId } = state;
-    console.log({ beverageSelectedId, slideOpen, nutritionFacts, endSession });
     changeStateLayout({
       beverageSelected: state.beverageSelectedId,
       nutritionFacts: nutritionFacts,
@@ -322,7 +320,7 @@ export const Home = (props: HomeProps) => {
     handleType(state.isSparkling);
     setState(prevState => ({
       ...prevState,
-      beverageSelected: beverages.indexOf(beverage),
+      beverageSelectedId: beverage.beverage_id,
       beverageConfig: {
         ...prevState.beverageConfig,
         flavor_level: levels.flavor[1].value,
@@ -334,8 +332,17 @@ export const Home = (props: HomeProps) => {
 
   const getBeverageSelected = (): IBeverage => {
     const { beverageSelectedId } = state;
-    console.log({ beverageSelectedId });
-    return allBeverages ? allBeverages.find(beverage => beverage.beverage_id === beverageSelectedId) : null;
+
+    let beverageSelectedId_ = beverageSelectedId;
+
+    /* === STILL & SODA WATER ===> */
+    if (state.isSparkling && beverageSelectedId === 9)
+      beverageSelectedId_ = 10;
+    else if (!state.isSparkling && beverageSelectedId === 10)
+      beverageSelectedId_ = 9;
+    /* <=== STILL & SODA WATER === */
+
+    return allBeverages ? allBeverages.find(beverage => beverage.beverage_id ===  beverageSelectedId_) : null;
   };
 
   const getBeverageColorOnLongPressPour = (): string => {
@@ -523,7 +530,7 @@ export const Home = (props: HomeProps) => {
   const resetBeverage = () => {
     setState(prevState => ({
       ...prevState,
-      beverageSelected: null,
+      beverageSelectedId: null,
       indexBeverageForLongPressPour_: null,
       indexFavoritePouring_: null,
       idBeveragePouring_: null,
@@ -563,11 +570,10 @@ export const Home = (props: HomeProps) => {
       }
     }
 
-    const idBeverage_ = allBeverages.find(beverage => beverage.beverage_id === consumerBeverage.$beverage.beverage_id).beverage_id;
     setState(prevState => ({
       ...prevState,
       isSparkling: consumerBeverage.$sparkling,
-      beverageSelectedId: idBeverage_,
+      beverageSelectedId: consumerBeverage.$beverage.beverage_id,
       beverageConfig: {
         flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),
         carbonation_level: consumerBeverage.$sparkling ? Number(consumerBeverage.carbLvl) : 0,
