@@ -27,8 +27,8 @@ export const PrepayContent = styled.div`
   }
   #Webcam {
     position: absolute;
-    top: 261px;
-    left: 209px;
+    top: 240px;
+    right: 155px;
     width: 259px;
     height: 259px;
     &.enable {
@@ -36,27 +36,27 @@ export const PrepayContent = styled.div`
     }
     &:before {
       content: " ";
+      top: -35px;
+      right: -35px;
       position: absolute;
-      top: -15%;
-      left: -15%;
-      width: 130%;
-      height: 130%;
+      width: 330px;
+      height: 330px;
       box-shadow: 0px 19px 31px -4px rgba(0,0,0,0.1);
     }
   }
   #Bottle-QR {
     position: absolute;
-    top: 154px;
-    left: 700px;
-    width: 190px;
-    height: 355px;
+    top: 211.4px;
+    left: 190px;
+    width: 85px;
+    height: 160px;
   }
   #Phone-QR {
     position: absolute;
-    top: 272.2px;
-    right: 180.6px;
-    width: 190px;
-    height: 237px;
+    top: 406.5px;
+    left: 190px;
+    width: 85px;
+    height: 107px;
   }
   #Text-Info {
     font-family: NeuzeitGro-Bol;
