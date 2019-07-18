@@ -67,6 +67,7 @@ export const GlobalStyle = createGlobalStyle`
       url("img/cannot-connect-to-cloud.svg")
       url("img/qr-code-not-recognized.svg")
       url("img/qr-code-not-associated-with-account.png")
+      url("img/slider-bg.webp")
 
       url("img/logos/9.webp")
       url("img/logos/2009.webp")

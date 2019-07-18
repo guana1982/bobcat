@@ -196,11 +196,11 @@ export const Home = (props: HomeProps) => {
   //  <=== TIMER ====
 
   React.useEffect(() => {
-    if (timerStop) {
-      restartBrightness_();
-    } else {
-      startTimer_();
-    }
+    // if (timerStop) {
+    //   restartBrightness_();
+    // } else {
+    //   startTimer_();
+    // }
     return () => {
       configConsumer.setAuthService(false);
       resetTimer_();

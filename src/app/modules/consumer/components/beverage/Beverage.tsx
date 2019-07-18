@@ -315,47 +315,66 @@ const AppendedFullBeverage = componentWillAppendToBody(FullBeverage);
 /* ==== ANIMATIONS ==== */
 /* ======================================== */
 
-export const BeveragesAnimated = [
-  posed(Beverage)({
-    fullClose: {
-      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
-      delay: 75
-    },
-    close: {
-      transform: "scale(1) translate3d(62.8vw, 12rem, 0px)",
-      delay: 100
-    },
-    open: {
-      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
-      delay: 50
-    }
-  }),
-  posed(Beverage)({
-    fullClose: {
-      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
-      delay: 75
-    },
-    close: {
-      transform: "scale(1) translate3d(36.5vw, -10rem, 0px)",
-      delay: 75
-    },
-    open: {
-      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
-      delay: 75
-    }
-  }),
-  posed(Beverage)({
-    fullClose: {
-      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
-      delay: 75
-    },
-    close: {
-      transform: "scale(1) translate3d(10vw, 38rem, 0px)",
-      delay: 50
-    },
-    open: {
-      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
-      delay: 100
-    }
-  })
-];
+export const BeveragesAnimated = [{
+  fullClose: {
+    translateX: "0vw",
+    translateY:  "0rem",
+    scale: 1.14
+  },
+  close: {
+    translateX: "62.8vw",
+    translateY:  "12rem",
+    scale: 1
+  },
+  open: {
+    translateX: "0vw",
+    translateY:  "0rem",
+    scale: 1.14
+  }
+}, {
+  fullClose: {
+    translateX: "0vw",
+    translateY:  "0rem",
+    scale: 1.14,
+  },
+  close: {
+    translateX: "36.5vw",
+    translateY:  "-10rem",
+    scale: 1
+  },
+  open: {
+    translateX: "0vw",
+    translateY:  "0rem",
+    scale: 1.14
+  }
+}, {
+  fullClose: {
+    translateX: "0vw",
+    translateY:  "0rem",
+    scale: 1.14
+  },
+  close: {
+    translateX: "10vw",
+    translateY:  "38rem",
+    scale: 1
+  },
+  open: {
+    translateX: "0vw",
+    translateY:  "0rem",
+    scale: 1.14
+  }
+}];
+
+export const BeveragesTransition = [{
+  ease: "easeOut",
+  delay: 0.05,
+  duration: 0.4
+}, {
+  ease: "easeOut",
+  delay: 0.075,
+  duration: 0.4
+}, {
+  ease: "easeOut",
+  delay: 0.1,
+  duration: 0.4
+}];

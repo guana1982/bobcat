@@ -352,7 +352,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
         <motion.img
           style={StyleLogoBeverage}
           initial={"normal"}
-          transition={{ delay: 0.1, duration: 0.8 }}
+          transition={{ ease: "easeOut", delay: 0.1, duration: 0.8 }}
           animate={props.showCardsInfo ? "zoom" : "normal"}
           variants={AnimationLogoBeverage}
           src={`img/logos/${beverageSelected.beverage_logo_id}${isSparkling ? "@sparkling" : ""}.webp`}

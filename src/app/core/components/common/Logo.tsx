@@ -28,7 +28,7 @@ const BeverageLogo = (props) => {
 
   return (
     <img
-      src={logo_id === "0" ? `img/still_water_big 2.png` : `img/logos/${logo_id}.png`}
+      src={logo_id === "0" ? `img/still_water_big 2.wepb` : `img/logos/${logo_id}.webp`}
       {...SIZES[!size ? "default" : size]}
     />
   );

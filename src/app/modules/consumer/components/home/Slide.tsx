@@ -4,10 +4,11 @@ import styled, { css } from "styled-components";
 import posed from "react-pose";
 import { ConsumerContext } from "@core/containers";
 
-import { BeveragesAnimated, BeverageTypes } from "../beverage/Beverage";
+import { BeveragesAnimated, BeverageTypes, Beverage, BeveragesTransition } from "../beverage/Beverage";
 import { Footer } from "../common/Footer";
 import { Grid } from "../common/Grid";
 import { PaymentInfo } from "../common/PaymentInfo";
+import { motion } from "framer-motion";
 
 export const _sizeSlide = "325px";
 export const _sizeSlideFull = "5vw";
@@ -15,28 +16,7 @@ export const _sizeSlideFull = "5vw";
 /* ==== ANIMATIONS ==== */
 /* ======================================== */
 
-const _Slide = posed.div({
-  fullClose: {
-    transform: "translate3d(-1200px, 0, 0)",
-    transition: {
-      duration: 300,
-    }
-  },
-  close: {
-    transform: "translate3d(-951px, 0, 0)",
-    transition: {
-      duration: 300,
-    }
-  },
-  open: {
-    transform: "translate3d(-31px, 0, 0)",
-    transition: {
-      duration: 300,
-    }
-  }
-});
-
-const _toggleSlide = posed.button({
+const ToggleSlideAnimated = {
   close: {
     transform: "rotate(0deg)"
   },
@@ -46,7 +26,19 @@ const _toggleSlide = posed.button({
   open: {
     transform: "rotate(180deg)"
   }
-});
+};
+
+const AnimationSlider = {
+  fullClose: {
+    translateX: "-1200px",
+  },
+  close: {
+    translateX: "-951px",
+  },
+  open: {
+    translateX: "-31px",
+  }
+};
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */
@@ -110,35 +102,26 @@ const HeaderSlide = styled.div`
 `;
 
 /* disabled?: boolean */
-export const SlideStyled = styled(_Slide)`
+export const SlideStyled = styled.div`
   position: absolute;
   top: 0;
-  width: 100vw;
+  width: 100%;
+  left:0;
+  height: 100%;
   z-index: 5;
-  height: 100vh;
-  ${({ disabled }) => disabled && css`
-    ${HeaderSlide} {
-      h2 {
-        opacity: .2;
-      }
-    }
-  `}
-  background: #fff;
-  background-image: ${props => props.beverageIsSelected ? "linear-gradient(to bottom,#fff,#f9f9f9)" : "none"};
-  /* background-image: url("img/slider-bg.svg"); */
-  /* &:before {
+  background-image: ${props => props.disabled ? "linear-gradient(to bottom,#fff,#f9f9f9)" : null};
+  &:before {
     content: " ";
-    opacity: .8;
     position: absolute;
-    top: 0%;
-    left: 35px;
-    width: 100%;
-    height: 100%;
-    background-image: url("img/slider-bg.png");
-    background-size: contain;
+    top: 0;
+    left: 31px;
+    width: 1275px;
+    height: 111%;
+    background-image: ${props => props.disabled ? null : " url(img/slider-bg.webp)"};
+    background-size: 1387px;
     background-repeat: no-repeat;
     background-position: bottom;
-  } */
+  }
   #payment-status {
     position: absolute;
     width: 100%;
@@ -173,24 +156,18 @@ export const SlideStyled = styled(_Slide)`
   }
 `;
 
-export const ToggleSlide = styled(_toggleSlide)`
+export const ToggleSlide = styled.button`
+  &:before {
+    content: " ";
     position: absolute;
-    top: calc(50% - 11px);
-    border-radius: 50%;
-    height: 46px;
-    width: 46px;
-    right: 0;
-    &:before {
-      content: " ";
-      position: absolute;
-      top: -20%;
-      left: -20%;
-      width: 140%;
-      height: 140%;
-    }
-    &:disabled {
-      opacity: .2;
-    }
+    top: -20%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
+  }
+  &:disabled {
+    opacity: .2;
+  }
 `;
 
 /* ==== ELEMENT ==== */
@@ -221,52 +198,82 @@ export const Slide = (props: SlideProps) => {
 
   return (
     <React.Fragment>
-      <SlideStyled disabled={disabled} beverageIsSelected={beverageIsSelected} pose={animationSlide()}>
-        {!beverageIsSelected && <HeaderSlide className={slideOpen && "open"}>
-          <h2>{__("c_welcome")}, {dataConsumer.consumer_nick}!</h2>
-        </HeaderSlide>}
-        {
-          alarmConnectivity_ ?
-          <AlertSLide>
-            <img src="img/cannot-connect-to-cloud.svg" />
-            <span id="title">{__("c_no_connectivity")}</span>
-            <span id="sub-title">{__("c_no_connectivity_subtitle")}</span>
-          </AlertSLide> :
-          <Grid numElement={consumerBeverages.length}>
-            {consumerBeverages.map((b, i) => {
-              const BeverageAnimated = BeveragesAnimated[i];
-              return (
-                <BeverageAnimated
-                  pouring={i === indexFavoritePouring_}
-                  onStart={() => selectConsumerBeverage(b)}
-                  onHoldStart={() => startConsumerPour(b, i)}
-                  onHoldEnd={() => stopConsumerPour(b)}
-                  key={i}
-                  detectValue={"slide-beverage"}
-                  logoId={b.$logo_id || b.$beverage.beverage_logo_id}
-                  color={b.$beverage.beverage_font_color}
-                  status_id={b.$status_id}
-                  title={b.flavorTitle}
-                  types={b.$types}
-                  $sparkling={b.$sparkling}
-                  disabled={disabled}
-                  beverage={b.$beverage}
-                  levels={b.$levels}
-                  slideOpen={slideOpen}
-                  // nutritionFacts={nutritionFacts}
-                  handleDisabled={handleDisabled}
-                />
-              );
-            })}
-          </Grid>
-        }
-        {(slideOpen && !beverageIsSelected) && <PaymentInfo />}
-        {!beverageIsSelected &&
-          <ToggleSlide id="slide-toogle" disabled={disabled} onClick={() => handleSlide()}>
-            <img src={"icons/arrow-circle.png"} />
-          </ToggleSlide>
-        }
-      </SlideStyled>
+      <motion.div
+        style={{
+          position: "absolute",
+          top: 0,
+          width: "100vw",
+          zIndex: 5,
+          height: "100vh",
+          willChange: "transform"
+        }}
+        initial={fullMode ? "fullClose" : "close"}
+        transition={{ ease: "easeOut", delay: 0.05, duration: 0.3 }}
+        variants={AnimationSlider}
+        animate={animationSlide()}
+      >
+        <SlideStyled disabled={disabled} beverageIsSelected={beverageIsSelected}>
+          {!disabled && <HeaderSlide className={slideOpen && "open"}>
+            <h2>{__("c_welcome")}, {dataConsumer.consumer_nick}!</h2>
+          </HeaderSlide>}
+          {
+            alarmConnectivity_ ?
+            <AlertSLide>
+              <img src="img/cannot-connect-to-cloud.svg" />
+              <span id="title">{__("c_no_connectivity")}</span>
+              <span id="sub-title">{__("c_no_connectivity_subtitle")}</span>
+            </AlertSLide> :
+            <Grid numElement={consumerBeverages.length}>
+              {consumerBeverages.map((b, i) => {
+                const BeverageAnimated = BeveragesAnimated[i];
+                const BeverageTransition = BeveragesTransition[i];
+                return (
+                  <motion.div style={{willChange: "transform"}} key={i} variants={BeverageAnimated} transition={BeverageTransition}>
+                    <Beverage
+                      pouring={i === indexFavoritePouring_}
+                      onStart={() => selectConsumerBeverage(b)}
+                      onHoldStart={() => startConsumerPour(b, i)}
+                      onHoldEnd={() => stopConsumerPour(b)}
+                      detectValue={"slide-beverage"}
+                      logoId={b.$logo_id || b.$beverage.beverage_logo_id}
+                      color={b.$beverage.beverage_font_color}
+                      status_id={b.$status_id}
+                      title={b.flavorTitle}
+                      types={b.$types}
+                      $sparkling={b.$sparkling}
+                      disabled={disabled}
+                      beverage={b.$beverage}
+                      levels={b.$levels}
+                      slideOpen={slideOpen}
+                      // nutritionFacts={nutritionFacts}
+                      handleDisabled={handleDisabled}
+                    />
+                  </motion.div>
+                );
+              })}
+            </Grid>
+          }
+          {(slideOpen && !disabled) && <PaymentInfo />}
+          {!disabled &&
+            <motion.div
+            transition={{ delay: 0.05, duration: 0.3 }}
+            variants={ToggleSlideAnimated}
+            style={{
+              position: "absolute",
+              top: "calc(50% - 11px)",
+              borderRadius: "50%",
+              height: "48px",
+              width: "46px",
+              right: "-15px",
+              willChange: "transform"
+            }}>
+              <ToggleSlide id="slide-toogle" disabled={disabled} onClick={() => handleSlide()}>
+                <img src={"icons/arrow-circle.png"} />
+              </ToggleSlide>
+            </motion.div>
+          }
+        </SlideStyled>
+      </motion.div>
     </React.Fragment>
   );
 };
