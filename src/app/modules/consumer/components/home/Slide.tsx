@@ -208,7 +208,7 @@ export const Slide = (props: SlideProps) => {
           willChange: "transform"
         }}
         initial={fullMode ? "fullClose" : "close"}
-        transition={{ ease: "easeOut", delay: 0.05, duration: 0.3 }}
+        transition={{ ease: "easeInOut", duration: 0.5 }}
         variants={AnimationSlider}
         animate={animationSlide()}
       >
@@ -256,7 +256,7 @@ export const Slide = (props: SlideProps) => {
           {(slideOpen && !disabled) && <PaymentInfo />}
           {!disabled &&
             <motion.div
-            transition={{ delay: 0.05, duration: 0.3 }}
+            transition={{ duration: 0.3 }}
             variants={ToggleSlideAnimated}
             style={{
               position: "absolute",
@@ -267,7 +267,7 @@ export const Slide = (props: SlideProps) => {
               right: "-15px",
               willChange: "transform"
             }}>
-              <ToggleSlide id="slide-toogle" disabled={disabled} onClick={() => handleSlide()}>
+              <ToggleSlide id="slide-toogle" disabled={disabled} onTouchStart={() => handleSlide()}>
                 <img src={"icons/arrow-circle.png"} />
               </ToggleSlide>
             </motion.div>

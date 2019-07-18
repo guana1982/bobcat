@@ -367,14 +367,11 @@ export const BeveragesAnimated = [{
 
 export const BeveragesTransition = [{
   ease: "easeOut",
-  delay: 0.05,
-  duration: 0.4
+  duration: 0.8
 }, {
   ease: "easeOut",
-  delay: 0.075,
-  duration: 0.4
+  duration: 0.8
 }, {
   ease: "easeOut",
-  delay: 0.1,
-  duration: 0.4
+  duration: 0.8
 }];
