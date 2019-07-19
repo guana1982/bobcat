@@ -31,6 +31,7 @@ export const PrepayContent = styled.div`
     right: 155px;
     width: 259px;
     height: 259px;
+    background-color: #000;
     &.enable {
       background-color: #0000ff;
     }
@@ -42,6 +43,11 @@ export const PrepayContent = styled.div`
       width: 330px;
       height: 330px;
       box-shadow: 0px 19px 31px -4px rgba(0,0,0,0.1);
+    }
+    .target {
+      margin: 17px;
+      width: 224px;
+      height: 224px;
     }
   }
   #Bottle-QR {
@@ -58,15 +64,21 @@ export const PrepayContent = styled.div`
     width: 85px;
     height: 107px;
   }
+  #Scan-QR {
+    position: absolute;
+    width: 305.6px;
+    height: 306px;
+    top: 207px;
+    left: 326.7px;
+  }
   #Text-Info {
     font-family: NeuzeitGro-Bol;
     position: absolute;
     margin: 0;
-    top: 595px;
-    left: 715px;
-    width: 232px;
-    height: 97px;
-    font-size: 20px;
+    top: 579px;
+    left: 226px;
+    width: 361px;
+    font-size: 18px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
@@ -74,16 +86,26 @@ export const PrepayContent = styled.div`
     letter-spacing: normal;
     color: ${props => props.theme.slateGrey}
   }
-  #Icon-QR {
+  #Text-Qr {
     position: absolute;
-    top: 599px;
-    right: 223px;
-    width: 48px;
-    height: 48px;
+    font-family: NeuzeitGro-Bol;
+    width: 223.3px;
+    margin: 0;
+    top: 579px;
+    right: 172.7px;
+    font-size: 18px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: ${props => props.theme.slateGrey}
   }
   #Icon-Down {
     position: absolute;
-    bottom: 70px;
+    width: 82px;
+    height: 46px;
+    bottom: 39px;
     right: 234px;
   }
 `;
@@ -271,14 +293,13 @@ export const Prepay = (props: PrepayProps) => {
       <PrepayContent>
         <CloseBtn detectValue={"prepay_close"} icon={"close"} onClick={() => goToHome()} />
         <div id="Webcam" className={webcamReady ? "enable" : ""}>
-          {!webcamReady && <>
-            <Alert options={{type: AlertTypes.LoadingQr}} />
-          </>}
+          <img className="target" src={"img/target.svg"} />
         </div>
         <img id="Bottle-QR" src={"img/bottle-qr.svg"} />
         <img id="Phone-QR" src={"img/phone-qr.svg"} />
+        <img id="Scan-QR" src={"img/scan-qr-code-tip.svg"} />
         <h2 id="Text-Info">{__("c_prepay_text")}</h2>
-        <img id="Icon-QR" src={"icons/qr-code.svg"} />
+        <h2 id="Text-Qr">{__("c_qr_text")}</h2>
         <img id="Icon-Down" src={"icons/down.svg"} />
       </PrepayContent>
     </section>

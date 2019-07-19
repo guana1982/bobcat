@@ -62,6 +62,7 @@ export const GlobalStyle = createGlobalStyle`
     content:
       url("img/bottle-qr.svg")
       url("img/phone-qr.svg")
+      url("img/scan-qr-code-tip.svg")
       url("img/out-of-order.svg")
       url("img/pay.svg")
       url("img/cannot-connect-to-cloud.svg")
