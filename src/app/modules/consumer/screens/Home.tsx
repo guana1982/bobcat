@@ -395,8 +395,8 @@ export const Home = (props: HomeProps) => {
         bevConfig = beverageConfig;
       } else {
         bevConfig = {
-          carbonation_level: !isSparkling ? levels.noCarbonation[0].value : levels.carbonation[1].value,
-          temperature_level: levels.temperature[1].value,
+          carbonation_level: !isSparkling ? levels.noCarbonation[0].value : levels.carbonation[2].value,
+          temperature_level: levels.temperature[2].value,
           flavor_level: levels.flavor[1].value
         };
       }
