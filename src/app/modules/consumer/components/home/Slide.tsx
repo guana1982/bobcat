@@ -213,9 +213,12 @@ export const Slide = (props: SlideProps) => {
         animate={animationSlide()}
       >
         <SlideStyled disabled={disabled} beverageIsSelected={beverageIsSelected}>
-          {!disabled && <HeaderSlide className={slideOpen && "open"}>
-            <h2>{__("c_welcome")}, {dataConsumer.consumer_nick}!</h2>
-          </HeaderSlide>}
+          {
+            !disabled &&
+            <HeaderSlide className={(slideOpen || fullMode) && "open"}>
+              <h2>{__("c_welcome")}, {dataConsumer.consumer_nick}!</h2>
+            </HeaderSlide>
+          }
           {
             alarmConnectivity_ ?
             <AlertSLide>
@@ -244,7 +247,7 @@ export const Slide = (props: SlideProps) => {
                       disabled={disabled}
                       beverage={b.$beverage}
                       levels={b.$levels}
-                      slideOpen={slideOpen}
+                      slideOpen={slideOpen || fullMode}
                       // nutritionFacts={nutritionFacts}
                       handleDisabled={handleDisabled}
                     />
