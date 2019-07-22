@@ -53,6 +53,25 @@ export const HomeWrap = styled.div`
 
 export const HomeContent = styled.section`
   background-image: ${props => props.theme.backgroundLight};
+  &.slide-is-open {
+    #logout-btn {
+      z-index: 5;
+      transition-delay: 400ms;
+      right: -22px;
+      #text {
+        transition-delay: 400ms;
+        opacity: 0;
+      }
+    }
+  }
+  &:not(.slide-is-open) {
+    #logout-btn {
+      transition-delay: 100ms;
+      #text {
+        transition-delay: 100ms;
+      }
+    }
+  }
 `;
 
 /* ==== PAGE ==== */
@@ -128,8 +147,7 @@ export const Home = (props: HomeProps) => {
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 
-  const beverages = configConsumer.beverages[state.isSparkling ? "sparkling" : "still"];
-
+  const beverages = React.useMemo(() => configConsumer.beverages[state.isSparkling ? "sparkling" : "still"], [state.isSparkling]);
   const { allBeverages } = configConsumer;
 
   //  ==== TIMER ====>
@@ -673,7 +691,7 @@ export const Home = (props: HomeProps) => {
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
   return (
-    <HomeContent>
+    <HomeContent className={slideOpen ? "slide-is-open" : ""}>
       {presentSlide &&
         <Slide
           slideOpen={slideOpen}

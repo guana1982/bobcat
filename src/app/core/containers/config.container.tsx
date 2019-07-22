@@ -61,6 +61,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
   socketStopErogation$ = new Subject<MESSAGE_STOP_EROGATION>();
   socketUpdate$ = new BehaviorSubject<any>({});
   socketSustainability$ = new BehaviorSubject({ saved_bottle_year: "", saved_bottle_day: "" });
+  isPouring: boolean = false;
 
   constructor(props) {
     super(props);
@@ -101,7 +102,6 @@ class ConfigStoreComponent extends React.Component<any, any> {
         alarmPayment_: false
       },
       alarms: [],
-      isPouring: false,
     };
 
     this.setAuthService = this.setAuthService.bind(this);
@@ -333,7 +333,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     return mediumLevel.dispense.pour(recipe)
     .pipe(
       first(),
-      tap(() => this.setState({isPouring: true}))
+      tap(() => this.isPouring = true)
     );
   }
 
@@ -341,7 +341,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     return mediumLevel.dispense.stop()
     .pipe(
       first(),
-      tap(() => this.setState({isPouring: false}))
+      tap(() => this.isPouring = false)
     );
   }
 
@@ -364,7 +364,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
           beverages: this.state.beverages,
           statusAlarms: this.state.statusAlarms,
           alarms: this.state.alarms,
-          isPouring: this.state.isPouring,
+          isPouring: this.isPouring,
           socketAlarms$: this.socketAlarms$,
           socketAttractor$: this.socketAttractor$,
           socketUpdate$: this.socketUpdate$,

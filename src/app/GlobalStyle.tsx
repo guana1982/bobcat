@@ -129,6 +129,7 @@ export const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: border-box;
+    touch-action: none;
   }
 
   #root {
@@ -141,10 +142,6 @@ export const GlobalStyle = createGlobalStyle`
     height: 100%;
     width: 100%;
   }
-
-  /* a, button, .myelements  {
-    touch-action: manipulation;
-  } */
 
   button {
     font-family: inherit;

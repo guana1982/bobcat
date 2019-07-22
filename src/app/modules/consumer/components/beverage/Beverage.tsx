@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 import posed from "react-pose";
 import { __ } from "@utils/lib/i18n";
 import { IBeverage } from "@models/index";
-import { forwardRef } from "react";
+import { memo } from "react";
 import { BeverageStatus } from "@models/beverage.model";
 import { AccessibilityContext, ConfigContext, PaymentContext } from "@core/containers";
 import ReactDOM = require("react-dom");
@@ -18,7 +18,6 @@ import { componentWillAppendToBody } from "react-append-to-body";
 import { ILevelsModel } from "@core/utils/APIModel";
 import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
 import ClickNHold from "../common/ClickNHold";
-import { debounce } from "@core/utils/constants";
 
 export enum BeverageTypes {
   Info = "info",
@@ -139,7 +138,11 @@ interface BeverageProps {
   handleDisabled: (d) => void;
 }
 
-export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
+function areEqual(prevProps, nextProps) {
+  return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+}
+
+export const Beverage = memo((props: BeverageProps) => {
 
   const [zoomNutrition, setZoomNutrition] = React.useState(false);
 
@@ -147,6 +150,8 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 
   const configConsumer = React.useContext(ConfigContext);
   const { alarmSparkling_ } = configConsumer.statusAlarms;
+
+  const paymentConsumer = React.useContext(PaymentContext);
 
   const $specialCard: boolean = types && types[0] === BeverageTypes.LastPour || types && types[0] === BeverageTypes.Favorite;
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib || beverage.line_id <= 0 || ($specialCard && (beverage.$lock || (levels.carbonation_perc != null && alarmSparkling_)));
@@ -162,56 +167,55 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   }
 
   //  ==== ACCESSIBILITY FUNCTION ====>
-  const buttonEl = React.useRef(null);
-  const accessibilityConsumer = React.useContext(AccessibilityContext);
-  const paymentConsumer = React.useContext(PaymentContext);
-  const { enter, pour, changeStateLayout } = accessibilityConsumer;
+  // const buttonEl = React.useRef(null);
+  // const accessibilityConsumer = React.useContext(AccessibilityContext);
+  // const { enter, pour, changeStateLayout } = accessibilityConsumer;
 
-  React.useEffect(() => {
-    const button = buttonEl.current;
-    const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
+  // React.useEffect(() => {
+  //   const button = buttonEl.current;
+  //   const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
 
-    if (!isFocus) return;
+  //   if (!isFocus) return;
 
-    if (enter) {
-      if (nutritionFacts) {
-        handleZoomNutrition(true);
-        changeStateLayout({
-          alertShow: true
-        });
-        return;
-      }
-      if (pouring) {
-        onHoldStart();
-        return;
-      }
-      if (onStart) {
-        onStart();
-      }
-      return;
-    }
+  //   if (enter) {
+  //     if (nutritionFacts) {
+  //       handleZoomNutrition(true);
+  //       changeStateLayout({
+  //         alertShow: true
+  //       });
+  //       return;
+  //     }
+  //     if (pouring) {
+  //       onHoldStart();
+  //       return;
+  //     }
+  //     if (onStart) {
+  //       onStart();
+  //     }
+  //     return;
+  //   }
 
-  }, [buttonEl, enter]);
+  // }, [buttonEl, enter]);
 
-  React.useEffect(() => {
-    const button = buttonEl.current;
-    const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
+  // React.useEffect(() => {
+  //   const button = buttonEl.current;
+  //   const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
 
-    if (!isFocus || nutritionFacts) return;
+  //   if (!isFocus || nutritionFacts) return;
 
-    if (pour === true) {
-      console.log("POUR");
-      if (onHoldStart) {
-        onHoldStart();
-      }
-    } else if (pour === false) {
-      console.log("STOP");
-      if (onHoldEnd) {
-        onHoldEnd();
-      }
-    }
+  //   if (pour === true) {
+  //     console.log("POUR");
+  //     if (onHoldStart) {
+  //       onHoldStart();
+  //     }
+  //   } else if (pour === false) {
+  //     console.log("STOP");
+  //     if (onHoldEnd) {
+  //       onHoldEnd();
+  //     }
+  //   }
 
-  }, [buttonEl, pour]);
+  // }, [buttonEl, pour]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
   const disabledButton = types && types[0] === BeverageTypes.Info || $outOfStock || (disabled && !pouring);
@@ -228,9 +232,9 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   };
 
   const closeZoomNutrition = () => {
-    changeStateLayout({
-      alertShow: false
-    }); //  <=== ACCESSIBILITY FUNCTION ====
+    // changeStateLayout({
+    //   alertShow: false
+    // }); //  <=== ACCESSIBILITY FUNCTION ====
     handleZoomNutrition(false);
   };
 
@@ -261,7 +265,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   };
 
   return (
-    <BeverageContent size={size} ref={innerRef}>
+    <BeverageContent size={size}>
         <React.Fragment>
           {zoomNutrition &&
             <AppendedFullBeverage {...props}>
@@ -282,7 +286,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
               onEnd={end}
             >
               <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
-                <button id={detectValue} ref={buttonEl} disabled={disabledButton}>
+                <button id={detectValue} disabled={disabledButton}> { /* ref={buttonEl} */ }
                   <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
                   <Basic paymentConsumer={paymentConsumer} levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
                 </button>
@@ -299,7 +303,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         </React.Fragment>
     </BeverageContent>
   );
-});
+}, areEqual);
 
 /* ==== FULL MODE ==== */
 /* ======================================== */

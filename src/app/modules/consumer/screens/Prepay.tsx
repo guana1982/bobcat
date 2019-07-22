@@ -8,7 +8,7 @@ import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { CloseBtnWrap, CloseBtn } from "../components/common/CloseBtn";
 import { __ } from "@core/utils/lib/i18n";
 import { Subscription } from "rxjs";
-import { ConfigContext } from "@core/containers";
+import { ConfigContext, PaymentContext } from "@core/containers";
 import { IdentificationConsumerStatus } from "@core/utils/APIModel";
 import { debounceTime } from "rxjs/operators";
 import { Alert } from "../components/common/Alert";
@@ -44,11 +44,7 @@ export const PrepayContent = styled.div`
       height: 330px;
       box-shadow: 0px 19px 31px -4px rgba(0,0,0,0.1);
     }
-    .target {
-      margin: 17px;
-      width: 224px;
-      height: 224px;
-    }
+    .target { }
   }
   #Bottle-QR {
     position: absolute;
@@ -130,6 +126,9 @@ export const Prepay = (props: PrepayProps) => {
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
   const configConsumer = React.useContext(ConfigContext);
+  const paymentConsumer = React.useContext(PaymentContext);
+
+  const { paymentModeEnabled } = paymentConsumer;
 
   //  ==== TIMER ====>
   const { timerPrepay$ } = timerConsumer;
@@ -253,7 +252,7 @@ export const Prepay = (props: PrepayProps) => {
         });
         timeoutDataFromServer_.current = setTimeout(() => {
           alertConsumer.show({
-            type: AlertTypes.ErrorLoadingQr,
+            type: !paymentModeEnabled ? AlertTypes.ErrorLoadingQr : AlertTypes.ErrorLoadingQrPayment,
             img: "img/cannot-connect-to-cloud.svg",
             subTitle: true,
             timeout: true,

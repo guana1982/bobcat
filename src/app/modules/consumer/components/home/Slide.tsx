@@ -36,7 +36,7 @@ const AnimationSlider = {
     translateX: "-951px",
   },
   open: {
-    translateX: "-31px",
+    translateX: "-41px",
   }
 };
 

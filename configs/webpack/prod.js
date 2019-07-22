@@ -44,7 +44,6 @@ module.exports = merge(commonConfig, {
     }),
     new CopyWebpackPlugin([
       { from: '../public', to: '' }
-    ]),
-    new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg)$/i })
+    ])
   ],
 });

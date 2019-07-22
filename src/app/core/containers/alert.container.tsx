@@ -1,6 +1,5 @@
 import * as React from "react";
 import createContainer from "constate";
-import { Alert } from "@modules/consumer/components/common/Alert"; // => TO IMPORVE
 
 export const DEFAULT_TIMEOUT_ALERT = 2000;
 
@@ -18,6 +17,7 @@ export enum AlertTypes {
   EndSparkling = "c_end_sparkling",
 
   ErrorLoadingQr = "c_error_loading_qr",
+  ErrorLoadingQrPayment = "c_error_loading_qr_payment",
   ErrorWebcam = "c_error_webcam",
   ErrorQrNotFound = "c_error_qr_not_found",
   ErrorUnassociatedBottle = "c_error_unassociated_bottle",
