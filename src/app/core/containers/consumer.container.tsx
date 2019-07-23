@@ -51,7 +51,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     this.index_qr = -1;
     this.state = {
       isLogged: false,
-      dataConsumer: null,
+      dataConsumer: {},
       consumerBeverages: []
     };
   }
@@ -62,7 +62,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
   resetConsumer = (noPushAttractor?: boolean) => {
     this.setState({
       isLogged: false,
-      dataConsumer: null,
+      dataConsumer: {},
       consumerBeverages: []
     });
     if (!noPushAttractor) {

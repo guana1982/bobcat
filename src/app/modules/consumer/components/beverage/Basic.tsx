@@ -31,7 +31,7 @@ export const Basic_ = (props: BasicProps) => {
 
   const sparkling_ = (types && types[0] === BeverageTypes.Sparkling) || $sparkling; // <= CONDITION
 
-  const { getPriceBeverage, paymentModeEnabled } = props.paymentConsumer;
+  const { getPriceBeverage, paymentModeEnabled, promotionEnabled } = props.paymentConsumer;
 
   return (
     <div className={className}>
@@ -62,8 +62,12 @@ export const Basic_ = (props: BasicProps) => {
         }
         <Logo {...props} />
         <span id="title">{__(title)}</span>
-        <span id="cal">{calories} {__("c_cal")}.</span> {/* {beverage.calories} */}
-        {paymentModeEnabled && <span id="price">{getPriceBeverage(beverage.$price)}</span>}
+        <span id="cal">{calories} {__("c_cal")}.</span>
+        {paymentModeEnabled &&
+          <span id="price" className={promotionEnabled ? "promotion-enabled" : null}>
+            {getPriceBeverage(beverage.$price)}
+          </span>
+        }
     </div>
   );
 };
@@ -186,6 +190,15 @@ export const Basic = styled<BasicProps>(Basic_)`
     font-size: 13.7px;
     letter-spacing: 1px;
     text-align: right;
+    &.promotion-enabled {
+      #value {
+        color: #929292;
+        text-decoration: line-through;
+      }
+    }
+    #promotion {
+      font-size: 15px;
+    }
   }
   ${({ specialCard }) => specialCard && css`
     ${Logo} {

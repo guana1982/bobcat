@@ -18,19 +18,19 @@ import { OutOfOrder } from "./screens/OutOfOrder";
 export const Consumer = () => (
   <ThemeProvider theme={themeMain}>
     <AccessibilityProvider>
-      <PaymentProvider>
         <AlertProvider alertComponent={<AlertFull />}>
           <ConsumerStore>
-            <TimerProvider>
-              <Route exact path={Pages.Attractor} component={Attractor}/>
-              <Route path={Pages.Home} component={Home}/>
-              <Route path={Pages.Prepay} component={Prepay}/>
-              <Route path={Pages.Update} component={Update}/>
-              <Route path={Pages.OutOfOrder} component={OutOfOrder}/>
-            </TimerProvider>
+            <PaymentProvider>
+              <TimerProvider>
+                <Route exact path={Pages.Attractor} component={Attractor}/>
+                <Route path={Pages.Home} component={Home}/>
+                <Route path={Pages.Prepay} component={Prepay}/>
+                <Route path={Pages.Update} component={Update}/>
+                <Route path={Pages.OutOfOrder} component={OutOfOrder}/>
+              </TimerProvider>
+            </PaymentProvider>
           </ConsumerStore>
         </AlertProvider>
-      </PaymentProvider>
     </AccessibilityProvider>
   </ThemeProvider>
 );

@@ -161,7 +161,7 @@ export const CustomizeBeverageCard = styled.div`
     top: 360px;
     /* top: 370px; */
   }
-  #price {
+  #footer {
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -176,18 +176,43 @@ export const CustomizeBeverageCard = styled.div`
       font-stretch: normal;
       line-height: normal;
     }
-    #value {
+    #limit-erogation {
+      position: absolute;
+      left: 31.5px;
+      bottom: 8px;
+      font-family: NeuzeitGro-Reg;
+      font-size: 24px;
+      letter-spacing: normal;
+      text-align: right;
+      color: #292929;
+      .info {
+        font-family: NeuzeitGro-Reg;
+        font-size: 14px;
+        letter-spacing: 1px;
+        text-align: right;
+        color: #565657;
+      }
+    }
+    #price {
       position: absolute;
       right: 31.5px;
       bottom: 8px;
       font-size: 24px;
       color: #292929;
-      #total {
+      #gift {
+        vertical-align: bottom;
+        width: 41px;
+        height: 40px
+      }
+      &.promotion-enabled {
+        #value {
+          color: #c5c5c5;
+          text-decoration: line-through;
+        }
+      }
+      #info {
         font-size: 14px;
-        letter-spacing: 1px;
-        text-align: right;
         color: #565657;
-        margin-right: 21px;
       }
     }
   }
@@ -278,7 +303,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   const { pour, enter } = accessibilityConsumer;
 
   const { isPouring, statusAlarms } = configConsumer;
-  const { getPriceBeverage, paymentModeEnabled, socketPayment$, needToPay, canPour } = paymentConsumer;
+  const { getPriceBeverage, paymentModeEnabled, socketPayment$, needToPay, promotionEnabled } = paymentConsumer;
 
   React.useEffect(() => {
     if (!(buttonPourEl.current && buttonPourEl.current.node)) {
@@ -399,11 +424,14 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                   </ButtonGroup>
                 </div>
                 {paymentModeEnabled &&
-                  <div id="price">
-                    <span id="value">
-                      {beverageSelected.$price > 0 && <span id="total">{__("c_total")}</span>}
-                      {getPriceBeverage(beverageSelected.$price)}
-                    </span>
+                  <div id="footer">
+                      {/* {beverageSelected.$price > 0 && <span id="total">{__("c_total")}</span>} */}
+                    <div id="limit-erogation">
+                      <span className="info">MAX</span> {"32oz"}
+                    </div>
+                    <div id="price" className={promotionEnabled ? "promotion-enabled" : null}>
+                      {getPriceBeverage(beverageSelected.$price, true)}
+                    </div>
                   </div>
                 }
               </div>
@@ -412,7 +440,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
         }
         <ReplaySubscription source={socketPayment$.current}>
           {(status: PaymentStatus) => {
-            if (status in PaymentStatusPour || !needToPay(beverageSelected))
+            if ((status in PaymentStatusPour || !needToPay(beverageSelected)) || promotionEnabled)
               return(
                 <ClickNHold
                   time={0.250}

@@ -206,7 +206,6 @@ export const Home = (props: HomeProps) => {
       }
     );
   };
-
   const resetTimer_ = () => {
     if (timer_.current)
       timer_.current.unsubscribe();
@@ -276,7 +275,7 @@ export const Home = (props: HomeProps) => {
   /* ==== PAYMENT ==== */
   /* ======================================== */
 
-  const { needToPay, canPour, socketPayment$, restartPayment } = paymentConsumer;
+  const { needToPay, canPour, socketPayment$, restartPayment, promotionEnabled } = paymentConsumer;
 
   const showPayment = (call_?: any) => {
     setDisabled(true);
@@ -322,7 +321,7 @@ export const Home = (props: HomeProps) => {
 
   const selectBeverage = (beverage: IBeverage) => {
     const needToPay_ = needToPay(beverage);
-    if (needToPay_) {
+    if (needToPay_ && !promotionEnabled) {
       if (alarmPayment_) {
         alertConsumer.show({
           type: AlertTypes.ErrorPaymentDown,
@@ -380,7 +379,7 @@ export const Home = (props: HomeProps) => {
   const startPour = (beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig, indexFavorite?: number) => {
 
     const needToPay_ = needToPay(beverageSelected || getBeverageSelected());
-    if (needToPay_) {
+    if (needToPay_ && !promotionEnabled) {
       if (alarmPayment_) {
         alertConsumer.show({
           type: AlertTypes.ErrorPaymentDown,
@@ -431,7 +430,7 @@ export const Home = (props: HomeProps) => {
 
     const pour_ = configConsumer.onStartPour(bevSelected, bevConfig);
 
-    if (needToPay_) {
+    if (needToPay_ && !promotionEnabled) {
       mediumLevel.payment.vendRrequest({ beverage_id: bevSelected.beverage_id })
       .subscribe(
         data => {
@@ -575,7 +574,7 @@ export const Home = (props: HomeProps) => {
 
   const selectConsumerBeverage = (consumerBeverage: IConsumerBeverage) => {
     const needToPay_ = needToPay(consumerBeverage.$beverage);
-    if (needToPay_) {
+    if (needToPay_ && !promotionEnabled) {
       if (alarmPayment_) {
         alertConsumer.show({
           type: AlertTypes.ErrorPaymentDown,
@@ -621,6 +620,23 @@ export const Home = (props: HomeProps) => {
   /* ======================================== */
 
   const handleType = (value) => { // TRUE => isSparkling
+    if (beverageSelected && beverageSelected.beverage_id === 9 && value) {
+      console.log({beverageSelected, value});
+      const needToPay_ = needToPay(allBeverages[1]); // => TO IMPROVE
+      if (needToPay_ && !promotionEnabled) {
+        if (alarmPayment_) {
+          alertConsumer.show({
+            type: AlertTypes.ErrorPaymentDown,
+            img: "img/payment_system_down.png",
+            subTitle: true,
+            timeout: true,
+            onDismiss: () => {}
+          });
+          return;
+        }
+      }
+    }
+
     setState(prevState => ({
       ...prevState,
       isSparkling: value,

@@ -64,6 +64,11 @@ export enum IdentificationConsumerStatus {
   Null = "null"
 }
 
+export enum IPromotionTypes {
+  NoPour = "",
+  Pour = "OK"
+}
+
 export interface IConsumerModel {
   identification_type?: IdentificationConsumerTypes;
   pack_id?: string;
@@ -75,6 +80,7 @@ export interface IConsumerModel {
   favorites?: IConsumerBeverage[];
   lastPour?: IConsumerBeverage;
   error?: any;
+  pour?: IPromotionTypes;
 }
 
 export interface ILevelsModel {

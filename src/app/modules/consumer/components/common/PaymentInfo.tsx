@@ -22,12 +22,12 @@ export const PaymentInfo = (props: PaymentInfoProps) => {
   const { statusAlarms } = configConsumer;
 
   const paymentConsumer = React.useContext(PaymentContext);
-  const { socketPayment$, paymentModeEnabled, dataPayment_ } = paymentConsumer;
+  const { socketPayment$, paymentModeEnabled, promotionEnabled } = paymentConsumer;
 
   return (
     <PaymentInfoWrap className={disabled ? "disabled" : ""}>
       {
-        paymentModeEnabled &&
+        (paymentModeEnabled && !promotionEnabled) &&
         <ReplaySubscription source={socketPayment$.current}>
           {(status: PaymentStatus) => {
             if (statusAlarms.alarmPayment_) {

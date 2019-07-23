@@ -2,7 +2,7 @@ import * as React from "react";
 import { __ } from "@utils/lib/i18n";
 import styled, { css } from "styled-components";
 import posed from "react-pose";
-import { ConsumerContext } from "@core/containers";
+import { ConsumerContext, PaymentContext } from "@core/containers";
 
 import { BeveragesAnimated, BeverageTypes, Beverage, BeveragesTransition } from "../beverage/Beverage";
 import { Footer } from "../common/Footer";
@@ -83,8 +83,14 @@ const HeaderSlide = styled.div`
   &.open {
     width: 98vw;
     h2 {
+      max-width: 500px;
+      display: block;
       font-size: 20px;
       padding: 20px;
+      #gift {
+        margin-left: 20px;
+        vertical-align: bottom;
+      }
     }
   }
   h2 {
@@ -98,6 +104,14 @@ const HeaderSlide = styled.div`
     line-height: 1.88;
     letter-spacing: 1.3px;
     color: ${props => props.theme.slateGrey};
+    display: flex;
+    span {
+      width: 85%;
+    }
+    #gift {
+      width: 37px;
+      height: 37px
+    }
   }
 `;
 
@@ -195,6 +209,8 @@ export const Slide = (props: SlideProps) => {
   const beverageIsSelected = beverageSelected !== undefined && beverageSelected !== null;
   const animationSlide = () => slideOpen ? "open" : fullMode ? "fullClose" : "close";
 
+  const paymentConsumer = React.useContext(PaymentContext);
+  const { promotionEnabled } = paymentConsumer;
 
   return (
     <React.Fragment>
@@ -216,7 +232,10 @@ export const Slide = (props: SlideProps) => {
           {
             !disabled &&
             <HeaderSlide className={(slideOpen || fullMode) && "open"}>
-              <h2>{__("c_welcome")}, {dataConsumer.consumer_nick}!</h2>
+              <h2>
+                <span>{__("c_welcome")}, {dataConsumer.consumer_nick}!</span>
+                {promotionEnabled && <img id="gift" src="icons/gift.svg" />}
+              </h2>
             </HeaderSlide>
           }
           {

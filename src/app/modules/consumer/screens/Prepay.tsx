@@ -292,7 +292,7 @@ export const Prepay = (props: PrepayProps) => {
       <PrepayContent>
         <CloseBtn detectValue={"prepay_close"} icon={"close"} onClick={() => goToHome()} />
         <div id="Webcam" className={webcamReady ? "enable" : ""}>
-          <img className="target" src={"img/target.svg"} />
+          {/* <img className="target" src={"img/target.svg"} /> */}
         </div>
         <img id="Bottle-QR" src={"img/bottle-qr.svg"} />
         <img id="Phone-QR" src={"img/phone-qr.svg"} />

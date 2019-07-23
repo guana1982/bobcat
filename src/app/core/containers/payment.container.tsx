@@ -7,6 +7,7 @@ import { map, tap } from "rxjs/operators";
 import { Subject, BehaviorSubject } from "rxjs";
 import { IBeverage } from "@core/models";
 import { withRouter } from "react-router-dom";
+import { IPromotionTypes } from "@core/utils/APIModel";
 
 //  ==== STATUS ====>
 export enum PaymentMode {
@@ -49,12 +50,25 @@ const PaymentContainer = createContainer((props: any) => {
   const { currency } = vendorConfig;
 
   const [paymentModeEnabled, setPaymentModeEnabled] = React.useState<boolean>(null);
+  const [promotionEnabled, setPromotionEnabled] = React.useState<IPromotionTypes>(null);
 
   React.useEffect(() => {
     if (vendorConfig && vendorConfig.pay_id) {
       setPaymentModeEnabled(vendorConfig.pay_id === PaymentMode.Pay);
     }
   }, [vendorConfig.pay_id]);
+
+  const { dataConsumer } = consumerConsumer;
+  React.useEffect(() => {
+    if (dataConsumer) {
+      const { pour } = dataConsumer;
+      if (pour !== IPromotionTypes.NoPour) {
+        setPromotionEnabled(pour);
+      } else {
+        setPromotionEnabled(null);
+      }
+    }
+  }, [dataConsumer]);
 
   React.useEffect(() => {
 
@@ -101,14 +115,30 @@ const PaymentContainer = createContainer((props: any) => {
     statusPayment_.current = PaymentStatus.NotAuthorized;
   }
 
-  function getPriceBeverage(value: number) {
+  function getPriceBeverage(value: number, full?: boolean) {
     if (value === 0) {
       return __("c_free");
     }
+    let result_ = "";
     if (value < 100 && currency === "USD") {
-      return `${String(value / 100).replace(/^0\.+/, "")} ${__("c_cent")}`;
+      result_ = `${String(value / 100).replace(/^0\.+/, "")}${__("c_cent")}`;
+    } else {
+      result_ = `${value / 100}${__(`c_${currency}`)}`;
     }
-    return `${value / 100} ${__(`c_${currency}`)}`;
+
+    return (
+      <>
+        {(promotionEnabled && full) && <img id="gift" src="icons/gift.svg" />}
+        {(!promotionEnabled && full) && <span id="info"> TOTAL </span>}
+        <span id="value">{result_}</span>
+        {promotionEnabled &&
+          <>
+            {full && <span id="info"> TOTAL </span>}
+            <span id="promotion">{`${full ? "0.00" : " 0"}`}{__(`c_${currency}`)}</span>
+          </>
+        }
+      </>
+    );
   }
 
   function needToPay(beverage?: IBeverage) {
@@ -126,6 +156,7 @@ const PaymentContainer = createContainer((props: any) => {
     socketPayment$,
     restartPayment,
     paymentModeEnabled,
+    promotionEnabled,
     currency,
     getPriceBeverage,
     needToPay,
