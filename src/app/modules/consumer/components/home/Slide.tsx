@@ -171,6 +171,9 @@ export const SlideStyled = styled.div`
 `;
 
 export const ToggleSlide = styled.button`
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
   &:before {
     content: " ";
     position: absolute;
@@ -285,11 +288,11 @@ export const Slide = (props: SlideProps) => {
               top: "calc(50% - 11px)",
               borderRadius: "50%",
               height: "48px",
-              width: "46px",
+              width: "48px",
               right: "-15px",
               willChange: "transform"
             }}>
-              <ToggleSlide id="slide-toogle" disabled={disabled} onTouchStart={() => handleSlide()}>
+              <ToggleSlide id="slide-toogle" disabled={disabled} onClick={() => handleSlide()}>
                 <img src={"icons/arrow-circle.png"} />
               </ToggleSlide>
             </motion.div>

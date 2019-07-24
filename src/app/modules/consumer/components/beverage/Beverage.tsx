@@ -167,55 +167,55 @@ export const Beverage = memo((props: BeverageProps) => {
   }
 
   //  ==== ACCESSIBILITY FUNCTION ====>
-  // const buttonEl = React.useRef(null);
-  // const accessibilityConsumer = React.useContext(AccessibilityContext);
-  // const { enter, pour, changeStateLayout } = accessibilityConsumer;
+  const buttonEl = React.useRef(null);
+  const accessibilityConsumer = React.useContext(AccessibilityContext);
+  const { enter, pour, changeStateLayout } = accessibilityConsumer;
 
-  // React.useEffect(() => {
-  //   const button = buttonEl.current;
-  //   const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
+  React.useEffect(() => {
+    const button = buttonEl.current;
+    if (!button) return;
 
-  //   if (!isFocus) return;
+    const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
+    if (!isFocus) return;
 
-  //   if (enter) {
-  //     if (nutritionFacts) {
-  //       handleZoomNutrition(true);
-  //       changeStateLayout({
-  //         alertShow: true
-  //       });
-  //       return;
-  //     }
-  //     if (pouring) {
-  //       onHoldStart();
-  //       return;
-  //     }
-  //     if (onStart) {
-  //       onStart();
-  //     }
-  //     return;
-  //   }
+    if (enter) {
+      if (nutritionFacts) {
+        handleZoomNutrition(true);
+        changeStateLayout({
+          alertShow: true
+        });
+        return;
+      }
+      if (pouring) {
+        onHoldStart();
+        return;
+      }
+      if (onStart) {
+        onStart();
+      }
+      return;
+    }
+  }, [buttonEl, enter]);
 
-  // }, [buttonEl, enter]);
+  React.useEffect(() => {
+    const button = buttonEl.current;
+    if (!button) return;
 
-  // React.useEffect(() => {
-  //   const button = buttonEl.current;
-  //   const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
+    const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
+    if (!isFocus || nutritionFacts) return;
 
-  //   if (!isFocus || nutritionFacts) return;
-
-  //   if (pour === true) {
-  //     console.log("POUR");
-  //     if (onHoldStart) {
-  //       onHoldStart();
-  //     }
-  //   } else if (pour === false) {
-  //     console.log("STOP");
-  //     if (onHoldEnd) {
-  //       onHoldEnd();
-  //     }
-  //   }
-
-  // }, [buttonEl, pour]);
+    if (pour === true) {
+      console.log("POUR");
+      if (onHoldStart) {
+        onHoldStart();
+      }
+    } else if (pour === false) {
+      console.log("STOP");
+      if (onHoldEnd) {
+        onHoldEnd();
+      }
+    }
+  }, [buttonEl, pour]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
   const disabledButton = types && types[0] === BeverageTypes.Info || $outOfStock || (disabled && !pouring);
@@ -232,9 +232,9 @@ export const Beverage = memo((props: BeverageProps) => {
   };
 
   const closeZoomNutrition = () => {
-    // changeStateLayout({
-    //   alertShow: false
-    // }); //  <=== ACCESSIBILITY FUNCTION ====
+    changeStateLayout({
+      alertShow: false
+    }); //  <=== ACCESSIBILITY FUNCTION ====
     handleZoomNutrition(false);
   };
 
@@ -286,7 +286,7 @@ export const Beverage = memo((props: BeverageProps) => {
               onEnd={end}
             >
               <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
-                <button id={detectValue} disabled={disabledButton}> { /* ref={buttonEl} */ }
+                <button id={detectValue} disabled={disabledButton} ref={buttonEl}>
                   <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
                   <Basic paymentConsumer={paymentConsumer} levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
                 </button>

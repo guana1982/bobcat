@@ -343,7 +343,7 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
     }
   }
 
-  const detectButtons = () => {
+  const detectButtons = React.useCallback(() => {
     let buttons = Array.from(document.getElementsByTagName("button"));
 
     // === FILTER BUTTONS ===
@@ -401,15 +401,15 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
     }
 
     // === SLIDE OPEN ===
-    if (stateLayout.slideOpen === false) {
-      buttons.sort((a, b) => {
-        const c_ = (v) => Number(v.id.split("-")[0] === "slide");
-        return  c_(a) - c_(b);
-      });
-    }
+    // if (stateLayout.slideOpen === false) {
+    //   buttons.sort((a, b) => {
+    //     const c_ = (v) => Number(v.id.split("-")[0] === "slide");
+    //     return  c_(a) - c_(b);
+    //   });
+    // }
 
     return buttons;
-  };
+  }, [stateLayout]);
 
   function buttonFocused(): any {
     const activeElementDomument = document.activeElement;
