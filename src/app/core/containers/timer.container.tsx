@@ -5,7 +5,7 @@ import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge, 
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, MESSAGE_STOP_CAMERA } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
-import { ConfigContext, ConsumerContext, AlertTypes, AlertContext } from ".";
+import { ConfigContext, ConsumerContext, AlertTypes, AlertContext, PaymentContext } from ".";
 
 export enum DistanceTypes {
   None = "none",
@@ -21,16 +21,24 @@ export enum StatusProximity {
   TouchStop = "touch_stop"
 }
 
+export const TIMER_TOUCH_ACTIVE = 1 * 1000;
+export const TIMER_TOUCH_INACTIVE = 10 * 1000;
+
+export const TIMER_DIMS_ACTIVE = 30 * 1000;
+export const TIMER_DIMS_INACTIVE = 10 * 1000;
+
+export const TIMER_PREPAY_ACTIVE = 15 * 1000;
+export const TIMER_PREPAY_INACTIVE = 15 * 1000;
+
 const TimerContainer = createContainer((props: any) => {
 
   const statusProximity$ = React.useRef(null);
   const enableProximity = React.useRef<DistanceTypes>(DistanceTypes.None);
 
-  const configConsumer = React.useContext(ConfigContext);
-
-  const { socketAttractor$ } = configConsumer;
-
   const [timerStop, setTimerStop] = React.useState(false);
+
+  const configConsumer = React.useContext(ConfigContext);
+  const { socketAttractor$ } = configConsumer;
 
   // BASIC
 
@@ -55,6 +63,10 @@ const TimerContainer = createContainer((props: any) => {
     });
   }, []);
 
+  const isEnableProximity = (): boolean => {
+    return enableProximity.current !== DistanceTypes.None;
+  };
+
   const sourceTouchStart = fromEvent(document, "touchstart").pipe(merge(fromEvent(document, "keydown")));
   const sourceTouchEnd = fromEvent(document, "touchend").pipe(merge(fromEvent(document, "keyup")));
 
@@ -71,14 +83,14 @@ const TimerContainer = createContainer((props: any) => {
 
   const brightness$ = mediumLevel.brightness.dimDisplay()
   .pipe(
-    switchMap(() => timerTouch$(3000, true)),
+    switchMap(() => timerTouch$(TIMER_DIMS_ACTIVE, true)),
     first(),
     tap(value => value === StatusProximity.TapDetect && mediumLevel.brightness.brightenDisplay().subscribe())
   );
 
   // TO MERGE
 
-  const timerWithBrightness$ = timerTouch$(10000, false)
+  const timerWithBrightness$ = timerTouch$(isEnableProximity() ? TIMER_TOUCH_ACTIVE : TIMER_TOUCH_INACTIVE, false)
   .pipe(
     first(),
     switchMap(() => brightness$),
@@ -92,7 +104,7 @@ const TimerContainer = createContainer((props: any) => {
     map(() => StatusProximity.TouchStop)
   );
 
-  const startVideoNoProximity$ = timerTouch$(10000, false)
+  const startVideoNoProximity$ = timerTouch$(TIMER_DIMS_INACTIVE, false)
   .pipe(
     map(() => StatusProximity.TouchStop),
   );
@@ -109,19 +121,19 @@ const TimerContainer = createContainer((props: any) => {
 
   const timerFull$ = timerWithBrightness$
   .pipe(
-    merge(enableProximity.current !== DistanceTypes.None ? startVideo$ : startVideoNoProximity$),
+    merge(isEnableProximity() ? startVideo$ : startVideoNoProximity$),
     tap(value => setTimerStop(value === StatusProximity.TimerStop)),
     first()
   );
 
   const restartBrightness$ = upBrightness$
   .pipe(
-    merge(enableProximity.current !== DistanceTypes.None ? startVideo$ : startVideoNoProximity$),
+    merge(isEnableProximity() ? startVideo$ : startVideoNoProximity$),
     tap(() => setTimerStop(false)),
     first()
   );
 
-  const timerPrepay$ = enableProximity.current !== DistanceTypes.None ? timerTouch$(30000, false) : timerTouch$(15000, false);
+  const timerPrepay$ = isEnableProximity() ? timerTouch$(TIMER_PREPAY_ACTIVE, false) : timerTouch$(TIMER_PREPAY_INACTIVE, false);
 
   return {
     statusProximity$,
