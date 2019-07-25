@@ -3,9 +3,15 @@ import createContainer from "constate";
 import { Subscription, fromEvent, timer, BehaviorSubject, of } from "rxjs";
 import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge, debounce, debounceTime, flatMap } from "rxjs/operators";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_STOP_CAMERA, MESSAGE_START_CAMERA } from "@core/utils/constants";
+import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, MESSAGE_STOP_CAMERA } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
 import { ConfigContext, ConsumerContext, AlertTypes, AlertContext } from ".";
+
+export enum DistanceTypes {
+  None = "none",
+  Far = "far",
+  Near = "near"
+}
 
 export enum StatusProximity {
   TapDetect = "tap_detect",
@@ -17,7 +23,8 @@ export enum StatusProximity {
 
 const TimerContainer = createContainer((props: any) => {
 
-  const enableProximity = React.useRef(false);
+  const statusProximity$ = React.useRef(null);
+  const enableProximity = React.useRef<DistanceTypes>(DistanceTypes.None);
 
   const configConsumer = React.useContext(ConfigContext);
 
@@ -27,14 +34,22 @@ const TimerContainer = createContainer((props: any) => {
 
   // BASIC
 
-  const statusProximity$ = socketAttractor$
-  .pipe(
-    filter(value => value === MESSAGE_STOP_VIDEO || value === MESSAGE_START_CAMERA || value === MESSAGE_START_VIDEO), // DETECT ENTER / EXIT MESSAGES
-    map(value => value === MESSAGE_STOP_VIDEO || value === MESSAGE_START_CAMERA), // SET CONDITION
-  );
-
   React.useEffect(() => { // STATUS PROXIMITY
-    statusProximity$
+    statusProximity$.current = socketAttractor$
+    .pipe(
+      filter(value => value === MESSAGE_STOP_VIDEO || value === MESSAGE_START_CAMERA || value === MESSAGE_START_VIDEO || value === MESSAGE_STOP_CAMERA), // DETECT ENTER / EXIT MESSAGES
+      map(value => {
+        if (value === MESSAGE_STOP_VIDEO || value === MESSAGE_STOP_CAMERA) {
+          return DistanceTypes.Far;
+        } else if (value === MESSAGE_START_CAMERA) {
+          return DistanceTypes.Near;
+        } else {
+          return DistanceTypes.None;
+        }
+      }), // SET CONDITION
+    );
+
+    statusProximity$.current
     .subscribe(value => {
       enableProximity.current = value;
     });
@@ -94,21 +109,24 @@ const TimerContainer = createContainer((props: any) => {
 
   const timerFull$ = timerWithBrightness$
   .pipe(
-    merge(enableProximity.current ? startVideo$ : startVideoNoProximity$),
+    merge(enableProximity.current !== DistanceTypes.None ? startVideo$ : startVideoNoProximity$),
     tap(value => setTimerStop(value === StatusProximity.TimerStop)),
     first()
   );
 
   const restartBrightness$ = upBrightness$
   .pipe(
-    merge(enableProximity.current ? startVideo$ : startVideoNoProximity$),
+    merge(enableProximity.current !== DistanceTypes.None ? startVideo$ : startVideoNoProximity$),
     tap(() => setTimerStop(false)),
     first()
   );
 
-  const timerPrepay$ = enableProximity.current ? timerTouch$(30000, false) : timerTouch$(15000, false)
+  const timerPrepay$ = enableProximity.current !== DistanceTypes.None ? timerTouch$(30000, false) : timerTouch$(15000, false);
 
   return {
+    statusProximity$,
+    enableProximity,
+
     timerFull$,
     timerPrepay$,
     restartBrightness$,

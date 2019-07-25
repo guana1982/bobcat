@@ -97,7 +97,7 @@ export const SOCKET_SUSTAINABILITY = "sustainability_data";
 export const MESSAGE_START_VIDEO = "start_video";
 export const MESSAGE_STOP_VIDEO = "stop_video";
 export const MESSAGE_START_CAMERA = "start_camera";
-export const MESSAGE_STOP_CAMERA = "start_camera";
+export const MESSAGE_STOP_CAMERA = "stop_camera";
 export enum MESSAGE_STOP_EROGATION {
   OUT_OF_STOCK = "out_of_stock",
   OUT_OF_SODA = "out_of_soda",

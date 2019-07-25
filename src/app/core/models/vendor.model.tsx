@@ -7,6 +7,7 @@ export interface VendorConfig {
   country: string;
   currency: string;
   pay_id: string;
+  debug_mode: boolean;
   serial_number_mediaboard: string;
   serial_number_powerboard: string;
   serial_number_mqtt: string;
