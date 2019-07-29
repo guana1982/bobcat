@@ -220,8 +220,11 @@ class ConsumerStoreComponent extends React.Component<any, any> {
         tap(() => this.stopScanning().subscribe()),
         map((data: IConsumerModel) => {
           const { identification_type } = data;
-
-          if (identification_type === IdentificationConsumerTypes.Vessel || identification_type === IdentificationConsumerTypes.VesselSticker) {
+          if (
+            identification_type === IdentificationConsumerTypes.Vessel ||
+            identification_type === IdentificationConsumerTypes.VesselSticker ||
+            identification_type === IdentificationConsumerTypes.Phone // => TO IMPROVE
+          ) {
             return IdentificationConsumerStatus.Loading;
           }
           if (identification_type === IdentificationConsumerTypes.NoAuth) {

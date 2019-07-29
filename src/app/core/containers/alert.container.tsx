@@ -26,7 +26,7 @@ export enum AlertTypes {
 }
 
 export interface AlertOptions {
-  type?: AlertTypes;
+  type?: AlertTypes | string;
   timeout?: boolean | number;
   lock?: boolean;
   transparent?: boolean;
