@@ -21,7 +21,7 @@ export const TestProximity = () => {
   const configConsumer = React.useContext(ConfigContext);
   const timerConsumer = React.useContext(TimerContext);
   const { vendorConfig } = configConsumer;
-  const { statusProximity$, enableProximity } = timerConsumer;
+  const { statusProximity$, displayIsDims } = timerConsumer;
 
   if (!vendorConfig.debug_mode)
     return null;
@@ -42,7 +42,10 @@ export const TestProximity = () => {
       <ReplaySubscription source={statusProximity$.current}>
         {(status) => {
           return (
-            <span>Active Distance: <b>{String(enableProximity.current)}</b></span>
+            <>
+              <span style={{display: "block"}}>Active Distance: <b>{status}</b></span>
+              {/* <span style={{display: "block"}}>Is Dims: <b>{String(displayIsDims)}</b></span> */}
+            </>
           );
         }}
       </ReplaySubscription>

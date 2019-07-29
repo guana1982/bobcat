@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import styled from "styled-components";
-import { ConfigContext, TimerContext, StatusProximity } from "@core/containers";
+import { ConfigContext, TimerContext } from "@core/containers";
 import { HomeContent } from "./Home";
 import Gesture from "@core/components/Menu/Gesture";
 import { __ } from "@core/utils/lib/i18n";
@@ -82,7 +82,7 @@ export const OutOfOrder = (props) => {
     resetTimer_();
     timer_.current = timerPrepay$.subscribe(
       val => {
-        if (val === StatusProximity.TimerStop) {
+        if (val) { //  === StatusProximity.TimerStop
           props.history.push(Pages.Attractor);
         }
       }

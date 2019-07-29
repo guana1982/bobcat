@@ -1,9 +1,9 @@
 import * as React from "react";
 import createContainer from "constate";
-import { Subscription, fromEvent, timer, BehaviorSubject, of } from "rxjs";
-import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge, debounce, debounceTime, flatMap } from "rxjs/operators";
+import { Subscription, fromEvent, timer, BehaviorSubject, of, Subject, Observable, interval } from "rxjs";
+import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge, debounce, debounceTime, flatMap, timeout } from "rxjs/operators";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, MESSAGE_STOP_CAMERA } from "@core/utils/constants";
+import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, MESSAGE_STOP_CAMERA, TIMER_PREPAY_ACTIVE } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
 import { ConfigContext, ConsumerContext, AlertTypes, AlertContext, PaymentContext } from ".";
 
@@ -13,62 +13,62 @@ export enum DistanceTypes {
   Near = "near"
 }
 
-export enum StatusProximity {
+export enum EventsTimer {
   TapDetect = "tap_detect",
-  TimerRestart = "timer_restart",
-  TimerStop = "timer_stop",
-  ProximityStop = "proximity_stop",
-  TouchStop = "touch_stop"
+  TimerStop = "timer_stop"
 }
 
-export const TIMER_TOUCH_ACTIVE = 1 * 1000;
-export const TIMER_TOUCH_INACTIVE = 10 * 1000;
-
-export const TIMER_DIMS_ACTIVE = 30 * 1000;
-export const TIMER_DIMS_INACTIVE = 10 * 1000;
-
-export const TIMER_PREPAY_ACTIVE = 15 * 1000;
-export const TIMER_PREPAY_INACTIVE = 15 * 1000;
+export enum StatusTimer {
+  TimerActive = "timer_active",
+  TimerInactive = "timer_inactive",
+  ProximityExit = "proximity_exit"
+}
 
 const TimerContainer = createContainer((props: any) => {
 
-  const statusProximity$ = React.useRef(null);
-  const enableProximity = React.useRef<DistanceTypes>(DistanceTypes.None);
+  const statusProximity$ = React.useRef(new BehaviorSubject<DistanceTypes>(DistanceTypes.None));
 
-  const [timerStop, setTimerStop] = React.useState(false);
+  const timer_ = React.useRef<number>(null);
+  const [displayIsDims, setDisplayIsDims] = React.useState<boolean>(false);
 
   const configConsumer = React.useContext(ConfigContext);
-  const { socketAttractor$ } = configConsumer;
 
-  // BASIC
+  React.useEffect(() => {
 
-  React.useEffect(() => { // STATUS PROXIMITY
-    statusProximity$.current = socketAttractor$
+    // STATUS PROXIMITY
+    const { socketAttractor$ } = configConsumer;
+    const socketAttractor_ = socketAttractor$
     .pipe(
       filter(value => value === MESSAGE_STOP_VIDEO || value === MESSAGE_START_CAMERA || value === MESSAGE_START_VIDEO || value === MESSAGE_STOP_CAMERA), // DETECT ENTER / EXIT MESSAGES
       map(value => {
+        let distanceType_: DistanceTypes = null;
         if (value === MESSAGE_STOP_VIDEO || value === MESSAGE_STOP_CAMERA) {
-          return DistanceTypes.Far;
+          distanceType_ = DistanceTypes.Far;
         } else if (value === MESSAGE_START_CAMERA) {
-          return DistanceTypes.Near;
+          distanceType_ = DistanceTypes.Near;
         } else {
-          return DistanceTypes.None;
+          distanceType_ = DistanceTypes.None;
         }
-      }), // SET CONDITION
+        return distanceType_;
+      })
     );
 
-    statusProximity$.current
+    socketAttractor_
     .subscribe(value => {
-      enableProximity.current = value;
+      statusProximity$.current.next(value);
     });
-  }, []);
 
-  const isEnableProximity = (): boolean => {
-    return enableProximity.current !== DistanceTypes.None;
-  };
+  }, []);
 
   const sourceTouchStart = fromEvent(document, "touchstart").pipe(merge(fromEvent(document, "keydown")));
   const sourceTouchEnd = fromEvent(document, "touchend").pipe(merge(fromEvent(document, "keyup")));
+
+  const isActiveDistance = (status): boolean => {
+    return status !== DistanceTypes.None;
+  };
+
+  const dimDisplay = () => mediumLevel.brightness.dimDisplay().pipe(tap(() => setDisplayIsDims(true))).subscribe();
+  const upDisplay = () => mediumLevel.brightness.brightenDisplay().pipe(tap(() => setDisplayIsDims(false))).subscribe();
 
   const timerTouch$ = (time: number, tapDetect: boolean) => sourceTouchEnd
   .pipe(
@@ -78,71 +78,99 @@ const TimerContainer = createContainer((props: any) => {
     )),
     skip(1),
     filter(data => data !== 0 || tapDetect),
-    map(data => data === 0 ? StatusProximity.TapDetect : StatusProximity.TimerStop)
-  );
-
-  const brightness$ = mediumLevel.brightness.dimDisplay()
-  .pipe(
-    switchMap(() => timerTouch$(TIMER_DIMS_ACTIVE, true)),
-    first(),
-    tap(value => value === StatusProximity.TapDetect && mediumLevel.brightness.brightenDisplay().subscribe())
-  );
-
-  // TO MERGE
-
-  const timerWithBrightness$ = timerTouch$(isEnableProximity() ? TIMER_TOUCH_ACTIVE : TIMER_TOUCH_INACTIVE, false)
-  .pipe(
-    first(),
-    switchMap(() => brightness$),
-  );
-
-  const startVideo$ = socketAttractor$
-  .pipe(
-    filter(value => value === MESSAGE_START_VIDEO),
-    switchMap(() => timerTouch$(1500, false)),
-    first(),
-    map(() => StatusProximity.TouchStop)
-  );
-
-  const startVideoNoProximity$ = timerTouch$(TIMER_DIMS_INACTIVE, false)
-  .pipe(
-    map(() => StatusProximity.TouchStop),
-  );
-
-  const upBrightness$ = sourceTouchStart
-  .pipe(
-    tap(() => mediumLevel.brightness.brightenDisplay().subscribe()),
-    tap(() => setTimerStop(false)),
-    first(),
-    map(() => StatusProximity.TimerRestart)
-  );
-
-  // MAIN
-
-  const timerFull$ = timerWithBrightness$
-  .pipe(
-    merge(isEnableProximity() ? startVideo$ : startVideoNoProximity$),
-    tap(value => setTimerStop(value === StatusProximity.TimerStop)),
+    map(data => data === 0 ? EventsTimer.TapDetect : EventsTimer.TimerStop),
     first()
   );
 
-  const restartBrightness$ = upBrightness$
-  .pipe(
-    merge(isEnableProximity() ? startVideo$ : startVideoNoProximity$),
-    tap(() => setTimerStop(false)),
-    first()
-  );
+  function timerBoot$({
+    timer_last_touch_active,
+    timer_last_touch_inactive,
+    timer_dims_active,
+    timer_dims_inactive
+  }): Subject<StatusTimer> {
+    const subject_ = new Subject<any>();
 
-  const timerPrepay$ = isEnableProximity() ? timerTouch$(TIMER_PREPAY_ACTIVE, false) : timerTouch$(TIMER_PREPAY_INACTIVE, false);
+    let proximitySubscription: Subscription = null;
+    let timerSubscription: Subscription = null;
+
+    let prevProximityStatus: DistanceTypes = null; // FROM ACTIVE => TO INACTIVE // CASE
+
+    if (proximitySubscription)
+      proximitySubscription.unsubscribe();
+
+    proximitySubscription = statusProximity$.current
+    // .pipe(
+    //   filter(statusProximity => statusProximity === DistanceTypes.None || statusProximity === DistanceTypes.Far)
+    // )
+    .subscribe(
+      statusProximity => {
+        if (timerSubscription)
+          timerSubscription.unsubscribe();
+
+        // console.log(prevProximityStatus, statusProximity);
+        if (prevProximityStatus && isActiveDistance(prevProximityStatus) && !isActiveDistance(statusProximity)) { // FROM ACTIVE => TO INACTIVE // CASE
+          if (timerSubscription)
+            timerSubscription.unsubscribe();
+          proximitySubscription.unsubscribe();
+          subject_.next(StatusTimer.ProximityExit);
+          return;
+        }
+
+        prevProximityStatus = statusProximity;
+        upDisplay();
+        const _isActive = isActiveDistance(statusProximity);
+
+        timerSubscription = timerTouch$((_isActive ? timer_last_touch_active : timer_last_touch_inactive) * 1000, false)
+        .pipe(
+          tap(() => dimDisplay()),
+          flatMap(() => timerTouch$((_isActive ? timer_dims_active : timer_dims_inactive) * 1000, true))
+        )
+        .subscribe(
+          value => {
+            if (value === EventsTimer.TapDetect) {
+              timerBoot$({
+                timer_last_touch_active,
+                timer_last_touch_inactive,
+                timer_dims_active,
+                timer_dims_inactive
+              });
+            } else if (value === EventsTimer.TimerStop) {
+              subject_.next(_isActive ? StatusTimer.TimerActive : StatusTimer.TimerInactive);
+              if (!_isActive) {
+                if (timerSubscription)
+                  timerSubscription.unsubscribe();
+                proximitySubscription.unsubscribe();
+              } else {
+                sourceTouchEnd
+                .subscribe(() => {
+                  if (timerSubscription)
+                    timerSubscription.unsubscribe();
+                  proximitySubscription.unsubscribe();
+                  timerBoot$({
+                    timer_last_touch_active,
+                    timer_last_touch_inactive,
+                    timer_dims_active,
+                    timer_dims_inactive
+                  });
+                });
+              }
+            }
+          }
+        );
+
+      }
+    );
+
+    return subject_;
+  }
+
+  const timerPrepay$ = timerTouch$(TIMER_PREPAY_ACTIVE * 1000, false);
 
   return {
     statusProximity$,
-    enableProximity,
-
-    timerFull$,
-    timerPrepay$,
-    restartBrightness$,
-    timerStop
+    displayIsDims,
+    timerBoot$,
+    timerPrepay$
   };
 });
 

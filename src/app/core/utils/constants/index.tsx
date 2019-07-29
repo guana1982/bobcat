@@ -105,6 +105,24 @@ export enum MESSAGE_STOP_EROGATION {
   OUT_OF_ORDER = "out_of_order"
 }
 
+// -- TIMER --
+export interface TimerValues {
+  timer_last_touch_active: number;
+  timer_last_touch_inactive: number;
+  timer_dims_active: number;
+  timer_dims_inactive: number;
+}
+
+export const TIMER_HOME: TimerValues = {
+  timer_last_touch_active: 20, // 120,
+  timer_last_touch_inactive: 10,
+  timer_dims_active: 10,
+  timer_dims_inactive: 10
+};
+
+export const TIMER_PREPAY_ACTIVE = 15;
+export const TIMER_PREPAY_INACTIVE = 15;
+
 //  INFO-CARDS POSITIONS ON LONG-PRESS POUR
 export const coordsCards = [
   [

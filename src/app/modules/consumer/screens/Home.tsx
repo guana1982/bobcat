@@ -2,12 +2,12 @@ import * as React from "react";
 import styled from "styled-components";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
-import { Beverages, Pages, LEVELS, MESSAGE_STOP_EROGATION } from "@utils/constants";
+import { Beverages, Pages, LEVELS, MESSAGE_STOP_EROGATION, TIMER_HOME } from "@utils/constants";
 import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
 import { Subscription } from "rxjs";
 import { ConfigContext } from "@containers/config.container";
-import { TimerContext, StatusProximity } from "@containers/timer.container";
+import { TimerContext, StatusTimer } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { BeverageTypes } from "@modules/consumer/components/beverage/Beverage";
 import { AccessibilityContext, PaymentContext, PaymentStatus, PaymentStatusPour } from "@core/containers";
@@ -18,7 +18,7 @@ import { CardsWrap } from "../components/home/CardsWrap";
 import { CustomizeBeverage } from "../components/home/CustomizeBeverage";
 import { Grid } from "../components/common/Grid";
 import { SegmentButtonProps } from "../components/common/SegmentButton";
-import { first } from "rxjs/operators";
+import { first, tap } from "rxjs/operators";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -151,7 +151,7 @@ export const Home = (props: HomeProps) => {
   const { allBeverages } = configConsumer;
 
   //  ==== TIMER ====>
-  const { timerFull$, timerStop, restartBrightness$ } = timerConsumer;
+  const { timerBoot$ } = timerConsumer;
   const { isLogged } = consumerConsumer;
 
   function alertIsLogged(event) {
@@ -169,40 +169,27 @@ export const Home = (props: HomeProps) => {
     }
   }
 
-  const restartBrightness_ = () => {
-    resetTimer_();
-    timer_.current = restartBrightness$
-    .subscribe(val => {
-      if (val === StatusProximity.TimerRestart) {
-        startTimer_();
-      } else if (val === StatusProximity.ProximityStop) {
-        const event_ = () => consumerConsumer.resetConsumer();
-        alertIsLogged(event_);
-      }
-    });
-  };
-
   const startTimer_ = () => {
     resetTimer_();
-    timer_.current = timerFull$.subscribe(
+    timer_.current = timerBoot$(TIMER_HOME)
+    .subscribe(
       val => {
-        if (val === StatusProximity.TapDetect) {
-          startTimer_();
-        } else if (val === StatusProximity.ProximityStop) {
-          const event_ = () => consumerConsumer.resetConsumer(true);
-          alertIsLogged(event_);
-        } else if (val === StatusProximity.TouchStop) {
+        if (val === StatusTimer.TimerInactive || val === StatusTimer.ProximityExit) {
           const event_ = () => consumerConsumer.resetConsumer();
           alertIsLogged(event_);
-        } else if (val === StatusProximity.TimerStop) {
-          const event_ = () => {
-            handleType(false);
-            setNutritionFacts(false);
-            resetBeverage();
-            restartBrightness_();
-          };
+        } else if (val === StatusTimer.TimerActive) {
+          const event_ = () => consumerConsumer.resetConsumer(true);
           alertIsLogged(event_);
         }
+        // else if (val === StatusProximity.TimerStop) {
+        //   const event_ = () => {
+        //     handleType(false);
+        //     setNutritionFacts(false);
+        //     resetBeverage();
+        //     restartBrightness_();
+        //   };
+        //   alertIsLogged(event_);
+        // }
       }
     );
   };
@@ -213,11 +200,7 @@ export const Home = (props: HomeProps) => {
   //  <=== TIMER ====
 
   React.useEffect(() => {
-    if (timerStop) {
-      restartBrightness_();
-    } else {
-      startTimer_();
-    }
+    startTimer_();
     return () => {
       configConsumer.setAuthService(false);
       resetTimer_();
@@ -446,26 +429,24 @@ export const Home = (props: HomeProps) => {
     }
   };
 
-  const stopPour = () => {
+  const stopPour = React.useCallback(() => {
     configConsumer.onStopPour().subscribe(); // => TEST MODE
 
-    if (endSession === StatusEndSession.Start)
+    if (!endSession_.current) // if (endSession === StatusEndSession.Start)
       startTimerEnd_();
-  };
+  }, [endSession]);
 
   /* ==== END POUR ==== */
   /* ======================================== */
 
   const startTimerEnd_ = () => {
     resetTimerEnd_();
-    endSession_.current = timerFull$
+    endSession_.current = timerBoot$(TIMER_HOME)
     .subscribe(
       val => {
-        if (val === StatusProximity.TapDetect) {
-          startTimerEnd_();
-        } else if (val === StatusProximity.TimerStop) {
+        if (val === StatusTimer.TimerActive) {
           setEndSession(StatusEndSession.Finish);
-        } else if (val === StatusProximity.ProximityStop || val === StatusProximity.TouchStop) {
+        } else if (val === StatusTimer.TimerInactive || val === StatusTimer.ProximityExit) {
           setEndSession(StatusEndSession.FinishForce);
         }
       }

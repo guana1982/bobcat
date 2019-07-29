@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import styled from "styled-components";
-import { TimerContext, StatusProximity } from "@containers/timer.container";
+import { TimerContext, EventsTimer } from "@containers/timer.container";
 import { ConsumerContext } from "@containers/consumer.container";
 import { Pages } from "@utils/constants";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
@@ -153,7 +153,7 @@ export const Prepay = (props: PrepayProps) => {
     resetTimer_();
     timer_.current = timerPrepay$.subscribe(
       val => {
-        if (val === StatusProximity.TimerStop) {
+        if (val === EventsTimer.TimerStop) {
           const event_ = () => {
             consumerConsumer.resetConsumer(true);
             goToHome();
