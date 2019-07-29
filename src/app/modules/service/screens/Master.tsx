@@ -244,8 +244,8 @@ export const MasterMenu = (props: MasterProps) => {
                     <div key={i} className="boolean-box">
                       <span id="title">{__(element.label_id)}</span>
                       <Switch
-                        onChange={(value) => console.log(value)}
-                        checked={element.default_value}
+                        onChange={(value) => setValueForm(element.id, value)}
+                        checked={element.value}
                         onColor="#00c040"
                         onHandleColor="#009933"
                         handleDiameter={30}
