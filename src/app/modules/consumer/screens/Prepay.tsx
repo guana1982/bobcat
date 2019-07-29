@@ -274,6 +274,15 @@ export const Prepay = (props: PrepayProps) => {
             goToHome();
           }
         });
+      } else {
+        alertConsumer.show({
+          type: status,
+          subTitle: true,
+          timeout: true,
+          onDismiss: () => {
+            goToHome();
+          }
+        });
       }
     });
   };

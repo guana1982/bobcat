@@ -59,13 +59,14 @@ export enum IdentificationConsumerStatus {
   Loading = "loading",
   // SOCKET_CONSUMER.SERVER
   NotAssociatedBottle = "not_associated_bottle_id",
+  NotAssociatedConsumer = "not_associated_consumer_id",
   CompleteLoading = "complete-loading",
   ErrorLoading = "error-loading",
   Null = "null"
 }
 
 export enum IPromotionTypes {
-  NoPour = "",
+  NoPour = "KO",
   Pour = "OK"
 }
 
