@@ -132,33 +132,42 @@ export const Prepay = (props: PrepayProps) => {
 
   //  ==== TIMER ====>
   const { timerPrepay$ } = timerConsumer;
-  const { isLogged } = consumerConsumer;
+  // const { isLogged } = consumerConsumer;
 
-  function alertIsLogged(event) {
-    if (isLogged) {
-      alertConsumer.show({
-        type: AlertTypes.EndBeverage,
-        timeout: true,
-        onDismiss: () => {
-          consumerConsumer.resetConsumer(true);
-          event();
-        }
-      });
-    } else {
-      event();
-    }
-  }
+  // function alertIsLogged(event) {
+  //   if (isLogged) {
+  //     alertConsumer.show({
+  //       type: AlertTypes.EndBeverage,
+  //       timeout: true,
+  //       onDismiss: () => {
+  //         consumerConsumer.resetConsumer(true);
+  //         event();
+  //       }
+  //     });
+  //   } else {
+  //     event();
+  //   }
+  // }
 
   const startTimer_ = () => {
     resetTimer_();
     timer_.current = timerPrepay$.subscribe(
       val => {
         if (val === EventsTimer.TimerStop) {
-          const event_ = () => {
-            consumerConsumer.resetConsumer(true);
-            goToHome();
-          };
-          alertIsLogged(event_);
+          // const event_ = () => {
+          //   consumerConsumer.resetConsumer(true);
+          //   goToHome();
+          // };
+          // alertIsLogged(event_);
+          alertConsumer.show({
+            type: AlertTypes.ErrorQrNotFound,
+            img: "img/qr-code-not-recognized.svg",
+            subTitle: true,
+            timeout: true,
+            onDismiss: () => {
+              goToHome();
+            }
+          });
         }
       }
     );
