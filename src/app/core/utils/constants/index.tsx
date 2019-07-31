@@ -114,7 +114,7 @@ export interface TimerValues {
 }
 
 export const TIMER_HOME: TimerValues = {
-  timer_last_touch_active: 20, // 120,
+  timer_last_touch_active: 120,
   timer_last_touch_inactive: 10,
   timer_dims_active: 10,
   timer_dims_inactive: 10

@@ -127,7 +127,7 @@ const TimerContainer = createContainer((props: any) => {
           console.log({ prevProximityStatus, statusProximity });
           if (
             !isActiveDistance(prevProximityStatus) && isActiveDistance(statusProximity) ||
-            (prevProximityStatus === DistanceTypes.None || prevProximityStatus === DistanceTypes.Near) && statusProximity === DistanceTypes.None
+            prevProximityStatus !== DistanceTypes.Far && statusProximity === DistanceTypes.None
           ) {
 
             if (timerSubscription)
