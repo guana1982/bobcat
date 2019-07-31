@@ -58,10 +58,6 @@ export const HomeContent = styled.section`
       z-index: 5;
       transition-delay: 400ms;
       right: -22px;
-      #text {
-        transition-delay: 400ms;
-        opacity: 0;
-      }
     }
   }
   &:not(.slide-is-open) {
@@ -623,8 +619,8 @@ export const Home = (props: HomeProps) => {
       isSparkling: value,
       beverageConfig: {
         ...prevState.beverageConfig,
-        carbonation_level: value ? levels.carbonation[1].value : levels.noCarbonation[0].value,
-        temperature_level: value ? levels.temperature[2].value : levels.temperature[1].value
+        carbonation_level: value ? levels.carbonation[2].value : levels.noCarbonation[0].value,
+        temperature_level: value ? levels.temperature[2].value : levels.temperature[2].value
       }
     }));
   };
