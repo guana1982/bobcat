@@ -8,6 +8,7 @@ import { Subject, BehaviorSubject } from "rxjs";
 import { IBeverage } from "@core/models";
 import { withRouter } from "react-router-dom";
 import { IPromotionTypes } from "@core/utils/APIModel";
+import mediumLevel from "@core/utils/lib/mediumLevel";
 
 //  ==== STATUS ====>
 export enum PaymentMode {
@@ -31,6 +32,11 @@ export enum PaymentStatus {
 export enum PaymentStatusPour {
   "AUTHORIZED",
   "VENDAPPROVE"
+}
+
+export enum PaymentStatusCancel {
+  "SWIPED",
+  "AUTHORIZED"
 }
 
 /* ==== MAIN ==== */
@@ -110,6 +116,10 @@ const PaymentContainer = createContainer((props: any) => {
 
   }, []);
 
+  function cancelPayment() {
+    mediumLevel.payment.vendCancel().subscribe();
+  }
+
   function restartPayment() {
     socketPayment$.current.next(PaymentStatus.NotAuthorized);
     statusPayment_.current = PaymentStatus.NotAuthorized;
@@ -162,7 +172,8 @@ const PaymentContainer = createContainer((props: any) => {
     needToPay,
     canPour,
     statusPayment_,
-    dataPayment_
+    dataPayment_,
+    cancelPayment
   };
 });
 
