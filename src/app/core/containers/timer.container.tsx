@@ -1,7 +1,7 @@
 import * as React from "react";
 import createContainer from "constate";
 import { Subscription, fromEvent, timer, BehaviorSubject, of, Subject, Observable, interval } from "rxjs";
-import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge, debounce, debounceTime, flatMap, timeout } from "rxjs/operators";
+import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge, debounce, debounceTime, flatMap, timeout, delay } from "rxjs/operators";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, MESSAGE_STOP_CAMERA, TIMER_PREPAY_ACTIVE } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
@@ -88,78 +88,90 @@ const TimerContainer = createContainer((props: any) => {
     timer_dims_active,
     timer_dims_inactive
   }): Subject<StatusTimer> {
-    const subject_ = new Subject<any>();
-
-    let proximitySubscription: Subscription = null;
-    let timerSubscription: Subscription = null;
 
     let prevProximityStatus: DistanceTypes = null; // FROM ACTIVE => TO INACTIVE // CASE
+    const subject_ = new Subject<any>();
 
-    if (proximitySubscription)
-      proximitySubscription.unsubscribe();
+    function proximityDetect () {
+      let proximitySubscription: Subscription = null;
+      let timerSubscription: Subscription = null;
+      let exitSubscription: Subscription = null;
 
-    proximitySubscription = statusProximity$.current
-    // .pipe(
-    //   filter(statusProximity => statusProximity === DistanceTypes.None || statusProximity === DistanceTypes.Far)
-    // )
-    .subscribe(
-      statusProximity => {
-        if (timerSubscription)
-          timerSubscription.unsubscribe();
+      if (proximitySubscription)
+        proximitySubscription.unsubscribe();
 
-        // console.log(prevProximityStatus, statusProximity);
-        if (prevProximityStatus && isActiveDistance(prevProximityStatus) && !isActiveDistance(statusProximity)) { // FROM ACTIVE => TO INACTIVE // CASE
-          if (timerSubscription)
-            timerSubscription.unsubscribe();
-          proximitySubscription.unsubscribe();
-          subject_.next(StatusTimer.ProximityExit);
-          return;
-        }
+      proximitySubscription = statusProximity$.current
+      .subscribe(
+        statusProximity => {
+          console.log({ statusProximity })
+          if ( exitSubscription)
+            exitSubscription.unsubscribe();
 
-        prevProximityStatus = statusProximity;
-        upDisplay();
-        const _isActive = isActiveDistance(statusProximity);
-
-        timerSubscription = timerTouch$((_isActive ? timer_last_touch_active : timer_last_touch_inactive) * 1000, false)
-        .pipe(
-          tap(() => dimDisplay()),
-          flatMap(() => timerTouch$((_isActive ? timer_dims_active : timer_dims_inactive) * 1000, true))
-        )
-        .subscribe(
-          value => {
-            if (value === EventsTimer.TapDetect) {
-              timerBoot$({
-                timer_last_touch_active,
-                timer_last_touch_inactive,
-                timer_dims_active,
-                timer_dims_inactive
-              });
-            } else if (value === EventsTimer.TimerStop) {
-              subject_.next(_isActive ? StatusTimer.TimerActive : StatusTimer.TimerInactive);
-              if (!_isActive) {
-                if (timerSubscription)
-                  timerSubscription.unsubscribe();
-                proximitySubscription.unsubscribe();
-              } else {
-                sourceTouchEnd
-                .subscribe(() => {
-                  if (timerSubscription)
-                    timerSubscription.unsubscribe();
+          if (prevProximityStatus && prevProximityStatus === DistanceTypes.Far && !isActiveDistance(statusProximity)) { // FROM ACTIVE => TO INACTIVE // CASE
+            if (timerSubscription)
+              timerSubscription.unsubscribe();
+            dimDisplay();
+            exitSubscription = timerTouch$(2 * 1000, true)
+            .subscribe(
+              value => {
+                if (value === EventsTimer.TapDetect) {
+                  proximityDetect();
+                } else if (value === EventsTimer.TimerStop) {
                   proximitySubscription.unsubscribe();
-                  timerBoot$({
-                    timer_last_touch_active,
-                    timer_last_touch_inactive,
-                    timer_dims_active,
-                    timer_dims_inactive
-                  });
-                });
+                  subject_.next(StatusTimer.ProximityExit);
+                }
               }
-            }
+            );
           }
-        );
 
-      }
-    );
+          console.log({ prevProximityStatus, statusProximity });
+          if (
+            !isActiveDistance(prevProximityStatus) && isActiveDistance(statusProximity) ||
+            (prevProximityStatus === DistanceTypes.None || prevProximityStatus === DistanceTypes.Near) && statusProximity === DistanceTypes.None
+          ) {
+
+            if (timerSubscription)
+              timerSubscription.unsubscribe();
+
+            upDisplay();
+            const _isActive = isActiveDistance(statusProximity);
+
+            timerSubscription = timerTouch$((_isActive ? timer_last_touch_active : timer_last_touch_inactive) * 1000, false)
+            .pipe(
+              tap(() => dimDisplay()),
+              flatMap(() => timerTouch$((_isActive ? timer_dims_active : timer_dims_inactive) * 1000, true))
+            )
+            .subscribe(
+              value => {
+                if (value === EventsTimer.TapDetect) {
+                  proximityDetect();
+                } else if (value === EventsTimer.TimerStop) {
+                  subject_.next(_isActive ? StatusTimer.TimerActive : StatusTimer.TimerInactive);
+                  if (!_isActive) {
+                    if (timerSubscription)
+                      timerSubscription.unsubscribe();
+                    proximitySubscription.unsubscribe();
+                  } else {
+                    sourceTouchEnd
+                    .subscribe(() => {
+                      if (timerSubscription)
+                        timerSubscription.unsubscribe();
+                      proximitySubscription.unsubscribe();
+                      proximityDetect();
+                    });
+                  }
+                }
+              }
+            );
+
+          }
+
+          prevProximityStatus = statusProximity;
+        }
+      );
+    }
+
+    proximityDetect();
 
     return subject_;
   }

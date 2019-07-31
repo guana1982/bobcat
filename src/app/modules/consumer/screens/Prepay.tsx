@@ -215,9 +215,9 @@ export const Prepay = (props: PrepayProps) => {
       scanning_.current.unsubscribe();
 
     scanning_.current = startScanning()
-    .pipe(
-      debounceTime(500),
-    )
+    // .pipe(
+    //   debounceTime(500),
+    // )
     .subscribe((status: IdentificationConsumerStatus) => {
       resetTimer_();
       if (status !== IdentificationConsumerStatus.Loading) {
