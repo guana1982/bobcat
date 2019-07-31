@@ -82,6 +82,10 @@ const TimerContainer = createContainer((props: any) => {
     first()
   );
 
+  const proximitySubscription = React.useRef<Subscription>(null);
+  const timerSubscription = React.useRef<Subscription>(null);
+  const exitSubscription = React.useRef<Subscription>(null);
+
   function timerBoot$({
     timer_last_touch_active,
     timer_last_touch_inactive,
@@ -93,31 +97,28 @@ const TimerContainer = createContainer((props: any) => {
     const subject_ = new Subject<any>();
 
     function proximityDetect () {
-      let proximitySubscription: Subscription = null;
-      let timerSubscription: Subscription = null;
-      let exitSubscription: Subscription = null;
 
-      if (proximitySubscription)
-        proximitySubscription.unsubscribe();
+      if (proximitySubscription.current)
+        proximitySubscription.current.unsubscribe();
 
-      proximitySubscription = statusProximity$.current
+      proximitySubscription.current = statusProximity$.current
       .subscribe(
         statusProximity => {
-          console.log({ statusProximity })
-          if ( exitSubscription)
-            exitSubscription.unsubscribe();
+          console.log({ statusProximity });
+          if (exitSubscription.current)
+            exitSubscription.current.unsubscribe();
 
           if (prevProximityStatus && prevProximityStatus === DistanceTypes.Far && !isActiveDistance(statusProximity)) { // FROM ACTIVE => TO INACTIVE // CASE
-            if (timerSubscription)
-              timerSubscription.unsubscribe();
+            if (timerSubscription.current)
+              timerSubscription.current.unsubscribe();
             dimDisplay();
-            exitSubscription = timerTouch$(2 * 1000, true)
+            exitSubscription.current = timerTouch$(2 * 1000, true)
             .subscribe(
               value => {
                 if (value === EventsTimer.TapDetect) {
                   proximityDetect();
                 } else if (value === EventsTimer.TimerStop) {
-                  proximitySubscription.unsubscribe();
+                  proximitySubscription.current.unsubscribe();
                   subject_.next(StatusTimer.ProximityExit);
                 }
               }
@@ -130,13 +131,13 @@ const TimerContainer = createContainer((props: any) => {
             prevProximityStatus !== DistanceTypes.Far && statusProximity === DistanceTypes.None
           ) {
 
-            if (timerSubscription)
-              timerSubscription.unsubscribe();
+            if (timerSubscription.current)
+              timerSubscription.current.unsubscribe();
 
             upDisplay();
             const _isActive = isActiveDistance(statusProximity);
 
-            timerSubscription = timerTouch$((_isActive ? timer_last_touch_active : timer_last_touch_inactive) * 1000, false)
+            timerSubscription.current = timerTouch$((_isActive ? timer_last_touch_active : timer_last_touch_inactive) * 1000, false)
             .pipe(
               tap(() => dimDisplay()),
               flatMap(() => timerTouch$((_isActive ? timer_dims_active : timer_dims_inactive) * 1000, true))
@@ -148,15 +149,15 @@ const TimerContainer = createContainer((props: any) => {
                 } else if (value === EventsTimer.TimerStop) {
                   subject_.next(_isActive ? StatusTimer.TimerActive : StatusTimer.TimerInactive);
                   if (!_isActive) {
-                    if (timerSubscription)
-                      timerSubscription.unsubscribe();
-                    proximitySubscription.unsubscribe();
+                    if (timerSubscription.current)
+                      timerSubscription.current.unsubscribe();
+                    proximitySubscription.current.unsubscribe();
                   } else {
                     sourceTouchEnd
                     .subscribe(() => {
-                      if (timerSubscription)
-                        timerSubscription.unsubscribe();
-                      proximitySubscription.unsubscribe();
+                      if (timerSubscription.current)
+                        timerSubscription.current.unsubscribe();
+                      proximitySubscription.current.unsubscribe();
                       proximityDetect();
                     });
                   }
