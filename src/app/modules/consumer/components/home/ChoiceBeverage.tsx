@@ -139,7 +139,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
               return (
                 <div className={`consumer-btns ${cancelPayment_ ? "cancel-payment" : ""}`}>
                   {!isLogged && <Button detectValue="signin-btn" disabled={disabled} onClick={goToPrepay} text="c_sign_in" icon="qr-code" />}
-                  {isLogged || cancelPayment_ && <Button detectValue="logout-btn" disabled={disabled} onClick={() => logout(cancelPayment_)} text="c_done" icon="log-out" />}
+                  {(isLogged || cancelPayment_) && <Button detectValue="logout-btn" disabled={disabled} onClick={() => logout(cancelPayment_)} text="c_done" icon="log-out" />}
                 </div>
               );
             }}
