@@ -233,7 +233,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
         const statusAlarms_: IStatusAlarms = {
           alarmSuper_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_category === "super_alert" && alarm.alarm_enable === true)),
           alarmSparkling_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "press_co2" && alarm.alarm_enable === true)),
-          alarmConnectivity_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "mqtt" && alarm.alarm_enable === true)),
+          alarmConnectivity_: false, // Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "mqtt" && alarm.alarm_enable === true)),
           alarmWebcam_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "webcam" && alarm.alarm_enable === true)),
           alarmADAPanel_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "ada_panel" && alarm.alarm_enable === true)),
           alarmPayment_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "payment" && alarm.alarm_enable === true)),
