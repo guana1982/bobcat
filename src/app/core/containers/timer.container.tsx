@@ -28,9 +28,6 @@ const TimerContainer = createContainer((props: any) => {
 
   const statusProximity$ = React.useRef(new BehaviorSubject<DistanceTypes>(DistanceTypes.None));
 
-  const timer_ = React.useRef<number>(null);
-  const [displayIsDims, setDisplayIsDims] = React.useState<boolean>(false);
-
   const configConsumer = React.useContext(ConfigContext);
 
   React.useEffect(() => {
@@ -67,8 +64,8 @@ const TimerContainer = createContainer((props: any) => {
     return status !== DistanceTypes.None;
   };
 
-  const dimDisplay = () => mediumLevel.brightness.dimDisplay().pipe(tap(() => setDisplayIsDims(true))).subscribe();
-  const upDisplay = () => mediumLevel.brightness.brightenDisplay().pipe(tap(() => setDisplayIsDims(false))).subscribe();
+  const dimDisplay = () => mediumLevel.brightness.dimDisplay().subscribe();
+  const upDisplay = () => mediumLevel.brightness.brightenDisplay().subscribe();
 
   const timerTouch$ = (time: number, tapDetect: boolean) => sourceTouchEnd
   .pipe(
@@ -91,12 +88,15 @@ const TimerContainer = createContainer((props: any) => {
     timer_last_touch_inactive,
     timer_dims_active,
     timer_dims_inactive
-  }): Subject<StatusTimer> {
+  }, restart?: boolean): Subject<StatusTimer> {
+    console.log("==> timerBoot$ <==");
 
-    let prevProximityStatus: DistanceTypes = null; // FROM ACTIVE => TO INACTIVE // CASE
     const subject_ = new Subject<any>();
 
-    function proximityDetect () {
+    function proximityDetect() {
+      console.log("==> proximityDetect <==");
+
+      let prevProximityStatus: DistanceTypes = null; // FROM ACTIVE => TO INACTIVE // CASE
 
       if (proximitySubscription.current)
         proximitySubscription.current.unsubscribe();
@@ -104,11 +104,18 @@ const TimerContainer = createContainer((props: any) => {
       proximitySubscription.current = statusProximity$.current
       .subscribe(
         statusProximity => {
-          console.log({ statusProximity });
+
+          const _isActive = isActiveDistance(statusProximity);
+          if (_isActive)
+            upDisplay();
+
+          // =======
+          console.log("==> exitDetect <==");
+
           if (exitSubscription.current)
             exitSubscription.current.unsubscribe();
 
-          if (prevProximityStatus && prevProximityStatus === DistanceTypes.Far && !isActiveDistance(statusProximity)) { // FROM ACTIVE => TO INACTIVE // CASE
+          if (prevProximityStatus && prevProximityStatus === DistanceTypes.Far && !_isActive) { // FROM ACTIVE => TO INACTIVE // CASE
             if (timerSubscription.current)
               timerSubscription.current.unsubscribe();
             dimDisplay();
@@ -125,47 +132,47 @@ const TimerContainer = createContainer((props: any) => {
             );
           }
 
-          console.log({ prevProximityStatus, statusProximity });
-          if (
-            !isActiveDistance(prevProximityStatus) && isActiveDistance(statusProximity) ||
-            prevProximityStatus !== DistanceTypes.Far && statusProximity === DistanceTypes.None
-          ) {
+          // =======
 
-            if (timerSubscription.current)
-              timerSubscription.current.unsubscribe();
+          // if (
+          //   !isActiveDistance(prevProximityStatus) && isActiveDistance(statusProximity) ||
+          //   prevProximityStatus !== DistanceTypes.Far && statusProximity === DistanceTypes.None
+          // ) {
 
-            upDisplay();
-            const _isActive = isActiveDistance(statusProximity);
+          console.log("==> timeoutDetect <==");
 
-            timerSubscription.current = timerTouch$((_isActive ? timer_last_touch_active : timer_last_touch_inactive) * 1000, false)
-            .pipe(
-              tap(() => dimDisplay()),
-              flatMap(() => timerTouch$((_isActive ? timer_dims_active : timer_dims_inactive) * 1000, true))
-            )
-            .subscribe(
-              value => {
-                if (value === EventsTimer.TapDetect) {
-                  proximityDetect();
-                } else if (value === EventsTimer.TimerStop) {
-                  subject_.next(_isActive ? StatusTimer.TimerActive : StatusTimer.TimerInactive);
-                  if (!_isActive) {
-                    if (timerSubscription.current)
-                      timerSubscription.current.unsubscribe();
-                    proximitySubscription.current.unsubscribe();
-                  } else {
-                    sourceTouchEnd
-                    .subscribe(() => {
-                      if (timerSubscription.current)
-                        timerSubscription.current.unsubscribe();
-                      proximitySubscription.current.unsubscribe();
-                      proximityDetect();
-                    });
-                  }
+          if (timerSubscription.current)
+            timerSubscription.current.unsubscribe();
+
+          timerSubscription.current = timerTouch$((_isActive ? timer_last_touch_active : timer_last_touch_inactive) * 1000, false)
+          .pipe(
+            tap(() => dimDisplay()),
+            flatMap(() => timerTouch$((_isActive ? timer_dims_active : timer_dims_inactive) * 1000, true))
+          )
+          .subscribe(
+            value => {
+              console.log({ value });
+              if (value === EventsTimer.TapDetect) {
+                proximityDetect();
+              } else if (value === EventsTimer.TimerStop) {
+                if (timerSubscription.current)
+                  timerSubscription.current.unsubscribe();
+                proximitySubscription.current.unsubscribe();
+
+                subject_.next(_isActive ? StatusTimer.TimerActive : StatusTimer.TimerInactive);
+
+                if (_isActive && restart) {
+                  sourceTouchEnd
+                  .pipe(
+                    first()
+                  )
+                  .subscribe(() => {
+                    proximityDetect();
+                  });
                 }
               }
-            );
-
-          }
+            }
+          );
 
           prevProximityStatus = statusProximity;
         }
@@ -181,7 +188,6 @@ const TimerContainer = createContainer((props: any) => {
 
   return {
     statusProximity$,
-    displayIsDims,
     timerBoot$,
     timerPrepay$
   };

@@ -21,7 +21,7 @@ export const TestProximity = () => {
   const configConsumer = React.useContext(ConfigContext);
   const timerConsumer = React.useContext(TimerContext);
   const { vendorConfig } = configConsumer;
-  const { statusProximity$, displayIsDims } = timerConsumer;
+  const { statusProximity$ } = timerConsumer;
 
   if (!vendorConfig.debug_mode)
     return null;

@@ -32,7 +32,7 @@ export const HomeWrap = styled.div`
   left: ${props => sizeHome(props)};
   top: 0;
   ${Grid} {
-    padding-top: 5.5rem;
+    padding-top: 78px;
   }
   #payment-status {
     position: absolute;
@@ -167,25 +167,24 @@ export const Home = (props: HomeProps) => {
 
   const startTimer_ = () => {
     resetTimer_();
-    timer_.current = timerBoot$(TIMER_HOME)
+    timer_.current = timerBoot$(TIMER_HOME, true)
     .subscribe(
       val => {
+        console.log("=== startTimer_ ===");
+        console.log({val});
+        console.log("=== startTimer_ ===");
         if (val === StatusTimer.TimerInactive || val === StatusTimer.ProximityExit) {
           const event_ = () => consumerConsumer.resetConsumer();
           alertIsLogged(event_);
         } else if (val === StatusTimer.TimerActive) {
-          const event_ = () => consumerConsumer.resetConsumer(true);
+          const event_ = () => {
+            consumerConsumer.resetConsumer(true);
+            handleType(false);
+            setNutritionFacts(false);
+            resetBeverage();
+          };
           alertIsLogged(event_);
         }
-        // else if (val === StatusProximity.TimerStop) {
-        //   const event_ = () => {
-        //     handleType(false);
-        //     setNutritionFacts(false);
-        //     resetBeverage();
-        //     restartBrightness_();
-        //   };
-        //   alertIsLogged(event_);
-        // }
       }
     );
   };
@@ -428,8 +427,11 @@ export const Home = (props: HomeProps) => {
   const stopPour = React.useCallback(() => {
     configConsumer.onStopPour().subscribe(); // => TEST MODE
 
-    if (!endSession_.current) // if (endSession === StatusEndSession.Start)
-      startTimerEnd_();
+    console.log("endSession_.current", endSession_.current);
+    if (!endSession_.current) {
+       startTimerEnd_();
+    } // if (endSession === StatusEndSession.Start)
+
   }, [endSession]);
 
   /* ==== END POUR ==== */
@@ -450,8 +452,10 @@ export const Home = (props: HomeProps) => {
   };
 
   const resetTimerEnd_ = () => {
-    if (endSession_.current)
+    if (endSession_.current) {
       endSession_.current.unsubscribe();
+      endSession_.current = null;
+    }
   };
 
   const detectStopErogation = () => {
