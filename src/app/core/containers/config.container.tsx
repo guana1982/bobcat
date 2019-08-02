@@ -61,6 +61,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
   socketStopErogation$ = new Subject<MESSAGE_STOP_EROGATION>();
   socketUpdate$ = new BehaviorSubject<any>({});
   socketSustainability$ = new BehaviorSubject({ saved_bottle_year: "", saved_bottle_day: "" });
+
+  intervalValidationPour = null;
   isPouring: boolean = false;
 
   constructor(props) {
@@ -70,7 +72,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ======================================== */
 
     const ws = webSocket({
-      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://192.168.1.7:5901", // "ws://93.55.118.44:5901",
+      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://192.168.1.5:5901", // "ws://93.55.118.44:5901",
       deserializer: data => {
         try {
           return JSON.parse(data.data);
@@ -330,6 +332,17 @@ class ConfigStoreComponent extends React.Component<any, any> {
       temperature_level: config.temperature_level,
       pour_method: "free_flow"
     };
+
+    // === START: CHECK VALID POUR ===>
+    this.intervalValidationPour = setInterval(() => {
+      const activeElement_ = document.querySelector(":active");
+      console.log(activeElement_);
+      if (activeElement_ === null) {
+        this.onStopPour().subscribe();
+      }
+    }, 1000);
+    // <=== START: CHECK VALID POUR ===>
+
     return mediumLevel.dispense.pour(recipe)
     .pipe(
       first(),
@@ -338,6 +351,9 @@ class ConfigStoreComponent extends React.Component<any, any> {
   }
 
   private onStopPour = () => {
+    // === STOP: CHECK VALID POUR ===>
+    clearInterval(this.intervalValidationPour);
+    // <=== STOP: CHECK VALID POUR ===>
     return mediumLevel.dispense.stop()
     .pipe(
       first(),

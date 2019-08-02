@@ -427,7 +427,6 @@ export const Home = (props: HomeProps) => {
   const stopPour = React.useCallback(() => {
     configConsumer.onStopPour().subscribe(); // => TEST MODE
 
-    console.log("endSession_.current", endSession_.current);
     if (!endSession_.current) {
        startTimerEnd_();
     } // if (endSession === StatusEndSession.Start)
