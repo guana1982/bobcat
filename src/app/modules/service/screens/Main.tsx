@@ -302,7 +302,7 @@ export const NewMenu = (props: MenuProps) => {
       {modals[Modals.EquipmentStatus].show && <EquipmentStatus cancel={closeAllModal} authLevel={authLevel} />}
       {modals[Modals.Sanitation].show && <Sanitation cancel={closeAllModal} />}
 
-      {modals[Modals.Update].show && <Update cancel={closeAllModal} />}
+      {modals[Modals.Update].show && <Update cancel={closeAllModal} authLevel={authLevel} />}
       {modals[Modals.Timeout].show && <Timeout cancel={closeAllModal} />}
 
       {modals[Modals.Customize].show && <Customize {...modals[Modals.Customize].params} cancel={closeAllModal} />}

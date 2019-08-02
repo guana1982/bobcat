@@ -5,7 +5,7 @@ import mediumLevel from "@core/utils/lib/mediumLevel";
 import { LoaderContext } from "@core/containers/loader.container";
 import { finalize } from "rxjs/operators";
 import { __ } from "@core/utils/lib/i18n";
-import { AlertContext } from "@core/containers";
+import { AlertContext, AuthLevels } from "@core/containers";
 import { Subscription } from "rxjs";
 
 enum UpdateFroms {
@@ -23,7 +23,9 @@ enum UpdateTypes {
 
 let mediumLevelUpdate_: Subscription = null;
 
-interface UpdateProps extends Partial<ModalContentProps> {}
+interface UpdateProps extends Partial<ModalContentProps> {
+  authLevel: AuthLevels;
+}
 
 export const Update = (props: UpdateProps) => {
   const { cancel } = props;
@@ -86,6 +88,7 @@ export const Update = (props: UpdateProps) => {
     >
       <Box className="centered">
         <MButton onClick={() => update(UpdateTypes.All)}>ALL</MButton>
+        {props.authLevel === AuthLevels.Super && <MButton onClick={() => update(UpdateTypes.Planogram)}>PLANOGRAM</MButton>}
       </Box>
     </Modal>
   );
