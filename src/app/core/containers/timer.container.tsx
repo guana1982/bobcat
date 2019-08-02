@@ -83,6 +83,20 @@ const TimerContainer = createContainer((props: any) => {
   const timerSubscription = React.useRef<Subscription>(null);
   const exitSubscription = React.useRef<Subscription>(null);
 
+  const resetProximitySubscription = () => {
+    if (proximitySubscription.current) {
+      proximitySubscription.current.unsubscribe();
+      proximitySubscription.current = null;
+    }
+  };
+
+  const resetTimerSubscription = () => {
+    if (timerSubscription.current) {
+      timerSubscription.current.unsubscribe();
+      timerSubscription.current = null;
+    }
+  };
+
   function timerBoot$({
     timer_last_touch_active,
     timer_last_touch_inactive,
@@ -98,12 +112,18 @@ const TimerContainer = createContainer((props: any) => {
 
       let prevProximityStatus: DistanceTypes = null; // FROM ACTIVE => TO INACTIVE // CASE
 
-      if (proximitySubscription.current)
-        proximitySubscription.current.unsubscribe();
+      resetProximitySubscription();
 
       proximitySubscription.current = statusProximity$.current
       .subscribe(
         statusProximity => {
+
+          if (
+            !(prevProximityStatus === DistanceTypes.Far && statusProximity === DistanceTypes.Near ||
+            prevProximityStatus === DistanceTypes.Near && statusProximity === DistanceTypes.Far)
+          ) {
+            resetTimerSubscription();
+          }
 
           const _isActive = isActiveDistance(statusProximity);
           if (_isActive)
@@ -116,8 +136,6 @@ const TimerContainer = createContainer((props: any) => {
             exitSubscription.current.unsubscribe();
 
           if (prevProximityStatus && prevProximityStatus === DistanceTypes.Far && !_isActive) { // FROM ACTIVE => TO INACTIVE // CASE
-            if (timerSubscription.current)
-              timerSubscription.current.unsubscribe();
             dimDisplay();
             exitSubscription.current = timerTouch$(2 * 1000, true)
             .subscribe(
@@ -125,7 +143,7 @@ const TimerContainer = createContainer((props: any) => {
                 if (value === EventsTimer.TapDetect) {
                   proximityDetect();
                 } else if (value === EventsTimer.TimerStop) {
-                  proximitySubscription.current.unsubscribe();
+                  resetProximitySubscription();
                   subject_.next(StatusTimer.ProximityExit);
                 }
               }
@@ -134,45 +152,42 @@ const TimerContainer = createContainer((props: any) => {
 
           // =======
 
-          // if (
-          //   !isActiveDistance(prevProximityStatus) && isActiveDistance(statusProximity) ||
-          //   prevProximityStatus !== DistanceTypes.Far && statusProximity === DistanceTypes.None
-          // ) {
+          console.log({ prevProximityStatus, statusProximity, timerSubscription });
 
-          console.log("==> timeoutDetect <==");
+          if (!timerSubscription.current) {
+            console.log("==> timeoutDetect <==");
 
-          if (timerSubscription.current)
-            timerSubscription.current.unsubscribe();
+            timerSubscription.current = timerTouch$((_isActive ? timer_last_touch_active : timer_last_touch_inactive) * 1000, false)
+            .pipe(
+              tap(() => dimDisplay()),
+              flatMap(() => timerTouch$((_isActive ? timer_dims_active : timer_dims_inactive) * 1000, true))
+            )
+            .subscribe(
+              value => {
+                resetTimerSubscription();
+                if (value === EventsTimer.TapDetect) {
+                  proximityDetect();
+                } else if (value === EventsTimer.TimerStop) {
 
-          timerSubscription.current = timerTouch$((_isActive ? timer_last_touch_active : timer_last_touch_inactive) * 1000, false)
-          .pipe(
-            tap(() => dimDisplay()),
-            flatMap(() => timerTouch$((_isActive ? timer_dims_active : timer_dims_inactive) * 1000, true))
-          )
-          .subscribe(
-            value => {
-              console.log({ value });
-              if (value === EventsTimer.TapDetect) {
-                proximityDetect();
-              } else if (value === EventsTimer.TimerStop) {
-                if (timerSubscription.current)
-                  timerSubscription.current.unsubscribe();
-                proximitySubscription.current.unsubscribe();
+                  console.log({ prevProximityStatus, statusProximity, _isActive })
+                  subject_.next(_isActive ? StatusTimer.TimerActive : StatusTimer.TimerInactive);
 
-                subject_.next(_isActive ? StatusTimer.TimerActive : StatusTimer.TimerInactive);
-
-                if (_isActive && restart) {
-                  sourceTouchEnd
-                  .pipe(
-                    first()
-                  )
-                  .subscribe(() => {
-                    proximityDetect();
-                  });
+                  if (_isActive && restart) {
+                    sourceTouchEnd
+                    .pipe(
+                      first()
+                    )
+                    .subscribe(() => {
+                      proximityDetect();
+                    });
+                  } else {
+                    resetProximitySubscription();
+                  }
                 }
               }
-            }
-          );
+            );
+
+          }
 
           prevProximityStatus = statusProximity;
         }
