@@ -1,6 +1,33 @@
 import * as React from "react";
 
 // https://github.com/sonsoleslp/react-click-n-hold/blob/master/src/ClickNHold.jsx
+
+// interface Point {
+//     x: number;
+//     y: number;
+// }
+
+// class Rect {
+//     x: number;
+//     y: number;
+//     width: number;
+//     height: number;
+
+//     constructor({x, y, width, height}) {
+//         this.x = x;
+//         this.y = y;
+//         this.width = width;
+//         this.height = height;
+//     }
+
+//     contains(p: Point) {
+//         return this.x <= p.x && p.x <= this.x + this.width &&
+//                this.y <= p.y && p.y <= this.y + this.height;
+//     }
+// }
+
+let intervalValidationPour = null;
+
 export default class ClickNHold extends React.Component<any, any> {
 
     readonly state: any;
@@ -8,6 +35,7 @@ export default class ClickNHold extends React.Component<any, any> {
     _timer: any;
     _unmounted: any;
     node: any;
+    // rect: Rect = null;
 
     constructor(props) {
         super(props);
@@ -26,7 +54,18 @@ export default class ClickNHold extends React.Component<any, any> {
         this.clear = this.clear.bind(this);
         this.timeout = this.timeout.bind(this);
         this.clickCapture = this.clickCapture.bind(this);
+        // this.touchMove = this.touchMove.bind(this);
     }
+
+    // componentDidMount () {
+    //     const rect_ = this.node.getBoundingClientRect();
+    //     this.rect = new Rect({
+    //         x: rect_.left,
+    //         y: rect_.top,
+    //         width: this.node.offsetWidth,
+    //         height: this.node.offsetHeight
+    //     });
+    // }
 
     componentWillUnmount() {
         this._unmounted = true;
@@ -36,6 +75,16 @@ export default class ClickNHold extends React.Component<any, any> {
 
     /*Start callback*/
     start(e) {
+        // === START: CHECK VALID POUR ===>
+        clearInterval(intervalValidationPour);
+        intervalValidationPour = setInterval(() => {
+            const activeElement_ = document.querySelector(":active");
+            if (activeElement_ === null) {
+                clearInterval(intervalValidationPour);
+                this.end(e);
+            }
+        }, 1000);
+        // <=== START: CHECK VALID POUR ===>
         let ended = this.state.ended;
         let start = Date.now();
         let eCopy = Object.assign({}, e);
@@ -57,6 +106,9 @@ export default class ClickNHold extends React.Component<any, any> {
 
     /*End callback*/
     end(e) {
+        // === STOP: CHECK VALID POUR ===>
+        clearInterval(intervalValidationPour);
+        // <=== STOP: CHECK VALID POUR ===>
         document.documentElement.removeEventListener("mouseup", this.end);
         if (this.state.ended || this._unmounted) {
             return false;
@@ -100,6 +152,21 @@ export default class ClickNHold extends React.Component<any, any> {
         }
     }
 
+    // touchMove(event) {
+    //     if (!this.rect) {
+    //         return;
+    //     }
+    //     const point: Point = {
+    //         x: event.touches[0].clientX,
+    //         y: event.touches[0].clientY
+    //     };
+
+    //     if (!this.rect.contains(point)) {
+    //         console.log("=== TOUCHMOVE: END POUR ===");
+    //         this.end(event);
+    //     }
+    // }
+
     render() {
         let classList = this.props.className ? (this.props.className + " ") : " ";
         classList += this.state.holding ? "cnh_holding " : " ";
@@ -111,6 +178,8 @@ export default class ClickNHold extends React.Component<any, any> {
                 //  onMouseDown={this.start} // => DESKTOP MODE
                 //  onMouseUp={this.end} // => DESKTOP MODE
                 //  onTouchMove={this.clear}
+
+                //  onTouchMove={this.touchMove}
                  onClickCapture={this.clickCapture}
                  onTouchEnd={this.end}>
                 {

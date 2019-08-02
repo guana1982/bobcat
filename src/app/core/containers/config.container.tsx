@@ -61,8 +61,6 @@ class ConfigStoreComponent extends React.Component<any, any> {
   socketStopErogation$ = new Subject<MESSAGE_STOP_EROGATION>();
   socketUpdate$ = new BehaviorSubject<any>({});
   socketSustainability$ = new BehaviorSubject({ saved_bottle_year: "", saved_bottle_day: "" });
-
-  intervalValidationPour = null;
   isPouring: boolean = false;
 
   constructor(props) {
@@ -333,16 +331,6 @@ class ConfigStoreComponent extends React.Component<any, any> {
       pour_method: "free_flow"
     };
 
-    // === START: CHECK VALID POUR ===>
-    this.intervalValidationPour = setInterval(() => {
-      const activeElement_ = document.querySelector(":active");
-      console.log(activeElement_);
-      if (activeElement_ === null) {
-        this.onStopPour().subscribe();
-      }
-    }, 1000);
-    // <=== START: CHECK VALID POUR ===>
-
     return mediumLevel.dispense.pour(recipe)
     .pipe(
       first(),
@@ -351,9 +339,6 @@ class ConfigStoreComponent extends React.Component<any, any> {
   }
 
   private onStopPour = () => {
-    // === STOP: CHECK VALID POUR ===>
-    clearInterval(this.intervalValidationPour);
-    // <=== STOP: CHECK VALID POUR ===>
     return mediumLevel.dispense.stop()
     .pipe(
       first(),
