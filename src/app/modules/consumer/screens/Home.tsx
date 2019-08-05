@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
-import { Beverages, Pages, LEVELS, MESSAGE_STOP_EROGATION, TIMER_HOME } from "@utils/constants";
+import { Beverages, Pages, LEVELS, MESSAGE_STOP_EROGATION, TIMER_LONG, TIMER_SHORT } from "@utils/constants";
 import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
 import { Subscription } from "rxjs";
@@ -167,7 +167,7 @@ export const Home = (props: HomeProps) => {
 
   const startTimer_ = () => {
     resetTimer_();
-    timer_.current = timerBoot$(TIMER_HOME, true)
+    timer_.current = timerBoot$(consumerBeverages.length > 0 || paymentModeEnabled ? TIMER_SHORT : TIMER_LONG, true)
     .subscribe(
       val => {
         console.log("=== startTimer_ ===");
@@ -253,7 +253,7 @@ export const Home = (props: HomeProps) => {
   /* ==== PAYMENT ==== */
   /* ======================================== */
 
-  const { needToPay, canPour, socketPayment$, restartPayment, promotionEnabled } = paymentConsumer;
+  const { needToPay, canPour, socketPayment$, restartPayment, promotionEnabled, paymentModeEnabled } = paymentConsumer;
 
   const showPayment = (call_?: any) => {
     setDisabled(true);
@@ -438,7 +438,7 @@ export const Home = (props: HomeProps) => {
 
   const startTimerEnd_ = () => {
     resetTimerEnd_();
-    endSession_.current = timerBoot$(TIMER_HOME)
+    endSession_.current = timerBoot$(consumerBeverages.length > 0 || paymentModeEnabled ? TIMER_SHORT : TIMER_LONG)
     .subscribe(
       val => {
         if (val === StatusTimer.TimerActive) {

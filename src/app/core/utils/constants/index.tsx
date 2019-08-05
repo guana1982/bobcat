@@ -113,15 +113,22 @@ export interface TimerValues {
   timer_dims_inactive: number;
 }
 
-export const TIMER_HOME: TimerValues = {
+export const TIMER_LONG: TimerValues = {
   timer_last_touch_active: 120,
-  timer_last_touch_inactive: 10,
-  timer_dims_active: 30,
+  timer_last_touch_inactive: 30,
+  timer_dims_active: 10,
   timer_dims_inactive: 10
 };
 
-export const TIMER_PREPAY_ACTIVE = 15;
-export const TIMER_PREPAY_INACTIVE = 15;
+export const TIMER_SHORT: TimerValues = {
+  timer_last_touch_active: 60,
+  timer_last_touch_inactive: 30,
+  timer_dims_active: 10,
+  timer_dims_inactive: 10
+};
+
+export const TIMER_PREPAY_ACTIVE = 60;
+export const TIMER_PREPAY_INACTIVE = 10;
 
 //  INFO-CARDS POSITIONS ON LONG-PRESS POUR
 export const coordsCards = [
