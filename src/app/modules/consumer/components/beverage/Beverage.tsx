@@ -154,7 +154,7 @@ export const Beverage = memo((props: BeverageProps) => {
   const paymentConsumer = React.useContext(PaymentContext);
 
   const $specialCard: boolean = types && types[0] === BeverageTypes.LastPour || types && types[0] === BeverageTypes.Favorite;
-  const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib || beverage.line_id <= 0 || ($specialCard && (beverage.$lock || (levels.carbonation_perc != null && alarmSparkling_)));
+  const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib || beverage.line_id <= 0 || beverage.$lock || ($specialCard && (beverage.$lock || (levels.carbonation_perc != null && alarmSparkling_)));
   const $blur: boolean = disabled && !pouring;
   const $disabledTouch: boolean = types && types[0] === BeverageTypes.Info || $outOfStock;
   const $info: boolean = types && types[0] === BeverageTypes.Info;

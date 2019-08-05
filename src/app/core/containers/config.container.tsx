@@ -70,7 +70,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ======================================== */
 
     const ws = webSocket({
-      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://192.168.1.5:5901", // "ws://93.55.118.44:5901",
+      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://192.168.1.6:5901", // "ws://93.55.118.44:5901",
       deserializer: data => {
         try {
           return JSON.parse(data.data);
@@ -266,8 +266,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
         const plain_ =  allBeverages.filter(beverage => beverage.beverage_type === Beverages.Plain)[0];
         const soda_ = allBeverages.filter(beverage => beverage.beverage_type === Beverages.Soda)[0];
         const beverages_ = allBeverages.filter(beverage => {
-          const { beverage_type, line_id, $lock } = beverage;
-          return beverage_type === Beverages.Bev && !$lock && line_id > 0;
+          const { beverage_type, line_id } = beverage;
+          return beverage_type === Beverages.Bev && line_id > 0;
         });
 
         const beveragesObj = {
