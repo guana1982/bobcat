@@ -77,9 +77,11 @@ export const Calibration = (props: CalibrationProps) => {
 
   const stop = (force?: boolean) => {
     setTimerState(false);
-    timerStart_.current.unsubscribe();
+    if (timerStart_.current)
+      timerStart_.current.unsubscribe();
     if (force) {
-      timerStop_.current.unsubscribe();
+      if (timerStop_.current)
+        timerStop_.current.unsubscribe();
     }
     return mediumLevel.line.stopCalibrate(line.line_id);
   };
@@ -102,10 +104,7 @@ export const Calibration = (props: CalibrationProps) => {
 
   React.useEffect(() => {
     return () => {
-      if (timerStart_.current)
-        timerStart_.current.unsubscribe();
-      if (timerStop_.current)
-        timerStop_.current.unsubscribe();
+      stop(true).subscribe();
     };
   }, []);
 
