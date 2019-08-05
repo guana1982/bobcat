@@ -683,9 +683,18 @@ const FormInitialization = (props: FormInitializationProps) => {
     });
   };
 
+  const getTitleForm = (i) => {
+    if (i === 2)
+      return "CUSTOMER INFORMATION";
+    else if (i === 3)
+      return "EQUIPMENT";
+
+    return "INITIALIZATION DATA";
+  };
+
   return (
     <>
-      <h2>INITIALIZATION DATA - {indexStep + 1}/{stepsNumber}</h2>
+      <h2>{getTitleForm(indexStep + 1)} - {indexStep + 1}/{stepsNumber}</h2>
       {indexStep === 0 && (
         <>
           <br/><br/>
