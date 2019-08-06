@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
-import { Beverages, Pages, LEVELS, MESSAGE_STOP_EROGATION, TIMER_LONG, TIMER_SHORT } from "@utils/constants";
+import { Beverages, Pages, LEVELS, MESSAGE_STOP_EROGATION, TIMER_LONG, TIMER_SHORT, TIMER_END_SESSION } from "@utils/constants";
 import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
 import { Subscription } from "rxjs";
@@ -58,12 +58,16 @@ export const HomeContent = styled.section`
       z-index: 5;
       transition-delay: 400ms;
       right: -22px;
+      #icon {
+        transition-delay: 400ms;
+        margin-left: 5px;
+      }
     }
   }
   &:not(.slide-is-open) {
     #logout-btn {
       transition-delay: 100ms;
-      #text {
+      #icon {
         transition-delay: 100ms;
       }
     }
@@ -438,7 +442,7 @@ export const Home = (props: HomeProps) => {
 
   const startTimerEnd_ = () => {
     resetTimerEnd_();
-    endSession_.current = timerBoot$(consumerBeverages.length > 0 || paymentModeEnabled ? TIMER_SHORT : TIMER_LONG)
+    endSession_.current = timerBoot$(TIMER_END_SESSION)
     .subscribe(
       val => {
         if (val === StatusTimer.TimerActive) {
