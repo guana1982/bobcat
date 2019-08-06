@@ -115,13 +115,20 @@ export interface TimerValues {
 
 export const TIMER_LONG: TimerValues = {
   timer_last_touch_active: 120,
-  timer_last_touch_inactive: 30,
+  timer_last_touch_inactive: 120,
   timer_dims_active: 10,
   timer_dims_inactive: 10
 };
 
 export const TIMER_SHORT: TimerValues = {
   timer_last_touch_active: 60,
+  timer_last_touch_inactive: 60,
+  timer_dims_active: 10,
+  timer_dims_inactive: 10
+};
+
+export const TIMER_END_SESSION: TimerValues = {
+  timer_last_touch_active: 30,
   timer_last_touch_inactive: 30,
   timer_dims_active: 10,
   timer_dims_inactive: 10
