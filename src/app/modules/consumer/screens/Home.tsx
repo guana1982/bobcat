@@ -664,10 +664,11 @@ export const Home = (props: HomeProps) => {
   const onGesture = (gestureType) => {
     if (gestureType === "p") {
       if (gestureInterval) {
+        gestureInterval = false;
         return configConsumer.setAuthService(true);
       }
       gestureInterval = true;
-      setTimeout(() => gestureInterval = false, 5000);
+      setTimeout(() => gestureInterval = false, 3000);
     }
   };
 
