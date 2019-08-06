@@ -1,8 +1,8 @@
 import * as React from "react";
 import mediumLevel from "../utils/lib/mediumLevel";
-import { mergeMap, first, map, tap, delay } from "rxjs/operators";
+import { mergeMap, first, map, tap, delay, debounceTime, timeout, catchError } from "rxjs/operators";
 import { SOCKET_CONSUMER, Pages, Beverages, LEVELS } from "../utils/constants";
-import { IConsumerModel, IdentificationConsumerTypes, IConsumerBeverage } from "../utils/APIModel";
+import { IConsumerModel, IdentificationConsumerTypes, IConsumerBeverage, IdentificationConsumerStatus } from "../utils/APIModel";
 import { Observable, of, merge } from "rxjs";
 import { withConfig } from "./config.container";
 import { withRouter } from "react-router-dom";
@@ -10,14 +10,13 @@ import { IBeverage } from "../models";
 import { BeverageStatus } from "../models/beverage.model";
 import { BeverageTypes } from "../../modules/consumer/components/beverage/Beverage";
 import { __ } from "../utils/lib/i18n";
-import { TEST_QR_0, TEST_QR_1, TEST_QR_2, TEST_QR_3, TEST_QR_4, TEST_QR_5, TEST_QR_6, TEST_QR_7 } from "../utils/APIMock";
 
 export interface ConsumerInterface {
   isLogged: boolean;
   dataConsumer: IConsumerModel;
   consumerBeverages: IConsumerBeverage[];
   resetConsumer: (noPushAttractor?: boolean) => void;
-  startScanning: () => Observable<boolean>;
+  startScanning: () => Observable<IdentificationConsumerStatus>;
   stopScanning: () => Observable<any>;
   updateConsumerBeverages: () => void;
 }
@@ -52,7 +51,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     this.index_qr = -1;
     this.state = {
       isLogged: false,
-      dataConsumer: null,
+      dataConsumer: {},
       consumerBeverages: []
     };
   }
@@ -63,7 +62,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
   resetConsumer = (noPushAttractor?: boolean) => {
     this.setState({
       isLogged: false,
-      dataConsumer: null,
+      dataConsumer: {},
       consumerBeverages: []
     });
     if (!noPushAttractor) {
@@ -124,31 +123,29 @@ class ConsumerStoreComponent extends React.Component<any, any> {
       dataConsumer.favorites[2]
     ];
 
-    console.log("dataConsumer.favorites", dataConsumer.favorites);
-
-    console.log("favorites", favorites);
-    console.log("lastPour", lastPour);
-
     let lastPourSame: boolean = false;
     favorites.forEach(favorite => {
       if (favorite === undefined) return;
-        favorite.$types = [BeverageTypes.Favorite];
 
-      if (!lastPour.flavors[0]) return;
-      if (favorite.flavors[0].product.flavorUpc === lastPour.flavors[0].product.flavorUpc) {
+      favorite.$types = [BeverageTypes.Favorite];
+
+      if (!lastPour.flavors[0]) return; // || lastPourSame ??
+
+      if (
+        favorite.flavors[0].product.flavorUpc === lastPour.flavors[0].product.flavorUpc &&
+        favorite.flavors[0].flavorStrength === lastPour.flavors[0].flavorStrength &&
+        favorite.carbLvl === lastPour.carbLvl &&
+        favorite.coldLvl === lastPour.coldLvl
+      ) {
         lastPourSame = true;
         favorite.$types.push(BeverageTypes.LastPour);
       }
     });
 
-    console.log("lastPourSame", lastPourSame);
     let consumerBeverages: IConsumerBeverage[] = [];
 
     const validFavorites = favorites.filter(filter => filter);
     const lengthValidFavorites = validFavorites.length;
-
-    console.log("validFavorites", validFavorites);
-    console.log("lengthValidFavorites", lengthValidFavorites);
 
     if (lastPourSame) {
       if (lengthValidFavorites === 0) {
@@ -173,13 +170,6 @@ class ConsumerStoreComponent extends React.Component<any, any> {
         consumerBeverages = favorites;
       }
     }
-
-    // } else {
-    //   const infoBeverage = this.infoBeverages[index];
-    //   infoBeverage.$type = BeverageTypes.Info;
-    //   infoBeverage.$beverage = {};
-    //   return infoBeverage;
-    // }
 
     console.log("consumerBeverages", consumerBeverages);
 
@@ -212,73 +202,61 @@ class ConsumerStoreComponent extends React.Component<any, any> {
       map((data: any) => data.value),
     );
 
-    // ____ MOCK
-    const mock = () => {
-      switch (this.index_qr) {
-        case 0:
-          return TEST_QR_0;
-          break;
-        case 1:
-          return TEST_QR_1;
-          break;
-        case 2:
-          return TEST_QR_2;
-          break;
-        case 3:
-          return TEST_QR_3;
-          break;
-        case 4:
-          return TEST_QR_4;
-          break;
-        case 5:
-          return TEST_QR_5;
-          break;
-        case 6:
-          return TEST_QR_6;
-          break;
-        case 7:
-          return TEST_QR_7;
-          break;
-      }
-    };
     if (type === SOCKET_CONSUMER.SERVER) {
       this.index_qr = this.index_qr + 1;
     }
-    return socketConsumer$; /* of(mock()); */ // MOCK //
+    return socketConsumer$;
   }
 
   /* ==== SCANNING ==== */
   /* ======================================== */
 
-  startScanning = (): Observable<boolean> => {
+  startScanning = (): Observable<IdentificationConsumerStatus> => {
 
-    const loadDataFromQr: Observable<true | false> =
+    const loadDataFromQr: Observable<IdentificationConsumerStatus> =
       mediumLevel.config.startQrCamera()
       .pipe(
         mergeMap(() => this.getDataFromSocket(SOCKET_CONSUMER.QR)),
         tap(() => this.stopScanning().subscribe()),
         map((data: IConsumerModel) => {
-          console.log("ConsumerBeverages", data);
-          const isLogged = data.identification_type !== IdentificationConsumerTypes.NoAuth;
+          const { identification_type } = data;
+          if (
+            identification_type === IdentificationConsumerTypes.Vessel ||
+            identification_type === IdentificationConsumerTypes.VesselSticker ||
+            identification_type === IdentificationConsumerTypes.Phone // => TO IMPROVE
+          ) {
+            return IdentificationConsumerStatus.Loading;
+          }
+          if (identification_type === IdentificationConsumerTypes.NoAuth) {
+            return IdentificationConsumerStatus.ErrorQr;
+          }
+
           this.setState({
-            isLogged: isLogged,
+            isLogged: true,
             dataConsumer: data,
             consumerBeverages: this.getConsumerBeverages(data)
           });
-          return isLogged;
+          return IdentificationConsumerStatus.Complete;
         }),
       );
 
-    const loadDataFromServer: Observable<null> =
+    const loadDataFromServer: Observable<IdentificationConsumerStatus> =
       this.getDataFromSocket(SOCKET_CONSUMER.SERVER)
       .pipe(
         map((data: IConsumerModel) => {
+          if (data === null) {
+            return IdentificationConsumerStatus.Null;
+          }
+          if (data.error) {
+            return data.error;
+          }
           this.setState({
+            isLogged: true,
             dataConsumer: data,
             consumerBeverages: this.getConsumerBeverages(data)
           });
-          return null;
-        }),
+          return IdentificationConsumerStatus.CompleteLoading;
+        })
       );
 
     return merge(loadDataFromQr, loadDataFromServer);

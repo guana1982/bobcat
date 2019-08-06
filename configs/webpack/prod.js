@@ -24,7 +24,7 @@ module.exports = merge(commonConfig, {
           warnings: false,
           ie8: false,
           compress: {
-            drop_console: true,
+            drop_console: false // true, => Temporarily disabled
           },
         },
       }),
@@ -44,7 +44,6 @@ module.exports = merge(commonConfig, {
     }),
     new CopyWebpackPlugin([
       { from: '../public', to: '' }
-    ]),
-    new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg)$/i })
+    ])
   ],
 });

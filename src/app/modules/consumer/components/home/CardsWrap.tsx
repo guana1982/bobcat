@@ -40,16 +40,6 @@ const CardsWrap_ = (props: CardsWrapProps) => {
       coords = coordsSliderClose[indexFavoritePouring_];
   }
 
-  // React.useEffect(() => {
-  //   if (presentSlide && fullMode) {
-  //     coordsInfoCard = coordsInfoCard.map(coords => {
-  //       coords.card1.left += 30;
-  //       coords.card2.right -= 30;
-  //       return coords;
-  //     });
-  //   }
-  // }, [presentSlide, fullMode]);
-
   return (
     <div className={className}>
       {presentSlide ?

@@ -2,25 +2,23 @@ import * as React from "react";
 import styled from "styled-components";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
-import { Beverages, Pages, AlarmsOutOfStock, LEVELS, CONSUMER_TIMER } from "@utils/constants";
+import { Beverages, Pages, LEVELS, MESSAGE_STOP_EROGATION, TIMER_LONG, TIMER_SHORT } from "@utils/constants";
 import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
 import { Subscription } from "rxjs";
 import { ConfigContext } from "@containers/config.container";
-import { TimerContext } from "@containers/timer.container";
+import { TimerContext, StatusTimer } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { BeverageTypes } from "@modules/consumer/components/beverage/Beverage";
-import { AccessibilityContext } from "@core/containers";
+import { AccessibilityContext, PaymentContext, PaymentStatus, PaymentStatusPour } from "@core/containers";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { TIMEOUT_ATTRACTOR } from "./Attractor";
 import { Slide, _sizeSlideFull, _sizeSlide } from "../components/home/Slide";
 import { ChoiceBeverage } from "../components/home/ChoiceBeverage";
 import { CardsWrap } from "../components/home/CardsWrap";
 import { CustomizeBeverage } from "../components/home/CustomizeBeverage";
 import { Grid } from "../components/common/Grid";
 import { SegmentButtonProps } from "../components/common/SegmentButton";
-import { OutOfOrder } from "../components/home/OutOfOrder";
-import Gesture from "@core/components/Menu/Gesture";
+import { first, tap } from "rxjs/operators";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -34,12 +32,42 @@ export const HomeWrap = styled.div`
   left: ${props => sizeHome(props)};
   top: 0;
   ${Grid} {
-    padding-top: 5.5rem;
+    padding-top: 78px;
+  }
+  #payment-status {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    bottom: 1.5rem;
+    right: 0;
+    font-size: 16px;
+    font-family: NeuzeitGro-Bol;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 1.28px;
+    color: ${props => props.theme.slateGrey};
   }
 `;
 
 export const HomeContent = styled.section`
   background-image: ${props => props.theme.backgroundLight};
+  &.slide-is-open {
+    #logout-btn {
+      z-index: 5;
+      transition-delay: 400ms;
+      right: -22px;
+    }
+  }
+  &:not(.slide-is-open) {
+    #logout-btn {
+      transition-delay: 100ms;
+      #text {
+        transition-delay: 100ms;
+      }
+    }
+  }
 `;
 
 /* ==== PAGE ==== */
@@ -51,7 +79,7 @@ interface HomeProps {
 
 export interface HomeState {
   isSparkling: boolean;
-  beverageSelected: number;
+  beverageSelectedId: number;
   indexBeverageForLongPressPour_: number;
   idBeveragePouring_: number;
   indexFavoritePouring_: number;
@@ -63,15 +91,15 @@ export interface HomeState {
 enum StatusEndSession {
   Start = "start",
   Finish = "finish",
-  FinishForce = "finishForce",
-  OutOfStock = "outOfStock"
+  FinishForce = "finishForce"
 }
 
-let socketAlarms_: Subscription;
-let timer_: Subscription;
-let endSession_: Subscription;
-
 export const Home = (props: HomeProps) => {
+
+  const socketAlarms_ =  React.useRef<Subscription>(null);
+  const socketPayment_ =  React.useRef<Subscription>(null);
+  const timer_ =  React.useRef<Subscription>(null);
+  const endSession_ =  React.useRef<Subscription>(null);
 
   const levels = LEVELS;
   const types = [
@@ -88,7 +116,7 @@ export const Home = (props: HomeProps) => {
 
   const [state, setState] = React.useState<HomeState>({
     isSparkling: false,
-    beverageSelected: null,
+    beverageSelectedId: null,
     indexBeverageForLongPressPour_: null,
     idBeveragePouring_: null,
     indexFavoritePouring_: null,
@@ -96,25 +124,30 @@ export const Home = (props: HomeProps) => {
     beverageConfig: {
       flavor_level: null,
       carbonation_level: null,
-      temperature_level: levels.temperature[2].value,
+      temperature_level: null,
       b_complex: false,
-      antioxidants: false
+      antioxidants: false,
+      isConsumerBeverage: false
     }
   });
 
+
   const [nutritionFacts, setNutritionFacts] = React.useState(false);
   const [slideOpen, setSlideOpen] = React.useState(false);
-  const [blur, setBlur] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
-  const [endSession, setEndSession] = React.useState<"start" | "finish" | "finishForce" | "outOfStock">(null);
+  const [endSession, setEndSession] = React.useState<StatusEndSession | MESSAGE_STOP_EROGATION>(null);
 
   const alertConsumer = React.useContext(AlertContext);
   const configConsumer = React.useContext(ConfigContext);
+  const paymentConsumer = React.useContext(PaymentContext);
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
 
+  const beverages = React.useMemo(() => configConsumer.beverages[state.isSparkling ? "sparkling" : "still"], [state.isSparkling]);
+  const { allBeverages } = configConsumer;
+
   //  ==== TIMER ====>
-  const { timerFull$, timerStop, restartBrightness$ } = timerConsumer;
+  const { timerBoot$ } = timerConsumer;
   const { isLogged } = consumerConsumer;
 
   function alertIsLogged(event) {
@@ -132,57 +165,49 @@ export const Home = (props: HomeProps) => {
     }
   }
 
-  const restartBrightness_ = () => {
-    timer_ = restartBrightness$
-    .subscribe(val => {
-      if (val === "timer_restart") {
-        startTimer_();
-      } else if (val === "proximity_stop") {
-        const event_ = () => consumerConsumer.resetConsumer();
-        alertIsLogged(event_);
-      }
-    });
-  };
-
   const startTimer_ = () => {
-    timer_ = timerFull$.subscribe(
+    resetTimer_();
+    timer_.current = timerBoot$(consumerBeverages.length > 0 || paymentModeEnabled ? TIMER_SHORT : TIMER_LONG, true)
+    .subscribe(
       val => {
-        if (val === "tap_detect") {
-          startTimer_();
-        } else if (val === "proximity_stop") {
+        console.log("=== startTimer_ ===");
+        console.log({val});
+        console.log("=== startTimer_ ===");
+        if (val === StatusTimer.TimerInactive || val === StatusTimer.ProximityExit) {
           const event_ = () => consumerConsumer.resetConsumer();
           alertIsLogged(event_);
-        } else if (val === "timer_stop") {
+        } else if (val === StatusTimer.TimerActive) {
           const event_ = () => {
+            consumerConsumer.resetConsumer(true);
             handleType(false);
             setNutritionFacts(false);
             resetBeverage();
-            restartBrightness_();
           };
           alertIsLogged(event_);
         }
       }
     );
   };
-
   const resetTimer_ = () => {
-    timer_.unsubscribe();
+    if (timer_.current)
+      timer_.current.unsubscribe();
   };
   //  <=== TIMER ====
 
   React.useEffect(() => {
-    const stopVideo_ = setTimeout(() => {
-      mediumLevel.config.stopVideo().subscribe();
-    }, TIMEOUT_ATTRACTOR); // <= STOP ATTRACTOR
-    if (timerStop) {
-      restartBrightness_();
-    } else {
-      startTimer_();
-    }
+    startTimer_();
     return () => {
-      clearTimeout(stopVideo_); // <= STOP ATTRACTOR
       configConsumer.setAuthService(false);
       resetTimer_();
+
+      if (socketAlarms_.current)
+        socketAlarms_.current.unsubscribe();
+      if (timer_.current)
+        timer_.current.unsubscribe();
+      if (endSession_.current)
+        endSession_.current.unsubscribe();
+
+      alertConsumer.hide();
     };
   }, []);
 
@@ -192,49 +217,108 @@ export const Home = (props: HomeProps) => {
 
   React.useEffect(() => {
     changeStateLayout({
-      beverageSelected: state.beverageSelected,
+      beverageSelected: state.beverageSelectedId,
       nutritionFacts: nutritionFacts,
       slideOpen: slideOpen,
-      buttonGroupSelected: null
+      fullMode: fullMode,
+      buttonGroupSelected: null,
+      endSession: endSession
     });
-  }, [state.beverageSelected, slideOpen, nutritionFacts]);
+  }, [state.beverageSelectedId, slideOpen, nutritionFacts, endSession]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
   /* ==== ALARMS ==== */
   /* ======================================== */
 
-  const alarmDetect = (data) => {
-    if (!(data.value === true && data.name in AlarmsOutOfStock)) { // Object.values(AlarmsOutOfStock).includes(data.name)
-      return null;
-    }
-    const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
-    if (beverageSelected != null || idBeveragePouring_ != null || indexFavoritePouring_ != null) {
-      resetBeverage();
-      setEndSession(StatusEndSession.OutOfStock);
-    }
+  const { alarmSuper_, alarmSparkling_, alarmConnectivity_, alarmWebcam_, alarmADAPanel_, alarmPayment_ } = configConsumer.statusAlarms;
+
+  const showAlarmWebcam = () => {
+    alertConsumer.show({
+      type: AlertTypes.ErrorWebcam,
+      subTitle: true,
+      timeout: true,
+      onDismiss: () => console.log("Close showAlarmWebcam")
+    });
   };
 
-  React.useEffect(() => {
-    socketAlarms_ = configConsumer.socketAlarms$.subscribe(data => alarmDetect(data));
-      return () => {
-        socketAlarms_.unsubscribe();
-      };
-    },
-    [state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_] // => TO IMPROVE
-  );
+  // const showAlarmADAPanel = () => {
+  //   alertConsumer.show({
+  //     type: AlertTypes.ErrorADAPanelDown,
+  //     subTitle: true,
+  //     timeout: true,
+  //     onDismiss: () => console.log(null)
+  //   });
+  // };
+
+  /* ==== PAYMENT ==== */
+  /* ======================================== */
+
+  const { needToPay, canPour, socketPayment$, restartPayment, promotionEnabled, paymentModeEnabled } = paymentConsumer;
+
+  const showPayment = (call_?: any) => {
+    setDisabled(true);
+    alertConsumer.show({
+      type: AlertTypes.NeedPayment,
+      img: "img/pay.svg",
+      timeout: false,
+      transparent: true,
+      onDismiss: () => {
+        setDisabled(false);
+        call_();
+      }
+    });
+  };
+
+  const checkPayment = () => {
+    let needToPay_ = false;
+    socketPayment_.current = socketPayment$.current
+    .subscribe(
+      status => {
+        if (!(status in PaymentStatusPour)) {
+          if (needToPay_ === false) {
+            showPayment(() => socketPayment_.current.unsubscribe());
+            needToPay_ = true;
+          }
+        } else if (status in PaymentStatusPour) {
+          if (socketPayment_.current) {
+            setDisabled(false);
+            alertConsumer.hide();
+            socketPayment_.current.unsubscribe();
+          }
+        } else if (status === PaymentStatus.Declined) {
+          // console.log("ERROR => PaymentStatus.Declined");
+          // setDisabled(false);
+          // socketPayment_.current.unsubscribe();
+        }
+      }
+    );
+  };
 
   /* ==== BEVERAGE ==== */
   /* ======================================== */
 
   const selectBeverage = (beverage: IBeverage) => {
-    const { beverages } = configConsumer;
+    const needToPay_ = needToPay(beverage);
+    if (needToPay_ && !promotionEnabled) {
+      if (alarmPayment_) {
+        alertConsumer.show({
+          type: AlertTypes.ErrorPaymentDown,
+          img: "img/payment_system_down.png",
+          subTitle: true,
+          timeout: true,
+          onDismiss: () => {}
+        });
+        return;
+      }
+    }
+
     handleType(state.isSparkling);
     setState(prevState => ({
       ...prevState,
-      beverageSelected: beverages.indexOf(beverage),
+      beverageSelectedId: beverage.beverage_id,
       beverageConfig: {
         ...prevState.beverageConfig,
-        flavor_level: beverage.beverage_type !== Beverages.Plain ? levels.flavor[0].value : null,
+        flavor_level: levels.flavor[1].value,
         b_complex: false,
         antioxidants: false
       }
@@ -242,14 +326,21 @@ export const Home = (props: HomeProps) => {
   };
 
   const getBeverageSelected = (): IBeverage => {
-    const { beverages } = configConsumer;
-    // console.log(beverages);
-    return beverages ? beverages[state.beverageSelected] : null;
+    const { beverageSelectedId } = state;
+
+    let beverageSelectedId_ = beverageSelectedId;
+
+    /* === STILL & SODA WATER ===> */
+    if (state.isSparkling && beverageSelectedId === 9)
+      beverageSelectedId_ = 10;
+    else if (!state.isSparkling && beverageSelectedId === 10)
+      beverageSelectedId_ = 9;
+    /* <=== STILL & SODA WATER === */
+
+    return allBeverages ? allBeverages.find(beverage => beverage.beverage_id ===  beverageSelectedId_) : null;
   };
 
   const getBeverageColorOnLongPressPour = (): string => {
-    const { beverages } = configConsumer;
-
     let color: string;
 
     if (state.indexBeverageForLongPressPour_ !== null && state.indexBeverageForLongPressPour_ >= 0) {
@@ -265,6 +356,24 @@ export const Home = (props: HomeProps) => {
 
   const startPour = (beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig, indexFavorite?: number) => {
 
+    const needToPay_ = needToPay(beverageSelected || getBeverageSelected());
+    if (needToPay_ && !promotionEnabled) {
+      if (alarmPayment_) {
+        alertConsumer.show({
+          type: AlertTypes.ErrorPaymentDown,
+          img: "img/payment_system_down.png",
+          subTitle: true,
+          timeout: true,
+          onDismiss: () => {}
+        });
+        return;
+      }
+      if (!canPour()) {
+        checkPayment();
+        return;
+      }
+    }
+
     let bevSelected, bevConfig = null;
 
     const validFavorite = Boolean(indexFavorite !== null && indexFavorite >= 0);
@@ -277,49 +386,64 @@ export const Home = (props: HomeProps) => {
         idBeveragePouring_: !validFavorite ? bevSelected.beverage_id : null,
         indexFavoritePouring_: !validFavorite ? null : indexFavorite
       })); // <= Rapid mode
+      if (beverageConfig) {
+        bevConfig = beverageConfig;
+      } else {
+        bevConfig = {
+          carbonation_level: !isSparkling ? levels.noCarbonation[0].value : levels.carbonation[2].value,
+          temperature_level: levels.temperature[2].value,
+          flavor_level: levels.flavor[1].value
+        };
+      }
     } else {
       bevSelected = getBeverageSelected();
       setState({
         ...state,
         showCardsInfo: true
       }); // <= Slow mode
-    }
-
-    if (beverageConfig) {
-      bevConfig = beverageConfig;
-    } else {
       bevConfig = {...state.beverageConfig};
-      if (bevConfig.carbonation_level == null) {
-        bevConfig.carbonation_level = 0;
-      }
     }
 
     setEndSession(StatusEndSession.Start);
 
-    configConsumer.onStartPour(bevSelected, bevConfig).subscribe(); // => TEST MODE
+    const pour_ = configConsumer.onStartPour(bevSelected, bevConfig);
+
+    if (needToPay_ && !promotionEnabled) {
+      mediumLevel.payment.vendRrequest({ beverage_id: bevSelected.beverage_id })
+      .subscribe(
+        data => {
+          if (data.status === 0) {
+            pour_.subscribe();
+          } else {
+            console.log("ERROR => VendRrequest");
+          }
+        }
+      );
+    } else {
+      pour_.subscribe(); // => TEST MODE
+    }
   };
 
-  const stopPour = (forse?: boolean) => {
+  const stopPour = React.useCallback(() => {
     configConsumer.onStopPour().subscribe(); // => TEST MODE
-    // if (!forse)
-    //  setEndSession(StatusEndSession.Start);
-    if (endSession === StatusEndSession.Start)
-      startTimerEnd_();
-  };
+
+    if (!endSession_.current) {
+       startTimerEnd_();
+    } // if (endSession === StatusEndSession.Start)
+
+  }, [endSession]);
 
   /* ==== END POUR ==== */
   /* ======================================== */
 
   const startTimerEnd_ = () => {
     resetTimerEnd_();
-    endSession_ = timerFull$
+    endSession_.current = timerBoot$(consumerBeverages.length > 0 || paymentModeEnabled ? TIMER_SHORT : TIMER_LONG)
     .subscribe(
       val => {
-        if (val === "tap_detect") {
-          startTimerEnd_();
-        } else if (val === "timer_stop") {
+        if (val === StatusTimer.TimerActive) {
           setEndSession(StatusEndSession.Finish);
-        } else if (val === "proximity_stop") {
+        } else if (val === StatusTimer.TimerInactive || val === StatusTimer.ProximityExit) {
           setEndSession(StatusEndSession.FinishForce);
         }
       }
@@ -327,49 +451,72 @@ export const Home = (props: HomeProps) => {
   };
 
   const resetTimerEnd_ = () => {
-    if (endSession_)
-      endSession_.unsubscribe();
+    if (endSession_.current) {
+      endSession_.current.unsubscribe();
+      endSession_.current = null;
+    }
+  };
+
+  const detectStopErogation = () => {
+    const { socketStopErogation$ } = configConsumer;
+    return socketStopErogation$
+    .pipe(first())
+    .subscribe(
+      value => setEndSession(value)
+    );
+  };
+
+  const stopEndSession = (force?: boolean) => {
+    resetBeverage();
+    consumerConsumer.updateConsumerBeverages();
+    consumerConsumer.resetConsumer(!force);
+    if (!force) {
+      startTimer_();
+    }
   };
 
   React.useEffect(() => {
+    let socketStopErogation_: Subscription = null;
+
     if (endSession === StatusEndSession.Start) {
       resetTimer_();
-      // startTimerEnd_();
+      socketStopErogation_ = detectStopErogation();
     } else if (endSession === StatusEndSession.Finish) {
       alertConsumer.show({
         type: AlertTypes.EndBeverage,
         timeout: true,
-        onDismiss: () => {
-          resetBeverage();
-          consumerConsumer.resetConsumer(true);
-          startTimer_();
-        }
+        onDismiss: () => stopEndSession()
       });
     } else if (endSession === StatusEndSession.FinishForce) {
       alertConsumer.show({
         type: AlertTypes.EndBeverage,
         timeout: true,
-        onDismiss: () => {
-          resetBeverage();
-          consumerConsumer.resetConsumer();
-        }
+        onDismiss: () => stopEndSession(true)
       });
-    } else if (endSession === StatusEndSession.OutOfStock) {
+    } else if (endSession === MESSAGE_STOP_EROGATION.OUT_OF_SODA || endSession === MESSAGE_STOP_EROGATION.OUT_OF_STOCK || endSession === MESSAGE_STOP_EROGATION.EROGATION_LIMIT) {
+      const alertType_: any = `c_${endSession}`;
       alertConsumer.show({
-        type: AlertTypes.OutOfStock,
+        type: alertType_,
         timeout: true,
-        onDismiss: () => {
-          consumerConsumer.updateConsumerBeverages(); // => TO IMPROVE
-          consumerConsumer.resetConsumer(true);
-        }
+        onDismiss: () => stopEndSession()
+      });
+    } else if (endSession === MESSAGE_STOP_EROGATION.OUT_OF_ORDER) {
+      alertConsumer.show({
+        type: AlertTypes.OutOfOrder,
+        timeout: true,
+        onDismiss: () => stopEndSession(true)
       });
     }
 
     return () => {
       if (endSession === StatusEndSession.Start) {
+        handleType(false);
         resetTimerEnd_();
-        stopPour(true);
         mediumLevel.product.sessionEnded().subscribe();
+        restartPayment();
+        if (socketStopErogation_) {
+          socketStopErogation_.unsubscribe();
+        }
       }
     };
   }, [endSession]);
@@ -380,7 +527,7 @@ export const Home = (props: HomeProps) => {
   const resetBeverage = () => {
     setState(prevState => ({
       ...prevState,
-      beverageSelected: null,
+      beverageSelectedId: null,
       indexBeverageForLongPressPour_: null,
       indexFavoritePouring_: null,
       idBeveragePouring_: null,
@@ -394,24 +541,41 @@ export const Home = (props: HomeProps) => {
   const MAX_CONSUMER_BEVERAGE = 3;
   const validConsumerBeverage = consumerConsumer.consumerBeverages.filter(beverage => beverage.$types[0] !== BeverageTypes.Info);
   const lengthConsumerBeverages = validConsumerBeverage.length;
-  const fullMode = lengthConsumerBeverages === MAX_CONSUMER_BEVERAGE;
+  const fullModeCondition_ = lengthConsumerBeverages === MAX_CONSUMER_BEVERAGE;
+  const fullMode = fullModeCondition_ || alarmConnectivity_;
 
   React.useEffect(() => {
-    if (fullMode) {
-      handleSlide();
-    }
+    setTimeout(() => {
+      if (fullModeCondition_) {
+        handleSlide();
+      }
+    } , 200);
   }, [consumerConsumer.consumerBeverages]);
 
   const selectConsumerBeverage = (consumerBeverage: IConsumerBeverage) => {
-    const { beverages } = configConsumer;
+    const needToPay_ = needToPay(consumerBeverage.$beverage);
+    if (needToPay_ && !promotionEnabled) {
+      if (alarmPayment_) {
+        alertConsumer.show({
+          type: AlertTypes.ErrorPaymentDown,
+          img: "img/payment_system_down.png",
+          subTitle: true,
+          timeout: true,
+          onDismiss: () => {}
+        });
+        return;
+      }
+    }
+
     setState(prevState => ({
       ...prevState,
       isSparkling: consumerBeverage.$sparkling,
-      beverageSelected: beverages.indexOf(consumerBeverage.$beverage),
+      beverageSelectedId: consumerBeverage.$beverage.beverage_id,
       beverageConfig: {
         flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),
-        carbonation_level: consumerBeverage.$sparkling ? Number(consumerBeverage.carbLvl) : null,
+        carbonation_level: consumerBeverage.$sparkling ? Number(consumerBeverage.carbLvl) : 0,
         temperature_level: Number(consumerBeverage.coldLvl),
+        isConsumerBeverage: true
       }
     }));
   };
@@ -422,6 +586,7 @@ export const Home = (props: HomeProps) => {
       flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),
       carbonation_level: Number(consumerBeverage.carbLvl),
       temperature_level: Number(consumerBeverage.coldLvl),
+      isConsumerBeverage: true
     };
     startPour(beverageSelected, beverageConfig, index);
   };
@@ -435,25 +600,21 @@ export const Home = (props: HomeProps) => {
   /* ======================================== */
 
   const handleType = (value) => { // TRUE => isSparkling
-
-    const { alarms } = configConsumer;
-    const alarmSparkling_ = alarms.find(alarm => alarm.alarm_name === "press_co2" && alarm.alarm_enable === true);
-    if (value === true && alarmSparkling_ ) {
-      resetBeverage();
-      setBlur(true);
-      const evtSparkling_ = () => {
-        consumerConsumer.resetConsumer(true);
-        handleType(false);
-        setBlur(false);
-      };
-      alertConsumer.show({
-        type: AlertTypes.EndSparkling,
-        subTitle: true,
-        timeout: true,
-        transparent: true,
-        onConfirm: evtSparkling_,
-        onDismiss: evtSparkling_
-      });
+    if (beverageSelected && beverageSelected.beverage_id === 9 && value) {
+      console.log({beverageSelected, value});
+      const needToPay_ = needToPay(allBeverages[1]); // => TO IMPROVE
+      if (needToPay_ && !promotionEnabled) {
+        if (alarmPayment_) {
+          alertConsumer.show({
+            type: AlertTypes.ErrorPaymentDown,
+            img: "img/payment_system_down.png",
+            subTitle: true,
+            timeout: true,
+            onDismiss: () => {}
+          });
+          return;
+        }
+      }
     }
 
     setState(prevState => ({
@@ -461,8 +622,8 @@ export const Home = (props: HomeProps) => {
       isSparkling: value,
       beverageConfig: {
         ...prevState.beverageConfig,
-        carbonation_level: value ? levels.carbonation[2].value : null,
-        temperature_level:  levels.temperature[2].value // value ? levels.carbTemperature[0].value : levels.temperature[2].value
+        carbonation_level: value ? levels.carbonation[2].value : levels.noCarbonation[0].value,
+        temperature_level: value ? levels.temperature[2].value : levels.temperature[2].value
       }
     }));
   };
@@ -495,19 +656,28 @@ export const Home = (props: HomeProps) => {
   /* ==== ROUTING ==== */
   /* ======================================== */
 
+  let gestureInterval = false;
   const onGesture = (gestureType) => {
-    if (gestureType === "p")
-      configConsumer.setAuthService(true);
+    if (gestureType === "p") {
+      if (gestureInterval) {
+        return configConsumer.setAuthService(true);
+      }
+      gestureInterval = true;
+      setTimeout(() => gestureInterval = false, 5000);
+    }
   };
 
   const goToPrepay = () => {
+    if (alarmWebcam_) {
+      showAlarmWebcam();
+      return;
+    }
     props.history.push(Pages.Prepay);
   };
 
   /* ==== MAIN ==== */
   /* ======================================== */
 
-  const { beverages } = configConsumer;
   const { consumerBeverages } = consumerConsumer;
   const { isSparkling } = state;
   const presentSlide = consumerBeverages.length > 0;
@@ -522,20 +692,13 @@ export const Home = (props: HomeProps) => {
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
-  // return (
-  //   <HomeContent>
-  //     <Gesture onGesture={onGesture} />
-  //     <OutOfOrder />
-  //   </HomeContent>
-  // );
-
   return (
-    <HomeContent>
+    <HomeContent className={slideOpen ? "slide-is-open" : ""}>
       {presentSlide &&
         <Slide
           slideOpen={slideOpen}
           indexFavoritePouring_={state.indexFavoritePouring_}
-          beverageSelected={state.beverageSelected}
+          beverageSelected={state.beverageSelectedId}
           selectConsumerBeverage={selectConsumerBeverage}
           startConsumerPour={startConsumerPour}
           stopConsumerPour={stopConsumerPour}
@@ -544,21 +707,25 @@ export const Home = (props: HomeProps) => {
           handleDisabled={handleDisabled}
           disabled={disabledMode}
           nutritionFacts={nutritionFacts}
+          alarmConnectivity_={alarmConnectivity_}
         />
       }
       <HomeWrap isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={beverageIsSelected}>
         {beverages.length > 0 && (
           <ChoiceBeverage
+            beverages={beverages}
+            showPayment={showPayment}
+            beverageSelected={beverageSelected}
+            handleType={handleType}
             onGesture={onGesture}
             selectBeverage={selectBeverage}
             startPour={startPour}
             fullMode={fullMode}
             stopPour={stopPour}
-            blur={blur}
             goToPrepay={goToPrepay}
             idBeveragePouring_={state.idBeveragePouring_}
             isSparkling={state.isSparkling}
-            disabled={disabledMode} // || presentSlide && state.slideOpen
+            disabled={disabledMode}
             segmentButton={segmentButton} // => _SegmentButton
             handleNutritionFacts={handleNutritionFacts}
             handleDisabled={handleDisabled}
@@ -578,6 +745,7 @@ export const Home = (props: HomeProps) => {
       />
       {beverageSelected &&
         <CustomizeBeverage
+          handleType={handleType}
           levels={levels}
           isSparkling={isSparkling}
           slideOpen={slideOpen}
@@ -598,29 +766,3 @@ export const Home = (props: HomeProps) => {
   );
 
 };
-
-
-
-
-
-
-
-  /* ==== PROXIMITY SENSOR ==== */
-  /* ======================================== */
-
-  // const { socketAttractor$ } = configConsumer;
-  // React.useEffect(() => {
-  //   const { idBeveragePouring_, indexFavoritePouring_, beverageSelected } = state;
-  //   if (socketAttractor$ === undefined || consumerConsumer.isLogged || (beverageSelected != null || idBeveragePouring_ != null || indexFavoritePouring_ != null)) {
-  //     return () => null;
-  //   }
-  //   const socketAttractor_ = socketAttractor$
-  //   .subscribe(value => {
-  //     if (value === MESSAGE_START_CAMERA) {
-  //       goToPrepay();
-  //     }
-  //   });
-  //   return () => {
-  //     socketAttractor_.unsubscribe();
-  //   };
-  // }, [socketAttractor$, state.beverageSelected, state.idBeveragePouring_, state.indexFavoritePouring_, consumerConsumer.isLogged]); // => TO IMPROVE

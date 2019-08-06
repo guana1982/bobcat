@@ -49,19 +49,39 @@ export enum IdentificationConsumerTypes {
   VesselSticker = "1",
   Vessel = "2",
   Phone = "3",
-  // PromoCode = 4
+    // PromoCode = 4
+}
+
+export enum IdentificationConsumerStatus {
+  // SOCKET_CONSUMER.QR
+  ErrorQr = "error_qr",
+  Complete = "complete",
+  Loading = "loading",
+  // SOCKET_CONSUMER.SERVER
+  NotAssociatedBottle = "not_associated_bottle_id",
+  NotAssociatedConsumer = "not_associated_consumer_id",
+  CompleteLoading = "complete-loading",
+  ErrorLoading = "error-loading",
+  Null = "null"
+}
+
+export enum IPromotionTypes {
+  NoPour = "KO",
+  Pour = "OK"
 }
 
 export interface IConsumerModel {
   identification_type?: IdentificationConsumerTypes;
   pack_id?: string;
-  consumer_id: string;
-  consumer_nick: string;
-  saveBottles: number;
-  currHydraLvl: number;
-  hydraGoal: number;
-  favorites: IConsumerBeverage[];
-  lastPour: IConsumerBeverage;
+  consumer_id?: string;
+  consumer_nick?: string;
+  saveBottles?: number;
+  currHydraLvl?: number;
+  hydraGoal?: number;
+  favorites?: IConsumerBeverage[];
+  lastPour?: IConsumerBeverage;
+  error?: any;
+  pour?: IPromotionTypes;
 }
 
 export interface ILevelsModel {
@@ -120,4 +140,49 @@ interface Action {
   label_id: string;
   group_label_id: string;
   id: string;
+}
+
+/* ==== MASTER MENU ==== */
+/* ======================================== */
+
+export interface IMasterElement {
+  type: string;
+  value: any;
+  permission: string;
+  id: string;
+  label_id: string;
+  default_value: any;
+  group_label_id: string;
+  unit: string;
+}
+
+export interface IMasterGroup {
+  label_id: string;
+  elements: IMasterElement[];
+}
+
+export interface IMasterMenu {
+  type: string;
+  elements: IMasterElement[];
+  structure_: IMasterGroup[];
+  form_: any;
+  save: { label_id: string };
+  id: string;
+  label_id: string;
+}
+
+export interface ITestMenu {
+  structure_: any;
+}
+
+/* ==== ALARMS ==== */
+/* ======================================== */
+
+export interface IStatusAlarms {
+  alarmSuper_: boolean;
+  alarmSparkling_: boolean;
+  alarmConnectivity_: boolean;
+  alarmWebcam_: boolean;
+  alarmADAPanel_: boolean;
+  alarmPayment_: boolean;
 }

@@ -1,18 +1,22 @@
 import * as React from "react";
 import { map, tap, first, mergeMap, debounceTime, switchMap } from "rxjs/operators";
 import mediumLevel from "../utils/MediumLevel";
-import { forkJoin, of, Observable, Subject, combineLatest, interval, timer } from "rxjs";
+import { forkJoin, of, Observable, Subject, combineLatest, interval, timer, BehaviorSubject, merge } from "rxjs";
 import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { setLangDict } from "../utils/lib/i18n";
 import { withRouter } from "react-router-dom";
 import { IBeverage, ISocket, IBeverageConfig, IAlarm } from "../models";
-import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages } from "../utils/constants";
+import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, Pages, Beverages, CONSUMER_ALARM, SOCKET_UPDATE, SOCKET_STOP_EROGATION, MESSAGE_STOP_EROGATION, SOCKET_SUSTAINABILITY } from "../utils/constants";
 import { VendorConfig } from "@core/models/vendor.model";
 import { MTypes } from "@modules/service/components/common/Button";
+import { IStatusAlarms } from "@core/utils/APIModel";
 
-const mergeById = ([t, s, l]) => {
-  return t.map((p, i) => {
-    return Object.assign({}, p, s.find(q => p.beverage_id === q.beverage_id), {$lock: l[p.line_id - 1]});
+const mergeById = ([bevs, brands, locks, prices]) => {
+  return bevs.map((bev, i) => {
+    const brand_ = brands.find(b => bev.beverage_id === b.beverage_id);
+    const lock_ = {$lock: locks[bev.line_id - 1]};
+    const price_ = prices.products.filter(p => (Number(bev.beverage_id) === Number(p.upc))).map(p => { return { $price: Number(p.price) }; })[0] || { $price: 0 };
+    return Object.assign({}, bev, brand_, lock_, price_);
   });
 };
 
@@ -24,13 +28,20 @@ export interface ConfigInterface {
   vendorConfig: VendorConfig;
   menuList: any;
   ws: WebSocketSubject<ISocket>;
-  socketAlarms$: Observable<any>;
-  socketAttractor$: Observable<any>;
+  socketAlarms$: Subject<any>;
+  socketAttractor$: Subject<any>;
+  socketUpdate$: Subject<any>;
+  socketStopErogation$: Subject<MESSAGE_STOP_EROGATION>;
+  allAlarms: IAlarm[];
+  statusAlarms: IStatusAlarms;
   alarms: IAlarm[];
   allBeverages: IBeverage[];
-  beverages: IBeverage[];
+  beverages: {
+    still: IBeverage[],
+    sparkling: IBeverage[]
+  };
   isPouring: boolean;
-  sustainabilityData: { saved_bottle_year?: string, saved_bottle_day?: string };
+  socketSustainability$: BehaviorSubject<{ saved_bottle_year: string, saved_bottle_day: string }>;
   onStartPour: (beverage: IBeverage, config: IBeverageConfig) => Observable<any>;
   onStopPour: () => Observable<any>;
 }
@@ -45,8 +56,12 @@ class ConfigStoreComponent extends React.Component<any, any> {
   menuList: any;
   setBeverages: Observable<any>;
   setVendorConfig: Observable<any>;
-  socketAttractor$: Observable<any>;
-  socketAlarms$: Observable<any>;
+  socketAlarms$ = new Subject<any>();
+  socketAttractor$ = new Subject<any>();
+  socketStopErogation$ = new Subject<MESSAGE_STOP_EROGATION>();
+  socketUpdate$ = new BehaviorSubject<any>({});
+  socketSustainability$ = new BehaviorSubject({ saved_bottle_year: "", saved_bottle_day: "" });
+  isPouring: boolean = false;
 
   constructor(props) {
     super(props);
@@ -55,7 +70,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ======================================== */
 
     const ws = webSocket({
-      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://93.55.118.44:5901", // "ws://93.55.118.44:5901",
+      url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" : "ws://192.168.188.226:5901", // "ws://93.55.118.44:5901",
       deserializer: data => {
         try {
           return JSON.parse(data.data);
@@ -65,31 +80,6 @@ class ConfigStoreComponent extends React.Component<any, any> {
       }
     });
 
-    /* ==== ATTRACTOR SOCKET ==== */
-    /* ======================================== */
-
-    const socketAttractor$ = ws
-    .multiplex(
-      () => console.info(`Start => ${SOCKET_ATTRACTOR}`),
-      () => console.info(`End => ${SOCKET_ATTRACTOR}`),
-      (data) => data && data.message_type === SOCKET_ATTRACTOR
-    ).pipe(map((data: any) => data.value));
-
-    // socketAttractor$
-    // .subscribe(value => {
-    //   const { pathname } = this.props.location;
-    //   if (pathname !== Pages.Attractor && pathname !== Pages.Home)
-    //     return;
-
-    //   let page = "";
-    //   if (value === MESSAGE_STOP_VIDEO)
-    //     page = Pages.Home;
-    //   else if (value === MESSAGE_START_CAMERA)
-    //     page = Pages.Prepay;
-
-    //   this.props.history.push(page);
-    // });
-
     /* ==== STATE ==== */
     /* ======================================== */
 
@@ -97,15 +87,24 @@ class ConfigStoreComponent extends React.Component<any, any> {
       authService: false,
       vendorConfig: {},
       ws: ws,
-      socketAttractor$: socketAttractor$,
-      beverages: [],
+      allBeverages: [],
+      beverages: {
+        still: [],
+        sparkling: []
+      },
+      allAlarms: [],
+      statusAlarms: {
+        alarmSuper_: false,
+        alarmSparkling_: false,
+        alarmConnectivity_: false,
+        alarmWebcam_: false,
+        alarmADAPanel_: false,
+        alarmPayment_: false
+      },
       alarms: [],
-      isPouring: false,
-      sustainabilityData: { saved_bottle_year: "", saved_bottle_day: "" }
     };
 
     this.setAuthService = this.setAuthService.bind(this);
-
   }
 
   componentDidMount() {
@@ -122,24 +121,98 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
     socketTest$.subscribe(data => console.log("SOCKET", data));
 
-    /* ==== POLLING SUSTAINABILITY DATA ==== */
+    /* ==== SUSTAINABILITY DATA SOCKET ==== */
     /* ======================================== */
 
-    const pollIntervalSustainability = 6000 * 60;
-    timer(0, pollIntervalSustainability)
-      .pipe(
-        switchMap(() => mediumLevel.product.sustainabilityData())
-      ).subscribe(data => {
-        this.setState({sustainabilityData: data});
-      });
+    const socketSustainability$ = this.state.ws
+    .multiplex(
+      () => console.info(`Start => ${SOCKET_SUSTAINABILITY}`),
+      () => console.info(`End => ${SOCKET_SUSTAINABILITY}`),
+      (data) => data && data.message_type === SOCKET_SUSTAINABILITY
+    )
+    .pipe(
+      map((data: any) => data.value)
+    );
+
+    merge(
+      mediumLevel.product.sustainabilityData(),
+      socketSustainability$
+    )
+    .subscribe(data => {
+      this.socketSustainability$.next(data);
+    });
+
+    /* ==== UPDATE SOCKET ==== */
+    /* ======================================== */
+
+    const socketUpdate$ = this.state.ws
+    .multiplex(
+      () => console.info(`Start => ${SOCKET_UPDATE}`),
+      () => console.info(`End => ${SOCKET_UPDATE}`),
+      (data) => data && data.message_type === SOCKET_UPDATE
+    )
+    .pipe(
+      map((data: any) => data.value)
+    );
+
+    socketUpdate$
+    .pipe(
+      tap(value => this.socketUpdate$.next(value))
+    )
+    .subscribe(
+      value => {
+        if (value.percentage === 0) {
+          this.props.history.push(Pages.Update);
+        }
+      }
+    );
+
+    /* ==== STOP EROGATION SOCKET ==== */
+    /* ======================================== */
+
+    this.socketStopErogation$ = this.state.ws
+    .multiplex(
+      () => console.info(`Start => ${SOCKET_STOP_EROGATION}`),
+      () => console.info(`End => ${SOCKET_STOP_EROGATION}`),
+      (data) => data && data.message_type === SOCKET_STOP_EROGATION
+    )
+    .pipe(
+      map((data: any) => data.value)
+    );
+
+    /* ==== ATTRACTOR SOCKET ==== */
+    /* ======================================== */
+
+    const socketAttractor$ = this.state.ws
+    .multiplex(
+      () => console.info(`Start => ${SOCKET_ATTRACTOR}`),
+      () => console.info(`End => ${SOCKET_ATTRACTOR}`),
+      (data) => data && data.message_type === SOCKET_ATTRACTOR
+    )
+    .pipe(
+      map((data: any) => data.value)
+    );
+
+    socketAttractor$
+    .pipe(
+      tap(value => this.socketAttractor$.next(value))
+    )
+    .subscribe();
 
     /* ==== ALARM SOCKET ==== */
     /* ======================================== */
 
-    const setAlarms = mediumLevel.alarm.getAlarms()
+    const socketAlarms$ = this.state.ws
+    .multiplex(
+      () => console.info(`Start => ${SOCKET_ALARM}`),
+      () => console.info(`End => ${SOCKET_ALARM}`),
+      (data) => data && (data.message_type === SOCKET_ALARM || data.message_type === CONSUMER_ALARM)
+    )
+    .pipe(debounceTime(250));
+
+    const setAlarms = mediumLevel.alarm.getAlarms() // of(Alarms_)
     .pipe(
       map(data => data && data.elements || []),
-      map((alarms: IAlarm[]) => alarms.filter(alarm => alarm.alarm_state)),
       map(alarms => {
         return alarms.map(alarm => {
           if (alarm.alarm_state) {
@@ -156,55 +229,53 @@ class ConfigStoreComponent extends React.Component<any, any> {
       }),
       tap((alarms: IAlarm[]) => {
         console.log("ALARMS", alarms);
-        this.setState({alarms: alarms});
+        const enabledAlarms_ = alarms.filter(alarm => alarm.alarm_state);
+        const statusAlarms_: IStatusAlarms = {
+          alarmSuper_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_category === "super_alert" && alarm.alarm_enable === true)),
+          alarmSparkling_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "press_co2" && alarm.alarm_enable === true)),
+          alarmConnectivity_: false, // Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "mqtt" && alarm.alarm_enable === true)),
+          alarmWebcam_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "webcam" && alarm.alarm_enable === true)),
+          alarmADAPanel_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "ada_panel" && alarm.alarm_enable === true)),
+          alarmPayment_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "payment" && alarm.alarm_enable === true)),
+        };
+        this.setState({
+          allAlarms: alarms,
+          alarms: enabledAlarms_,
+          statusAlarms: statusAlarms_
+        });
       })
     );
 
-    this.socketAlarms$ = this.state.ws
-    .multiplex(
-      () => console.info(`Start => ${SOCKET_ALARM}`),
-      () => console.info(`End => ${SOCKET_ALARM}`),
-      (data) => data && data.message_type === SOCKET_ALARM
-    ).pipe(debounceTime(250));
-
     setAlarms
     .pipe(
-      mergeMap(() => this.socketAlarms$),
+      mergeMap(() => socketAlarms$),
+      tap(value => this.socketAlarms$.next(value)),
       mergeMap(() => setAlarms),
       mergeMap(() => this.setBeverages)
     )
     .subscribe();
 
-    // setTimeout(() => {
-    //   const half_length = Math.ceil(this.state.alarms.length / 2);
-    //   this.setState(prevState => ({
-    //     ...prevState,
-    //     alarms: prevState.alarms.splice(0, half_length)
-    //   }));
-    //   console.log(this.state.alarms);
-    // }, 30000);
-
     /* ==== GET CONFIG ==== */
     /* ======================================== */
-
-    this.setBeverages = combineLatest(mediumLevel.config.getBeverages(), mediumLevel.config.getBrands(), mediumLevel.line.getLockLines())
+    this.setBeverages = combineLatest(mediumLevel.config.getBeverages(), mediumLevel.config.getBrands(), mediumLevel.line.getLockLines(), mediumLevel.payment.getPrices())
     .pipe(
       map(mergeById),
-      tap(beverages => {
+      tap(allBeverages => {
+
         // -- FILTER & ORDER => BEVERAGES --
-        const beverages_ = beverages.filter(beverage => {
-          const { beverage_type, line_id, $lock } = beverage;
-          return beverage_type === Beverages.Plain || beverage_type === Beverages.Bev && line_id > 0 && !$lock;
+        const plain_ =  allBeverages.filter(beverage => beverage.beverage_type === Beverages.Plain)[0];
+        const soda_ = allBeverages.filter(beverage => beverage.beverage_type === Beverages.Soda)[0];
+        const beverages_ = allBeverages.filter(beverage => {
+          const { beverage_type, line_id } = beverage;
+          return beverage_type === Beverages.Bev && line_id > 0;
         });
-        beverages_.sort((a, b) => {
-          if (a.beverage_type === Beverages.Plain) return -1; else if (b.beverage_type === Beverages.Plain) return 1;
-          return a.line_id - b.line_id;
-        });
-        console.log("BEVERAGES_", beverages);
-        this.setState({
-          allBeverages: beverages,
-          beverages: beverages_
-        });
+
+        const beveragesObj = {
+          still: [plain_, ...beverages_],
+          sparkling: [soda_, ...beverages_]
+        };
+
+        this.setState({ allBeverages: allBeverages, beverages: beveragesObj });
       })
     );
 
@@ -229,26 +300,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
         langDict
       ] = res;
 
-      const otherValuesLang = {
-        c_make_impact: "MAKE AN IMPACT",
-        c_success: "...Refreshment is on the way",
-        c_error: "SOMETHING WENT WRONG",
-        c_out_of_stock: "WE’RE OUT OF THIS FLAVOR AT THE MOMENT",
-        c_end_session: "THANK YOU",
-
-        c_you_helped_eliminate: "You’ve helped eliminate",
-        c_eliminated_bottle_size: "16-oz plastic bottles",
-        c_you_make_impact: "YOU'RE MAKING AN IMPACT",
-        c_good_job: "GOOD JOB",
-        c_keep_it_going: "KEEP IT GOING",
-        c_keep_drinking: "KEEP DRINKING",
-        c_amazing: "AMAZING",
-        c_daily_goal: "to go to reach your daily goal of",
-        c_reached_daily_goal: "You've reached your daily hydration goal of",
-
-        c_end_sparkling: "We’re out of Sparkling at the moment",
-        c_end_sparkling_subtitle: "Please select a Still option"
-      };
+      const otherValuesLang = {};
       setLangDict({
         ...langDict.i18n,
         ...otherValuesLang
@@ -278,10 +330,11 @@ class ConfigStoreComponent extends React.Component<any, any> {
       temperature_level: config.temperature_level,
       pour_method: "free_flow"
     };
+
     return mediumLevel.dispense.pour(recipe)
     .pipe(
       first(),
-      tap(() => this.setState({isPouring: true}))
+      tap(() => this.isPouring = true)
     );
   }
 
@@ -289,7 +342,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     return mediumLevel.dispense.stop()
     .pipe(
       first(),
-      tap(() => this.setState({isPouring: false}))
+      tap(() => this.isPouring = false)
     );
   }
 
@@ -307,16 +360,20 @@ class ConfigStoreComponent extends React.Component<any, any> {
           setVendorConfig: this.setVendorConfig,
           vendorConfig: this.state.vendorConfig,
           allBeverages: this.state.allBeverages,
-          beverages: this.state.beverages,
           menuList: this.menuList,
+          allAlarms: this.state.allAlarms,
+          beverages: this.state.beverages,
+          statusAlarms: this.state.statusAlarms,
           alarms: this.state.alarms,
-          isPouring: this.state.isPouring,
+          isPouring: this.isPouring,
           socketAlarms$: this.socketAlarms$,
-          socketAttractor$: this.state.socketAttractor$,
+          socketAttractor$: this.socketAttractor$,
+          socketUpdate$: this.socketUpdate$,
+          socketStopErogation$: this.socketStopErogation$,
           ws: this.state.ws,
           onStartPour: this.onStartPour,
           onStopPour: this.onStopPour,
-          sustainabilityData: this.state.sustainabilityData
+          socketSustainability$: this.socketSustainability$
         }}
       >
         {children}

@@ -2,13 +2,14 @@ import * as React from "react";
 import styled from "styled-components";
 import { ModalContentProps, Box, Modal, ACTIONS_CONFIRM, ACTIONS_CLOSE, ModalContent } from "@modules/service/components/common/Modal";
 import { MButton, MTypes } from "@modules/service/components/common/Button";
-import { ILine, ServiceContext, ILineSave } from "@core/containers";
+import { ILine, ServiceContext, ILineSave, ConfigContext } from "@core/containers";
 import { __ } from "@core/utils/lib/i18n";
 import BeverageLogo from "@core/components/common/Logo";
 import { calcolaPerc } from "@core/utils/constants";
 import { MInput } from "../common/Input";
 import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
 import mediumLevel from "@core/utils/lib/mediumLevel";
+import { Calibration } from "../sections/Calibration";
 
 const LevelBeverage = styled.div`
   position: relative;
@@ -32,7 +33,7 @@ const LevelBeverage = styled.div`
 
 const LineContent = styled.div`
   &.large {
-    width: 750px;
+    width: 800px;
   }
   ${Box}#beverage-box {
     justify-content: center;
@@ -60,6 +61,7 @@ export const Line = (props: LineProps) => {
 
   const [bibReset, setBibReset] = React.useState<boolean>(false);
   const [priming, setPriming] = React.useState<boolean>(false);
+  const [calibration, setCalibration] = React.useState<boolean>(false);
   const [lineAssignment, setLineAssignment] = React.useState<boolean>(false);
 
   const serviceConsumer = React.useContext(ServiceContext);
@@ -93,6 +95,7 @@ export const Line = (props: LineProps) => {
   const indexLineWater = lines.waters.indexOf(line);
   if (indexLineWater !== -1) {
     return (
+      <>
       <Modal
         show={true}
         cancel={cancel}
@@ -102,16 +105,18 @@ export const Line = (props: LineProps) => {
         <LineContent>
           <div>
             <Box className="centered">
-              <MButton disabled visibled light info={`LINE - ${line.line_id}`}>
+              <MButton visibled light info={`LINE - ${line.line_id}`}>
                 <BeverageLogo beverage={$beverage} size="tiny" />
               </MButton>
             </Box>
             <Box className="centered">
-              <MButton>CALIBRATION</MButton>
+            <MButton info type={$beverage.calibration_status ? MTypes.INFO_SUCCESS : MTypes.INFO_DANGER} onClick={() => setCalibration(true)}>CALIBRATION {$beverage.calibration_status ? $beverage.last_calibration_date : ""}</MButton>
             </Box>
           </div>
         </LineContent>
       </Modal>
+      {calibration && <CalibrationModal line={line} indexLineWater={indexLineWater} unMount={() => setCalibration(false)} />}
+      </>
     );
   }
 
@@ -190,7 +195,6 @@ export const Line = (props: LineProps) => {
   /* ======================================== */
 
   const { bib_size, remaining_bib } = $beverage;
-  console.log({ bib_size, remaining_bib });
   const percLevel = calcolaPerc(bib_size, remaining_bib);
 
   return (
@@ -204,7 +208,7 @@ export const Line = (props: LineProps) => {
       <LineContent className={"large"}>
         <div>
           <Box id={"beverage-box"}>
-            <MButton disabled visibled light info={`ID: ${$beverage.beverage_id}${$beverage.$lock ? " / locked" : ""}`}>
+            <MButton visibled light info={`ID: ${$beverage.beverage_id}${$beverage.$lock ? " / locked" : ""}`}>
               <BeverageLogo beverage={$beverage} size="tiny" />
             </MButton>
             <div id="info-box">
@@ -219,6 +223,7 @@ export const Line = (props: LineProps) => {
             {$beverage.$lock && <MButton onClick={() => unlockLine($beverage.line_id).subscribe()}>UNLOCK DISPENSE</MButton>}
             <MButton onClick={() => setLineAssignment(true)}>CHANGE LINE ASSIGNMENT</MButton>
             <MButton onClick={() => setPriming(true)}>PRIMING</MButton>
+            <MButton info type={$beverage.calibration_status ? MTypes.INFO_SUCCESS : MTypes.INFO_DANGER} onClick={() => setCalibration(true)}>CALIBRATION {$beverage.calibration_status ? $beverage.last_calibration_date : ""}</MButton>
             <MButton onClick={() => setBibReset(true)}>BIB RESET</MButton>
           </Box>
         </div>
@@ -226,6 +231,7 @@ export const Line = (props: LineProps) => {
     </Modal>
     {bibReset && <BibReset line={line} unMount={() => setBibReset(false)} />}
     {priming && <Priming line={line} unMount={() => setPriming(false)} />}
+    {calibration && <CalibrationModal line={line} indexLineWater={indexLineWater} unMount={() => setCalibration(false)} />}
     </>
   );
 };
@@ -266,6 +272,39 @@ const Priming = props => {
       <Box className="centered">
         {!isPriming && <MButton onClick={() => set()}>START PRIMING</MButton>}
         {isPriming && <MButton onClick={() => unset()}>STOP PRIMING</MButton>}
+      </Box>
+    </Modal>
+  );
+};
+
+const CalibrationModal = props => {
+  const { indexLineWater } = props;
+  const [calibrationStatus, setCalibrationStatus] = React.useState(null);
+
+  const configConsumer = React.useContext(ConfigContext);
+  const { setBeverages } = configConsumer;
+
+  const completeCalibration = (value: boolean) => {
+    setCalibrationStatus(value);
+    if (value) {
+      setBeverages.subscribe();
+    }
+  };
+
+  return (
+    <Modal
+      show={true}
+      cancel={() => props.unMount()}
+      title="CALIBRATION"
+      actions={ACTIONS_CLOSE}
+    >
+      <Box className="centered">
+        <Calibration
+          line={props.line}
+          waters={indexLineWater !== -1}
+          lineStatus={calibrationStatus}
+          onEnd={value => completeCalibration(value)}
+        />
       </Box>
     </Modal>
   );

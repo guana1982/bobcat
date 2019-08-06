@@ -62,39 +62,45 @@ export const GlobalStyle = createGlobalStyle`
     content:
       url("img/bottle-qr.svg")
       url("img/phone-qr.svg")
-      url("img/logos/2009.png")
+      url("img/scan-qr-code-tip.svg")
+      url("img/out-of-order.svg")
+      url("img/pay.svg")
+      url("img/cannot-connect-to-cloud.svg")
+      url("img/qr-code-not-recognized.svg")
+      url("img/qr-code-not-associated-with-account.png")
+      url("img/slider-bg.webp")
 
-      url("img/logos/9.png")
-      url("img/logos/2009.png")
-      url("img/logos/2011.png")
-      url("img/logos/2012.png")
-      url("img/logos/2013.png")
-      url("img/logos/2014.png")
-      url("img/logos/2015.png")
+      url("img/logos/9.webp")
+      url("img/logos/2009.webp")
+      url("img/logos/2011.webp")
+      url("img/logos/2012.webp")
+      url("img/logos/2013.webp")
+      url("img/logos/2014.webp")
+      url("img/logos/2015.webp")
 
-      url("img/logos/9@sparkling.png")
-      url("img/logos/2009@sparkling.png")
-      url("img/logos/2011@sparkling.png")
-      url("img/logos/2012@sparkling.png")
-      url("img/logos/2013@sparkling.png")
-      url("img/logos/2014@sparkling.png")
-      url("img/logos/2015@sparkling.png")
+      url("img/logos/9@sparkling.webp")
+      url("img/logos/2009@sparkling.webp")
+      url("img/logos/2011@sparkling.webp")
+      url("img/logos/2012@sparkling.webp")
+      url("img/logos/2013@sparkling.webp")
+      url("img/logos/2014@sparkling.webp")
+      url("img/logos/2015@sparkling.webp")
 
-      url("img/logos/9@blur.png")
-      url("img/logos/2009@blur.png")
-      url("img/logos/2011@blur.png")
-      url("img/logos/2012@blur.png")
-      url("img/logos/2013@blur.png")
-      url("img/logos/2014@blur.png")
-      url("img/logos/2015@blur.png")
+      url("img/logos/9@blur.webp")
+      url("img/logos/2009@blur.webp")
+      url("img/logos/2011@blur.webp")
+      url("img/logos/2012@blur.webp")
+      url("img/logos/2013@blur.webp")
+      url("img/logos/2014@blur.webp")
+      url("img/logos/2015@blur.webp")
 
-      url("img/logos/9@nutrition-blur.png")
-      url("img/logos/2009@nutrition-blur.png")
-      url("img/logos/2011@nutrition-blur.png")
-      url("img/logos/2012@nutrition-blur.png")
-      url("img/logos/2013@nutrition-blur.png")
-      url("img/logos/2014@nutrition-blur.png")
-      url("img/logos/2015@nutrition-blur.png");
+      url("img/logos/9@nutrition-blur.webp")
+      url("img/logos/2009@nutrition-blur.webp")
+      url("img/logos/2011@nutrition-blur.webp")
+      url("img/logos/2012@nutrition-blur.webp")
+      url("img/logos/2013@nutrition-blur.webp")
+      url("img/logos/2014@nutrition-blur.webp")
+      url("img/logos/2015@nutrition-blur.webp");
   }
 
   html,
@@ -135,10 +141,6 @@ export const GlobalStyle = createGlobalStyle`
     height: 100%;
     width: 100%;
   }
-
-  /* a, button, .myelements  {
-    touch-action: manipulation;
-  } */
 
   button {
     font-family: inherit;

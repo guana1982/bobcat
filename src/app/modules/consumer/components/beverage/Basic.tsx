@@ -5,6 +5,8 @@ import { BeverageTypes } from "./Beverage";
 import { Logo } from "./Logo";
 import { IBeverage } from "@core/models";
 import { ILevelsModel } from "@core/utils/APIModel";
+import { Beverages } from "@core/utils/constants";
+import { PaymentContext } from "@core/containers";
 
 interface BasicProps {
   className: any;
@@ -18,22 +20,25 @@ interface BasicProps {
   beverage: IBeverage;
   slideOpen?: boolean;
   $sparkling?: boolean;
+  paymentConsumer?: any;
 }
 
 export const Basic_ = (props: BasicProps) => {
-  const { className, types, specialCard, title, levels, slideOpen, $sparkling, logoId, calories } = props;
+  const { className, types, specialCard, title, levels, slideOpen, $sparkling, logoId, calories, beverage } = props;
 
   if (!props.show)
     return null;
 
   const sparkling_ = (types && types[0] === BeverageTypes.Sparkling) || $sparkling; // <= CONDITION
 
+  const { getPriceBeverage, paymentModeEnabled, promotionEnabled } = props.paymentConsumer;
+
   return (
     <div className={className}>
         {(specialCard) &&
           <SpecialSection>
             <div id="types">
-              {types.map((type, i) => <LabelIndicator tiny={types.length > 1 || !slideOpen} key={i}><img src={`icons/${type}.svg`} /><span>{__('c_' + type)}</span></LabelIndicator>)}
+              {types.map((type, i) => <LabelIndicator tiny={types.length > 1 || !slideOpen} key={i}><img src={`icons/${type}.svg`} /><span>{__(`c_${type}`)}</span></LabelIndicator>)}
             </div>
             <div id="levels">
               {levels.carbonation_perc != null &&
@@ -42,10 +47,12 @@ export const Basic_ = (props: BasicProps) => {
                   <div className="value" />
                 </LevelIndicator>
               }
-              <LevelIndicator level={levels.flavor_perc}>
-                <img src={`icons/${"flavor"}.svg`} />
-                <div className="value" />
-              </LevelIndicator>
+              {beverage.beverage_type === Beverages.Bev &&
+                <LevelIndicator level={levels.flavor_perc}>
+                  <img src={`icons/${"flavor"}.svg`} />
+                  <div className="value" />
+                </LevelIndicator>
+              }
               <LevelIndicator level={levels.temperature_perc}>
                 <img src={`icons/${"temperature"}.svg`} />
                 <div className="value" />
@@ -54,9 +61,13 @@ export const Basic_ = (props: BasicProps) => {
           </SpecialSection>
         }
         <Logo {...props} />
-        <span id="title">{__(logoId === 9 ? (sparkling_ ? __("sparkling_water") : __("pure_water")) : __(title))}</span>
-        <span id="cal">{calories} {__("c_cal")}.</span> {/* {beverage.calories} */}
-        {/* <span id="price">75¢</span> */}
+        <span id="title">{__(title)}</span>
+        <span id="cal">{calories} {__("c_cal")}.</span>
+        {paymentModeEnabled &&
+          <span id="price" className={promotionEnabled ? "promotion-enabled" : null}>
+            {getPriceBeverage(beverage.$price)}
+          </span>
+        }
     </div>
   );
 };
@@ -176,9 +187,18 @@ export const Basic = styled<BasicProps>(Basic_)`
     position: absolute;
     right: 23px;
     bottom: 14px;
-    font-size: 12.6px;
+    font-size: 13.7px;
     letter-spacing: 1px;
     text-align: right;
+    &.promotion-enabled {
+      #value {
+        color: #929292;
+        text-decoration: line-through;
+      }
+    }
+    #promotion {
+      font-size: 15px;
+    }
   }
   ${({ specialCard }) => specialCard && css`
     ${Logo} {

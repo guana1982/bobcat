@@ -8,14 +8,17 @@ import { MButton, MTypes } from "@modules/service/components/common/Button";
 import { __ } from "@core/utils/lib/i18n";
 import BeverageLogo from "@core/components/common/Logo";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { line } from "@core/Menu/Custom/Lines.scss";
+import { switchMap } from "rxjs/operators";
+import { interval, Subject, Subscription } from "rxjs";
 
-const TIMER_SANITATION = 1;
-const TIMER_RINSING = 2;
+const MAX_TIME_EROGATION = 40000;
+
+const TIMER_SANITATION = 35;
+const TIMER_RINSING = 360;
 const TIMER_PH = 20;
-const TIMER_SANITIZER = 5;
+const TIMER_SANITIZER = 25 * 60;
 
-function fmtMSS(s){return(s-(s%=60))/60+(9<s?':':':0')+s};
+const fmtMSS = (s) => (s - (s %= 60)) / 60 + (9 < s ? ":" : ":0" ) + s;
 
 const ACTIONS_START = (cancel, next, disableNext: boolean , disableBack: boolean): Action[] => [{
   title: __("cancel"),
@@ -117,9 +120,12 @@ export const ISection = styled.div`
 interface ILineSanitation {
   lineId: number;
   steps: any;
+
   // $timer: any;
   // seconds: number;
   // verified: boolean;
+
+  // startClean_ : Subscription;
 }
 
 interface SanitationProps extends Partial<ModalContentProps> {
@@ -137,7 +143,6 @@ export const Sanitation = (props: SanitationProps) => {
   const { lines, endSanitation } = serviceConsumer;
 
   const [linesSelected, setlinesSelected] = React.useState<ILineSanitation[]>([]);
-  const [rinsingReps, setRinsingReps] = React.useState([]);
   const [sanitizerTimer, setSanitizerTimer] = React.useState<number>(null);
 
   const handleLine = ({ line_id }) => {
@@ -154,26 +159,32 @@ export const Sanitation = (props: SanitationProps) => {
           1: {
             $timer: null,
             seconds: TIMER_SANITATION,
+            seconds_: TIMER_SANITATION,
           },
           2: {
             $timer: null,
             seconds: TIMER_SANITATION,
+            seconds_: TIMER_SANITATION,
           },
           3: {
             $timer: null,
             seconds: TIMER_SANITATION,
+            seconds_: TIMER_SANITATION,
           },
           4: {
             $timer: null,
             seconds: TIMER_RINSING,
+            seconds_: TIMER_RINSING,
           },
           5: {
             $timer: null,
             seconds: TIMER_PH,
+            seconds_: TIMER_PH,
           },
           6: {
             $timer: null,
             seconds: TIMER_SANITATION,
+            seconds_: TIMER_SANITATION,
           }
         }
       };
@@ -203,21 +214,14 @@ export const Sanitation = (props: SanitationProps) => {
     const lineSelected_ = linesSelected_[indexLineSelected_];
     const line_ = lineSelected_.steps[step];
 
-    if (line_.seconds === 0 && step !== 4) return;
-    if (line_.seconds === 0 || line_.seconds === TIMER_RINSING && step === 4) {
-      line_.seconds = TIMER_RINSING;
-      setRinsingReps(prevState => {
-        prevState[indexLineSelected_] = prevState[indexLineSelected_] ? prevState[indexLineSelected_] + 1 : 1;
-        return prevState;
-      });
-      // return;
+    if (line_.seconds === 0) {
+      line_.seconds = line_.seconds_;
     }
-
-    // if (step === 5 && line_.seconds < TIMER_PH) return; 
 
     if (line_.$timer) {
       clearInterval(line_.$timer);
       line_.$timer = null;
+      line_.startClean_.unsubscribe();
       setlinesSelected(([...linesSelected_]));
       mediumLevel.sanitation.stopClean(lineSelected_.lineId).subscribe(); // <= STOP CLEAN
       return;
@@ -228,7 +232,7 @@ export const Sanitation = (props: SanitationProps) => {
       if (lineSelected.steps[step].$timer)
         countTimers_++;
     });
-    if (countTimers_ > 2) {
+    if (countTimers_ > 2 || step === 5 && countTimers_ > 0) {
       return;
     } // => MAX 3 AT SAME TIME
 
@@ -236,13 +240,20 @@ export const Sanitation = (props: SanitationProps) => {
       if (line_.seconds === 1) {
         clearInterval(line_.$timer);
         line_.$timer = null;
+        line_.startClean_.unsubscribe();
         mediumLevel.sanitation.stopClean(lineSelected_.lineId).subscribe(); // <= STOP CLEAN
       }
       line_.seconds--;
       setlinesSelected(([...linesSelected_]));
     }, 1000);
 
-    mediumLevel.sanitation.startClean(lineSelected_.lineId).subscribe(); // <= START CLEAN
+    line_.startClean_ = mediumLevel.sanitation.startClean(lineSelected_.lineId)
+    .pipe(
+      switchMap(() => interval(MAX_TIME_EROGATION)),
+      switchMap(() => mediumLevel.sanitation.startClean(lineSelected_.lineId))
+    )
+    .subscribe(); // <= START CLEAN
+
     setlinesSelected(([...linesSelected_]));
   };
 
@@ -312,11 +323,6 @@ export const Sanitation = (props: SanitationProps) => {
         return;
       }
 
-      if (step === 4 && rinsingReps.find(l => l < 8)) {
-        setDisableNext_(true);
-        return;
-      }
-
       if (validLiness_) {
         setDisableNext_(false);
         return;
@@ -331,7 +337,7 @@ export const Sanitation = (props: SanitationProps) => {
   const [disableBack_, setDisableBack_] = React.useState<boolean>(false);
   React.useEffect(() => {
     linesSelected.forEach(line => {
-      if (step !== 1 && step !== 5) {
+      if (step !== 1 && step !== 0 && step !== 5) {
         let countTimers_ = 0;
         let validLiness_ = true;
         linesSelected.forEach(lineSelected => {
@@ -349,88 +355,70 @@ export const Sanitation = (props: SanitationProps) => {
           return;
         }
 
-        if (step === 4 && rinsingReps && rinsingReps.find(l => l < 8)) {
-          setDisableBack_(true);
-          return;
-        }
-
         setDisableBack_(countTimers_ > 0);
       } else {
         setDisableBack_(false);
       }
     });
   }, [step, linesSelected, sanitizerTimer]);
-    //  <=== DISABLE BACK ====
+  //  <=== DISABLE BACK ====
 
-    
-    const actionsModal = (maxSteps: number, finish?: () => void, disableNext?: boolean, disableBack?: boolean) => {
-      if (!finish) {
-        finish = () => console.log("Pls add => Finish");
-      }
-      const cancel_ = () => {
-        cancel();
-      };
-      const nextStep = () => setStep(prev => prev + 1);
-      const prevStep = () => setStep(prev => prev - 1);
-      if (step === 0) {
-        return ACTIONS_START(cancel_, nextStep, disableNext, disableBack);
-      } else if (step === maxSteps - 1) {
-        return ACTIONS_END(cancel_, prevStep, finish, disableNext, disableBack);
-      } else {
-        return ACTIONS_CONTROL(cancel_, prevStep, nextStep, disableNext, disableBack);
-      }
+
+  const actionsModal = (maxSteps: number, finish?: () => void, disableNext?: boolean, disableBack?: boolean) => {
+    if (!finish) {
+      finish = () => console.log("Pls add => Finish");
+    }
+    const cancel_ = () => {
+      cancel();
     };
-    
-    const finishSanitation = () => {
-      const lines_ = linesSelected.map(({ lineId }) => lineId);
-      endSanitation(lines_)
-      .subscribe(
-        data => {
-          cancel();
-        }
-        );
-      };
-      
-      // ==== SANITIZER TIMER ====>
-      const handleSanitizerTimer = () => {
-        setTimeout(() => setSanitizerTimer(TIMER_SANITIZER), 1000);
+    const nextStep = () => setStep(prev => prev + 1);
+    const prevStep = () => setStep(prev => prev - 1);
+    if (step === 0) {
+      return ACTIONS_START(cancel_, nextStep, disableNext, disableBack);
+    } else if (step === maxSteps - 1) {
+      return ACTIONS_END(cancel_, prevStep, finish, disableNext, disableBack);
+    } else {
+      return ACTIONS_CONTROL(cancel_, prevStep, nextStep, disableNext, disableBack);
+    }
+  };
+
+  const finishSanitation = () => {
+    const lines_ = linesSelected.map(({ lineId }) => lineId);
+    endSanitation(lines_)
+    .subscribe(
+      data => {
+        cancel();
       }
+    );
+  };
 
-      React.useEffect(() => {
-        if (step === 3 && sanitizerTimer !== 0) {
-          let validLiness_ = true;
-          linesSelected.forEach(line => {
-            if (line.steps[step].seconds !== 0) {
-              validLiness_ = false;
-              return;
-            }
-          });
-          validLiness_ && handleSanitizerTimer();
+  // ==== SANITIZER TIMER ====>
+  const handleSanitizerTimer = () => {
+    setTimeout(() => setSanitizerTimer(TIMER_SANITIZER), 1000);
+  };
+
+  React.useEffect(() => {
+    if (step === 3 && sanitizerTimer !== 0) {
+      let validLiness_ = true;
+      linesSelected.forEach(line => {
+        if (line.steps[step].seconds !== 0) {
+          validLiness_ = false;
+          return;
         }
-      }, [step, linesSelected])
+      });
+      validLiness_ && handleSanitizerTimer();
+    }
+  }, [step, linesSelected]);
 
-      React.useEffect(() => {
-        sanitizerTimer > 0 &&
-          setTimeout(() => setSanitizerTimer(prevState => prevState - 1), 1000);
-      }, [sanitizerTimer]);
-      // <=== SANITIZER TIMER ====
+  React.useEffect(() => {
+    sanitizerTimer > 0 &&
+      setTimeout(() => setSanitizerTimer(prevState => prevState - 1), 1000);
+  }, [sanitizerTimer]);
+  // <=== SANITIZER TIMER ====
 
-      const checkButtonState = (line_, i) => {
-        if (step !== 4) return line_.seconds === 0;
-        else return line_.seconds === 0 && rinsingReps[i] >= 8;
-      }
-
-      // ==== RINSING COUNT ===>
-      React.useEffect(() => {
-        step === 4 && setRinsingReps(linesSelected.map(l => null));
-      }, [step])
-      // <=== RINSING COUNT ====
-
-      console.log(rinsingReps, linesSelected)
-
-      return (
-        <Modal
-        show={true}
+  return (
+    <Modal
+      show={true}
       title="SANITATION"
       actions={...actionsModal(7, finishSanitation, disableNext_, disableBack_)}
     >
@@ -468,7 +456,6 @@ export const Sanitation = (props: SanitationProps) => {
               {step === 1 && (
                 <Box className="container no-border">
                   <h3 id="title">{__(`sanitate_step_${step - 1}_title`)}</h3>
-                  {/* <h3 id="title">UP TO THREE LINES PER TIME CAN BE selected</h3> */}
                   <br /><br />
                   <h3 id="title">flavor</h3>
                   <Box className="elements">
@@ -490,9 +477,11 @@ export const Sanitation = (props: SanitationProps) => {
               {(step !== 0 && step !== 1) && (
                 <Box className="container no-border">
                   {step === 2 && <h3 id="title">Drop the selected lines in a bucket with water and start dispensing. Continue dispensing until the lines are completely full of water. Please note, dispensing is possible for maximum 3 lines at a time</h3>}
-                  {(step !== 2 && step !== 6) && <h3 id="title">{__(`sanitate_step_${step - 1}_title`)}</h3>}
+                  {step === 3 && <h3 id="title">Remove the lines from the bucket with water connect them to the sanitizer and start dispensing. Continue dispensing until the lines are completely full with sanitizer liquid. Then wait for the time recommended in the sanitizer datasheet</h3>}
+                  {step === 4 && <h3 id="title">Remove the lines from the sanitizer dive them in a bucket with clean and potable water and start dispensing . Continue dispensing until the lines are completely free of sanitizer</h3>}
+                  {step === 5 && <h3 id="title">{__(`sanitate_step_${step - 1}_title`)}</h3>}
                   {step === 6 && <h3 id="title">CONNECT THE LINES TO THE BIBS AND DISPENSE TILL ALL THE LINES ARE FULL OF SYRUP. CLOSE THE FRONT DOOR AND RE-ASSEMBLE STAINLESS STEEL DIFFUSER AND PLASTIC NOZZLE.</h3>}
-                  {/* <h3 id="title">{__(`sanitate_step_${step}_descr`)}</h3> */}
+                  {step === 7 && <h3 id="title">{__(`sanitate_step_${step - 1}_title`)}</h3>}
                   <br /><br />
                   <h3 id="title">lines</h3>
                   <Box className="elements">
@@ -503,7 +492,7 @@ export const Sanitation = (props: SanitationProps) => {
                         const lineSelected_ = linesSelected[indexLineSelected_];
                         const line_ = lineSelected_.steps[step];
                         return (
-                          <MButton key={i} onClick={() => handleTimerLine(line)} type={line_.$timer ? MTypes.INFO_WARNING : checkButtonState(line_, indexLineSelected_) ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id} / ${line_.seconds}`}>
+                          <MButton key={i} onClick={() => handleTimerLine(line)} type={line_.$timer ? MTypes.INFO_WARNING : line_.seconds === 0 ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id} / ${line_.seconds}`}>
                             {!line.$beverage ?
                               "UNASSIGNED" :
                               <BeverageLogo beverage={line.$beverage} size="tiny" />
@@ -522,32 +511,6 @@ export const Sanitation = (props: SanitationProps) => {
                   )}
                 </Box>
               )}
-              {/* {step === 5 && (
-                <Box className="container no-border">
-                <h3 id="title">{__(`sanitate_step_${step - 1}_title`)}</h3>
-                <h3 id="title">{__(`sanitate_step_${step - 1}_descr`)}</h3>
-                <br />
-                <h3 id="title">lines</h3>
-                <Box className="elements">
-                  {
-                    lines.pumps.map((line, i) => {
-                      const indexLineSelected_ =  indexLineSelected(line);
-                      if (indexLineSelected_ === -1) return null;
-                      const lineSelected_ = linesSelected[indexLineSelected_];
-                      const line_ = lineSelected_.steps[step];
-                      return (
-                        <MButton key={i} onClick={() => verifiedLine(line)} type={line_.verified ? MTypes.INFO_SUCCESS : null} light info={`Line - ${line.line_id}`}>
-                          {!line.$beverage ?
-                            "UNASSIGNED" :
-                            <BeverageLogo beverage={line.$beverage} size="tiny" />
-                          }
-                        </MButton>
-                      );
-                    })
-                  }
-                </Box>
-              </Box>
-              )} */}
               </>
             </ISection>
           </Box>

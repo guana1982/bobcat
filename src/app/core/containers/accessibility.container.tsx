@@ -1,22 +1,21 @@
 
 import * as React from "react";
-import { Pages } from "@core/utils/constants";
+import { Pages, debounce } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
-import { ConsumerContext } from "@core/containers";
 import createContainer from "constate";
 
-enum Action {
+export enum Action {
   BACK,
   ENTER,
   POUR
 }
 
-enum Direction {
+export enum Direction {
   LEFT,
   RIGHT
 }
 
-enum KeyMapping {
+export enum KeyMapping {
   BACK = 97,
   LEFT = 115,
   RIGHT = 100,
@@ -33,9 +32,11 @@ interface StateLayout {
   beverageSelected?: number;
   nutritionFacts?: boolean;
   slideOpen?: boolean;
+  fullMode?: boolean;
   buttonGroupSelected?: string;
   alertShow?: boolean;
   endBeverageShow?: boolean;
+  endSession?: any;
 }
 
 const AccessibilityContainer = createContainer((props: AccessibilityState) => {
@@ -48,6 +49,7 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
     beverageSelected: null,
     nutritionFacts: false,
     slideOpen: false,
+    fullMode: false,
     buttonGroupSelected: null,
     alertShow: false,
     endBeverageShow: false
@@ -89,15 +91,16 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
   //  ==== ALERT CASE ====
   const { alertShow } = stateLayout;
   React.useEffect(() => {
+    console.log({alertShow});
     if (alertShow) {
       // setDown(false);
       // setEnable(false);
       // setPour(false);
       // setStop(true);
+      const buttonClose = getSpecificButton(`alert_close`);
       const buttons = detectButtons();
-      focusElement(buttons[0]);
-    }
-    if (!alertShow) {
+      focusElement(buttonClose || buttons[0]);
+    } else {
       // setStop(false);
       const buttons = detectButtons();
       focusElement(buttons[0]);
@@ -160,25 +163,29 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
     document.addEventListener("touchend", onTouchEnd);
     return () => {
       document.removeEventListener("keypress", onKeyDown);
-      document.addEventListener("touchend", onTouchEnd);
+      document.removeEventListener("touchend", onTouchEnd);
     };
   }, [down, enable, stop, props.location.pathname]);
 
   //  ==== EVENTS FUNCTION ====
   //  ================================
 
-  function onKeyDown(evt: KeyboardEvent) {
+  const onKeyDown = debounce((evt: KeyboardEvent) => {
     this.evt = evt;
     const event = KeyMapping[evt.keyCode];
     const direction = Direction[event];
     const action = Action[event];
+    const { pathname } = props.location;
+
+    //  ==== ONLY CONSUMER UI ====
+    if (!(pathname === Pages.Attractor || pathname === Pages.Home || pathname === Pages.Prepay))
+      return;
 
     //  ==== KEY NOT VALID ====
     if (direction === undefined && action === undefined)
       return;
 
     //  ==== INIT CONDITION ====
-    const { pathname } = props.location;
     if (pathname === Pages.Attractor) {
       setEnable(true);
       props.history.push(Pages.Home);
@@ -213,7 +220,7 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
 
       actionStartEvent(action);
     }
-  }
+  }, 100);
 
   function onTouchEnd(evt) {
     setEnable(false);
@@ -288,6 +295,14 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
       return;
     }
 
+    // === END SESSION (POURING) ===
+    const { endSession } = stateLayout;
+    if (endSession === "start") {
+      const buttonToFocus = getSpecificButton(`exit-btn`);
+      buttonToFocus.click();
+      return;
+    }
+
     // === BEVERAGE SELECTED CASE ===
     const { beverageSelected } = stateLayout;
     if (beverageSelected !== null) {
@@ -328,11 +343,15 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
     }
   }
 
-  const detectButtons = () => {
+  const detectButtons = React.useCallback(() => {
     let buttons = Array.from(document.getElementsByTagName("button"));
 
     // === FILTER BUTTONS ===
     buttons = buttons.filter(button => {
+
+      if (button.disabled) {
+        return false; // => REMOVE DISABLED BUTTON
+      }
 
       const idValues = button.id.split("-"); // => GET TYPE BUTTON
 
@@ -349,7 +368,20 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
         }
       }
 
-      return !button.disabled; // => REMOVE DISABLED BUTTON
+      // === SLIDE OPEN CASE ==>
+      if (!stateLayout.beverageSelected) {
+        if (stateLayout.slideOpen === true) {
+          return idValues[0] === "slide";
+        } else if (stateLayout.slideOpen === false) {
+          if (stateLayout.fullMode) {
+            return !(idValues[0] === "slide" && idValues[1] === "beverage");
+          } else {
+            return true;
+          }
+        }
+      }
+
+      return true;
     });
 
     // === SORT BUTTONS ===
@@ -368,8 +400,16 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
       buttons = [...pourButton, ...contentButtons, ...initButtons];
     }
 
+    // === SLIDE OPEN ===
+    // if (stateLayout.slideOpen === false) {
+    //   buttons.sort((a, b) => {
+    //     const c_ = (v) => Number(v.id.split("-")[0] === "slide");
+    //     return  c_(a) - c_(b);
+    //   });
+    // }
+
     return buttons;
-  };
+  }, [stateLayout]);
 
   function buttonFocused(): any {
     const activeElementDomument = document.activeElement;

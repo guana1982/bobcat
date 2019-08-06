@@ -1,14 +1,17 @@
 import * as React from "react";
 
 import styled from "styled-components";
-import { TimerContext } from "@containers/timer.container";
+import { TimerContext, EventsTimer } from "@containers/timer.container";
 import { ConsumerContext } from "@containers/consumer.container";
 import { Pages } from "@utils/constants";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
-import mediumLevel from "@core/utils/lib/mediumLevel";
 import { CloseBtnWrap, CloseBtn } from "../components/common/CloseBtn";
 import { __ } from "@core/utils/lib/i18n";
 import { Subscription } from "rxjs";
+import { ConfigContext, PaymentContext } from "@core/containers";
+import { IdentificationConsumerStatus } from "@core/utils/APIModel";
+import { debounceTime } from "rxjs/operators";
+import { Alert } from "../components/common/Alert";
 
 export const PrepayContent = styled.div`
   background-image: ${props => props.theme.backgroundLight};
@@ -24,44 +27,54 @@ export const PrepayContent = styled.div`
   }
   #Webcam {
     position: absolute;
-    top: 261px;
-    left: 209px;
-    width: 257px;
+    top: 240px;
+    right: 155px;
+    width: 259px;
     height: 259px;
-    background-color: #0000ff;
+    background-color: #000;
+    &.enable {
+      background-color: #0000ff;
+    }
     &:before {
       content: " ";
+      top: -35px;
+      right: -35px;
       position: absolute;
-      top: -15%;
-      left: -15%;
-      width: 130%;
-      height: 130%;
+      width: 330px;
+      height: 330px;
       box-shadow: 0px 19px 31px -4px rgba(0,0,0,0.1);
     }
+    .target { }
   }
   #Bottle-QR {
     position: absolute;
-    top: 154px;
-    left: 700px;
-    width: 190px;
-    height: 355px;
+    top: 211.4px;
+    left: 190px;
+    width: 85px;
+    height: 160px;
   }
   #Phone-QR {
     position: absolute;
-    top: 272.2px;
-    right: 180.6px;
-    width: 190px;
-    height: 237px;
+    top: 406.5px;
+    left: 190px;
+    width: 85px;
+    height: 107px;
+  }
+  #Scan-QR {
+    position: absolute;
+    width: 305.6px;
+    height: 306px;
+    top: 207px;
+    left: 326.7px;
   }
   #Text-Info {
     font-family: NeuzeitGro-Bol;
     position: absolute;
     margin: 0;
-    top: 595px;
-    left: 715px;
-    width: 232px;
-    height: 97px;
-    font-size: 20px;
+    top: 579px;
+    left: 226px;
+    width: 361px;
+    font-size: 18px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
@@ -69,16 +82,26 @@ export const PrepayContent = styled.div`
     letter-spacing: normal;
     color: ${props => props.theme.slateGrey}
   }
-  #Icon-QR {
+  #Text-Qr {
     position: absolute;
-    top: 599px;
-    right: 223px;
-    width: 48px;
-    height: 48px;
+    font-family: NeuzeitGro-Bol;
+    width: 223.3px;
+    margin: 0;
+    top: 579px;
+    right: 172.7px;
+    font-size: 18px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: ${props => props.theme.slateGrey}
   }
   #Icon-Down {
     position: absolute;
-    bottom: 70px;
+    width: 82px;
+    height: 46px;
+    bottom: 39px;
     right: 234px;
   }
 `;
@@ -87,86 +110,186 @@ interface PrepayProps {
   history: any;
 }
 
-let timer_: Subscription;
+export const TIMEOUT_QR = 2000;
 
 export const Prepay = (props: PrepayProps) => {
+
+  const timer_ = React.useRef<Subscription>(null);
+  const scanning_ = React.useRef<Subscription>(null);
+  const consumerSocket_ = React.useRef<Subscription>(null);
+
+  const timeoutDataFromServer_ = React.useRef(null);
+
+  const [webcamReady, setWebcamReady] = React.useState<boolean>(false);
 
   const alertConsumer = React.useContext(AlertContext);
   const timerConsumer = React.useContext(TimerContext);
   const consumerConsumer = React.useContext(ConsumerContext);
+  const configConsumer = React.useContext(ConfigContext);
+  const paymentConsumer = React.useContext(PaymentContext);
+
+  const { paymentModeEnabled } = paymentConsumer;
 
   //  ==== TIMER ====>
-  const { timerFull$ } = timerConsumer;
-  const { isLogged } = consumerConsumer;
+  const { timerPrepay$ } = timerConsumer;
+  // const { isLogged } = consumerConsumer;
 
-  function alertIsLogged(event) {
-    if (isLogged) {
-      alertConsumer.show({
-        type: AlertTypes.EndBeverage,
-        timeout: true,
-        onDismiss: () => {
-          consumerConsumer.resetConsumer(true);
-          event();
-        }
-      });
-    } else {
-      event();
-    }
-  }
+  // function alertIsLogged(event) {
+  //   if (isLogged) {
+  //     alertConsumer.show({
+  //       type: AlertTypes.EndBeverage,
+  //       timeout: true,
+  //       onDismiss: () => {
+  //         consumerConsumer.resetConsumer(true);
+  //         event();
+  //       }
+  //     });
+  //   } else {
+  //     event();
+  //   }
+  // }
 
   const startTimer_ = () => {
-    timer_ = timerFull$.subscribe(
+    resetTimer_();
+    timer_.current = timerPrepay$.subscribe(
       val => {
-        if (val === "tap_detect") {
-          startTimer_();
-        } else if (val === "proximity_stop") {
-          const event_ = () => consumerConsumer.resetConsumer();
-          alertIsLogged(event_);
-          return;
-        }
-        if (val === "timer_stop") {
-          const event_ = () => props.history.push(Pages.Home);
-          alertIsLogged(event_);
+        if (val === EventsTimer.TimerStop) {
+          // const event_ = () => {
+          //   consumerConsumer.resetConsumer(true);
+          //   goToHome();
+          // };
+          // alertIsLogged(event_);
+          alertConsumer.show({
+            type: AlertTypes.ErrorQrNotFound,
+            img: "img/qr-code-not-recognized.svg",
+            subTitle: true,
+            timeout: true,
+            onDismiss: () => {
+              goToHome();
+            }
+          });
         }
       }
     );
   };
 
   const resetTimer_ = () => {
-    timer_.unsubscribe();
+    if (timer_.current)
+      timer_.current.unsubscribe();
   };
   //  <=== TIMER ====
 
   React.useEffect(() => {
-    mediumLevel.config.stopVideo().subscribe(); // <= STOP ATTRACTOR
     startTimer_();
-    start();
+    startReadQr();
+    setTimeout(() => setWebcamReady(true), TIMEOUT_QR);
     return () => {
       resetTimer_();
-      stop();
+      stopReadQr();
+      if (scanning_.current) {
+        scanning_.current.unsubscribe();
+      }
+      if (timeoutDataFromServer_.current) {
+        clearTimeout(timeoutDataFromServer_.current);
+      }
     };
   }, []);
 
-  const start = () => {
+  // ==== CONSUMER-SOCKET ===>
+  const getObjectLength = obj => {
+    const array = [];
+    for (const key in obj) array.push(key);
+    return array;
+  };
+
+  React.useEffect(() => {
+    consumerSocket_.current = configConsumer.socketAlarms$.subscribe(data => {
+      data.message_type === "consumer_server_data"
+      && getObjectLength(data.value).length === 0
+      && alertConsumer.show({
+        type: AlertTypes.ErrorUnassociatedBottle,
+        subTitle: true,
+        // timeout: true,
+        onDismiss: () => console.log("ciao")
+      });
+    });
+    return () => consumerSocket_.current.unsubscribe();
+  }, []);
+  // <=== CONSUMER-SOCKET ====
+
+  const startReadQr = () => {
     const { startScanning } = consumerConsumer;
-    startScanning()
-    .subscribe((status: true | false | null) => { // => true: correct qr / false: error qr / null: data from server <=
+
+    if (scanning_.current)
+      scanning_.current.unsubscribe();
+
+    scanning_.current = startScanning()
+    // .pipe(
+    //   debounceTime(500),
+    // )
+    .subscribe((status: IdentificationConsumerStatus) => {
       resetTimer_();
-      if (status === true) {
+      if (status !== IdentificationConsumerStatus.Loading) {
+        if (scanning_.current)
+          scanning_.current.unsubscribe();
+      }
+
+      if (status === IdentificationConsumerStatus.Complete) {
+        // alertConsumer.show({
+        //   type: AlertTypes.Success,
+        //   timeout: true,
+        //   onDismiss: () => {
+        //     goToHome();
+        //   }
+        // });
+        goToHome();
+      } else if (status === IdentificationConsumerStatus.ErrorQr) {
         alertConsumer.show({
-          type: AlertTypes.Success,
+          type: AlertTypes.ErrorQrNotFound,
+          img: "img/qr-code-not-recognized.svg",
+          subTitle: true,
           timeout: true,
           onDismiss: () => {
             goToHome();
           }
         });
-      } else if (status === false) {
+      } else if (status === IdentificationConsumerStatus.Loading) {
         alertConsumer.show({
-          type: AlertTypes.Error,
+          type: AlertTypes.LoadingDataQr,
+          timeout: false,
+          lock: true,
+        });
+        timeoutDataFromServer_.current = setTimeout(() => {
+          alertConsumer.show({
+            type: !paymentModeEnabled ? AlertTypes.ErrorLoadingQr : AlertTypes.ErrorLoadingQrPayment,
+            img: "img/cannot-connect-to-cloud.svg",
+            subTitle: true,
+            timeout: true,
+            onDismiss: () => {
+              goToHome();
+            }
+          });
+        },  10000);
+      } else if (status === IdentificationConsumerStatus.CompleteLoading) {
+        alertConsumer.hide();
+        goToHome();
+      }  else if (status === IdentificationConsumerStatus.NotAssociatedBottle) {
+        alertConsumer.show({
+          type: AlertTypes.ErrorUnassociatedBottle,
+          img: "img/qr-code-not-associated-with-account.png",
+          subTitle: true,
           timeout: true,
           onDismiss: () => {
-            startTimer_();
-            start();
+            goToHome();
+          }
+        });
+      } else {
+        alertConsumer.show({
+          type: status,
+          subTitle: true,
+          timeout: true,
+          onDismiss: () => {
+            goToHome();
           }
         });
       }
@@ -177,7 +300,7 @@ export const Prepay = (props: PrepayProps) => {
     props.history.push(Pages.Home);
   };
 
-  const stop = () => {
+  const stopReadQr = () => {
     const { stopScanning } = consumerConsumer;
     stopScanning().subscribe();
   };
@@ -186,11 +309,14 @@ export const Prepay = (props: PrepayProps) => {
     <section>
       <PrepayContent>
         <CloseBtn detectValue={"prepay_close"} icon={"close"} onClick={() => goToHome()} />
-        <div id="Webcam" />
+        <div id="Webcam" className={webcamReady ? "enable" : ""}>
+          {/* <img className="target" src={"img/target.svg"} /> */}
+        </div>
         <img id="Bottle-QR" src={"img/bottle-qr.svg"} />
         <img id="Phone-QR" src={"img/phone-qr.svg"} />
+        <img id="Scan-QR" src={"img/scan-qr-code-tip.svg"} />
         <h2 id="Text-Info">{__("c_prepay_text")}</h2>
-        <img id="Icon-QR" src={"icons/qr-code.svg"} />
+        <h2 id="Text-Qr">{__("c_qr_text")}</h2>
         <img id="Icon-Down" src={"icons/down.svg"} />
       </PrepayContent>
     </section>

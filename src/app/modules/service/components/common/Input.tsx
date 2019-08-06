@@ -22,9 +22,13 @@ export const InputWrapper = styled.div`
     /* margin: 30px; */
     font-size: 20px;
     box-sizing: border-box;
-    &:disabled {
-      background: #fff;
-    }
+  }
+  #enable-click {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
   }
 `;
 
@@ -89,12 +93,13 @@ export const MInput = (props: MInputProps) => {
         {label && <label>{label}{required && "*"}</label>}
         <InputWrapper onClick={props.click}>
           <input
-            // disabled={disabled} // <= TO FIX
-            disabled
+            disabled={disabled} // <= TO FIX
+            // disabled
             value={value}
             type={type}
-            onChange={onChange}
+            onChange={value => console.log(value)}
           />
+          <div id="enable-click" />
         </InputWrapper>
       </InputContent>
     );

@@ -6,25 +6,30 @@ import { NumberCard } from "../cards/NumberCard";
 import { CircleCard } from "../cards/CircleCard";
 import { PhoneCard } from "../cards/PhoneCard";
 import posed from "react-pose";
-import { AccessibilityContext, ConfigContext } from "@core/containers";
+import { AccessibilityContext, ConfigContext, AlertTypes, PaymentContext, PaymentStatus, PaymentStatusPour } from "@core/containers";
 import { __ } from "@core/utils/lib/i18n";
 import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
 import { SegmentButtonProps, SegmentButton } from "../common/SegmentButton";
 import { Button } from "../common/Button";
 import { ButtonGroup } from "../common/ButtonGroup";
 import ClickNHold from "../common/ClickNHold";
+import { Beverages, debounce } from "@core/utils/constants";
+import { Alert } from "../common/Alert";
+import { PaymentInfo } from "../common/PaymentInfo";
+import { ReplaySubscription } from "../common/Subscription";
+import { motion } from "framer-motion";
 
 /* color: string; */
 /* @keyframes shadow-pulse
 {
-    0% {
-      zoom: 500%;
-      box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1);
-    }
-    100% {
-      zoom: 500%;
-      box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
-    }
+  0% {
+    zoom: 500%;
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    zoom: 500%;
+    box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
+  }
 }
 &.pulse {
   &:before, &:after {
@@ -43,7 +48,7 @@ import ClickNHold from "../common/ClickNHold";
 export const Pour = styled.button`
   position: absolute;
   width: 206px;
-  height: 95px;
+  height: 100px;
   box-shadow: 20px -25px 34px -14px rgba(51, 56, 73, 0.08), 5px 2px 10px 0 rgba(190, 190, 190, 0.22), 0 -9px 34px 0 rgba(108, 163, 0, 0.04);
   font-family: NeuzeitGro-Bol;
   font-size: 20px;
@@ -77,28 +82,26 @@ export const Pour = styled.button`
 /* ==== LOGO ==== */
 /* ======================================== */
 
-const _logoBeverage = posed.img({
+const AnimationLogoBeverage = {
   normal: {
-    zoom: "100%",
-    transform: "translate(-50%, -105%)"
+    translateX: "-50%",
+    translateY:  "-75%",
+    scale: 0.5
   },
   zoom: {
-    zoom: "180%",
-    transform: "translate(-50%, -62%)",
-    transition: {
-      duration: 500
-    }
+    translateX: "-50%",
+    translateY: "-60%",
+    scale: 0.9
   }
-});
+};
 
-export const LogoBeverage = styled(_logoBeverage)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 305px;
-  height: 308px;
-  z-index: 99;
-`;
+const StyleLogoBeverage: any = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  zIndex: 99,
+  willChange: "transform"
+};
 
 /* ==== CARDS ==== */
 /* ======================================== */
@@ -155,7 +158,63 @@ export const CustomizeBeverageCard = styled.div`
   }
   #group {
     position: absolute;
-    top: 370px;
+    top: 360px;
+    /* top: 370px; */
+  }
+  #footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 53px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 20px 40px 8px rgba(89, 96, 118, 0.15);
+    background-image: #fff;
+    text-transform: uppercase;
+    * {
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+    }
+    #limit-erogation {
+      position: absolute;
+      left: 31.5px;
+      bottom: 8px;
+      font-family: NeuzeitGro-Reg;
+      font-size: 24px;
+      letter-spacing: normal;
+      text-align: right;
+      color: #292929;
+      .info {
+        font-family: NeuzeitGro-Reg;
+        font-size: 14px;
+        letter-spacing: 1px;
+        text-align: right;
+        color: #565657;
+      }
+    }
+    #price {
+      position: absolute;
+      right: 31.5px;
+      bottom: 8px;
+      font-size: 24px;
+      color: #292929;
+      #gift {
+        vertical-align: bottom;
+        width: 41px;
+        height: 40px
+      }
+      &.promotion-enabled {
+        #value {
+          color: #c5c5c5;
+          text-decoration: line-through;
+        }
+      }
+      #info {
+        font-size: 14px;
+        color: #565657;
+      }
+    }
   }
 `;
 
@@ -195,6 +254,21 @@ export const CustomizeBeverageWrap = styled.section`
       }
     }
   }
+  #payment-status {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    bottom: 3rem;
+    right: 0;
+    font-size: 16px;
+    font-family: NeuzeitGro-Bol;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 1.28px;
+    color: ${props => props.theme.slateGrey};
+  }
 `;
 
 /* ==== ELEMENT ==== */
@@ -215,21 +289,27 @@ interface CustomizeBeverageProps {
   segmentButton: SegmentButtonProps; // => _SegmentButton
   nutritionFacts: boolean;
   isLogged?: boolean;
+  handleType: (b: boolean) => void;
 }
 
 export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
-  const { beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, getBeverageSelected, handleChange, endPourEvent, nutritionFacts } = props;
+  const { beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, getBeverageSelected, handleChange, endPourEvent, nutritionFacts, handleType } = props;
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const buttonPourEl = React.useRef(null);
   const accessibilityConsumer = React.useContext(AccessibilityContext);
   const configConsumer = React.useContext(ConfigContext);
+  const paymentConsumer = React.useContext(PaymentContext);
   const { pour, enter } = accessibilityConsumer;
 
-  const { isPouring } = configConsumer;
+  const { isPouring, statusAlarms } = configConsumer;
+  const { getPriceBeverage, paymentModeEnabled, socketPayment$, needToPay, promotionEnabled } = paymentConsumer;
 
   React.useEffect(() => {
-    const button = buttonPourEl.current;
+    if (!(buttonPourEl.current && buttonPourEl.current.node)) {
+      return;
+    }
+    const button = buttonPourEl.current.node;
     const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
     if (!isPouring) {
       if (pour === true || enter === true && isFocus) {
@@ -242,6 +322,33 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
     }
   }, [pour, buttonPourEl, enter]);
   //  <=== ACCESSIBILITY FUNCTION ====
+
+  //  ==== DISABLE SPARKLING ====>
+  const disableSparkling_ = isSparkling && statusAlarms.alarmSparkling_;
+  if (disableSparkling_) {
+    return (
+      <>
+        <CustomizeBeverageWrap>
+          {!props.showCardsInfo && <SegmentButton {...props.segmentButton} />}
+          {/* {!props.showCardsInfo ?
+            <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => resetBeverage()} /> :
+            <Button detectValue="exit-btn" onClick={() => endPourEvent()} text="Done" icon="log-out" />
+          } */}
+          <Alert
+            options = {{
+              type: AlertTypes.EndSparkling,
+              subTitle: true,
+              timeout: true,
+              transparent: true,
+              onConfirm: () => handleType(false),
+              onDismiss: () => handleType(false),
+            }}
+          />
+        </CustomizeBeverageWrap>
+      </>
+    );
+  }
+  //  <=== DISABLE SPARKLING ====
 
   const beverageSelected: IBeverage = getBeverageSelected();
 
@@ -267,7 +374,15 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           </React.Fragment>
         }
 
-        <LogoBeverage pose={props.showCardsInfo ? "zoom" : "normal"} src={`img/logos/${beverageSelected.beverage_logo_id}${isSparkling ? "@sparkling" : ""}.png`} />
+        <motion.img
+          style={StyleLogoBeverage}
+          initial={"normal"}
+          transition={{ ease: "easeOut", delay: 0.1, duration: 0.8 }}
+          animate={props.showCardsInfo ? "zoom" : "normal"}
+          variants={AnimationLogoBeverage}
+          src={`img/logos/${beverageSelected.beverage_logo_id}${isSparkling ? "@sparkling" : ""}.webp`}
+        />
+
         {!props.showCardsInfo &&
           <CustomizeBeverageCard color={beverageSelected.beverage_font_color}>
             <div id="beverage-card">
@@ -275,7 +390,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                 <span id="title">{__(beverageSelected.beverage_label_id)}</span>
                 <span id="cal">{beverageSelected.calories} {__("c_cal")}.</span>
                 <div id="group">
-                  {beverageConfig.carbonation_level != null &&
+                  {isSparkling &&
                     <ButtonGroup
                       color={beverageSelected.beverage_font_color}
                       detectValue={"sparkling"}
@@ -286,7 +401,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                       onChange={(value) => handleChange(value, "carbonation")}>
                     </ButtonGroup>
                   }
-                  {beverageConfig.flavor_level != null &&
+                  {beverageSelected.beverage_type === Beverages.Bev &&
                     <ButtonGroup
                       color={beverageSelected.beverage_font_color}
                       detectValue={"flavor"}
@@ -308,25 +423,48 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                     onChange={(value) => handleChange(value, "temperature")}>
                   </ButtonGroup>
                 </div>
+                {paymentModeEnabled &&
+                  <div id="footer">
+                      {/* {beverageSelected.$price > 0 && <span id="total">{__("c_total")}</span>} */}
+                    <div id="limit-erogation">
+                      <span className="info">MAX</span> {"32oz"}
+                    </div>
+                    <div id="price" className={promotionEnabled ? "promotion-enabled" : null}>
+                      {getPriceBeverage(beverageSelected.$price, true)}
+                    </div>
+                  </div>
+                }
               </div>
             </div>
           </CustomizeBeverageCard>
         }
-        <ClickNHold
-          time={0.250}
-          onStart={() => console.log("pd1")}
-          onClickNHold={() => startPour()}
-          onEnd={(e, enough) => enough && stopPour()}
-          className="pour-btn"
-        >
-          <Pour
-            color={beverageSelected.beverage_font_color}
-            // isPouring={isPouring}
-            // ref={buttonPourEl}
-          >
-            {__("c_pour")}
-          </Pour>
-        </ClickNHold>
+        <ReplaySubscription source={socketPayment$.current}>
+          {(status: PaymentStatus) => {
+            if ((status in PaymentStatusPour || !needToPay(beverageSelected)) || promotionEnabled)
+              return(
+                <ClickNHold
+                  time={0.250}
+                  onStart={() => {}}
+                  onClickNHold={() => startPour()}
+                  onEnd={(e, enough) => enough && stopPour()}
+                  className="pour-btn"
+                  ref={buttonPourEl}
+                >
+                  <Pour
+                    color={beverageSelected.beverage_font_color}
+                    // isPouring={isPouring}
+                    // ref={buttonPourEl}
+                  >
+                    {__("c_pour")}
+                  </Pour>
+                </ClickNHold>
+              );
+
+            return (
+              <PaymentInfo />
+            );
+          }}
+        </ReplaySubscription>
       </CustomizeBeverageWrap>
     </React.Fragment>
   );

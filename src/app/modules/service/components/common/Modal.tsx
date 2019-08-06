@@ -205,6 +205,7 @@ export const Modal = (props: ModalProps) => {
       );
     };
 
+
     return (
       <>
         {show &&

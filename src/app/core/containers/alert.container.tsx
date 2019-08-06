@@ -1,25 +1,39 @@
 import * as React from "react";
 import createContainer from "constate";
-import { Alert } from "@modules/consumer/components/common/Alert"; // => TO IMPORVE
 
-export const DEFAULT_TIMEOUT_ALERT = 1500;
+export const DEFAULT_TIMEOUT_ALERT = 2000;
 
 export enum AlertTypes {
-  Success = "c_success",
-  Error = "c_error",
+  LoadingDataQr = "c_loading_data_qr",
+  LoadingQr = "c_loading_qr",
+
   OutOfStock = "c_out_of_stock",
+  OutOfSoda = "c_out_of_soda",
+  ErogationLimit = "c_erogation_limit",
+  OutOfOrder = "c_out_of_order",
   EndBeverage = "c_end_session",
-  EndSparkling = "c_end_sparkling"
+
+  NeedPayment = "c_tap_swipe_pour",
+  EndSparkling = "c_end_sparkling",
+
+  ErrorLoadingQr = "c_error_loading_qr",
+  ErrorLoadingQrPayment = "c_error_loading_qr_payment",
+  ErrorWebcam = "c_error_webcam",
+  ErrorQrNotFound = "c_error_qr_not_found",
+  ErrorUnassociatedBottle = "c_error_unassociated_bottle",
+  ErrorADAPanelDown = "c_ada_panel_down",
+  ErrorPaymentDown = "p_payment_down"
 }
 
 export interface AlertOptions {
-  type?: AlertTypes;
+  type?: AlertTypes | string;
   timeout?: boolean | number;
+  lock?: boolean;
   transparent?: boolean;
   onDismiss?: () => void;
-
   title?: string;
   subTitle?: boolean;
+  img?: string;
   content?: any;
   onConfirm?: () => void;
 }

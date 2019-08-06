@@ -5,6 +5,7 @@ export interface IBeverageConfig {
   temperature_level: number;
   b_complex?: boolean;
   antioxidants?: boolean;
+  isConsumerBeverage: boolean;
 }
 
 export interface IBrandDescription {
@@ -29,6 +30,7 @@ export interface IBrandDescription {
 
 export interface IBeverage extends IBrandDescription {
   $lock?: boolean;
+  $price?: any;
   beverage_type?: string;
   line_id?: number;
   toppings?: Topping[];

@@ -1,9 +1,10 @@
 import * as React from "react";
 import styled from "styled-components";
 import { __ } from "@utils/lib/i18n";
-import { AlertContext, DEFAULT_TIMEOUT_ALERT } from "@core/containers/alert.container";
+import { AlertContext, DEFAULT_TIMEOUT_ALERT, AlertOptions, AlertTypes } from "@core/containers/alert.container";
 import { AccessibilityContext } from "@core/containers";
 import { CloseBtn, CloseBtnWrap } from "./CloseBtn";
+import { PaymentInfo } from "./PaymentInfo";
 
 const AlertWrap = styled.div`
   position: absolute;
@@ -33,6 +34,16 @@ const AlertWrap = styled.div`
     border-radius: 50%;
     opacity: 0.2;
     background-image: linear-gradient(to bottom, #eeeeee, #cbcfda);
+  }
+  &.with-img {
+    img.type-img {
+      width: 260px;
+      height: 260px;
+      margin-bottom: 40px;
+    }
+    &:before {
+      content: none;
+    }
   }
   &>#title {
     font-family: NeuzeitGro-Bol;
@@ -64,6 +75,70 @@ const AlertWrap = styled.div`
     box-shadow: 7px 13px 28px 0 rgba(199, 200, 204, 0.3);
     color: ${props => props.theme.slateGrey};
   }
+  &.${AlertTypes.NeedPayment} {
+    top: 125px;
+    left: 382px;
+    transform: none !important;
+    &, img.type-img {
+      position: absolute;
+      top: 65px;
+      width: 516px;
+      height: 550px;
+      margin: 0;
+    }
+    #title {
+      display: none;
+    }
+    #payment-status {
+      font-family: NeuzeitGro-Bol;
+      text-transform: uppercase;
+      position: fixed;
+      font-size: 16px;
+      line-height: 2.34;
+      letter-spacing: 1.28px;
+      text-align: left;
+      vertical-align: center;
+      top: 347px;
+      right: 108px;
+      width: 300px;
+      height: 38px;
+    }
+    #Icon-Left {
+      position: fixed;
+      width: 27px;
+      height: 47px;
+      top: 370.5px;
+      right: 468.5px;
+    }
+    #Icon-CreditCard {
+      position: fixed;
+      top: 401px;
+      right: 374px;
+      width: 34px;
+      height: 22px;
+    }
+    #Icon-ApplePay {
+      position: fixed;
+      top: 402px;
+      right: 283px;
+      width: 47px;
+      height: 20px;
+    }
+    #Icon-AndroidPay {
+      position: fixed;
+      top: 394px;
+      right: 210px;
+      width: 29px;
+      height: 35px;
+    }
+    #Icon-SamsungPay {
+      position: fixed;
+      top: 401px;
+      right: 117px;
+      width: 49px;
+      height: 22px;
+    }
+  }
 `;
 
 const Overlay = styled.div`
@@ -91,15 +166,15 @@ const AlertContent = styled.div`
   }
 `;
 
-export interface AlertProps {}
+export interface AlertFullProps {}
 
 let timeout_ = null;
 
-export const Alert = (props: AlertProps) => {
+export const AlertFull = (props: AlertFullProps) => {
 
   const alertConsumer = React.useContext(AlertContext);
   const {show, options} = alertConsumer.state;
-  const {type, onDismiss, timeout, transparent, onConfirm, subTitle} = options;
+  const {type, onDismiss, timeout, transparent, onConfirm, subTitle, lock, img} = options;
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const accessibilityConsumer = React.useContext(AccessibilityContext);
@@ -128,12 +203,6 @@ export const Alert = (props: AlertProps) => {
     alertConsumer.hide();
   };
 
-  React.useEffect(() => {
-    if (timeout) {
-      timeout_ = setTimeout(onDismiss_, typeof timeout === "boolean" ? DEFAULT_TIMEOUT_ALERT : timeout);
-    }
-  }, [timeout]);
-
   const stopTimeout = () => {
     if (timeout_) {
       window.clearTimeout(timeout_);
@@ -141,6 +210,9 @@ export const Alert = (props: AlertProps) => {
   };
 
   const dismiss = () => {
+    if (lock) {
+      return;
+    }
     stopTimeout();
     onDismiss_();
   };
@@ -148,14 +220,45 @@ export const Alert = (props: AlertProps) => {
   return (
     <React.Fragment>
       {show && <AlertContent>
-        <Overlay className={transparent ? "transparent" : null} onClick={dismiss} />
-        <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={dismiss} />
-        <AlertWrap>
-          <span id="title">{__(type)}</span>
-          {subTitle && <span id="sub-title">{__(`${type}_subtitle`)}</span>}
-          {onConfirm && <button id="confirm-btn" onClick={onConfirm_}>OK</button>}
-        </AlertWrap>
+        <Overlay className={transparent ? "transparent" : null} onTouchEnd={dismiss} />
+        {!lock && <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={dismiss} />}
+        <Alert options={options} onDismiss_={onDismiss_} />
       </AlertContent>}
     </React.Fragment>
+  );
+};
+
+export interface AlertProps {
+  options: AlertOptions;
+  onDismiss_?: () => void;
+}
+
+export const Alert = (props: AlertProps) => {
+  const {type, onDismiss, timeout, transparent, onConfirm, subTitle, lock, img} = props.options;
+
+  React.useEffect(() => {
+    if (timeout) {
+      timeout_ = setTimeout((props.onDismiss_ || onDismiss), typeof timeout === "boolean" ? DEFAULT_TIMEOUT_ALERT : timeout);
+    }
+  }, [timeout]);
+
+  return (
+    <AlertWrap className={`${img ? "with-img" : ""} ${type}`}>
+      {img && <img className={"type-img"} src={img} />}
+      <span className={type} id="title">{__(type)}</span>
+      {subTitle && <span id="sub-title">{__(`${type}_subtitle`)}</span>}
+      {onConfirm && <button id="confirm-btn" onClick={onConfirm}>OK</button>}
+      {/* CUSTOM BY TYPE => */}
+      {type === AlertTypes.NeedPayment &&
+        <div className={"custom-elements"}>
+          <PaymentInfo />
+          <img id="Icon-Left" src={"icons/left.svg"} />
+          <img id="Icon-CreditCard" src={"icons/credit-card.svg"} />
+          <img id="Icon-ApplePay" src={"icons/apple-pay.png"} />
+          <img id="Icon-AndroidPay" src={"icons/android-pay.svg"} />
+          <img id="Icon-SamsungPay" src={"icons/samsung-pay.png"} />
+        </div>
+      }
+    </AlertWrap>
   );
 };

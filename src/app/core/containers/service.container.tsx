@@ -4,13 +4,14 @@ import { ConfigContext } from "./config.container";
 import { IBeverage } from "@core/models";
 import { Beverages, SOCKET_CONNECTIVITY } from "@core/utils/constants";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { flatMap, map, tap, mergeMap, finalize } from "rxjs/operators";
-import { of, Observable, forkJoin, merge } from "rxjs";
+import { flatMap, map, tap, mergeMap, finalize, delay, concatMap } from "rxjs/operators";
+import { of, Observable, forkJoin, merge, throwError, timer } from "rxjs";
 import { MTypes } from "@modules/service/components/common/Button";
 import { SetupTypes } from "@modules/service/components/modals/EquipmentConfiguration";
 import { LoaderContext } from "./loader.container";
 import { AlertContext } from ".";
 import { __ } from "@core/utils/lib/i18n";
+import { IMasterMenu } from "@core/utils/APIModel";
 
 //  ==== AUTH ====>
 export enum AuthLevels {
@@ -93,10 +94,20 @@ const ListConfig = {
     setObservable$: mediumLevel.price.setPaymentType,
     indexValue: { list_: "payment_type_list" , value_: null, selected_ : "payment_type" },
   },
+  owner: {
+    getObservable$: mediumLevel.owner.getOwnerList,
+    setObservable$: mediumLevel.owner.setOwner,
+    indexValue: { list_: "owner_list" , value_: null, selected_ : "owner" },
+  },
   operation: {
     getObservable$: mediumLevel.operator.getOperatorList,
     setObservable$: mediumLevel.operator.setOperator,
     indexValue: { list_: "operator_list" , value_: null, selected_ : "operator" },
+  },
+  service: {
+    getObservable$: mediumLevel.operator.getOperatorList,
+    setObservable$: mediumLevel.operator.setOperator,
+    indexValue: { list_: "service_list" , value_: null, selected_ : "service" },
   },
   timezone: {
     getObservable$: mediumLevel.timezone.getTimezoneList,
@@ -135,15 +146,21 @@ const getList_ = ({ getObservable$, indexValue }): Observable<IList> => {
   );
 };
 
-const setList_ = ({ list, valueSelected, setObservable$ }): Observable<any> => {
+const setList_ = ({ list, valueSelected, setObservable$ }, service?): Observable<any> => {
   if (list === null || list === [])
     return;
 
-  let element = list.find(element => element.value === valueSelected ) || { label: null, value: null };
+  let element = list.find(element => element.value === valueSelected ) || { label: "", value: "" };
 
   const { label } = element;
 
-  return setObservable$(label);
+  return service && service.serviceSelected !== null
+    ? setObservable$({
+      name: label,
+      service: (service.list.find(el => el.value === service.serviceSelected) || { label: "", value: "" }).label
+    })
+    : setObservable$(label); // <= TO IMPROVE
+
 };
 //  <=== LIST ====
 
@@ -181,13 +198,21 @@ const ServiceContainer = createContainer(() => {
   const loadPaymentList = () => getList_(ListConfig.payment).pipe(tap(data => setPaymentList(data)));
   const updatePaymentList = (valueSelected) => setList_({ ...paymentList, valueSelected, ...ListConfig.payment }).pipe(flatMap(() => loadPaymentList()));
 
+  const [ownerList, setOwnerList] = React.useState<IList>(initList);
+  const loadOwnerList = () => getList_(ListConfig.owner).pipe(tap(data => setOwnerList(data)));
+  const updateOwnerList = (valueSelected) =>  setList_({ ...ownerList, valueSelected, ...ListConfig.owner }).pipe(flatMap(() => loadOwnerList()));
+
   const [operationList, setOperationList] = React.useState<IList>(initList);
   const loadOperationList = () => getList_(ListConfig.operation).pipe(tap(data => setOperationList(data)));
-  const updateOperationList = (valueSelected) =>  setList_({ ...operationList, valueSelected, ...ListConfig.operation }).pipe(flatMap(() => loadOperationList()));
+  const updateOperationList = (valueSelected, serviceSelected, forceOperationList?, forceServiceList?) =>  setList_({ ...(forceOperationList || operationList), valueSelected, ...ListConfig.operation }, { list: forceServiceList ? forceServiceList.list : serviceList.list, serviceSelected: serviceSelected }).pipe(flatMap(() => loadOperationList()));
+
+  const [serviceList, setServiceList] = React.useState<IList>(initList);
+  const loadServiceList = () => getList_(ListConfig.service).pipe(tap(data => setServiceList(data)));
+  // const updateServiceList = (valueSelected) =>  setList_({ ...serviceList, valueSelected, ...ListConfig.service }).pipe(flatMap(() => loadServiceList()));
 
   const [timezoneList, setTimezoneList] = React.useState<IList>(initList);
   const loadTimezoneList = () => getList_(ListConfig.timezone).pipe(tap(data => setTimezoneList(data)));
-  const updateTimezoneList = (valueSelected) =>  setList_({ ...timezoneList, valueSelected, ...ListConfig.timezone }).pipe(flatMap(() => loadTimezoneList()));
+  const updateTimezoneList = (valueSelected, forceTimezoneList?) =>  setList_({ ...(forceTimezoneList || timezoneList), valueSelected, ...ListConfig.timezone }).pipe(flatMap(() => loadTimezoneList())); // <= TO IMPROVE
 
   React.useEffect(() => {
     forkJoin(
@@ -195,19 +220,23 @@ const ServiceContainer = createContainer(() => {
       loadLanguageList(),
       loadCountryList(),
       loadPaymentList(),
+      loadOwnerList(),
       loadOperationList(),
+      loadServiceList(),
       loadTimezoneList()
     )
     .subscribe(data => console.log("dataList", data));
   }, []);
 
   const allList = {
-    video: { ...videoList, update: (v) => updateVideoList(v) },
-    language: { ...languageList, update: (v) => updateLanguageList(v) },
-    country: { ...countryList, update: (v) => updateCountryList(v) },
-    payment: { ...paymentList, update: (v) => updatePaymentList(v) },
-    operation: { ...operationList, update: (v) => updateOperationList(v) },
-    timezone: { ...timezoneList, update: (v) => updateTimezoneList(v) }
+    video: { ...videoList, update: (v) => videoList.valueSelected !== v ? updateVideoList(v) : of({}) },
+    language: { ...languageList, update: (v) => languageList.valueSelected !== v ? updateLanguageList(v) : of({}) },
+    country: { ...countryList, update: (v) => countryList.valueSelected !== v ? updateCountryList(v) : of({}) },
+    payment: { ...paymentList, update: (v) => paymentList.valueSelected !== v ? updatePaymentList(v) : of({}) },
+    owner: { ...ownerList, update: (v) => ownerList.valueSelected !== v ? updateOwnerList(v) : of({}) },
+    operation: { ...operationList, update: (v, v2, listV?, listV2?) => updateOperationList(v, v2, listV, listV2) },
+    service: { ...serviceList, update: () => {} },
+    timezone: { ...timezoneList, update: (v, listV?) => timezoneList.valueSelected !== v ? updateTimezoneList(v, listV) : of({}) }
   };
 
   /* ==== GENERAL ==== */
@@ -234,6 +263,7 @@ const ServiceContainer = createContainer(() => {
     else a = MTypes.INFO_SUCCESS;
     setStatusAlarms(a);
   }, [alarms]);
+
   /* ==== CONNECTIVITY ==== */
   /* ======================================== */
 
@@ -244,7 +274,7 @@ const ServiceContainer = createContainer(() => {
     let c;
     if (connectivity) {
       if (connectivity.list.find(c => c.status === ConnectivityStatus.Active)) c = MTypes.INFO_SUCCESS;
-      else if (connectivity.list.find(c => c.status === ConnectivityStatus.Inactive)) c = MTypes.INFO_WARNING;
+      else if (connectivity.list.find(c => c.status === ConnectivityStatus.Inactive)) c = MTypes.INFO_SUCCESS; // MTypes.INFO_WARNING;
       else c = MTypes.INFO_DANGER;
     }
     setStatusConnectivity(c);
@@ -254,13 +284,23 @@ const ServiceContainer = createContainer(() => {
     forkJoin(
       mediumLevel.connectivity.connectivityInfo(),
       mediumLevel.connectivity.getApn(),
-      mediumLevel.connectivity.signalStrength()
     )
     .pipe(
-      map(data => {
+      flatMap(data => {
         const listConnectivity = data[0];
         const { apn } = data[1];
-        const signalStrength = data[2].signal_strength;
+        let signalStrength = of("NaN");
+        if (listConnectivity[ConnectivityTypes.Mobile].status !== ConnectivityStatus.NotConnected) {
+          signalStrength = mediumLevel.connectivity.signalStrength().pipe(map((data: any) => data.signal_strength));
+        }
+        return forkJoin(
+          of(listConnectivity),
+          of(apn),
+          signalStrength
+        );
+      }),
+      tap(valueConnectivity => console.log({ valueConnectivity })),
+      map(([listConnectivity, apn, signalStrength]) => {
 
         const list =
         [ConnectivityTypes.Mobile, ConnectivityTypes.Wifi, ConnectivityTypes.Eth] // Object.keys(listConnectivity)
@@ -270,7 +310,7 @@ const ServiceContainer = createContainer(() => {
           if (listConnectivity[key].status === ConnectivityStatus.Active) {
            elmConnectivity_.info = MTypes.INFO_SUCCESS;
           } else if (listConnectivity[key].status === ConnectivityStatus.Inactive) {
-            elmConnectivity_.info = MTypes.INFO_WARNING;
+            elmConnectivity_.info =  MTypes.INFO_SUCCESS; // MTypes.INFO_WARNING;
           } else if (listConnectivity[key].status === ConnectivityStatus.NotConnected) {
             elmConnectivity_.info = MTypes.INFO_DANGER;
           }
@@ -459,9 +499,9 @@ const ServiceContainer = createContainer(() => {
         });
 
         const form_ = {};
-        Object.keys(data).map((key) => form_[key] = data[key].value || "");
+        Object.keys(data).map((key) => form_[key] = data[key].value || (data[key].type === "select" ? data[key].select[0] : ""));
 
-        const getDataPage = (index) => data_.filter(f => f.page === index).sort((a, b) => __(b.$index) - __(a.$index));
+        const getDataPage = (index) => data_.filter(f => f.page === index).sort((a, b) => a.order - b.order);
 
         const structure_ = {
           1: {
@@ -483,13 +523,12 @@ const ServiceContainer = createContainer(() => {
     );
   }, []);
 
-  function endInizialization(operationSelected, form) {
+  function endInizialization(operationSelected, serviceSelected, form) {
     const { payment, language, country, timezone, operation } = allList;
     loaderConsumer.show();
 
-    operation.update(operationSelected)
+    mediumLevel.equipmentConfiguration.setFirstActivation(form)
     .pipe(
-      flatMap(() => mediumLevel.equipmentConfiguration.setFirstActivation(form)),
       finalize(() => loaderConsumer.hide())
     )
     .subscribe(
@@ -544,7 +583,7 @@ const ServiceContainer = createContainer(() => {
     .subscribe(
       data => {
         if (data.error === false) {
-          // window.location.reload();
+          window.location.reload();
           return;
         }
         // => ERROR
@@ -562,6 +601,63 @@ const ServiceContainer = createContainer(() => {
   function endSanitation(lines) {
     loaderConsumer.show();
     return mediumLevel.sanitation.saveValues(lines)
+    .pipe(
+      finalize(() => loaderConsumer.hide())
+    );
+  }
+
+  /* ==== MASTER MENU ==== */
+  /* ======================================== */
+
+  function getMasterMenu(): Observable<IMasterMenu> {
+    loaderConsumer.show();
+    return mediumLevel.menu.getMaster()
+    .pipe(
+      map(data => {
+        const { error } = data;
+        if (error)
+          throw error;
+        else
+          return data;
+      }),
+      map((data: IMasterMenu) => {
+
+        data.form_ = {};
+        data.elements.forEach((element) => data.form_[element.id] = element.type === "select" ? element.default_value : element.value);
+
+        data.structure_ = [];
+        const { elements } = data;
+        const groups_ = elements.map(k => k.group_label_id).filter((item, pos, self) => self.indexOf(item) === pos);
+        groups_.forEach(group_ => {
+          const elementsOfGroup_ = elements.filter(element => element.group_label_id === group_);
+          data.structure_.push({
+            label_id: group_,
+            elements: elementsOfGroup_
+          });
+        });
+        return data;
+
+      }),
+      finalize(() => loaderConsumer.hide())
+    );
+  }
+
+  function pollingMasterMenu(): Observable<any> {
+    return timer(0, 3000)
+    .pipe(
+      concatMap(_ => mediumLevel.menu.getMaster()),
+      map(data => data.elements.filter(elm => elm.permission === "read")),
+      map(elements => {
+        let form_ = {};
+        elements.forEach((element) => form_[element.id] = element.type === "select" ? element.default_value : element.value);
+        return form_;
+      })
+    );
+  }
+
+  function saveMasterMenu(form: any) {
+    loaderConsumer.show();
+    return mediumLevel.menu.saveMaster(form)
     .pipe(
       finalize(() => loaderConsumer.hide())
     );
@@ -585,7 +681,13 @@ const ServiceContainer = createContainer(() => {
     endInizialization,
     endReplacement,
     endPickUp,
-    endSanitation
+    endSanitation,
+    getMasterMenu,
+    pollingMasterMenu,
+    saveMasterMenu,
+    timezoneList,
+    operationList,
+    serviceList,
   };
 });
 

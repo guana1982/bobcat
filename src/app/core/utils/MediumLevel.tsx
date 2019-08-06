@@ -32,15 +32,15 @@ export default {
   },
   product: {
     sustainabilityData: () => get("product/sustainability_data"),
-    sessionEnded: () => post("product/session_ended")
+    sessionEnded: () => post("product/session_ended"),
+    proximity: () => get("product/proximity"),
+    temperature: () => get("product/temperature")
   },
   payment: {
-    // getAvailableMethods: () => getFake("payment/methods"),
-    // getBeverageFromQr: data => getFake(`payment/prepay/qr/lean/beverages_from_qr/${data}`),
-    // validateQr: data => getFake(`payment/prepay/qr/lean/validate`),
-    // pollNfc: () => getFake("poll_nfc_empty"),
-    generateQr: data => post("payment/postpay/qr/mode1/generate", data),
-    confirmPostPayment: payload => post("payment/postpay/qr/mode1/confirm", payload)
+    getPrices: () => get("menu/prices"),
+    setPrice: (beverage_id, price, currency) => post("menu/price", { beverage_id, price, currency }),
+    vendRrequest: beverageConfig => post("payment/vend_request", beverageConfig),
+    vendCancel: () => post("payment/vend_cancel")
   },
   dispense: {
     pour: beverageConfig => post("dispense/pour", beverageConfig),
@@ -60,7 +60,11 @@ export default {
     action: (menuId, submenuId, actionId, payload) => post(`menu/${menuId}/${submenuId}/${actionId}`, payload),
 
     authentication: pin => post("auth", { pin }),
-    reboot: () => post("menu/tech_menu/operation_settings_tech/reboot_tower")
+    reboot: () => post("menu/tech_menu/operation_settings_tech/reboot_tower"),
+
+    getMaster: () => get("menu/master_menu/master_submenu/"),
+    saveMaster: values => post("menu/master_menu/master_submenu/save", values),
+    saveTest: values => post("menu/master_menu/test_submenu/save", values)
   },
   connectivity: {
     connectivityInfo: () => get("menu/connectivity_status"),
@@ -71,11 +75,14 @@ export default {
   },
   line: {
     startPriming: line_id => post("menu/start_priming", { line_id }),
-    stopPriming: () => post("menu/stop_priming"),
+    stopPriming: (line_id?) => post("menu/stop_priming", { line_id }),
     getLockLines: () => get("menu/lock_lines"),
     setLockLine: line_id => post("menu/lock_line", { line_id }),
     setUnlockLine: line_id => post("menu/unlock_line", { line_id }),
-    bibReset: (line) => post("menu/bib_reset", line)
+    bibReset: (line) => post("menu/bib_reset", line),
+    startCalibrate: (line_id, ratio?) => post("menu/start_calibrate", { line_id, ratio }),
+    stopCalibrate: (line_id) => post("menu/stop_calibrate", { line_id: line_id }),
+    setCalibrate: (line_id, volume, tick) => post("menu/set_calibration", { line_id: line_id, volume: volume, tick: tick })
   },
   price: {
     getPaymentType: () =>  get("menu/payment_type"),
@@ -98,9 +105,13 @@ export default {
     getVideoList: () => get("menu/video_list"),
     setVideo: filename => post("menu/video", { filename })
   },
+  owner: {
+    getOwnerList: () => get("menu/owner"),
+    setOwner: owner => post("menu/owner", { owner })
+  },
   operator: {
     getOperatorList: () => get("menu/operator"),
-    setOperator: type => post("menu/operator", { type })
+    setOperator: payload => post("menu/operator", payload)
   },
   timezone: {
     getTimezoneList: () => get("menu/timezone"),
@@ -125,6 +136,7 @@ export default {
   alarm: {
     getAlarms: (menuId = "tech_menu", submenuId = "alarms_menu_tech") => get(`menu/${menuId}/${submenuId}`),
     disableAlarm: name => post("menu/disable_alerts", { name }),
+    resetAlarm: name => post("menu/reset_alert", { name }),
     enableAlarm: name => post("menu/enable_alerts", { name })
   },
   wifi: {

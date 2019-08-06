@@ -18,22 +18,25 @@ import { Customize, SelectionTypes } from "../components/modals/Customize";
 import { Update } from "../components/modals/Update";
 import { Timeout } from "../components/modals/Timeout";
 import { Sanitation } from "../components/modals/Sanitation";
+import { Pages } from "@core/utils/constants";
 
 /* ==== STYLE ==== */
 /* ======================================== */
 
-interface HomeContentProps { beverageIsSelected?: boolean; }
-export const MenuContent = styled<HomeContentProps, "div">("div")`
+interface MenuContentProps { beverageIsSelected?: boolean; }
+export const MenuContent = styled<MenuContentProps, "div">("div")`
   * {
       font-family: Karla-Reg !important;
   }
-
   background: ${props => props.theme.dark};
   width: 100vw;
   height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
+  &.scroll {
+    overflow-y: auto;
+  }
 `;
 
 /* ==== MODALS ==== */
@@ -100,6 +103,7 @@ function reducerModals(state: StateModals, action: ActionModals) {
 
 interface MenuProps {
   authLevel: AuthLevels;
+  history: any;
 }
 
 interface MenuState {
@@ -187,6 +191,8 @@ export const NewMenu = (props: MenuProps) => {
     });
   };
 
+  const { history } = props;
+
   return (
     <>
       <MenuContent>
@@ -194,7 +200,7 @@ export const NewMenu = (props: MenuProps) => {
           <Group title={__("LINES ASSIGNMENT")} size={authLevel !== AuthLevels.Crew ? SIZE_GROUP_LINES : SIZE_FULL_GROUP_LINES}>
             {lines.pumps.map((line, i) => {
               return (
-                <MButton disabled={authLevel === AuthLevels.Super} onClick={() => openModal(Modals.Line, { lineId: line.line_id })} key={i} className="small" light info={`Line - ${line.line_id}`}>
+                <MButton onClick={() => openModal(Modals.Line, { lineId: line.line_id })} key={i} className="small" light info={`Line - ${line.line_id}`} type={line.$beverage && line.$beverage.$lock ? MTypes.INFO_WARNING : null}>
                   {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
                 </MButton>
               );
@@ -204,7 +210,7 @@ export const NewMenu = (props: MenuProps) => {
             <Group title={__("WATERS")} size={SIZE_GROUP_WATERS}>
               {lines.waters.map((line, i) => {
                 return (
-                  <MButton disabled={authLevel === AuthLevels.Super} onClick={() => openModal(Modals.Line, { lineId: line.line_id })} key={i} className="small" light info={`${line.$beverage.beverage_type} - ${line.line_id}`}>
+                  <MButton onClick={() => openModal(Modals.Line, { lineId: line.line_id })} key={i} className="small" light info={`${line.$beverage.beverage_type} - ${line.line_id}`}>
                     {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
                   </MButton>
                 );
@@ -233,7 +239,11 @@ export const NewMenu = (props: MenuProps) => {
             {
               authLevel === AuthLevels.Super &&
               <>
-                <MButton onClick={() => openModal(Modals.EquipmentConfiguration, { setup: SetupTypes.Inizialization })}>INITIAL SETUP</MButton>
+                <MButton onClick={() => openModal(Modals.EquipmentConfiguration)}>EQUIPMENT CONFIGURATION</MButton>
+                <MButton onClick={() => openModal(Modals.Timeout)}>VIDEO TIMEOUT</MButton>
+                <MButton onClick={() => openModal(Modals.Cleaning)}>SCREEN CLEANING</MButton>
+                <MButton onClick={() => openModal(Modals.Customize)}>CUSTOMIZE UI</MButton>
+                <MButton onClick={() => openModal(Modals.Sanitation)}>SANITATION</MButton>
                 {/* <MButton onClick={() => openModal(Modals.Customize, { selection: SelectionTypes.Payment })}>FREE / PAID</MButton> */}
               </>
             }
@@ -261,6 +271,12 @@ export const NewMenu = (props: MenuProps) => {
               authLevel === AuthLevels.Super &&
               <>
                 <MButton onClick={rebootEvent}>SYSTEM REBOOT</MButton>
+                <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
+                <MButton onClick={() => openModal(Modals.Update)}>SOFTWARE UPDATE</MButton>
+                <MButton onClick={() => openModal(Modals.Connectivity)} info type={statusConnectivity}>CONNECTIVITY</MButton>
+                <MButton onClick={() => history.push(Pages.Master)}>MASTER MENU</MButton>
+                <MButton onClick={() => history.push(Pages.Test)}>TEST MENU</MButton>
+
                 {/* <MButton>SYSTEM SHUTDOWN</MButton> */}
                 {/* <MButton onClick={() => openModal(Modals.Language)}>SERVICE LANGUAGE</MButton>
                 <MButton onClick={() => openModal(Modals.Connectivity)} info type={statusConnectivity}>CONNECTIVITY</MButton> */}
@@ -283,10 +299,10 @@ export const NewMenu = (props: MenuProps) => {
       {modals[Modals.ChangePrice].show && <ChangePrice cancel={closeAllModal} />}
       {modals[Modals.EquipmentConfiguration].show && <EquipmentConfiguration {...modals[Modals.EquipmentConfiguration].params} cancel={closeAllModal} />}
       {modals[Modals.Cleaning].show && <Cleaning cancel={closeAllModal} />}
-      {modals[Modals.EquipmentStatus].show && <EquipmentStatus cancel={closeAllModal} />}
+      {modals[Modals.EquipmentStatus].show && <EquipmentStatus cancel={closeAllModal} authLevel={authLevel} />}
       {modals[Modals.Sanitation].show && <Sanitation cancel={closeAllModal} />}
 
-      {modals[Modals.Update].show && <Update cancel={closeAllModal} />}
+      {modals[Modals.Update].show && <Update cancel={closeAllModal} authLevel={authLevel} />}
       {modals[Modals.Timeout].show && <Timeout cancel={closeAllModal} />}
 
       {modals[Modals.Customize].show && <Customize {...modals[Modals.Customize].params} cancel={closeAllModal} />}

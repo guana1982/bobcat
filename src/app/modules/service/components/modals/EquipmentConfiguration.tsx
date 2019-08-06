@@ -10,9 +10,9 @@ import { MInput, InputContent } from "../common/Input";
 import { MKeyboard, KeyboardWrapper } from "../common/Keyboard";
 import { __ } from "@core/utils/lib/i18n";
 import { MButtonGroup } from "../common/ButtonGroup";
-import { finalize, concat } from "rxjs/operators";
+import { finalize, concat, tap, flatMap } from "rxjs/operators";
 import { LoaderContext } from "@core/containers/loader.container";
-import { forkJoin } from "rxjs";
+import { forkJoin, of } from "rxjs";
 
 const ACTIONS_START = (cancel, next, disableNext: boolean): Action[] => [{
   title: __("cancel"),
@@ -120,6 +120,44 @@ export const ISection = styled.div`
         flex: 14%;
       }
     }
+    .select {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      flex: 50%;
+      height: 40px;
+      .label {
+        display: inline-block;
+        color: #383838;
+        text-transform: capitalize;
+        text-align: right;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-right: 10px;
+      }
+      button {
+        height: 38px;
+        border-radius: 12px;
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-right: 0;
+        padding-bottom: 0;
+        padding-top: 0;
+        padding-left: 20px;
+        &:first-child {
+          margin-left: 0;
+        }
+        &:before {
+          height: 100%;
+          width: 20px;
+          border-radius: 0;
+        }
+      }
+    }
+  }
+  & > .label {
+    font-size: 20px;
+    margin-top: 50px;
   }
 `;
 
@@ -149,18 +187,20 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
   const loaderConsumer = React.useContext(LoaderContext);
   const alertConsumer = React.useContext(AlertContext);
 
-  const { language, country, timezone, payment, operation } = serviceConsumer.allList;
+  const { language, country, timezone, payment, operation, service, owner } = serviceConsumer.allList;
 
   const [languageSelected, setLanguageSelected] = React.useState(language.valueSelected);
   const [countrySelected, setCountrySelected] = React.useState(country.valueSelected);
   const [timezoneSelected, setTimezoneSelected] = React.useState(timezone.valueSelected);
   const [paymentSelected, setPaymentSelected] = React.useState(payment.valueSelected);
+  const [ownerSelected, setOwnerSelected] = React.useState(owner.valueSelected);
   const [operationSelected, setOperationSelected] = React.useState(operation.valueSelected);
+  const [serviceSelected, setServiceSelected] = React.useState(service.valueSelected);
 
   //  ==== FIRST ACTIVATION ====>
-  const { firstActivation, endInizialization, endReplacement, endPickUp, statusConnectivity } = serviceConsumer;
+  const { firstActivation, endInizialization, endReplacement, endPickUp, statusConnectivity, timezoneList, operationList, serviceList } = serviceConsumer;
 
-  const stepsForm = 3;
+  const stepsForm = Object.keys(firstActivation.structure_).length + 1;
   const { form_ } = firstActivation;
   const [form, setForm] = React.useState(form_);
 
@@ -170,13 +210,24 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
         languageSelected,
         countrySelected,
         timezoneSelected,
-        paymentSelected
+        paymentSelected,
+        ownerSelected,
+        operationSelected,
+        serviceSelected,
+        timezoneList,
+        operationList,
+        serviceList,
       };
     }
   }, [setup, props.setup]);
 
+  React.useEffect(() => { // <= FIX TIMEZONE ON CHANGE COUNTRY
+    const { valueSelected } = timezone;
+    setTimezoneSelected(valueSelected);
+  }, [timezone]);
+
   const finishInizialization = () => {
-    endInizialization(operationSelected, form);
+    endInizialization(operationSelected, serviceSelected, form);
   };
   //  <=== FIRST ACTIVATION ====
 
@@ -218,33 +269,42 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
             return;
           }
         } else if (step === 5) {
-          if (operationSelected !== null) {
+          if (ownerSelected !== null) {
             setDisableNext_(false);
             return;
           }
-        } else if (step === 6 || step === 7) {
-          const stepFields_: any[] = firstActivation.structure_[step - 5].fields;
-          let formValid_ = true;
-          stepFields_.forEach(field => {
-            if (!field.mandatory) {
+        } else if (step === 6 || step === 7 || step === 8) {
+          if (step === 6 && (ownerSelected === 0 || ownerSelected === 1)) {
+            if (operationSelected !== null && serviceSelected !== null) {
+              setDisableNext_(false);
               return;
             }
+            // setDisableNext_(true);
+            // return;
+          } else {
+            const stepFields_: any[] = firstActivation.structure_[step - 5].fields;
+            let formValid_ = true;
+            stepFields_.forEach(field => {
+              if (!field.mandatory) {
+                return;
+              }
 
-            if (field.type === "alphanumeric") {
-              if (form[field.$index] === "") {
-                formValid_ = false;
-                return;
+              if (field.type === "alphanumeric") {
+                if (form[field.$index] === "") {
+                  formValid_ = false;
+                  return;
+                }
               }
-            }
-            else if (field.type === "email") {
-              if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(form[field.$index]))) {
-                formValid_ = false;
-                return;
+              else if (field.type === "email") {
+                if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(form[field.$index]))) {
+                  formValid_ = false;
+                  return;
+                }
               }
-            }
-          });
-          setDisableNext_(!formValid_);
-          return;
+            });
+            setDisableNext_(!formValid_);
+            return;
+          }
         }
       } else if (setup === SetupTypes.MotherboardReplacement || setup === SetupTypes.EquipmentReplacement) {
         if (step === 0) {
@@ -261,7 +321,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
       }
 
       setDisableNext_(true);
-    }, [setup, step, operationSelected, timezoneSelected, languageSelected, paymentSelected, countrySelected, statusConnectivity, form, serialNumber]);
+    }, [setup, step, operationSelected, timezoneSelected, languageSelected, paymentSelected, countrySelected, statusConnectivity, form, serialNumber, ownerSelected, operationSelected, serviceSelected]);
     //  <=== ENABLE NEXT ====
 
   //  ==== ACTIONS CONNECTIVITY ====>
@@ -285,7 +345,9 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
     setCountrySelected(country.valueSelected);
     setTimezoneSelected(timezone.valueSelected);
     setPaymentSelected(payment.valueSelected);
+    setOwnerSelected(owner.valueSelected);
     setOperationSelected(operation.valueSelected);
+    setServiceSelected(service.valueSelected);
 
     setForm(form_);
     setSerialNumber("");
@@ -317,14 +379,17 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
       finish = () => console.log("Pls add => Finish");
     }
     const cancel_ = () => {
-      if (props.setup) {
+      if (setup) {
         let cancelCall$ = null;
         if (setup === SetupTypes.Inizialization) {
           cancelCall$ = forkJoin(
             language.update(initialValues.languageSelected),
             country.update(initialValues.countrySelected),
-            timezone.update(initialValues.timezoneSelected),
-            payment.update(initialValues.paymentSelected)
+            timezone.update(initialValues.timezoneSelected, initialValues.timezoneList),
+            payment.update(initialValues.paymentSelected),
+            owner.update(initialValues.ownerSelected),
+            operation.update(initialValues.operationSelected, initialValues.serviceSelected, initialValues.operationList, initialValues.serviceList),
+            // service.update(initialValues.serviceSelected),
           );
         }
         if (cancelCall$) {
@@ -350,6 +415,16 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
           stepCall$ = timezone.update(timezoneSelected);
         } else if (step === 3) {
           stepCall$ = payment.update(paymentSelected);
+        } else if (step === 5) {
+          stepCall$ = owner.update(ownerSelected);
+          if (ownerSelected === 2) { // <= PBC case
+            stepCall$ = stepCall$
+            .pipe(
+              flatMap(() => operation.update(NaN, NaN))
+            );
+          }
+        } else if (step === 6 && (ownerSelected === 0 || ownerSelected === 1)) {
+          stepCall$ = operation.update(operationSelected, serviceSelected);
         }
       }
       if (stepCall$) {
@@ -380,7 +455,7 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
       actions={ACTIONS_CLOSE}
     >
       <Box className="centered">
-        {/* <MButton onClick={() => setSetup(SetupTypes.Inizialization)}>INITIAL SETUP</MButton> */}
+        <MButton onClick={() => setSetup(SetupTypes.Inizialization)}>INITIAL SETUP</MButton>
         <MButton onClick={() => setSetup(SetupTypes.MotherboardReplacement)}>MOTHERBOARD REPLACEMENT</MButton>
         <MButton onClick={() => setSetup(SetupTypes.EquipmentReplacement)}>EQUIPMENT REPLACEMENT</MButton>
         <MButton onClick={() => pickUp()}>PICK UP</MButton>
@@ -446,10 +521,20 @@ export const EquipmentConfiguration = (props: EquipmentConfigurationProps) => {
                   maxStep={stepsForm}
                   firstActivation={firstActivation}
                   indexStep={step - 5}
+                  owner_={{
+                    owner,
+                    ownerSelected,
+                    setOwnerSelected
+                  }}
                   operation_={{
                     operation,
                     operationSelected,
                     setOperationSelected
+                  }}
+                  service_={{
+                    service,
+                    serviceSelected,
+                    setServiceSelected
                   }}
                 />
               )}
@@ -514,27 +599,48 @@ interface FormInitializationProps {
   indexStep: number;
   form: any;
   setForm: any;
+  owner_: {
+    owner: any;
+    ownerSelected: any;
+    setOwnerSelected: any;
+  };
   operation_: {
     operation: any;
     operationSelected: any;
     setOperationSelected: any;
   };
+  service_: {
+    service: any;
+    serviceSelected: any
+    setServiceSelected: any;
+  };
 }
 
 const FormInitialization = (props: FormInitializationProps) => {
 
-  const { firstActivation, indexStep, maxStep, form, setForm, operation_ } = props;
+  const { firstActivation, indexStep, maxStep, form, setForm, owner_, operation_, service_ } = props;
   const { structure_ } = firstActivation;
-  const stepActivation = structure_[indexStep];
 
+  if ((owner_.ownerSelected === 0 || owner_.ownerSelected === 1) && !structure_["3"]) {
+    structure_["3"] = structure_["2"];
+    structure_["2"] = structure_["1"];
+    structure_["1"] = { fields: [] };
+  } else if (owner_.ownerSelected === 2 && structure_["3"]) {
+    structure_["1"] = structure_["2"];
+    structure_["2"] = structure_["3"];
+    delete structure_["3"];
+  }
+
+  const stepsNumber = Object.keys(structure_).length + 1;
+  const stepActivation = structure_[indexStep];
   const fields = stepActivation ? stepActivation.fields : [];
 
   const keyboardEl = React.useRef(null);
   React.useEffect(() => {
-    if (indexStep === 1) {
+    if ((owner_.ownerSelected === 2 && indexStep === 1) || (indexStep === 2 && owner_.ownerSelected !== 2)) {
       const keyboardEl_ = keyboardEl.current;
       Object.keys(form).forEach(key => {
-        keyboardEl_.setInput(form[key], key);
+        keyboardEl_.keyboard.setInput(form[key], key);
       });
     }
   }, [indexStep]);
@@ -546,6 +652,15 @@ const FormInitialization = (props: FormInitializationProps) => {
     setForm(prevState => ({
       ...prevState,
       ...inputObj
+    }));
+  };
+
+  const onChangeValue = (fieldIndex, value) => {
+    const obj_ = {};
+    obj_[fieldIndex] = value;
+    setForm(prevState => ({
+      ...prevState,
+      ...obj_
     }));
   };
 
@@ -568,36 +683,76 @@ const FormInitialization = (props: FormInitializationProps) => {
     });
   };
 
+  const getTitleForm = (i) => {
+    if (i === 2)
+      return "CUSTOMER INFORMATION";
+    else if (i === 3)
+      return "EQUIPMENT";
+
+    return "INITIALIZATION DATA";
+  };
+
   return (
     <>
-      <h2>INITIALIZATION DATA - {indexStep + 1}/{maxStep}</h2>
+      <h2>{getTitleForm(indexStep + 1)} - {indexStep + 1}/{stepsNumber}</h2>
       {indexStep === 0 && (
         <>
           <br/><br/>
           <MButtonGroup
-            options={operation_.operation.list}
-            value={operation_.operationSelected}
-            onChange={(value) => operation_.setOperationSelected(value)}
+            options={owner_.owner.list}
+            value={owner_.ownerSelected}
+            onChange={(value) => owner_.setOwnerSelected(value)}
           />
         </>
       )}
-      {indexStep > 0 && (
+      {indexStep === 1 && (owner_.ownerSelected === 0 || owner_.ownerSelected === 1) &&
+        <div style={{overflow: "scroll", marginTop: "10px"}}>
+          <span className="label">OPERATOR</span>
+          <MButtonGroup
+            options={operation_.operation.list}
+            value={operation_.operationSelected}
+            onChange={(value) => operation_.setOperationSelected(value)}
+            />
+          <span className="label">UNIT SERVICED BY</span>
+          <MButtonGroup
+            options={service_.service.list}
+            value={service_.serviceSelected}
+            onChange={(value) => service_.setServiceSelected(value)}
+          />
+        </div>
+      }
+      {indexStep > 0 && fields.length > 0 && (
         <>
           {fields.length < 3 && <br/>}
           <Box className="form-section">
             {
-              fields.map((field, index) => (
-                <MInput
-                  selected={field.$index === fieldSelected}
-                  key={index}
-                  required={field.mandatory}
-                  label={__(field.$index)}
-                  value={form[field.$index]}
-                  type={field.type}
-                  click={() => setFieldSelected(field.$index)}
-                  onChange={e => console.log(e)}
-                />
-              ))
+              fields.map((field, index) => {
+                if (field.type === "alphanumeric")
+                  return (
+                    <MInput
+                      selected={field.$index === fieldSelected}
+                      key={index}
+                      required={field.mandatory}
+                      label={__(field.$index)}
+                      value={form[field.$index]}
+                      type={field.type}
+                      click={() => setFieldSelected(field.$index)}
+                      onChange={e => console.log(e)}
+                    />
+                  );
+
+                if (field.type === "select")
+                  return (
+                    <div key={index} className="select">
+                      <span className="label">{__(field.$index)}{field.mandatory && "*"}</span>
+                      <MButtonGroup
+                        options={field.select.map(v => { return { "label": v , "value": v}; } )}
+                        value={form[field.$index]}
+                        onChange={(value) => onChangeValue(field.$index, value)}
+                      />
+                    </div>
+                  );
+              })
             }
             {fields.length % 2 !== 0 && <span className={`empty-field ${fields.length === 1 && "one-field"}`} />}
           </Box>

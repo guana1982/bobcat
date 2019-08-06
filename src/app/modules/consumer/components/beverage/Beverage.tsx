@@ -4,9 +4,9 @@ import styled, { css } from "styled-components";
 import posed from "react-pose";
 import { __ } from "@utils/lib/i18n";
 import { IBeverage } from "@models/index";
-import { forwardRef } from "react";
+import { memo } from "react";
 import { BeverageStatus } from "@models/beverage.model";
-import { AccessibilityContext } from "@core/containers";
+import { AccessibilityContext, ConfigContext, PaymentContext } from "@core/containers";
 import ReactDOM = require("react-dom");
 import { Nutrition } from "./Nutrition";
 import { OutOfStock } from "./OutOfStock";
@@ -130,6 +130,7 @@ interface BeverageProps {
   status_id?: BeverageStatus;
   title?: string;
   disabled?: boolean;
+  detectValue?: string;
   $sparkling?: boolean;
   nutritionFacts?: boolean;
   levels?: ILevelsModel;
@@ -137,16 +138,25 @@ interface BeverageProps {
   handleDisabled: (d) => void;
 }
 
-export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
+function areEqual(prevProps, nextProps) {
+  return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+}
+
+export const Beverage = memo((props: BeverageProps) => {
 
   const [zoomNutrition, setZoomNutrition] = React.useState(false);
 
-  const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled, beverage, levels, slideOpen } = props;
+  const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled, beverage, levels, detectValue } = props;
 
-  const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib || beverage.line_id <= 0;
+  const configConsumer = React.useContext(ConfigContext);
+  const { alarmSparkling_ } = configConsumer.statusAlarms;
+
+  const paymentConsumer = React.useContext(PaymentContext);
+
+  const $specialCard: boolean = types && types[0] === BeverageTypes.LastPour || types && types[0] === BeverageTypes.Favorite;
+  const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib || beverage.line_id <= 0 || beverage.$lock || ($specialCard && (beverage.$lock || (levels.carbonation_perc != null && alarmSparkling_)));
   const $blur: boolean = disabled && !pouring;
   const $disabledTouch: boolean = types && types[0] === BeverageTypes.Info || $outOfStock;
-  const $specialCard: boolean = types && types[0] === BeverageTypes.LastPour || types && types[0] === BeverageTypes.Favorite;
   const $info: boolean = types && types[0] === BeverageTypes.Info;
 
   let  onStart, onHoldStart, onHoldEnd  = null;
@@ -163,8 +173,9 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 
   React.useEffect(() => {
     const button = buttonEl.current;
-    const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
+    if (!button) return;
 
+    const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
     if (!isFocus) return;
 
     if (enter) {
@@ -175,26 +186,36 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         });
         return;
       }
+      if (pouring) {
+        onHoldStart();
+        return;
+      }
       if (onStart) {
         onStart();
       }
       return;
     }
+  }, [buttonEl, enter]);
+
+  React.useEffect(() => {
+    const button = buttonEl.current;
+    if (!button) return;
+
+    const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
+    if (!isFocus || nutritionFacts) return;
 
     if (pour === true) {
-      if (nutritionFacts) {
-        return;
-      }
+      console.log("POUR");
       if (onHoldStart) {
         onHoldStart();
       }
     } else if (pour === false) {
+      console.log("STOP");
       if (onHoldEnd) {
         onHoldEnd();
       }
     }
-
-  }, [buttonEl, enter, pour]);
+  }, [buttonEl, pour]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
   const disabledButton = types && types[0] === BeverageTypes.Info || $outOfStock || (disabled && !pouring);
@@ -219,15 +240,15 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
 
   const start = () => {
     if (disabledButton) return;
+  };
+
+  const end = (e, enough) => {
+    if (disabledButton) return;
 
     if (nutritionFacts) {
       handleZoomNutrition(true);
       return null;
     }
-  };
-
-  const end = (e, enough) => {
-    if (disabledButton || nutritionFacts) return;
 
     if (!enough) {
       if (!pouring)
@@ -244,12 +265,12 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
   };
 
   return (
-    <BeverageContent size={size} ref={innerRef}>
+    <BeverageContent size={size}>
         <React.Fragment>
           {zoomNutrition &&
             <AppendedFullBeverage {...props}>
               <BeverageFull>
-                {/* <div id="backdrop" onClick={closeZoomNutrition}></div> */}
+                <div id="backdrop" onClick={closeZoomNutrition}></div>
                 <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={closeZoomNutrition} />
                 <BeverageWrap show={true} color={color}>
                   <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
@@ -265,9 +286,9 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
               onEnd={end}
             >
               <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
-                <button ref={buttonEl} disabled={disabledButton}>
+                <button id={detectValue} disabled={disabledButton} ref={buttonEl}>
                   <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
-                  <Basic levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
+                  <Basic paymentConsumer={paymentConsumer} levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
                 </button>
               </BeverageWrap>
             </ClickNHold>
@@ -282,7 +303,7 @@ export const Beverage = forwardRef((props: BeverageProps , innerRef: any) => {
         </React.Fragment>
     </BeverageContent>
   );
-});
+}, areEqual);
 
 /* ==== FULL MODE ==== */
 /* ======================================== */
@@ -298,47 +319,63 @@ const AppendedFullBeverage = componentWillAppendToBody(FullBeverage);
 /* ==== ANIMATIONS ==== */
 /* ======================================== */
 
-export const BeveragesAnimated = [
-  posed(Beverage)({
-    fullClose: {
-      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
-      delay: 75
-    },
-    close: {
-      transform: "scale(1) translate3d(62.8vw, 12rem, 0px)",
-      delay: 100
-    },
-    open: {
-      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
-      delay: 50
-    }
-  }),
-  posed(Beverage)({
-    fullClose: {
-      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
-      delay: 75
-    },
-    close: {
-      transform: "scale(1) translate3d(36.5vw, -10rem, 0px)",
-      delay: 75
-    },
-    open: {
-      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
-      delay: 75
-    }
-  }),
-  posed(Beverage)({
-    fullClose: {
-      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
-      delay: 75
-    },
-    close: {
-      transform: "scale(1) translate3d(10vw, 38rem, 0px)",
-      delay: 50
-    },
-    open: {
-      transform: "scale(1.14) translate3d(0vw, 0rem, 0px)",
-      delay: 100
-    }
-  })
-];
+export const BeveragesAnimated = [{
+  fullClose: {
+    translateX: "0vw",
+    translateY:  "0rem",
+    scale: 1.14
+  },
+  close: {
+    translateX: "62.8vw",
+    translateY:  "12rem",
+    scale: 1
+  },
+  open: {
+    translateX: "0vw",
+    translateY:  "0rem",
+    scale: 1.14
+  }
+}, {
+  fullClose: {
+    translateX: "0vw",
+    translateY:  "0rem",
+    scale: 1.14,
+  },
+  close: {
+    translateX: "36.5vw",
+    translateY:  "-10rem",
+    scale: 1
+  },
+  open: {
+    translateX: "0vw",
+    translateY:  "0rem",
+    scale: 1.14
+  }
+}, {
+  fullClose: {
+    translateX: "0vw",
+    translateY:  "0rem",
+    scale: 1.14
+  },
+  close: {
+    translateX: "10vw",
+    translateY:  "38rem",
+    scale: 1
+  },
+  open: {
+    translateX: "0vw",
+    translateY:  "0rem",
+    scale: 1.14
+  }
+}];
+
+export const BeveragesTransition = [{
+  ease: "easeOut",
+  duration: 0.8
+}, {
+  ease: "easeOut",
+  duration: 0.8
+}, {
+  ease: "easeOut",
+  duration: 0.8
+}];

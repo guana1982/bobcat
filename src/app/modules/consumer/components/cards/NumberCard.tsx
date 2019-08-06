@@ -17,7 +17,17 @@ const NumberCard_ = (props: NumberCardProps) => {
   const consumerConsumer = React.useContext(ConsumerContext);
 
   const { isLogged } = consumerConsumer;
-  const savedBottleMachine = configConsumer.sustainabilityData.saved_bottle_year;
+
+  const { socketSustainability$ } = configConsumer;
+
+  const [savedBottleMachine, setSavedBottleMachine] = React.useState("0");
+  React.useEffect(() => {
+    const socketSustainability_ = socketSustainability$.subscribe(data => setSavedBottleMachine(data.saved_bottle_year));
+    () => {
+      socketSustainability_.unsubscribe();
+    };
+  }, []);
+
   let savedBottleConsumer = null;
   if (consumerConsumer.dataConsumer && consumerConsumer.dataConsumer.saveBottles) {
     savedBottleConsumer = consumerConsumer.dataConsumer.saveBottles;

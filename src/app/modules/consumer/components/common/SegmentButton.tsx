@@ -25,7 +25,7 @@ export const SegmentButtonWrapper = styled.div`
   display: inline-flex;
   vertical-align: middle;
   height: 55px;
-  margin-top: 18px;
+  margin-top: 8px;
   button {
     position: relative;
     display: flex;
@@ -58,19 +58,8 @@ export const SegmentButtonWrapper = styled.div`
       letter-spacing: 1.2px;
       margin-left: 10px;
     }
-    &:not(.selected) {
-      background: rgba(245, 245, 245, 1);
-      span {
-        color: rgba(86, 86, 87, .8);
-      }
-      #still-icon g {
-        stroke: rgba(86, 86, 87, .8);
-      }
-      #sparkling-icon path {
-        fill: rgba(86, 86, 87, .8);
-      }
-    }
     &.selected {
+      background: #f5f5f5;
       span {
         color: #2b9cda;
       }
@@ -79,6 +68,17 @@ export const SegmentButtonWrapper = styled.div`
       }
       #sparkling-icon path {
         fill: #2b9cda;
+      }
+    }
+    &:not(.selected) {
+      span {
+        color: #565657;
+      }
+      #still-icon g {
+        stroke: #565657;
+      }
+      #sparkling-icon path {
+        fill: #565657;
       }
       background: #fff;
       font-weight: 600;
