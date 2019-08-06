@@ -18,10 +18,24 @@ const PreCacheFont = () => (
   </div>
 );
 
+const ButtonPressHandler = () => {
+  document.addEventListener("click", e => {
+    let b = e["path"].find(el =>
+      el.id === "nutrition-btn" || el.id === "signin-btn" || el.id === "logout-btn");
+    if (b) {
+      console.log("%c NUTRITION BUTTON", "color: #0ff");
+      b.setAttribute("style", "pointer-events: none");
+      setTimeout(() => b.setAttribute("style", "pointer-events: auto"), 1000);
+    }
+  });
+  return <React.Fragment />;
+};
+
 const App = () => (
   <React.Fragment>
     <GlobalStyle />
     <PreCacheFont />
+    <ButtonPressHandler />
     <MemoryRouter>
       <ConfigStore>
         <Consumer />
