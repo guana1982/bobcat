@@ -245,7 +245,7 @@ export const Prepay = (props: PrepayProps) => {
         goToHome();
       } else if (status === IdentificationConsumerStatus.ErrorQr) {
         alertConsumer.show({
-          type: AlertTypes.ErrorQrNotFound,
+          type: AlertTypes.ErrorQrNotValid,
           img: "img/qr-code-not-recognized.svg",
           subTitle: true,
           timeout: true,

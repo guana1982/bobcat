@@ -7,7 +7,7 @@ import { map, tap } from "rxjs/operators";
 import { Subject, BehaviorSubject } from "rxjs";
 import { IBeverage } from "@core/models";
 import { withRouter } from "react-router-dom";
-import { IPromotionTypes } from "@core/utils/APIModel";
+import { IPromotionTypes, ISubscriptionTypes } from "@core/utils/APIModel";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 
 //  ==== STATUS ====>
@@ -57,6 +57,7 @@ const PaymentContainer = createContainer((props: any) => {
 
   const [paymentModeEnabled, setPaymentModeEnabled] = React.useState<boolean>(null);
   const [promotionEnabled, setPromotionEnabled] = React.useState<IPromotionTypes>(null);
+  const [subscriptionEnabled, setSubscriptionEnabled] = React.useState<ISubscriptionTypes>(null);
 
   React.useEffect(() => {
     if (vendorConfig && vendorConfig.pay_id) {

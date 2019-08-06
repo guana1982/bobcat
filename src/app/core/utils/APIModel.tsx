@@ -70,6 +70,11 @@ export enum IPromotionTypes {
   Pour = "OK"
 }
 
+export enum ISubscriptionTypes {
+  Disabled = "DISABLED",
+  Enabled = "ENABLED"
+}
+
 export interface IConsumerModel {
   identification_type?: IdentificationConsumerTypes;
   pack_id?: string;

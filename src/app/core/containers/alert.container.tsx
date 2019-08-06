@@ -20,6 +20,7 @@ export enum AlertTypes {
   ErrorLoadingQrPayment = "c_error_loading_qr_payment",
   ErrorWebcam = "c_error_webcam",
   ErrorQrNotFound = "c_error_qr_not_found",
+  ErrorQrNotValid = "c_error_qr_not_valid",
   ErrorUnassociatedBottle = "c_error_unassociated_bottle",
   ErrorADAPanelDown = "c_ada_panel_down",
   ErrorPaymentDown = "p_payment_down"
