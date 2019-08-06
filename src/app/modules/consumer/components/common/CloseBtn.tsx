@@ -4,12 +4,16 @@ import styled, { keyframes } from "styled-components";
 
 /* onClick?: any; */
 export const CloseBtnWrap = styled.button`
-  width: 52px;
-  height: 52px;
+  width: 60px;
+  height: 60px;
   border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
+  img {
+    width: 22px;
+    height: 22px;
+  }
 `;
 
 interface CloseBtnProps {
