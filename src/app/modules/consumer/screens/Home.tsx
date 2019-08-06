@@ -486,12 +486,20 @@ export const Home = (props: HomeProps) => {
       resetTimer_();
       socketStopErogation_ = detectStopErogation();
     } else if (endSession === StatusEndSession.Finish) {
+      if (!(consumerBeverages.length > 0 || paymentModeEnabled)) {
+        stopEndSession();
+        return;
+      }
       alertConsumer.show({
         type: AlertTypes.EndBeverage,
         timeout: true,
         onDismiss: () => stopEndSession()
       });
     } else if (endSession === StatusEndSession.FinishForce) {
+      if (!(consumerBeverages.length > 0 || paymentModeEnabled)) {
+        stopEndSession(true);
+        return;
+      }
       alertConsumer.show({
         type: AlertTypes.EndBeverage,
         timeout: true,
