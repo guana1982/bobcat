@@ -39,6 +39,11 @@ export const ChoiceBeverageWrap = styled.section`
     right: 22px;
     bottom: 22px;
   }
+  #logout-btn {
+    #icon {
+      margin-left: 2px;
+    }
+  }
   .consumer-btns.cancel-payment {
     #signin-btn {
       right: 95px;
