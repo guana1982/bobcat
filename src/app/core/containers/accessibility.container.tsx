@@ -170,7 +170,7 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
   //  ==== EVENTS FUNCTION ====
   //  ================================
 
-  const onKeyDown = debounce((evt: KeyboardEvent) => {
+  const onKeyDown = (evt: KeyboardEvent) => {
     this.evt = evt;
     const event = KeyMapping[evt.keyCode];
     const direction = Direction[event];
@@ -220,7 +220,7 @@ const AccessibilityContainer = createContainer((props: AccessibilityState) => {
 
       actionStartEvent(action);
     }
-  }, 100);
+  };
 
   function onTouchEnd(evt) {
     setEnable(false);

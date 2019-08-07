@@ -172,13 +172,14 @@ export const Beverage = memo((props: BeverageProps) => {
   const { enter, pour, changeStateLayout } = accessibilityConsumer;
 
   React.useEffect(() => {
+    console.log({ enter });
     const button = buttonEl.current;
     if (!button) return;
 
     const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
     if (!isFocus) return;
 
-    if (enter) {
+    if (enter === true) {
       if (nutritionFacts) {
         handleZoomNutrition(true);
         changeStateLayout({
@@ -192,8 +193,14 @@ export const Beverage = memo((props: BeverageProps) => {
       }
       if (onStart) {
         onStart();
+        return;
       }
       return;
+    } else if (enter === false) {
+      if (pouring) {
+        onHoldEnd();
+        return;
+      }
     }
   }, [buttonEl, enter]);
 

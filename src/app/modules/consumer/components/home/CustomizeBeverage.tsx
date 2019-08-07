@@ -311,15 +311,15 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
     }
     const button = buttonPourEl.current.node;
     const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
-    if (!isPouring) {
+    // if (!isPouring) {
       if (pour === true || enter === true && isFocus) {
         startPour();
       }
-    } else {
+    // } else {
       if (pour === false || enter === false && isFocus) {
         stopPour();
       }
-    }
+    // }
   }, [pour, buttonPourEl, enter]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
