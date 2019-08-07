@@ -1,7 +1,6 @@
 
 import * as React from "react";
 import styled, { css } from "styled-components";
-import posed from "react-pose";
 import { __ } from "@utils/lib/i18n";
 import { IBeverage } from "@models/index";
 import { memo } from "react";

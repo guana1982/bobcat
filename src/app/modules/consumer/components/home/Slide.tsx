@@ -1,7 +1,6 @@
 import * as React from "react";
 import { __ } from "@utils/lib/i18n";
 import styled, { css } from "styled-components";
-import posed from "react-pose";
 import { ConsumerContext, PaymentContext } from "@core/containers";
 
 import { BeveragesAnimated, BeverageTypes, Beverage, BeveragesTransition } from "../beverage/Beverage";

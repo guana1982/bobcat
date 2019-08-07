@@ -5,7 +5,6 @@ import { IBeverage } from "@core/models";
 import { NumberCard } from "../cards/NumberCard";
 import { CircleCard } from "../cards/CircleCard";
 import { PhoneCard } from "../cards/PhoneCard";
-import posed from "react-pose";
 import { AccessibilityContext, ConfigContext, AlertTypes, PaymentContext, PaymentStatus, PaymentStatusPour } from "@core/containers";
 import { __ } from "@core/utils/lib/i18n";
 import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
