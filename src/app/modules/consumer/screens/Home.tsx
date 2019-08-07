@@ -95,7 +95,9 @@ export interface HomeState {
 enum StatusEndSession {
   Start = "start",
   Finish = "finish",
-  FinishForce = "finishForce"
+  FinishForce = "finish-force",
+  ProximityEnd = "proximity-end",
+  ProximityEndForce = "proximity-end-force"
 }
 
 export const Home = (props: HomeProps) => {
@@ -446,9 +448,9 @@ export const Home = (props: HomeProps) => {
     .subscribe(
       val => {
         if (val === StatusTimer.TimerActive) {
-          setEndSession(StatusEndSession.Finish);
+          setEndSession(StatusEndSession.ProximityEnd);
         } else if (val === StatusTimer.TimerInactive || val === StatusTimer.ProximityExit) {
-          setEndSession(StatusEndSession.FinishForce);
+          setEndSession(StatusEndSession.ProximityEndForce);
         }
       }
     );
@@ -486,6 +488,18 @@ export const Home = (props: HomeProps) => {
       resetTimer_();
       socketStopErogation_ = detectStopErogation();
     } else if (endSession === StatusEndSession.Finish) {
+      alertConsumer.show({
+        type: AlertTypes.EndBeverage,
+        timeout: true,
+        onDismiss: () => stopEndSession()
+      });
+    } else if (endSession === StatusEndSession.FinishForce) {
+      alertConsumer.show({
+        type: AlertTypes.EndBeverage,
+        timeout: true,
+        onDismiss: () => stopEndSession(true)
+      });
+    } else if (endSession === StatusEndSession.ProximityEnd) {
       if (!(consumerBeverages.length > 0 || paymentModeEnabled)) {
         stopEndSession();
         return;
@@ -495,7 +509,7 @@ export const Home = (props: HomeProps) => {
         timeout: true,
         onDismiss: () => stopEndSession()
       });
-    } else if (endSession === StatusEndSession.FinishForce) {
+    } else if (endSession === StatusEndSession.ProximityEndForce) {
       if (!(consumerBeverages.length > 0 || paymentModeEnabled)) {
         stopEndSession(true);
         return;
