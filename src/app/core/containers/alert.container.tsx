@@ -11,7 +11,9 @@ export enum AlertTypes {
   OutOfSoda = "c_out_of_soda",
   ErogationLimit = "c_erogation_limit",
   OutOfOrder = "c_out_of_order",
-  EndBeverage = "c_end_session",
+
+  SignedOut = "c_signed_out",
+  EndSession = "c_end_session",
 
   NeedPayment = "c_tap_swipe_pour",
   EndSparkling = "c_end_sparkling",
