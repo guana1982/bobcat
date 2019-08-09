@@ -1,7 +1,7 @@
 import * as React from "react";
-import createContainer from "constate";
+import createUseContext from "constate";
 
-const LoaderContainer = createContainer(() => {
+const LoaderContainer = createUseContext(() => {
 
   const [state, setState] = React.useState({
     show: false,

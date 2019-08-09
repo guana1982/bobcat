@@ -1,5 +1,5 @@
 import * as React from "react";
-import createContainer from "constate";
+import createUseContext from "constate";
 
 export const DEFAULT_TIMEOUT_ALERT = 2000;
 
@@ -46,7 +46,7 @@ interface AlertState {
   options?: AlertOptions;
 }
 
-const AlertContainer = createContainer(() => {
+const AlertContainer = createUseContext(() => {
 
   const [state, setState] = React.useState<AlertState>({
     show: false,

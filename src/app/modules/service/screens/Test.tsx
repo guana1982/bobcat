@@ -21,7 +21,6 @@ import ConnectivityComponent from "../components/sections/Connectivity";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import MediumLevel from "@core/utils/MediumLevel";
 import { LoaderContext } from "@core/containers/loader.container";
-import { reaction } from "mobx";
 import BeverageLogo from "@core/components/common/Logo";
 import { Calibration } from "../components/sections/Calibration";
 

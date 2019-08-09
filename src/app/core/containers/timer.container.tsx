@@ -1,5 +1,5 @@
 import * as React from "react";
-import createContainer from "constate";
+import createUseContext from "constate";
 import { Subscription, fromEvent, timer, BehaviorSubject, of, Subject, Observable, interval } from "rxjs";
 import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge, debounce, debounceTime, flatMap, timeout, delay } from "rxjs/operators";
 import mediumLevel from "@core/utils/lib/mediumLevel";
@@ -24,7 +24,7 @@ export enum StatusTimer {
   ProximityExit = "proximity_exit"
 }
 
-const TimerContainer = createContainer((props: any) => {
+const TimerContainer = createUseContext((props: any) => {
 
   const statusProximity$ = React.useRef(new BehaviorSubject<DistanceTypes>(DistanceTypes.None));
 
