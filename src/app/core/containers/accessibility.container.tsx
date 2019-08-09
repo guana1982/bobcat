@@ -2,7 +2,7 @@
 import * as React from "react";
 import { Pages, debounce } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
-import createContainer from "constate";
+import createUseContext from "constate";
 
 export enum Action {
   BACK,
@@ -39,7 +39,7 @@ interface StateLayout {
   endSession?: any;
 }
 
-const AccessibilityContainer = createContainer((props: AccessibilityState) => {
+const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
 
   const [enable, setEnable] = React.useState<boolean>(false);
   const [stop, setStop] = React.useState<boolean>(false);

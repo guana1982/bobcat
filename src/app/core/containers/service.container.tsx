@@ -1,5 +1,5 @@
 import * as React from "react";
-import createContainer from "constate";
+import createUseContext from "constate";
 import { ConfigContext } from "./config.container";
 import { IBeverage } from "@core/models";
 import { Beverages, SOCKET_CONNECTIVITY } from "@core/utils/constants";
@@ -168,7 +168,7 @@ const setList_ = ({ list, valueSelected, setObservable$ }, service?): Observable
 /* ==== MAIN ==== */
 /* ======================================== */
 
-const ServiceContainer = createContainer(() => {
+const ServiceContainer = createUseContext(() => {
 
   const configConsumer = React.useContext(ConfigContext);
 

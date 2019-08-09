@@ -21,8 +21,7 @@
       }
     ],
     "react-hot-loader/babel",
-    "styled-components",
-    "react-loadable/babel"
+    "styled-components"
   ],
   "env": {
     "production": {

@@ -5,7 +5,6 @@ const webpack = require('webpack');
 const commonConfig = require('./common');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin');
-const ImageminPlugin = require('imagemin-webpack-plugin').default;
 
 const VENDOR = process.env.INTELLITOWER_VENDOR || 'pepsi';
 const VERSION = process.env.INTELLITOWER_VERSION || 'v.lean2';
@@ -24,7 +23,7 @@ module.exports = merge(commonConfig, {
           warnings: false,
           ie8: false,
           compress: {
-            drop_console: false // true, => Temporarily disabled
+            drop_console: true
           },
         },
       }),

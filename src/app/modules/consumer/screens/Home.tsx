@@ -7,7 +7,7 @@ import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
 import { Subscription } from "rxjs";
 import { ConfigContext } from "@containers/config.container";
-import { TimerContext, StatusTimer } from "@containers/timer.container";
+import { TimerContext, StatusTimer, DistanceTypes } from "@containers/timer.container";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { BeverageTypes } from "@modules/consumer/components/beverage/Beverage";
 import { AccessibilityContext, PaymentContext, PaymentStatus, PaymentStatusPour } from "@core/containers";
@@ -96,7 +96,6 @@ export interface HomeState {
 enum StatusEndSession {
   Start = "start",
   Finish = "finish",
-  FinishForce = "finish-force",
   ProximityEnd = "proximity-end",
   ProximityEndForce = "proximity-end-force"
 }
@@ -155,18 +154,15 @@ export const Home = (props: HomeProps) => {
   const { allBeverages } = configConsumer;
 
   //  ==== TIMER ====>
-  const { timerBoot$ } = timerConsumer;
+  const { timerBoot$, statusProximity$ } = timerConsumer;
   const { isLogged } = consumerConsumer;
 
   function alertIsLogged(event) {
     if (isLogged) {
       alertConsumer.show({
-        type: AlertTypes.EndBeverage,
+        type: AlertTypes.SignedOut,
         timeout: true,
-        onDismiss: () => {
-          consumerConsumer.resetConsumer(true);
-          event();
-        }
+        onDismiss: event
       });
     } else {
       event();
@@ -490,16 +486,14 @@ export const Home = (props: HomeProps) => {
       resetTimer_();
       socketStopErogation_ = detectStopErogation();
     } else if (endSession === StatusEndSession.Finish) {
-      alertConsumer.show({
-        type: AlertTypes.EndBeverage,
-        timeout: true,
-        onDismiss: () => stopEndSession()
-      });
-    } else if (endSession === StatusEndSession.FinishForce) {
-      alertConsumer.show({
-        type: AlertTypes.EndBeverage,
-        timeout: true,
-        onDismiss: () => stopEndSession(true)
+      statusProximity$.current
+      .pipe(first())
+      .subscribe((status: DistanceTypes) => {
+        alertConsumer.show({
+          type: AlertTypes.EndSession,
+          timeout: true,
+          onDismiss: () => stopEndSession(status === DistanceTypes.None)
+        });
       });
     } else if (endSession === StatusEndSession.ProximityEnd) {
       if (!(consumerBeverages.length > 0 || paymentModeEnabled)) {
@@ -507,7 +501,7 @@ export const Home = (props: HomeProps) => {
         return;
       }
       alertConsumer.show({
-        type: AlertTypes.EndBeverage,
+        type: AlertTypes.EndSession,
         timeout: true,
         onDismiss: () => stopEndSession()
       });
@@ -517,7 +511,7 @@ export const Home = (props: HomeProps) => {
         return;
       }
       alertConsumer.show({
-        type: AlertTypes.EndBeverage,
+        type: AlertTypes.EndSession,
         timeout: true,
         onDismiss: () => stopEndSession(true)
       });
@@ -624,6 +618,15 @@ export const Home = (props: HomeProps) => {
     // resetBeverage();
     stopPour();
   };
+
+  function signedOut() {
+    statusProximity$.current
+    .pipe(first())
+    .subscribe((status: DistanceTypes) => {
+      const event_ = () => consumerConsumer.resetConsumer(status !== DistanceTypes.None);
+      alertIsLogged(event_);
+    });
+  }
 
   /* ==== HANDLE ==== */
   /* ======================================== */
@@ -797,6 +800,7 @@ export const Home = (props: HomeProps) => {
             handleNutritionFacts={handleNutritionFacts}
             handleDisabled={handleDisabled}
             nutritionFacts={nutritionFacts}
+            signedOut={signedOut}
           />
         )}
       </HomeWrap>

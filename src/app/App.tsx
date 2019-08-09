@@ -5,9 +5,6 @@ import { GlobalStyle } from "./GlobalStyle";
 import { Consumer } from "@modules/consumer/Consumer";
 import { Service } from "@modules/service/Service";
 
-// const FastClick = require("fastclick");
-// FastClick.attach(document.body);
-
 const PreCacheFont = () => (
   <div className="font_preload" style={{opacity: 0}}>
     <span style={{fontFamily: "Karla-Reg"}}></span>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import createContainer from "constate";
+import createUseContext from "constate";
 
 export const DEFAULT_TIMEOUT_ALERT = 2000;
 
@@ -11,7 +11,9 @@ export enum AlertTypes {
   OutOfSoda = "c_out_of_soda",
   ErogationLimit = "c_erogation_limit",
   OutOfOrder = "c_out_of_order",
-  EndBeverage = "c_end_session",
+
+  SignedOut = "c_signed_out",
+  EndSession = "c_end_session",
 
   NeedPayment = "c_tap_swipe_pour",
   EndSparkling = "c_end_sparkling",
@@ -44,7 +46,7 @@ interface AlertState {
   options?: AlertOptions;
 }
 
-const AlertContainer = createContainer(() => {
+const AlertContainer = createUseContext(() => {
 
   const [state, setState] = React.useState<AlertState>({
     show: false,

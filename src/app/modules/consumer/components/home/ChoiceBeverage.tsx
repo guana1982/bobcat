@@ -77,12 +77,13 @@ interface ChoiceBeverageProps {
   fullMode: boolean;
   beverageSelected: any;
   segmentButton: SegmentButtonProps; // => _SegmentButton
+  signedOut: () => void;
 }
 
 export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
-  const { beverages } = props;
+  const { beverages, signedOut } = props;
   const { statusAlarms } = React.useContext(ConfigContext);
-  const { isLogged, resetConsumer } = React.useContext(ConsumerContext);
+  const { isLogged } = React.useContext(ConsumerContext);
   const { socketPayment$, cancelPayment } = React.useContext(PaymentContext);
 
   const { idBeveragePouring_, onGesture, isSparkling, selectBeverage, startPour, stopPour, goToPrepay, disabled, handleNutritionFacts, nutritionFacts, handleDisabled, fullMode, handleType, beverageSelected } = props;
@@ -94,7 +95,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
       cancelPayment();
       return;
     }
-    resetConsumer();
+    signedOut();
   };
 
   return (

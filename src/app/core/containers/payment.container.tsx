@@ -1,5 +1,5 @@
 import * as React from "react";
-import createContainer from "constate";
+import createUseContext from "constate";
 import { ConfigContext, ConsumerContext } from ".";
 import { __ } from "@core/utils/lib/i18n";
 import { SOCKET_PAYMENT, Pages } from "@core/utils/constants";
@@ -42,7 +42,7 @@ export enum PaymentStatusCancel {
 /* ==== MAIN ==== */
 /* ======================================== */
 
-const PaymentContainer = createContainer((props: any) => {
+const PaymentContainer = createUseContext((props: any) => {
 
   const statusPayment_ = React.useRef<PaymentStatus>(PaymentStatus.NotAuthorized);
   const socketPayment$ = React.useRef(new BehaviorSubject<PaymentStatus>(PaymentStatus.NotAuthorized));

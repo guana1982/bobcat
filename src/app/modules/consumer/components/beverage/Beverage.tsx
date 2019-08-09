@@ -171,7 +171,6 @@ export const Beverage = memo((props: BeverageProps) => {
   const { enter, pour, changeStateLayout } = accessibilityConsumer;
 
   React.useEffect(() => {
-    console.log({ enter });
     const button = buttonEl.current;
     if (!button) return;
 
