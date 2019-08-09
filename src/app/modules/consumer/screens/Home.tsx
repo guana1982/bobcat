@@ -84,6 +84,7 @@ interface HomeProps {
 export interface HomeState {
   isSparkling: boolean;
   beverageSelectedId: number;
+  consumerCustomBeverageSelected: any;
   indexBeverageForLongPressPour_: number;
   idBeveragePouring_: number;
   indexFavoritePouring_: number;
@@ -123,6 +124,7 @@ export const Home = (props: HomeProps) => {
   const [state, setState] = React.useState<HomeState>({
     isSparkling: false,
     beverageSelectedId: null,
+    consumerCustomBeverageSelected: null,
     indexBeverageForLongPressPour_: null,
     idBeveragePouring_: null,
     indexFavoritePouring_: null,
@@ -597,6 +599,7 @@ export const Home = (props: HomeProps) => {
       ...prevState,
       isSparkling: consumerBeverage.$sparkling,
       beverageSelectedId: consumerBeverage.$beverage.beverage_id,
+      consumerCustomBeverageSelected: consumerBeverages.find(b => b === consumerBeverage),
       beverageConfig: {
         flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),
         carbonation_level: consumerBeverage.$sparkling ? Number(consumerBeverage.carbLvl) : 0,
@@ -627,7 +630,6 @@ export const Home = (props: HomeProps) => {
 
   const handleType = (value) => { // TRUE => isSparkling
     if (beverageSelected && beverageSelected.beverage_id === 9 && value) {
-      console.log({beverageSelected, value});
       const needToPay_ = needToPay(allBeverages[1]); // => TO IMPROVE
       if (needToPay_ && !promotionEnabled) {
         if (alarmPayment_) {
@@ -643,13 +645,51 @@ export const Home = (props: HomeProps) => {
       }
     }
 
+    const carbonationValue = () => {
+      if (value) {
+        if (state.beverageConfig.isConsumerBeverage) {
+          if (Number(state.consumerCustomBeverageSelected.carbLvl) === 0) {
+            return levels.carbonation[2].value;
+          } else {
+            return Number(state.consumerCustomBeverageSelected.carbLvl);
+          }
+        } else {
+          return levels.carbonation[2].value;
+        }
+      } else {
+        return levels.noCarbonation[0].value;
+      }
+    };
+
+    const temperatureValue = () => {
+      if (value) {
+        return levels.temperature[2].value;
+      } else {
+        if (state.beverageConfig.isConsumerBeverage) {
+          return Number(state.consumerCustomBeverageSelected.coldLvl);
+        } else {
+          return levels.temperature[1].value;
+        }
+      }
+    };
+
+    const flavorValue = () => {
+      if (state.beverageConfig.isConsumerBeverage) {
+        return Number(state.consumerCustomBeverageSelected.flavors[0].flavorStrength);
+      } else {
+        return levels.flavor[1].value;
+      }
+    };
+
+
     setState(prevState => ({
       ...prevState,
       isSparkling: value,
       beverageConfig: {
         ...prevState.beverageConfig,
-        carbonation_level: value ? levels.carbonation[2].value : levels.noCarbonation[0].value,
-        temperature_level: value ? levels.temperature[2].value : levels.temperature[2].value
+        flavor_level: flavorValue(),
+        carbonation_level: carbonationValue(),
+        temperature_level: temperatureValue()
       }
     }));
   };
