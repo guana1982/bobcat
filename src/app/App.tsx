@@ -27,11 +27,26 @@ const PreCacheFont = () => (
 //   return <React.Fragment />;
 // };
 
+// const eventNull = e => {
+//   e.preventDefault();
+//   e.stopPropagation();
+// };
+
+// const ListenerRemover = () => {
+//   window.addEventListener("touchmove", e => eventNull(e));
+//   document.addEventListener("touchmove", e => eventNull(e));
+//   document.addEventListener("touchstart", e => eventNull(e));
+//   document.addEventListener("mousedown", e => eventNull(e));
+//   document.addEventListener("mousemove", e => eventNull(e));
+//   return <React.Fragment />;
+// };
+
 const App = () => (
   <React.Fragment>
     <GlobalStyle />
     <PreCacheFont />
     {/* <ButtonPressHandler /> */}
+    {/* <ListenerRemover /> */}
     <MemoryRouter>
       <ConfigStore>
         <Consumer />
