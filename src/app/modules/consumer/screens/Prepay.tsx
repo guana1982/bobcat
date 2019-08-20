@@ -10,8 +10,6 @@ import { __ } from "@core/utils/lib/i18n";
 import { Subscription } from "rxjs";
 import { ConfigContext, PaymentContext } from "@core/containers";
 import { IdentificationConsumerStatus } from "@core/utils/APIModel";
-import { debounceTime } from "rxjs/operators";
-import { Alert } from "../components/common/Alert";
 
 export const PrepayContent = styled.div`
   background-image: ${props => props.theme.backgroundLight};
@@ -33,7 +31,9 @@ export const PrepayContent = styled.div`
     height: 259px;
     background-color: #000;
     &.enable {
-      background-color: #0000ff;
+      .loader {
+        display: none;
+      }
     }
     &:before {
       content: " ";
@@ -310,7 +310,7 @@ export const Prepay = (props: PrepayProps) => {
       <PrepayContent>
         <CloseBtn detectValue={"prepay_close"} icon={"close"} onClick={() => goToHome()} />
         <div id="Webcam" className={webcamReady ? "enable" : ""}>
-          {/* <img className="target" src={"img/target.svg"} /> */}
+          <img className="loader" src={"animation/qr_loader.gif"} />
         </div>
         <img id="Bottle-QR" src={"img/bottle-qr.svg"} />
         <img id="Phone-QR" src={"img/phone-qr.svg"} />
