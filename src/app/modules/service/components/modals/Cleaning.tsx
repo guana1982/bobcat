@@ -4,7 +4,15 @@ import Circle from "react-circle";
 import { ModalContentProps, Modal } from "@modules/service/components/common/Modal";
 import { __ } from "@core/utils/lib/i18n";
 
+
+const TIMER_MAX = 30;
+let intervalTimer_ = null;
+
 const CleaningContent = styled.div`
+  @keyframes timer_ {
+    0% { border-color: #000 }
+    100% { border-color: #fff }
+  };
   display: flex;
   width: 100vw;
   height: calc(100vh - 115px);
@@ -19,6 +27,10 @@ const CleaningContent = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 40px solid;
+    animation-name: timer_;
+    animation-duration: ${TIMER_MAX}s;
+    animation-fill-mode: forwards;
     span {
       font-size: 6rem;
       font-weight: bold;
@@ -37,9 +49,6 @@ const CleaningContent = styled.div`
 interface CleaningProps extends Partial<ModalContentProps> {
 
 }
-
-const TIMER_MAX = 30;
-let intervalTimer_ = null;
 
 export const Cleaning = (props: CleaningProps) => {
 
