@@ -127,7 +127,7 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
           //     link.href = img;
           //     link.click();
           //   });
-          //   i < allAlarms.length && setTimeout(() => setAlarmSelected(allAlarms[i]), 1000);
+          //   i < allAlarms.length && setTimeout(() => setAlarmSelected(allAlarms[i]), 2000);
           // }, [alarmSelected]);
 
   // <=== SCREENSHOTS GENERATOR ====

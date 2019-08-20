@@ -29,12 +29,7 @@ export const PrepayContent = styled.div`
     right: 155px;
     width: 259px;
     height: 259px;
-    background-color: #000;
-    &.enable {
-      .loader {
-        display: none;
-      }
-    }
+    background-color: #00f;
     &:before {
       content: " ";
       top: -35px;
@@ -309,8 +304,10 @@ export const Prepay = (props: PrepayProps) => {
     <section>
       <PrepayContent>
         <CloseBtn detectValue={"prepay_close"} icon={"close"} onClick={() => goToHome()} />
-        <div id="Webcam" className={webcamReady ? "enable" : ""}>
-          <img className="loader" src={"animation/qr_loader.gif"} />
+        <div id="Webcam">
+        {!webcamReady &&
+          <img className="loader" src={`animation/qr_loader.gif?x=${Math.random()}`} />
+        }
         </div>
         <img id="Bottle-QR" src={"img/bottle-qr.svg"} />
         <img id="Phone-QR" src={"img/phone-qr.svg"} />

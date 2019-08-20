@@ -84,7 +84,7 @@ export const ALARMS_ = [
     "alarm_type": "tech",
     "alarm_name": "network",
     "alarm_state": true,
-    "alarm_category": "warning",
+    "alarm_category": "alert",
     "alarm_date": "2019-08-08T10:41:26"
   },
   {
@@ -128,7 +128,7 @@ export const ALARMS_ = [
     "alarm_type": "tech",
     "alarm_name": "ada_panel",
     "alarm_state": true,
-    "alarm_category": "warning",
+    "alarm_category": "alert",
     "alarm_date": "2019-07-09T12:25:13"
   },
   {
@@ -139,7 +139,7 @@ export const ALARMS_ = [
     "alarm_type": "tech",
     "alarm_name": "ps_als",
     "alarm_state": true,
-    "alarm_category": "warning",
+    "alarm_category": "alert",
     "alarm_date": "1970-01-01T00:00:00"
   },
   {
@@ -150,7 +150,7 @@ export const ALARMS_ = [
     "alarm_type": "tech",
     "alarm_name": "webcam",
     "alarm_state": true,
-    "alarm_category": "warning",
+    "alarm_category": "alert",
     "alarm_date": "1970-01-01T00:00:00"
   },
   {
@@ -216,7 +216,7 @@ export const ALARMS_ = [
     "alarm_type": "tech",
     "alarm_name": "flux1",
     "alarm_state": true,
-    "alarm_category": "alert",
+    "alarm_category": "warning",
     "alarm_date": "1970-01-01T00:00:00"
  },
  {
@@ -227,7 +227,7 @@ export const ALARMS_ = [
     "alarm_type": "tech",
     "alarm_name": "flux2",
     "alarm_state": true,
-    "alarm_category": "alert",
+    "alarm_category": "warning",
     "alarm_date": "1970-01-01T00:00:00"
  },
  {
@@ -238,7 +238,7 @@ export const ALARMS_ = [
     "alarm_type": "tech",
     "alarm_name": "flux3",
     "alarm_state": true,
-    "alarm_category": "alert",
+    "alarm_category": "warning",
     "alarm_date": "1970-01-01T00:00:00"
  },
  {
@@ -249,7 +249,7 @@ export const ALARMS_ = [
     "alarm_type": "tech",
     "alarm_name": "flux4",
     "alarm_state": true,
-    "alarm_category": "alert",
+    "alarm_category": "warning",
     "alarm_date": "1970-01-01T00:00:00"
  },
  {
@@ -260,7 +260,7 @@ export const ALARMS_ = [
     "alarm_type": "tech",
     "alarm_name": "flux5",
     "alarm_state": true,
-    "alarm_category": "alert",
+    "alarm_category": "warning",
     "alarm_date": "1970-01-01T00:00:00"
  },
  {
@@ -271,7 +271,7 @@ export const ALARMS_ = [
     "alarm_type": "tech",
     "alarm_name": "flux6",
     "alarm_state": true,
-    "alarm_category": "alert",
+    "alarm_category": "warning",
     "alarm_date": "1970-01-01T00:00:00"
  }
 ];
