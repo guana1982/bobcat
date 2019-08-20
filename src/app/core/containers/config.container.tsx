@@ -10,6 +10,7 @@ import { SOCKET_ALARM, SOCKET_ATTRACTOR, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMER
 import { VendorConfig } from "@core/models/vendor.model";
 import { MTypes } from "@modules/service/components/common/Button";
 import { IStatusAlarms } from "@core/utils/APIModel";
+import { ALARMS_ } from "@core/utils/constants/ALARMS";
 
 const mergeById = ([bevs, brands, locks, prices]) => {
   return bevs.map((bev, i) => {
@@ -214,6 +215,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     .pipe(
       map(data => data && data.elements || []),
       map(alarms => {
+        alarms = ALARMS_;
         return alarms.map(alarm => {
           if (alarm.alarm_state) {
             if (alarm.alarm_category === "alert" || alarm.alarm_category === "super_alert") {

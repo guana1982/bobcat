@@ -187,9 +187,15 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
           }
           {
             alarms.length > 0 &&
-             <Box className="elements centered">
+             <Box
+              className="elements centered"
+              style={{
+                maxHeight: "280px",
+                overflow: "scroll"
+              }}
+             >
               {
-                alarms.map((alarm, i) => (
+                allAlarms.map((alarm, i) => (
                   <MButton
                     className="small" info
                     light={alarm.alarm_name !== alarmSelected.alarm_name}
@@ -211,7 +217,7 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
                 <p>NAME: {__(alarmSelected.alarm_name)}</p>
                 <p>CODE: {alarmSelected.alarm_code}</p>
                 <p>DATE: {new Date(alarmSelected.alarm_date).toLocaleDateString()}</p>
-                <p>DESCRIPTION: {__(alarmSelected.alarm_description)}</p>
+                <p>DESCRIPTION: {__(`${alarmSelected.alarm_code}_description`)}</p>
                 <p>SOLUTION: {__(alarmSelected.alarm_solution)}</p>
                 <p>STATUS: {alarmSelected.alarm_enable ? __("s_enabled") : __("s_disabled")}</p>
               </h4>

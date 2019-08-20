@@ -70,7 +70,7 @@ export const Cleaning = (props: CleaningProps) => {
     >
       <CleaningContent>
         <div id="circle-wrap">
-          <Circle
+          {/* <Circle
             animate={true}
             animationDuration={`${TIMER_MAX}s`}
             responsive={true}
@@ -81,7 +81,7 @@ export const Cleaning = (props: CleaningProps) => {
             percentSpacing={10}
             showPercentage={false}
             onAnimationEnd={endTimer}
-          />
+          /> */}
           <span>{timer}</span>
         </div>
       </CleaningContent>
