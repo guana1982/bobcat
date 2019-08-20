@@ -625,7 +625,6 @@ export const Home = (props: HomeProps) => {
     .pipe(first())
     .subscribe((status: DistanceTypes) => {
       const event_ = () => {
-        mediumLevel.product.sessionEnded().subscribe();
         consumerConsumer.resetConsumer(status !== DistanceTypes.None);
       };
       alertIsLogged(event_);
