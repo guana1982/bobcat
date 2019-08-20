@@ -52,7 +52,7 @@ export const HomeWrap = styled.div`
 `;
 
 export const HomeContent = styled.section`
-  background-image: ${props => props.theme.backgroundLight};
+  background-color: #fff;
   &.slide-is-open {
     #logout-btn {
       z-index: 5;

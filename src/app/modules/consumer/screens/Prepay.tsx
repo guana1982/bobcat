@@ -12,7 +12,7 @@ import { ConfigContext, PaymentContext } from "@core/containers";
 import { IdentificationConsumerStatus } from "@core/utils/APIModel";
 
 export const PrepayContent = styled.div`
-  background-image: ${props => props.theme.backgroundLight};
+  background-color: #fff;
   width: 100vw;
   height: 100vh;
   position: absolute;

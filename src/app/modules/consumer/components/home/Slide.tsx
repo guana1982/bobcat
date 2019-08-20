@@ -122,7 +122,7 @@ export const SlideStyled = styled.div`
   left:0;
   height: 100%;
   z-index: 5;
-  background-image: ${props => props.disabled ? "linear-gradient(to bottom,#fff,#f9f9f9)" : null};
+  background-color: ${props => props.disabled ? "#fff" : null};
   &:before {
     content: " ";
     position: absolute;
@@ -173,6 +173,7 @@ export const ToggleSlide = styled.button`
   width: 48px;
   height: 48px;
   border-radius: 50%;
+  box-shadow: 5px 2px 24px 0 rgba(157,164,167,0.17), 0 -2px 1px 0 rgba(157,164,167,0.1);
   &:before {
     content: " ";
     position: absolute;

@@ -1,7 +1,7 @@
 export const ALARMS_ = [
   {
     "alarm_description": "temp_description",
-    "alarm_code": "TMP101",
+    "alarm_code": "TMP102",
     "alarm_enable": true,
     "alarm_solution": "temp_solution",
     "alarm_type": "tech",
