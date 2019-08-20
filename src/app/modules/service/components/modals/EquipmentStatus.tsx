@@ -8,6 +8,7 @@ import { __ } from "@core/utils/lib/i18n";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { finalize } from "rxjs/operators";
 import { LoaderContext } from "@core/containers/loader.container";
+import * as html2canvas from "html2canvas";
 
 const actionsAlarm = (authLevel, advancedMode, setAdvancedMode): Action[] => {
 
@@ -115,6 +116,22 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
 
   const { authLevel } = props;
 
+  // ==== SCREENSHOTS GENERATOR ===>
+
+      // React.useEffect(() => {
+        //   const i = allAlarms.findIndex(a => a === alarmSelected) + 1;
+        //   i && (html2canvas as any)(document.querySelector("body")).then(canvas => {
+          //     let img = canvas.toDataURL("image/png");
+          //     let link = document.createElement("a");
+          //     link.download = `EquipmentStatusAlarm@${i}.png`;
+          //     link.href = img;
+          //     link.click();
+          //   });
+          //   i < allAlarms.length && setTimeout(() => setAlarmSelected(allAlarms[i]), 1000);
+          // }, [alarmSelected]);
+
+  // <=== SCREENSHOTS GENERATOR ====
+
   if (advancedMode) {
     return (
       <Modal
@@ -140,7 +157,7 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
                         </MButton>
                       </div>
                       <div>
-                        <p>NAME: {__(alarm.alarm_name)}</p>
+                        {/* <p>NAME: {__(alarm.alarm_name)}</p> */}
                         <p>CODE: {alarm.alarm_code}</p>
                         <p>DATE: {new Date(alarm.alarm_date).toLocaleDateString()}</p>
                       </div>
@@ -194,8 +211,9 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
                 overflow: "scroll"
               }}
              >
-              {
-                allAlarms.map((alarm, i) => (
+              { // SCREENSHOTS GENERATOR ===>
+                /* alarmSelected.alarm_code && [allAlarms.find(a => a.alarm_code === alarmSelected.alarm_code)] */
+                alarms.map((alarm, i) => (
                   <MButton
                     className="small" info
                     light={alarm.alarm_name !== alarmSelected.alarm_name}
@@ -214,7 +232,7 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
             <Box className="container">
               <h2 id="title">info</h2>
               <h4>
-                <p>NAME: {__(alarmSelected.alarm_name)}</p>
+                {/* <p>NAME: {__(alarmSelected.alarm_name)}</p> */}
                 <p>CODE: {alarmSelected.alarm_code}</p>
                 <p>DATE: {new Date(alarmSelected.alarm_date).toLocaleDateString()}</p>
                 <p>DESCRIPTION: {__(`${alarmSelected.alarm_code}_description`)}</p>
