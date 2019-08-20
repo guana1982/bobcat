@@ -17,6 +17,7 @@ import { componentWillAppendToBody } from "react-append-to-body";
 import { ILevelsModel } from "@core/utils/APIModel";
 import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
 import ClickNHold from "../common/ClickNHold";
+import { PourFrom } from "@core/models/vendor.model";
 
 export enum BeverageTypes {
   Info = "info",
@@ -122,7 +123,7 @@ interface BeverageProps {
   logoId?: any;
   color?: string;
   onStart?: () => void;
-  onHoldStart?: () => void;
+  onHoldStart?: (from?: PourFrom) => void;
   onHoldEnd?: () => void;
   label?: string;
   pouring?: boolean;
@@ -186,7 +187,7 @@ export const Beverage = memo((props: BeverageProps) => {
         return;
       }
       if (pouring) {
-        onHoldStart();
+        onHoldStart(PourFrom.Ada);
         return;
       }
       if (onStart) {
@@ -212,7 +213,7 @@ export const Beverage = memo((props: BeverageProps) => {
     if (pour === true) {
       console.log("POUR");
       if (onHoldStart) {
-        onHoldStart();
+        onHoldStart(PourFrom.Ada);
       }
     } else if (pour === false) {
       console.log("STOP");
@@ -266,7 +267,7 @@ export const Beverage = memo((props: BeverageProps) => {
   const clickHold = (e) => {
     if (disabledButton || nutritionFacts) return;
 
-    onHoldStart();
+    onHoldStart(PourFrom.Touch);
   };
 
   return (

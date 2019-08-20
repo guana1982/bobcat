@@ -8,6 +8,7 @@ import { Footer } from "../common/Footer";
 import { Grid } from "../common/Grid";
 import { PaymentInfo } from "../common/PaymentInfo";
 import { motion } from "framer-motion";
+import { PourFrom, IPourConsumerConfig } from "@core/models/vendor.model";
 
 export const _sizeSlide = "325px";
 export const _sizeSlideFull = "5vw";
@@ -195,7 +196,7 @@ interface SlideProps {
   indexFavoritePouring_: number;
   beverageSelected: any;
   selectConsumerBeverage: (b) => void;
-  startConsumerPour: any;
+  startConsumerPour: (config: IPourConsumerConfig) => any;
   stopConsumerPour: any;
   handleSlide: any;
   fullMode: boolean;
@@ -257,7 +258,7 @@ export const Slide = (props: SlideProps) => {
                     <Beverage
                       pouring={i === indexFavoritePouring_}
                       onStart={() => selectConsumerBeverage(b)}
-                      onHoldStart={() => startConsumerPour(b, i)}
+                      onHoldStart={(from: PourFrom) => startConsumerPour({params: { consumerBeverage: b, indexFavorite: i }, from: from})}
                       onHoldEnd={() => stopConsumerPour(b)}
                       detectValue={"slide-beverage"}
                       logoId={b.$logo_id || b.$beverage.beverage_logo_id}

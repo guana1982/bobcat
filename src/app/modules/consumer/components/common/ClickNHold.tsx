@@ -26,7 +26,7 @@ import * as React from "react";
 //     }
 // }
 
-let intervalValidationPour = null;
+// let intervalValidationPour = null;
 
 export default class ClickNHold extends React.Component<any, any> {
 
@@ -76,14 +76,14 @@ export default class ClickNHold extends React.Component<any, any> {
     /*Start callback*/
     start(e) {
         // === START: CHECK VALID POUR ===>
-        clearInterval(intervalValidationPour);
-        intervalValidationPour = setInterval(() => {
-            const activeElement_ = document.querySelector(":active");
-            if (activeElement_ === null) {
-                clearInterval(intervalValidationPour);
-                this.end(e);
-            }
-        }, 1000);
+        // clearInterval(intervalValidationPour);
+        // intervalValidationPour = setInterval(() => {
+        //     const activeElement_ = document.querySelector(":active");
+        //     if (activeElement_ === null) {
+        //         clearInterval(intervalValidationPour);
+        //         this.end(e);
+        //     }
+        // }, 1000);
         // <=== START: CHECK VALID POUR ===>
         let ended = this.state.ended;
         let start = Date.now();
@@ -107,7 +107,7 @@ export default class ClickNHold extends React.Component<any, any> {
     /*End callback*/
     end(e) {
         // === STOP: CHECK VALID POUR ===>
-        clearInterval(intervalValidationPour);
+        // clearInterval(intervalValidationPour);
         // <=== STOP: CHECK VALID POUR ===>
         document.documentElement.removeEventListener("mouseup", this.end);
         if (this.state.ended || this._unmounted) {
