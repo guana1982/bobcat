@@ -28,9 +28,9 @@ const CleaningContent = styled.div`
     justify-content: center;
     align-items: center;
     border: 40px solid;
-    animation-name: timer_;
+    /* animation-name: timer_;
     animation-duration: ${TIMER_MAX}s;
-    animation-fill-mode: forwards;
+    animation-fill-mode: forwards; */
     span {
       font-size: 6rem;
       font-weight: bold;
