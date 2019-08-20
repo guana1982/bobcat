@@ -8,7 +8,7 @@ import { __ } from "@core/utils/lib/i18n";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { finalize } from "rxjs/operators";
 import { LoaderContext } from "@core/containers/loader.container";
-import * as html2canvas from "html2canvas";
+// import * as html2canvas from "html2canvas";
 
 const actionsAlarm = (authLevel, advancedMode, setAdvancedMode): Action[] => {
 
@@ -118,17 +118,17 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
 
   // ==== SCREENSHOTS GENERATOR ===>
 
-      // React.useEffect(() => {
-        //   const i = allAlarms.findIndex(a => a === alarmSelected) + 1;
-        //   i && (html2canvas as any)(document.querySelector("body")).then(canvas => {
-          //     let img = canvas.toDataURL("image/png");
-          //     let link = document.createElement("a");
-          //     link.download = `EquipmentStatusAlarm@${i}.png`;
-          //     link.href = img;
-          //     link.click();
-          //   });
-          //   i < allAlarms.length && setTimeout(() => setAlarmSelected(allAlarms[i]), 2000);
-          // }, [alarmSelected]);
+  // React.useEffect(() => {
+  //   const i = allAlarms.findIndex(a => a === alarmSelected) + 1;
+  //   i && (html2canvas as any)(document.querySelector("body")).then(canvas => {
+  //     let img = canvas.toDataURL("image/png");
+  //     let link = document.createElement("a");
+  //     link.download = `EquipmentStatusAlarm@${i}.png`;
+  //     link.href = img;
+  //     link.click();
+  //   });
+  //   i < allAlarms.length && setTimeout(() => setAlarmSelected(allAlarms[i]), 2000);
+  // }, [alarmSelected]);
 
   // <=== SCREENSHOTS GENERATOR ====
 
@@ -211,8 +211,8 @@ export const EquipmentStatus = (props: EquipmentStatusProps) => {
                 overflow: "scroll"
               }}
              >
-              { // SCREENSHOTS GENERATOR ===>
-                /* alarmSelected.alarm_code && [allAlarms.find(a => a.alarm_code === alarmSelected.alarm_code)] */
+              {
+                // alarmSelected.alarm_code && [allAlarms.find(a => a.alarm_code === alarmSelected.alarm_code)] // <= SCREENSHOTS GENERATOR
                 alarms.map((alarm, i) => (
                   <MButton
                     className="small" info
