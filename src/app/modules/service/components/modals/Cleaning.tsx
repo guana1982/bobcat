@@ -47,6 +47,8 @@ export const Cleaning = (props: CleaningProps) => {
 
   const [timer, setTimer] = React.useState<number>(TIMER_MAX);
 
+  const endTimer = () => props.cancel();
+
   React.useEffect(() => {
     intervalTimer_ = setInterval(() => setTimer(prevTimer => (prevTimer - 1)), 1000);
   }, []);
@@ -55,10 +57,10 @@ export const Cleaning = (props: CleaningProps) => {
     if (timer === 0) {
       clearInterval(intervalTimer_);
       intervalTimer_ = null;
+      setTimeout(() => endTimer(), 1000);
     }
   }, [timer]);
 
-  const endTimer = () => props.cancel();
 
   return (
     <Modal
