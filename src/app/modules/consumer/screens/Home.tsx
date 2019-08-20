@@ -159,6 +159,7 @@ export const Home = (props: HomeProps) => {
 
   function alertIsLogged(event) {
     if (isLogged) {
+      mediumLevel.product.sessionEnded().subscribe();
       alertConsumer.show({
         type: AlertTypes.SignedOut,
         timeout: true,
@@ -623,7 +624,10 @@ export const Home = (props: HomeProps) => {
     statusProximity$.current
     .pipe(first())
     .subscribe((status: DistanceTypes) => {
-      const event_ = () => consumerConsumer.resetConsumer(status !== DistanceTypes.None);
+      const event_ = () => {
+        mediumLevel.product.sessionEnded().subscribe();
+        consumerConsumer.resetConsumer(status !== DistanceTypes.None);
+      };
       alertIsLogged(event_);
     });
   }
