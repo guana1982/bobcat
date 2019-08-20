@@ -1,25 +1,25 @@
 export const ALARMS_ = [
-  {  
-    "alarm_description":"temp_description",
-    "alarm_code":"TMP101",
-    "alarm_enable":true,
-    "alarm_solution":"temp_solution",
-    "alarm_type":"tech",
-    "alarm_name":"temp_alert",
-    "alarm_state":true,
-    "alarm_category":"super_alert",
-    "alarm_date":"1970-01-01T00:00:00"
+  {
+    "alarm_description": "temp_description",
+    "alarm_code": "TMP101",
+    "alarm_enable": true,
+    "alarm_solution": "temp_solution",
+    "alarm_type": "tech",
+    "alarm_name": "temp_alert",
+    "alarm_state": true,
+    "alarm_category": "super_alert",
+    "alarm_date": "1970-01-01T00:00:00"
   },
-  {  
-     "alarm_description":"press_h2o_description",
-     "alarm_code":"PRS101",
-     "alarm_enable":true,
-     "alarm_solution":"press_h2o_solution",
-     "alarm_type":"tech",
-     "alarm_name":"press_h2o",
-     "alarm_state":true,
-     "alarm_category":"super_alert",
-     "alarm_date":"1970-01-01T00:00:00"
+  {
+     "alarm_description": "press_h2o_description",
+     "alarm_code": "PRS101",
+     "alarm_enable": true,
+     "alarm_solution": "press_h2o_solution",
+     "alarm_type": "tech",
+     "alarm_name": "press_h2o",
+     "alarm_state": true,
+     "alarm_category": "super_alert",
+     "alarm_date": "1970-01-01T00:00:00"
   },
   {
     "alarm_description": "press_co2_description",
@@ -208,70 +208,70 @@ export const ALARMS_ = [
     "alarm_category": "alert",
     "alarm_date": "1970-01-01T00:00:00"
   },
-  {  
-    "alarm_description":"flux1_description",
-    "alarm_code":"FLW110",
-    "alarm_enable":true,
-    "alarm_solution":"flux1_solution",
-    "alarm_type":"tech",
-    "alarm_name":"flux1",
-    "alarm_state":true,
-    "alarm_category":"alert",
-    "alarm_date":"1970-01-01T00:00:00"
+  {
+    "alarm_description": "flux1_description",
+    "alarm_code": "FLW110",
+    "alarm_enable": true,
+    "alarm_solution": "flux1_solution",
+    "alarm_type": "tech",
+    "alarm_name": "flux1",
+    "alarm_state": true,
+    "alarm_category": "alert",
+    "alarm_date": "1970-01-01T00:00:00"
  },
- {  
-    "alarm_description":"flux2_description",
-    "alarm_code":"FLW111",
-    "alarm_enable":true,
-    "alarm_solution":"flux2_solution",
-    "alarm_type":"tech",
-    "alarm_name":"flux2",
-    "alarm_state":true,
-    "alarm_category":"alert",
-    "alarm_date":"1970-01-01T00:00:00"
+ {
+    "alarm_description": "flux2_description",
+    "alarm_code": "FLW111",
+    "alarm_enable": true,
+    "alarm_solution": "flux2_solution",
+    "alarm_type": "tech",
+    "alarm_name": "flux2",
+    "alarm_state": true,
+    "alarm_category": "alert",
+    "alarm_date": "1970-01-01T00:00:00"
  },
- {  
-    "alarm_description":"flux3_description",
-    "alarm_code":"FLW112",
-    "alarm_enable":true,
-    "alarm_solution":"flux3_solution",
-    "alarm_type":"tech",
-    "alarm_name":"flux3",
-    "alarm_state":true,
-    "alarm_category":"alert",
-    "alarm_date":"1970-01-01T00:00:00"
+ {
+    "alarm_description": "flux3_description",
+    "alarm_code": "FLW112",
+    "alarm_enable": true,
+    "alarm_solution": "flux3_solution",
+    "alarm_type": "tech",
+    "alarm_name": "flux3",
+    "alarm_state": true,
+    "alarm_category": "alert",
+    "alarm_date": "1970-01-01T00:00:00"
  },
- {  
-    "alarm_description":"flux4_description",
-    "alarm_code":"FLW113",
-    "alarm_enable":true,
-    "alarm_solution":"flux4_solution",
-    "alarm_type":"tech",
-    "alarm_name":"flux4",
-    "alarm_state":true,
-    "alarm_category":"alert",
-    "alarm_date":"1970-01-01T00:00:00"
+ {
+    "alarm_description": "flux4_description",
+    "alarm_code": "FLW113",
+    "alarm_enable": true,
+    "alarm_solution": "flux4_solution",
+    "alarm_type": "tech",
+    "alarm_name": "flux4",
+    "alarm_state": true,
+    "alarm_category": "alert",
+    "alarm_date": "1970-01-01T00:00:00"
  },
- {  
-    "alarm_description":"flux5_description",
-    "alarm_code":"FLW114",
-    "alarm_enable":true,
-    "alarm_solution":"flux5_solution",
-    "alarm_type":"tech",
-    "alarm_name":"flux5",
-    "alarm_state":true,
-    "alarm_category":"alert",
-    "alarm_date":"1970-01-01T00:00:00"
+ {
+    "alarm_description": "flux5_description",
+    "alarm_code": "FLW114",
+    "alarm_enable": true,
+    "alarm_solution": "flux5_solution",
+    "alarm_type": "tech",
+    "alarm_name": "flux5",
+    "alarm_state": true,
+    "alarm_category": "alert",
+    "alarm_date": "1970-01-01T00:00:00"
  },
- {  
-    "alarm_description":"flux6_description",
-    "alarm_code":"FLW115",
-    "alarm_enable":true,
-    "alarm_solution":"flux6_solution",
-    "alarm_type":"tech",
-    "alarm_name":"flux6",
-    "alarm_state":true,
-    "alarm_category":"alert",
-    "alarm_date":"1970-01-01T00:00:00"
+ {
+    "alarm_description": "flux6_description",
+    "alarm_code": "FLW115",
+    "alarm_enable": true,
+    "alarm_solution": "flux6_solution",
+    "alarm_type": "tech",
+    "alarm_name": "flux6",
+    "alarm_state": true,
+    "alarm_category": "alert",
+    "alarm_date": "1970-01-01T00:00:00"
  }
 ];

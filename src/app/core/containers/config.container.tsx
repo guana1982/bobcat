@@ -215,7 +215,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     .pipe(
       map(data => data && data.elements || []),
       map(alarms => {
-        alarms = ALARMS_;
+        // alarms = ALARMS_;
         return alarms.map(alarm => {
           if (alarm.alarm_state) {
             if (alarm.alarm_category === "alert" || alarm.alarm_category === "super_alert") {
