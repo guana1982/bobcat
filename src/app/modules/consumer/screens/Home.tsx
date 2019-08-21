@@ -20,6 +20,7 @@ import { Grid } from "../components/common/Grid";
 import { SegmentButtonProps } from "../components/common/SegmentButton";
 import { first, tap } from "rxjs/operators";
 import { Promotion } from "../components/payment/Promotion";
+import { IPourConfig, PourFrom, IPourConsumerConfig } from "@core/models/vendor.model";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -360,7 +361,21 @@ export const Home = (props: HomeProps) => {
     return color;
   };
 
-  const startPour = (beverageSelected?: IBeverage, beverageConfig?: IBeverageConfig, indexFavorite?: number) => {
+  const startPour = (config: IPourConfig = { params: {}, from: null }) => {
+
+    const { params, from } = config;
+
+    if (from === PourFrom.Touch) { // <= CHECK VALID TOUCH
+      const activeElement_ = document.querySelector(":active");
+      if (activeElement_ === null) {
+        console.log("NO CORRECT TOUCH TO POUR");
+        return;
+      }
+    }
+
+    console.log("__START_POUR =>", { config });
+
+    const { beverageSelected, beverageConfig, indexFavorite } = params;
 
     const needToPay_ = needToPay(beverageSelected || getBeverageSelected());
     if (needToPay_ && !promotionEnabled) {
@@ -605,7 +620,11 @@ export const Home = (props: HomeProps) => {
     }));
   };
 
-  const startConsumerPour = (consumerBeverage: IConsumerBeverage, index: number) => {
+  const startConsumerPour = (config: IPourConsumerConfig = { params: {}, from: null }) => {
+
+    const { params, from } = config;
+    const { consumerBeverage , indexFavorite } = params;
+
     const beverageSelected: any = { beverage_id: Number(consumerBeverage.flavors[0].product.flavorUpc) };
     const beverageConfig: IBeverageConfig = {
       flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),
@@ -613,7 +632,8 @@ export const Home = (props: HomeProps) => {
       temperature_level: Number(consumerBeverage.coldLvl),
       isConsumerBeverage: true
     };
-    startPour(beverageSelected, beverageConfig, index);
+
+    startPour({params: { beverageSelected, beverageConfig, indexFavorite }, from });
   };
 
   const stopConsumerPour = (consumerBeverage?: IConsumerBeverage) => {

@@ -10,6 +10,7 @@ import { Alert } from "../common/Alert";
 import { PaymentInfo } from "../common/PaymentInfo";
 import { IBeverage } from "@core/models";
 import { ReplaySubscription } from "../common/Subscription";
+import { IPourConfig } from "@core/models/vendor.model";
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */
@@ -62,7 +63,7 @@ export const ChoiceBeverageWrap = styled.section`
 interface ChoiceBeverageProps {
   onGesture: (gestureType: any) => void;
   selectBeverage: (b) => void;
-  startPour: (b) => void;
+  startPour: (config: IPourConfig) => void;
   showPayment: () => any;
   stopPour: () => void;
   goToPrepay: () => void;
@@ -127,7 +128,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
                 status_id={b.status_id}
                 title={b.beverage_label_id}
                 onStart={() => selectBeverage(b)}
-                onHoldStart={() => startPour(b)}
+                onHoldStart={(from) => startPour({params: { beverageSelected: b }, from: from})}
                 onHoldEnd={() => stopPour()}
                 disabled={disabled || disableSparkling_}
                 nutritionFacts={nutritionFacts}

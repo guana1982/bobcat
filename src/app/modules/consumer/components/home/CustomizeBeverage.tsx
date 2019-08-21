@@ -17,6 +17,7 @@ import { Alert } from "../common/Alert";
 import { PaymentInfo } from "../common/PaymentInfo";
 import { ReplaySubscription } from "../common/Subscription";
 import { motion } from "framer-motion";
+import { IPourConfig, PourFrom } from "@core/models/vendor.model";
 
 /* color: string; */
 /* @keyframes shadow-pulse
@@ -245,14 +246,22 @@ export const CustomizeBeverageWrap = styled.section`
     right: 10px;
     bottom: 10px;
   }
-  .pour-btn:not(.cnh_ended):not(.cnh_holding) {
-    button {
+  &.pouring {
+    ${Pour} {
       opacity: .7;
       &::before {
         opacity: .3;
       }
     }
   }
+  /* .pour-btn:not(.cnh_ended):not(.cnh_holding) {
+    button {
+      opacity: .7;
+      &::before {
+        opacity: .3;
+      }
+    }
+  } */
   #payment-status {
     position: absolute;
     width: 100%;
@@ -283,7 +292,7 @@ interface CustomizeBeverageProps {
   resetBeverage: any;
   getBeverageSelected: any;
   handleChange: any;
-  startPour: any;
+  startPour: (config: IPourConfig) => any;
   stopPour: any;
   segmentButton: SegmentButtonProps; // => _SegmentButton
   nutritionFacts: boolean;
@@ -312,7 +321,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
     const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
     // if (!isPouring) {
       if (pour === true || enter === true && isFocus) {
-        startPour();
+        startPour({ params: {}, from: PourFrom.Ada });
       }
     // } else {
       if (pour === false || enter === false && isFocus) {
@@ -353,7 +362,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
 
   return(
     <React.Fragment>
-      <CustomizeBeverageWrap>
+      <CustomizeBeverageWrap className={isPouring ? "pouring" : ""}>
         {!props.showCardsInfo && <SegmentButton {...props.segmentButton} />}
 
         {!props.showCardsInfo ?
@@ -444,7 +453,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                 <ClickNHold
                   time={0.250}
                   onStart={() => {}}
-                  onClickNHold={() => startPour()}
+                  onClickNHold={() => startPour({ params: {}, from: PourFrom.Touch })}
                   onEnd={(e, enough) => enough && stopPour()}
                   className="pour-btn"
                   ref={buttonPourEl}
