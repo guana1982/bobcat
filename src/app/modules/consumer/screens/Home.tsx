@@ -19,6 +19,7 @@ import { CustomizeBeverage } from "../components/home/CustomizeBeverage";
 import { Grid } from "../components/common/Grid";
 import { SegmentButtonProps } from "../components/common/SegmentButton";
 import { first, tap } from "rxjs/operators";
+import { Promotion } from "../components/payment/Promotion";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -765,6 +766,14 @@ export const Home = (props: HomeProps) => {
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
+  // React.useEffect(() => { // =====> DAILY-LIMIT-REACHED ALERT
+  //   alertConsumer.show({
+  //     img: "img/daily-limit-reached.png",
+  //     type: AlertTypes.DailyLimitReached,
+  //     subTitle: true
+  //   });
+  // }, []);
+
   return (
     <HomeContent className={slideOpen ? "slide-is-open" : ""}>
       {presentSlide &&
@@ -835,6 +844,9 @@ export const Home = (props: HomeProps) => {
           nutritionFacts={nutritionFacts}
           isLogged={presentSlide}
         />
+      }
+      {isLogged &&
+        <Promotion />
       }
     </HomeContent>
   );

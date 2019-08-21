@@ -25,7 +25,9 @@ export enum AlertTypes {
   ErrorQrNotValid = "c_error_qr_not_valid",
   ErrorUnassociatedBottle = "c_error_unassociated_bottle",
   ErrorADAPanelDown = "c_ada_panel_down",
-  ErrorPaymentDown = "p_payment_down"
+  ErrorPaymentDown = "p_payment_down",
+
+  DailyLimitReached = "p_daily_limit_reached",
 }
 
 export interface AlertOptions {
