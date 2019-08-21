@@ -14,11 +14,16 @@ interface AttractorProps {
   history: any;
 }
 
+let showTimer;
+let hideTimer;
+
 export const TIMEOUT_ATTRACTOR = 2000;
 
 export const Attractor = (props: AttractorProps) => {
 
   const [show, setShow] = React.useState(false);
+  const [showCountUp, setShowCountUp] = React.useState(false);
+  const [timer, setTimer] = React.useState(0);
 
   const eventTimeout_ =  React.useRef<any>(null);
 
@@ -33,7 +38,10 @@ export const Attractor = (props: AttractorProps) => {
     paymentConsumer.restartPayment();
     mediumLevel.config.startVideo().pipe(first()).subscribe();
     eventTimeout_.current = setTimeout(() => setShow(true), TIMEOUT_ATTRACTOR);
+    showTimer = setTimeout(() => videoTimingHandler(), 22300 + TIMEOUT_ATTRACTOR);
     return () => {
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
       clearTimeout(eventTimeout_.current);
       mediumLevel.config.stopVideo().pipe(first()).subscribe();
     };
@@ -46,6 +54,7 @@ export const Attractor = (props: AttractorProps) => {
     }
     goToHome();
   };
+
 
   //  ==== PROXIMITY SENSOR ====>
   const { socketAttractor$ } = configConsumer;
@@ -73,12 +82,44 @@ export const Attractor = (props: AttractorProps) => {
   }, [socketAttractor$, alarmSuper_]);
   //  <=== PROXIMITY SENSOR ====
 
+  const videoTimingHandler = () => {
+    setShowCountUp(true);
+    hideTimer = setTimeout(() => {
+      setShowCountUp(false);
+      showTimer = setTimeout(() => videoTimingHandler(), 25800);
+    }, 4050);
+  };
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      timer < 29 && setTimer(prev => prev + 1);
+      timer === 29 && setTimeout(() => setTimer(0), 500);
+    }, show ? 1000 : 1000 + TIMEOUT_ATTRACTOR);
+  }, [timer]);
+
   return (
     <React.Fragment>
       {show &&
         <>
-          {/* <CountUpComponent/> */}
-          <SreenWrapper onClick={eventAttractor}/>
+          {showCountUp && <CountUpComponent/>}
+          <span
+            style={{
+              position: "absolute",
+              top: "50px",
+              left: "50px",
+              fontSize: "30px"
+            }}>{timer}</span>
+          <SreenWrapper onClick={eventAttractor}>
+          {/* <video
+            src="BOBCAT_PEPSI_MASTER_V02.m4v"
+            onClick={() => goToHome()}
+            width="1280"
+            height="800"
+            loop
+            autoPlay
+            muted
+          /> */}
+          </SreenWrapper>
         </>
       }
       {/* <Warning /> */}

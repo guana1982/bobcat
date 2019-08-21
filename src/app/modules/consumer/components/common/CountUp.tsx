@@ -17,15 +17,13 @@ const StyledCountUp = styled.div`
     100% { height: 28px; }
   }
   background: #fff;
-  width: 500px;
-  height: 300px;
+  width: 425px;
+  height: 322px;
   font-size: 30px;
   color: ${themeMain.primary};
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  /* .countUp { position: relative; } */
+  top: 216px;
+  left: 517px;
   svg {
     transform: scale(4);
     position: absolute;
