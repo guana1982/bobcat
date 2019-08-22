@@ -1,13 +1,10 @@
 import * as React from "react";
 import mediumLevel from "@utils/MediumLevel";
 
-import { tap, first } from "rxjs/operators";
-import { Subscription } from "rxjs";
+import { first } from "rxjs/operators";
 import { Pages, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA } from "@utils/constants";
 import { ConfigContext, PaymentContext } from "@core/containers";
 import { SreenWrapper } from "../components/common/ScreenWrapper";
-import CountUp from "react-countup";
-import { themeMain } from "@style";
 import { CountUpComponent } from "../components/common/CountUp";
 
 interface AttractorProps {
@@ -38,7 +35,6 @@ export const Attractor = (props: AttractorProps) => {
     paymentConsumer.restartPayment();
     mediumLevel.config.startVideo().pipe(first()).subscribe();
     eventTimeout_.current = setTimeout(() => setShow(true), TIMEOUT_ATTRACTOR);
-    showTimer = setTimeout(() => videoTimingHandler(), 22300 + TIMEOUT_ATTRACTOR);
     return () => {
       clearTimeout(showTimer);
       clearTimeout(hideTimer);
@@ -82,20 +78,21 @@ export const Attractor = (props: AttractorProps) => {
   }, [socketAttractor$, alarmSuper_]);
   //  <=== PROXIMITY SENSOR ====
 
-  const videoTimingHandler = () => {
-    setShowCountUp(true);
-    hideTimer = setTimeout(() => {
-      setShowCountUp(false);
-      showTimer = setTimeout(() => videoTimingHandler(), 25800);
-    }, 4050);
-  };
-
+  // ==== TIMER HANDLER ===>
   React.useEffect(() => {
     setTimeout(() => {
-      timer < 29 && setTimer(prev => prev + 1);
-      timer === 29 && setTimeout(() => setTimer(0), 500);
+      timer < 28 && setTimer(prev => prev + 1);
+      timer === 28 && setTimeout(() => setTimer(0), 650);
     }, show ? 1000 : 1000 + TIMEOUT_ATTRACTOR);
   }, [timer]);
+  // <=== TIMER HANDLER ====
+
+  // ==== SHOW-COUNTUP HANDLER ===>
+  React.useEffect(() => {
+    timer === 22 && setShowCountUp(true);
+    timer === 26 && setTimeout(() => setShowCountUp(false), 100);
+  }, [timer]);
+  // <=== SHOW-COUNTUP HANDLER ====
 
   return (
     <React.Fragment>
