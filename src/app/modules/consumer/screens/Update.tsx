@@ -37,7 +37,7 @@ export const Update = (props: UpdateProps) => {
       (value: StatusUpdate) => {
         setStatusUpdate(value);
         if (value.percentage === 100) {
-          setTimeout(() => window.location.reload(), 2000);
+          setTimeout(() => window.location.reload(true), 2000);
         }
       }
     );

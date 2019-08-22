@@ -173,7 +173,7 @@ export const NewMenu = (props: MenuProps) => {
   return (
     <>
       <h2>No Auth!</h2>
-      <button onClick={() => location.reload()}><h3>EXIT</h3></button>
+      <button onClick={() => location.reload(true)}><h3>EXIT</h3></button>
     </>
   );
 
@@ -291,7 +291,7 @@ export const NewMenu = (props: MenuProps) => {
               <About />
             </Group>
           }
-          <MButton id="exit-btn" onClick={() => location.reload()}>EXIT TO CONSUMER UI</MButton>
+          <MButton id="exit-btn" onClick={() => location.reload(true)}>EXIT TO CONSUMER UI</MButton>
         </Grid>
       </MenuContent>
 

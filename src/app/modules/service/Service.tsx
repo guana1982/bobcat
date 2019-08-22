@@ -1,24 +1,19 @@
 import * as React from "react";
-import { Route } from "react-router";
-import { Pages } from "@utils/constants";
 import { themeMenu } from "@style";
 import { Auth } from "./components/auth/Auth";
 
-/* ==== PAGES ==== */
-import { NewMenu } from "./screens/Main";
-
 /* ==== STORES ==== */
-import { ServiceProvider, AlertProvider, AuthLevels } from "@core/containers";
+import { AlertProvider, AuthLevels } from "@core/containers";
 import { ThemeProvider } from "styled-components";
 import { LoaderProvider } from "@core/containers/loader.container";
 import { LoaderComponent } from "./components/common/Loader";
 import { Alert } from "./components/common/Alert";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { map, tap } from "rxjs/operators";
-import { MasterMenu } from "./screens/Master";
-import { TestMenu } from "./screens/Test";
 
-export const Service = (props) => {
+const LazyService = React.lazy(() => import("./screens/LazyService"));
+
+export const Service = () => {
 
   /* ==== AUTH ==== */
   /* ======================================== */
@@ -51,26 +46,9 @@ export const Service = (props) => {
           <Auth authLogin={authLogin} setAuthLevel={setAuthLevel} />
           {
             authLevel &&
-            <ServiceProvider>
-              <Route
-                path={Pages.Menu}
-                render={(routeProps) => (
-                  <NewMenu {...routeProps} authLevel={authLevel} />
-                )}
-              />
-              <Route
-                path={Pages.Master}
-                render={(routeProps) => (
-                  <MasterMenu {...routeProps} authLevel={authLevel} />
-                )}
-              />
-              <Route
-                path={Pages.Test}
-                render={(routeProps) => (
-                  <TestMenu {...routeProps} authLevel={authLevel} />
-                )}
-              />
-            </ServiceProvider>
+            <React.Suspense fallback={<></>}>
+              <LazyService authLevel={authLevel} />
+            </React.Suspense>
           }
         </AlertProvider>
       </LoaderProvider>
@@ -78,3 +56,5 @@ export const Service = (props) => {
   );
 
 };
+
+export default Service;

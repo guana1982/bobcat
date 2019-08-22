@@ -204,7 +204,9 @@ export const Home = (props: HomeProps) => {
   React.useEffect(() => {
     startTimer_();
     return () => {
-      configConsumer.setAuthService(false);
+      if (configConsumer.authService === true) {
+        configConsumer.setAuthService(false);
+      }
       resetTimer_();
 
       if (socketAlarms_.current)
@@ -749,15 +751,15 @@ export const Home = (props: HomeProps) => {
   /* ==== ROUTING ==== */
   /* ======================================== */
 
-  let gestureInterval = false;
+  const gestureInterval =  React.useRef<boolean>(false);
   const onGesture = (gestureType) => {
     if (gestureType === "p") {
-      if (gestureInterval) {
-        gestureInterval = false;
+      if (gestureInterval.current) {
+        gestureInterval.current = false;
         return configConsumer.setAuthService(true);
       }
-      gestureInterval = true;
-      setTimeout(() => gestureInterval = false, 3000);
+      gestureInterval.current = true;
+      setTimeout(() => gestureInterval.current = false, 3000);
     }
   };
 

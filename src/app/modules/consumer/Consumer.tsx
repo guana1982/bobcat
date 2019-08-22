@@ -74,3 +74,5 @@ export const Consumer = () => (
     </AccessibilityProvider>
   </ThemeProvider>
 );
+
+export default Consumer;

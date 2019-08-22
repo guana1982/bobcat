@@ -534,7 +534,7 @@ const ServiceContainer = createUseContext(() => {
     .subscribe(
       data => {
         if (data.error === false) {
-          window.location.reload();
+          window.location.reload(true);
           return;
         }
         // => ERROR
@@ -562,7 +562,7 @@ const ServiceContainer = createUseContext(() => {
     .subscribe(
       data => {
         if (data.error === false) {
-          window.location.reload();
+          window.location.reload(true);
           return;
         }
         // => ERROR
@@ -583,7 +583,7 @@ const ServiceContainer = createUseContext(() => {
     .subscribe(
       data => {
         if (data.error === false) {
-          window.location.reload();
+          window.location.reload(true);
           return;
         }
         // => ERROR

@@ -84,7 +84,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
     /* ======================================== */
 
     this.state = {
-      authService: false,
+      authService: null,
       vendorConfig: {},
       ws: ws,
       allBeverages: [],

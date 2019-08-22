@@ -1,9 +1,8 @@
 import * as React from "react";
 import { MemoryRouter } from "react-router";
-import { ConfigStore } from "@containers/index";
+import { ConfigStore, ConfigContext } from "@containers/index";
 import { GlobalStyle } from "./GlobalStyle";
-import { Consumer } from "@modules/consumer/Consumer";
-import { Service } from "@modules/service/Service";
+import { pure } from "recompose";
 
 const PreCacheFont = () => (
   <div className="font_preload" style={{opacity: 0}}>
@@ -27,33 +26,33 @@ const PreCacheFont = () => (
 //   return <React.Fragment />;
 // };
 
-// const eventNull = e => {
-//   e.preventDefault();
-//   e.stopPropagation();
-// };
+const Consumer = React.lazy(() => import("@modules/consumer/Consumer"));
+const Service = React.lazy(() => import("@modules/service/Service"));
 
-// const ListenerRemover = () => {
-//   window.addEventListener("touchmove", e => eventNull(e));
-//   document.addEventListener("touchmove", e => eventNull(e));
-//   document.addEventListener("touchstart", e => eventNull(e));
-//   document.addEventListener("mousedown", e => eventNull(e));
-//   document.addEventListener("mousemove", e => eventNull(e));
-//   return <React.Fragment />;
-// };
+const LazyLoadService = () => {
+  const configConsumer = React.useContext(ConfigContext);
+  const { authService } = configConsumer;
+  return (
+    <>
+     {authService !== null && <Service />}
+    </>
+  );
+};
 
-const App = () => (
+const App = pure(() => (
   <React.Fragment>
     <GlobalStyle />
     <PreCacheFont />
     {/* <ButtonPressHandler /> */}
-    {/* <ListenerRemover /> */}
     <MemoryRouter>
       <ConfigStore>
-        <Consumer />
-        <Service />
+        <React.Suspense fallback={<></>}>
+          <Consumer />
+          <LazyLoadService />
+        </React.Suspense>
       </ConfigStore>
     </MemoryRouter>
   </React.Fragment>
-);
+));
 
 export default App;
