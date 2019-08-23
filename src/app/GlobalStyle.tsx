@@ -82,6 +82,7 @@ export const GlobalStyle = createGlobalStyle`
       url("img/logos/2015.webp")
 
       url("img/logos/9@sparkling.webp")
+      url("img/logos/10@sparkling.webp")
       url("img/logos/2009@sparkling.webp")
       url("img/logos/2011@sparkling.webp")
       url("img/logos/2012@sparkling.webp")
@@ -90,6 +91,7 @@ export const GlobalStyle = createGlobalStyle`
       url("img/logos/2015@sparkling.webp")
 
       url("img/logos/9@blur.webp")
+      url("img/logos/10@blur.webp")
       url("img/logos/2009@blur.webp")
       url("img/logos/2011@blur.webp")
       url("img/logos/2012@blur.webp")
@@ -98,6 +100,7 @@ export const GlobalStyle = createGlobalStyle`
       url("img/logos/2015@blur.webp")
 
       url("img/logos/9@nutrition-blur.webp")
+      url("img/logos/10@nutrition-blur.webp")
       url("img/logos/2009@nutrition-blur.webp")
       url("img/logos/2011@nutrition-blur.webp")
       url("img/logos/2012@nutrition-blur.webp")

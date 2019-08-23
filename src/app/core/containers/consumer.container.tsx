@@ -67,6 +67,13 @@ class ConsumerStoreComponent extends React.Component<any, any> {
     });
     if (!noPushAttractor) {
       this.props.history.push(Pages.Attractor);
+      // mediumLevel.config.startVideo().pipe(first())
+      //   .subscribe(
+      //     () => {},
+      //     () => {},
+      //     () => window.location.reload(true)
+      //   );
+      // window.location.reload(true);
     }
   }
 
