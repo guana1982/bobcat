@@ -169,7 +169,7 @@ const TimerContainer = createUseContext((props: any) => {
                   proximityDetect();
                 } else if (value === EventsTimer.TimerStop) {
 
-                  console.log({ prevProximityStatus, statusProximity, _isActive })
+                  console.log({ prevProximityStatus, statusProximity, _isActive });
                   subject_.next(_isActive ? StatusTimer.TimerActive : StatusTimer.TimerInactive);
 
                   if (_isActive && restart) {

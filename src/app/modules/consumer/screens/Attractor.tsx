@@ -81,18 +81,19 @@ export const Attractor = (props: AttractorProps) => {
   // ==== TIMER HANDLER ===>
   React.useEffect(() => {
     setTimeout(() => {
-      timer < 28 && setTimer(prev => prev + 1);
-      timer === 28 && setTimeout(() => setTimer(0), 650);
+      timer < 29 && setTimer(prev => prev + 1);
+      timer === 29 && setTimeout(() => setTimer(0), 60);
     }, show ? 1000 : 1000 + TIMEOUT_ATTRACTOR);
   }, [timer]);
   // <=== TIMER HANDLER ====
 
   // ==== SHOW-COUNTUP HANDLER ===>
   React.useEffect(() => {
-    timer === 22 && setShowCountUp(true);
-    timer === 26 && setTimeout(() => setShowCountUp(false), 100);
+    timer === 21 && setShowCountUp(true);
+    timer === 24 && setTimeout(() => setShowCountUp(false), 600);
   }, [timer]);
   // <=== SHOW-COUNTUP HANDLER ====
+
 
   return (
     <React.Fragment>
