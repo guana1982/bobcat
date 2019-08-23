@@ -751,15 +751,21 @@ export const Home = (props: HomeProps) => {
   /* ==== ROUTING ==== */
   /* ======================================== */
 
-  const gestureInterval =  React.useRef<boolean>(false);
+  // const gestureTimeout =  React.useRef<any>(false);
+  // const gestureInterval =  React.useRef<boolean>(false);
   const onGesture = (gestureType) => {
     if (gestureType === "p") {
-      if (gestureInterval.current) {
-        gestureInterval.current = false;
-        return configConsumer.setAuthService(true);
-      }
-      gestureInterval.current = true;
-      setTimeout(() => gestureInterval.current = false, 3000);
+      return configConsumer.setAuthService(true);
+      // if (gestureInterval.current) {
+      //   alert("DIGGEIPAOLO");
+      //   clearTimeout(gestureTimeout.current);
+      //   gestureInterval.current = false;
+      // }
+      // gestureInterval.current = true;
+      // gestureTimeout.current = setTimeout(() => {
+      //   alert("SFAVILLOTTO");
+      //   gestureInterval.current = false;
+      // }, 4000);
     }
   };
 

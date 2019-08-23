@@ -11,8 +11,10 @@ interface AttractorProps {
   history: any;
 }
 
+let generalTimer;
 let showTimer;
 let hideTimer;
+let restartTimer;
 
 export const TIMEOUT_ATTRACTOR = 2000;
 
@@ -36,8 +38,10 @@ export const Attractor = (props: AttractorProps) => {
     mediumLevel.config.startVideo().pipe(first()).subscribe();
     eventTimeout_.current = setTimeout(() => setShow(true), TIMEOUT_ATTRACTOR);
     return () => {
+      clearTimeout(generalTimer);
       clearTimeout(showTimer);
       clearTimeout(hideTimer);
+      clearTimeout(restartTimer);
       clearTimeout(eventTimeout_.current);
       mediumLevel.config.stopVideo().pipe(first()).subscribe();
     };
@@ -80,17 +84,17 @@ export const Attractor = (props: AttractorProps) => {
 
   // ==== TIMER HANDLER ===>
   React.useEffect(() => {
-    setTimeout(() => {
-      timer < 29 && setTimer(prev => prev + 1);
-      timer === 29 && setTimeout(() => setTimer(0), 60);
-    }, show ? 1000 : 1000 + TIMEOUT_ATTRACTOR);
+    generalTimer = setTimeout(() => {
+      timer < 28 && setTimer(prev => prev + 1);
+      restartTimer = timer === 28 && setTimeout(() => setTimer(0), 700);
+    }, show ? 1000 : 1000 + 750);
   }, [timer]);
   // <=== TIMER HANDLER ====
 
   // ==== SHOW-COUNTUP HANDLER ===>
   React.useEffect(() => {
-    timer === 21 && setShowCountUp(true);
-    timer === 24 && setTimeout(() => setShowCountUp(false), 600);
+    showTimer = timer === 22 && setTimeout(() => setShowCountUp(true), 200);
+    hideTimer = timer === 26 && setTimeout(() => setShowCountUp(false), 100);
   }, [timer]);
   // <=== SHOW-COUNTUP HANDLER ====
 
