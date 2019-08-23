@@ -140,6 +140,8 @@ export const Home = (props: HomeProps) => {
     }
   });
 
+  const stillTemperature = React.useRef(0);
+  const sparklingLevel = React.useRef(levels.carbonation[2].value);
 
   const [nutritionFacts, setNutritionFacts] = React.useState(false);
   const [slideOpen, setSlideOpen] = React.useState(false);
@@ -566,13 +568,23 @@ export const Home = (props: HomeProps) => {
   /* ======================================== */
 
   const resetBeverage = () => {
+    stillTemperature.current = 0;
+    sparklingLevel.current = levels.carbonation[2].value;
     setState(prevState => ({
       ...prevState,
       beverageSelectedId: null,
       indexBeverageForLongPressPour_: null,
       indexFavoritePouring_: null,
       idBeveragePouring_: null,
-      showCardsInfo: false
+      showCardsInfo: false,
+      beverageConfig: {
+        flavor_level: null,
+        carbonation_level: null,
+        temperature_level: null,
+        b_complex: false,
+        antioxidants: false,
+        isConsumerBeverage: false
+      }
     }));
   };
 
@@ -607,6 +619,9 @@ export const Home = (props: HomeProps) => {
         return;
       }
     }
+
+    stillTemperature.current = Number(consumerBeverage.coldLvl);
+    sparklingLevel.current = Number(consumerBeverage.carbLvl);
 
     setState(prevState => ({
       ...prevState,
@@ -674,16 +689,22 @@ export const Home = (props: HomeProps) => {
       }
     }
 
+
     const carbonationValue = () => {
       if (value) {
         if (state.beverageConfig.isConsumerBeverage) {
           if (Number(state.consumerCustomBeverageSelected.carbLvl) === 0) {
-            return levels.carbonation[2].value;
-          } else {
-            return Number(state.consumerCustomBeverageSelected.carbLvl);
+            if (sparklingLevel.current !== 0) {
+              return sparklingLevel.current;
+            } else {
+              return levels.carbonation[2].value;
+            }
           }
-        } else {
+        }
+        if (state.beverageConfig.carbonation_level === null) {
           return levels.carbonation[2].value;
+        } else {
+          return sparklingLevel.current;
         }
       } else {
         return levels.noCarbonation[0].value;
@@ -691,22 +712,25 @@ export const Home = (props: HomeProps) => {
     };
 
     const temperatureValue = () => {
-      if (value) {
+      if (state.beverageConfig.temperature_level === null || value) {
+        if (state.beverageConfig.isConsumerBeverage && !value) {
+          return Number(state.consumerCustomBeverageSelected.coldLvl);
+        }
         return levels.temperature[2].value;
       } else {
-        if (state.beverageConfig.isConsumerBeverage) {
-          return Number(state.consumerCustomBeverageSelected.coldLvl);
-        } else {
-          return levels.temperature[1].value;
-        }
+        return stillTemperature.current;
       }
     };
 
     const flavorValue = () => {
-      if (state.beverageConfig.isConsumerBeverage) {
-        return Number(state.consumerCustomBeverageSelected.flavors[0].flavorStrength);
+      if (state.beverageConfig.flavor_level === null) {
+        if (state.beverageConfig.isConsumerBeverage) {
+          return Number(state.consumerCustomBeverageSelected.flavors[0].flavorStrength);
+        } else {
+          return levels.flavor[1].value;
+        }
       } else {
-        return levels.flavor[1].value;
+        return state.beverageConfig.flavor_level;
       }
     };
 
@@ -730,9 +754,11 @@ export const Home = (props: HomeProps) => {
         beverageConfig.flavor_level = value;
         break;
       case "carbonation":
+        sparklingLevel.current = value;
         beverageConfig.carbonation_level = value;
         break;
       case "temperature":
+        stillTemperature.current = value;
         beverageConfig.temperature_level = value;
         break;
       default:
@@ -801,6 +827,8 @@ export const Home = (props: HomeProps) => {
   //     subTitle: true
   //   });
   // }, []);
+
+  console.log(state);
 
   return (
     <HomeContent className={slideOpen ? "slide-is-open" : ""}>
@@ -872,9 +900,6 @@ export const Home = (props: HomeProps) => {
           nutritionFacts={nutritionFacts}
           isLogged={presentSlide}
         />
-      }
-      {isLogged &&
-        <Promotion />
       }
     </HomeContent>
   );
