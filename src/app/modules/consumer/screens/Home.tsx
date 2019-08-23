@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { IBeverageConfig, IBeverage } from "@models/index";
 import { __ } from "@utils/lib/i18n";
-import { Beverages, Pages, LEVELS, MESSAGE_STOP_EROGATION, TIMER_LONG, TIMER_SHORT, TIMER_END_SESSION } from "@utils/constants";
+import { Beverages, Pages, LEVELS, MESSAGE_STOP_EROGATION, TIMER_HOME, TIMER_POURING } from "@utils/constants";
 import { ConsumerContext } from "@containers/consumer.container";
 import { IConsumerBeverage } from "@utils/APIModel";
 import { Subscription } from "rxjs";
@@ -174,7 +174,7 @@ export const Home = (props: HomeProps) => {
 
   const startTimer_ = () => {
     resetTimer_();
-    timer_.current = timerBoot$(consumerBeverages.length > 0 || paymentModeEnabled ? TIMER_SHORT : TIMER_LONG, true)
+    timer_.current = timerBoot$(TIMER_HOME)
     .subscribe(
       val => {
         console.log("=== startTimer_ ===");
@@ -461,7 +461,7 @@ export const Home = (props: HomeProps) => {
 
   const startTimerEnd_ = () => {
     resetTimerEnd_();
-    endSession_.current = timerBoot$(TIMER_END_SESSION)
+    endSession_.current = timerBoot$(TIMER_POURING)
     .subscribe(
       val => {
         if (val === StatusTimer.TimerActive) {
