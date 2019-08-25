@@ -99,7 +99,6 @@ enum StatusEndSession {
   Start = "start",
   Finish = "finish",
   ProximityEnd = "proximity-end",
-  ProximityEndForce = "proximity-end-force"
 }
 
 export const Home = (props: HomeProps) => {
@@ -182,18 +181,19 @@ export const Home = (props: HomeProps) => {
         console.log("=== startTimer_ ===");
         console.log({val});
         console.log("=== startTimer_ ===");
-        if (val === StatusTimer.TimerInactive || val === StatusTimer.ProximityExit) {
+        if (val === StatusTimer.TimerActive || val === StatusTimer.TimerInactive) {
           const event_ = () => consumerConsumer.resetConsumer();
           alertIsLogged(event_);
-        } else if (val === StatusTimer.TimerActive) {
-          const event_ = () => {
-            consumerConsumer.resetConsumer(true);
-            handleType(false);
-            setNutritionFacts(false);
-            resetBeverage();
-          };
-          alertIsLogged(event_);
         }
+        // else if (val === StatusTimer.TimerActive) {
+        //   const event_ = () => {
+        //     consumerConsumer.resetConsumer(true);
+        //     handleType(false);
+        //     setNutritionFacts(false);
+        //     resetBeverage();
+        //   };
+        //   alertIsLogged(event_);
+        // }
       }
     );
   };
@@ -466,10 +466,8 @@ export const Home = (props: HomeProps) => {
     endSession_.current = timerBoot$(TIMER_POURING)
     .subscribe(
       val => {
-        if (val === StatusTimer.TimerActive) {
+        if (val === StatusTimer.TimerActive || val === StatusTimer.TimerInactive) {
           setEndSession(StatusEndSession.ProximityEnd);
-        } else if (val === StatusTimer.TimerInactive || val === StatusTimer.ProximityExit) {
-          setEndSession(StatusEndSession.ProximityEndForce);
         }
       }
     );
@@ -517,20 +515,6 @@ export const Home = (props: HomeProps) => {
         });
       });
     } else if (endSession === StatusEndSession.ProximityEnd) {
-      if (!(consumerBeverages.length > 0 || paymentModeEnabled)) {
-        stopEndSession();
-        return;
-      }
-      alertConsumer.show({
-        type: AlertTypes.EndSession,
-        timeout: true,
-        onDismiss: () => stopEndSession()
-      });
-    } else if (endSession === StatusEndSession.ProximityEndForce) {
-      if (!(consumerBeverages.length > 0 || paymentModeEnabled)) {
-        stopEndSession(true);
-        return;
-      }
       alertConsumer.show({
         type: AlertTypes.EndSession,
         timeout: true,

@@ -1,9 +1,9 @@
 import * as React from "react";
 
 import styled from "styled-components";
-import { TimerContext, EventsTimer } from "@containers/timer.container";
+import { TimerContext, EventsTimer, StatusTimer } from "@containers/timer.container";
 import { ConsumerContext } from "@containers/consumer.container";
-import { Pages } from "@utils/constants";
+import { Pages, TIMER_SING_IN } from "@utils/constants";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { CloseBtnWrap, CloseBtn } from "../components/common/CloseBtn";
 import { __ } from "@core/utils/lib/i18n";
@@ -126,42 +126,21 @@ export const Prepay = (props: PrepayProps) => {
   const { paymentModeEnabled } = paymentConsumer;
 
   //  ==== TIMER ====>
-  const { timerPrepay$ } = timerConsumer;
-  // const { isLogged } = consumerConsumer;
-
-  // function alertIsLogged(event) {
-  //   if (isLogged) {
-  //     alertConsumer.show({
-  //       type: AlertTypes.EndBeverage,
-  //       timeout: true,
-  //       onDismiss: () => {
-  //         consumerConsumer.resetConsumer(true);
-  //         event();
-  //       }
-  //     });
-  //   } else {
-  //     event();
-  //   }
-  // }
+  const { timerNear$ } = timerConsumer;
 
   const startTimer_ = () => {
     resetTimer_();
-    timer_.current = timerPrepay$.subscribe(
+    timer_.current = timerNear$(TIMER_SING_IN).subscribe(
       val => {
-        if (val === EventsTimer.TimerStop) {
-          // const event_ = () => {
-          //   consumerConsumer.resetConsumer(true);
-          //   goToHome();
-          // };
-          // alertIsLogged(event_);
+        if (val === StatusTimer.TimerActive || val === StatusTimer.TimerInactive) {
+          goToAttractor();
+        } else if (val === StatusTimer.TimerNear) {
           alertConsumer.show({
             type: AlertTypes.ErrorQrNotFound,
             img: "img/qr-code-not-recognized.svg",
             subTitle: true,
             timeout: true,
-            onDismiss: () => {
-              goToHome();
-            }
+            onDismiss: () => {}
           });
         }
       }
@@ -289,6 +268,10 @@ export const Prepay = (props: PrepayProps) => {
         });
       }
     });
+  };
+
+  const goToAttractor = () => {
+    props.history.push(Pages.Attractor);
   };
 
   const goToHome = () => {

@@ -1,9 +1,9 @@
 import * as React from "react";
 import createUseContext from "constate";
-import { Subscription, fromEvent, timer, BehaviorSubject, of, Subject, Observable, interval, merge as Merge, throwError } from "rxjs";
-import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge, flatMap, pairwise, retryWhen, mergeMap, mapTo } from "rxjs/operators";
+import { fromEvent, timer, BehaviorSubject, of, Observable, merge as Merge, throwError } from "rxjs";
+import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge, pairwise, retryWhen, mergeMap, mapTo } from "rxjs/operators";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, MESSAGE_STOP_CAMERA, TIMER_SING_IN } from "@core/utils/constants";
+import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, MESSAGE_STOP_CAMERA } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
 import { ConfigContext, ConsumerContext } from ".";
 
@@ -67,13 +67,15 @@ const TimerContainer = createUseContext((props: any) => {
 
   const sourceProxActive = statusProximity$.current
   .pipe(
+    startWith(DistanceTypes.None),
     pairwise(),
-    filter(types => types[0] === DistanceTypes.None),
+    filter(types => types[1] !== DistanceTypes.None),
     mapTo(true)
   );
 
   const sourceProxNear = statusProximity$.current
   .pipe(
+    startWith(DistanceTypes.None),
     pairwise(),
     filter(types => types[1] === DistanceTypes.Near),
     mapTo(true)
@@ -81,6 +83,7 @@ const TimerContainer = createUseContext((props: any) => {
 
   const sourceProxInactive = statusProximity$.current
   .pipe(
+    startWith(DistanceTypes.None),
     pairwise(),
     filter(types => types[1] === DistanceTypes.None),
     mapTo(true)
@@ -153,7 +156,7 @@ const TimerContainer = createUseContext((props: any) => {
       retryWhen(retry => upDim$(retry))
     );
 
-    return timer$;
+    return timer$; // .pipe(tap(value => console.log("timerBoot$", value))); // <= LOG
 
   }
 
@@ -167,7 +170,7 @@ const TimerContainer = createUseContext((props: any) => {
     const timerNear$ = sourceProxNear
     .pipe(
       switchMap(
-        () => timer(0, timer_near).pipe(
+        () => timer(timer_near).pipe(
           takeUntil(sourceProxInactive)
         )
       ),
@@ -179,17 +182,14 @@ const TimerContainer = createUseContext((props: any) => {
       timerNear$
     );
 
-    return timer$;
+    return timer$; // .pipe(tap(value => console.log("timerNear$", value))); // <= LOG
 
   }
-
-  const timerPrepay$ = timerTouch$(TIMER_SING_IN[0], false);
 
   return {
     statusProximity$,
     timerBoot$,
-    timerNear$,
-    timerPrepay$
+    timerNear$
   };
 });
 
