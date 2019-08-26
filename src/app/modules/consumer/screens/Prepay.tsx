@@ -130,7 +130,9 @@ export const Prepay = (props: PrepayProps) => {
 
   const startTimer_ = () => {
     resetTimer_();
-    timer_.current = timerNear$(TIMER_SIGN_IN).subscribe(
+    const { vendorConfig } = configConsumer;
+    timer_.current = timerNear$(vendorConfig.timer_sign_in)
+    .subscribe(
       val => {
         if (val === StatusTimer.TimerActive || val === StatusTimer.TimerInactive) {
           goToAttractor();

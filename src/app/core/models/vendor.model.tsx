@@ -13,6 +13,9 @@ export interface VendorConfig {
   serial_number_mediaboard: string;
   serial_number_powerboard: string;
   serial_number_mqtt: string;
+  timer_home: number[];
+  timer_pouring: number[];
+  timer_sign_in: number[];
 }
 
 // === POUR CONFIG ===
