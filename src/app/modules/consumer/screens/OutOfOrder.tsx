@@ -76,11 +76,11 @@ export const OutOfOrder = (props) => {
 
   //  ==== TIMER ====>
   const timerConsumer = React.useContext(TimerContext);
-  const { timerPrepay$ } = timerConsumer;
+  const { timerOutOfOrder$ } = timerConsumer;
   const timer_ = React.useRef<Subscription>(null);
   const startTimer_ = () => {
     resetTimer_();
-    timer_.current = timerPrepay$.subscribe(
+    timer_.current = timerOutOfOrder$.subscribe(
       val => {
         if (val) { //  === StatusProximity.TimerStop
           props.history.push(Pages.Attractor);

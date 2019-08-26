@@ -3,7 +3,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { TimerContext, EventsTimer, StatusTimer } from "@containers/timer.container";
 import { ConsumerContext } from "@containers/consumer.container";
-import { Pages, TIMER_SING_IN } from "@utils/constants";
+import { Pages, TIMER_SIGN_IN } from "@utils/constants";
 import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { CloseBtnWrap, CloseBtn } from "../components/common/CloseBtn";
 import { __ } from "@core/utils/lib/i18n";
@@ -130,7 +130,7 @@ export const Prepay = (props: PrepayProps) => {
 
   const startTimer_ = () => {
     resetTimer_();
-    timer_.current = timerNear$(TIMER_SING_IN).subscribe(
+    timer_.current = timerNear$(TIMER_SIGN_IN).subscribe(
       val => {
         if (val === StatusTimer.TimerActive || val === StatusTimer.TimerInactive) {
           goToAttractor();

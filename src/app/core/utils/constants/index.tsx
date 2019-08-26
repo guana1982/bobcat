@@ -115,7 +115,8 @@ export interface TimerValues {
 
 export const TIMER_HOME = [120000, 120000, 10000, 60000, 60000, 10000];
 export const TIMER_POURING = [30000, 30000, 10000, 30000, 30000, 10000];
-export const TIMER_SING_IN = [60000, 60000, 10000, 15000];
+export const TIMER_SIGN_IN = [60000, 60000, 10000, 15000];
+export const TIMER_OUT_OF_ORDER = 30000;
 
 // export const TIMER_LONG: TimerValues = {
 //   timer_last_touch_active: 120,

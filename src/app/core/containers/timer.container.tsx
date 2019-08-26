@@ -3,7 +3,7 @@ import createUseContext from "constate";
 import { fromEvent, timer, BehaviorSubject, of, Observable, merge as Merge, throwError } from "rxjs";
 import { startWith, switchMap, takeUntil, skip, filter, map, first, tap, merge, pairwise, retryWhen, mergeMap, mapTo } from "rxjs/operators";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, MESSAGE_STOP_CAMERA } from "@core/utils/constants";
+import { MESSAGE_START_VIDEO, Pages, MESSAGE_STOP_VIDEO, MESSAGE_START_CAMERA, MESSAGE_STOP_CAMERA, TIMER_OUT_OF_ORDER } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
 import { ConfigContext, ConsumerContext } from ".";
 
@@ -21,8 +21,7 @@ export enum EventsTimer {
 export enum StatusTimer {
   TimerActive = "timer_active",
   TimerInactive = "timer_inactive",
-  TimerNear = "timer_near",
-  // ProximityExit = "proximity_exit"
+  TimerNear = "timer_near"
 }
 
 const TimerContainer = createUseContext((props: any) => {
@@ -186,10 +185,13 @@ const TimerContainer = createUseContext((props: any) => {
 
   }
 
+  const timerOutOfOrder$ = timerTouch$(TIMER_OUT_OF_ORDER, false);
+
   return {
     statusProximity$,
     timerBoot$,
-    timerNear$
+    timerNear$,
+    timerOutOfOrder$
   };
 });
 
