@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { ModalContentProps, Box, Modal, ACTIONS_CONFIRM, ACTIONS_CLOSE, ModalContent } from "@modules/service/components/common/Modal";
 import { MButton, MTypes } from "@modules/service/components/common/Button";
-import { ILine, ServiceContext, ILineSave, ConfigContext } from "@core/containers";
+import { ILine, ServiceContext, ILineSave, ConfigContext, AuthLevels } from "@core/containers";
 import { __ } from "@core/utils/lib/i18n";
 import BeverageLogo from "@core/components/common/Logo";
 import { calcolaPerc } from "@core/utils/constants";
@@ -51,6 +51,7 @@ const LineContent = styled.div`
 
 interface LineProps extends Partial<ModalContentProps> {
   lineId: number;
+  authLevel: AuthLevels;
 }
 
 export const Line = (props: LineProps) => {
@@ -221,9 +222,9 @@ export const Line = (props: LineProps) => {
           <Box className="centered">
             {!$beverage.$lock && <MButton onClick={() => lockLine($beverage.line_id).subscribe()}>LOCK DISPENSE</MButton>}
             {$beverage.$lock && <MButton onClick={() => unlockLine($beverage.line_id).subscribe()}>UNLOCK DISPENSE</MButton>}
-            <MButton onClick={() => setLineAssignment(true)}>CHANGE LINE ASSIGNMENT</MButton>
+            {props.authLevel !== AuthLevels.Crew && <MButton onClick={() => setLineAssignment(true)}>CHANGE LINE ASSIGNMENT</MButton>}
             <MButton onClick={() => setPriming(true)}>PRIMING</MButton>
-            <MButton info type={$beverage.calibration_status ? MTypes.INFO_SUCCESS : MTypes.INFO_DANGER} onClick={() => setCalibration(true)}>CALIBRATION {$beverage.calibration_status ? $beverage.last_calibration_date : ""}</MButton>
+            {props.authLevel !== AuthLevels.Crew && <MButton info type={$beverage.calibration_status ? MTypes.INFO_SUCCESS : MTypes.INFO_DANGER} onClick={() => setCalibration(true)}>CALIBRATION {$beverage.calibration_status ? $beverage.last_calibration_date : ""}</MButton>}
             <MButton onClick={() => setBibReset(true)}>BIB RESET</MButton>
           </Box>
         </div>
@@ -257,7 +258,7 @@ const Priming = props => {
   };
   const unset = () => {
     setIsPriming(false);
-    mediumLevel.line.stopPriming().subscribe();
+    mediumLevel.line.stopPriming(props.line.line_id).subscribe();
     clearTimeout(timeout_);
     // props.close();
   };
