@@ -247,6 +247,7 @@ export const Home = (props: HomeProps) => {
   const showAlarmWebcam = () => {
     alertConsumer.show({
       type: AlertTypes.ErrorWebcam,
+      img: "img/wrench.png",
       subTitle: true,
       timeout: true,
       onDismiss: () => console.log("Close showAlarmWebcam")
@@ -805,15 +806,6 @@ export const Home = (props: HomeProps) => {
   };
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
-
-  // React.useEffect(() => { // =====> ALERT TEST
-  //   alertConsumer.show({
-  //     // img: "img/static-loading-icon.png",
-  //     type: AlertTypes.EndSession,
-  //     backgroung: "img/fruits-bg.webp"
-  //   });
-  // }, []);
-
 
   return (
     <HomeContent className={slideOpen ? "slide-is-open" : ""}>
