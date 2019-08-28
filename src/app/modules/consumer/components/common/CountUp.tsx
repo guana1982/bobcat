@@ -16,7 +16,7 @@ const StyledCountUp = styled.div`
     50% { height: 0; }
     100% { height: 28px; }
   }
-  background: #fff;
+  /* background: #fff; */
   width: 425px;
   height: 322px;
   font-size: 30px;
