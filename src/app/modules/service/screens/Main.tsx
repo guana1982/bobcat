@@ -295,7 +295,7 @@ export const NewMenu = (props: MenuProps) => {
         </Grid>
       </MenuContent>
 
-      {modals[Modals.Line].show && <Line {...modals[Modals.Line].params} cancel={closeAllModal} />}
+      {modals[Modals.Line].show && <Line {...modals[Modals.Line].params} authLevel={authLevel} cancel={closeAllModal} />}
       {modals[Modals.ChangePrice].show && <ChangePrice cancel={closeAllModal} />}
       {modals[Modals.EquipmentConfiguration].show && <EquipmentConfiguration {...modals[Modals.EquipmentConfiguration].params} cancel={closeAllModal} />}
       {modals[Modals.Cleaning].show && <Cleaning cancel={closeAllModal} />}

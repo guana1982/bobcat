@@ -11,18 +11,15 @@ interface AttractorProps {
   history: any;
 }
 
-let generalTimer;
-let showTimer;
-let hideTimer;
-let restartTimer;
-
 export const TIMEOUT_ATTRACTOR = 2000;
+
+// export const BOOT_VIDEO = 1250;
+// export const DURATION_VIDEO = 29800;
+// export const TIMER_VIDEO = 100;
 
 export const Attractor = (props: AttractorProps) => {
 
   const [show, setShow] = React.useState(false);
-  const [showCountUp, setShowCountUp] = React.useState(false);
-  const [timer, setTimer] = React.useState(0);
 
   const eventTimeout_ =  React.useRef<any>(null);
 
@@ -38,10 +35,6 @@ export const Attractor = (props: AttractorProps) => {
     mediumLevel.config.startVideo().pipe(first()).subscribe();
     eventTimeout_.current = setTimeout(() => setShow(true), TIMEOUT_ATTRACTOR);
     return () => {
-      clearTimeout(generalTimer);
-      clearTimeout(showTimer);
-      clearTimeout(hideTimer);
-      clearTimeout(restartTimer);
       clearTimeout(eventTimeout_.current);
       mediumLevel.config.stopVideo().pipe(first()).subscribe();
     };
@@ -82,45 +75,52 @@ export const Attractor = (props: AttractorProps) => {
   }, [socketAttractor$, alarmSuper_]);
   //  <=== PROXIMITY SENSOR ====
 
-  // ==== TIMER HANDLER ===>
-  React.useEffect(() => {
-    generalTimer = setTimeout(() => {
-      timer < 28 && setTimer(prev => prev + 1);
-      restartTimer = timer === 28 && setTimeout(() => setTimer(0), 700);
-    }, show ? 1000 : 1000 + 750);
-  }, [timer]);
-  // <=== TIMER HANDLER ====
+  // const timer_ =  React.useRef<any>(null);
+  // const [timer, setTimer] = React.useState(0);
+  // React.useEffect(() => {
+  //   timer_.current = setInterval(() => {
+  //     setTimer(prevTimer => {
+  //       // if (prevTimer === (DURATION_VIDEO + BOOT_VIDEO)) {
+  //       //   return -1000;
+  //       // }
+  //       return prevTimer + 100;
+  //     });
+  //   }, 100);
+  //   return () => {
+  //     clearInterval(timer_.current);
+  //   };
+  // }, []);
 
-  // ==== SHOW-COUNTUP HANDLER ===>
-  React.useEffect(() => {
-    showTimer = timer === 22 && setTimeout(() => setShowCountUp(true), 200);
-    hideTimer = timer === 26 && setTimeout(() => setShowCountUp(false), 100);
-  }, [timer]);
-  // <=== SHOW-COUNTUP HANDLER ====
-
+  // const repeat = timer / (DURATION_VIDEO + BOOT_VIDEO);
+  // const condition = Math.round((repeat - Math.floor(repeat)) * 100);
 
   return (
     <React.Fragment>
       {show &&
         <>
-          {showCountUp && <CountUpComponent/>}
-          <span
+          {/* <span
             style={{
               position: "absolute",
               top: "50px",
               left: "50px",
               fontSize: "30px"
-            }}>{timer}</span>
+            }}> */}
+          {/* <p>Timer: {timer}</p>
+          <p>Repeat + Boot: {repeat}</p>
+          <p>Condition: {condition}</p> */}
+          {/* <p>Repeat + Boot: {timer / (DURATION_VIDEO + BOOT_VIDEO)}</p> */}
+          {/* </span> */}
           <SreenWrapper onClick={eventAttractor}>
-          {/* <video
-            src="BOBCAT_PEPSI_MASTER_V02.m4v"
-            onClick={() => goToHome()}
-            width="1280"
-            height="800"
-            loop
-            autoPlay
-            muted
-          /> */}
+            {/* {(condition >= 76 && condition <= 84) && <CountUpComponent/>} */}
+            {/* <video
+              src="BOBCAT_PEPSI_MASTER_V02.mp4"
+              onClick={() => goToHome()}
+              width="1280"
+              height="800"
+              loop
+              autoPlay
+              muted
+            /> */}
           </SreenWrapper>
         </>
       }

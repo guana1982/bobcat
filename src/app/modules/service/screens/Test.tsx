@@ -397,7 +397,7 @@ export const TestMenu = (props: MasterProps) => {
             </Group>
           ))}
           <Group title="" size={74} />
-          <MButton id="exit-btn" onClick={() => history.push(Pages.Menu)}>EXIT TO MASTER UI</MButton>
+          <MButton id="exit-btn" onClick={() => history.push(Pages.Menu)}>EXIT TO TEST UI</MButton>
           <MButton id="exit-btn" onClick={() => completeTest()}>COMPLETE TEST</MButton> {/* disabled={testValidation(state.structure_)} */}
         </Grid>
       </MasterContent>

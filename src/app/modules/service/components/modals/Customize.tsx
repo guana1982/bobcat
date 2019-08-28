@@ -55,7 +55,7 @@ export const Customize = (props: CustomizeProps) => {
     >
       <Box className="centered">
         <MButton onClick={() => setSelection(SelectionTypes.Video)}>VIDEO SELECTION</MButton>
-        <MButton onClick={() => setSelection(SelectionTypes.Payment)}>PAYMENT SELECTION</MButton>
+        {/* <MButton onClick={() => setSelection(SelectionTypes.Payment)}>PAYMENT SELECTION</MButton> */}
       </Box>
     </Modal>
   );
