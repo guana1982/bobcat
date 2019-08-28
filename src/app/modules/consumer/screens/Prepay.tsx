@@ -103,6 +103,7 @@ export const PrepayContent = styled.div`
 
 interface PrepayProps {
   history: any;
+  location: any;
 }
 
 export const TIMEOUT_QR = 2000;
@@ -124,6 +125,7 @@ export const Prepay = (props: PrepayProps) => {
   const paymentConsumer = React.useContext(PaymentContext);
 
   const { paymentModeEnabled } = paymentConsumer;
+  const showAnimation = props.location.state ? props.location.state.showAnimation : false;
 
   //  ==== TIMER ====>
   const { timerNear$ } = timerConsumer;
@@ -292,7 +294,7 @@ export const Prepay = (props: PrepayProps) => {
       <PrepayContent>
         <CloseBtn detectValue={"prepay_close"} icon={"close"} onClick={() => goToHome()} />
         <div id="Webcam">
-        {!webcamReady &&
+        {(!webcamReady && showAnimation) &&
           <img className="loader" src={`animation/qr_loader.gif?x=${Math.random()}`} />
         }
         </div>

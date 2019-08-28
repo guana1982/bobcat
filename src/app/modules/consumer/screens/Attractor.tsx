@@ -27,7 +27,7 @@ export const Attractor = (props: AttractorProps) => {
   const paymentConsumer = React.useContext(PaymentContext);
 
   const goToHome = () => props.history.push(Pages.Home);
-  const goToPrepay = () => props.history.push(Pages.Prepay);
+  const goToPrepay = () => props.history.push(Pages.Prepay, { showAnimation: true });
   const goToOutOfOrder = () => props.history.push(Pages.OutOfOrder);
 
   React.useEffect(() => {
