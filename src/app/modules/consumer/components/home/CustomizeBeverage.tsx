@@ -19,32 +19,6 @@ import { ReplaySubscription } from "../common/Subscription";
 import { motion } from "framer-motion";
 import { IPourConfig, PourFrom } from "@core/models/vendor.model";
 
-/* color: string; */
-/* @keyframes shadow-pulse
-{
-  0% {
-    zoom: 500%;
-    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1);
-  }
-  100% {
-    zoom: 500%;
-    box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
-  }
-}
-&.pulse {
-  &:before, &:after {
-    content: " ";
-    height: ${_sizePour}px;
-    width: ${_sizePour * 2}px;
-    border-top-left-radius: ${_sizePour * 2}px;
-    border-top-right-radius: ${_sizePour * 2}px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    animation: "shadow-pulse 1.5s linear infinite";
-  }
-} */
 export const Pour = styled.button`
   position: absolute;
   width: 206px;
@@ -225,7 +199,7 @@ export const CustomizeBeverageWrap = styled.section`
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 5;
+  z-index: 6;
   #backdrop {
     position: absolute;
     z-index: -1;
@@ -233,8 +207,6 @@ export const CustomizeBeverageWrap = styled.section`
     left: 0;
     width: 100%;
     height: 100%;
-    /* background: #f9f9f9;
-    opacity: 0.2; */
   }
   ${CloseBtnWrap} {
     position: absolute;
@@ -254,14 +226,6 @@ export const CustomizeBeverageWrap = styled.section`
       }
     }
   }
-  /* .pour-btn:not(.cnh_ended):not(.cnh_holding) {
-    button {
-      opacity: .7;
-      &::before {
-        opacity: .3;
-      }
-    }
-  } */
   #payment-status {
     position: absolute;
     width: 100%;
@@ -290,18 +254,18 @@ interface CustomizeBeverageProps {
   endPourEvent: any;
   beverageConfig: any;
   resetBeverage: any;
-  getBeverageSelected: any;
   handleChange: any;
   startPour: (config: IPourConfig) => any;
   stopPour: any;
   segmentButton: SegmentButtonProps; // => _SegmentButton
   nutritionFacts: boolean;
   isLogged?: boolean;
+  beverageSelected: IBeverage;
   handleType: (b: boolean) => void;
 }
 
 export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
-  const { beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, getBeverageSelected, handleChange, endPourEvent, nutritionFacts, handleType } = props;
+  const { beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, beverageSelected, handleChange, endPourEvent, handleType } = props;
 
   //  ==== ACCESSIBILITY FUNCTION ====>
   const buttonPourEl = React.useRef(null);
@@ -358,16 +322,14 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   }
   //  <=== DISABLE SPARKLING ====
 
-  const beverageSelected: IBeverage = getBeverageSelected();
-
   return(
     <React.Fragment>
       <CustomizeBeverageWrap className={isPouring ? "pouring" : ""}>
         {!props.showCardsInfo && <SegmentButton {...props.segmentButton} />}
 
         {!props.showCardsInfo ?
-          <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => resetBeverage()} /> :
-          <Button detectValue="exit-btn" onClick={() => endPourEvent()} text="Done" icon="log-out" />
+          <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={resetBeverage} /> :
+          <Button detectValue="exit-btn" onClick={endPourEvent} text="Done" icon="log-out" />
         }
 
         {!props.showCardsInfo && <div id="backdrop" onClick={resetBeverage} />}
