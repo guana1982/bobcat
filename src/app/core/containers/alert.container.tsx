@@ -1,7 +1,7 @@
 import * as React from "react";
 import createUseContext from "constate";
 
-export const DEFAULT_TIMEOUT_ALERT = 2000;
+export const DEFAULT_TIMEOUT_ALERT = 2500;
 
 export enum AlertTypes {
   LoadingDataQr = "c_loading_data_qr",

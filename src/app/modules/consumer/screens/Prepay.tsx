@@ -143,7 +143,7 @@ export const Prepay = (props: PrepayProps) => {
             type: AlertTypes.ErrorQrNotFound,
             img: "img/qr-code-not-recognized.svg",
             subTitle: true,
-            timeout: 3000,
+            timeout: 3500,
             onDismiss: () => {}
           });
         }
@@ -216,7 +216,7 @@ export const Prepay = (props: PrepayProps) => {
           type: AlertTypes.ErrorQrNotValid,
           img: "img/qr-code-not-recognized.svg",
           subTitle: true,
-          timeout: 3000,
+          timeout: 3500,
           onDismiss: () => {
             goToHome();
           }
@@ -234,7 +234,7 @@ export const Prepay = (props: PrepayProps) => {
             type: !paymentModeEnabled ? AlertTypes.ErrorLoadingQr : AlertTypes.ErrorLoadingQrPayment,
             img: "img/cannot-connect-to-cloud.svg",
             subTitle: true,
-            timeout: 3000,
+            timeout: 3500,
             onDismiss: () => {
               goToHome();
             }
@@ -248,7 +248,7 @@ export const Prepay = (props: PrepayProps) => {
           type: AlertTypes.ErrorUnassociatedBottle,
           img: "img/qr-code-not-associated-with-account.png",
           subTitle: true,
-          timeout: 3000,
+          timeout: 3500,
           onDismiss: () => {
             goToHome();
           }
