@@ -15,8 +15,7 @@ export const About = () => {
         <li>MQTT S/N: <b>{serial_number_mqtt || "---"}</b></li>
         <li>MEDIABOARD S/N: <b>{serial_number_mediaboard || "---"}</b></li>
         <li>POWERBOARD S/N: <b>{serial_number_powerboard || "---"}</b></li>
-        {/* <li>SOFTWARE VERSION: <b>{software_version || "---"}</b></li> */}
-        <li>SOFTWARE VERSION: <b>1.0.1_2.4.7_3.1.5</b></li>
+        <li>SOFTWARE VERSION: <b>{software_version || "---"}</b></li>
       </ul>
     </>
   );
