@@ -94,6 +94,7 @@ const BeverageFull = styled.div`
 const BeverageContent = styled.div`
   position: relative;
   margin: 10px 23px;
+  z-index: ${props => props.pouring ? 10 : "inherit"};
   &, ${BeverageWrap}, ${BeverageExtra} {
     width: 218px;
     height: 304px;
@@ -271,7 +272,7 @@ export const Beverage = memo((props: BeverageProps) => {
   };
 
   return (
-    <BeverageContent size={size}>
+    <BeverageContent size={size} pouring={pouring}>
         <React.Fragment>
           {zoomNutrition &&
             <AppendedFullBeverage {...props}>
