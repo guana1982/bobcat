@@ -88,6 +88,20 @@ const TimerContainer = createUseContext((props: any) => {
     mapTo(true)
   );
 
+  const sourceProxFromActiveToInactive = statusProximity$.current
+  .pipe(
+    pairwise(),
+    filter(types => (types[0] === DistanceTypes.Far || types[0] === DistanceTypes.Near) && types[1] === DistanceTypes.None),
+    mapTo(true)
+  );
+
+  const sourceProxFromInactiveToActive = statusProximity$.current
+  .pipe(
+    pairwise(),
+    filter(types => types[0] === DistanceTypes.None && (types[1] === DistanceTypes.Far || types[1] === DistanceTypes.Near)),
+    mapTo(true)
+  );
+
   const timerTouch$ = (time: number, tapDetect: boolean) => sourceTouchEnd
   .pipe(
     startWith(void 0), // trigger emission at launch
@@ -103,9 +117,11 @@ const TimerContainer = createUseContext((props: any) => {
   const timerDim$ = (time: number, value: StatusTimer) => of("")
   .pipe(
     tap(dimDisplay),
-    switchMap(() => timerTouch$(time, true)),
-    tap(value => console.log("timerDim$", value)),
-    mergeMap(x => x === EventsTimer.TapDetect
+    switchMap(() => Merge(
+      timerTouch$(time, true),
+      sourceProxFromInactiveToActive
+    )),
+    mergeMap(x => x === EventsTimer.TapDetect || x === true
       ? throwError(true)
       : of(x)
     ),
@@ -135,11 +151,11 @@ const TimerContainer = createUseContext((props: any) => {
       mapTo(StatusTimer.TimerInactive)
     );
 
-    const timerSoft$ = sourceProxActive
+    const timerSoft$ = sourceProxFromActiveToInactive
     .pipe(
       switchMap(
         () => timerTouch$(TIMER_PROX, false).pipe(
-          takeUntil(sourceProxInactive)
+          takeUntil(sourceProxActive)
         )
       ),
       mapTo(StatusTimer.TimerActive)
