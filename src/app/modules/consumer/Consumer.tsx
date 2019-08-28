@@ -17,7 +17,7 @@ import { OutOfOrder } from "./screens/OutOfOrder";
 
 import { TimerContext } from "@core/containers";
 import { ReplaySubscription } from "./components/common/Subscription";
-import { Promotion } from "./components/payment/Promotion";
+import { Promotion } from "./components/payment/Payment";
 export const TestProximity = () => {
   const configConsumer = React.useContext(ConfigContext);
   const timerConsumer = React.useContext(TimerContext);

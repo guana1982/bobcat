@@ -19,8 +19,8 @@ import { CustomizeBeverage } from "../components/home/CustomizeBeverage";
 import { Grid } from "../components/common/Grid";
 import { SegmentButtonProps } from "../components/common/SegmentButton";
 import { first, tap } from "rxjs/operators";
-import { Promotion } from "../components/payment/Promotion";
 import { IPourConfig, PourFrom, IPourConsumerConfig } from "@core/models/vendor.model";
+import { Payment, PaymentType } from "../components/payment/Payment";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -806,15 +806,14 @@ export const Home = (props: HomeProps) => {
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
-  // React.useEffect(() => { // =====> DAILY-LIMIT-REACHED ALERT
+  // React.useEffect(() => { // =====> ALERT TEST
   //   alertConsumer.show({
-  //     img: "img/daily-limit-reached.png",
-  //     type: AlertTypes.DailyLimitReached,
+  //     img: "img/wrench.png",
+  //     type: AlertTypes.ErrorWebcam,
   //     subTitle: true
   //   });
   // }, []);
 
-  console.log(state);
 
   return (
     <HomeContent className={slideOpen ? "slide-is-open" : ""}>
