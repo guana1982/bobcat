@@ -513,14 +513,16 @@ export const Home = (props: HomeProps) => {
         alertConsumer.show({
           type: AlertTypes.EndSession,
           timeout: true,
-          onDismiss: () => stopEndSession(status === DistanceTypes.None)
+          onDismiss: () => stopEndSession(status === DistanceTypes.None),
+          backgroung: "img/fruits-bg.webp"
         });
       });
     } else if (endSession === StatusEndSession.ProximityEnd) {
       alertConsumer.show({
         type: AlertTypes.EndSession,
         timeout: true,
-        onDismiss: () => stopEndSession(true)
+        onDismiss: () => stopEndSession(true),
+        backgroung: "img/fruits-bg.webp"
       });
     } else if (endSession === MESSAGE_STOP_EROGATION.OUT_OF_SODA || endSession === MESSAGE_STOP_EROGATION.OUT_OF_STOCK || endSession === MESSAGE_STOP_EROGATION.EROGATION_LIMIT) {
       const alertType_: any = `c_${endSession}`;
@@ -808,9 +810,9 @@ export const Home = (props: HomeProps) => {
 
   // React.useEffect(() => { // =====> ALERT TEST
   //   alertConsumer.show({
-  //     img: "img/wrench.png",
-  //     type: AlertTypes.ErrorWebcam,
-  //     subTitle: true
+  //     // img: "img/static-loading-icon.png",
+  //     type: AlertTypes.EndSession,
+  //     backgroung: "img/fruits-bg.webp"
   //   });
   // }, []);
 
