@@ -14,6 +14,7 @@ export enum AlertTypes {
 
   SignedOut = "c_signed_out",
   EndSession = "c_end_session",
+  LoadingPreferences = "c_loading_preferences",
 
   NeedPayment = "c_tap_swipe_pour",
   EndSparkling = "c_end_sparkling",
@@ -26,6 +27,7 @@ export enum AlertTypes {
   ErrorUnassociatedBottle = "c_error_unassociated_bottle",
   ErrorADAPanelDown = "c_ada_panel_down",
   ErrorPaymentDown = "p_payment_down",
+  ErrorNoConnectivity = "c_no_connectivity",
 
   DailyLimitReached = "p_daily_limit_reached",
 }
@@ -41,6 +43,7 @@ export interface AlertOptions {
   img?: string;
   content?: any;
   onConfirm?: () => void;
+  backgroung?: string;
 }
 
 interface AlertState {

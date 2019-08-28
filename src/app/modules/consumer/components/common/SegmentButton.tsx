@@ -25,7 +25,11 @@ export const SegmentButtonWrapper = styled.div`
   display: inline-flex;
   vertical-align: middle;
   height: 55px;
-  margin-top: 8px;
+  /* margin-top: 8px; */
+  background: #f5f5f5;
+  border-radius: 40px;
+  border: 10px solid #fff;
+  box-sizing: content-box;
   button {
     position: relative;
     display: flex;
@@ -35,7 +39,8 @@ export const SegmentButtonWrapper = styled.div`
     width: 180px;
     height: 55px;
     flex: 1;
-    &:nth-child(1) {
+    border-radius: 30px;
+    /* &:nth-child(1) {
       margin-right: 3px;
       &, &:before {
         border-radius: 30px 0 0 30px;
@@ -46,7 +51,7 @@ export const SegmentButtonWrapper = styled.div`
       &, &:before {
         border-radius: 0 30px 30px 0;
       }
-    }
+    } */
     span {
       height: 30px;
       font-family: NeuzeitGro-Bol;
@@ -59,7 +64,8 @@ export const SegmentButtonWrapper = styled.div`
       margin-left: 10px;
     }
     &.selected {
-      background: #f5f5f5;
+      background: #fff;
+      box-shadow: 5px 20px 24px 0 rgba(157, 164, 167, 0.17), 0 -2px 8px 0 rgba(157, 164, 167, 0.1);
       span {
         color: #2b9cda;
       }
@@ -71,6 +77,8 @@ export const SegmentButtonWrapper = styled.div`
       }
     }
     &:not(.selected) {
+      background: none;
+      font-weight: 600;
       span {
         color: #565657;
       }
@@ -80,8 +88,6 @@ export const SegmentButtonWrapper = styled.div`
       #sparkling-icon path {
         fill: #565657;
       }
-      background: #fff;
-      font-weight: 600;
       &:before {
         content: " ";
         position: absolute;
@@ -90,7 +96,6 @@ export const SegmentButtonWrapper = styled.div`
         width: 100%;
         height: 100%;
         /* border-radius: 0 0 27px 27px; */
-        box-shadow: 5px 20px 24px 0 rgba(157, 164, 167, 0.17), 0 -2px 8px 0 rgba(157, 164, 167, 0.1);
       }
     }
   }

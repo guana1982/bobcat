@@ -14,7 +14,7 @@ interface PaymentProps {
 
 const PaymentWrap = styled.div`
   position: absolute;
-  background-image: url("img/promotion-bg.png");
+  background-image: url("img/fruits-bg.webp");
   top: 0;
   bottom: 0;
   left: 0;
@@ -95,7 +95,7 @@ export const Payment = (props: PaymentProps) => {
     return (
       <PaymentWrap>
         <div className="icon">
-          <span className="span">{__("c_thank_you")}</span>
+          <span className="span">{__("c_end_session")}</span>
         </div>
       </PaymentWrap>
     );
