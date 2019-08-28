@@ -247,6 +247,7 @@ export const Home = (props: HomeProps) => {
   const showAlarmWebcam = () => {
     alertConsumer.show({
       type: AlertTypes.ErrorWebcam,
+      img: "img/wrench.png",
       subTitle: true,
       timeout: true,
       onDismiss: () => console.log("Close showAlarmWebcam")
@@ -349,7 +350,7 @@ export const Home = (props: HomeProps) => {
       beverageSelectedId_ = 9;
     /* <=== STILL & SODA WATER === */
 
-    return allBeverages ? allBeverages.find(beverage => beverage.beverage_id ===  beverageSelectedId_) : null;
+    return allBeverages ? allBeverages.find(beverage => beverage.beverage_id === beverageSelectedId_) : null;
   };
 
   const getBeverageColorOnLongPressPour = (): string => {
@@ -771,13 +772,11 @@ export const Home = (props: HomeProps) => {
     if (gestureType === "p") {
       return configConsumer.setAuthService(true);
       // if (gestureInterval.current) {
-      //   alert("DIGGEIPAOLO");
       //   clearTimeout(gestureTimeout.current);
       //   gestureInterval.current = false;
       // }
       // gestureInterval.current = true;
       // gestureTimeout.current = setTimeout(() => {
-      //   alert("SFAVILLOTTO");
       //   gestureInterval.current = false;
       // }, 4000);
     }
@@ -808,17 +807,27 @@ export const Home = (props: HomeProps) => {
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
-  // React.useEffect(() => { // =====> ALERT TEST
-  //   alertConsumer.show({
-  //     // img: "img/static-loading-icon.png",
-  //     type: AlertTypes.EndSession,
-  //     backgroung: "img/fruits-bg.webp"
-  //   });
-  // }, []);
-
-
   return (
     <HomeContent className={slideOpen ? "slide-is-open" : ""}>
+      {beverageSelected &&
+        <CustomizeBeverage
+          handleType={handleType}
+          levels={levels}
+          isSparkling={isSparkling}
+          slideOpen={slideOpen}
+          showCardsInfo={state.showCardsInfo}
+          endPourEvent={() => setEndSession(StatusEndSession.Finish)}
+          beverageConfig={state.beverageConfig}
+          resetBeverage={resetBeverage}
+          beverageSelected={beverageSelected}
+          handleChange={handleChange}
+          startPour={startPour}
+          stopPour={stopPour}
+          segmentButton={segmentButton} // => _SegmentButton
+          nutritionFacts={nutritionFacts}
+          isLogged={presentSlide}
+        />
+      }
       {presentSlide &&
         <Slide
           slideOpen={slideOpen}
@@ -869,25 +878,6 @@ export const Home = (props: HomeProps) => {
         color={getBeverageColorOnLongPressPour()}
         endPourEvent={() => setEndSession(StatusEndSession.Finish)}
       />
-      {beverageSelected &&
-        <CustomizeBeverage
-          handleType={handleType}
-          levels={levels}
-          isSparkling={isSparkling}
-          slideOpen={slideOpen}
-          showCardsInfo={state.showCardsInfo}
-          endPourEvent={() => setEndSession(StatusEndSession.Finish)}
-          beverageConfig={state.beverageConfig}
-          resetBeverage={resetBeverage}
-          getBeverageSelected={getBeverageSelected}
-          handleChange={handleChange}
-          startPour={startPour}
-          stopPour={stopPour}
-          segmentButton={segmentButton} // => _SegmentButton
-          nutritionFacts={nutritionFacts}
-          isLogged={presentSlide}
-        />
-      }
     </HomeContent>
   );
 

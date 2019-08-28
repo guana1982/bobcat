@@ -75,6 +75,11 @@ const AlertWrap = styled.div`
     box-shadow: 7px 13px 28px 0 rgba(199, 200, 204, 0.3);
     color: ${props => props.theme.slateGrey};
   }
+  &.${AlertTypes.EndSession} {
+    width: 200px !important;
+    height: 200px  !important;
+    top: 48% !important;
+  }
   &.${AlertTypes.NeedPayment} {
     top: 125px;
     left: 382px;

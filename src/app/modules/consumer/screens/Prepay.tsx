@@ -143,7 +143,7 @@ export const Prepay = (props: PrepayProps) => {
             type: AlertTypes.ErrorQrNotFound,
             img: "img/qr-code-not-recognized.svg",
             subTitle: true,
-            timeout: true,
+            timeout: 3000,
             onDismiss: () => {}
           });
         }
@@ -187,8 +187,8 @@ export const Prepay = (props: PrepayProps) => {
       && alertConsumer.show({
         type: AlertTypes.ErrorUnassociatedBottle,
         subTitle: true,
-        // timeout: true,
-        onDismiss: () => console.log("ciao")
+        timeout: true,
+        onDismiss: () => {}
       });
     });
     return () => consumerSocket_.current.unsubscribe();
@@ -202,9 +202,6 @@ export const Prepay = (props: PrepayProps) => {
       scanning_.current.unsubscribe();
 
     scanning_.current = startScanning()
-    // .pipe(
-    //   debounceTime(500),
-    // )
     .subscribe((status: IdentificationConsumerStatus) => {
       resetTimer_();
       if (status !== IdentificationConsumerStatus.Loading) {
@@ -213,20 +210,13 @@ export const Prepay = (props: PrepayProps) => {
       }
 
       if (status === IdentificationConsumerStatus.Complete) {
-        // alertConsumer.show({
-        //   type: AlertTypes.Success,
-        //   timeout: true,
-        //   onDismiss: () => {
-        //     goToHome();
-        //   }
-        // });
         goToHome();
       } else if (status === IdentificationConsumerStatus.ErrorQr) {
         alertConsumer.show({
           type: AlertTypes.ErrorQrNotValid,
           img: "img/qr-code-not-recognized.svg",
           subTitle: true,
-          timeout: true,
+          timeout: 3000,
           onDismiss: () => {
             goToHome();
           }
@@ -244,7 +234,7 @@ export const Prepay = (props: PrepayProps) => {
             type: !paymentModeEnabled ? AlertTypes.ErrorLoadingQr : AlertTypes.ErrorLoadingQrPayment,
             img: "img/cannot-connect-to-cloud.svg",
             subTitle: true,
-            timeout: true,
+            timeout: 3000,
             onDismiss: () => {
               goToHome();
             }
@@ -258,7 +248,7 @@ export const Prepay = (props: PrepayProps) => {
           type: AlertTypes.ErrorUnassociatedBottle,
           img: "img/qr-code-not-associated-with-account.png",
           subTitle: true,
-          timeout: true,
+          timeout: 3000,
           onDismiss: () => {
             goToHome();
           }
