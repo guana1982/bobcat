@@ -13,9 +13,9 @@ interface AttractorProps {
 
 export const TIMEOUT_ATTRACTOR = 2000;
 
-export const BOOT_VIDEO = 1250;
-export const DURATION_VIDEO = 29800;
-export const TIMER_VIDEO = 100;
+// export const BOOT_VIDEO = 1250;
+// export const DURATION_VIDEO = 29800;
+// export const TIMER_VIDEO = 100;
 
 export const Attractor = (props: AttractorProps) => {
 
@@ -98,18 +98,18 @@ export const Attractor = (props: AttractorProps) => {
     <React.Fragment>
       {show &&
         <>
-          <span
+          {/* <span
             style={{
               position: "absolute",
               top: "50px",
               left: "50px",
               fontSize: "30px"
-            }}>
+            }}> */}
           {/* <p>Timer: {timer}</p>
           <p>Repeat + Boot: {repeat}</p>
           <p>Condition: {condition}</p> */}
           {/* <p>Repeat + Boot: {timer / (DURATION_VIDEO + BOOT_VIDEO)}</p> */}
-          </span>
+          {/* </span> */}
           <SreenWrapper onClick={eventAttractor}>
             {/* {(condition >= 76 && condition <= 84) && <CountUpComponent/>} */}
             {/* <video
