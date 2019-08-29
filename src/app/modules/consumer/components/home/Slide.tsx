@@ -6,7 +6,7 @@ import { ConsumerContext, PaymentContext } from "@core/containers";
 import { BeveragesAnimated, BeverageTypes, Beverage, BeveragesTransition } from "../beverage/Beverage";
 import { Footer } from "../common/Footer";
 import { Grid } from "../common/Grid";
-import { PaymentInfo } from "../common/PaymentInfo";
+import { MessageInfo } from "../common/MessageInfo";
 import { motion } from "framer-motion";
 import { PourFrom, IPourConsumerConfig } from "@core/models/vendor.model";
 
@@ -136,7 +136,7 @@ export const SlideStyled = styled.div`
     background-repeat: no-repeat;
     background-position: bottom;
   }
-  #payment-status {
+  #message-status {
     position: absolute;
     width: 100%;
     text-align: center;
@@ -279,7 +279,7 @@ export const Slide = (props: SlideProps) => {
               })}
             </Grid>
           }
-          {(slideOpen && !disabled) && <PaymentInfo />}
+          {(slideOpen && !disabled) && <MessageInfo />}
           {!disabled &&
             <motion.div
             transition={{ duration: 0.3 }}

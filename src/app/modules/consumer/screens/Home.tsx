@@ -36,7 +36,7 @@ export const HomeWrap = styled.div`
   ${Grid} {
     padding-top: 78px;
   }
-  #payment-status {
+  #message-status {
     position: absolute;
     width: 100%;
     text-align: center;
@@ -806,6 +806,7 @@ export const Home = (props: HomeProps) => {
   };
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
+
 
   return (
     <HomeContent className={slideOpen ? "slide-is-open" : ""}>

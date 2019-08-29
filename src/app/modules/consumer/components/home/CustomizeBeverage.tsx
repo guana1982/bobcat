@@ -14,7 +14,7 @@ import { ButtonGroup } from "../common/ButtonGroup";
 import ClickNHold from "../common/ClickNHold";
 import { Beverages, debounce } from "@core/utils/constants";
 import { Alert } from "../common/Alert";
-import { PaymentInfo } from "../common/PaymentInfo";
+import { MessageInfo } from "../common/MessageInfo";
 import { ReplaySubscription } from "../common/Subscription";
 import { motion } from "framer-motion";
 import { IPourConfig, PourFrom } from "@core/models/vendor.model";
@@ -226,7 +226,7 @@ export const CustomizeBeverageWrap = styled.section`
       }
     }
   }
-  #payment-status {
+  #message-status {
     position: absolute;
     width: 100%;
     text-align: center;
@@ -438,7 +438,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
               );
 
             return (
-              <PaymentInfo />
+              <MessageInfo />
             );
           }}
         </ReplaySubscription>

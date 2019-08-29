@@ -4,7 +4,7 @@ import { __ } from "@utils/lib/i18n";
 import { AlertContext, DEFAULT_TIMEOUT_ALERT, AlertOptions, AlertTypes } from "@core/containers/alert.container";
 import { AccessibilityContext } from "@core/containers";
 import { CloseBtn, CloseBtnWrap } from "./CloseBtn";
-import { PaymentInfo } from "./PaymentInfo";
+import { MessageInfo } from "./MessageInfo";
 
 const AlertWrap = styled.div`
   position: absolute;
@@ -94,7 +94,7 @@ const AlertWrap = styled.div`
     #title {
       display: none;
     }
-    #payment-status {
+    #message-status {
       font-family: NeuzeitGro-Bol;
       text-transform: uppercase;
       position: fixed;
@@ -257,7 +257,7 @@ export const Alert = (props: AlertProps) => {
       {/* CUSTOM BY TYPE => */}
       {type === AlertTypes.NeedPayment &&
         <div className={"custom-elements"}>
-          <PaymentInfo />
+          <MessageInfo />
           <img id="Icon-Left" src={"icons/left.svg"} />
           <img id="Icon-CreditCard" src={"icons/credit-card.svg"} />
           <img id="Icon-ApplePay" src={"icons/apple-pay.png"} />

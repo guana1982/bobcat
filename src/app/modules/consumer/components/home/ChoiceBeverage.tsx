@@ -7,7 +7,7 @@ import { SegmentButtonWrapper, SegmentButtonProps, SegmentButton } from "../comm
 import { Button } from "../common/Button";
 import { Grid } from "../common/Grid";
 import { Alert } from "../common/Alert";
-import { PaymentInfo } from "../common/PaymentInfo";
+import { MessageInfo } from "../common/MessageInfo";
 import { IBeverage } from "@core/models";
 import { ReplaySubscription } from "../common/Subscription";
 import { IPourConfig } from "@core/models/vendor.model";
@@ -138,7 +138,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
           })}
         </Grid>
         {!beverageSelected && <>
-          <PaymentInfo disabled={disabled} />
+          <MessageInfo disabled={disabled} />
           <Button detectValue="nutrition-btn" disabled={disabled || disableSparkling_} onClick={handleNutritionFacts} text="c_nutrition" icon={!nutritionFacts ? "nutrition" : "close"} />
           <ReplaySubscription source={socketPayment$.current}>
             {(status: PaymentStatus) => {
