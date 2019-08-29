@@ -283,16 +283,23 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
     }
     const button = buttonPourEl.current.node;
     const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
-    // if (!isPouring) {
-      if (pour === true || enter === true && isFocus) {
-        startPour({ params: {}, from: PourFrom.Ada });
-      }
-    // } else {
-      if (pour === false || enter === false && isFocus) {
-        stopPour();
-      }
-    // }
-  }, [pour, buttonPourEl, enter]);
+    if (!isFocus) {
+      return;
+    }
+    if (enter === true) {
+      startPour({ params: {}, from: PourFrom.Ada });
+    } else if (enter === false) {
+      stopPour();
+    }
+  }, [buttonPourEl, enter]);
+
+  React.useEffect(() => {
+    if (pour === true) {
+      startPour({ params: {}, from: PourFrom.Ada });
+    } else if (pour === false) {
+      stopPour();
+    }
+  }, [pour]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
   //  ==== DISABLE SPARKLING ====>

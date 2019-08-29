@@ -64,6 +64,7 @@ export const SegmentButtonWrapper = styled.div`
       margin-left: 10px;
     }
     &.selected {
+      z-index: -1;
       background: #fff;
       box-shadow: 5px 20px 24px 0 rgba(157, 164, 167, 0.17), 0 -2px 8px 0 rgba(157, 164, 167, 0.1);
       span {
