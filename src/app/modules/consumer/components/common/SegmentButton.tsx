@@ -30,6 +30,8 @@ export const SegmentButtonWrapper = styled.div`
   border-radius: 40px;
   border: 10px solid #fff;
   box-sizing: content-box;
+  padding: 5px;
+  box-shadow: inset 0 0 8px 1px rgba(0, 0, 0, 0.1);
   button {
     position: relative;
     display: flex;
@@ -37,7 +39,7 @@ export const SegmentButtonWrapper = styled.div`
     align-items: center;
     text-transform: uppercase;
     width: 180px;
-    height: 55px;
+    /* height: 55px; */
     flex: 1;
     border-radius: 30px;
     /* &:nth-child(1) {
