@@ -47,16 +47,14 @@ export const BeverageWrap = styled.div`
   opacity: ${props => props.enableOpacity ? .2 : null};
   display: ${props => props.show ? "block" : "none"};
   z-index: -1;
-  &:before {
-    content: " ";
+  & .cardShadow {
+    /* content: " "; */
     position: absolute;
     top: 50%;
     left: 0;
     width: 100%;
     height: 50%;
     border-radius: 0 0 17px 17px;
-    box-shadow: ${props => props.longPress ? "0px 4px 8px 0px rgba(0,0,0,0.1)" : "0px 19px 31px -4px rgba(0,0,0,0.1)"};
-    transition: .5s;
   }
   button {
     position: relative;
@@ -274,7 +272,6 @@ export const Beverage = memo((props: BeverageProps) => {
     onHoldStart(PourFrom.Touch);
   };
 
-  console.log(longPress);
 
   return (
     <BeverageContent size={size} pouring={pouring}>
@@ -301,8 +298,17 @@ export const Beverage = memo((props: BeverageProps) => {
               <motion.div
                 initial={{scale: 1}}
                 animate={longPress ? { scale: .97 } : { scale: 1 }}
-                transition={{ duration: .75 }}>
+                transition={{ duration: .5 }}>
                 <BeverageWrap longPress={longPress} enableOpacity={$outOfStock} show={true} color={color}>
+                  <motion.div
+                    initial={{boxShadow: "0px 19px 31px -4px rgba(0,0,0,0.1)"}}
+                    className="cardShadow"
+                    animate={longPress
+                        ? {boxShadow: "0px 4px 8px 0px rgba(0,0,0,0.1)"}
+                        : {boxShadow: "0px 19px 31px -4px rgba(0,0,0,0.1)"}
+                    }
+                    transition={{ duration: .5 }}
+                  />
                   <button id={detectValue} disabled={disabledButton} ref={buttonEl}>
                     <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
                     <Basic paymentConsumer={paymentConsumer} levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
