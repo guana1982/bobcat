@@ -169,9 +169,10 @@ export default class ClickNHold extends React.Component<any, any> {
     //     }
     // }
     animate() {
-        if (this.state.holding) return { scale: .9 };
+        if (this.state.holding) return { scale: .97 };
         else if (this.state.ended === true) return { scale: 1 };
     }
+
 
     render() {
         let classList = this.props.className ? (this.props.className + " ") : " ";

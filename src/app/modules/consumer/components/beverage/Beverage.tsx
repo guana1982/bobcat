@@ -55,7 +55,8 @@ export const BeverageWrap = styled.div`
     width: 100%;
     height: 50%;
     border-radius: 0 0 17px 17px;
-    box-shadow: 0px 19px 31px -4px rgba(0,0,0,0.1);
+    box-shadow: ${props => props.longPress ? "0px 4px 8px 0px rgba(0,0,0,0.1)" : "0px 19px 31px -4px rgba(0,0,0,0.1)"};
+    transition: .5s;
   }
   button {
     position: relative;
@@ -147,6 +148,7 @@ function areEqual(prevProps, nextProps) {
 export const Beverage = memo((props: BeverageProps) => {
 
   const [zoomNutrition, setZoomNutrition] = React.useState(false);
+  const [longPress, setLongPress] = React.useState(false);
 
   const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled, beverage, levels, detectValue } = props;
 
@@ -248,6 +250,7 @@ export const Beverage = memo((props: BeverageProps) => {
 
   const start = () => {
     if (disabledButton) return;
+    setLongPress(true);
   };
 
   const end = (e, enough) => {
@@ -257,7 +260,7 @@ export const Beverage = memo((props: BeverageProps) => {
       handleZoomNutrition(true);
       return null;
     }
-
+    setLongPress(false);
     if (!enough) {
       if (!pouring)
         onStart();
@@ -268,10 +271,10 @@ export const Beverage = memo((props: BeverageProps) => {
 
   const clickHold = (e) => {
     if (disabledButton || nutritionFacts) return;
-
     onHoldStart(PourFrom.Touch);
   };
 
+  console.log(longPress);
 
   return (
     <BeverageContent size={size} pouring={pouring}>
@@ -293,14 +296,19 @@ export const Beverage = memo((props: BeverageProps) => {
               onStart={start}
               onClickNHold={clickHold}
               onEnd={end}
-              beverage
+              // beverage
             >
-              <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
-                <button id={detectValue} disabled={disabledButton} ref={buttonEl}>
-                  <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
-                  <Basic paymentConsumer={paymentConsumer} levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
-                </button>
-              </BeverageWrap>
+              <motion.div
+                initial={{scale: 1}}
+                animate={longPress ? { scale: .97 } : { scale: 1 }}
+                transition={{ duration: .75 }}>
+                <BeverageWrap longPress={longPress} enableOpacity={$outOfStock} show={true} color={color}>
+                  <button id={detectValue} disabled={disabledButton} ref={buttonEl}>
+                    <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
+                    <Basic paymentConsumer={paymentConsumer} levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
+                  </button>
+                </BeverageWrap>
+              </motion.div>
             </ClickNHold>
           }
           {($outOfStock || $blur || $info) &&
