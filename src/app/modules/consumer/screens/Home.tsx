@@ -12,15 +12,15 @@ import { AlertTypes, AlertContext } from "@core/containers/alert.container";
 import { BeverageTypes } from "@modules/consumer/components/beverage/Beverage";
 import { AccessibilityContext, PaymentContext, PaymentStatus, PaymentStatusPour } from "@core/containers";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { Slide, _sizeSlideFull, _sizeSlide } from "../components/home/Slide";
+import Slide, { _sizeSlideFull, _sizeSlide, SlideStyled } from "../components/home/Slide";
 import { ChoiceBeverage } from "../components/home/ChoiceBeverage";
 import { CardsWrap } from "../components/home/CardsWrap";
-import { CustomizeBeverage } from "../components/home/CustomizeBeverage";
 import { Grid } from "../components/common/Grid";
 import { SegmentButtonProps } from "../components/common/SegmentButton";
-import { first, tap } from "rxjs/operators";
+import { first } from "rxjs/operators";
 import { IPourConfig, PourFrom, IPourConsumerConfig } from "@core/models/vendor.model";
-import { Payment, PaymentType } from "../components/payment/Payment";
+import { Blur } from "../components/beverage/Blur";
+import CustomizeBeverage from "../components/home/CustomizeBeverage";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -58,20 +58,63 @@ export const HomeContent = styled.section`
   &.slide-is-open {
     #logout-btn {
       z-index: 5;
-      transition-delay: 400ms;
+      /* transition-delay: 400ms; */
       right: -22px;
       #icon {
-        transition-delay: 400ms;
+        /* transition-delay: 400ms; */
         margin-left: 5px;
       }
     }
   }
   &:not(.slide-is-open) {
     #logout-btn {
-      transition-delay: 100ms;
+      /* transition-delay: 100ms; */
       #icon {
-        transition-delay: 100ms;
+        /* transition-delay: 100ms; */
       }
+    }
+  }
+  &.disabled {
+    #slide-main {
+      background-color: #fff;
+      &:before {
+        background-image: none;
+      }
+      #slide-header, #slide-toogle {
+        visibility: hidden;
+      }
+    }
+    #choise-beverage-main {
+      #segment-button, #footer {
+        visibility: hidden;
+      }
+    }
+    #beverage-main {
+      ${Blur} {
+        z-index: 2;
+      }
+    }
+  }
+
+  &:not(.beverage-is-selected) {
+    #customize-beverage-main {
+      z-index: -2;
+    }
+  }
+  &.beverage-is-selected {
+    #customize-beverage-main {
+      z-index: 6;
+    }
+  }
+
+  &:not(.present-slide) {
+    #slide-animation {
+      z-index: -2;
+    }
+  }
+  &.present-slide {
+    #slide-animation {
+      z-index: 5;
     }
   }
 `;
@@ -808,42 +851,37 @@ export const Home = (props: HomeProps) => {
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
   return (
-    <HomeContent className={slideOpen ? "slide-is-open" : ""}>
-      {beverageSelected &&
-        <CustomizeBeverage
-          handleType={handleType}
-          levels={levels}
-          isSparkling={isSparkling}
-          slideOpen={slideOpen}
-          showCardsInfo={state.showCardsInfo}
-          endPourEvent={() => setEndSession(StatusEndSession.Finish)}
-          beverageConfig={state.beverageConfig}
-          resetBeverage={resetBeverage}
-          beverageSelected={beverageSelected}
-          handleChange={handleChange}
-          startPour={startPour}
-          stopPour={stopPour}
-          segmentButton={segmentButton} // => _SegmentButton
-          nutritionFacts={nutritionFacts}
-          isLogged={presentSlide}
-        />
-      }
-      {presentSlide &&
-        <Slide
-          slideOpen={slideOpen}
-          indexFavoritePouring_={state.indexFavoritePouring_}
-          beverageSelected={state.beverageSelectedId}
-          selectConsumerBeverage={selectConsumerBeverage}
-          startConsumerPour={startConsumerPour}
-          stopConsumerPour={stopConsumerPour}
-          handleSlide={handleSlide}
-          fullMode={fullMode}
-          handleDisabled={handleDisabled}
-          disabled={disabledMode}
-          nutritionFacts={nutritionFacts}
-          alarmConnectivity_={alarmConnectivity_}
-        />
-      }
+    <HomeContent className={`${slideOpen ? "slide-is-open" : ""} ${presentSlide ? "present-slide" : ""} ${beverageIsSelected ? "beverage-is-selected" : null} ${disabledMode ? "disabled" : ""}`}>
+      <CustomizeBeverage
+        handleType={handleType}
+        levels={levels}
+        isSparkling={isSparkling}
+        slideOpen={slideOpen}
+        showCardsInfo={state.showCardsInfo}
+        endPourEvent={() => setEndSession(StatusEndSession.Finish)}
+        beverageConfig={state.beverageConfig}
+        resetBeverage={resetBeverage}
+        beverageSelected={beverageSelected || allBeverages[0]}
+        handleChange={handleChange}
+        startPour={startPour}
+        stopPour={stopPour}
+        segmentButton={segmentButton} // => _SegmentButton
+        nutritionFacts={nutritionFacts}
+        isLogged={presentSlide}
+      />
+      <Slide
+        slideOpen={slideOpen}
+        indexFavoritePouring_={state.indexFavoritePouring_}
+        beverageSelected={state.beverageSelectedId}
+        selectConsumerBeverage={selectConsumerBeverage}
+        startConsumerPour={startConsumerPour}
+        stopConsumerPour={stopConsumerPour}
+        handleSlide={handleSlide}
+        fullMode={fullMode}
+        handleDisabled={handleDisabled}
+        nutritionFacts={nutritionFacts}
+        alarmConnectivity_={alarmConnectivity_}
+      />
       <HomeWrap isLogged={presentSlide} fullMode={fullMode} beverageIsSelected={beverageIsSelected}>
         {beverages.length > 0 && (
           <ChoiceBeverage
@@ -859,7 +897,6 @@ export const Home = (props: HomeProps) => {
             goToPrepay={goToPrepay}
             idBeveragePouring_={state.idBeveragePouring_}
             isSparkling={state.isSparkling}
-            disabled={disabledMode}
             segmentButton={segmentButton} // => _SegmentButton
             handleNutritionFacts={handleNutritionFacts}
             handleDisabled={handleDisabled}

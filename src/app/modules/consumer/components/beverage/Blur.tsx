@@ -19,20 +19,25 @@ export const Blur_ = (props: BlurProps) => {
 
   return (
     <div className={className}>
-      <img className={nutritionFacts ? "nutrition-mode" : ""} src={logoBlur} />
+      <div id="image-blur" className={`${className} nutritionFacts ? "nutrition-mode" : ""`} style={{ backgroundImage: `url(${logoBlur})` }} />
     </div>
   );
 };
 
-export const Blur = styled<BlurProps>(Blur_)`
+export const Blur = styled(Blur_)`
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  visibility: ${props => props.show ? "visible" : "hidden"};
-  z-index: 2;
-  img.nutrition-mode {
+  left: -12%;
+  width: 125%;
+  z-index: -2;
+  #image-blur {
+    height: 350px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    left: -12%;
+  }
+  #image-blur.nutrition-mode {
     position: absolute;
     bottom: 0;
     width: 130%;

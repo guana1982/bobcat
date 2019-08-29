@@ -18,6 +18,7 @@ import { ILevelsModel } from "@core/utils/APIModel";
 import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
 import ClickNHold from "../common/ClickNHold";
 import { PourFrom } from "@core/models/vendor.model";
+import { areEqual } from "@core/utils/constants";
 
 export enum BeverageTypes {
   Info = "info",
@@ -139,10 +140,6 @@ interface BeverageProps {
   handleDisabled: (d) => void;
 }
 
-function areEqual(prevProps, nextProps) {
-  return JSON.stringify(prevProps) === JSON.stringify(nextProps);
-}
-
 export const Beverage = memo((props: BeverageProps) => {
 
   const [zoomNutrition, setZoomNutrition] = React.useState(false);
@@ -156,7 +153,7 @@ export const Beverage = memo((props: BeverageProps) => {
 
   const $specialCard: boolean = types && types[0] === BeverageTypes.LastPour || types && types[0] === BeverageTypes.Favorite;
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib || beverage.line_id <= 0 || beverage.$lock || ($specialCard && (beverage.$lock || (levels.carbonation_perc != null && alarmSparkling_)));
-  const $blur: boolean = disabled && !pouring;
+  const $blur: boolean = true; // <= TO IMPROVE // disabled && !pouring;
   const $disabledTouch: boolean = types && types[0] === BeverageTypes.Info || $outOfStock;
   const $info: boolean = types && types[0] === BeverageTypes.Info;
 
@@ -272,8 +269,8 @@ export const Beverage = memo((props: BeverageProps) => {
   };
 
   return (
-    <BeverageContent size={size} pouring={pouring}>
-        <React.Fragment>
+    <BeverageContent id="beverage-main" size={size} pouring={pouring}>
+        <div>
           {zoomNutrition &&
             <AppendedFullBeverage {...props}>
               <BeverageFull>
@@ -285,8 +282,9 @@ export const Beverage = memo((props: BeverageProps) => {
               </BeverageFull>
             </AppendedFullBeverage>
           }
-          {(!($blur || $info) && !zoomNutrition) &&
+          {(!$info && !zoomNutrition) &&
             <ClickNHold
+              className="beverage-wrap"
               time={0.5}
               onStart={start}
               onClickNHold={clickHold}
@@ -300,14 +298,14 @@ export const Beverage = memo((props: BeverageProps) => {
               </BeverageWrap>
             </ClickNHold>
           }
+          <Blur nutritionFacts={nutritionFacts} {...props} />
           {($outOfStock || $blur || $info) &&
             <BeverageExtra>
               <OutOfStock show={$outOfStock && !($blur || $info)} {...props} />
               <Info show={$info && !$blur} {...props} />
-              <Blur show={$blur} nutritionFacts={nutritionFacts} {...props} />
             </BeverageExtra>
           }
-        </React.Fragment>
+        </div>
     </BeverageContent>
   );
 }, areEqual);

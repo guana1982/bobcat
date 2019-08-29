@@ -306,143 +306,137 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   const disableSparkling_ = isSparkling && statusAlarms.alarmSparkling_;
   if (disableSparkling_) {
     return (
-      <>
-        <CustomizeBeverageWrap>
-          {!props.showCardsInfo && <SegmentButton {...props.segmentButton} />}
-          {/* {!props.showCardsInfo ?
-            <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => resetBeverage()} /> :
-            <Button detectValue="exit-btn" onClick={() => endPourEvent()} text="Done" icon="log-out" />
-          } */}
-          <Alert
-            options = {{
-              type: AlertTypes.EndSparkling,
-              subTitle: true,
-              timeout: true,
-              transparent: true,
-              onConfirm: () => handleType(false),
-              onDismiss: () => handleType(false),
-            }}
-          />
-        </CustomizeBeverageWrap>
-      </>
+      <CustomizeBeverageWrap id="customize-beverage-main">
+        {!props.showCardsInfo && <SegmentButton {...props.segmentButton} />}
+        {/* {!props.showCardsInfo ?
+          <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={() => resetBeverage()} /> :
+          <Button detectValue="exit-btn" onClick={() => endPourEvent()} text="Done" icon="log-out" />
+        } */}
+        <Alert
+          options = {{
+            type: AlertTypes.EndSparkling,
+            subTitle: true,
+            timeout: true,
+            transparent: true,
+            onConfirm: () => handleType(false),
+            onDismiss: () => handleType(false),
+          }}
+        />
+      </CustomizeBeverageWrap>
     );
   }
   //  <=== DISABLE SPARKLING ====
 
   return(
-    <React.Fragment>
-      <CustomizeBeverageWrap className={isPouring ? "pouring" : ""}>
-        {!props.showCardsInfo && <SegmentButton {...props.segmentButton} />}
+    <CustomizeBeverageWrap id="customize-beverage-main" className={isPouring ? "pouring" : ""}>
+      {!props.showCardsInfo && <SegmentButton {...props.segmentButton} />}
 
-        {!props.showCardsInfo ?
-          <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={resetBeverage} /> :
-          <Button detectValue="exit-btn" onClick={endPourEvent} text="Done" icon="log-out" />
-        }
+      {!props.showCardsInfo ?
+        <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={resetBeverage} /> :
+        <Button detectValue="exit-btn" onClick={endPourEvent} text="Done" icon="log-out" />
+      }
 
-        {!props.showCardsInfo && <div id="backdrop" onClick={resetBeverage} />}
+      {!props.showCardsInfo && <div id="backdrop" onClick={resetBeverage} />}
 
-        {props.showCardsInfo &&
-          <React.Fragment>
-            {props.isLogged ?
-              <CircleCard color={beverageSelected.beverage_font_color} /> :
-              <PhoneCard color={beverageSelected.beverage_font_color} />
-            }
-            <NumberCard color={beverageSelected.beverage_font_color} />
-          </React.Fragment>
-        }
+      {props.showCardsInfo &&
+        <React.Fragment>
+          {props.isLogged ?
+            <CircleCard color={beverageSelected.beverage_font_color} /> :
+            <PhoneCard color={beverageSelected.beverage_font_color} />
+          }
+          <NumberCard color={beverageSelected.beverage_font_color} />
+        </React.Fragment>
+      }
 
-        <motion.img
-          style={StyleLogoBeverage}
-          initial={"normal"}
-          transition={{ ease: "easeOut", delay: 0.1, duration: 0.8 }}
-          animate={props.showCardsInfo ? "zoom" : "normal"}
-          variants={AnimationLogoBeverage}
-          src={`img/logos/${beverageSelected.beverage_logo_id}${isSparkling ? "@sparkling" : ""}.webp`}
-        />
+      <motion.img
+        style={StyleLogoBeverage}
+        initial={"normal"}
+        transition={{ ease: "easeOut", delay: 0.1, duration: 0.8 }}
+        animate={props.showCardsInfo ? "zoom" : "normal"}
+        variants={AnimationLogoBeverage}
+        src={`img/logos/${beverageSelected.beverage_logo_id}${isSparkling ? "@sparkling" : ""}.webp`}
+      />
 
-        {!props.showCardsInfo &&
-          <CustomizeBeverageCard color={beverageSelected.beverage_font_color}>
-            <div id="beverage-card">
-              <div>
-                <span id="title">{__(beverageSelected.beverage_label_id)}</span>
-                <span id="cal">{beverageSelected.calories} {__("c_cal")}.</span>
-                <div id="group">
-                  {isSparkling &&
-                    <ButtonGroup
-                      color={beverageSelected.beverage_font_color}
-                      detectValue={"sparkling"}
-                      icon={"sparkling"}
-                      label={"c_sparkling"}
-                      options={levels.carbonation}
-                      value={beverageConfig.carbonation_level}
-                      onChange={(value) => handleChange(value, "carbonation")}>
-                    </ButtonGroup>
-                  }
-                  {beverageSelected.beverage_type === Beverages.Bev &&
-                    <ButtonGroup
-                      color={beverageSelected.beverage_font_color}
-                      detectValue={"flavor"}
-                      icon={"flavor"}
-                      label={"c_flavor"}
-                      options={levels.flavor}
-                      value={beverageConfig.flavor_level}
-                      onChange={(value) => handleChange(value, "flavor")}
-                    ></ButtonGroup>
-                  }
+      {!props.showCardsInfo &&
+        <CustomizeBeverageCard color={beverageSelected.beverage_font_color}>
+          <div id="beverage-card">
+            <div>
+              <span id="title">{__(beverageSelected.beverage_label_id)}</span>
+              <span id="cal">{beverageSelected.calories} {__("c_cal")}.</span>
+              <div id="group">
+                {isSparkling &&
                   <ButtonGroup
                     color={beverageSelected.beverage_font_color}
-                    detectValue={"temperature"}
-                    icon={"temperature"}
-                    label={"c_temperature"}
-                    disabled={isSparkling}
-                    options={levels.temperature}
-                    value={beverageConfig.temperature_level}
-                    onChange={(value) => handleChange(value, "temperature")}>
+                    detectValue={"sparkling"}
+                    icon={"sparkling"}
+                    label={"c_sparkling"}
+                    options={levels.carbonation}
+                    value={beverageConfig.carbonation_level}
+                    onChange={(value) => handleChange(value, "carbonation")}>
                   </ButtonGroup>
-                </div>
-                {paymentModeEnabled &&
-                  <div id="footer">
-                      {/* {beverageSelected.$price > 0 && <span id="total">{__("c_total")}</span>} */}
-                    <div id="limit-erogation">
-                      <span className="info">MAX</span> {"32oz"}
-                    </div>
-                    <div id="price" className={promotionEnabled ? "promotion-enabled" : null}>
-                      {getPriceBeverage(beverageSelected.$price, true)}
-                    </div>
-                  </div>
                 }
-              </div>
-            </div>
-          </CustomizeBeverageCard>
-        }
-        <ReplaySubscription source={socketPayment$.current}>
-          {(status: PaymentStatus) => {
-            if ((status in PaymentStatusPour || !needToPay(beverageSelected)) || promotionEnabled)
-              return(
-                <ClickNHold
-                  time={0.250}
-                  onStart={() => {}}
-                  onClickNHold={() => startPour({ params: {}, from: PourFrom.Touch })}
-                  onEnd={(e, enough) => enough && stopPour()}
-                  className="pour-btn"
-                  ref={buttonPourEl}
-                >
-                  <Pour
+                {beverageSelected.beverage_type === Beverages.Bev &&
+                  <ButtonGroup
                     color={beverageSelected.beverage_font_color}
-                    // isPouring={isPouring}
-                    // ref={buttonPourEl}
-                  >
-                    {__("c_pour")}
-                  </Pour>
-                </ClickNHold>
-              );
-
-            return (
-              <PaymentInfo />
+                    detectValue={"flavor"}
+                    icon={"flavor"}
+                    label={"c_flavor"}
+                    options={levels.flavor}
+                    value={beverageConfig.flavor_level}
+                    onChange={(value) => handleChange(value, "flavor")}
+                  ></ButtonGroup>
+                }
+                <ButtonGroup
+                  color={beverageSelected.beverage_font_color}
+                  detectValue={"temperature"}
+                  icon={"temperature"}
+                  label={"c_temperature"}
+                  disabled={isSparkling}
+                  options={levels.temperature}
+                  value={beverageConfig.temperature_level}
+                  onChange={(value) => handleChange(value, "temperature")}>
+                </ButtonGroup>
+              </div>
+              {paymentModeEnabled &&
+                <div id="footer">
+                    {/* {beverageSelected.$price > 0 && <span id="total">{__("c_total")}</span>} */}
+                  <div id="limit-erogation">
+                    <span className="info">MAX</span> {"32oz"}
+                  </div>
+                  <div id="price" className={promotionEnabled ? "promotion-enabled" : null}>
+                    {getPriceBeverage(beverageSelected.$price, true)}
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </CustomizeBeverageCard>
+      }
+      <ReplaySubscription source={socketPayment$.current}>
+        {(status: PaymentStatus) => {
+          if ((status in PaymentStatusPour || !needToPay(beverageSelected)) || promotionEnabled)
+            return(
+              <ClickNHold
+                time={0.250}
+                onStart={() => {}}
+                onClickNHold={() => startPour({ params: {}, from: PourFrom.Touch })}
+                onEnd={(e, enough) => enough && stopPour()}
+                className="pour-btn"
+                ref={buttonPourEl}
+              >
+                <Pour color={beverageSelected.beverage_font_color}>
+                  {__("c_pour")}
+                </Pour>
+              </ClickNHold>
             );
-          }}
-        </ReplaySubscription>
-      </CustomizeBeverageWrap>
-    </React.Fragment>
+
+          return (
+            <PaymentInfo />
+          );
+        }}
+      </ReplaySubscription>
+    </CustomizeBeverageWrap>
   );
 };
+
+export default CustomizeBeverage;

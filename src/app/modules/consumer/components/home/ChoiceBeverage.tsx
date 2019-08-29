@@ -11,6 +11,8 @@ import { PaymentInfo } from "../common/PaymentInfo";
 import { IBeverage } from "@core/models";
 import { ReplaySubscription } from "../common/Subscription";
 import { IPourConfig } from "@core/models/vendor.model";
+import { areEqual } from "@core/utils/constants";
+import { memo } from "react";
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */
@@ -74,20 +76,19 @@ interface ChoiceBeverageProps {
   nutritionFacts: boolean;
   idBeveragePouring_: number;
   isSparkling: boolean;
-  disabled: boolean;
   fullMode: boolean;
   beverageSelected: any;
   segmentButton: SegmentButtonProps; // => _SegmentButton
   signedOut: () => void;
 }
 
-export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
+export const ChoiceBeverage = memo((props: ChoiceBeverageProps) => {
   const { beverages, signedOut } = props;
   const { statusAlarms } = React.useContext(ConfigContext);
   const { isLogged } = React.useContext(ConsumerContext);
   const { socketPayment$, cancelPayment } = React.useContext(PaymentContext);
 
-  const { idBeveragePouring_, onGesture, isSparkling, selectBeverage, startPour, stopPour, goToPrepay, disabled, handleNutritionFacts, nutritionFacts, handleDisabled, fullMode, handleType, beverageSelected } = props;
+  const { idBeveragePouring_, onGesture, isSparkling, selectBeverage, startPour, stopPour, goToPrepay, handleNutritionFacts, nutritionFacts, handleDisabled, fullMode, handleType, beverageSelected } = props;
 
   const disableSparkling_ = isSparkling && statusAlarms.alarmSparkling_;
 
@@ -101,8 +102,8 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
 
   return (
     <React.Fragment>
-      <ChoiceBeverageWrap disabledWrap={disabled}>
-        {!nutritionFacts && <SegmentButton {...props.segmentButton} disabled={disabled} />}
+      <ChoiceBeverageWrap id="choise-beverage-main">
+        {!nutritionFacts && <SegmentButton {...props.segmentButton} />}
         <Gesture onGesture={onGesture} />
         {(disableSparkling_ && !beverageSelected) && <Alert
           options = {{
@@ -130,29 +131,31 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
                 onStart={() => selectBeverage(b)}
                 onHoldStart={(from) => startPour({params: { beverageSelected: b }, from: from})}
                 onHoldEnd={() => stopPour()}
-                disabled={disabled || disableSparkling_}
+                disabled={disableSparkling_}
                 nutritionFacts={nutritionFacts}
                 handleDisabled={handleDisabled}
               />
             );
           })}
         </Grid>
-        {!beverageSelected && <>
-          <PaymentInfo disabled={disabled} />
-          <Button detectValue="nutrition-btn" disabled={disabled || disableSparkling_} onClick={handleNutritionFacts} text="c_nutrition" icon={!nutritionFacts ? "nutrition" : "close"} />
+        <div id="footer">
+          <PaymentInfo />
+          <Button detectValue="nutrition-btn" disabled={disableSparkling_} onClick={handleNutritionFacts} text="c_nutrition" icon={!nutritionFacts ? "nutrition" : "close"} />
           <ReplaySubscription source={socketPayment$.current}>
             {(status: PaymentStatus) => {
               const cancelPayment_ = status in PaymentStatusCancel;
               return (
                 <div className={`consumer-btns ${cancelPayment_ ? "cancel-payment" : ""}`}>
-                  {!isLogged && <Button detectValue="signin-btn" disabled={disabled} onClick={goToPrepay} text="c_sign_in" icon="qr-code" />}
-                  {(isLogged || cancelPayment_) && <Button detectValue="logout-btn" disabled={disabled} onClick={() => logout(cancelPayment_)} text="c_done" icon="log-out" />}
+                  {!isLogged && <Button detectValue="signin-btn" onClick={goToPrepay} text="c_sign_in" icon="qr-code" />}
+                  {(isLogged || cancelPayment_) && <Button detectValue="logout-btn" onClick={() => logout(cancelPayment_)} text="c_done" icon="log-out" />}
                 </div>
               );
             }}
           </ReplaySubscription>
-        </>}
+        </div>
       </ChoiceBeverageWrap>
     </React.Fragment>
   );
-};
+}, areEqual);
+
+export default ChoiceBeverage;

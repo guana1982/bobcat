@@ -12,6 +12,10 @@ export enum Pages {
   Test = "/test",
 }
 
+export function areEqual(prevProps, nextProps) {
+  return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+}
+
 export const toOZ = (value) => Math.round(value / 29.5735);
 export const calcolaPerc = (tot, num): number => {
   const percent = Math.round((num / tot * 100));

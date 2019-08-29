@@ -129,7 +129,7 @@ interface SegmentButtonState {
 export const SegmentButton = (props: SegmentButtonProps) => {
 
     return (
-      <SegmentButtonWrapper>
+      <SegmentButtonWrapper id="segment-button">
         {props.options ?
           props.options.map((e, i) =>
           <button
