@@ -18,6 +18,7 @@ import { ILevelsModel } from "@core/utils/APIModel";
 import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
 import ClickNHold from "../common/ClickNHold";
 import { PourFrom } from "@core/models/vendor.model";
+import { motion } from "framer-motion";
 
 export enum BeverageTypes {
   Info = "info",
@@ -271,6 +272,7 @@ export const Beverage = memo((props: BeverageProps) => {
     onHoldStart(PourFrom.Touch);
   };
 
+
   return (
     <BeverageContent size={size} pouring={pouring}>
         <React.Fragment>
@@ -291,6 +293,7 @@ export const Beverage = memo((props: BeverageProps) => {
               onStart={start}
               onClickNHold={clickHold}
               onEnd={end}
+              beverage
             >
               <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
                 <button id={detectValue} disabled={disabledButton} ref={buttonEl}>
