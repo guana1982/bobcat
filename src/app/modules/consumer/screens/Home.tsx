@@ -18,9 +18,8 @@ import { CardsWrap } from "../components/home/CardsWrap";
 import { CustomizeBeverage } from "../components/home/CustomizeBeverage";
 import { Grid } from "../components/common/Grid";
 import { SegmentButtonProps } from "../components/common/SegmentButton";
-import { first, tap } from "rxjs/operators";
+import { first } from "rxjs/operators";
 import { IPourConfig, PourFrom, IPourConsumerConfig } from "@core/models/vendor.model";
-import { Payment, PaymentType } from "../components/payment/Payment";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -143,7 +142,6 @@ export const Home = (props: HomeProps) => {
   const sparklingLevel = React.useRef(levels.carbonation[2].value);
 
   const [nutritionFacts, setNutritionFacts] = React.useState(false);
-  const [slideOpen, setSlideOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
   const [endSession, setEndSession] = React.useState<StatusEndSession | MESSAGE_STOP_EROGATION>(null);
 
@@ -222,22 +220,6 @@ export const Home = (props: HomeProps) => {
       alertConsumer.hide();
     };
   }, []);
-
-  //  ==== ACCESSIBILITY FUNCTION ====>
-  const accessibilityConsumer = React.useContext(AccessibilityContext);
-  const { changeStateLayout } = accessibilityConsumer;
-
-  React.useEffect(() => {
-    changeStateLayout({
-      beverageSelected: state.beverageSelectedId,
-      nutritionFacts: nutritionFacts,
-      slideOpen: slideOpen,
-      fullMode: fullMode,
-      buttonGroupSelected: null,
-      endSession: endSession
-    });
-  }, [state.beverageSelectedId, slideOpen, nutritionFacts, endSession]);
-  //  <=== ACCESSIBILITY FUNCTION ====
 
   /* ==== ALARMS ==== */
   /* ======================================== */
@@ -586,13 +568,7 @@ export const Home = (props: HomeProps) => {
   const fullModeCondition_ = lengthConsumerBeverages === MAX_CONSUMER_BEVERAGE;
   const fullMode = fullModeCondition_ || alarmConnectivity_;
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      if (fullModeCondition_) {
-        handleSlide();
-      }
-    } , 200);
-  }, [consumerConsumer.consumerBeverages]);
+  const [slideOpen, setSlideOpen] = React.useState(fullModeCondition_);
 
   const selectConsumerBeverage = (consumerBeverage: IConsumerBeverage) => {
     const needToPay_ = needToPay(consumerBeverage.$beverage);
@@ -762,6 +738,22 @@ export const Home = (props: HomeProps) => {
 
   const handleNutritionFacts = () => setNutritionFacts(prevState => !prevState);
   const handleDisabled = () => setDisabled(prevState => !prevState);
+
+  //  ==== ACCESSIBILITY FUNCTION ====>
+  const accessibilityConsumer = React.useContext(AccessibilityContext);
+  const { changeStateLayout } = accessibilityConsumer;
+
+  React.useEffect(() => {
+    changeStateLayout({
+      beverageSelected: state.beverageSelectedId,
+      nutritionFacts: nutritionFacts,
+      slideOpen: slideOpen,
+      fullMode: fullMode,
+      buttonGroupSelected: null,
+      endSession: endSession
+    });
+  }, [state.beverageSelectedId, slideOpen, nutritionFacts, endSession]);
+  //  <=== ACCESSIBILITY FUNCTION ====
 
   /* ==== ROUTING ==== */
   /* ======================================== */
