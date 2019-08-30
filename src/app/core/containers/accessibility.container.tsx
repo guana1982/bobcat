@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import { Pages, debounce } from "@core/utils/constants";
+import { Pages, debounce, MESSAGE_STOP_EROGATION } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
 import createUseContext from "constate";
 import { StatusEndSession } from "@modules/consumer/screens/Home";
@@ -36,7 +36,7 @@ interface StateLayout {
   fullMode?: boolean;
   buttonGroupSelected?: string;
   alertShow?: boolean;
-  endSession?: StatusEndSession;
+  endSession?: StatusEndSession | MESSAGE_STOP_EROGATION;
 }
 
 const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
