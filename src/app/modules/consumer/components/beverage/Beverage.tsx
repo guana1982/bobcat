@@ -18,6 +18,7 @@ import { ILevelsModel } from "@core/utils/APIModel";
 import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
 import ClickNHold from "../common/ClickNHold";
 import { PourFrom } from "@core/models/vendor.model";
+import { motion } from "framer-motion";
 
 export enum BeverageTypes {
   Info = "info",
@@ -46,15 +47,14 @@ export const BeverageWrap = styled.div`
   opacity: ${props => props.enableOpacity ? .2 : null};
   display: ${props => props.show ? "block" : "none"};
   z-index: -1;
-  &:before {
-    content: " ";
+  & .cardShadow {
+    /* content: " "; */
     position: absolute;
     top: 50%;
     left: 0;
     width: 100%;
     height: 50%;
     border-radius: 0 0 17px 17px;
-    box-shadow: 0px 19px 31px -4px rgba(0,0,0,0.1);
   }
   button {
     position: relative;
@@ -146,6 +146,7 @@ function areEqual(prevProps, nextProps) {
 export const Beverage = memo((props: BeverageProps) => {
 
   const [zoomNutrition, setZoomNutrition] = React.useState(false);
+  const [longPress, setLongPress] = React.useState(false);
 
   const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled, beverage, levels, detectValue } = props;
 
@@ -247,6 +248,7 @@ export const Beverage = memo((props: BeverageProps) => {
 
   const start = () => {
     if (disabledButton) return;
+    setLongPress(true);
   };
 
   const end = (e, enough) => {
@@ -256,7 +258,7 @@ export const Beverage = memo((props: BeverageProps) => {
       handleZoomNutrition(true);
       return null;
     }
-
+    setLongPress(false);
     if (!enough) {
       if (!pouring)
         onStart();
@@ -267,9 +269,9 @@ export const Beverage = memo((props: BeverageProps) => {
 
   const clickHold = (e) => {
     if (disabledButton || nutritionFacts) return;
-
     onHoldStart(PourFrom.Touch);
   };
+
 
   return (
     <BeverageContent size={size} pouring={pouring}>
@@ -291,13 +293,28 @@ export const Beverage = memo((props: BeverageProps) => {
               onStart={start}
               onClickNHold={clickHold}
               onEnd={end}
+              // beverage
             >
-              <BeverageWrap enableOpacity={$outOfStock} show={true} color={color}>
-                <button id={detectValue} disabled={disabledButton} ref={buttonEl}>
-                  <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
-                  <Basic paymentConsumer={paymentConsumer} levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
-                </button>
-              </BeverageWrap>
+              <motion.div
+                initial={{scale: 1}}
+                animate={longPress ? { scale: .97 } : { scale: 1 }}
+                transition={{ duration: .5 }}>
+                <BeverageWrap longPress={longPress} enableOpacity={$outOfStock} show={true} color={color}>
+                  <motion.div
+                    initial={{boxShadow: "0px 19px 31px -4px rgba(0,0,0,0.1)"}}
+                    className="cardShadow"
+                    animate={longPress
+                        ? {boxShadow: "0px 4px 8px 0px rgba(0,0,0,0.1)"}
+                        : {boxShadow: "0px 19px 31px -4px rgba(0,0,0,0.1)"}
+                    }
+                    transition={{ duration: .5 }}
+                  />
+                  <button id={detectValue} disabled={disabledButton} ref={buttonEl}>
+                    <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
+                    <Basic paymentConsumer={paymentConsumer} levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
+                  </button>
+                </BeverageWrap>
+              </motion.div>
             </ClickNHold>
           }
           {($outOfStock || $blur || $info) &&
