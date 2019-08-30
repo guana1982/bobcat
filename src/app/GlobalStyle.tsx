@@ -73,6 +73,7 @@ export const GlobalStyle = createGlobalStyle`
       url("img/drawer.webp")
       url("img/fruits-bg.webp")
       url("img/target.svg")
+      url("img/static-loading-icon.png")
 
       url("img/logos/9.webp")
       url("img/logos/2009.webp")
