@@ -39,7 +39,7 @@ export const Nutrition_ = (props: NutritionProps) => {
         <span>{__("c_calories")} {calories}</span>
       </div>
       <div id="content-values">
-        <div className="value">
+        <div className="daily-value">
           <span></span>
           <span></span>
           <span>{__("c_daily_value")}</span>
@@ -106,21 +106,31 @@ export const Nutrition = styled(Nutrition_)`
     }
   }
   #content-values {
+    .daily-value {
+      padding: 5px;
+      border-bottom: solid 0.5px #dfdfdf;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
     .value {
       padding: 5px;
       border-bottom: solid 0.5px #dfdfdf;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
       &:last-child {
         border-bottom: none;
       }
       span {
         &:nth-child(1) {
-          float: left;
+          width: 100px;
+          text-align: left;
         }
-        &:nth-child(2) {
-          margin-left: 1px
-        }
+        &:nth-child(2),
         &:nth-child(3) {
-          float: right
+          width: 50px;
+          text-align: right;
         }
       }
     }
