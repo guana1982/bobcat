@@ -80,6 +80,11 @@ const AlertWrap = styled.div`
     height: 200px  !important;
     top: 48% !important;
   }
+  &.${AlertTypes.LoadingDataQr} {
+    img.type-img {
+      margin: 0;
+    }
+  }
   &.${AlertTypes.NeedPayment} {
     top: 125px;
     left: 382px;
