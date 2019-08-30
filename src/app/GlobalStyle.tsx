@@ -70,7 +70,7 @@ export const GlobalStyle = createGlobalStyle`
       url("img/qr-code-not-recognized.svg")
       url("img/qr.svg")
       url("img/scan-qr-code-tip.svg")
-      url("img/slider-bg.webp")
+      url("img/drawer.webp")
       url("img/fruits-bg.webp")
       url("img/target.svg")
 

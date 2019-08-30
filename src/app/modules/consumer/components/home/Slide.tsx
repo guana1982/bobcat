@@ -147,7 +147,7 @@ export const SlideStyled = styled.div`
     width: 100px;
     height: 111%;
     /* background-image: ${props => props.disabled ? null : " url(img/slider-bg.webp)"}; */
-    background-image: url("img/drawer.png");
+    background-image: url("img/drawer.webp");
     /* background-size: 1387px; */
     background-repeat: no-repeat;
     &.disabled {
