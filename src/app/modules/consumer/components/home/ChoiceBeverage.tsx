@@ -138,7 +138,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
           })}
         </Grid>
         {!beverageSelected && <>
-          <MessageInfo disabled={disabled} />
+          <MessageInfo disabled={nutritionFacts || disabled} />
           <Button detectValue="nutrition-btn" disabled={disabled || disableSparkling_} onClick={handleNutritionFacts} text="c_nutrition" icon={!nutritionFacts ? "nutrition" : "close"} />
           <ReplaySubscription source={socketPayment$.current}>
             {(status: PaymentStatus) => {

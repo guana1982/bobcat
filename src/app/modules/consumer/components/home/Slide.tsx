@@ -80,6 +80,9 @@ const HeaderSlide = styled.div`
   word-wrap: break-word;
   width: 329px;
   margin-top: .3rem;
+  &[disabled] {
+    visibility: hidden;
+  }
   &.open {
     width: 98vw;
     h2 {
@@ -124,17 +127,32 @@ export const SlideStyled = styled.div`
   height: 100%;
   z-index: 5;
   background-color: ${props => props.disabled ? "#fff" : null};
-  &:before {
-    content: " ";
+  & .sliderBg {
+    /* content: " "; */
     position: absolute;
     top: 0;
     left: 31px;
-    width: 1275px;
+    width: 1188px;
     height: 111%;
-    background-image: ${props => props.disabled ? null : " url(img/slider-bg.webp)"};
-    background-size: 1387px;
+    background-color: #fff;
+    &.disabled {
+      visibility: hidden;
+    }
+  }
+  & .sliderBorder {
+    /* content: " "; */
+    position: absolute;
+    top: 3px;
+    left: 1212px;
+    width: 100px;
+    height: 111%;
+    /* background-image: ${props => props.disabled ? null : " url(img/slider-bg.webp)"}; */
+    background-image: url("img/drawer.png");
+    /* background-size: 1387px; */
     background-repeat: no-repeat;
-    background-position: bottom;
+    &.disabled {
+      visibility: hidden;
+    }
   }
   #message-status {
     position: absolute;
@@ -183,8 +201,8 @@ export const ToggleSlide = styled.button`
     width: 140%;
     height: 140%;
   }
-  &:disabled {
-    opacity: .2;
+  &[hidden] {
+    visibility: hidden;
   }
 `;
 
@@ -215,6 +233,15 @@ export const Slide = (props: SlideProps) => {
 
   const paymentConsumer = React.useContext(PaymentContext);
   const { promotionEnabled } = paymentConsumer;
+  const slideToggleDisabled = React.useRef(false);
+
+  const toggleAction = () => {
+    handleSlide();
+    const btn = document.getElementById("slide-toogle");
+    btn.setAttribute("style", "pointer-events: none");
+    setTimeout(() => btn.setAttribute("style", "pointer-events: initial"), 500);
+  };
+
 
   return (
     <React.Fragment>
@@ -233,15 +260,14 @@ export const Slide = (props: SlideProps) => {
         animate={animationSlide()}
       >
         <SlideStyled disabled={disabled} beverageIsSelected={beverageIsSelected}>
-          {
-            !disabled &&
-            <HeaderSlide className={(slideOpen || fullMode) && "open"}>
-              <h2>
-                <span>{__("c_welcome")}, {dataConsumer.consumer_nick}!</span>
-                {promotionEnabled && <img id="gift" src="icons/gift.svg" />}
-              </h2>
-            </HeaderSlide>
-          }
+          <div className={`sliderBg ${disabled ? "disabled" : ""}`} />
+          <div className={`sliderBorder ${disabled ? "disabled" : ""}`} />
+          <HeaderSlide disabled={disabled} className={(slideOpen || fullMode) && "open"}>
+            <h2>
+              <span>{__("c_welcome")}, {dataConsumer.consumer_nick}!</span>
+              {promotionEnabled && <img id="gift" src="icons/gift.svg" />}
+            </h2>
+          </HeaderSlide>
           {
             alarmConnectivity_ ?
             <AlertSLide>
@@ -279,25 +305,27 @@ export const Slide = (props: SlideProps) => {
               })}
             </Grid>
           }
-          {(slideOpen && !disabled) && <MessageInfo />}
-          {!disabled &&
-            <motion.div
-            transition={{ duration: 0.3 }}
-            variants={ToggleSlideAnimated}
-            style={{
-              position: "absolute",
-              top: "calc(50% - 11px)",
-              borderRadius: "50%",
-              height: "48px",
-              width: "48px",
-              right: "-15px",
-              willChange: "transform"
-            }}>
-              <ToggleSlide id="slide-toogle" disabled={disabled} onClick={() => handleSlide()}>
-                <img src={"icons/arrow-circle.png"} />
-              </ToggleSlide>
-            </motion.div>
-          }
+          <MessageInfo disabled={disabled} />
+          <motion.div
+          transition={{ duration: 0.3 }}
+          variants={ToggleSlideAnimated}
+          style={{
+            position: "absolute",
+            top: "calc(50% - 11px)",
+            borderRadius: "50%",
+            height: "48px",
+            width: "48px",
+            right: "-15px",
+            willChange: "transform"
+          }}>
+            <ToggleSlide
+              id="slide-toogle"
+              hidden={disabled}
+              disabled={slideToggleDisabled.current}
+              onClick={() => toggleAction()}>
+              <img src={"icons/arrow-circle.png"} />
+            </ToggleSlide>
+          </motion.div>
         </SlideStyled>
       </motion.div>
     </React.Fragment>

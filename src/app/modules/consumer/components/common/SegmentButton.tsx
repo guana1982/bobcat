@@ -27,8 +27,9 @@ export const SegmentButtonWrapper = styled.div`
   height: 55px;
   /* margin-top: 8px; */
   background: #f5f5f5;
+  background-clip: padding-box;
   border-radius: 40px;
-  border: 10px solid #fff;
+  border: 10px solid transparent;
   box-sizing: content-box;
   padding: 5px;
   box-shadow: inset 0 0 8px 1px rgba(0, 0, 0, 0.1);
