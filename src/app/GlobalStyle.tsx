@@ -72,7 +72,6 @@ export const GlobalStyle = createGlobalStyle`
       url("img/scan-qr-code-tip.svg")
       url("img/slider-bg.webp")
       url("img/fruits-bg.webp")
-      url("img/static-loading-icon.png")
       url("img/target.svg")
 
       url("img/logos/9.webp")

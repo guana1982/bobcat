@@ -83,7 +83,7 @@ export const Payment = (props: PaymentProps) => {
     return (
       <PaymentWrap>
         <div className="icon">
-          <img src="img/static-loading-icon.png"/>
+          <img src={`animation/qr_loader.gif?x=${Math.random()}`} />
         </div>
         <div className="textBox">
           <span className="title">{__("c_loading_preferences")}</span>
