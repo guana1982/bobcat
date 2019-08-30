@@ -58,19 +58,19 @@ export const HomeContent = styled.section`
   &.slide-is-open {
     #logout-btn {
       z-index: 5;
-      transition-delay: 400ms;
+      /* transition-delay: 400ms; */
       right: -22px;
       #icon {
-        transition-delay: 400ms;
+        /* transition-delay: 400ms; */
         margin-left: 5px;
       }
     }
   }
   &:not(.slide-is-open) {
     #logout-btn {
-      transition-delay: 100ms;
+      /* transition-delay: 100ms; */
       #icon {
-        transition-delay: 100ms;
+        /* transition-delay: 100ms; */
       }
     }
   }
