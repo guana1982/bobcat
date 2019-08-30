@@ -3,6 +3,7 @@ import * as React from "react";
 import { Pages, debounce } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
 import createUseContext from "constate";
+import { StatusEndSession } from "@modules/consumer/screens/Home";
 
 export enum Action {
   BACK,
@@ -35,8 +36,7 @@ interface StateLayout {
   fullMode?: boolean;
   buttonGroupSelected?: string;
   alertShow?: boolean;
-  endBeverageShow?: boolean;
-  endSession?: any;
+  endSession?: StatusEndSession;
 }
 
 const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
@@ -52,7 +52,7 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
     fullMode: false,
     buttonGroupSelected: null,
     alertShow: false,
-    endBeverageShow: false
+    endSession: null
   });
 
   const [pour, setPour] = React.useState<boolean>(null);
@@ -129,19 +129,13 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
     }
   }, [stateLayout.buttonGroupSelected]);
 
-  //  ==== END BEVERAGE CASE ====
-  const { endBeverageShow } = stateLayout;
+  //  ==== END BEVERAGE ====
   React.useEffect(() => {
-    if (endBeverageShow) {
-      setDown(false);
-      setEnable(false);
-      setPour(false);
-      setStop(true);
+    if (stateLayout.endSession === StatusEndSession.Start) {
+      const buttons = detectButtons();
+      focusElement(buttons[0]);
     }
-    if (!endBeverageShow) {
-      setStop(false);
-    }
-  }, [endBeverageShow]);
+  }, [stateLayout.endSession]);
 
   //  ==== DETECT STATUS FOR STYLE ====
   //  ================================
@@ -369,7 +363,7 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
       }
 
       // === SLIDE OPEN CASE ==>
-      if (!stateLayout.beverageSelected) {
+      if (!stateLayout.beverageSelected && stateLayout.endSession !== StatusEndSession.Start) {
         if (stateLayout.slideOpen === true) {
           return idValues[0] === "slide";
         } else if (stateLayout.slideOpen === false) {
@@ -443,15 +437,3 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
 
 export const AccessibilityProvider = withRouter(AccessibilityContainer.Provider);
 export const AccessibilityContext = AccessibilityContainer.Context;
-
-
-// === SIMPLE DETECT BUTTONS =>
-// ==================
-// const detectButtons = React.useCallback(
-//   () => {
-//     let buttons = Array.from(document.getElementsByTagName("button"));
-//     buttons = buttons.filter(button => !button.disabled);
-//     return buttons;
-//   },
-//   [stateLayout],
-// );

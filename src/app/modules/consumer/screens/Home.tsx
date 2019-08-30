@@ -95,7 +95,7 @@ export interface HomeState {
   showCardsInfo: boolean;
 }
 
-enum StatusEndSession {
+export enum StatusEndSession {
   Start = "start",
   Finish = "finish",
   ProximityEnd = "proximity-end",
