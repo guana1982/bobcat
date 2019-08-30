@@ -42,31 +42,37 @@ export const Nutrition_ = (props: NutritionProps) => {
         <div className="daily-value">
           <span></span>
           <span></span>
+          <span></span>
           <span>{__("c_daily_value")}</span>
         </div>
         <div className="value">
           <span>{__("c_total_fat")}</span>
-          <span>{total_fat}g</span>
+          <span>{total_fat}</span>
+          <span>g</span>
           <span>{total_fat_perc}%</span>
         </div>
         <div className="value">
           <span>{__("c_sodium")}</span>
-          <span>{sodium}mg</span>
+          <span>{sodium}</span>
+          <span>mg</span>
           <span>{sodium_perc}%</span>
         </div>
         <div className="value">
           <span>{__("c_total_carbohydrate")}</span>
           <span>{total_carb}</span>
+          <span></span>
           <span>{total_carb_perc}%</span>
         </div>
         <div className="value">
           <span>{__("c_sugars")}</span>
-          <span>{sugars}g</span>
+          <span>{sugars}</span>
+          <span>g</span>
           <span>{sugars_perc}%</span>
         </div>
         <div className="value">
           <span>{__("c_protein")}</span>
-          <span>{protein}g</span>
+          <span>{protein}</span>
+          <span>g</span>
           <span>{protein_perc}%</span>
         </div>
       </div>
@@ -127,10 +133,18 @@ export const Nutrition = styled(Nutrition_)`
           width: 100px;
           text-align: left;
         }
-        &:nth-child(2),
-        &:nth-child(3) {
+        &:nth-child(2) {
           width: 50px;
           text-align: right;
+        }
+        &:nth-child(4) {
+          width: 30px;
+          text-align: right;
+        }
+        &:nth-child(3) {
+          margin-left: 5px;
+          width: 20px;
+          text-align: left;
         }
       }
     }
