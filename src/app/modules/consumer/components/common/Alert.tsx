@@ -82,7 +82,9 @@ const AlertWrap = styled.div`
   }
   &.${AlertTypes.LoadingDataQr} {
     img.type-img {
-      margin: 0;
+      width: 200px;
+      height: 200px;
+      margin-bottom: 40px;
     }
   }
   &.${AlertTypes.NeedPayment} {
