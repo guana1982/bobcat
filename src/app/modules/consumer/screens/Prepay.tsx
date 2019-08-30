@@ -226,7 +226,7 @@ export const Prepay = (props: PrepayProps) => {
           type: AlertTypes.LoadingDataQr,
           timeout: false,
           lock: true,
-          img: "animation/Loading_withBgCircle.gif",
+          img: `animation/Loading_withBgCircle.gif?x=${Math.random()}`,
           backgroung: "img/fruits-bg.webp"
         });
         timeoutDataFromServer_.current = setTimeout(() => {
