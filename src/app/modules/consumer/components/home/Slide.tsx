@@ -321,7 +321,7 @@ export const Slide = (props: SlideProps) => {
             <ToggleSlide
               id="slide-toogle"
               hidden={disabled}
-              disabled={slideToggleDisabled.current}
+              disabled={disabled || slideToggleDisabled.current}
               onClick={() => toggleAction()}>
               <img src={"icons/arrow-circle.png"} />
             </ToggleSlide>
