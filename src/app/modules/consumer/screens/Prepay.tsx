@@ -40,6 +40,11 @@ export const PrepayContent = styled.div`
       box-shadow: 0px 19px 31px -4px rgba(0,0,0,0.1);
     }
     .target { }
+    .black {
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
   }
   #Bottle-QR {
     position: absolute;
@@ -284,8 +289,11 @@ export const Prepay = (props: PrepayProps) => {
       <PrepayContent>
         <CloseBtn detectValue={"prepay_close"} icon={"close"} onClick={() => goToHome()} />
         <div id="Webcam">
-        {(!webcamReady && showAnimation) &&
-          <img className="loader" src={`animation/qr_loader.gif?x=${Math.random()}`} />
+        {!webcamReady &&
+          ( showAnimation
+            ? <img className="loader" src={`animation/qr_loader.gif?x=${Math.random()}`} />
+            : <div className="black" />
+          )
         }
         </div>
         <img id="Bottle-QR" src={"img/bottle-qr.svg"} />
