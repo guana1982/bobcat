@@ -147,7 +147,7 @@ export const SlideStyled = styled.div`
     width: 100px;
     height: 111%;
     /* background-image: ${props => props.disabled ? null : " url(img/slider-bg.webp)"}; */
-    background-image: url("img/drawer.webp");
+    background-image: url("img/drawer/drawer.webp");
     /* background-size: 1387px; */
     background-repeat: no-repeat;
     &.disabled {
@@ -323,7 +323,7 @@ export const Slide = (props: SlideProps) => {
               hidden={disabled}
               disabled={disabled || slideToggleDisabled.current}
               onClick={() => toggleAction()}>
-              <img src={"icons/arrow-circle.png"} />
+              <img src={"icons/arrow-circle.webp"} />
             </ToggleSlide>
           </motion.div>
         </SlideStyled>

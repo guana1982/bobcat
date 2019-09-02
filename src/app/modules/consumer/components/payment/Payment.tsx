@@ -83,7 +83,7 @@ export const Payment = (props: PaymentProps) => {
     return (
       <PaymentWrap>
         <div className="icon">
-          <img src={"img/static-loading-icon.png"} />
+          <img src={"img/alerts/static-loading-icon.webp"} />
         </div>
         <div className="textBox">
           <span className="title">{__("c_loading_preferences")}</span>

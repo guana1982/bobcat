@@ -146,7 +146,7 @@ export const Prepay = (props: PrepayProps) => {
         } else if (val === StatusTimer.TimerNear) {
           alertConsumer.show({
             type: AlertTypes.ErrorQrNotFound,
-            img: "img/qr-code-not-recognized.svg",
+            img: "img/alerts/qr-code-not-recognized.svg",
             subTitle: true,
             timeout: 3500,
             onDismiss: () => {}
@@ -219,7 +219,7 @@ export const Prepay = (props: PrepayProps) => {
       } else if (status === IdentificationConsumerStatus.ErrorQr) {
         alertConsumer.show({
           type: AlertTypes.ErrorQrNotValid,
-          img: "img/qr-code-not-recognized.svg",
+          img: "img/alerts/qr-code-not-recognized.svg",
           subTitle: true,
           timeout: 3500,
           onDismiss: () => {
@@ -231,13 +231,13 @@ export const Prepay = (props: PrepayProps) => {
           type: AlertTypes.LoadingDataQr,
           timeout: false,
           lock: true,
-          img: "img/static-loading-icon.png",
+          img: "img/alerts/static-loading-icon.webp",
           backgroung: "img/fruits-bg.webp"
         });
         timeoutDataFromServer_.current = setTimeout(() => {
           alertConsumer.show({
             type: !paymentModeEnabled ? AlertTypes.ErrorLoadingQr : AlertTypes.ErrorLoadingQrPayment,
-            img: "img/cannot-connect-to-cloud.svg",
+            img: "img/alerts/cannot-connect-to-cloud.svg",
             subTitle: true,
             timeout: 3500,
             onDismiss: () => {
@@ -251,7 +251,7 @@ export const Prepay = (props: PrepayProps) => {
       }  else if (status === IdentificationConsumerStatus.NotAssociatedBottle) {
         alertConsumer.show({
           type: AlertTypes.ErrorUnassociatedBottle,
-          img: "img/qr-code-not-associated-with-account.png",
+          img: "img/alerts/qr-code-not-associated-with-account.webp",
           subTitle: true,
           timeout: 3500,
           onDismiss: () => {

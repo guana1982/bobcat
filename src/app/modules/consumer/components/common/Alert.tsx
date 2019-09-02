@@ -267,9 +267,9 @@ export const Alert = (props: AlertProps) => {
           <MessageInfo />
           <img id="Icon-Left" src={"icons/left.svg"} />
           <img id="Icon-CreditCard" src={"icons/credit-card.svg"} />
-          <img id="Icon-ApplePay" src={"icons/apple-pay.png"} />
+          <img id="Icon-ApplePay" src={"icons/apple-pay.webp"} />
           <img id="Icon-AndroidPay" src={"icons/android-pay.svg"} />
-          <img id="Icon-SamsungPay" src={"icons/samsung-pay.png"} />
+          <img id="Icon-SamsungPay" src={"icons/samsung-pay.webp"} />
         </div>
       }
     </AlertWrap>
