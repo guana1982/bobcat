@@ -229,7 +229,7 @@ export const Home = (props: HomeProps) => {
   const showAlarmWebcam = () => {
     alertConsumer.show({
       type: AlertTypes.ErrorWebcam,
-      img: "img/wrench.png",
+      img: "img/alerts/wrench.webp",
       subTitle: true,
       timeout: true,
       onDismiss: () => console.log("Close showAlarmWebcam")
@@ -254,7 +254,7 @@ export const Home = (props: HomeProps) => {
     setDisabled(true);
     alertConsumer.show({
       type: AlertTypes.NeedPayment,
-      img: "img/pay.svg",
+      img: "img/alerts/pay.svg",
       timeout: false,
       transparent: true,
       onDismiss: () => {
@@ -298,7 +298,7 @@ export const Home = (props: HomeProps) => {
       if (alarmPayment_) {
         alertConsumer.show({
           type: AlertTypes.ErrorPaymentDown,
-          img: "img/payment_system_down.png",
+          img: "img/alerts/payment_system_down.webp",
           subTitle: true,
           timeout: true,
           onDismiss: () => {}
@@ -370,7 +370,7 @@ export const Home = (props: HomeProps) => {
       if (alarmPayment_) {
         alertConsumer.show({
           type: AlertTypes.ErrorPaymentDown,
-          img: "img/payment_system_down.png",
+          img: "img/alerts/payment_system_down.webp",
           subTitle: true,
           timeout: true,
           onDismiss: () => {}
@@ -576,7 +576,7 @@ export const Home = (props: HomeProps) => {
       if (alarmPayment_) {
         alertConsumer.show({
           type: AlertTypes.ErrorPaymentDown,
-          img: "img/payment_system_down.png",
+          img: "img/alerts/payment_system_down.webp",
           subTitle: true,
           timeout: true,
           onDismiss: () => {}
@@ -644,7 +644,7 @@ export const Home = (props: HomeProps) => {
         if (alarmPayment_) {
           alertConsumer.show({
             type: AlertTypes.ErrorPaymentDown,
-            img: "img/payment_system_down.png",
+            img: "img/alerts/payment_system_down.webp",
             subTitle: true,
             timeout: true,
             onDismiss: () => {}
