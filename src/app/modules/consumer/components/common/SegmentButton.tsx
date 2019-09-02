@@ -24,14 +24,14 @@ export const SegmentButtonWrapper = styled.div`
   display: -ms-inline-flexbox;
   display: inline-flex;
   vertical-align: middle;
-  height: 55px;
+  height: 50px;
   /* margin-top: 8px; */
   background: #f5f5f5;
   background-clip: padding-box;
   border-radius: 50px;
-  border: 20px solid transparent;
+  border: 16px solid transparent;
   box-sizing: content-box;
-  padding: 5px;
+  padding: 4px;
   box-shadow: inset 0 0 8px 1px rgba(0, 0, 0, 0.1);
   button {
     position: relative;
