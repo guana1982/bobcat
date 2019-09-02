@@ -20,15 +20,13 @@ const BeverageLogo = (props) => {
   const { beverage, size } = props;
 
   let logo_id = beverage.beverage_logo_id;
-  if (logo_id === 10) {
-    logo_id = "9@sparkling";
-  } else if (logo_id === 11) {
+  if (logo_id === 11) {
     logo_id = "9";
   }
 
   return (
     <img
-      src={logo_id === "0" ? `img/still_water_big 2.wepb` : `img/logos/${logo_id}.webp`}
+      src={logo_id === "0" ? `img/still_water_big 2.wepb` : `img/logos/${logo_id}/logo.webp`}
       {...SIZES[!size ? "default" : size]}
     />
   );

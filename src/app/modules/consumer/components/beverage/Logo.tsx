@@ -14,8 +14,8 @@ interface LogoProps {
 export const Logo_ = (props: LogoProps) => {
   const { className, logoId, types, $sparkling } = props;
 
-  const logo = (types && types[0] === BeverageTypes.Info) ? `icons/${logoId}.webp` : `img/logos/${logoId}.webp`;
-  const logoSparkling = (types && types[0] === BeverageTypes.Info) ? null : `img/logos/${logoId}@sparkling.webp`;
+  const logo = (types && types[0] === BeverageTypes.Info) ? `icons/${logoId}.webp` : `img/logos/${logoId}/logo.webp`;
+  const logoSparkling = (types && types[0] === BeverageTypes.Info) ? null : `img/logos/${logoId}/logo-sparkling.webp`;
 
   const sparkling_ = (types && types[0] === BeverageTypes.Sparkling) || $sparkling; // <= CONDITION
 

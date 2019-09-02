@@ -74,7 +74,9 @@ const StyleLogoBeverage: any = {
   top: "50%",
   left: "50%",
   zIndex: 99,
-  willChange: "transform"
+  willChange: "transform",
+  height: "660px",
+  width: "660px"
 };
 
 /* ==== CARDS ==== */
@@ -357,7 +359,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           transition={{ ease: "easeOut", delay: 0.1, duration: 0.8 }}
           animate={props.showCardsInfo ? "zoom" : "normal"}
           variants={AnimationLogoBeverage}
-          src={`img/logos/${beverageSelected.beverage_logo_id}${isSparkling ? "@sparkling" : ""}.webp`}
+          src={`img/logos/${beverageSelected.beverage_logo_id}/${isSparkling ? "logo-sparkling@2x" : "logo@2x"}.webp`}
         />
 
         {!props.showCardsInfo &&
