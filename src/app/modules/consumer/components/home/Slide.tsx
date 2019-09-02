@@ -162,7 +162,7 @@ export const SlideStyled = styled.div`
     bottom: 6rem;
     right: 0;
     font-size: 16px;
-    font-family: NeuzeitGro-Bol;
+    font-family: NeuzeitGro-Reg;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;

@@ -290,7 +290,7 @@ export const Beverage = memo((props: BeverageProps) => {
           {(!($blur || $info) && !zoomNutrition) &&
             <ClickNHold
               time={0.5}
-              onStart={start}
+              onStart={!nutritionFacts ? start : {}}
               onClickNHold={clickHold}
               onEnd={end}
               // beverage
@@ -298,7 +298,7 @@ export const Beverage = memo((props: BeverageProps) => {
               <motion.div
                 initial={{scale: 1}}
                 animate={longPress ? { scale: .97 } : { scale: 1 }}
-                transition={{ duration: .5 }}>
+                transition={{duration: .5}}>
                 <BeverageWrap longPress={longPress} enableOpacity={$outOfStock} show={true} color={color}>
                   <motion.div
                     initial={{boxShadow: "0px 19px 31px -4px rgba(0,0,0,0.1)"}}
@@ -307,7 +307,7 @@ export const Beverage = memo((props: BeverageProps) => {
                         ? {boxShadow: "0px 4px 8px 0px rgba(0,0,0,0.1)"}
                         : {boxShadow: "0px 19px 31px -4px rgba(0,0,0,0.1)"}
                     }
-                    transition={{ duration: .5 }}
+                    transition={{duration: .5}}
                   />
                   <button id={detectValue} disabled={disabledButton} ref={buttonEl}>
                     <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />

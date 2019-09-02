@@ -102,7 +102,7 @@ const AlertWrap = styled.div`
       display: none;
     }
     #message-status {
-      font-family: NeuzeitGro-Bol;
+      font-family: NeuzeitGro-Reg;
       text-transform: uppercase;
       position: fixed;
       font-size: 16px;
