@@ -7,7 +7,6 @@ export enum AlertTypes {
   LoadingDataQr = "c_loading_data_qr",
 
   OutOfStock = "c_out_of_stock",
-  OutOfSoda = "c_out_of_soda",
   ErogationLimit = "c_erogation_limit",
   OutOfOrder = "c_out_of_order",
 

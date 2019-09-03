@@ -189,23 +189,6 @@ export const AlertFull = (props: AlertFullProps) => {
   const {show, options} = alertConsumer.state;
   const {type, onDismiss, timeout, transparent, onConfirm, subTitle, lock, img} = options;
 
-  //  ==== ACCESSIBILITY FUNCTION ====>
-  const accessibilityConsumer = React.useContext(AccessibilityContext);
-  const { changeStateLayout, enter } = accessibilityConsumer;
-
-  React.useEffect(() => {
-    changeStateLayout({
-      alertShow: show
-    });
-  }, [show]);
-
-  // React.useEffect(() => {
-  //   if (enter && show) {
-  //     onDismiss_();
-  //   }
-  // }, [enter, show]);
-  //  <=== ACCESSIBILITY FUNCTION ====
-
   const onConfirm_ = () => {
     onConfirm();
     alertConsumer.hide();
@@ -248,6 +231,23 @@ export interface AlertProps {
 
 export const Alert = (props: AlertProps) => {
   const {type, onDismiss, timeout, transparent, onConfirm, subTitle, lock, img, backgroung} = props.options;
+
+    //  ==== ACCESSIBILITY FUNCTION ====>
+    const accessibilityConsumer = React.useContext(AccessibilityContext);
+    const { changeStateLayout } = accessibilityConsumer;
+
+    React.useEffect(() => {
+      changeStateLayout({
+        alertShow: true
+      });
+      return () => {
+        changeStateLayout({
+          alertShow: false
+        });
+      };
+    }, []);
+
+    //  <=== ACCESSIBILITY FUNCTION ====
 
   React.useEffect(() => {
     if (timeout) {

@@ -241,7 +241,7 @@ export const GlobalStyle = createGlobalStyle`
   }
   body.accessibility-enable {
     button:focus {
-      box-shadow: 0 0 0 6px #2b9cda;
+      box-shadow: 0 0 0 6px #2b9cda !important;
     }
   }
 `;

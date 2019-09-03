@@ -58,7 +58,8 @@ export const HomeContent = styled.section`
     #logout-btn {
       z-index: 5;
       /* transition-delay: 400ms; */
-      right: -22px;
+      width: 48px;
+      right: 7px;
       #icon {
         /* transition-delay: 400ms; */
         margin-left: 5px;
@@ -177,22 +178,10 @@ export const Home = (props: HomeProps) => {
     timer_.current = timerBoot$(vendorConfig.timer_home)
     .subscribe(
       val => {
-        console.log("=== startTimer_ ===");
-        console.log({val});
-        console.log("=== startTimer_ ===");
         if (val === StatusTimer.TimerActive || val === StatusTimer.TimerInactive) {
           const event_ = () => consumerConsumer.resetConsumer();
           alertIsLogged(event_);
         }
-        // else if (val === StatusTimer.TimerActive) {
-        //   const event_ = () => {
-        //     consumerConsumer.resetConsumer(true);
-        //     handleType(false);
-        //     setNutritionFacts(false);
-        //     resetBeverage();
-        //   };
-        //   alertIsLogged(event_);
-        // }
       }
     );
   };
@@ -524,6 +513,7 @@ export const Home = (props: HomeProps) => {
 
     return () => {
       if (endSession === StatusEndSession.Start) {
+        setSlideOpen(false);
         handleType(false);
         resetTimerEnd_();
         mediumLevel.product.sessionEnded().subscribe();
@@ -568,7 +558,15 @@ export const Home = (props: HomeProps) => {
   const fullModeCondition_ = lengthConsumerBeverages === MAX_CONSUMER_BEVERAGE;
   const fullMode = fullModeCondition_ || alarmConnectivity_;
 
-  const [slideOpen, setSlideOpen] = React.useState(fullModeCondition_);
+  const [slideOpen, setSlideOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    if (fullModeCondition_) {
+      setTimeout(() => {
+        handleSlide();
+      }, 500);
+    }
+  }, [fullModeCondition_]);
 
   const selectConsumerBeverage = (consumerBeverage: IConsumerBeverage) => {
     const needToPay_ = needToPay(consumerBeverage.$beverage);
@@ -619,7 +617,6 @@ export const Home = (props: HomeProps) => {
   };
 
   const stopConsumerPour = (consumerBeverage?: IConsumerBeverage) => {
-    // resetBeverage();
     stopPour();
   };
 

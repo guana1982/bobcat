@@ -58,6 +58,8 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
   const [pour, setPour] = React.useState<boolean>(null);
   const [enter, setEnter] = React.useState<boolean>(null);
 
+  const [pauseKeyDown, setPauseKeyDown] = React.useState<boolean>(false);
+
   //  ==== DETECT CHANGE DOM ====
   //  ================================
 
@@ -91,17 +93,12 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
   //  ==== ALERT CASE ====
   const { alertShow } = stateLayout;
   React.useEffect(() => {
-    console.log({alertShow});
     if (alertShow) {
-      // setDown(false);
-      // setEnable(false);
-      // setPour(false);
-      // setStop(true);
+      const confirmBtn = getSpecificButton("confirm-btn");
       const buttonClose = getSpecificButton(`alert_close`);
       const buttons = detectButtons();
-      focusElement(buttonClose || buttons[0]);
+      focusElement(confirmBtn || buttonClose || buttons[0]);
     } else {
-      // setStop(false);
       const buttons = detectButtons();
       focusElement(buttons[0]);
     }
@@ -159,12 +156,17 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
       document.removeEventListener("keypress", onKeyDown);
       document.removeEventListener("touchend", onTouchEnd);
     };
-  }, [down, enable, stop, props.location.pathname]);
+  }, [down, enable, stop, props.location.pathname, stateLayout, pauseKeyDown]);
 
   //  ==== EVENTS FUNCTION ====
   //  ================================
 
   const onKeyDown = (evt: KeyboardEvent) => {
+
+    if (pauseKeyDown) {
+      return;
+    }
+
     this.evt = evt;
     const event = KeyMapping[evt.keyCode];
     const direction = Direction[event];
@@ -338,6 +340,7 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
   }
 
   const detectButtons = React.useCallback(() => {
+    console.log({ stateLayout });
     let buttons = Array.from(document.getElementsByTagName("button"));
 
     // === FILTER BUTTONS ===
@@ -365,7 +368,7 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
       // === SLIDE OPEN CASE ==>
       if (!stateLayout.beverageSelected && stateLayout.endSession !== StatusEndSession.Start) {
         if (stateLayout.slideOpen === true) {
-          return idValues[0] === "slide";
+          return idValues[0] === "slide" || idValues[0] === "logout";
         } else if (stateLayout.slideOpen === false) {
           if (stateLayout.fullMode) {
             return !(idValues[0] === "slide" && idValues[1] === "beverage");
@@ -402,6 +405,12 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
     //   });
     // }
 
+    // === ALERT CLOSE / FULL SCREEN ===
+    const buttonCloseAlert = buttons.filter(button => button.id === "alert_close")[0];
+    if (buttonCloseAlert) {
+      return [buttonCloseAlert];
+    }
+
     return buttons;
   }, [stateLayout]);
 
@@ -427,12 +436,7 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
       console.log("Focus: ", "Not element available");
   }
 
-  // function focusRemove() {
-  //   const activeElementDomument: any = buttonFocused();
-  //   if (activeElementDomument !== document.body) activeElementDomument.blur();
-  // }
-
-  return { pour, enter, changeStateLayout };
+  return { pour, enter, changeStateLayout, setPauseKeyDown };
 });
 
 export const AccessibilityProvider = withRouter(AccessibilityContainer.Provider);

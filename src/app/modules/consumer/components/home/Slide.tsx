@@ -1,7 +1,7 @@
 import * as React from "react";
 import { __ } from "@utils/lib/i18n";
 import styled, { css } from "styled-components";
-import { ConsumerContext, PaymentContext } from "@core/containers";
+import { ConsumerContext, PaymentContext, AccessibilityContext } from "@core/containers";
 
 import { BeveragesAnimated, BeverageTypes, Beverage, BeveragesTransition } from "../beverage/Beverage";
 import { Footer } from "../common/Footer";
@@ -36,7 +36,7 @@ const AnimationSlider = {
     translateX: "-951px",
   },
   open: {
-    translateX: "-41px",
+    translateX: "-51px",
   }
 };
 
@@ -84,7 +84,7 @@ const HeaderSlide = styled.div`
     visibility: hidden;
   }
   &.open {
-    width: 98vw;
+    width: 96vw;
     h2 {
       max-width: 500px;
       display: block;
@@ -235,11 +235,18 @@ export const Slide = (props: SlideProps) => {
   const { promotionEnabled } = paymentConsumer;
   const slideToggleDisabled = React.useRef(false);
 
+  const accessibilityConsumer = React.useContext(AccessibilityContext);
+  const { setPauseKeyDown } = accessibilityConsumer;
+
   const toggleAction = () => {
     handleSlide();
     const btn = document.getElementById("slide-toogle");
     btn.setAttribute("style", "pointer-events: none");
-    setTimeout(() => btn.setAttribute("style", "pointer-events: initial"), 500);
+    setPauseKeyDown(true);
+    setTimeout(() => {
+      btn.setAttribute("style", "pointer-events: initial")
+      setPauseKeyDown(false);
+    }, 500);
   };
 
 
