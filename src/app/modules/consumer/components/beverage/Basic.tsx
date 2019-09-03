@@ -31,7 +31,7 @@ export const Basic_ = (props: BasicProps) => {
 
   const sparkling_ = (types && types[0] === BeverageTypes.Sparkling) || $sparkling; // <= CONDITION
 
-  const { getPriceBeverage, paymentModeEnabled, promotionEnabled } = props.paymentConsumer;
+  const { displayPriceBeverage, paymentModeEnabled, promotionEnabled } = props.paymentConsumer;
 
   return (
     <div className={className}>
@@ -65,7 +65,7 @@ export const Basic_ = (props: BasicProps) => {
         <span id="cal">{calories} {__("c_cal")}.</span>
         {paymentModeEnabled &&
           <span id="price" className={promotionEnabled ? "promotion-enabled" : null}>
-            {getPriceBeverage(beverage.$price)}
+            {displayPriceBeverage(beverage.$price)}
           </span>
         }
     </div>

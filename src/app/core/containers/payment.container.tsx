@@ -2,7 +2,7 @@ import * as React from "react";
 import createUseContext from "constate";
 import { ConfigContext, ConsumerContext } from ".";
 import { __ } from "@core/utils/lib/i18n";
-import { SOCKET_PAYMENT, Pages } from "@core/utils/constants";
+import { SOCKET_PAYMENT, Pages, parsePriceBeverage } from "@core/utils/constants";
 import { map, tap } from "rxjs/operators";
 import { Subject, BehaviorSubject } from "rxjs";
 import { IBeverage } from "@core/models";
@@ -126,16 +126,8 @@ const PaymentContainer = createUseContext((props: any) => {
     statusPayment_.current = PaymentStatus.NotAuthorized;
   }
 
-  function getPriceBeverage(value: number, full?: boolean) {
-    if (value === 0) {
-      return __("c_free");
-    }
-    let result_ = "";
-    if (value < 100 && currency === "USD") {
-      result_ = `${String(value / 100).replace(/^0\.+/, "")}${__("c_cent")}`;
-    } else {
-      result_ = `${value / 100}${__(`c_${currency}`)}`;
-    }
+  function displayPriceBeverage(value: number, full?: boolean) {
+    const result_ = parsePriceBeverage(value, currency);
 
     return (
       <>
@@ -169,7 +161,7 @@ const PaymentContainer = createUseContext((props: any) => {
     paymentModeEnabled,
     promotionEnabled,
     currency,
-    getPriceBeverage,
+    displayPriceBeverage,
     needToPay,
     canPour,
     statusPayment_,

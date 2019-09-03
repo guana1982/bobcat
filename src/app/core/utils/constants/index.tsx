@@ -1,3 +1,5 @@
+import { __ } from "../lib/i18n";
+
 // -- PAGES --
 export enum Pages {
   // -- CONSUMER --
@@ -35,6 +37,23 @@ export function debounce(func, wait, immediate?) {
     if (callNow) func.apply(context, args);
   };
 }
+
+
+/* ==== PRICE PARSER ==== */
+/* ======================================== */
+export const parsePriceBeverage = (value: number, currency: string) => {
+  if (value === 0) {
+    return __("c_free");
+  }
+  let result_ = "";
+  if (value < 100 && currency === "USD") {
+    result_ = `${String(value / 100).replace(/^0\.+/, "")}${__("c_cent")}`;
+  } else {
+    result_ = `${value / 100}${__(`c_${currency}`)}`;
+  }
+
+  return result_;
+};
 
 // -- BEVERAGE --
 export enum Beverages {
