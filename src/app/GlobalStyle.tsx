@@ -64,9 +64,9 @@ export const GlobalStyle = createGlobalStyle`
       url("img/phone-qr.svg")
       url("img/bottle-qr.svg")
       url("img/scan-qr-code-tip.svg")
+      url("img/out-of-order.svg")
 
       url("img/alerts/cannot-connect-to-cloud.svg")
-      url("img/alerts/out-of-order.svg")
       url("img/alerts/pay.svg")
       url("img/alerts/qr-code-not-recognized.svg")
       url("img/alerts/static-loading-icon.webp")
