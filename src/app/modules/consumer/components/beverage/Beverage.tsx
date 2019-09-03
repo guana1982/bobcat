@@ -19,6 +19,7 @@ import { CloseBtnWrap, CloseBtn } from "../common/CloseBtn";
 import ClickNHold from "../common/ClickNHold";
 import { PourFrom } from "@core/models/vendor.model";
 import { motion } from "framer-motion";
+import { areEqual } from "@core/utils/constants";
 
 export enum BeverageTypes {
   Info = "info",
@@ -137,10 +138,6 @@ interface BeverageProps {
   levels?: ILevelsModel;
   slideOpen?: boolean;
   handleDisabled: (d) => void;
-}
-
-function areEqual(prevProps, nextProps) {
-  return JSON.stringify(prevProps) === JSON.stringify(nextProps);
 }
 
 export const Beverage = memo((props: BeverageProps) => {

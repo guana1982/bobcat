@@ -12,12 +12,16 @@ import { SegmentButtonProps, SegmentButton } from "../common/SegmentButton";
 import { Button } from "../common/Button";
 import { ButtonGroup } from "../common/ButtonGroup";
 import ClickNHold from "../common/ClickNHold";
-import { Beverages, debounce } from "@core/utils/constants";
+import { Beverages, debounce, areEqual } from "@core/utils/constants";
 import { Alert } from "../common/Alert";
 import { MessageInfo } from "../common/MessageInfo";
 import { ReplaySubscription } from "../common/Subscription";
 import { motion } from "framer-motion";
 import { IPourConfig, PourFrom } from "@core/models/vendor.model";
+import { memo } from "react";
+
+/* ==== POUR BUTTON ==== */
+/* ======================================== */
 
 export const Pour = styled.button`
   position: absolute;
@@ -51,7 +55,82 @@ export const Pour = styled.button`
     border-radius: 200px 200px 0 0;
     box-shadow: 20px -25px 34px -14px rgba(51, 56, 73, 0.08), 5px 2px 10px 0 rgba(190, 190, 190, 0.22);
   }
+  &.pouring {
+    opacity: .7;
+    &::before {
+      opacity: .3;
+    }
+  }
 `;
+
+const PourBtn = (props) => {
+
+  const { startPour, stopPour, beverageSelected } = props;
+
+  //  ==== ACCESSIBILITY FUNCTION ====>
+  const buttonPourEl = React.useRef(null);
+  const accessibilityConsumer = React.useContext(AccessibilityContext);
+  const configConsumer = React.useContext(ConfigContext);
+  const paymentConsumer = React.useContext(PaymentContext);
+  const { pour, enter } = accessibilityConsumer;
+
+  const { isPouring, statusAlarms } = configConsumer;
+  const { socketPayment$, needToPay, promotionEnabled } = paymentConsumer;
+
+  React.useEffect(() => {
+    if (!(buttonPourEl.current && buttonPourEl.current.node)) {
+      return;
+    }
+    const button = buttonPourEl.current.node;
+    const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
+    if (!isFocus) {
+      return;
+    }
+    if (enter === true) {
+      startPour({ params: {}, from: PourFrom.Ada });
+    } else if (enter === false) {
+      stopPour();
+    }
+  }, [buttonPourEl, enter]);
+
+  React.useEffect(() => {
+    if (pour === true) {
+      startPour({ params: {}, from: PourFrom.Ada });
+    } else if (pour === false) {
+      stopPour();
+    }
+  }, [pour]);
+  //  <=== ACCESSIBILITY FUNCTION ====
+
+  return (
+    <ReplaySubscription source={socketPayment$.current}>
+      {(status: PaymentStatus) => {
+        if ((status in PaymentStatusPour || !needToPay(beverageSelected)) || promotionEnabled)
+          return(
+            <ClickNHold
+              time={0.250}
+              onStart={() => {}}
+              onClickNHold={() => startPour({ params: {}, from: PourFrom.Touch })}
+              onEnd={(e, enough) => enough && stopPour()}
+              className="pour-btn"
+              ref={buttonPourEl}
+            >
+              <Pour
+                color={beverageSelected.beverage_font_color}
+                className={isPouring ? "pouring" : ""}
+              >
+                {__("c_pour")}
+              </Pour>
+            </ClickNHold>
+          );
+
+        return (
+          <MessageInfo />
+        );
+      }}
+    </ReplaySubscription>
+  );
+};
 
 /* ==== LOGO ==== */
 /* ======================================== */
@@ -78,6 +157,26 @@ const StyleLogoBeverage: any = {
   height: "660px",
   width: "660px"
 };
+
+interface LogoBeverageProps {
+  show: boolean;
+  isSparkling: boolean;
+  beverage_logo_id: any;
+}
+
+const LogoBeverage = memo((props: LogoBeverageProps) => {
+  const { show, beverage_logo_id, isSparkling } = props;
+  return (
+    <motion.img
+      style={StyleLogoBeverage}
+      initial={"normal"}
+      transition={{ ease: "easeOut", delay: 0.1, duration: 0.8 }}
+      animate={show ? "zoom" : "normal"}
+      variants={AnimationLogoBeverage}
+      src={`img/logos/${beverage_logo_id}/${isSparkling ? "logo-sparkling@2x" : "logo@2x"}.webp`}
+    />
+  );
+}, areEqual);
 
 /* ==== CARDS ==== */
 /* ======================================== */
@@ -220,14 +319,6 @@ export const CustomizeBeverageWrap = styled.section`
     right: 10px;
     bottom: 10px;
   }
-  &.pouring {
-    ${Pour} {
-      opacity: .7;
-      &::before {
-        opacity: .3;
-      }
-    }
-  }
   #message-status {
     position: absolute;
     width: 100%;
@@ -269,42 +360,14 @@ interface CustomizeBeverageProps {
 export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   const { beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, beverageSelected, handleChange, endPourEvent, handleType } = props;
 
-  //  ==== ACCESSIBILITY FUNCTION ====>
-  const buttonPourEl = React.useRef(null);
-  const accessibilityConsumer = React.useContext(AccessibilityContext);
-  const configConsumer = React.useContext(ConfigContext);
+  //  ==== PAYMENT MODE ====>
   const paymentConsumer = React.useContext(PaymentContext);
-  const { pour, enter } = accessibilityConsumer;
-
-  const { isPouring, statusAlarms } = configConsumer;
-  const { getPriceBeverage, paymentModeEnabled, socketPayment$, needToPay, promotionEnabled } = paymentConsumer;
-
-  React.useEffect(() => {
-    if (!(buttonPourEl.current && buttonPourEl.current.node)) {
-      return;
-    }
-    const button = buttonPourEl.current.node;
-    const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
-    if (!isFocus) {
-      return;
-    }
-    if (enter === true) {
-      startPour({ params: {}, from: PourFrom.Ada });
-    } else if (enter === false) {
-      stopPour();
-    }
-  }, [buttonPourEl, enter]);
-
-  React.useEffect(() => {
-    if (pour === true) {
-      startPour({ params: {}, from: PourFrom.Ada });
-    } else if (pour === false) {
-      stopPour();
-    }
-  }, [pour]);
-  //  <=== ACCESSIBILITY FUNCTION ====
+  const { getPriceBeverage, paymentModeEnabled, promotionEnabled } = paymentConsumer;
+  //  <=== PAYMENT MODE ====
 
   //  ==== DISABLE SPARKLING ====>
+  const configConsumer = React.useContext(ConfigContext);
+  const { statusAlarms } = configConsumer;
   const disableSparkling_ = isSparkling && statusAlarms.alarmSparkling_;
   if (disableSparkling_) {
     return (
@@ -333,33 +396,31 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
 
   return(
     <React.Fragment>
-      <CustomizeBeverageWrap className={isPouring ? "pouring" : ""}>
-        {!props.showCardsInfo && <SegmentButton {...props.segmentButton} />}
+      <CustomizeBeverageWrap>
 
-        {!props.showCardsInfo ?
-          <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={resetBeverage} /> :
-          <Button detectValue="exit-btn" onClick={endPourEvent} text="Done" icon="log-out" />
+        {!props.showCardsInfo &&
+          <>
+            <SegmentButton {...props.segmentButton} />
+            <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={resetBeverage} />
+            <div id="backdrop" onClick={resetBeverage} />
+          </>
         }
 
-        {!props.showCardsInfo && <div id="backdrop" onClick={resetBeverage} />}
-
         {props.showCardsInfo &&
-          <React.Fragment>
+          <>
             {props.isLogged ?
               <CircleCard color={beverageSelected.beverage_font_color} /> :
               <PhoneCard color={beverageSelected.beverage_font_color} />
             }
             <NumberCard color={beverageSelected.beverage_font_color} />
-          </React.Fragment>
+            <Button detectValue="exit-btn" onClick={endPourEvent} text="Done" icon="log-out" />
+          </>
         }
 
-        <motion.img
-          style={StyleLogoBeverage}
-          initial={"normal"}
-          transition={{ ease: "easeOut", delay: 0.1, duration: 0.8 }}
-          animate={props.showCardsInfo ? "zoom" : "normal"}
-          variants={AnimationLogoBeverage}
-          src={`img/logos/${beverageSelected.beverage_logo_id}/${isSparkling ? "logo-sparkling@2x" : "logo@2x"}.webp`}
+        <LogoBeverage
+          show={props.showCardsInfo}
+          beverage_logo_id={beverageSelected.beverage_logo_id}
+          isSparkling={isSparkling}
         />
 
         {!props.showCardsInfo &&
@@ -417,33 +478,13 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
             </div>
           </CustomizeBeverageCard>
         }
-        <ReplaySubscription source={socketPayment$.current}>
-          {(status: PaymentStatus) => {
-            if ((status in PaymentStatusPour || !needToPay(beverageSelected)) || promotionEnabled)
-              return(
-                <ClickNHold
-                  time={0.250}
-                  onStart={() => {}}
-                  onClickNHold={() => startPour({ params: {}, from: PourFrom.Touch })}
-                  onEnd={(e, enough) => enough && stopPour()}
-                  className="pour-btn"
-                  ref={buttonPourEl}
-                >
-                  <Pour
-                    color={beverageSelected.beverage_font_color}
-                    // isPouring={isPouring}
-                    // ref={buttonPourEl}
-                  >
-                    {__("c_pour")}
-                  </Pour>
-                </ClickNHold>
-              );
 
-            return (
-              <MessageInfo />
-            );
-          }}
-        </ReplaySubscription>
+        <PourBtn
+          startPour={startPour}
+          stopPour={stopPour}
+          beverageSelected={beverageSelected}
+        />
+
       </CustomizeBeverageWrap>
     </React.Fragment>
   );
