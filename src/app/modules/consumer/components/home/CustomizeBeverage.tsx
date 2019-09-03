@@ -137,12 +137,10 @@ const PourBtn = (props) => {
 
 const AnimationLogoBeverage = {
   normal: {
-    translateX: "-50%",
     translateY:  "-75%",
     scale: 0.5
   },
   zoom: {
-    translateX: "-50%",
     translateY: "-60%",
     scale: 0.9
   }
@@ -152,6 +150,7 @@ const StyleLogoBeverage: any = {
   position: "absolute",
   top: "50%",
   left: "50%",
+  translateX: "-50%",
   zIndex: 99,
   willChange: "transform",
   height: "660px",
@@ -170,7 +169,7 @@ const LogoBeverage = memo((props: LogoBeverageProps) => {
     <motion.img
       style={StyleLogoBeverage}
       initial={"normal"}
-      transition={{ ease: "easeOut", delay: 0.1, duration: 0.8 }}
+      transition={{ ease: "easeOut", duration: 0.8 }}
       animate={show ? "zoom" : "normal"}
       variants={AnimationLogoBeverage}
       src={`img/logos/${beverage_logo_id}/${isSparkling ? "logo-sparkling@2x" : "logo@2x"}.webp`}
@@ -362,7 +361,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
 
   //  ==== PAYMENT MODE ====>
   const paymentConsumer = React.useContext(PaymentContext);
-  const { getPriceBeverage, paymentModeEnabled, promotionEnabled } = paymentConsumer;
+  const { displayPriceBeverage, paymentModeEnabled, promotionEnabled } = paymentConsumer;
   //  <=== PAYMENT MODE ====
 
   //  ==== DISABLE SPARKLING ====>
@@ -470,7 +469,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                       <span className="info">MAX</span> {"32oz"}
                     </div>
                     <div id="price" className={promotionEnabled ? "promotion-enabled" : null}>
-                      {getPriceBeverage(beverageSelected.$price, true)}
+                      {displayPriceBeverage(beverageSelected.$price, true)}
                     </div>
                   </div>
                 }
