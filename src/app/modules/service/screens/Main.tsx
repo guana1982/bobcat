@@ -245,6 +245,7 @@ export const NewMenu = (props: MenuProps) => {
                 <MButton onClick={() => openModal(Modals.Customize)}>CUSTOMIZE UI</MButton>
                 <MButton onClick={() => openModal(Modals.Sanitation)}>SANITATION</MButton>
                 {/* <MButton onClick={() => openModal(Modals.Customize, { selection: SelectionTypes.Payment })}>FREE / PAID</MButton> */}
+                <MButton onClick={() => openModal(Modals.ChangePrice)}>CHANGE PRICE</MButton>
               </>
             }
           </Group>
