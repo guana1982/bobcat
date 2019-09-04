@@ -4,6 +4,7 @@ import { Pages, debounce, MESSAGE_STOP_EROGATION } from "@core/utils/constants";
 import { withRouter } from "react-router-dom";
 import createUseContext from "constate";
 import { StatusEndSession } from "@modules/consumer/screens/Home";
+import { ConfigContext } from ".";
 
 export enum Action {
   BACK,
@@ -40,6 +41,9 @@ interface StateLayout {
 }
 
 const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
+
+  const configConsumer = React.useContext(ConfigContext);
+  const { alarmSuper_ } = configConsumer.statusAlarms;
 
   const [enable, setEnable] = React.useState<boolean>(false);
   const [stop, setStop] = React.useState<boolean>(false);
@@ -112,19 +116,22 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
 
   //  ==== SLIDE OPEN CASE ====
   React.useEffect(() => {
-    if (stateLayout.slideOpen) {
-      const buttons = detectButtons();
-      const favoriteBeverages_ = buttons.filter(button => button.id === "slide-beverage");
-      if (favoriteBeverages_.length === 1) {
-        focusElement(favoriteBeverages_[0]);
-      } else if (favoriteBeverages_.length > 1) {
-        focusElement(favoriteBeverages_[1]);
-      } else {
+    const toggleBtn_ = getSpecificButton("slide-toogle");
+    if (toggleBtn_) {
+      if (stateLayout.slideOpen === true) {
+        const buttons = detectButtons();
+        const favoriteBeverages_ = buttons.filter(button => button.id === "slide-beverage");
+        if (favoriteBeverages_.length === 1) {
+          focusElement(favoriteBeverages_[0]);
+        } else if (favoriteBeverages_.length > 1) {
+          focusElement(favoriteBeverages_[1]);
+        } else {
+          focusElement(buttons[0]);
+        }
+      } else if (stateLayout.slideOpen === false) {
+        const buttons = detectButtons();
         focusElement(buttons[0]);
       }
-    } else if (stateLayout.slideOpen === false) {
-      const buttons = detectButtons();
-      focusElement(buttons[0]);
     }
   }, [stateLayout.slideOpen]);
 
@@ -166,7 +173,7 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
       document.removeEventListener("keypress", onKeyDown);
       document.removeEventListener("touchend", onTouchEnd);
     };
-  }, [down, enable, stop, props.location.pathname, stateLayout, pauseKeyDown]);
+  }, [down, enable, stop, props.location.pathname, stateLayout, pauseKeyDown, alarmSuper_]);
 
   //  ==== EVENTS FUNCTION ====
   //  ================================
@@ -194,7 +201,7 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
     //  ==== INIT CONDITION ====
     if (pathname === Pages.Attractor) {
       setEnable(true);
-      props.history.push(Pages.Home);
+      props.history.push(!alarmSuper_ ? Pages.Home : Pages.OutOfOrder);
       return;
     }
 
@@ -336,8 +343,17 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
     const { slideOpen } = stateLayout;
     if (slideOpen) {
       const buttons = detectButtons();
-      focusElement(buttons.length > 2 ? buttons[1] : buttons[0]);
-      return;
+      const favoriteBeverages_ = buttons.filter(button => button.id === "slide-beverage");
+      if (favoriteBeverages_.length === 1) {
+        focusElement(favoriteBeverages_[0]);
+        return;
+      } else if (favoriteBeverages_.length > 1) {
+        focusElement(favoriteBeverages_[1]);
+        return;
+      } else {
+        focusElement(buttons[0]);
+        return;
+      }
     }
 
     // === HOME CASE ===
@@ -409,15 +425,21 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
 
     // === SLIDE CASE ===
     if (stateLayout.slideOpen === false) {
-      const favoriteBeverages_ = buttons.filter(button => button.id === "slide-beverage");
-      console.log("favoriteBeverages_.length", favoriteBeverages_.length);
-      if (stateLayout.nutritionFacts === true || favoriteBeverages_.length === 0) {
-        buttons.sort((a, b) => {
-          const c_ = (v) => Number(v.id.split("-")[0] === "slide");
-          return  c_(a) - c_(b);
-        });
-      } else if (stateLayout.nutritionFacts === false || favoriteBeverages_.length === 2) {
-        [buttons[0], buttons[1]] = [buttons[1], buttons[0]];
+      const toggleBtn_ = getSpecificButton("slide-toogle");
+      if (toggleBtn_) {
+        const favoriteBeverages_ = buttons.filter(button => button.id === "slide-beverage");
+        if (stateLayout.nutritionFacts === true || favoriteBeverages_.length === 0) {
+          const slideButtons = [], otherButtons = [];
+          buttons.forEach(button => {
+            if (button.id.split("-")[0] === "slide")
+              slideButtons.push(button);
+            else
+              otherButtons.push(button);
+          });
+          buttons = [...otherButtons, ...slideButtons];
+        } else if (favoriteBeverages_.length === 2) {
+          [buttons[0], buttons[1]] = [buttons[1], buttons[0]];
+        }
       }
     }
 
