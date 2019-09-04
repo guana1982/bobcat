@@ -114,7 +114,17 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
   React.useEffect(() => {
     if (stateLayout.slideOpen) {
       const buttons = detectButtons();
-      focusElement(buttons.length > 2 ? buttons[1] : buttons[0]);
+      const favoriteBeverages_ = buttons.filter(button => button.id === "slide-beverage");
+      if (favoriteBeverages_.length === 1) {
+        focusElement(favoriteBeverages_[0]);
+      } else if (favoriteBeverages_.length > 1) {
+        focusElement(favoriteBeverages_[1]);
+      } else {
+        focusElement(buttons[0]);
+      }
+    } else if (stateLayout.slideOpen === false) {
+      const buttons = detectButtons();
+      focusElement(buttons[0]);
     }
   }, [stateLayout.slideOpen]);
 
@@ -340,9 +350,9 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
   }
 
   const detectButtons = React.useCallback(() => {
-    console.log({ stateLayout });
-    let buttons = Array.from(document.getElementsByTagName("button"));
 
+    let buttons = Array.from(document.getElementsByTagName("button"));
+    console.log({ stateLayout, buttons });
     // === FILTER BUTTONS ===
     buttons = buttons.filter(button => {
 
@@ -397,13 +407,19 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
       buttons = [...pourButton, ...contentButtons, ...initButtons];
     }
 
-    // === SLIDE OPEN ===
-    // if (stateLayout.slideOpen === false) {
-    //   buttons.sort((a, b) => {
-    //     const c_ = (v) => Number(v.id.split("-")[0] === "slide");
-    //     return  c_(a) - c_(b);
-    //   });
-    // }
+    // === SLIDE CASE ===
+    if (stateLayout.slideOpen === false) {
+      const favoriteBeverages_ = buttons.filter(button => button.id === "slide-beverage");
+      console.log("favoriteBeverages_.length", favoriteBeverages_.length);
+      if (stateLayout.nutritionFacts === true || favoriteBeverages_.length === 0) {
+        buttons.sort((a, b) => {
+          const c_ = (v) => Number(v.id.split("-")[0] === "slide");
+          return  c_(a) - c_(b);
+        });
+      } else if (stateLayout.nutritionFacts === false || favoriteBeverages_.length === 2) {
+        [buttons[0], buttons[1]] = [buttons[1], buttons[0]];
+      }
+    }
 
     // === ALERT CLOSE / FULL SCREEN ===
     const buttonCloseAlert = buttons.filter(button => button.id === "alert_close")[0];
