@@ -340,7 +340,7 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
     }
 
     // === SLIDE OPEN CASE ===
-    const { slideOpen } = stateLayout;
+    const { slideOpen, fullMode } = stateLayout;
     if (slideOpen) {
       const buttons = detectButtons();
       const favoriteBeverages_ = buttons.filter(button => button.id === "slide-beverage");
@@ -352,6 +352,12 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
         return;
       } else {
         focusElement(buttons[0]);
+        return;
+      }
+    } else if (fullMode === true) {
+      const toggleBtn_ = getSpecificButton("slide-toogle");
+      if (toggleBtn_) {
+        toggleBtn_.click();
         return;
       }
     }
@@ -368,7 +374,7 @@ const AccessibilityContainer = createUseContext((props: AccessibilityState) => {
   const detectButtons = React.useCallback(() => {
 
     let buttons = Array.from(document.getElementsByTagName("button"));
-    console.log({ stateLayout, buttons });
+
     // === FILTER BUTTONS ===
     buttons = buttons.filter(button => {
 
