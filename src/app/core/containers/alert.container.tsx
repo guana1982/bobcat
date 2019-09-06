@@ -13,7 +13,9 @@ export enum AlertTypes {
   SignedOut = "c_signed_out",
   EndSession = "c_end_session",
 
-  NeedPayment = "c_tap_swipe_pour",
+  // NeedPayment = "c_tap_swipe_pour",
+  NeedPayment = "p_not-authorized",
+  AuthorizingPayment = "p_swiped",
   EndSparkling = "c_end_sparkling",
 
   ErrorLoadingQr = "c_error_loading_qr",
