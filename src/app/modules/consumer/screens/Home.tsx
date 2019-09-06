@@ -162,6 +162,7 @@ export const Home = (props: HomeProps) => {
   function alertIsLogged(event) {
     if (isLogged) {
       mediumLevel.product.sessionEnded().subscribe();
+      setSlideOpen(false);
       alertConsumer.show({
         type: AlertTypes.SignedOut,
         timeout: true,

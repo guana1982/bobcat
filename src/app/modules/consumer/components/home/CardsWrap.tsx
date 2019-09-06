@@ -40,6 +40,9 @@ const CardsWrap_ = (props: CardsWrapProps) => {
       coords = coordsSliderClose[indexFavoritePouring_];
   }
 
+  if (!coords)
+    return <></>;
+
   return (
     <div className={className}>
       {presentSlide ?
