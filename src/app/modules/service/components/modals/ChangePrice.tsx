@@ -7,10 +7,13 @@ import BeverageLogo from "@core/components/common/Logo";
 import { ServiceContext, ConfigContext } from "@core/containers";
 import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
 import mediumLevel from "@core/utils/lib/mediumLevel";
-import { parsePriceBeverage } from "@core/utils/constants";
+import { parsePriceBeverage, Beverages } from "@core/utils/constants";
 
 const ChangePriceContent = styled.div`
-
+  & > ${Box} {
+    overflow: auto;
+    max-height: 600px;
+  }
 `;
 
 const FlexBox = styled.div`
@@ -32,18 +35,13 @@ export const ChangePrice = (props: ChangePriceProps) => {
   const { cancel } = props;
 
   const [beverage, setBeverage] = React.useState(null);
-  const serviceConsumer = React.useContext(ServiceContext);
-  const { vendorConfig, setBeverages } = React.useContext(ConfigContext);
-
-  React.useEffect(() => {
-  }, []);
-
-  const { lines } = serviceConsumer;
+  const { lines } = React.useContext(ServiceContext);
+  const { vendorConfig, setBeverages, allBeverages } = React.useContext(ConfigContext);
 
   const updatePrice = (v: string) => {
-    mediumLevel.payment.setPrice(beverage.beverage_id, v, vendorConfig.currency).subscribe(
-      () => {},
-      () => {},
+    const { payment } = mediumLevel;
+    payment.setPrice(String(beverage.beverage_id), v, vendorConfig.currency)
+    .subscribe(
       () => setBeverages.subscribe()
     );
   };
@@ -59,25 +57,6 @@ export const ChangePrice = (props: ChangePriceProps) => {
       >
         <ChangePriceContent>
           <Box className="container">
-            <h3 id="title">flavor</h3>
-            <Box className="elements">
-              {lines.pumps.map((line, i) => {
-                if (!line.$beverage) return null;
-                return (
-                  <FlexBox key={i}>
-                    <MButton
-                      className="small"
-                      light
-                      info={`Line - ${line.line_id}`}
-                      onClick={() => setBeverage(line.$beverage)}
-                    >
-                      <BeverageLogo beverage={line.$beverage} size="tiny" />
-                    </MButton>
-                    <span>{parsePriceBeverage(line.$beverage.$price, vendorConfig.currency)}</span>
-                  </FlexBox>
-                );
-              })}
-            </Box>
             <h3 id="title">waters</h3>
             <Box className="elements">
               {lines.waters.map((line, i) => {
@@ -87,12 +66,31 @@ export const ChangePrice = (props: ChangePriceProps) => {
                     <MButton
                       className="small"
                       light
-                      info={`${line.$beverage.beverage_type} - ${line.line_id}`}
+                      info={`${line.$beverage.beverage_type}`}
                       onClick={() => setBeverage(line.$beverage)}
                     >
                       <BeverageLogo beverage={line.$beverage} size="tiny" />
                     </MButton>
-                    <span>{parsePriceBeverage(line.$beverage.$price, vendorConfig.currency)}</span>
+                    <b>{parsePriceBeverage(line.$beverage.$price, vendorConfig.currency)}</b>
+                  </FlexBox>
+                );
+              })}
+            </Box>
+            <h3 id="title">flavor</h3>
+            <Box className="elements">
+              {allBeverages.map((beverage, i) => {
+                if (beverage.beverage_type === Beverages.Bev)
+                return (
+                  <FlexBox key={i}>
+                    <MButton
+                      className="small"
+                      light
+                      info={`Id - ${beverage.beverage_id}`}
+                      onClick={() => setBeverage(beverage)}
+                    >
+                      <BeverageLogo beverage={beverage} size="tiny" />
+                    </MButton>
+                    <b>{parsePriceBeverage(beverage.$price, vendorConfig.currency)}</b>
                   </FlexBox>
                 );
               })}
@@ -101,20 +99,6 @@ export const ChangePrice = (props: ChangePriceProps) => {
         </ChangePriceContent>
       </Modal>
       {beverage !== null &&
-        // <Modal
-        //   show={true}
-        //   title="CHANGE PRICE"
-        //   actions={ACTIONS_CLOSE}
-        //   cancel={() => setModal(false)}
-        // >
-        //   <FlexBox>
-        //     <MInput value={price}/>
-        //     <MKeyboard inputName="field" onChangeAll={(v) => {
-          //       console.log(v);
-          //       setPrice(String(v.field));
-          //     }}/>
-          //   </FlexBox>
-          // </Modal>
         <ModalKeyboard
           title="CHANGE PRICE"
           type={ModalKeyboardTypes.Number}
