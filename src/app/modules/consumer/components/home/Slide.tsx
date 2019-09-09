@@ -116,6 +116,24 @@ const HeaderSlide = styled.div`
       height: 37px
     }
   }
+  #premium-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    /* width: 120px; */
+    img {
+      position: relative;
+      bottom: 3px;
+    }
+    span {
+      color: #b39850;
+      font-size: 14px;
+      margin-left: 6px;
+      line-height: 18px;
+      letter-spacing: 1.5px;
+    }
+  }
 `;
 
 /* disabled?: boolean */
@@ -244,7 +262,7 @@ export const Slide = (props: SlideProps) => {
     btn.setAttribute("style", "pointer-events: none");
     setPauseKeyDown(true);
     setTimeout(() => {
-      btn.setAttribute("style", "pointer-events: initial")
+      btn.setAttribute("style", "pointer-events: initial");
       setPauseKeyDown(false);
     }, 500);
   };
@@ -273,6 +291,10 @@ export const Slide = (props: SlideProps) => {
             <h2>
               <span>{__("c_welcome")}, {dataConsumer.consumer_nick}!</span>
               {promotionEnabled && <img id="gift" src="icons/gift.svg" />}
+              <div id="premium-label">
+                <img src="icons/subscription.svg" />
+                <span>PREMIUM</span>
+              </div>
             </h2>
           </HeaderSlide>
           {
