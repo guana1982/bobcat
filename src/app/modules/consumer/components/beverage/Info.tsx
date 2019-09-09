@@ -14,13 +14,13 @@ interface InfoProps {
 }
 
 export const Info_ = (props: InfoProps) => {
-  const { className, title, show } = props;
+  const { className, title, show, logoId } = props;
 
   if (!show)
     return null;
 
   return (
-    <div className={className}>
+    <div className={`${className} ${!title && !logoId && "empty"}`}>
       <Logo {...props} />
       <span id="title">{__(title)}</span>
     </div>
@@ -32,6 +32,10 @@ export const Info = styled<InfoProps>(Info_)`
   height: 100%;
   border-radius: 17px;
   border: solid 1px #f1f1f1;
+  &.empty {
+    border-style: dashed;
+    border-width: 1.5px
+  }
   ${Logo} {
     border: none;
     width: 141px;
