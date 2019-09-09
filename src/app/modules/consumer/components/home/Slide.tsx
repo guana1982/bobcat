@@ -85,11 +85,12 @@ const HeaderSlide = styled.div`
   }
   &.open {
     width: 96vw;
+    padding: 3.5rem;
     h2 {
       max-width: 500px;
       display: block;
       font-size: 20px;
-      padding: 20px;
+      /* padding: 20px; */
       #gift {
         margin-left: 20px;
         vertical-align: bottom;
@@ -97,7 +98,7 @@ const HeaderSlide = styled.div`
     }
   }
   h2 {
-    margin: 1rem;
+    margin: 1rem 0 0 1rem;
     font-family: NeuzeitGro-Bol;
     text-transform: uppercase;
     font-size: 16px;
@@ -108,8 +109,12 @@ const HeaderSlide = styled.div`
     letter-spacing: 1.3px;
     color: ${props => props.theme.slateGrey};
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     span {
       width: 85%;
+      line-height: 17px;
     }
     #gift {
       width: 37px;
@@ -121,12 +126,13 @@ const HeaderSlide = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    /* width: 120px; */
+    margin: 0 1rem;
     img {
       position: relative;
       bottom: 3px;
     }
     span {
+      font-family: NeuzeitGro-Bol;
       color: #b39850;
       font-size: 14px;
       margin-left: 6px;
@@ -291,11 +297,11 @@ export const Slide = (props: SlideProps) => {
             <h2>
               <span>{__("c_welcome")}, {dataConsumer.consumer_nick}!</span>
               {promotionEnabled && <img id="gift" src="icons/gift.svg" />}
-              <div id="premium-label">
-                <img src="icons/subscription.svg" />
-                <span>PREMIUM</span>
-              </div>
             </h2>
+            <div id="premium-label">
+              <img src="icons/subscription.svg" />
+              <span>{__("c_premium")}</span>
+            </div>
           </HeaderSlide>
           {
             alarmConnectivity_ ?
