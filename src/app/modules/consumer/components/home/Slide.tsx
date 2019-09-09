@@ -96,6 +96,9 @@ const HeaderSlide = styled.div`
         vertical-align: bottom;
       }
     }
+    #premium-label {
+      margin-top: 5px;
+    }
   }
   h2 {
     margin: 1rem 0 0 1rem;
