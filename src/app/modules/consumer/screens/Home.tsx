@@ -606,7 +606,9 @@ export const Home = (props: HomeProps) => {
     const { params, from } = config;
     const { consumerBeverage , indexFavorite } = params;
 
-    const beverageSelected: any = { beverage_id: Number(consumerBeverage.flavors[0].product.flavorUpc) };
+    // const beverageSelected: any = { beverage_id: Number(consumerBeverage.flavors[0].product.flavorUpc) };
+  const beverageSelected = consumerBeverage.$beverage;
+
     const beverageConfig: IBeverageConfig = {
       flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),
       carbonation_level: Number(consumerBeverage.carbLvl),
