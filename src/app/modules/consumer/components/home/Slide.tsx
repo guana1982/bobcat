@@ -142,6 +142,7 @@ const HeaderSlide = styled.div`
       margin-left: 6px;
       line-height: 18px;
       letter-spacing: 1.5px;
+      text-transform: uppercase;
     }
   }
 `;
@@ -310,12 +311,12 @@ export const Slide = (props: SlideProps) => {
             }
           </HeaderSlide>
           {
-            alarmConnectivity_ ?
-            <AlertSLide>
-              <img src="img/cannot-connect-to-cloud.svg" />
-              <span id="title">{__("c_no_connectivity")}</span>
-              <span id="sub-title">{__("c_no_connectivity_subtitle")}</span>
-            </AlertSLide> :
+            // alarmConnectivity_ ?
+            // <AlertSLide>
+            //   <img src="img/cannot-connect-to-cloud.svg" />
+            //   <span id="title">{__("c_no_connectivity")}</span>
+            //   <span id="sub-title">{__("c_no_connectivity_subtitle")}</span>
+            // </AlertSLide> :
             <Grid numElement={consumerBeverages.length}>
               {consumerBeverages.map((b, i) => {
                 const BeverageAnimated = BeveragesAnimated[i];

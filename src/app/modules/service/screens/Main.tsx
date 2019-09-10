@@ -18,7 +18,7 @@ import { Customize, SelectionTypes } from "../components/modals/Customize";
 import { Update } from "../components/modals/Update";
 import { Timeout } from "../components/modals/Timeout";
 import { Sanitation } from "../components/modals/Sanitation";
-import { Pages } from "@core/utils/constants";
+import { Pages, compareDate } from "@core/utils/constants";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -191,6 +191,18 @@ export const NewMenu = (props: MenuProps) => {
     });
   };
 
+  const getButtonMType = (line) => {
+    if (line.$beverage) {
+      if (line.$beverage.$lock) {
+        return MTypes.INFO_WARNING;
+      } else if (compareDate(line.$beverage.bib_expiring_date)) {
+        return MTypes.INFO_DANGER;
+      } else {
+        return null;
+      }
+    }
+  };
+
   const { history } = props;
 
   return (
@@ -200,7 +212,7 @@ export const NewMenu = (props: MenuProps) => {
           <Group title={__("LINES ASSIGNMENT")} size={authLevel !== AuthLevels.Crew ? SIZE_GROUP_LINES : SIZE_FULL_GROUP_LINES}>
             {lines.pumps.map((line, i) => {
               return (
-                <MButton onClick={() => openModal(Modals.Line, { lineId: line.line_id })} key={i} className="small" light info={`Line - ${line.line_id}`} type={line.$beverage && line.$beverage.$lock ? MTypes.INFO_WARNING : null}>
+                <MButton onClick={() => openModal(Modals.Line, { lineId: line.line_id })} key={i} className="small" light info={`Line - ${line.line_id}`} type={getButtonMType(line)}>
                   {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
                 </MButton>
               );
