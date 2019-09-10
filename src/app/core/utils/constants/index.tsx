@@ -40,7 +40,6 @@ export function debounce(func, wait, immediate?) {
 
 
 /* ==== PRICE PARSER ==== */
-/* ======================================== */
 export const parsePriceBeverage = (value: number, currency: string) => {
   if (value === 0) {
     return __("c_free");
@@ -54,6 +53,18 @@ export const parsePriceBeverage = (value: number, currency: string) => {
 
   return result_;
 };
+/* ======================================== */
+
+/* ==== EXPIRY DATE CHECK ==== */
+export const formatDateForComparison = date => {
+  return Number(date.replace(/-/g, ""));
+};
+
+export const compareDate = (date) => {
+  const today = new Date().toISOString().substr(0, 10);
+  return formatDateForComparison(today) > formatDateForComparison(date);
+};
+/* ======================================== */
 
 // -- BEVERAGE --
 export enum Beverages {
