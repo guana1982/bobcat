@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 import { BeverageTypes } from "./Beverage";
 import { Logo } from "./Logo";
 import { IBeverage } from "@core/models";
-import { ILevelsModel } from "@core/utils/APIModel";
+import { ILevelsModel, IPromotionTypes } from "@core/utils/APIModel";
 import { Beverages } from "@core/utils/constants";
 import { PaymentContext } from "@core/containers";
 
@@ -63,8 +63,8 @@ export const Basic_ = (props: BasicProps) => {
         <Logo {...props} />
         <span id="title">{__(title)}</span>
         <span id="cal">{calories} {__("c_cal")}.</span>
-        {paymentModeEnabled &&
-          <span id="price" className={promotionEnabled ? "promotion-enabled" : null}>
+        {(paymentModeEnabled && promotionEnabled !== IPromotionTypes.SubscriptionDailyAmount) &&
+          <span id="price" className={promotionEnabled === IPromotionTypes.PromotionFreePours ? "promotion-enabled" : null}>
             {displayPriceBeverage(beverage.$price)}
           </span>
         }

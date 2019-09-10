@@ -9,6 +9,7 @@ import { Grid } from "../common/Grid";
 import { MessageInfo } from "../common/MessageInfo";
 import { motion } from "framer-motion";
 import { PourFrom, IPourConsumerConfig } from "@core/models/vendor.model";
+import { IPromotionTypes } from "@core/utils/APIModel";
 
 export const _sizeSlide = "325px";
 export const _sizeSlideFull = "5vw";
@@ -299,12 +300,14 @@ export const Slide = (props: SlideProps) => {
           <HeaderSlide disabled={disabled} className={(slideOpen || fullMode) && "open"}>
             <h2>
               <span>{__("c_welcome")}, {dataConsumer.consumer_nick}!</span>
-              {promotionEnabled && <img id="gift" src="icons/gift.svg" />}
+              {promotionEnabled === IPromotionTypes.PromotionFreePours && <img id="gift" src="icons/gift.svg" />}
             </h2>
-            <div id="premium-label">
-              <img src="icons/subscription.svg" />
-              <span>{__("c_premium")}</span>
-            </div>
+            {promotionEnabled === IPromotionTypes.SubscriptionDailyAmount &&
+              <div id="premium-label">
+                <img src="icons/subscription.svg" />
+                <span>{__("c_premium")}</span>
+              </div>
+            }
           </HeaderSlide>
           {
             alarmConnectivity_ ?

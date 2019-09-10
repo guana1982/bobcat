@@ -19,6 +19,7 @@ import { ReplaySubscription } from "../common/Subscription";
 import { motion } from "framer-motion";
 import { IPourConfig, PourFrom } from "@core/models/vendor.model";
 import { memo } from "react";
+import { IPromotionTypes } from "@core/utils/APIModel";
 
 /* ==== POUR BUTTON ==== */
 /* ======================================== */
@@ -462,13 +463,13 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                     onChange={(value) => handleChange(value, "temperature")}>
                   </ButtonGroup>
                 </div>
-                {paymentModeEnabled &&
+                {(paymentModeEnabled && promotionEnabled !== IPromotionTypes.SubscriptionDailyAmount) &&
                   <div id="footer">
                       {/* {beverageSelected.$price > 0 && <span id="total">{__("c_total")}</span>} */}
                     <div id="limit-erogation">
                       <span className="info">MAX</span> {"32oz"}
                     </div>
-                    <div id="price" className={promotionEnabled ? "promotion-enabled" : null}>
+                    <div id="price" className={promotionEnabled === IPromotionTypes.PromotionFreePours  ? "promotion-enabled" : null}>
                       {displayPriceBeverage(beverageSelected.$price, true)}
                     </div>
                   </div>

@@ -1,13 +1,13 @@
 import * as React from "react";
 import createUseContext from "constate";
-import { ConfigContext, ConsumerContext } from ".";
+import { ConfigContext, ConsumerContext, AlertContext, AlertTypes } from ".";
 import { __ } from "@core/utils/lib/i18n";
 import { SOCKET_PAYMENT, Pages, parsePriceBeverage } from "@core/utils/constants";
 import { map, tap } from "rxjs/operators";
 import { Subject, BehaviorSubject } from "rxjs";
 import { IBeverage } from "@core/models";
 import { withRouter } from "react-router-dom";
-import { IPromotionTypes, ISubscriptionTypes } from "@core/utils/APIModel";
+import { IPourCondition, IPromotionTypes, ISubscriptionTypes } from "@core/utils/APIModel";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 
 //  ==== STATUS ====>
@@ -57,7 +57,6 @@ const PaymentContainer = createUseContext((props: any) => {
 
   const [paymentModeEnabled, setPaymentModeEnabled] = React.useState<boolean>(null);
   const [promotionEnabled, setPromotionEnabled] = React.useState<IPromotionTypes>(null);
-  const [subscriptionEnabled, setSubscriptionEnabled] = React.useState<ISubscriptionTypes>(null);
 
   React.useEffect(() => {
     if (vendorConfig && vendorConfig.pay_id) {
@@ -67,13 +66,51 @@ const PaymentContainer = createUseContext((props: any) => {
 
   const { dataConsumer } = consumerConsumer;
   React.useEffect(() => {
-    if (dataConsumer) {
-      const { pour } = dataConsumer;
-      if (pour !== IPromotionTypes.NoPour) {
-        setPromotionEnabled(pour);
+    if (dataConsumer && dataConsumer.consumer_id) {
+
+      // == MOCK =>
+      // SubscriptionDailyAmount
+      // PromotionFreePours
+      // dataConsumer.events.push({"redeemThreshold":5,"promotionType": "SubscriptionDailyAmount","redeemAmount":4,"pour":"KO","name":"Promotion 12345","promotionAmountUnit":"Each","priority":0,"redeemStartDate":"2019-07-10","redeemEndDate":"2019-07-10","prmtnEvtId":"12345"});
+      // <= MOCK ==
+
+      if (dataConsumer.events.length === 0)
+        return;
+
+      const promotionsData = dataConsumer.events.sort((a, b) => (a.priority - b.priority));
+      const promotionPourData = promotionsData.filter(event => event.pour === IPourCondition.Pour)[0];
+
+      if (promotionPourData) {
+        const { promotionType } = promotionPourData;
+        if (promotionType === IPromotionTypes.PromotionFreePours) {
+          const { redeemThreshold, redeemAmount } = promotionPourData;
+          const remainderAmount = redeemThreshold - redeemAmount;
+          alert(remainderAmount);
+        }
+        if (promotionType) {
+          setPromotionEnabled(promotionType);
+        }
       } else {
-        setPromotionEnabled(null);
+        const promotionNoPourData = promotionsData.filter(event => event.pour === IPourCondition.NoPour)[0];
+        if (promotionNoPourData) {
+          const { promotionType, redeemEndDate, redeemThreshold, redeemAmount } = promotionNoPourData
+          if (promotionType === IPromotionTypes.SubscriptionDailyAmount) {
+            const validEndDate: boolean = new Date(redeemEndDate) > new Date();
+            if (!validEndDate) {
+              alert("NO VALID END DATE");
+              return;
+            }
+            const remainderAmount = redeemThreshold - redeemAmount;
+            if (remainderAmount === 0) {
+              alert("LIMIT EROGATION");
+              return;
+            }
+          }
+        }
       }
+
+    } else {
+      setPromotionEnabled(null);
     }
   }, [dataConsumer]);
 
@@ -128,13 +165,22 @@ const PaymentContainer = createUseContext((props: any) => {
 
   function displayPriceBeverage(value: number, full?: boolean) {
     const result_ = parsePriceBeverage(value, currency);
+    const gift_ = promotionEnabled === IPromotionTypes.PromotionFreePours;
+
+    if(value === 0)
+      return (
+        <>
+          {full && <span id="info"> TOTAL </span>}
+          <span>{result_}</span>
+        </>
+      );
 
     return (
       <>
-        {(promotionEnabled && full) && <img id="gift" src="icons/gift.svg" />}
-        {(!promotionEnabled && full) && <span id="info"> TOTAL </span>}
+        {(gift_ && full) && <img id="gift" src="icons/gift.svg" />}
+        {(!gift_ && full) && <span id="info"> TOTAL </span>}
         <span id="value">{result_}</span>
-        {promotionEnabled &&
+        {gift_ &&
           <>
             {full && <span id="info"> TOTAL </span>}
             <span id="promotion">{`${full ? "0.00" : " 0"}`}{__(`c_${currency}`)}</span>

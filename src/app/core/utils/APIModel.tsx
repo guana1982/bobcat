@@ -65,9 +65,14 @@ export enum IdentificationConsumerStatus {
   Null = "null"
 }
 
-export enum IPromotionTypes {
+export enum IPourCondition {
   NoPour = "KO",
   Pour = "OK"
+}
+
+export enum IPromotionTypes {
+  SubscriptionDailyAmount = "SubscriptionDailyAmount",
+  PromotionFreePours = "PromotionFreePours"
 }
 
 export enum ISubscriptionTypes {
@@ -75,10 +80,24 @@ export enum ISubscriptionTypes {
   Enabled = "ENABLED"
 }
 
+export interface IEventPromotion {
+  redeemThreshold?: number;
+  promotionType?: IPromotionTypes;
+  redeemAmount?: number;
+  pour?: IPourCondition;
+  name?: string;
+  promotionAmountUnit?: string;
+  priority?: number;
+  redeemStartDate?: string;
+  redeemEndDate?: string;
+  prmtnEvtId?: string;
+}
+
 export interface IConsumerModel {
   identification_type?: IdentificationConsumerTypes;
   pack_id?: string;
   consumer_id?: string;
+  events?: IEventPromotion[];
   consumer_nick?: string;
   saveBottles?: number;
   currHydraLvl?: number;
@@ -86,7 +105,7 @@ export interface IConsumerModel {
   favorites?: IConsumerBeverage[];
   lastPour?: IConsumerBeverage;
   error?: any;
-  pour?: IPromotionTypes;
+  pour?: IPourCondition;
 }
 
 export interface ILevelsModel {

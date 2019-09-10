@@ -71,8 +71,8 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
     const ws = webSocket({
       url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" :
-      "ws://192.168.188.218:5901",
-      // "ws://93.55.118.36:5204",
+      // "ws://192.168.188.218:5901",
+      "ws://93.55.118.36:5204",
       deserializer: data => {
         try {
           return JSON.parse(data.data);
@@ -240,7 +240,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
           alarmConnectivity_: false, // Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "mqtt" && alarm.alarm_enable === true)),
           alarmWebcam_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "webcam" && alarm.alarm_enable === true)),
           alarmADAPanel_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "ada_panel" && alarm.alarm_enable === true)),
-          alarmPayment_: Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "payment" && alarm.alarm_enable === true)),
+          alarmPayment_: false // Boolean(enabledAlarms_.find(alarm => alarm.alarm_name === "payment" && alarm.alarm_enable === true)),
         };
         this.setState({
           allAlarms: alarms,
