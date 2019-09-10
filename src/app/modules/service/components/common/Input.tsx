@@ -1,6 +1,7 @@
 
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
+import { themeMenu } from "@style";
 
 export enum InputTheme {
   Dark = "dark",
@@ -65,6 +66,12 @@ export const InputContent = styled.div`
         width: 200px;
         border-radius: 10px;
       }
+    }
+  }
+  &.alert {
+    input {
+      color: #fff;
+      background-color: ${themeMenu.danger};
     }
   }
 `;
