@@ -105,3 +105,44 @@ export const withAlert = Comp => props => {
 };
 
 export const AlertContext = AlertContainer.Context;
+
+
+
+
+
+
+  // React.useEffect(() => { // PAYMENT DOWN ALERT
+  //   alertConsumer.show({
+  //     type: AlertTypes.ErrorPaymentDown,
+  //     img: "img/alerts/payment-system-down.svg",
+  //     subTitle: true,
+  //     onDismiss: () => {}
+  //   });
+  // }, []);
+
+  // React.useEffect(() => { // CARD PROCESSING ISSUE ALERT
+  //   alertConsumer.show({
+  //     type: AlertTypes.PaymentDeclined,
+  //     img: "img/alerts/payment-alert.svg",
+  //     subTitle: true,
+  //     onDismiss: () => {}
+  //   });
+  // }, []);
+
+  // React.useEffect(() => { // CARD NOT READ ALERT
+  //   alertConsumer.show({
+  //     type: AlertTypes.CardNotRead,
+  //     img: "img/alerts/payment-alert.svg",
+  //     subTitle: true,
+  //     onDismiss: () => {}
+  //   });
+  // }, []);
+
+  // React.useEffect(() => { // AUTHORIZING PAYMENT ALERT
+  //   alertConsumer.show({
+  //     type: AlertTypes.AuthorizingPayment,
+  //     img: "img/alerts/authorizing-payment.svg",
+  //     subTitle: true,
+  //     onDismiss: () => {}
+  //   });
+  // }, []);
