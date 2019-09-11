@@ -151,6 +151,26 @@ const AlertWrap = styled.div`
       height: 22px;
     }
   }
+  &.${AlertTypes.Promotion} {
+    &:before {
+      width: 70%;
+      height: 70%;
+      left: 15%;
+    }
+    .number {
+      font-family: NeuzeitGro-Bol;
+      font-size: 120px;
+      color: #2b9cda;
+      height: 125px;
+      margin-bottom: 75px;
+      margin-top: 65px;
+    }
+  }
+  .block {
+    span {
+      display: inline;
+    }
+  }
 `;
 
 const Overlay = styled.div`
@@ -230,7 +250,7 @@ export interface AlertProps {
 }
 
 export const Alert = (props: AlertProps) => {
-  const {type, onDismiss, timeout, transparent, onConfirm, subTitle, lock, img, backgroung} = props.options;
+  const {type, onDismiss, timeout, transparent, onConfirm, subTitle, lock, img, backgroung, promotion, nickname} = props.options;
 
     //  ==== ACCESSIBILITY FUNCTION ====>
     const accessibilityConsumer = React.useContext(AccessibilityContext);
@@ -257,9 +277,9 @@ export const Alert = (props: AlertProps) => {
 
   return (
     <AlertWrap className={`${img ? "with-img" : ""} ${type}`}>
-      {img && <img className={"type-img"} src={img} />}
-      <span className={type} id="title">{__(type)}</span>
-      {subTitle && <span id="sub-title">{__(`${type}_subtitle`)}</span>}
+      {img && <img className="type-img" src={img} />}
+      {type !== AlertTypes.Promotion && <span className={type} id="title">{__(type)}</span>}
+      {subTitle && type !== AlertTypes.Promotion && <span id="sub-title">{__(`${type}_subtitle`)}</span>}
       {onConfirm && <button id="confirm-btn" onClick={onConfirm}>OK</button>}
       {/* CUSTOM BY TYPE => */}
       {type === AlertTypes.NeedPayment &&
@@ -271,6 +291,13 @@ export const Alert = (props: AlertProps) => {
           <img id="Icon-AndroidPay" src={"icons/android-pay.svg"} />
           <img id="Icon-SamsungPay" src={"icons/samsung-pay.webp"} />
         </div>
+      }
+      {type === AlertTypes.Promotion &&
+        <>
+          <span className="number">{promotion}</span>
+          <span className={type} id="title">{__(type)}, {nickname}!</span>
+          <span id="sub-title">{__(`${type}_subtitle1`)} {promotion} {__(`${type}_subtitle2`)}</span>
+        </>
       }
     </AlertWrap>
   );

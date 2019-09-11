@@ -799,10 +799,40 @@ export const Home = (props: HomeProps) => {
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
-  // React.useEffect(() => { // AUTHORIZING PAYMENT ALERT
+  // React.useEffect(() => { // PROMOTION ALERT
   //   alertConsumer.show({
-  //     type: AlertTypes.AuthorizingPayment,
-  //     img: "img/alerts/authorizing-payment.svg",
+  //     type: AlertTypes.Promotion,
+  //     backgroung: "img/fruits-bg.webp",
+  //     timeout: false,
+  //     subTitle: true,
+  //     promotion: 5,
+  //     nickname: "{NICKNAME}"
+  //     // transparent: true,
+  //     // onDismiss: () => {
+  //     //   setDisabled(false);
+  //     //   call_();
+  //     // }
+  //   });
+  // }, []);
+
+  // React.useEffect(() => { // SUBSCRIPTION EXPIRED ALERT
+  //   alertConsumer.show({
+  //     type: AlertTypes.SubscriptionExpired,
+  //     img: "img/alerts/subscription-expired.svg",
+  //     timeout: false,
+  //     subTitle: true
+  //     // transparent: true,
+  //     // onDismiss: () => {
+  //     //   setDisabled(false);
+  //     //   call_();
+  //     // }
+  //   });
+  // }, []);
+
+  // React.useEffect(() => { // DAILY LIMIT ALERT
+  //   alertConsumer.show({
+  //     type: AlertTypes.DailyLimitReached,
+  //     img: "img/alerts/daily-limit-reached.svg",
   //     timeout: false,
   //     subTitle: true
   //     // transparent: true,

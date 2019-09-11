@@ -5,19 +5,18 @@ export const DEFAULT_TIMEOUT_ALERT = 2500;
 
 export enum AlertTypes {
   LoadingDataQr = "c_loading_data_qr",
-
   OutOfStock = "c_out_of_stock",
   ErogationLimit = "c_erogation_limit",
   OutOfOrder = "c_out_of_order",
-
+  Promotion = "c_promotion",
+  PromotionSubtitle1 = "c_promotion_subtitle_1",
+  PromotionSubtitle2 = "c_promotion_subtitle_2",
   SignedOut = "c_signed_out",
   EndSession = "c_end_session",
-
   // NeedPayment = "c_tap_swipe_pour",
   NeedPayment = "p_not-authorized",
   AuthorizingPayment = "p_swiped",
   EndSparkling = "c_end_sparkling",
-
   ErrorLoadingQr = "c_error_loading_qr",
   ErrorLoadingQrPayment = "c_error_loading_qr_payment",
   ErrorWebcam = "c_error_webcam",
@@ -26,8 +25,8 @@ export enum AlertTypes {
   ErrorUnassociatedBottle = "c_error_unassociated_bottle",
   ErrorADAPanelDown = "c_ada_panel_down",
   ErrorPaymentDown = "p_payment_down",
-
   DailyLimitReached = "p_daily_limit_reached",
+  SubscriptionExpired = "c_subscription_expired"
 }
 
 export interface AlertOptions {
@@ -42,6 +41,8 @@ export interface AlertOptions {
   content?: any;
   onConfirm?: () => void;
   backgroung?: string;
+  promotion?: number;
+  nickname?: string;
 }
 
 interface AlertState {

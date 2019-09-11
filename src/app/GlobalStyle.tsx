@@ -73,7 +73,7 @@ export const GlobalStyle = createGlobalStyle`
       url("img/alerts/payment_system_down.webp")
       url("img/alerts/qr-code-not-associated-with-account.webp")
       url("img/alerts/wrench.webp")
-      url("img/alerts/daily-limit-reached.webp")
+      url("img/alerts/daily-limit-reached.svg")
       url("img/alerts/ada-down.webp")
 
       url("img/drawer/drawer.webp")
