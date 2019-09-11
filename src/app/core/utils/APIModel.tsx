@@ -62,7 +62,11 @@ export enum IdentificationConsumerStatus {
   NotAssociatedConsumer = "not_associated_consumer_id",
   CompleteLoading = "complete-loading",
   ErrorLoading = "error-loading",
-  Null = "null"
+  Null = "null",
+  // PROMOTION
+  PromotionRemainderAmount = "promotion_remainder_amount",
+  PromotionEndDate = "promotion_end_date",
+  PromotionLimitErogation = "promotion_limit_erogation"
 }
 
 export enum IPourCondition {

@@ -39,7 +39,7 @@ export default {
   payment: {
     getPrices: () => get("menu/prices"),
     setPrice: (beverage_id, price, currency) => post("menu/price", { beverage_id, price, currency }),
-    vendRrequest: beverageConfig => post("payment/vend_request", beverageConfig),
+    vendRequest: beverageConfig => post("payment/vend_request", beverageConfig),
     vendCancel: () => post("payment/vend_cancel")
   },
   dispense: {

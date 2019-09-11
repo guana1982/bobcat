@@ -50,7 +50,6 @@ const PaymentContainer = createUseContext((props: any) => {
   const dataPayment_ = React.useRef<any>(null);
 
   const configConsumer = React.useContext(ConfigContext);
-  const consumerConsumer = React.useContext(ConsumerContext);
 
   const { vendorConfig } = configConsumer;
   const { currency } = vendorConfig;
@@ -58,61 +57,13 @@ const PaymentContainer = createUseContext((props: any) => {
   const [paymentModeEnabled, setPaymentModeEnabled] = React.useState<boolean>(null);
   const [promotionEnabled, setPromotionEnabled] = React.useState<IPromotionTypes>(null);
 
+  const remainderAmount = React.useRef(null);
+
   React.useEffect(() => {
     if (vendorConfig && vendorConfig.pay_id) {
       setPaymentModeEnabled(vendorConfig.pay_id === PaymentMode.Pay);
     }
   }, [vendorConfig.pay_id]);
-
-  const { dataConsumer } = consumerConsumer;
-  React.useEffect(() => {
-    if (dataConsumer && dataConsumer.consumer_id) {
-
-      // == MOCK =>
-      // SubscriptionDailyAmount
-      // PromotionFreePours
-      // dataConsumer.events.push({"redeemThreshold":5,"promotionType": "SubscriptionDailyAmount","redeemAmount":4,"pour":"KO","name":"Promotion 12345","promotionAmountUnit":"Each","priority":0,"redeemStartDate":"2019-07-10","redeemEndDate":"2019-07-10","prmtnEvtId":"12345"});
-      // <= MOCK ==
-
-      if (dataConsumer.events.length === 0)
-        return;
-
-      const promotionsData = dataConsumer.events.sort((a, b) => (a.priority - b.priority));
-      const promotionPourData = promotionsData.filter(event => event.pour === IPourCondition.Pour)[0];
-
-      if (promotionPourData) {
-        const { promotionType } = promotionPourData;
-        if (promotionType === IPromotionTypes.PromotionFreePours) {
-          const { redeemThreshold, redeemAmount } = promotionPourData;
-          const remainderAmount = redeemThreshold - redeemAmount;
-          alert(remainderAmount);
-        }
-        if (promotionType) {
-          setPromotionEnabled(promotionType);
-        }
-      } else {
-        const promotionNoPourData = promotionsData.filter(event => event.pour === IPourCondition.NoPour)[0];
-        if (promotionNoPourData) {
-          const { promotionType, redeemEndDate, redeemThreshold, redeemAmount } = promotionNoPourData
-          if (promotionType === IPromotionTypes.SubscriptionDailyAmount) {
-            const validEndDate: boolean = new Date(redeemEndDate) > new Date();
-            if (!validEndDate) {
-              alert("NO VALID END DATE");
-              return;
-            }
-            const remainderAmount = redeemThreshold - redeemAmount;
-            if (remainderAmount === 0) {
-              alert("LIMIT EROGATION");
-              return;
-            }
-          }
-        }
-      }
-
-    } else {
-      setPromotionEnabled(null);
-    }
-  }, [dataConsumer]);
 
   React.useEffect(() => {
 
@@ -201,20 +152,36 @@ const PaymentContainer = createUseContext((props: any) => {
     return statusPayment_.current in PaymentStatusPour;
   }
 
+  function setPromotion(type: IPromotionTypes, remainderAmount_?: number) {
+    if (remainderAmount_ >= 0) {
+      remainderAmount.current = remainderAmount;
+    }
+    setPromotionEnabled(type);
+  }
+
   return {
     socketPayment$,
     restartPayment,
     paymentModeEnabled,
     promotionEnabled,
+    setPromotion,
     currency,
     displayPriceBeverage,
     needToPay,
     canPour,
     statusPayment_,
     dataPayment_,
-    cancelPayment
+    cancelPayment,
+    remainderAmount
   };
 });
+
+export const withPayment = Comp => props => {
+  const payment = React.useContext(PaymentContext);
+  return (
+    <Comp {...props} paymentConsumer={payment}></Comp>
+  );
+};
 
 export const PaymentProvider = withRouter(PaymentContainer.Provider);
 export const PaymentContext = PaymentContainer.Context;

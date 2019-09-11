@@ -18,7 +18,7 @@ import { CardsWrap } from "../components/home/CardsWrap";
 import { CustomizeBeverage } from "../components/home/CustomizeBeverage";
 import { Grid } from "../components/common/Grid";
 import { SegmentButtonProps } from "../components/common/SegmentButton";
-import { first } from "rxjs/operators";
+import { first, finalize } from "rxjs/operators";
 import { IPourConfig, PourFrom, IPourConsumerConfig } from "@core/models/vendor.model";
 
 /* ==== STYLE ==== */
@@ -379,12 +379,6 @@ export const Home = (props: HomeProps) => {
 
     if (beverageSelected) { // => TO IMPROVE
       bevSelected = beverageSelected;
-      setState(prevState => ({
-        ...prevState,
-        indexBeverageForLongPressPour_: !validFavorite ? beverages.indexOf(beverageSelected) : null,
-        idBeveragePouring_: !validFavorite ? bevSelected.beverage_id : null,
-        indexFavoritePouring_: !validFavorite ? null : indexFavorite
-      })); // <= Rapid mode
       if (beverageConfig) {
         bevConfig = beverageConfig;
       } else {
@@ -396,30 +390,43 @@ export const Home = (props: HomeProps) => {
       }
     } else {
       bevSelected = getBeverageSelected();
-      setState({
-        ...state,
-        showCardsInfo: true
-      }); // <= Slow mode
       bevConfig = {...state.beverageConfig};
     }
 
-    setEndSession(StatusEndSession.Start);
-
     const pour_ = configConsumer.onStartPour(bevSelected, bevConfig);
 
-    if (needToPay_ && !promotionEnabled) {
-      mediumLevel.payment.vendRrequest({ beverage_id: bevSelected.beverage_id })
+    const startErogation = () => {
+      if (beverageSelected) {
+        setState(prevState => ({
+          ...prevState,
+          indexBeverageForLongPressPour_: !validFavorite ? beverages.indexOf(beverageSelected) : null,
+          idBeveragePouring_: !validFavorite ? bevSelected.beverage_id : null,
+          indexFavoritePouring_: !validFavorite ? null : indexFavorite
+        })); // <= Rapid mode
+      } else {
+        setState({
+          ...state,
+          showCardsInfo: true
+        }); // <= Slow mode
+      }
+      setEndSession(StatusEndSession.Start);
+      pour_.subscribe();
+    };
+
+    console.log("endSession", endSession);
+    if (needToPay_ && !promotionEnabled && endSession !== StatusEndSession.Start) {
+      mediumLevel.payment.vendRequest({ beverage_id: bevSelected.beverage_id })
       .subscribe(
         data => {
           if (data.status === 0) {
-            pour_.subscribe();
+            startErogation();
           } else {
             console.log("ERROR => VendRrequest");
           }
         }
       );
     } else {
-      pour_.subscribe(); // => TEST MODE
+      startErogation();
     }
   };
 
@@ -606,8 +613,7 @@ export const Home = (props: HomeProps) => {
     const { params, from } = config;
     const { consumerBeverage , indexFavorite } = params;
 
-    // const beverageSelected: any = { beverage_id: Number(consumerBeverage.flavors[0].product.flavorUpc) };
-  const beverageSelected = consumerBeverage.$beverage;
+    const beverageSelected = consumerBeverage.$beverage;
 
     const beverageConfig: IBeverageConfig = {
       flavor_level: Number(consumerBeverage.flavors[0].flavorStrength),

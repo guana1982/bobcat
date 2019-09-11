@@ -140,7 +140,7 @@ interface BeverageProps {
   handleDisabled: (d) => void;
 }
 
-export const Beverage = memo((props: BeverageProps) => {
+export const Beverage = (props: BeverageProps) => {
 
   const [zoomNutrition, setZoomNutrition] = React.useState(false);
   const [longPress, setLongPress] = React.useState(false);
@@ -324,7 +324,7 @@ export const Beverage = memo((props: BeverageProps) => {
         </React.Fragment>
     </BeverageContent>
   );
-}, areEqual);
+};
 
 /* ==== FULL MODE ==== */
 /* ======================================== */
