@@ -2,7 +2,7 @@ import * as React from "react";
 import mediumLevel from "../utils/lib/mediumLevel";
 import { mergeMap, first, map, tap, delay, debounceTime, timeout, catchError } from "rxjs/operators";
 import { SOCKET_CONSUMER, Pages, Beverages, LEVELS } from "../utils/constants";
-import { IConsumerModel, IdentificationConsumerTypes, IConsumerBeverage, IdentificationConsumerStatus } from "../utils/APIModel";
+import { IConsumerModel, IdentificationConsumerTypes, IConsumerBeverage, IdentificationConsumerStatus, IPourCondition, IPromotionTypes } from "../utils/APIModel";
 import { Observable, of, merge } from "rxjs";
 import { withConfig } from "./config.container";
 import { withRouter } from "react-router-dom";
@@ -10,6 +10,7 @@ import { IBeverage } from "../models";
 import { BeverageStatus } from "../models/beverage.model";
 import { BeverageTypes } from "../../modules/consumer/components/beverage/Beverage";
 import { __ } from "../utils/lib/i18n";
+import { withPayment } from "./payment.container";
 
 export interface ConsumerInterface {
   isLogged: boolean;
@@ -257,11 +258,53 @@ class ConsumerStoreComponent extends React.Component<any, any> {
           if (data.error) {
             return data.error;
           }
+
           this.setState({
             isLogged: true,
             dataConsumer: data,
             consumerBeverages: this.getConsumerBeverages(data)
           });
+
+          // == MOCK =>
+          // SubscriptionDailyAmount
+          // PromotionFreePours
+          // data.events.push({"redeemThreshold":5,"promotionType": "SubscriptionDailyAmount","redeemAmount":4,"pour":"KO","name":"Promotion 12345","promotionAmountUnit":"Each","priority":0,"redeemStartDate":"2019-07-10","redeemEndDate":"2019-07-10","prmtnEvtId":"12345"});
+          // <= MOCK ==
+
+          if (data.events.length !== 0) {
+            const { setPromotion } = this.props.paymentConsumer;
+            const promotionsData = data.events.sort((a, b) => (a.priority - b.priority));
+            const promotionPourData = promotionsData.filter(event => event.pour === IPourCondition.Pour)[0];
+
+            if (promotionPourData) {
+              const { promotionType } = promotionPourData;
+              if (promotionType === IPromotionTypes.PromotionFreePours) {
+                const { redeemThreshold, redeemAmount } = promotionPourData;
+                const remainderAmount = redeemThreshold - redeemAmount;
+                setPromotion(promotionType, remainderAmount);
+                return IdentificationConsumerStatus.PromotionRemainderAmount;
+              }
+              if (promotionType) {
+                setPromotion(promotionType);
+              }
+            } else {
+              const promotionNoPourData = promotionsData.filter(event => event.pour === IPourCondition.NoPour)[0];
+              if (promotionNoPourData) {
+                const { promotionType, redeemEndDate, redeemThreshold, redeemAmount } = promotionNoPourData;
+                if (promotionType === IPromotionTypes.SubscriptionDailyAmount) {
+                  const validEndDate: boolean = new Date(redeemEndDate) > new Date();
+                  if (!validEndDate) {
+                    return IdentificationConsumerStatus.PromotionEndDate;
+                  }
+                  const remainderAmount = redeemThreshold - redeemAmount;
+                  if (remainderAmount === 0) {
+                    return IdentificationConsumerStatus.PromotionLimitErogation;
+                  }
+                }
+              }
+            }
+          }
+
           return IdentificationConsumerStatus.CompleteLoading;
         })
       );
@@ -304,4 +347,4 @@ export const withConsumer = Comp => props => (
   </ConsumerConsumer>
 );
 
-export const ConsumerStore = withRouter(withConfig(ConsumerStoreComponent));
+export const ConsumerStore = withRouter(withConfig(withPayment(ConsumerStoreComponent)));

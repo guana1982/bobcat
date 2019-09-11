@@ -57,20 +57,20 @@ export const TestProximity = () => {
 export const Consumer = () => (
   <ThemeProvider theme={themeMain}>
     <AccessibilityProvider>
-      <ConsumerStore>
-        <PaymentProvider>
-          <AlertProvider alertComponent={<AlertFull />}>
-            <TimerProvider>
-              <TestProximity />
-              <Route exact path={Pages.Attractor} component={Attractor}/>
-              <Route path={Pages.Home} component={Home}/>
-              <Route path={Pages.Prepay} component={Prepay}/>
-              <Route path={Pages.Update} component={Update}/>
-              <Route path={Pages.OutOfOrder} component={OutOfOrder}/>
-            </TimerProvider>
-          </AlertProvider>
-        </PaymentProvider>
-      </ConsumerStore>
+      <PaymentProvider>
+        <ConsumerStore>
+            <AlertProvider alertComponent={<AlertFull />}>
+              <TimerProvider>
+                <TestProximity />
+                <Route exact path={Pages.Attractor} component={Attractor}/>
+                <Route path={Pages.Home} component={Home}/>
+                <Route path={Pages.Prepay} component={Prepay}/>
+                <Route path={Pages.Update} component={Update}/>
+                <Route path={Pages.OutOfOrder} component={OutOfOrder}/>
+              </TimerProvider>
+            </AlertProvider>
+        </ConsumerStore>
+      </PaymentProvider>
     </AccessibilityProvider>
   </ThemeProvider>
 );

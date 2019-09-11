@@ -38,11 +38,6 @@ export enum AlertTypes {
   CardNotRead = "p_card_not_read"
 }
 
-interface PromotionProps {
-  erogations: number;
-  nickname: string;
-}
-
 export interface AlertOptions {
   type?: AlertTypes | string;
   timeout?: boolean | number;
@@ -55,7 +50,7 @@ export interface AlertOptions {
   content?: any;
   onConfirm?: () => void;
   backgroung?: string;
-  promotion?: PromotionProps;
+  data?: any;
 }
 
 interface AlertState {
