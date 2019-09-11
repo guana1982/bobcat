@@ -805,52 +805,6 @@ export const Home = (props: HomeProps) => {
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
-  // React.useEffect(() => { // PROMOTION ALERT
-  //   alertConsumer.show({
-  //     type: AlertTypes.Promotion,
-  //     backgroung: "img/fruits-bg.webp",
-  //     timeout: false,
-  //     subTitle: true,
-  //     promotion: {
-  //       erogations: 4,
-  //       nickname: "MARIO"
-  //     }
-  //     // transparent: true,
-  //     // onDismiss: () => {
-  //     //   setDisabled(false);
-  //     //   call_();
-  //     // }
-  //   });
-  // }, []);
-
-  // React.useEffect(() => { // SUBSCRIPTION EXPIRED ALERT
-  //   alertConsumer.show({
-  //     type: AlertTypes.SubscriptionExpired,
-  //     img: "img/alerts/subscription-expired.svg",
-  //     timeout: false,
-  //     subTitle: true
-  //     // transparent: true,
-  //     // onDismiss: () => {
-  //     //   setDisabled(false);
-  //     //   call_();
-  //     // }
-  //   });
-  // }, []);
-
-  // React.useEffect(() => { // DAILY LIMIT ALERT
-  //   alertConsumer.show({
-  //     type: AlertTypes.DailyLimitReached,
-  //     img: "img/alerts/daily-limit-reached.svg",
-  //     timeout: false,
-  //     subTitle: true
-  //     // transparent: true,
-  //     // onDismiss: () => {
-  //     //   setDisabled(false);
-  //     //   call_();
-  //     // }
-  //   });
-  // }, []);
-
   return (
     <HomeContent className={slideOpen ? "slide-is-open" : ""}>
       {beverageSelected &&

@@ -268,7 +268,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
           // == MOCK =>
           // SubscriptionDailyAmount
           // PromotionFreePours
-          // data.events.push({"redeemThreshold":5,"promotionType": "SubscriptionDailyAmount","redeemAmount":4,"pour":"KO","name":"Promotion 12345","promotionAmountUnit":"Each","priority":0,"redeemStartDate":"2019-07-10","redeemEndDate":"2020-07-10","prmtnEvtId":"12345"});
+          // data.events.push({"redeemThreshold":5,"promotionType": "SubscriptionDailyAmount","redeemAmount":4,"pour":"KO","name":"Promotion 12345","promotionAmountUnit":"Each","priority":0,"redeemStartDate":"2019-07-10","redeemEndDate":"2019-07-10","prmtnEvtId":"12345"});
           // <= MOCK ==
 
           if (data.events.length !== 0) {

@@ -258,6 +258,37 @@ export const Prepay = (props: PrepayProps) => {
             goToHome();
           }
         });
+      } else if (status === IdentificationConsumerStatus.PromotionRemainderAmount) {
+        alertConsumer.hide();
+        alertConsumer.show({
+          type: AlertTypes.Promotion,
+          backgroung: "img/fruits-bg.webp",
+          timeout: true,
+          subTitle: false,
+          data: {
+            erogations: paymentConsumer.remainderAmount.current,
+            nickname: consumerConsumer.dataConsumer.consumer_nick
+          },
+          onDismiss: goToHome
+        });
+      } else if (status === IdentificationConsumerStatus.PromotionEndDate) {
+        alertConsumer.hide();
+        alertConsumer.show({
+          type: AlertTypes.SubscriptionExpired,
+          img: "img/alerts/subscription-expired.svg",
+          timeout: true,
+          subTitle: true,
+          onDismiss: goToHome
+        });
+      } else if (status === IdentificationConsumerStatus.PromotionLimitErogation) {
+        alertConsumer.hide();
+        alertConsumer.show({
+          type: AlertTypes.DailyLimitReached,
+          img: "img/alerts/daily-limit-reached.svg",
+          timeout: true,
+          subTitle: true,
+          onDismiss: goToHome
+        });
       } else {
         alertConsumer.show({
           type: status,
