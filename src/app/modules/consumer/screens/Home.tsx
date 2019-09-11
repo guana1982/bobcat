@@ -421,7 +421,13 @@ export const Home = (props: HomeProps) => {
           if (data.status === 0) {
             startErogation();
           } else {
-            console.log("ERROR => VendRrequest");
+            alertConsumer.show({
+              type: AlertTypes.PaymentDeclined,
+              img: "img/alerts/payment-alert.svg",
+              subTitle: true,
+              timeout: true,
+              onDismiss: paymentConsumer.cancelPayment
+            });
           }
         }
       );

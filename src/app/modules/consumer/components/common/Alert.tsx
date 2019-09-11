@@ -296,7 +296,7 @@ export const Alert = (props: AlertProps) => {
         <>
           <span className="number">{data.erogations}</span>
           <span className={type} id="title">{__(type)}, {data.nickname}!</span>
-          <span id="sub-title">{__(`${type}_subtitle1`)} {data.erogations} {__(`${type}_subtitle2`)}</span>
+          <span id="sub-title">{__(`c_promotion_subtitle_1`)} {data.erogations} {__(`c_promotion_subtitle_2`)}</span>
         </>
       }
     </AlertWrap>

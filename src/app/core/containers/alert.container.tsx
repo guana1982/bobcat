@@ -9,11 +9,8 @@ export enum AlertTypes {
   ErogationLimit = "c_erogation_limit",
   OutOfOrder = "c_out_of_order",
   Promotion = "c_promotion",
-  PromotionSubtitle1 = "c_promotion_subtitle_1",
-  PromotionSubtitle2 = "c_promotion_subtitle_2",
   SignedOut = "c_signed_out",
   EndSession = "c_end_session",
-  // NeedPayment = "c_tap_swipe_pour",
   NeedPayment = "p_not-authorized",
   AuthorizingPayment = "p_swiped",
   EndSparkling = "c_end_sparkling",
@@ -27,13 +24,6 @@ export enum AlertTypes {
   ErrorPaymentDown = "p_payment_down",
   DailyLimitReached = "c_daily_limit_reached",
   SubscriptionExpired = "c_subscription_expired",
-
-  /* =============== */
-  /* ================= */
-  /* =================== */
-  /* ====================== */
-  /* ========================== */
-
   PaymentDeclined = "p_declined",
   CardNotRead = "p_card_not_read"
 }
