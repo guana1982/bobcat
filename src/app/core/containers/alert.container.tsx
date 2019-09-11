@@ -29,6 +29,11 @@ export enum AlertTypes {
   SubscriptionExpired = "c_subscription_expired"
 }
 
+interface PromotionProps {
+  erogations: number;
+  nickname: string;
+}
+
 export interface AlertOptions {
   type?: AlertTypes | string;
   timeout?: boolean | number;
@@ -41,8 +46,7 @@ export interface AlertOptions {
   content?: any;
   onConfirm?: () => void;
   backgroung?: string;
-  promotion?: number;
-  nickname?: string;
+  promotion?: PromotionProps;
 }
 
 interface AlertState {
