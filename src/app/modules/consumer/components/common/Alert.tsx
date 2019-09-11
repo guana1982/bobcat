@@ -250,7 +250,7 @@ export interface AlertProps {
 }
 
 export const Alert = (props: AlertProps) => {
-  const {type, onDismiss, timeout, transparent, onConfirm, subTitle, lock, img, backgroung, promotion, nickname} = props.options;
+  const {type, onDismiss, timeout, transparent, onConfirm, subTitle, lock, img, backgroung, promotion} = props.options;
 
     //  ==== ACCESSIBILITY FUNCTION ====>
     const accessibilityConsumer = React.useContext(AccessibilityContext);
@@ -295,8 +295,8 @@ export const Alert = (props: AlertProps) => {
       {type === AlertTypes.Promotion &&
         <>
           <span className="number">{promotion}</span>
-          <span className={type} id="title">{__(type)}, {nickname}!</span>
-          <span id="sub-title">{__(`${type}_subtitle1`)} {promotion} {__(`${type}_subtitle2`)}</span>
+          <span className={type} id="title">{__(type)}, {promotion.nickname}!</span>
+          <span id="sub-title">{__(`${type}_subtitle1`)} {promotion.erogations} {__(`${type}_subtitle2`)}</span>
         </>
       }
     </AlertWrap>

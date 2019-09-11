@@ -805,8 +805,10 @@ export const Home = (props: HomeProps) => {
   //     backgroung: "img/fruits-bg.webp",
   //     timeout: false,
   //     subTitle: true,
-  //     promotion: 5,
-  //     nickname: "{NICKNAME}"
+  //     promotion: {
+  //       erogations: 4,
+  //       nickname: "MARIO"
+  //     }
   //     // transparent: true,
   //     // onDismiss: () => {
   //     //   setDisabled(false);
