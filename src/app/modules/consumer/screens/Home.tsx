@@ -288,7 +288,7 @@ export const Home = (props: HomeProps) => {
       if (alarmPayment_) {
         alertConsumer.show({
           type: AlertTypes.ErrorPaymentDown,
-          img: "img/alerts/payment_system_down.webp",
+          img: "img/alerts/payment-system-down.svg",
           subTitle: true,
           timeout: true,
           onDismiss: () => {}
@@ -360,7 +360,7 @@ export const Home = (props: HomeProps) => {
       if (alarmPayment_) {
         alertConsumer.show({
           type: AlertTypes.ErrorPaymentDown,
-          img: "img/alerts/payment_system_down.webp",
+          img: "img/alerts/payment-system-down.svg",
           subTitle: true,
           timeout: true,
           onDismiss: () => {}
@@ -582,7 +582,7 @@ export const Home = (props: HomeProps) => {
       if (alarmPayment_) {
         alertConsumer.show({
           type: AlertTypes.ErrorPaymentDown,
-          img: "img/alerts/payment_system_down.webp",
+          img: "img/alerts/payment-system-down.svg",
           subTitle: true,
           timeout: true,
           onDismiss: () => {}
@@ -650,7 +650,7 @@ export const Home = (props: HomeProps) => {
         if (alarmPayment_) {
           alertConsumer.show({
             type: AlertTypes.ErrorPaymentDown,
-            img: "img/alerts/payment_system_down.webp",
+            img: "img/alerts/payment-system-down.svg",
             subTitle: true,
             timeout: true,
             onDismiss: () => {}

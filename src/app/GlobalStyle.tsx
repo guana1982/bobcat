@@ -70,7 +70,7 @@ export const GlobalStyle = createGlobalStyle`
       url("img/alerts/pay.svg")
       url("img/alerts/qr-code-not-recognized.svg")
       url("img/alerts/static-loading-icon.webp")
-      url("img/alerts/payment_system_down.webp")
+      url("img/alerts/payment-system-down.svg")
       url("img/alerts/qr-code-not-associated-with-account.webp")
       url("img/alerts/wrench.webp")
       url("img/alerts/daily-limit-reached.svg")
