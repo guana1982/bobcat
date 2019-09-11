@@ -56,13 +56,8 @@ export const parsePriceBeverage = (value: number, currency: string) => {
 /* ======================================== */
 
 /* ==== EXPIRY DATE CHECK ==== */
-export const formatDateForComparison = date => {
-  return Number(date.replace(/-/g, ""));
-};
-
-export const compareDate = (date) => {
-  const today = new Date().toISOString().substr(0, 10);
-  return formatDateForComparison(today) > formatDateForComparison(date);
+export const checkExpiringDate = (date): boolean => {
+  return new Date(date) < new Date();
 };
 /* ======================================== */
 

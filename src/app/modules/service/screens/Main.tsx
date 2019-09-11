@@ -18,7 +18,7 @@ import { Customize, SelectionTypes } from "../components/modals/Customize";
 import { Update } from "../components/modals/Update";
 import { Timeout } from "../components/modals/Timeout";
 import { Sanitation } from "../components/modals/Sanitation";
-import { Pages, compareDate } from "@core/utils/constants";
+import { Pages, checkExpiringDate } from "@core/utils/constants";
 
 /* ==== STYLE ==== */
 /* ======================================== */
@@ -195,7 +195,7 @@ export const NewMenu = (props: MenuProps) => {
     if (line.$beverage) {
       if (line.$beverage.$lock) {
         return MTypes.INFO_WARNING;
-      } else if (compareDate(line.$beverage.bib_expiring_date)) {
+      } else if (checkExpiringDate(line.$beverage.bib_expiring_date)) {
         return MTypes.INFO_DANGER;
       } else {
         return null;

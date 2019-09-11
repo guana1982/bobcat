@@ -5,7 +5,7 @@ import { MButton, MTypes } from "@modules/service/components/common/Button";
 import { ILine, ServiceContext, ILineSave, ConfigContext, AuthLevels } from "@core/containers";
 import { __ } from "@core/utils/lib/i18n";
 import BeverageLogo from "@core/components/common/Logo";
-import { calcolaPerc, compareDate } from "@core/utils/constants";
+import { calcolaPerc, checkExpiringDate } from "@core/utils/constants";
 import { MInput } from "../common/Input";
 import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
 import mediumLevel from "@core/utils/lib/mediumLevel";
@@ -216,7 +216,7 @@ export const Line = (props: LineProps) => {
               <h3>SKU NO. {$beverage.beverage_id} - V1</h3>
               <h3><span>LEVEL:</span> <LevelBeverage level={percLevel} /></h3>
               <h3><span>VOLUME (GAL):</span> <MInput className="small" value={$beverage.bib_size / 3.78541} onChange={() => null} disabled /></h3>
-              <h3><span>EXPIRATION DATE:</span> <MInput className={`small ${compareDate($beverage.bib_expiring_date) && "alert"}`} value={$beverage.bib_expiring_date} onChange={() => null} disabled /></h3>
+              <h3><span>EXPIRATION DATE:</span> <MInput className={`small ${checkExpiringDate($beverage.bib_expiring_date) && "alert"}`} value={$beverage.bib_expiring_date} onChange={() => null} disabled /></h3>
             </div>
           </Box>
           <Box className="centered">
