@@ -25,8 +25,17 @@ export enum AlertTypes {
   ErrorUnassociatedBottle = "c_error_unassociated_bottle",
   ErrorADAPanelDown = "c_ada_panel_down",
   ErrorPaymentDown = "p_payment_down",
-  DailyLimitReached = "p_daily_limit_reached",
-  SubscriptionExpired = "c_subscription_expired"
+  DailyLimitReached = "c_daily_limit_reached",
+  SubscriptionExpired = "c_subscription_expired",
+
+  /* =============== */
+  /* ================= */
+  /* =================== */
+  /* ====================== */
+  /* ========================== */
+
+  PaymentDeclined = "p_declined",
+  CardNotRead = "p_card_not_read"
 }
 
 interface PromotionProps {

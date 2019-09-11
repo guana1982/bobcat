@@ -288,7 +288,7 @@ export const Home = (props: HomeProps) => {
       if (alarmPayment_) {
         alertConsumer.show({
           type: AlertTypes.ErrorPaymentDown,
-          img: "img/alerts/payment_system_down.webp",
+          img: "img/alerts/payment-system-down.svg",
           subTitle: true,
           timeout: true,
           onDismiss: () => {}
@@ -360,7 +360,7 @@ export const Home = (props: HomeProps) => {
       if (alarmPayment_) {
         alertConsumer.show({
           type: AlertTypes.ErrorPaymentDown,
-          img: "img/alerts/payment_system_down.webp",
+          img: "img/alerts/payment-system-down.svg",
           subTitle: true,
           timeout: true,
           onDismiss: () => {}
@@ -575,7 +575,7 @@ export const Home = (props: HomeProps) => {
       if (alarmPayment_) {
         alertConsumer.show({
           type: AlertTypes.ErrorPaymentDown,
-          img: "img/alerts/payment_system_down.webp",
+          img: "img/alerts/payment-system-down.svg",
           subTitle: true,
           timeout: true,
           onDismiss: () => {}
@@ -644,7 +644,7 @@ export const Home = (props: HomeProps) => {
         if (alarmPayment_) {
           alertConsumer.show({
             type: AlertTypes.ErrorPaymentDown,
-            img: "img/alerts/payment_system_down.webp",
+            img: "img/alerts/payment-system-down.svg",
             subTitle: true,
             timeout: true,
             onDismiss: () => {}
@@ -799,23 +799,24 @@ export const Home = (props: HomeProps) => {
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
-  // React.useEffect(() => { // PROMOTION ALERT
-  //   alertConsumer.show({
-  //     type: AlertTypes.Promotion,
-  //     backgroung: "img/fruits-bg.webp",
-  //     timeout: false,
-  //     subTitle: true,
-  //     promotion: {
-  //       erogations: 4,
-  //       nickname: "MARIO"
-  //     }
-  //     // transparent: true,
-  //     // onDismiss: () => {
-  //     //   setDisabled(false);
-  //     //   call_();
-  //     // }
-  //   });
-  // }, []);
+  React.useEffect(() => { // PROMOTION ALERT
+    alertConsumer.show({
+      type: AlertTypes.Promotion,
+      backgroung: "img/fruits-bg.webp",
+      timeout: false,
+      subTitle: true,
+      lock: true,
+      promotion: {
+        erogations: 4,
+        nickname: "MARIO"
+      }
+      // transparent: true,
+      // onDismiss: () => {
+      //   setDisabled(false);
+      //   call_();
+      // }
+    });
+  }, []);
 
   // React.useEffect(() => { // SUBSCRIPTION EXPIRED ALERT
   //   alertConsumer.show({
@@ -844,6 +845,46 @@ export const Home = (props: HomeProps) => {
   //     // }
   //   });
   // }, []);
+
+
+
+
+  // React.useEffect(() => { // PAYMENT DOWN ALERT
+  //   alertConsumer.show({
+  //     type: AlertTypes.ErrorPaymentDown,
+  //     img: "img/alerts/payment-system-down.svg",
+  //     subTitle: true,
+  //     onDismiss: () => {}
+  //   });
+  // }, []);
+
+  // React.useEffect(() => { // CARD PROCESSING ISSUE ALERT
+  //   alertConsumer.show({
+  //     type: AlertTypes.PaymentDeclined,
+  //     img: "img/alerts/payment-alert.svg",
+  //     subTitle: true,
+  //     onDismiss: () => {}
+  //   });
+  // }, []);
+
+  // React.useEffect(() => { // CARD NOT READ ALERT
+  //   alertConsumer.show({
+  //     type: AlertTypes.CardNotRead,
+  //     img: "img/alerts/payment-alert.svg",
+  //     subTitle: true,
+  //     onDismiss: () => {}
+  //   });
+  // }, []);
+
+  // React.useEffect(() => { // AUTHORIZING PAYMENT ALERT
+  //   alertConsumer.show({
+  //     type: AlertTypes.AuthorizingPayment,
+  //     img: "img/alerts/authorizing-payment.svg",
+  //     subTitle: true,
+  //     onDismiss: () => {}
+  //   });
+  // }, []);
+
 
   return (
     <HomeContent className={slideOpen ? "slide-is-open" : ""}>

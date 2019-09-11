@@ -294,9 +294,9 @@ export const Alert = (props: AlertProps) => {
       }
       {type === AlertTypes.Promotion &&
         <>
-          <span className="number">{promotion}</span>
+          <span className="number">{promotion.erogations}</span>
           <span className={type} id="title">{__(type)}, {promotion.nickname}!</span>
-          <span id="sub-title">{__(`${type}_subtitle1`)} {promotion.erogations} {__(`${type}_subtitle2`)}</span>
+          <span id="sub-title">{__(`${type}_subtitle_1`)} {promotion.erogations} {__(`${type}_subtitle_2`)}</span>
         </>
       }
     </AlertWrap>
