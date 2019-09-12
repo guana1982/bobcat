@@ -106,7 +106,7 @@ const AlertWrap = styled.div`
       text-transform: uppercase;
       position: fixed;
       font-size: 16px;
-      line-height: 2.34;
+      line-height: 1.5;
       letter-spacing: 1.28px;
       text-align: left;
       vertical-align: center;

@@ -118,7 +118,7 @@ const PaymentContainer = createUseContext((props: any) => {
     const result_ = parsePriceBeverage(value, currency);
     const gift_ = promotionEnabled === IPromotionTypes.PromotionFreePours;
 
-    if(value === 0)
+    if (value === 0)
       return (
         <>
           {full && <span id="info"> TOTAL </span>}
