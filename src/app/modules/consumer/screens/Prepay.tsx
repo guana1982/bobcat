@@ -259,6 +259,7 @@ export const Prepay = (props: PrepayProps) => {
           }
         });
       } else if (status === IdentificationConsumerStatus.PromotionRemainderAmount) {
+        const { consumer_nick } =  consumerConsumer.getDataConsumer();
         alertConsumer.hide();
         alertConsumer.show({
           type: AlertTypes.Promotion,
@@ -267,7 +268,7 @@ export const Prepay = (props: PrepayProps) => {
           subTitle: false,
           data: {
             erogations: paymentConsumer.remainderAmount.current,
-            nickname: consumerConsumer.dataConsumer.consumer_nick
+            nickname: consumer_nick
           },
           onDismiss: goToHome
         });

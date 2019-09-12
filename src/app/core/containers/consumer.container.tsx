@@ -20,6 +20,7 @@ export interface ConsumerInterface {
   startScanning: () => Observable<IdentificationConsumerStatus>;
   stopScanning: () => Observable<any>;
   updateConsumerBeverages: () => void;
+  getDataConsumer: () => IConsumerModel;
 }
 
 export const ConsumerContext = React.createContext<ConsumerInterface | null>(null);
@@ -271,7 +272,7 @@ class ConsumerStoreComponent extends React.Component<any, any> {
           // data.events.push({"redeemThreshold":5,"promotionType": "SubscriptionDailyAmount","redeemAmount":4,"pour":"KO","name":"Promotion 12345","promotionAmountUnit":"Each","priority":0,"redeemStartDate":"2019-07-10","redeemEndDate":"2019-07-10","prmtnEvtId":"12345"});
           // <= MOCK ==
 
-          if (data.events.length !== 0) {
+          if (data.events && data.events.length !== 0) {
             const { setPromotion } = this.props.paymentConsumer;
             const promotionsData = data.events.sort((a, b) => (a.priority - b.priority));
             const promotionPourData = promotionsData.filter(event => event.pour === IPourCondition.Pour)[0];
@@ -315,6 +316,8 @@ class ConsumerStoreComponent extends React.Component<any, any> {
 
   stopScanning = () => mediumLevel.config.stopQrCamera().pipe(first());
 
+  getDataConsumer = () => this.state.dataConsumer;
+
   /* ==== MAIN ==== */
   /* ======================================== */
 
@@ -330,7 +333,8 @@ class ConsumerStoreComponent extends React.Component<any, any> {
           startScanning: this.startScanning,
           stopScanning: this.stopScanning,
           resetConsumer: this.resetConsumer,
-          updateConsumerBeverages: this.updateConsumerBeverages
+          updateConsumerBeverages: this.updateConsumerBeverages,
+          getDataConsumer: this.getDataConsumer
         }}
       >
         <React.Fragment>
