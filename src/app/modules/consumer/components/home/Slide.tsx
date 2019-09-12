@@ -75,12 +75,16 @@ const AlertSLide = styled.div`
 `;
 
 const HeaderSlide = styled.div`
-  padding: 1.5rem;
+  padding: 1.5rem 2.5rem 1.5rem 1.5rem;
   position: absolute;
   right: 0;
   word-wrap: break-word;
   width: 329px;
   margin-top: .3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   &[disabled] {
     visibility: hidden;
   }
@@ -112,17 +116,34 @@ const HeaderSlide = styled.div`
     line-height: 1.88;
     letter-spacing: 1.3px;
     color: ${props => props.theme.slateGrey};
-    display: flex;
+    /* display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; */
     span {
       width: 85%;
       line-height: 17px;
     }
-    #gift {
-      width: 37px;
-      height: 37px
+  }
+  #gift {
+    width: 37px;
+    height: 37px;
+    margin-top: 5px;
+    position: relative;
+    span {
+      position: absolute;
+      top: 20px;
+      left: 85%;
+      background-image: linear-gradient(to bottom, #569aef, #2b9cda);
+      border-radius: 20px;
+      /* width: 18px;
+      height: 18px; */
+      text-align: center;
+      transform: translateX(-50%);
+      padding: 5px 9px 0px 9px;
+      font-family: NeuzeitGro-Bol;
+      color: #fff;
+      font-size: 15px;
     }
   }
   #premium-label {
@@ -301,12 +322,17 @@ export const Slide = (props: SlideProps) => {
           <HeaderSlide disabled={disabled} className={(slideOpen || fullMode) && "open"}>
             <h2>
               <span>{__("c_welcome")}, {dataConsumer.consumer_nick}!</span>
-              {promotionEnabled === IPromotionTypes.PromotionFreePours && <img id="gift" src="icons/gift.svg" />}
             </h2>
             {promotionEnabled === IPromotionTypes.SubscriptionDailyAmount &&
               <div id="premium-label">
                 <img src="icons/subscription.svg" />
                 <span>{__("c_premium")}</span>
+              </div>
+            }
+            {promotionEnabled === IPromotionTypes.PromotionFreePours &&
+              <div id="gift">
+                <img src="icons/gift.svg" />
+                <span>5</span>
               </div>
             }
           </HeaderSlide>
