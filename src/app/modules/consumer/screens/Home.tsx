@@ -18,7 +18,7 @@ import { CardsWrap } from "../components/home/CardsWrap";
 import { CustomizeBeverage } from "../components/home/CustomizeBeverage";
 import { Grid } from "../components/common/Grid";
 import { SegmentButtonProps } from "../components/common/SegmentButton";
-import { first, finalize } from "rxjs/operators";
+import { first, finalize, tap, flatMap, map } from "rxjs/operators";
 import { IPourConfig, PourFrom, IPourConsumerConfig } from "@core/models/vendor.model";
 
 /* ==== STYLE ==== */
@@ -471,7 +471,10 @@ export const Home = (props: HomeProps) => {
   const detectStopErogation = () => {
     const { socketStopErogation$ } = configConsumer;
     return socketStopErogation$
-    .pipe(first())
+    .pipe(
+      first(),
+      flatMap(value => configConsumer.onStopPour().pipe(map(() => value))) // <= FIX STOP POUR
+    )
     .subscribe(
       value => setEndSession(value)
     );
