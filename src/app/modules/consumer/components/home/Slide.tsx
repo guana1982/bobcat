@@ -134,10 +134,10 @@ const HeaderSlide = styled.div`
       border-radius: 10px;
       text-align: center;
       transform: translateX(-50%);
-      padding: 1px 6px;
+      padding: 2px 6px;
       font-family: NeuzeitGro-Bol;
       color: #fff;
-      font-size: 18px;
+      font-size: 17px;
       height: 20px;
     }
   }
@@ -277,7 +277,7 @@ export const Slide = (props: SlideProps) => {
   const animationSlide = () => slideOpen ? "open" : fullMode ? "fullClose" : "close";
 
   const paymentConsumer = React.useContext(PaymentContext);
-  const { promotionEnabled } = paymentConsumer;
+  const { promotionEnabled, remainderAmount } = paymentConsumer;
   const slideToggleDisabled = React.useRef(false);
 
   const accessibilityConsumer = React.useContext(AccessibilityContext);
@@ -324,10 +324,10 @@ export const Slide = (props: SlideProps) => {
                 </div>
               }
             </h2>
-            {promotionEnabled === IPromotionTypes.PromotionFreePours &&
+            {(promotionEnabled === IPromotionTypes.PromotionFreePours && remainderAmount.current > 0) &&
               <div id="gift">
                 <img src="icons/gift.svg" />
-                <span>5</span>
+                <span>{remainderAmount.current}</span>
               </div>
             }
           </HeaderSlide>
