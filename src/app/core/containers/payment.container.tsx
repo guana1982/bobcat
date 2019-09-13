@@ -112,6 +112,7 @@ const PaymentContainer = createUseContext((props: any) => {
   function restartPayment() {
     socketPayment$.current.next(PaymentStatus.NotAuthorized);
     statusPayment_.current = PaymentStatus.NotAuthorized;
+    resetPromotion();
   }
 
   function displayPriceBeverage(value: number, full?: boolean) {
@@ -152,6 +153,11 @@ const PaymentContainer = createUseContext((props: any) => {
     return statusPayment_.current in PaymentStatusPour;
   }
 
+  function resetPromotion() {
+    remainderAmount.current = null;
+    setPromotionEnabled(null);
+  }
+
   function setPromotion(type: IPromotionTypes, remainderAmount_?: number) {
     if (remainderAmount_ >= 0) {
       remainderAmount.current = remainderAmount_;
@@ -172,7 +178,8 @@ const PaymentContainer = createUseContext((props: any) => {
     statusPayment_,
     dataPayment_,
     cancelPayment,
-    remainderAmount
+    remainderAmount,
+    resetPromotion
   };
 });
 

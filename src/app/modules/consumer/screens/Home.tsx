@@ -161,6 +161,7 @@ export const Home = (props: HomeProps) => {
 
   function alertIsLogged(event) {
     if (isLogged) {
+      paymentConsumer.resetPromotion();
       mediumLevel.product.sessionEnded().subscribe();
       setSlideOpen(false);
       alertConsumer.show({

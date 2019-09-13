@@ -80,7 +80,6 @@ const HeaderSlide = styled.div`
   right: 0;
   word-wrap: break-word;
   width: 329px;
-  margin-top: .3rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -95,11 +94,11 @@ const HeaderSlide = styled.div`
       max-width: 500px;
       display: block;
       font-size: 20px;
-      /* padding: 20px; */
-      #gift {
-        margin-left: 20px;
-        vertical-align: bottom;
-      }
+    }
+    #gift {
+      margin-right: 50px;
+      margin-left: 20px;
+      vertical-align: bottom;
     }
     #premium-label {
       margin-top: 5px;
@@ -108,21 +107,18 @@ const HeaderSlide = styled.div`
   h2 {
     margin: 1rem 0 0 1rem;
     font-family: NeuzeitGro-Bol;
-    text-transform: uppercase;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
-    line-height: 1.88;
+    line-height: 19px;
     letter-spacing: 1.3px;
     color: ${props => props.theme.slateGrey};
-    /* display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center; */
+    #welcome {
+      text-transform: uppercase;
+    }
     span {
       width: 85%;
-      line-height: 17px;
     }
   }
   #gift {
@@ -135,15 +131,14 @@ const HeaderSlide = styled.div`
       top: 20px;
       left: 85%;
       background-image: linear-gradient(to bottom, #569aef, #2b9cda);
-      border-radius: 20px;
-      /* width: 18px;
-      height: 18px; */
+      border-radius: 10px;
       text-align: center;
       transform: translateX(-50%);
-      padding: 5px 9px 0px 9px;
+      padding: 1px 6px;
       font-family: NeuzeitGro-Bol;
       color: #fff;
-      font-size: 15px;
+      font-size: 18px;
+      height: 20px;
     }
   }
   #premium-label {
@@ -151,7 +146,7 @@ const HeaderSlide = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin: 0 1rem;
+    margin: 3px;
     img {
       position: relative;
       bottom: 3px;
@@ -321,14 +316,14 @@ export const Slide = (props: SlideProps) => {
           <div className={`sliderBorder ${disabled ? "disabled" : ""}`} />
           <HeaderSlide disabled={disabled} className={(slideOpen || fullMode) && "open"}>
             <h2>
-              <span>{__("c_welcome")}, {dataConsumer.consumer_nick}!</span>
+              <span><span id="welcome">{__("c_welcome")}</span>, {dataConsumer.consumer_nick}!</span>
+              {promotionEnabled === IPromotionTypes.SubscriptionDailyAmount &&
+                <div id="premium-label">
+                  <img src="icons/subscription.svg" />
+                  <span>{__("c_premium")}</span>
+                </div>
+              }
             </h2>
-            {promotionEnabled === IPromotionTypes.SubscriptionDailyAmount &&
-              <div id="premium-label">
-                <img src="icons/subscription.svg" />
-                <span>{__("c_premium")}</span>
-              </div>
-            }
             {promotionEnabled === IPromotionTypes.PromotionFreePours &&
               <div id="gift">
                 <img src="icons/gift.svg" />
