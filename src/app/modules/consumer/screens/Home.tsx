@@ -415,7 +415,7 @@ export const Home = (props: HomeProps) => {
               clearInterval(pourCheck_.current);
             return;
           }
-        }, 500);
+        }, 2000);
       }
     };
 
