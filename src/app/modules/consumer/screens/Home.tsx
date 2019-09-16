@@ -107,6 +107,7 @@ export const Home = (props: HomeProps) => {
   const socketPayment_ =  React.useRef<Subscription>(null);
   const timer_ =  React.useRef<Subscription>(null);
   const endSession_ =  React.useRef<Subscription>(null);
+  const pourCheck_ =  React.useRef<any>(null);
 
   const levels = LEVELS;
   const types = [
@@ -344,16 +345,6 @@ export const Home = (props: HomeProps) => {
 
     const { params, from } = config;
 
-    if (from === PourFrom.Touch) { // <= CHECK VALID TOUCH
-      const activeElement_ = document.querySelector(":active");
-      if (activeElement_ === null) {
-        console.log("NO CORRECT TOUCH TO POUR");
-        return;
-      }
-    }
-
-    console.log("__START_POUR =>", { config });
-
     const { beverageSelected, beverageConfig, indexFavorite } = params;
 
     const needToPay_ = needToPay(beverageSelected || getBeverageSelected());
@@ -410,8 +401,22 @@ export const Home = (props: HomeProps) => {
           showCardsInfo: true
         }); // <= Slow mode
       }
+      console.log("__START_POUR =>", { config });
       setEndSession(StatusEndSession.Start);
       pour_.subscribe();
+      if (from === PourFrom.Touch) { // <= CHECK VALID TOUCH
+        pourCheck_.current = setInterval(() => {
+          console.log("/___ CHECK POUR => CHECKING ___/");
+          const activeElement_ = document.querySelector(":active");
+          if (activeElement_ === null) {
+            console.log("/___ CHECK POUR => NO ACTIVE ELEMENT ___/");
+            stopPour();
+            if (pourCheck_.current)
+              clearInterval(pourCheck_.current);
+            return;
+          }
+        }, 500);
+      }
     };
 
     console.log("endSession", endSession);
@@ -439,11 +444,13 @@ export const Home = (props: HomeProps) => {
 
   const stopPour = React.useCallback(() => {
     configConsumer.onStopPour().subscribe(); // => TEST MODE
-
-    if (!endSession_.current) {
+    if (pourCheck_.current) { // <= CHECK VALID TOUCH
+      console.log("/___ CHECK POUR => STOP ___/");
+      clearInterval(pourCheck_.current);
+    }
+    if (!endSession_.current) { // if (endSession === StatusEndSession.Start)
        startTimerEnd_();
-    } // if (endSession === StatusEndSession.Start)
-
+    }
   }, [endSession]);
 
   /* ==== END POUR ==== */
@@ -536,6 +543,10 @@ export const Home = (props: HomeProps) => {
         resetTimerEnd_();
         mediumLevel.product.sessionEnded().subscribe();
         restartPayment();
+        if (pourCheck_.current) { // <= CHECK VALID TOUCH
+          console.log("/___ CHECK POUR => STOP ___/");
+          clearInterval(pourCheck_.current);
+        }
         if (socketStopErogation_) {
           socketStopErogation_.unsubscribe();
         }
