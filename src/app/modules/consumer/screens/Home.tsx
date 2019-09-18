@@ -405,6 +405,9 @@ export const Home = (props: HomeProps) => {
       setEndSession(StatusEndSession.Start);
       pour_.subscribe();
       if (from === PourFrom.Touch) { // <= CHECK VALID TOUCH
+        if (pourCheck_.current) {
+          clearInterval(pourCheck_.current);
+        }
         pourCheck_.current = setInterval(() => {
           console.log("/___ CHECK POUR => CHECKING ___/");
           const activeElement_ = document.querySelector(":active");
@@ -419,7 +422,6 @@ export const Home = (props: HomeProps) => {
       }
     };
 
-    console.log("endSession", endSession);
     if (needToPay_ && !promotionEnabled && endSession !== StatusEndSession.Start) {
       mediumLevel.payment.vendRequest({ beverage_id: bevSelected.beverage_id })
       .subscribe(

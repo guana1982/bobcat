@@ -76,16 +76,9 @@ export default class ClickNHold extends React.Component<any, any> {
 
     /*Start callback*/
     start(e) {
-        // === START: CHECK VALID POUR ===>
-        // clearInterval(intervalValidationPour);
-        // intervalValidationPour = setInterval(() => {
-        //     const activeElement_ = document.querySelector(":active");
-        //     if (activeElement_ === null) {
-        //         clearInterval(intervalValidationPour);
-        //         this.end(e);
-        //     }
-        // }, 1000);
-        // <=== START: CHECK VALID POUR ===>
+        if (this.state.holding === true) {
+            return;
+        }
         let ended = this.state.ended;
         let start = Date.now();
         let eCopy = Object.assign({}, e);
@@ -107,9 +100,6 @@ export default class ClickNHold extends React.Component<any, any> {
 
     /*End callback*/
     end(e) {
-        // === STOP: CHECK VALID POUR ===>
-        // clearInterval(intervalValidationPour);
-        // <=== STOP: CHECK VALID POUR ===>
         document.documentElement.removeEventListener("mouseup", this.end);
         if (this.state.ended || this._unmounted) {
             return false;
@@ -167,6 +157,7 @@ export default class ClickNHold extends React.Component<any, any> {
     //         this.end(event);
     //     }
     // }
+
     animate() {
         if (this.state.holding) return { scale: .97 };
         else if (this.state.ended === true) return { scale: 1 };
@@ -191,7 +182,6 @@ export default class ClickNHold extends React.Component<any, any> {
                     //  onTouchMove={this.clear}
 
                     //  onTouchMove={this.touchMove}
-                    onClickCapture={this.clickCapture}
                     onTouchEnd={this.end}>
                     {
                         typeof this.props.children === "object"
@@ -203,12 +193,13 @@ export default class ClickNHold extends React.Component<any, any> {
                     style={this.props.style}
                     className={classList}
                     onTouchStart={this.start}
+                    // onClickCapture={this.clickCapture}
+
                     //  onMouseDown={this.start} // => DESKTOP MODE
                     //  onMouseUp={this.end} // => DESKTOP MODE
                     //  onTouchMove={this.clear}
 
                     //  onTouchMove={this.touchMove}
-                    onClickCapture={this.clickCapture}
                     onTouchEnd={this.end}>
                     {
                         typeof this.props.children === "object"
