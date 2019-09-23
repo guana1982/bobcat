@@ -46,7 +46,7 @@ export default compose(
               window.removeEventListener("touchmove", moveListener);
               window.removeEventListener("touchend", endListener);
               console.log(JSON.stringify(points));
-              if (!points.length || points.length < 50) {
+              if (!points.length || points.length < 20) {
                 return;
               }
               const matched = dollarOne.recognize(points);
