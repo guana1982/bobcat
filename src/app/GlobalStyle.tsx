@@ -34,6 +34,8 @@ export const themeMenu = {
 export const GlobalStyle = createGlobalStyle`
   html {
     cursor: none;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
   }
   /* // => DESKTOP MODE */
 
@@ -244,4 +246,44 @@ export const GlobalStyle = createGlobalStyle`
       box-shadow: 0 0 0 6px #2b9cda !important;
     }
   }
+
+  /* TEST ANIMATION  */
+  body {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(180deg, #d309e1 0%, rgb(156, 26, 255) 100%);
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #example-container {
+    #animation-test {
+      position: absolute;
+      top: 200px;
+      right: 200px;
+      background: white;
+      border-radius: 30px;
+      width: 150px;
+      height: 150px;
+    }
+    #box {
+      position: absolute;
+      bottom: 0;
+      padding: 20px;
+      button {
+        margin: 10px;
+        padding: 10px 20px;
+        background: #fff;
+        font-size: 20px;
+        border-radius: 20px;
+      }
+      h1 {
+        color: #fff;
+      }
+    }
+  }
+
 `;
