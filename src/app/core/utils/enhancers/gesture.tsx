@@ -20,13 +20,12 @@ export default compose(
       let moveListener = null;
       let endListener = null;
       let currentGesture = null;
-      let clearGestureTimeout = null;
       let points = [];
       window.addEventListener(
         "touchstart",
         (this.startListener = evt => {
           if (currentGesture) {
-            clearTimeout(clearGestureTimeout);
+            return;
           }
           currentGesture = true;
           // console.log('-> touchstart')
@@ -43,18 +42,16 @@ export default compose(
           window.addEventListener(
             "touchend",
             (endListener = e => {
+              currentGesture = false;
               window.removeEventListener("touchmove", moveListener);
               window.removeEventListener("touchend", endListener);
               console.log(JSON.stringify(points));
-              if (!points.length) {
+              if (!points.length || points.length < 50) {
                 return;
               }
               const matched = dollarOne.recognize(points);
-              // console.log('-> matched', matched)
-              clearGestureTimeout = setTimeout(() => {
-                currentGesture = false;
-                points = [];
-              }, 250);
+              points = [];
+              console.log('-> matched', matched)
               if (matched) {
                 this.props.setGesture(matched, () => {
                   this.props.onGesture && this.props.onGesture(matched);
