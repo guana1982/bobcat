@@ -57,30 +57,51 @@ const LazyLoadService = () => {
 
 const TestGesture = () => {
   const [countGesture, setCountGesture] = React.useState(0);
+  const [countClick, setCountClick] = React.useState(0);
   const [countTouchStart, setCountTouchStart] = React.useState(0);
   const [countTouchMove, setCountTouchMove] = React.useState(0);
   const [countTouchEnd, setCountTouchEnd] = React.useState(0);
   const [enableGesture, setEnableGesture] = React.useState(true);
+
+  const timestampStart = React.useRef(null);
+  const timestampEnd = React.useRef(null);
+  const [historyTimestamp, setHistoryTimestamp]  = React.useState([]);
 
   const onGesture = (gesture) => {
     setCountGesture(prevCount => prevCount + 1);
   };
 
   const reset = () => {
+    timestampStart.current = null;
+    timestampEnd.current = null;
+    setHistoryTimestamp([]);
     setCountGesture(0);
     setCountTouchStart(0);
+    setCountClick(0);
     setCountTouchMove(0);
     setCountTouchEnd(0);
   };
 
   React.useEffect(() => {
+
+    const element = document.getElementById("example-container");
+    element.classList.add("not-active");
+    
     window.addEventListener("touchstart", () => {
+      timestampEnd.current = null;
+      timestampStart.current = new Date();
       setCountTouchStart(prevCount => prevCount + 1);
+    });
+    window.addEventListener("click", () => {
+      setCountClick(prevCount => prevCount + 1);
     });
     window.addEventListener("touchmove", () => {
       setCountTouchMove(prevCount => prevCount + 1);
     });
     window.addEventListener("touchend", () => {
+      timestampEnd.current = new Date();
+      const diff_ = timestampEnd.current - timestampStart.current;
+      setHistoryTimestamp(prev => [diff_, ...prev]);
       setCountTouchEnd(prevCount => prevCount + 1);
     });
   }, []);
@@ -105,9 +126,11 @@ const TestGesture = () => {
       />
       <div id="box">
         <h1>Gestures: {countGesture}</h1>
+        <h1>Click: {countClick}</h1>
         <h1>Touch start: {countTouchStart}</h1>
         <h1>Touch move: {countTouchMove}</h1>
         <h1>Touch end: {countTouchEnd}</h1>
+        <h1>Diff start / end: {historyTimestamp.slice(0, 70).map(value => <span>{value} </span>)}</h1>
         <button onClick={reset}>Reset</button>
         <button onClick={() => setEnableGesture(prev => !prev)}>{!enableGesture ? "Enable" : "Disable"} Gesture</button>
         <button onClick={() => window.location.reload(true)}>Reload</button>
