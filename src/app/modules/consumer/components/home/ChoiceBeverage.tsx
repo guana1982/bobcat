@@ -11,6 +11,7 @@ import { MessageInfo } from "../common/MessageInfo";
 import { IBeverage } from "@core/models";
 import { ReplaySubscription } from "../common/Subscription";
 import { IPourConfig } from "@core/models/vendor.model";
+import * as _ from "underscore";
 
 /* ==== COMPONENTS ==== */
 /* ======================================== */
@@ -99,6 +100,8 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
     signedOut();
   };
 
+  const handleNutritionFacts_ = React.useMemo(() => _.debounce(handleNutritionFacts, 500, { leading: false }), []);
+
   return (
     <React.Fragment>
       <ChoiceBeverageWrap disabledWrap={disabled}>
@@ -139,7 +142,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
         </Grid>
         {(!disableSparkling_ && !beverageSelected) && <>
           <MessageInfo disabled={nutritionFacts || disabled} />
-          <Button detectValue="nutrition-btn" disabled={disabled || disableSparkling_} onClick={handleNutritionFacts} text="c_nutrition" icon={!nutritionFacts ? "nutrition" : "close"} />
+          <Button detectValue="nutrition-btn" disabled={disabled || disableSparkling_} onClick={handleNutritionFacts_} text="c_nutrition" icon={!nutritionFacts ? "nutrition" : "close"} />
           <ReplaySubscription source={socketPayment$.current}>
             {(status: PaymentStatus) => {
               const cancelPayment_ = status in PaymentStatusCancel;

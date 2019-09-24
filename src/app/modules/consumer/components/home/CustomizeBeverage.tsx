@@ -20,6 +20,7 @@ import { motion } from "framer-motion";
 import { IPourConfig, PourFrom } from "@core/models/vendor.model";
 import { memo } from "react";
 import { IPromotionTypes } from "@core/utils/APIModel";
+import * as _ from "underscore";
 
 /* ==== POUR BUTTON ==== */
 /* ======================================== */
@@ -394,6 +395,8 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   }
   //  <=== DISABLE SPARKLING ====
 
+  const resetBeverage_ = React.useMemo(() => _.throttle(resetBeverage, 500, { leading: false }), []);
+
   return(
     <React.Fragment>
       <CustomizeBeverageWrap>
@@ -402,7 +405,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           <>
             <SegmentButton {...props.segmentButton} />
             <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={resetBeverage} />
-            <div id="backdrop" onClick={resetBeverage} />
+            <div id="backdrop" onClick={resetBeverage_} />
           </>
         }
 
