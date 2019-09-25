@@ -395,7 +395,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   }
   //  <=== DISABLE SPARKLING ====
 
-  const resetBeverage_ = React.useMemo(() => _.throttle(resetBeverage, 500, { leading: false }), []);
+  const resetBeverage_ = React.useMemo(() => _.debounce(resetBeverage, 500, false), []);
 
   return(
     <React.Fragment>

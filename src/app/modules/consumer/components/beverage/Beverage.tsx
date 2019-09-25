@@ -20,6 +20,7 @@ import ClickNHold from "../common/ClickNHold";
 import { PourFrom } from "@core/models/vendor.model";
 import { motion } from "framer-motion";
 import { areEqual, checkExpiringDate } from "@core/utils/constants";
+import * as _ from "underscore";
 
 export enum BeverageTypes {
   Info = "info",
@@ -236,12 +237,14 @@ export const Beverage = (props: BeverageProps) => {
     handleDisabled(status);
   };
 
-  const closeZoomNutrition = () => {
-    changeStateLayout({
-      alertShow: false
-    }); //  <=== ACCESSIBILITY FUNCTION ====
-    handleZoomNutrition(false);
-  };
+  const closeZoomNutrition = React.useMemo(() =>
+    _.debounce(() => {
+      changeStateLayout({
+        alertShow: false
+      }); //  <=== ACCESSIBILITY FUNCTION ====
+      handleZoomNutrition(false);
+    }, 500, false)
+  , []);
 
   const start = () => {
     if (disabledButton) return;

@@ -100,7 +100,7 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
     signedOut();
   };
 
-  const handleNutritionFacts_ = React.useMemo(() => _.debounce(handleNutritionFacts, 500, { leading: false }), []);
+  const handleNutritionFacts_ = React.useMemo(() => _.debounce(handleNutritionFacts, 500, true), []);
 
   return (
     <React.Fragment>

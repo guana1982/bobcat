@@ -92,7 +92,7 @@ export default class ClickNHold extends React.Component<any, any> {
         if (ended) {
           this._timer = setTimeout(function() {this.timeout(start); }.bind(this), time * 1000 + 1);
         }
-        if (this.props.onStart) {
+        if (typeof this.props.onStart === "function") {
           this.props.onStart(e);
         }
         document.documentElement.addEventListener("mouseup", this.end);

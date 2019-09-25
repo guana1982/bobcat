@@ -5,6 +5,7 @@ import { AlertContext, DEFAULT_TIMEOUT_ALERT, AlertOptions, AlertTypes } from "@
 import { AccessibilityContext } from "@core/containers";
 import { CloseBtn, CloseBtnWrap } from "./CloseBtn";
 import { MessageInfo } from "./MessageInfo";
+import * as _ from "underscore";
 
 const AlertWrap = styled.div`
   position: absolute;
@@ -208,6 +209,7 @@ export const AlertFull = (props: AlertFullProps) => {
   const alertConsumer = React.useContext(AlertContext);
   const {show, options} = alertConsumer.state;
   const {type, onDismiss, timeout, transparent, onConfirm, subTitle, lock, img} = options;
+  const debouncedDismiss = React.useRef(null);
 
   const onConfirm_ = () => {
     onConfirm();
@@ -215,6 +217,9 @@ export const AlertFull = (props: AlertFullProps) => {
   };
 
   const onDismiss_ = () => {
+    if (debouncedDismiss.current) {
+      debouncedDismiss.current.cancel();
+    }
     onDismiss();
     alertConsumer.hide();
   };
@@ -233,10 +238,12 @@ export const AlertFull = (props: AlertFullProps) => {
     onDismiss_();
   };
 
+  const dismiss_ = React.useMemo(() => debouncedDismiss.current = _.debounce(dismiss, 500, false), [onDismiss]);
+
   return (
     <React.Fragment>
       {show && <AlertContent>
-        <Overlay background={options.backgroung}  className={transparent ? "transparent" : null} onTouchEnd={dismiss} />
+        <Overlay background={options.backgroung}  className={transparent ? "transparent" : null} onClick={dismiss_} />
         {!lock && <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={dismiss} />}
         <Alert options={options} onDismiss_={onDismiss_} />
       </AlertContent>}
