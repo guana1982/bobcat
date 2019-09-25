@@ -46,9 +46,9 @@ export const parsePriceBeverage = (value: number, currency: string) => {
   }
   let result_ = "";
   if (value < 100 && currency === "USD") {
-    result_ = `${String(value / 100).replace(/^0\.+/, "")}${__("c_cent")}`;
+    result_ = `${value}${__("c_cent")}`;
   } else {
-    result_ = `${value / 100}${__(`c_${currency}`)}`;
+    result_ = currency === "USD" ? `${__(`c_${currency}`)}${value / 100}` : `${value / 100}${__(`c_${currency}`)}`;
   }
 
   return result_;

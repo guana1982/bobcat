@@ -110,8 +110,8 @@ const PaymentContainer = createUseContext((props: any) => {
   }
 
   function restartPayment() {
-    socketPayment$.current.next(PaymentStatus.NotAuthorized);
-    statusPayment_.current = PaymentStatus.NotAuthorized;
+    // socketPayment$.current.next(PaymentStatus.NotAuthorized);
+    // statusPayment_.current = PaymentStatus.NotAuthorized;
     resetPromotion();
   }
 
@@ -122,7 +122,6 @@ const PaymentContainer = createUseContext((props: any) => {
     if (value === 0)
       return (
         <>
-          {full && <span id="info"> TOTAL </span>}
           <span>{result_}</span>
         </>
       );

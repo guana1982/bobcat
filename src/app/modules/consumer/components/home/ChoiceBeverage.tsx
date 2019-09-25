@@ -95,7 +95,6 @@ export const ChoiceBeverage = (props: ChoiceBeverageProps) => {
   const logout = (cancelPayment_?: boolean) => {
     if (cancelPayment_) {
       cancelPayment();
-      return;
     }
     signedOut();
   };

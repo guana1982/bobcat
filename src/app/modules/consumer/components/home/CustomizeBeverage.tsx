@@ -468,10 +468,11 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
                 </div>
                 {(paymentModeEnabled && promotionEnabled !== IPromotionTypes.SubscriptionDailyAmount) &&
                   <div id="footer">
-                      {/* {beverageSelected.$price > 0 && <span id="total">{__("c_total")}</span>} */}
-                    <div id="limit-erogation">
-                      <span className="info">MAX</span> {"32oz"}
-                    </div>
+                    {beverageSelected.$price > 0 &&
+                      <div id="limit-erogation">
+                        <span className="info">MAX</span> {"32oz"}
+                      </div>
+                    }
                     <div id="price" className={promotionEnabled === IPromotionTypes.PromotionFreePours  ? "promotion-enabled" : null}>
                       {displayPriceBeverage(beverageSelected.$price, true)}
                     </div>
