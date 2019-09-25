@@ -16,6 +16,14 @@ export interface VendorConfig {
   timer_home: number[];
   timer_pouring: number[];
   timer_sign_in: number[];
+  calibration_syrup_length: number;
+  calibration_syrup_ratio: number;
+  calibration_water_length: number;
+  payment_system?: {
+    card_reader_fw_version: string;
+    device_sn: string;
+    telemetry_fw_version: string;
+  };
 }
 
 // === POUR CONFIG ===
