@@ -43,6 +43,11 @@ export const InputContent = styled.div`
       color: ${props => props.theme.light} !important;
     }
   }
+  &.no-capitalize {
+    label {
+      text-transform: none;
+    }
+  }
   label {
     display: inline-block;
     color: ${props => props.theme.dark};
@@ -84,6 +89,7 @@ interface MInputProps {
   className?: string;
   required?: boolean;
   themeMode?: InputTheme;
+  noCapitalize?: boolean;
   selected?: boolean;
   onChange?: (value) => void;
   click?: () => void;
@@ -94,9 +100,9 @@ interface MInputState {
 }
 
 export const MInput = (props: MInputProps) => {
-    const { label, value, type, onChange, disabled, className, themeMode, selected, required } = props;
+    const { label, value, type, onChange, disabled, className, themeMode, selected, required, noCapitalize } = props;
     return (
-      <InputContent className={`${themeMode} ${className} ${selected ? "selected" : null}`}>
+      <InputContent className={`${themeMode} ${className} ${selected ? "selected" : null} ${noCapitalize ? "no-capitalize" : null}`}>
         {label && <label>{label}{required && "*"}</label>}
         <InputWrapper onClick={props.click}>
           <input

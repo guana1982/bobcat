@@ -8,7 +8,7 @@ import { ModalKeyboard, ModalKeyboardTypes } from "../common/ModalKeyboard";
 import mediumLevel from "@core/utils/lib/mediumLevel";
 import { switchMap, tap, timeout, delay } from "rxjs/operators";
 import { interval, of } from "rxjs";
-import { AlertContext } from "@core/containers";
+import { AlertContext, ConfigContext, ConfigConsumer } from "@core/containers";
 
 interface CalibrationProps {
   line?: any;
@@ -39,13 +39,16 @@ export const Calibration = (props: CalibrationProps) => {
   const { line, waters, onEnd, lineStatus } = props;
 
   const alertConsumer = React.useContext(AlertContext);
+  const configConsumer = React.useContext(ConfigContext);
+
+  const { vendorConfig } = configConsumer;
 
   const timerStart_ = React.useRef(null);
   const timerStop_ = React.useRef(null);
 
   const [lineState, setLineState] = React.useState({
-    ratio: "45",
-    timer: waters ? "20" : "60",
+    ratio: vendorConfig.calibration_syrup_ratio,
+    timer: waters ? vendorConfig.calibration_water_length : vendorConfig.calibration_syrup_length,
     tick: "",
     volume: ""
   });
@@ -112,7 +115,6 @@ export const Calibration = (props: CalibrationProps) => {
     Number(lineState.volume) > 0 && checkStatus();
   }, [lineState.volume]);
 
-
   return (
     <>
       <StyledCalibration>
@@ -125,11 +127,11 @@ export const Calibration = (props: CalibrationProps) => {
               {line.$beverage ? <BeverageLogo beverage={line.$beverage} size="tiny" /> : "UNASSIGNED"}
           </MButton>
           <div>
-            { !waters && <div onClick={() => !timerState ? setFieldSelected("ratio") : {}}>
-              <MInput disabled={timerState} label={__("Ratio")} value={lineState.ratio} />
+            { !waters && <div>
+              <MInput disabled label={__("Ratio")} value={lineState.ratio} />
             </div> }
-            <div onClick={() => !timerState ? setFieldSelected("timer") : {}}>
-              <MInput disabled={timerState} label={__("Timer")} value={lineState.timer} />
+            <div>
+              <MInput disabled label={__("Timer")} value={lineState.timer} />
             </div>
           </div>
           <MButton
@@ -148,7 +150,8 @@ export const Calibration = (props: CalibrationProps) => {
             <div onClick={() => lineState.tick !== "" ? setFieldSelected("volume") : {}}>
               <MInput
                 disabled={lineState.tick === ""}
-                label={__("Volume")}
+                noCapitalize={true}
+                label={__("Volume[ml]")}
                 value={lineState.volume} />
             </div>
           </div>
