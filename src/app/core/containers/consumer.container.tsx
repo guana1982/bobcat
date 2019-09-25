@@ -229,10 +229,17 @@ class ConsumerStoreComponent extends React.Component<any, any> {
         tap(() => this.stopScanning().subscribe()),
         map((data: IConsumerModel) => {
           const { identification_type } = data;
+          if (identification_type === IdentificationConsumerTypes.Phone) {
+            this.setState({
+              isLogged: true,
+              dataConsumer: data,
+              consumerBeverages: this.getConsumerBeverages(data)
+            });
+            return IdentificationConsumerStatus.LoadingQrPhone;
+          }
           if (
             identification_type === IdentificationConsumerTypes.Vessel ||
-            identification_type === IdentificationConsumerTypes.VesselSticker ||
-            identification_type === IdentificationConsumerTypes.Phone // => TO IMPROVE
+            identification_type === IdentificationConsumerTypes.VesselSticker
           ) {
             return IdentificationConsumerStatus.Loading;
           }

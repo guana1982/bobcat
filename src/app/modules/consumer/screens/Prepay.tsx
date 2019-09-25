@@ -226,7 +226,12 @@ export const Prepay = (props: PrepayProps) => {
             goToHome();
           }
         });
-      } else if (status === IdentificationConsumerStatus.Loading) {
+      } else if (status === IdentificationConsumerStatus.Loading || status === IdentificationConsumerStatus.LoadingQrPhone) {
+        if (!paymentModeEnabled && status === IdentificationConsumerStatus.LoadingQrPhone) {
+          alertConsumer.hide();
+          goToHome();
+          return;
+        }
         alertConsumer.show({
           type: AlertTypes.LoadingDataQr,
           timeout: false,
@@ -235,14 +240,23 @@ export const Prepay = (props: PrepayProps) => {
           backgroung: "img/fruits-bg.webp"
         });
         timeoutDataFromServer_.current = setTimeout(() => {
+          alertConsumer.hide();
+          if (paymentModeEnabled && status === IdentificationConsumerStatus.LoadingQrPhone) {
+            alertConsumer.show({
+              type: AlertTypes.MachineDoesNotParticipate,
+              img: "img/alerts/machine-does-not-participate.svg",
+              subTitle: true,
+              timeout: 3500,
+              onDismiss: goToHome
+            });
+            return;
+          }
           alertConsumer.show({
             type: !paymentModeEnabled ? AlertTypes.ErrorLoadingQr : AlertTypes.ErrorLoadingQrPayment,
             img: "img/alerts/cannot-connect-to-cloud.svg",
             subTitle: true,
             timeout: 3500,
-            onDismiss: () => {
-              goToHome();
-            }
+            onDismiss: goToHome
           });
         },  10000);
       } else if (status === IdentificationConsumerStatus.CompleteLoading) {
@@ -254,9 +268,7 @@ export const Prepay = (props: PrepayProps) => {
           img: "img/alerts/qr-code-not-associated-with-account.webp",
           subTitle: true,
           timeout: 3500,
-          onDismiss: () => {
-            goToHome();
-          }
+          onDismiss: goToHome
         });
       } else if (status === IdentificationConsumerStatus.PromotionRemainderAmount) {
         const { consumer_nick } =  consumerConsumer.getDataConsumer();
@@ -295,9 +307,7 @@ export const Prepay = (props: PrepayProps) => {
           type: status,
           subTitle: true,
           timeout: true,
-          onDismiss: () => {
-            goToHome();
-          }
+          onDismiss: goToHome
         });
       }
     });

@@ -15,6 +15,7 @@ export enum AlertTypes {
   AuthorizingPayment = "p_swiped",
   EndSparkling = "c_end_sparkling",
   ErrorLoadingQr = "c_error_loading_qr",
+  MachineDoesNotParticipate = "c_machine_does_not_participate",
   ErrorLoadingQrPayment = "c_error_loading_qr_payment",
   ErrorWebcam = "c_error_webcam",
   ErrorQrNotFound = "c_error_qr_not_found",
