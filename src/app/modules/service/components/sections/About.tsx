@@ -15,6 +15,7 @@ export const About = () => {
         <li>EQUIPMENT S/N: <b>{serial_number_mqtt || "---"}</b></li>
         <li>MEDIABOARD S/N: <b>{serial_number_mediaboard || "---"}</b></li>
         <li>POWERBOARD S/N: <b>{serial_number_powerboard || "---"}</b></li>
+        {vendorConfig.pay_id === "pay" && <li>BEZEL S/N: <b>{vendorConfig.payment_system.device_sn || "---"}</b></li>}
         <li>SOFTWARE VERSION: <b>{software_version || "---"}</b></li>
       </ul>
     </>
