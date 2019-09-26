@@ -209,7 +209,7 @@ export const Prepay = (props: PrepayProps) => {
     scanning_.current = startScanning()
     .subscribe((status: IdentificationConsumerStatus) => {
       resetTimer_();
-      if (status !== IdentificationConsumerStatus.Loading) {
+      if (status !== IdentificationConsumerStatus.Loading && status !== IdentificationConsumerStatus.LoadingQrPhone) {
         if (scanning_.current)
           scanning_.current.unsubscribe();
       }
