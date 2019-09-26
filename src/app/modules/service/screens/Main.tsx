@@ -6,7 +6,7 @@ import { MButton, MTypes } from "@modules/service/components/common/Button";
 import { Modal,  Box, ACTIONS_CONFIRM, ACTIONS_CLOSE, ModalTheme, Action } from "@modules/service/components/common/Modal";
 import ConnectivityComponent from "../components/sections/Connectivity";
 import { About } from "../components/sections/About";
-import { ServiceContext, AuthLevels, AlertContext } from "@core/containers";
+import { ServiceContext, AuthLevels, AlertContext, ConfigContext } from "@core/containers";
 import BeverageLogo from "@core/components/common/Logo";
 import { Line } from "../components/modals/Line";
 import { ChangePrice } from "../components/modals/ChangePrice";
@@ -134,6 +134,8 @@ export const NewMenu = (props: MenuProps) => {
 
   const serviceConsumer = React.useContext(ServiceContext);
   const alertConsumer = React.useContext(AlertContext);
+  const configConsumer = React.useContext(ConfigContext);
+  const { vendorConfig } = configConsumer;
 
   React.useEffect(() => {
     console.log("Menu => Consumer ;", serviceConsumer);
@@ -257,7 +259,7 @@ export const NewMenu = (props: MenuProps) => {
                 <MButton onClick={() => openModal(Modals.Customize)}>CUSTOMIZE UI</MButton>
                 <MButton onClick={() => openModal(Modals.Sanitation)}>SANITATION</MButton>
                 {/* <MButton onClick={() => openModal(Modals.Customize, { selection: SelectionTypes.Payment })}>FREE / PAID</MButton> */}
-                <MButton onClick={() => openModal(Modals.ChangePrice)}>CHANGE PRICE</MButton>
+                {vendorConfig.pay_id === "pay" && <MButton onClick={() => openModal(Modals.ChangePrice)}>CHANGE PRICE</MButton>}
               </>
             }
           </Group>
