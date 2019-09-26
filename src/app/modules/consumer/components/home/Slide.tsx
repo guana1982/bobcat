@@ -115,7 +115,7 @@ const HeaderSlide = styled.div`
     letter-spacing: 1.3px;
     color: ${props => props.theme.slateGrey};
     #welcome {
-      text-transform: uppercase;
+      text-transform: capitalize;
     }
     span {
       width: 85%;

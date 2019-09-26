@@ -75,6 +75,7 @@ export const GlobalStyle = createGlobalStyle`
       url("img/alerts/wrench.webp")
       url("img/alerts/daily-limit-reached.svg")
       url("img/alerts/ada-down.webp")
+      url("img/alerts/machine-does-not-participate.svg")
 
       url("img/drawer/drawer.webp")
       url("img/drawer/favorite.webp")
