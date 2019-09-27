@@ -410,7 +410,7 @@ export const Home = (props: HomeProps) => {
         }
         pourCheck_.current = setInterval(() => {
           console.log("/___ CHECK POUR => CHECKING ___/");
-          const activeElement_ = document.querySelector(":active");
+          const activeElement_ = document.querySelector(":focus");
           if (activeElement_ === null) {
             console.log("/___ CHECK POUR => NO ACTIVE ELEMENT ___/");
             stopPour();
