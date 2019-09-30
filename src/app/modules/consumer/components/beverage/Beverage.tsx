@@ -93,7 +93,7 @@ const BeverageFull = styled.div`
 `;
 
 /* size: BeverageSize */
-const BeverageContent = styled.div`
+export const BeverageContent = styled.div`
   position: relative;
   margin: 10px 23px;
   z-index: ${props => props.pouring ? 10 : "inherit"};
@@ -347,39 +347,39 @@ export const BeveragesAnimated = [{
   fullClose: {
     translateX: "0vw",
     translateY:  "0rem",
-    scale: 1.14
+    scale: 1
   },
   close: {
-    translateX: "62.8vw",
+    translateX: "56.3vw",
     translateY:  "12rem",
     scale: 1
   },
   open: {
     translateX: "0vw",
     translateY:  "0rem",
-    scale: 1.14
+    scale: 1
   }
 }, {
   fullClose: {
     translateX: "0vw",
     translateY:  "0rem",
-    scale: 1.14,
+    scale: 1.07,
   },
   close: {
-    translateX: "36.5vw",
+    translateX: "34.5vw",
     translateY:  "-10rem",
     scale: 1
   },
   open: {
     translateX: "0vw",
     translateY:  "0rem",
-    scale: 1.14
+    scale: 1.07
   }
 }, {
   fullClose: {
     translateX: "0vw",
     translateY:  "0rem",
-    scale: 1.14
+    scale: 1
   },
   close: {
     translateX: "10vw",
@@ -389,7 +389,7 @@ export const BeveragesAnimated = [{
   open: {
     translateX: "0vw",
     translateY:  "0rem",
-    scale: 1.14
+    scale: 1
   }
 }];
 

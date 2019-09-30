@@ -3,7 +3,7 @@ import { __ } from "@utils/lib/i18n";
 import styled, { css } from "styled-components";
 import { ConsumerContext, PaymentContext, AccessibilityContext } from "@core/containers";
 
-import { BeveragesAnimated, BeverageTypes, Beverage, BeveragesTransition } from "../beverage/Beverage";
+import { BeveragesAnimated, BeverageTypes, Beverage, BeveragesTransition, BeverageWrap, BeverageContent } from "../beverage/Beverage";
 import { Footer } from "../common/Footer";
 import { Grid } from "../common/Grid";
 import { MessageInfo } from "../common/MessageInfo";
@@ -201,11 +201,11 @@ export const SlideStyled = styled.div`
   }
   #message-status {
     position: absolute;
-    width: 100%;
+    width: 1218px;
     text-align: center;
     text-transform: uppercase;
     bottom: 6rem;
-    right: 0;
+    right: 12px;
     font-size: 16px;
     font-family: NeuzeitGro-Reg;
     font-weight: normal;
@@ -225,11 +225,13 @@ export const SlideStyled = styled.div`
   ${Grid} {
     position: absolute;
     top: 5.4rem;
-    right: 0;
+    right: 12px;
     width: 100%;
     max-width: 80%;
-    margin: 0% 10%;
-    justify-content: space-around;
+    margin: 0 97px;
+    ${BeverageContent} {
+      margin: 30px;
+    }
   }
 `;
 
