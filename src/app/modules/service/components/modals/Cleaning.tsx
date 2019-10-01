@@ -68,7 +68,7 @@ export const Cleaning = (props: CleaningProps) => {
       show={true}
       cancel={cancel}
       title={__("Screen Cleaning")}
-      subTitle={__("SCREEN WILL CLOSE IN 30 SECONDS REMEBER TO DRY SCREEN")}
+      subTitle={__("SCREEN WILL CLOSE IN 30 SECONDS REMEMBER TO DRY SCREEN")}
       actions={[]}
     >
       <CleaningContent>
