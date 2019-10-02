@@ -32,7 +32,7 @@ export const SegmentButtonWrapper = styled.div`
   border: 16px solid transparent;
   box-sizing: content-box;
   padding: 4px;
-  box-shadow: inset 0 0 8px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 -1px 1px 0 rgba(196, 197, 201, 0.2), inset 2px 1px 7px 0 rgba(174, 175, 180, 0.25);
   button {
     position: relative;
     display: flex;
@@ -69,7 +69,7 @@ export const SegmentButtonWrapper = styled.div`
     &.selected {
       z-index: -1;
       background: #fff;
-      box-shadow: 5px 20px 24px 0 rgba(157, 164, 167, 0.17), 0 -2px 8px 0 rgba(157, 164, 167, 0.1);
+      box-shadow: 0 2px 7px 0 rgba(174, 182, 185, 0.35), 0 -1px 8px 0 rgba(153, 164, 172, 0.15);
       span {
         color: #2b9cda;
       }
