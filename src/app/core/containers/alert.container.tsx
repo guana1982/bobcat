@@ -41,6 +41,7 @@ export interface AlertOptions {
   content?: any;
   onConfirm?: () => void;
   backgroung?: string;
+  backgroungAnimated?: string;
   data?: any;
 }
 

@@ -511,17 +511,17 @@ export const Home = (props: HomeProps) => {
       .subscribe((status: DistanceTypes) => {
         alertConsumer.show({
           type: AlertTypes.EndSession,
-          timeout: true,
+          timeout: 3500,
           onDismiss: () => stopEndSession(status === DistanceTypes.None),
-          backgroung: "img/fruits-bg.webp"
+          backgroungAnimated: "animation/fruits-bg.jpg"
         });
       });
     } else if (endSession === StatusEndSession.ProximityEnd) {
       alertConsumer.show({
         type: AlertTypes.EndSession,
-        timeout: true,
+        timeout: 3500,
         onDismiss: () => stopEndSession(true),
-        backgroung: "img/fruits-bg.webp"
+        backgroungAnimated: "animation/fruits-bg.jpg"
       });
     } else if (endSession === MESSAGE_STOP_EROGATION.OUT_OF_SODA || endSession === MESSAGE_STOP_EROGATION.OUT_OF_STOCK || endSession === MESSAGE_STOP_EROGATION.EROGATION_LIMIT) {
       const alertType_: any = `c_${endSession}`;
@@ -828,6 +828,14 @@ export const Home = (props: HomeProps) => {
 
   const disabledMode = beverageSelected !== undefined || state.idBeveragePouring_ != null || state.indexFavoritePouring_ != null || disabled;
 
+  // React.useEffect(() => {
+  //   alertConsumer.show({
+  //     type: AlertTypes.EndSession,
+  //     timeout: false,
+  //     onDismiss: () => {},
+  //     backgroungAnimated: "animation/fruits-bg.jpg"
+  //   });
+  // }, []);
 
   return (
     <HomeContent className={slideOpen ? "slide-is-open" : ""}>

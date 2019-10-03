@@ -6,6 +6,7 @@ import { AccessibilityContext } from "@core/containers";
 import { CloseBtn, CloseBtnWrap } from "./CloseBtn";
 import { MessageInfo } from "./MessageInfo";
 import * as _ from "underscore";
+import Spritesheet from "react-responsive-spritesheet";
 
 const AlertWrap = styled.div`
   position: absolute;
@@ -248,6 +249,18 @@ export const AlertFull = (props: AlertFullProps) => {
     <React.Fragment>
       {show && <AlertContent>
         <Overlay background={options.backgroung}  className={transparent ? "transparent" : null} onClick={dismiss_} />
+        {options.backgroungAnimated &&
+          <Spritesheet
+            image={options.backgroungAnimated}
+            widthFrame={1280}
+            heightFrame={800}
+            steps={33}
+            fps={10}
+            style={{ position: "absolute", top: "0px" }}
+            autoplay={true}
+            loop={false}
+          />
+        }
         {!lock && <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={dismiss} />}
         <Alert options={options} onDismiss_={onDismiss_} />
       </AlertContent>}
