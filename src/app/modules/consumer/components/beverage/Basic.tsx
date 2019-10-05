@@ -20,7 +20,6 @@ interface BasicProps {
   beverage: IBeverage;
   slideOpen?: boolean;
   $sparkling?: boolean;
-  paymentConsumer?: any;
 }
 
 export const Basic_ = (props: BasicProps) => {
@@ -31,7 +30,7 @@ export const Basic_ = (props: BasicProps) => {
 
   const sparkling_ = (types && types[0] === BeverageTypes.Sparkling) || $sparkling; // <= CONDITION
 
-  const { displayPriceBeverage, paymentModeEnabled, promotionEnabled } = props.paymentConsumer;
+  // const { displayPriceBeverage, paymentModeEnabled, promotionEnabled } = props.paymentConsumer;
 
   return (
     <div className={className}>
@@ -63,11 +62,11 @@ export const Basic_ = (props: BasicProps) => {
         <Logo {...props} />
         <span id="title">{__(title)}</span>
         <span id="cal">{calories} {__("c_cal")}.</span>
-        {(paymentModeEnabled && promotionEnabled !== IPromotionTypes.SubscriptionDailyAmount) &&
+        {/* {(paymentModeEnabled && promotionEnabled !== IPromotionTypes.SubscriptionDailyAmount) &&
           <span id="price" className={promotionEnabled === IPromotionTypes.PromotionFreePours ? "promotion-enabled" : null}>
             {displayPriceBeverage(beverage.$price)}
           </span>
-        }
+        } */}
     </div>
   );
 };

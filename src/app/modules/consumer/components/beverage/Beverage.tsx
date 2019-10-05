@@ -150,7 +150,7 @@ export const Beverage = (props: BeverageProps) => {
   const configConsumer = React.useContext(ConfigContext);
   const { alarmSparkling_ } = configConsumer.statusAlarms;
 
-  const paymentConsumer = React.useContext(PaymentContext);
+  // const paymentConsumer = React.useContext(PaymentContext);
 
   const $specialCard: boolean = types && types[0] === BeverageTypes.LastPour || types && types[0] === BeverageTypes.Favorite;
   const $outOfStock: boolean = status_id === BeverageStatus.EmptyBib || beverage.line_id <= 0 || beverage.$lock || ($specialCard && (beverage.$lock || (levels.carbonation_perc != null && alarmSparkling_))) || (beverage.beverage_type !== "plain" && beverage.beverage_type !== "soda" && beverage.beverage_type !== "amb" && beverage.bib_expiring_date && checkExpiringDate(beverage.bib_expiring_date));
@@ -166,61 +166,61 @@ export const Beverage = (props: BeverageProps) => {
   }
 
   //  ==== ACCESSIBILITY FUNCTION ====>
-  const buttonEl = React.useRef(null);
-  const accessibilityConsumer = React.useContext(AccessibilityContext);
-  const { enter, pour, changeStateLayout } = accessibilityConsumer;
+  // const buttonEl = React.useRef(null);
+  // const accessibilityConsumer = React.useContext(AccessibilityContext);
+  // const { enter, pour, changeStateLayout } = accessibilityConsumer;
 
-  React.useEffect(() => {
-    const button = buttonEl.current;
-    if (!button) return;
+  // React.useEffect(() => {
+  //   const button = buttonEl.current;
+  //   if (!button) return;
 
-    const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
-    if (!isFocus) return;
+  //   const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
+  //   if (!isFocus) return;
 
-    if (enter === true) {
-      if (nutritionFacts) {
-        handleZoomNutrition(true);
-        changeStateLayout({
-          alertShow: true
-        });
-        return;
-      }
-      if (pouring) {
-        onHoldStart(PourFrom.Ada);
-        return;
-      }
-      if (onStart) {
-        onStart();
-        return;
-      }
-      return;
-    } else if (enter === false) {
-      if (pouring) {
-        onHoldEnd();
-        return;
-      }
-    }
-  }, [buttonEl, enter]);
+  //   if (enter === true) {
+  //     if (nutritionFacts) {
+  //       handleZoomNutrition(true);
+  //       changeStateLayout({
+  //         alertShow: true
+  //       });
+  //       return;
+  //     }
+  //     if (pouring) {
+  //       onHoldStart(PourFrom.Ada);
+  //       return;
+  //     }
+  //     if (onStart) {
+  //       onStart();
+  //       return;
+  //     }
+  //     return;
+  //   } else if (enter === false) {
+  //     if (pouring) {
+  //       onHoldEnd();
+  //       return;
+  //     }
+  //   }
+  // }, [buttonEl, enter]);
 
-  React.useEffect(() => {
-    const button = buttonEl.current;
-    if (!button) return;
+  // React.useEffect(() => {
+  //   const button = buttonEl.current;
+  //   if (!button) return;
 
-    const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
-    if (!isFocus || nutritionFacts) return;
+  //   const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
+  //   if (!isFocus || nutritionFacts) return;
 
-    if (pour === true) {
-      console.log("POUR");
-      if (onHoldStart) {
-        onHoldStart(PourFrom.Ada);
-      }
-    } else if (pour === false) {
-      console.log("STOP");
-      if (onHoldEnd) {
-        onHoldEnd();
-      }
-    }
-  }, [buttonEl, pour]);
+  //   if (pour === true) {
+  //     console.log("POUR");
+  //     if (onHoldStart) {
+  //       onHoldStart(PourFrom.Ada);
+  //     }
+  //   } else if (pour === false) {
+  //     console.log("STOP");
+  //     if (onHoldEnd) {
+  //       onHoldEnd();
+  //     }
+  //   }
+  // }, [buttonEl, pour]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
   const disabledButton = types && types[0] === BeverageTypes.Info || $outOfStock || (disabled && !pouring);
@@ -237,9 +237,9 @@ export const Beverage = (props: BeverageProps) => {
   };
 
   const closeZoomNutrition = () => {
-    changeStateLayout({
-      alertShow: false
-    }); //  <=== ACCESSIBILITY FUNCTION ====
+    // changeStateLayout({
+    //   alertShow: false
+    // }); //  <=== ACCESSIBILITY FUNCTION ====
     handleZoomNutrition(false);
   };
 
@@ -256,11 +256,13 @@ export const Beverage = (props: BeverageProps) => {
       return null;
     }
     setLongPress(false);
+    if (pouring) { // || enough
+      onHoldEnd();
+      return;
+    }
     if (!enough) {
       if (!pouring)
         onStart();
-    } else {
-      onHoldEnd();
     }
   };
 
@@ -306,9 +308,9 @@ export const Beverage = (props: BeverageProps) => {
                     }
                     transition={{duration: .5}}
                   />
-                  <button id={detectValue} disabled={disabledButton} ref={buttonEl}>
+                  <button id={detectValue} disabled={disabledButton}>
                     <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
-                    <Basic paymentConsumer={paymentConsumer} levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
+                    <Basic levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
                   </button>
                 </BeverageWrap>
               </motion.div>

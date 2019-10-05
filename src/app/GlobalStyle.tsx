@@ -251,7 +251,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(180deg, #d309e1 0%, rgb(156, 26, 255) 100%);
+    background: linear-gradient(180deg, #2b9cda 0%, #007dc2 100%);
     overflow: hidden;
     padding: 0;
     margin: 0;
@@ -260,14 +260,13 @@ export const GlobalStyle = createGlobalStyle`
     align-items: center;
   }
   #example-container {
-    #animation-test {
+    #beverage-test {
       position: absolute;
-      top: 200px;
-      right: 200px;
-      background: white;
-      border-radius: 30px;
-      width: 150px;
-      height: 150px;
+      top: 100px;
+      right: 100px;
+      button {
+        background-image: linear-gradient(to bottom,rgba(255,255,255,0.96),rgba(255,255,255,0.96) 50%,#fff);
+      }
     }
     #box {
       position: absolute;

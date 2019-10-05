@@ -71,7 +71,7 @@ class ConfigStoreComponent extends React.Component<any, any> {
 
     const ws = webSocket({
       url: process.env.NODE_ENV === "production" ? "ws://0.0.0.0:5901" :
-      "ws://192.168.188.218:5901",
+      "ws://192.168.1.9:5901",
       // "ws://93.55.118.36:5204",
       deserializer: data => {
         try {
@@ -341,19 +341,18 @@ class ConfigStoreComponent extends React.Component<any, any> {
       temperature_level: config.temperature_level,
       pour_method: "free_flow"
     };
-
+    this.setState({isPouring: true});
     return mediumLevel.dispense.pour(recipe)
     .pipe(
-      first(),
-      tap(() => this.setState({isPouring: true}))
+      first()
     );
   }
 
   private onStopPour = () => {
+    this.setState({isPouring: false});
     return mediumLevel.dispense.stop()
     .pipe(
-      first(),
-      tap(() => this.setState({isPouring: false}))
+      first()
     );
   }
 
