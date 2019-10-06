@@ -158,54 +158,27 @@ export default class ClickNHold extends React.Component<any, any> {
     //     }
     // }
 
-    animate() {
-        if (this.state.holding) return { scale: .97 };
-        else if (this.state.ended === true) return { scale: 1 };
-    }
-
-
     render() {
         let classList = this.props.className ? (this.props.className + " ") : " ";
         classList += this.state.holding ? "cnh_holding " : " ";
         classList += this.state.ended ? "cnh_ended " : " ";
-        return this.props.beverage
-            ?
-                (<motion.div
-                    initial={{scale: 1}}
-                    animate={this.animate()}
-                    transition={{ duration: .75 }}
-                    style={this.props.style}
-                    className={classList}
-                    onTouchStart={this.start}
-                    //  onMouseDown={this.start} // => DESKTOP MODE
-                    //  onMouseUp={this.end} // => DESKTOP MODE
-                    //  onTouchMove={this.clear}
+        return <div
+            style={this.props.style}
+            className={classList}
+            onTouchStart={this.start}
+            // onClickCapture={this.clickCapture}
 
-                    //  onTouchMove={this.touchMove}
-                    onTouchEnd={this.end}>
-                    {
-                        typeof this.props.children === "object"
-                            ? React.cloneElement(this.props.children, { ref: (n) => this.node = n })
-                            : null
-                    }
-                </motion.div>)
-            :   (<div
-                    style={this.props.style}
-                    className={classList}
-                    onTouchStart={this.start}
-                    // onClickCapture={this.clickCapture}
+            //  onMouseDown={this.start} // => DESKTOP MODE
+            //  onMouseUp={this.end} // => DESKTOP MODE
+            //  onTouchMove={this.clear}
 
-                    //  onMouseDown={this.start} // => DESKTOP MODE
-                    //  onMouseUp={this.end} // => DESKTOP MODE
-                    //  onTouchMove={this.clear}
-
-                    //  onTouchMove={this.touchMove}
-                    onTouchEnd={this.end}>
-                    {
-                        typeof this.props.children === "object"
-                            ? React.cloneElement(this.props.children, { ref: (n) => this.node = n })
-                            : null
-                    }
-                </div>);
+            //  onTouchMove={this.touchMove}
+            onTouchEnd={this.end}>
+            {
+                typeof this.props.children === "object"
+                    ? React.cloneElement(this.props.children, { ref: (n) => this.node = n })
+                    : null
+            }
+        </div>;
     }
 }

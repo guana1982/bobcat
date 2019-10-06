@@ -113,7 +113,7 @@ const PourBtn = (props) => {
               time={0.250}
               onStart={() => {}}
               onClickNHold={() => startPour({ params: {}, from: PourFrom.Touch })}
-              onEnd={(e, enough) => enough && stopPour()}
+              onEnd={(e, enough) => (enough || isPouring) && stopPour()}
               className="pour-btn"
               ref={buttonPourEl}
             >

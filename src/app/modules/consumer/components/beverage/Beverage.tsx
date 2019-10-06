@@ -49,14 +49,21 @@ export const BeverageWrap = styled.div`
   opacity: ${props => props.enableOpacity ? .2 : null};
   display: ${props => props.show ? "block" : "none"};
   z-index: -1;
-  & .cardShadow {
-    /* content: " "; */
+  &:before {
+    content: " ";
     position: absolute;
     top: 50%;
     left: 0;
     width: 100%;
     height: 50%;
     border-radius: 0 0 17px 17px;
+    box-shadow: 0px 19px 41px -4px rgba(0,0,0,0.07);
+  }
+  &.long-press {
+    transform: scale(0.98);
+    &:before {
+      box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.07);
+    }
   }
   button {
     position: relative;
@@ -149,6 +156,7 @@ export const Beverage = (props: BeverageProps) => {
   const { title, types, pouring, status_id, disabled, color, nutritionFacts, size, handleDisabled, beverage, levels, detectValue } = props;
 
   const configConsumer = React.useContext(ConfigContext);
+  const { isPouring } = configConsumer;
   const { alarmSparkling_ } = configConsumer.statusAlarms;
 
   const paymentConsumer = React.useContext(PaymentContext);
@@ -158,6 +166,8 @@ export const Beverage = (props: BeverageProps) => {
   const $blur: boolean = disabled && !pouring;
   const $disabledTouch: boolean = types && types[0] === BeverageTypes.Info || $outOfStock;
   const $info: boolean = types && types[0] === BeverageTypes.Info;
+
+  const timeoutStart_ = React.useRef(null);
 
   let  onStart, onHoldStart, onHoldEnd  = null;
   if (!$disabledTouch) {
@@ -259,9 +269,16 @@ export const Beverage = (props: BeverageProps) => {
       return null;
     }
     setLongPress(false);
+    if (isPouring || enough) {
+      onHoldEnd(); // => FIX GHOST POUR
+      return;
+    }
     if (!enough) {
-      if (!pouring)
-        onStart();
+      if (!pouring) {
+        if (timeoutStart_.current)
+          clearTimeout(timeoutStart_.current);
+        timeoutStart_.current = setTimeout(onStart, 25);
+      }
     } else {
       onHoldEnd();
     }
@@ -295,26 +312,26 @@ export const Beverage = (props: BeverageProps) => {
               onEnd={end}
               // beverage
             >
-              <motion.div
+              {/* <motion.div
                 initial={{scale: 1}}
-                animate={longPress ? { scale: .97 } : { scale: 1 }}
-                transition={{duration: .5}}>
-                <BeverageWrap longPress={longPress} enableOpacity={$outOfStock} show={true} color={color}>
-                  <motion.div
+                animate={longPress ? { scale: .99 } : { scale: 1 }}
+                transition={{duration: .1}}> */}
+                <BeverageWrap className={longPress ? "long-press" : ""} enableOpacity={$outOfStock} show={true} color={color}>
+                  {/* <motion.div
                     initial={{boxShadow: "0px 19px 31px -4px rgba(0,0,0,0.1)"}}
                     className="cardShadow"
                     animate={longPress
-                        ? {boxShadow: "0px 4px 8px 0px rgba(0,0,0,0.1)"}
+                        ? {boxShadow: "0px 1px 8px 0px rgba(0,0,0,0.1)"}
                         : {boxShadow: "0px 19px 31px -4px rgba(0,0,0,0.1)"}
                     }
-                    transition={{duration: .5}}
-                  />
+                    transition={{duration: .05}}
+                  /> */}
                   <button id={detectValue} disabled={disabledButton} ref={buttonEl}>
                     <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
                     <Basic paymentConsumer={paymentConsumer} levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
                   </button>
                 </BeverageWrap>
-              </motion.div>
+              {/* </motion.div> */}
             </ClickNHold>
           }
           {($outOfStock || $blur || $info) &&
