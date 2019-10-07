@@ -168,6 +168,7 @@ export const Beverage = (props: BeverageProps) => {
   const $info: boolean = types && types[0] === BeverageTypes.Info;
 
   const timeoutStart_ = React.useRef(null);
+  const timeoutHoldStart_ = React.useRef(null);
 
   let  onStart, onHoldStart, onHoldEnd  = null;
   if (!$disabledTouch) {
@@ -256,32 +257,51 @@ export const Beverage = (props: BeverageProps) => {
     }, 500, false)
   , []);
 
+  const startPour_ = React.useMemo(() => _.debounce(onHoldStart, 500, true), []);
+
   const start = () => {
     if (disabledButton) return;
+
     setLongPress(true);
+
+    if (timeoutHoldStart_.current)
+      clearTimeout(timeoutHoldStart_.current);
+
+    if (!pouring) {
+      timeoutHoldStart_.current = setTimeout(() => {
+        if (timeoutStart_.current)
+          clearTimeout(timeoutStart_.current);
+        onHoldStart();
+      }, 225);
+    } else {
+      startPour_();
+    }
   };
 
-  const end = (e, enough) => {
+  const end = () => {
     if (disabledButton) return;
 
     if (nutritionFacts) {
       handleZoomNutrition(true);
       return null;
     }
+
     setLongPress(false);
-    if (isPouring || enough) {
-      onHoldEnd(); // => FIX GHOST POUR
+
+    if (isPouring) {
+      onHoldEnd();
       return;
     }
-    if (!enough) {
-      if (!pouring) {
-        if (timeoutStart_.current)
-          clearTimeout(timeoutStart_.current);
-        timeoutStart_.current = setTimeout(onStart, 25);
-      }
-    } else {
-      onHoldEnd();
-    }
+
+    if (timeoutStart_.current)
+      clearTimeout(timeoutStart_.current);
+
+    if (!pouring)
+      timeoutStart_.current = setTimeout(() => {
+        onStart();
+        if (timeoutHoldStart_.current)
+          clearTimeout(timeoutHoldStart_.current);
+      }, 25);
   };
 
   const clickHold = (e) => {
@@ -305,34 +325,17 @@ export const Beverage = (props: BeverageProps) => {
             </AppendedFullBeverage>
           }
           {(!($blur || $info) && !zoomNutrition) &&
-            <ClickNHold
-              time={0.5}
-              onStart={!nutritionFacts ? start : {}}
-              onClickNHold={clickHold}
-              onEnd={end}
-              // beverage
+            <BeverageWrap
+              enableOpacity={$outOfStock} show={true} color={color}
+              className={longPress ? "long-press" : ""}
+              onTouchStart={!nutritionFacts ? start : () => {}}
+              onTouchEnd={end}
             >
-              {/* <motion.div
-                initial={{scale: 1}}
-                animate={longPress ? { scale: .99 } : { scale: 1 }}
-                transition={{duration: .1}}> */}
-                <BeverageWrap className={longPress ? "long-press" : ""} enableOpacity={$outOfStock} show={true} color={color}>
-                  {/* <motion.div
-                    initial={{boxShadow: "0px 19px 31px -4px rgba(0,0,0,0.1)"}}
-                    className="cardShadow"
-                    animate={longPress
-                        ? {boxShadow: "0px 1px 8px 0px rgba(0,0,0,0.1)"}
-                        : {boxShadow: "0px 19px 31px -4px rgba(0,0,0,0.1)"}
-                    }
-                    transition={{duration: .05}}
-                  /> */}
-                  <button id={detectValue} disabled={disabledButton} ref={buttonEl}>
-                    <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
-                    <Basic paymentConsumer={paymentConsumer} levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
-                  </button>
-                </BeverageWrap>
-              {/* </motion.div> */}
-            </ClickNHold>
+              <button id={detectValue} disabled={disabledButton} ref={buttonEl}>
+                <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
+                <Basic paymentConsumer={paymentConsumer} levels={levels} show={!nutritionFacts} calories={beverage.calories} specialCard={$specialCard} {...props} />
+              </button>
+            </BeverageWrap>
           }
           {($outOfStock || $blur || $info) &&
             <BeverageExtra>

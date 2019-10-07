@@ -104,26 +104,31 @@ const PourBtn = (props) => {
   }, [pour]);
   //  <=== ACCESSIBILITY FUNCTION ====
 
+  const startPour_ = React.useMemo(() => _.debounce(() => startPour({ params: {}, from: PourFrom.Touch }), 500, true), []);
+  const stopPour_ = React.useMemo(() => _.debounce(() => isPouring && stopPour(), 500, true), [isPouring]);
+
   return (
     <ReplaySubscription source={socketPayment$.current}>
       {(status: PaymentStatus) => {
         if ((status in PaymentStatusPour || !needToPay(beverageSelected)) || promotionEnabled)
           return(
-            <ClickNHold
-              time={0.250}
-              onStart={() => {}}
-              onClickNHold={() => startPour({ params: {}, from: PourFrom.Touch })}
-              onEnd={(e, enough) => (enough || isPouring) && stopPour()}
-              className="pour-btn"
-              ref={buttonPourEl}
-            >
+            // <ClickNHold
+            //   time={0.250}
+            //   onStart={() => {}}
+            //   onClickNHold={() => startPour({ params: {}, from: PourFrom.Touch })}
+            //   onEnd={(e, enough) => (enough || isPouring) && stopPour()}
+            //   className="pour-btn"
+            //   ref={buttonPourEl}
+            // >
               <Pour
                 color={beverageSelected.beverage_font_color}
                 className={isPouring ? "pouring" : ""}
+                onTouchStart={startPour_}
+                onTouchEnd={stopPour_}
               >
                 {__("c_pour")}
               </Pour>
-            </ClickNHold>
+            // </ClickNHold>
           );
 
         return (
