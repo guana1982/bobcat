@@ -257,12 +257,16 @@ export const Beverage = (props: BeverageProps) => {
     }, 500, false)
   , []);
 
-  const startPour_ = React.useMemo(() => _.debounce(onHoldStart, 500, true), []);
+  const startPour_ = React.useMemo(() => _.debounce(() => onHoldStart(PourFrom.Touch), 500, true), [beverage]);
 
   const start = () => {
     if (disabledButton) return;
 
     setLongPress(true);
+
+    if (nutritionFacts) {
+      return;
+    }
 
     if (timeoutHoldStart_.current)
       clearTimeout(timeoutHoldStart_.current);
@@ -271,22 +275,24 @@ export const Beverage = (props: BeverageProps) => {
       timeoutHoldStart_.current = setTimeout(() => {
         if (timeoutStart_.current)
           clearTimeout(timeoutStart_.current);
-        onHoldStart();
+        onHoldStart(PourFrom.Touch);
       }, 225);
     } else {
-      startPour_();
+      if (!isPouring) {
+        startPour_();
+      }
     }
   };
 
   const end = () => {
     if (disabledButton) return;
 
-    if (nutritionFacts) {
-      handleZoomNutrition(true);
-      return null;
-    }
-
     setLongPress(false);
+
+    if (nutritionFacts) {
+      setTimeout(() => handleZoomNutrition(true), 25);
+      return;
+    }
 
     if (isPouring) {
       onHoldEnd();
@@ -298,17 +304,16 @@ export const Beverage = (props: BeverageProps) => {
 
     if (!pouring)
       timeoutStart_.current = setTimeout(() => {
-        onStart();
         if (timeoutHoldStart_.current)
           clearTimeout(timeoutHoldStart_.current);
+        onStart();
       }, 25);
   };
 
-  const clickHold = (e) => {
-    if (disabledButton || nutritionFacts) return;
-    onHoldStart(PourFrom.Touch);
-  };
-
+  // const clickHold = (e) => {
+  //   if (disabledButton || nutritionFacts) return;
+  //   onHoldStart(PourFrom.Touch);
+  // };
 
   return (
     <BeverageContent size={size} pouring={pouring}>
@@ -328,7 +333,7 @@ export const Beverage = (props: BeverageProps) => {
             <BeverageWrap
               enableOpacity={$outOfStock} show={true} color={color}
               className={longPress ? "long-press" : ""}
-              onTouchStart={!nutritionFacts ? start : () => {}}
+              onTouchStart={start}
               onTouchEnd={end}
             >
               <button id={detectValue} disabled={disabledButton} ref={buttonEl}>
