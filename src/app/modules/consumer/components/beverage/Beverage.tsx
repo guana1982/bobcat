@@ -169,6 +169,7 @@ export const Beverage = (props: BeverageProps) => {
 
   const timeoutStart_ = React.useRef(null);
   const timeoutHoldStart_ = React.useRef(null);
+  const timeoutNutrition_ = React.useRef(null);
 
   let  onStart, onHoldStart, onHoldEnd  = null;
   if (!$disabledTouch) {
@@ -265,6 +266,8 @@ export const Beverage = (props: BeverageProps) => {
     setLongPress(true);
 
     if (nutritionFacts) {
+      if (timeoutNutrition_.current)
+        clearTimeout(timeoutNutrition_.current);
       return;
     }
 
@@ -290,7 +293,9 @@ export const Beverage = (props: BeverageProps) => {
     setLongPress(false);
 
     if (nutritionFacts) {
-      setTimeout(() => handleZoomNutrition(true), 25);
+      if (timeoutNutrition_.current)
+        clearTimeout(timeoutNutrition_.current);
+      timeoutNutrition_.current = setTimeout(() => handleZoomNutrition(true), 25);
       return;
     }
 
