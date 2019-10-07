@@ -80,10 +80,10 @@ const PourBtn = (props) => {
   const { socketPayment$, needToPay, promotionEnabled } = paymentConsumer;
 
   React.useEffect(() => {
-    if (!(buttonPourEl.current && buttonPourEl.current.node)) {
+    if (!(buttonPourEl.current)) {
       return;
     }
-    const button = buttonPourEl.current.node;
+    const button = buttonPourEl.current;
     const isFocus = document.activeElement === ReactDOM.findDOMNode(button);
     if (!isFocus) {
       return;
@@ -125,6 +125,7 @@ const PourBtn = (props) => {
                 className={isPouring ? "pouring" : ""}
                 onTouchStart={startPour_}
                 onTouchEnd={stopPour_}
+                ref={buttonPourEl}
               >
                 {__("c_pour")}
               </Pour>

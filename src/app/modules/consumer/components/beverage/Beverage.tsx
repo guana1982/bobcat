@@ -250,10 +250,10 @@ export const Beverage = (props: BeverageProps) => {
 
   const closeZoomNutrition = React.useMemo(() =>
     _.debounce(() => {
+      handleZoomNutrition(false);
       changeStateLayout({
         alertShow: false
       }); //  <=== ACCESSIBILITY FUNCTION ====
-      handleZoomNutrition(false);
     }, 500, false)
   , []);
 
@@ -276,7 +276,7 @@ export const Beverage = (props: BeverageProps) => {
         if (timeoutStart_.current)
           clearTimeout(timeoutStart_.current);
         onHoldStart(PourFrom.Touch);
-      }, 225);
+      }, 250);
     } else {
       if (!isPouring) {
         startPour_();
