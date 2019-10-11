@@ -83,6 +83,9 @@ export const GlobalStyle = createGlobalStyle`
       url("img/drawer/last_pour.webp")
       url("img/drawer/last_pour@blur.webp")
 
+      /* url("animation/fruits-bg.jpg") */
+      url("animation/Loading_withBgCircle.gif")
+
       url("img/logos/9/logo.webp")
       url("img/logos/10/logo.webp")
       url("img/logos/2009/logo.webp")

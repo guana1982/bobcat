@@ -201,6 +201,7 @@ export const Prepay = (props: PrepayProps) => {
   // <=== CONSUMER-SOCKET ====
 
   const startReadQr = () => {
+    console.log("-----> 1 - Prepay - startReadQr ");
     const { startScanning } = consumerConsumer;
 
     if (scanning_.current)
@@ -208,6 +209,7 @@ export const Prepay = (props: PrepayProps) => {
 
     scanning_.current = startScanning()
     .subscribe((status: IdentificationConsumerStatus) => {
+      console.log(" ---------> 2 - Prepay - status :"+status);
       resetTimer_();
       if (status !== IdentificationConsumerStatus.Loading && status !== IdentificationConsumerStatus.LoadingQrPhone) {
         if (scanning_.current)
@@ -215,8 +217,10 @@ export const Prepay = (props: PrepayProps) => {
       }
 
       if (status === IdentificationConsumerStatus.Complete) {
+        console.log(" ---------> 3 - Prepay - IdentificationConsumerStatus.Complete - status:  :"+status)
         goToHome();
       } else if (status === IdentificationConsumerStatus.ErrorQr) {
+        console.log(" ---------> 4 - Prepay - IdentificationConsumerStatus.ErrorQr - status:  :"+status)
         alertConsumer.show({
           type: AlertTypes.ErrorQrNotValid,
           img: "img/alerts/qr-code-not-recognized.svg",
@@ -236,7 +240,7 @@ export const Prepay = (props: PrepayProps) => {
           type: AlertTypes.LoadingDataQr,
           timeout: false,
           lock: true,
-          img: "img/alerts/static-loading-icon.webp",
+          img: "animation/Loading_withBgCircle.gif",
           backgroung: "img/fruits-bg.webp"
         });
         timeoutDataFromServer_.current = setTimeout(() => {
@@ -271,6 +275,7 @@ export const Prepay = (props: PrepayProps) => {
           onDismiss: goToHome
         });
       } else if (status === IdentificationConsumerStatus.PromotionRemainderAmount) {
+        console.log(" ---------> 5 - Prepay - IdentificationConsumerStatus.PromotionRemainderAmount - status:  :"+status)
         const { consumer_nick } =  consumerConsumer.getDataConsumer();
         alertConsumer.hide();
         alertConsumer.show({
@@ -285,6 +290,7 @@ export const Prepay = (props: PrepayProps) => {
           onDismiss: goToHome
         });
       } else if (status === IdentificationConsumerStatus.PromotionEndDate) {
+        console.log(" ---------> 6 - Prepay - IdentificationConsumerStatus.PromotionEndDate - status:  :"+status)
         alertConsumer.hide();
         alertConsumer.show({
           type: AlertTypes.SubscriptionExpired,
@@ -294,6 +300,7 @@ export const Prepay = (props: PrepayProps) => {
           onDismiss: goToHome
         });
       } else if (status === IdentificationConsumerStatus.PromotionLimitErogation) {
+        console.log(" ---------> 7 - Prepay - IdentificationConsumerStatus.PromotionLimitErogation - status:  :"+status)
         alertConsumer.hide();
         alertConsumer.show({
           type: AlertTypes.DailyLimitReached,
