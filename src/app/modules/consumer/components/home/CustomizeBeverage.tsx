@@ -367,6 +367,8 @@ interface CustomizeBeverageProps {
 export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
   const { beverageConfig, isSparkling, startPour, stopPour, levels, resetBeverage, beverageSelected, handleChange, endPourEvent, handleType } = props;
 
+  const timestampMount = React.useRef(+new Date());
+
   //  ==== PAYMENT MODE ====>
   const paymentConsumer = React.useContext(PaymentContext);
   const { displayPriceBeverage, paymentModeEnabled, promotionEnabled } = paymentConsumer;
@@ -411,7 +413,7 @@ export const CustomizeBeverage = (props: CustomizeBeverageProps) => {
           <>
             <SegmentButton {...props.segmentButton} />
             <CloseBtn detectValue={"beverage_close"} icon={"close"} onClick={resetBeverage} />
-            <div id="backdrop" onClick={resetBeverage_} />
+            <div id="backdrop" onClick={() => (+new Date() - timestampMount.current) > 300 && resetBeverage_()} />
           </>
         }
 

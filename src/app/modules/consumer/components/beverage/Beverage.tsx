@@ -167,6 +167,11 @@ export const Beverage = (props: BeverageProps) => {
   const $disabledTouch: boolean = types && types[0] === BeverageTypes.Info || $outOfStock;
   const $info: boolean = types && types[0] === BeverageTypes.Info;
 
+  const timestampNutrition = React.useRef(null);
+  React.useEffect(() => {
+    timestampNutrition.current = +new Date();
+  }, [zoomNutrition]);
+
   const timeoutStart_ = React.useRef(null);
   const timeoutHoldStart_ = React.useRef(null);
   const timeoutNutrition_ = React.useRef(null);
@@ -279,7 +284,7 @@ export const Beverage = (props: BeverageProps) => {
         if (timeoutStart_.current)
           clearTimeout(timeoutStart_.current);
         onHoldStart(PourFrom.Touch);
-      }, 250);
+      }, 300);
     } else {
       if (!isPouring) {
         startPour_();
@@ -295,9 +300,12 @@ export const Beverage = (props: BeverageProps) => {
     if (nutritionFacts) {
       if (timeoutNutrition_.current)
         clearTimeout(timeoutNutrition_.current);
-      timeoutNutrition_.current = setTimeout(() => handleZoomNutrition(true), 25);
+      timeoutNutrition_.current = setTimeout(() => handleZoomNutrition(true), 35);
       return;
     }
+
+    if (timeoutHoldStart_.current)
+      clearTimeout(timeoutHoldStart_.current);
 
     if (isPouring) {
       onHoldEnd();
@@ -312,13 +320,8 @@ export const Beverage = (props: BeverageProps) => {
         if (timeoutHoldStart_.current)
           clearTimeout(timeoutHoldStart_.current);
         onStart();
-      }, 25);
+      }, 35);
   };
-
-  // const clickHold = (e) => {
-  //   if (disabledButton || nutritionFacts) return;
-  //   onHoldStart(PourFrom.Touch);
-  // };
 
   return (
     <BeverageContent size={size} pouring={pouring}>
@@ -326,7 +329,7 @@ export const Beverage = (props: BeverageProps) => {
           {zoomNutrition &&
             <AppendedFullBeverage {...props}>
               <BeverageFull>
-                <div id="backdrop" onClick={closeZoomNutrition}></div>
+                <div id="backdrop" onClick={() => (+new Date() - timestampNutrition.current) > 300 && closeZoomNutrition()}></div>
                 <CloseBtn detectValue={"alert_close"} icon={"close"} onClick={closeZoomNutrition} />
                 <BeverageWrap show={true} color={color}>
                   <Nutrition show={nutritionFacts} title={title} color={color} beverage={beverage} />
