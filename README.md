@@ -38,3 +38,4 @@ Command | Description
 ##Test 3 commit
 ##Test 4 commit
 ##Test 5 commit
+##Test 6 commit
