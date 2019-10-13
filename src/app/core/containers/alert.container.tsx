@@ -28,7 +28,7 @@ export enum AlertTypes {
   PaymentDeclined = "p_declined",
   CardNotRead = "p_card_not_read"
 }
-
+//TEST
 export interface AlertOptions {
   type?: AlertTypes | string;
   timeout?: boolean | number;
