@@ -87,7 +87,7 @@ export const AlertProvider = (props: AlertProviderProps) => {
   </AlertContainer.Provider>
   );
 };
-
+//test 1 from gitHub
 export const withAlert = Comp => props => {
   const alert = React.useContext(AlertContext);
   return (
