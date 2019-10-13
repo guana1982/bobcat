@@ -45,3 +45,4 @@ Command | Description
 #test 9 commit
 #test 10 commit
 #TEST GIT LENS history e altro
+#TEST from workspace con GITLens
