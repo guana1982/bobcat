@@ -13,6 +13,8 @@ const PreCacheFont = () => (
   </div>
 );
 
+//test commento
+
 // const ButtonPressHandler = () => {
 //   document.addEventListener("click", e => {
 //     let b = e["path"].find(el =>
